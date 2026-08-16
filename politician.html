@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1c2430" />
-  <title>Nancy Pelosi — 3 year tape</title>
+  <title>Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -259,7 +259,10 @@
       ]
     };
 
-    const id = new URLSearchParams(location.search).get("id") || "nancy-pelosi";
+    const id = new URLSearchParams(location.search).get("id");
+    if (!id) {
+      location.replace("index.html#tape");
+    }
     const cutoff = new Date();
     cutoff.setFullYear(cutoff.getFullYear() - 3);
 
@@ -481,10 +484,12 @@
       paint(rows, tickerFile || {});
       paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
-      if ((bios.people || {})[id] && (bios.people || {})[id].name) {
-        document.getElementById("who").textContent = bios.people[id].name;
-      } else if (fromTrades) {
-        document.getElementById("who").textContent = fromTrades.filer;
+      const shown = ((bios.people || {})[id] && bios.people[id].name)
+        || (fromTrades && fromTrades.filer)
+        || "";
+      if (shown) {
+        document.getElementById("who").textContent = shown;
+        document.title = shown + " — Quantity Capital";
       }
     });
   </script>

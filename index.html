@@ -43,7 +43,7 @@
       filter: saturate(0.2) brightness(0.78);
     }
 
-    .bay-left::after, .bay-right::after, .earth-port::after {
+    .bay-left::after, .bay-right::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -117,16 +117,6 @@
 
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover { color: var(--caution); }
-
-    .earth-port {
-      position: relative;
-      height: 150px;
-      margin-bottom: 16px;
-      border: 1px solid #4a5563;
-      background: url("city.jpg?v=15") 90% 48% / 220% no-repeat;
-      overflow: hidden;
-      filter: saturate(0.2) brightness(0.78);
-    }
 
     .kicker {
       font-family: "Barlow Condensed", sans-serif;
@@ -543,10 +533,6 @@
   <header>
     <div class="wrap">
       <div class="mark">Quantity <span>Capital</span></div>
-      <nav>
-        <a href="#tape">Tape</a>
-        <a href="#link">Contact</a>
-      </nav>
     </div>
   </header>
   </div>
@@ -617,18 +603,6 @@
       <div class="more-row" id="more-row" hidden>
         <button type="button" class="btn" id="show-all">Show full list</button>
       </div>
-    </section>
-
-    <section id="link">
-      <h2>Contact</h2>
-      <div class="earth-port" aria-hidden="true"></div>
-      <article class="card">
-        <h3>Mail</h3>
-        <p>Encrypted only. No circulars.</p>
-        <p style="margin-top:16px">
-          <a class="btn red" href="mailto:gordojr@proton.me">gordojr@proton.me</a>
-        </p>
-      </article>
     </section>
 
   </div>

@@ -131,11 +131,11 @@
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 58px 1fr auto;
         grid-template-areas:
-          "ticker side"
-          "amt amt"
-          "meta meta";
+          "stamp ticker side"
+          "stamp amt amt"
+          "stamp meta meta";
         gap: 3px 10px;
         margin: 0 0 8px;
         border: 1px solid #4a5563;
@@ -145,6 +145,25 @@
       table.tape-table td { display: block; padding: 0; border: 0; }
       table.tape-table td::before { content: none; }
       table.tape-table .desk-only { display: none; }
+      table.tape-table .tix-stamp {
+        display: flex;
+        grid-area: stamp;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #3a4452;
+        padding-right: 8px;
+        text-align: center;
+        font-family: "Barlow Condensed", sans-serif;
+      }
+      table.tape-table .tix-stamp .mon {
+        color: var(--caution);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+      }
+      table.tape-table .tix-stamp .day { font-size: 1.55rem; line-height: 1; font-weight: 700; }
+      table.tape-table .tix-stamp .yr { color: var(--mute); font-size: 0.72rem; }
       table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; font-size: 1.05rem; }
       table.tape-table .tix-side { grid-area: side; text-align: right; }
       table.tape-table .tix-amt {
@@ -168,7 +187,7 @@
     table { width: 100%; border-collapse: collapse; background: var(--panel); }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; }
     th { color: var(--caution); font-weight: 600; letter-spacing: 0.1em; }
-    .tix-meta { display: none; }
+    .tix-meta, .tix-stamp { display: none; }
     .co { display: block; color: var(--paper); font-weight: 500; }
     .ind { display: block; color: var(--mute); font-size: 0.82rem; }
     .buy { color: #7dcf7a; }
@@ -415,8 +434,14 @@
       document.getElementById("rows").innerHTML = rows.map((t) => {
         const cls = t.side === "purchase" ? "buy" : "sell";
         const info = tickerInfo(t, lookup || {});
-        const meta = [info.name, info.industry, t.trade_date, t.owner].filter(Boolean).join(" · ");
+        const meta = [info.name, info.industry, t.owner].filter(Boolean).join(" · ");
+        const d = new Date(String(t.trade_date || "") + "T00:00:00");
+        const mon = isNaN(d.getTime()) ? "—" : d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+        const day = isNaN(d.getTime()) ? "—" : String(d.getDate()).padStart(2, "0");
+        const yr = isNaN(d.getTime()) ? "" : d.getFullYear();
         return "<tr>" +
+          "<td class=\"tix-stamp\"><span class=\"mon\">" + mon + "</span><span class=\"day\">" + day +
+          "</span><span class=\"yr\">" + yr + "</span></td>" +
           "<td class=\"desk-only\">" + t.trade_date + "</td>" +
           "<td class=\"desk-only\">" + t.filed_date + "</td>" +
           "<td class=\"tix-side " + cls + "\">" + t.side + "</td>" +

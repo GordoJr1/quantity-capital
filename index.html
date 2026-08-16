@@ -397,7 +397,7 @@
       box-shadow: 0 1px 0 #3a4452;
     }
 
-    .tix-meta { display: none; }
+    .tix-meta, .tix-stamp { display: none; }
 
     table.tape-table a { color: inherit; text-decoration: none; }
     table.tape-table a:hover { color: var(--caution); }
@@ -497,11 +497,11 @@
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 58px 1fr auto;
         grid-template-areas:
-          "who side"
-          "ticker amt"
-          "meta meta";
+          "stamp who side"
+          "stamp ticker amt"
+          "stamp meta meta";
         gap: 3px 10px;
         margin: 0 0 8px;
         border: 1px solid #4a5563;
@@ -516,6 +516,29 @@
       }
       table.tape-table td::before { content: none; }
       table.tape-table .desk-only { display: none; }
+      table.tape-table .tix-stamp {
+        display: flex;
+        grid-area: stamp;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-right: 1px solid #3a4452;
+        padding-right: 8px;
+        text-align: center;
+        font-family: "Barlow Condensed", sans-serif;
+      }
+      table.tape-table .tix-stamp .mon {
+        color: var(--caution);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+      }
+      table.tape-table .tix-stamp .day {
+        font-size: 1.55rem;
+        line-height: 1;
+        font-weight: 700;
+      }
+      table.tape-table .tix-stamp .yr { color: var(--mute); font-size: 0.72rem; }
       table.tape-table .tix-who {
         grid-area: who;
         font-family: "Barlow Condensed", sans-serif;
@@ -704,6 +727,17 @@
     const PAGE = 120;
     let showAll = false;
 
+    function stampHtml(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) {
+        return "<td class=\"tix-stamp\"><span class=\"day\">—</span></td>";
+      }
+      const mon = d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+      const day = String(d.getDate()).padStart(2, "0");
+      return "<td class=\"tix-stamp\"><span class=\"mon\">" + mon + "</span><span class=\"day\">" +
+        day + "</span><span class=\"yr\">" + d.getFullYear() + "</span></td>";
+    }
+
     function renderTape(rows) {
       const box = document.getElementById("tape-list");
       const count = document.getElementById("tape-count");
@@ -719,8 +753,9 @@
       }
       box.innerHTML = visible.map((t) => {
         const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
-        const meta = [t.company, t.industry || "—", t.trade_date, t.owner].join(" · ");
+        const meta = [t.company, t.industry || "—", t.owner].join(" · ");
         return "<tr>" +
+          stampHtml(t.trade_date) +
           "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
           "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +

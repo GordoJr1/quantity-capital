@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1c2430" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <title>Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +27,11 @@
       --mute: #8b96a3;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--steel); color-scheme: dark; }
     body { font-family: "IBM Plex Sans", sans-serif; color: var(--white); background: var(--steel); }
+    @media (display-mode: standalone) {
+      body { padding-top: env(safe-area-inset-top, 0px); }
+    }
     .stripe {
       height: 10px;
       background: repeating-linear-gradient(-45deg, #111 0 10px, var(--caution) 10px 20px);
@@ -492,6 +503,10 @@
         document.title = shown + " — Quantity Capital";
       }
     });
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
   </script>
 </body>
 </html>

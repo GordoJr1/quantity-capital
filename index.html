@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1c2430" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
   <title>Quantity Capital</title>
   <meta name="description" content="Official Senate and House STOCK Act tape. Amounts are ranges, not share counts." />
   <meta property="og:title" content="Quantity Capital" />
@@ -642,6 +649,9 @@
     @media (max-width: 520px) {
       .filters { grid-template-columns: 1fr; }
     }
+    @media (display-mode: standalone) {
+      .site-bar { padding-top: env(safe-area-inset-top, 0px); }
+    }
   </style>
 </head>
 <body>
@@ -959,6 +969,10 @@
       syncFold();
       sync();
     })();
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
   </script>
 </body>
 </html>

@@ -397,6 +397,8 @@
       box-shadow: 0 1px 0 #3a4452;
     }
 
+    .tix-meta { display: none; }
+
     table.tape-table a { color: inherit; text-decoration: none; }
     table.tape-table a:hover { color: var(--caution); }
     .buy { color: #7dcf7a; }
@@ -494,28 +496,49 @@
       table.tape-table thead { display: none; }
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
-        display: block;
-        margin: 0 0 10px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "who side"
+          "ticker amt"
+          "meta meta";
+        gap: 3px 10px;
+        margin: 0 0 8px;
         border: 1px solid #4a5563;
-        padding: 8px 12px 4px;
+        background: var(--panel);
+        padding: 10px 12px;
       }
       table.tape-table td {
-        display: grid;
-        grid-template-columns: 7.5rem 1fr;
-        gap: 8px;
-        padding: 6px 0;
-        border-bottom: 1px solid #3a4452;
+        display: block;
+        padding: 0;
+        border: 0;
         white-space: normal;
       }
-      table.tape-table td:last-child { border-bottom: 0; }
-      table.tape-table td::before {
-        content: attr(data-label);
+      table.tape-table td::before { content: none; }
+      table.tape-table .desk-only { display: none; }
+      table.tape-table .tix-who {
+        grid-area: who;
         font-family: "Barlow Condensed", sans-serif;
-        letter-spacing: 0.08em;
         text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-size: 1.05rem;
+      }
+      table.tape-table .tix-who a { color: var(--white); }
+      table.tape-table .tix-side { grid-area: side; text-align: right; padding-top: 2px; }
+      table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; }
+      table.tape-table .tix-amt {
+        grid-area: amt;
+        text-align: right;
         color: var(--caution);
-        font-size: 0.75rem;
-        padding-top: 2px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 1.05rem;
+      }
+      table.tape-table .tix-meta {
+        display: block;
+        grid-area: meta;
+        color: var(--mute);
+        font-size: 0.8rem;
+        line-height: 1.35;
       }
       table.tape-table th { position: static; }
       .table-wrap { overflow: visible; }
@@ -696,17 +719,19 @@
       }
       box.innerHTML = visible.map((t) => {
         const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
+        const meta = [t.company, t.industry || "—", t.trade_date, t.owner].join(" · ");
         return "<tr>" +
-          "<td data-label=\"Trade date\">" + escapeHtml(t.trade_date) + "</td>" +
-          "<td data-label=\"Filed\">" + escapeHtml(t.filed_date) + "</td>" +
-          "<td data-label=\"Politician\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
+          "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + "</td>" +
+          "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
+          "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
             escapeHtml(t.filer) + "</a></td>" +
-          "<td data-label=\"Side\" class=\"" + cls + "\">" + escapeHtml(t.side) + "</td>" +
-          "<td data-label=\"Ticker\">" + escapeHtml(t.code) + "</td>" +
-          "<td data-label=\"Company\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
-          "<td data-label=\"Industry\" class=\"ind\">" + escapeHtml(t.industry || "—") + "</td>" +
-          "<td data-label=\"Amount\">" + escapeHtml(t.amount) + "</td>" +
-          "<td data-label=\"Owner\">" + escapeHtml(t.owner) + "</td>" +
+          "<td class=\"tix-side " + cls + "\">" + escapeHtml(t.side) + "</td>" +
+          "<td class=\"tix-tk\">" + escapeHtml(t.code) + "</td>" +
+          "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
+          "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
+          "<td class=\"tix-amt\">" + escapeHtml(t.amount) + "</td>" +
+          "<td class=\"desk-only\">" + escapeHtml(t.owner) + "</td>" +
+          "<td class=\"tix-meta\">" + escapeHtml(meta) + "</td>" +
           "</tr>";
       }).join("");
     }

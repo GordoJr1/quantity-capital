@@ -117,7 +117,6 @@
       .wrap { width: calc(100% - 24px); }
       header { padding: 12px 0; }
       h1 { font-size: clamp(1.8rem, 10vw, 2.6rem); }
-      .lead { font-size: 0.95rem; }
       .bio {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -131,27 +130,34 @@
       table.tape-table thead { display: none; }
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
-        display: block;
-        margin: 0 0 10px;
-        border: 1px solid #4a5563;
-        padding: 8px 12px 4px;
-      }
-      table.tape-table td {
         display: grid;
-        grid-template-columns: 7.5rem 1fr;
-        gap: 8px;
-        padding: 6px 0;
-        border-bottom: 1px solid #3a4452;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "ticker side"
+          "amt amt"
+          "meta meta";
+        gap: 3px 10px;
+        margin: 0 0 8px;
+        border: 1px solid #4a5563;
+        background: var(--panel);
+        padding: 10px 12px;
       }
-      table.tape-table td:last-child { border-bottom: 0; }
-      table.tape-table td::before {
-        content: attr(data-label);
-        font-family: "Barlow Condensed", sans-serif;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+      table.tape-table td { display: block; padding: 0; border: 0; }
+      table.tape-table td::before { content: none; }
+      table.tape-table .desk-only { display: none; }
+      table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; font-size: 1.05rem; }
+      table.tape-table .tix-side { grid-area: side; text-align: right; }
+      table.tape-table .tix-amt {
+        grid-area: amt;
         color: var(--caution);
-        font-size: 0.75rem;
-        padding-top: 2px;
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 1.1rem;
+      }
+      table.tape-table .tix-meta {
+        display: block;
+        grid-area: meta;
+        color: var(--mute);
+        font-size: 0.8rem;
       }
     }
 
@@ -162,6 +168,7 @@
     table { width: 100%; border-collapse: collapse; background: var(--panel); }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; }
     th { color: var(--caution); font-weight: 600; letter-spacing: 0.1em; }
+    .tix-meta { display: none; }
     .co { display: block; color: var(--paper); font-weight: 500; }
     .ind { display: block; color: var(--mute); font-size: 0.82rem; }
     .buy { color: #7dcf7a; }
@@ -408,15 +415,17 @@
       document.getElementById("rows").innerHTML = rows.map((t) => {
         const cls = t.side === "purchase" ? "buy" : "sell";
         const info = tickerInfo(t, lookup || {});
+        const meta = [info.name, info.industry, t.trade_date, t.owner].filter(Boolean).join(" · ");
         return "<tr>" +
-          "<td data-label=\"Trade date\">" + t.trade_date + "</td>" +
-          "<td data-label=\"Filed\">" + t.filed_date + "</td>" +
-          "<td data-label=\"Side\" class=\"" + cls + "\">" + t.side + "</td>" +
-          "<td data-label=\"Ticker\">" + esc(info.code) + "</td>" +
-          "<td data-label=\"Company\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
-          "<td data-label=\"Industry\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +
-          "<td data-label=\"Amount\">" + t.amount + "</td>" +
-          "<td data-label=\"Owner\">" + t.owner + "</td></tr>";
+          "<td class=\"desk-only\">" + t.trade_date + "</td>" +
+          "<td class=\"desk-only\">" + t.filed_date + "</td>" +
+          "<td class=\"tix-side " + cls + "\">" + t.side + "</td>" +
+          "<td class=\"tix-tk\">" + esc(info.code) + "</td>" +
+          "<td class=\"desk-only\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
+          "<td class=\"desk-only\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +
+          "<td class=\"tix-amt\">" + t.amount + "</td>" +
+          "<td class=\"desk-only\">" + t.owner + "</td>" +
+          "<td class=\"tix-meta\">" + esc(meta) + "</td></tr>";
       }).join("");
     }
 

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1c2430" />
+  <title>Nancy Pelosi — 3 year tape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430;
+      --panel: #2a3340;
+      --paper: #d8dde3;
+      --white: #eef2f5;
+      --fed: #1e4b8a;
+      --red: #c2302a;
+      --caution: #e3b41a;
+      --mute: #8b96a3;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: "IBM Plex Sans", sans-serif; color: var(--white); background: var(--steel); }
+    .stripe {
+      height: 10px;
+      background: repeating-linear-gradient(-45deg, #111 0 10px, var(--caution) 10px 20px);
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--caution);
+    }
+    .mark, h1, h2, th, .kicker, .back {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .mark { font-weight: 700; letter-spacing: 0.18em; }
+    .mark span { color: var(--red); }
+    .back { color: var(--caution); text-decoration: none; }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
+    .lead { color: var(--paper); max-width: 62ch; margin-bottom: 22px; }
+    .sample-flag {
+      display: inline-block; margin-bottom: 10px; padding: 3px 8px;
+      border: 1px solid var(--red); color: var(--red); font-size: 0.8rem;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .bio-wrap {
+      margin: 8px 0 22px;
+      border: 1px solid #4a5563;
+      background: #151b24;
+    }
+    .bio-wrap > summary {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--caution);
+      cursor: pointer;
+      padding: 12px 16px;
+      list-style: none;
+    }
+    .bio-wrap > summary::-webkit-details-marker { display: none; }
+    .bio-wrap > summary::before {
+      content: "▸ ";
+    }
+    .bio-wrap[open] > summary::before {
+      content: "▾ ";
+    }
+    .bio-wrap > summary:hover { background: rgba(227, 180, 26, 0.08); }
+    .bio {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      padding: 0 14px 14px;
+      align-items: start;
+      grid-template-areas:
+        "office overlap"
+        "economy overlap"
+        "committees overlap"
+        "subs subs";
+    }
+    .bio .office { grid-area: office; }
+    .bio .economy { grid-area: economy; }
+    .bio .committees { grid-area: committees; }
+    .bio .overlap { grid-area: overlap; border-left-color: var(--caution); }
+    .bio .subs { grid-area: subs; }
+    .bio .overlap li { margin: 6px 0; color: var(--paper); }
+    .bio .overlap strong {
+      color: var(--white);
+      margin-right: 6px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.06em;
+    }
+    .bio .overlap .why { color: var(--caution); font-size: 0.88rem; }
+    .bio .subhead {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.85rem;
+      margin: 12px 0 4px;
+    }
+    .bio .subs .subhead:first-child { margin-top: 0; }
+    .bio .subs ul { margin-bottom: 4px; }
+    .bio article {
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-left: 6px solid var(--fed);
+      padding: 16px 18px;
+    }
+    .bio h3 {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .bio p, .bio li { color: var(--paper); line-height: 1.5; }
+    .bio ul { padding-left: 18px; }
+    .bio li { margin: 4px 0; }
+    .muted { color: var(--mute); font-size: 0.88rem; }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 24px); }
+      header { padding: 12px 0; }
+      h1 { font-size: clamp(1.8rem, 10vw, 2.6rem); }
+      .lead { font-size: 0.95rem; }
+      .bio {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "office"
+          "economy"
+          "committees"
+          "overlap"
+          "subs";
+      }
+      .stat { flex: 1 1 calc(50% - 16px); min-width: 0; }
+      table.tape-table thead { display: none; }
+      table.tape-table, table.tape-table tbody { display: block; width: 100%; }
+      table.tape-table tr {
+        display: block;
+        margin: 0 0 10px;
+        border: 1px solid #4a5563;
+        padding: 8px 12px 4px;
+      }
+      table.tape-table td {
+        display: grid;
+        grid-template-columns: 7.5rem 1fr;
+        gap: 8px;
+        padding: 6px 0;
+        border-bottom: 1px solid #3a4452;
+      }
+      table.tape-table td:last-child { border-bottom: 0; }
+      table.tape-table td::before {
+        content: attr(data-label);
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--caution);
+        font-size: 0.75rem;
+        padding-top: 2px;
+      }
+    }
+
+    .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+    .stat { background: var(--panel); border: 1px solid #4a5563; padding: 14px 16px; min-width: 140px; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.85rem; }
+    table { width: 100%; border-collapse: collapse; background: var(--panel); }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; }
+    th { color: var(--caution); font-weight: 600; letter-spacing: 0.1em; }
+    .co { display: block; color: var(--paper); font-weight: 500; }
+    .ind { display: block; color: var(--mute); font-size: 0.82rem; }
+    .buy { color: #7dcf7a; }
+    .sell { color: #ef7a74; }
+    footer {
+      border-top: 2px solid var(--caution); margin-top: 40px; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+  <div class="wrap">
+    <header>
+      <div class="mark">Quantity <span>Capital</span></div>
+      <a class="back" href="index.html#tape">← Tape</a>
+    </header>
+
+    <p class="kicker">3 year history</p>
+    <h1 id="who">Member</h1>
+    <p class="lead">
+      <span class="sample-flag">Sample layout</span><br />
+      Every disclosed trade in the last three years, newest first.
+      Two dates matter: when the trade happened, and when Congress was told.
+    </p>
+    <details class="bio-wrap">
+      <summary>Bio</summary>
+      <div class="bio" id="bio"></div>
+    </details>
+    <div class="stats" id="stats"></div>
+    <table class="tape-table">
+      <thead>
+        <tr>
+          <th>Trade date</th>
+          <th>Filed</th>
+          <th>Side</th>
+          <th>Ticker</th>
+          <th>Company</th>
+          <th>Industry</th>
+          <th>Amount range</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
+  </div>
+  <script>
+    const fallback = {
+      trades: [
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$1,000,001–$5,000,000", trade_date: "2026-07-02", filed_date: "2026-08-12", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "AAPL", side: "sale", amount: "$250,001–$500,000", trade_date: "2026-03-18", filed_date: "2026-04-22", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$500,001–$1,000,000", trade_date: "2025-11-04", filed_date: "2025-12-15", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "MSFT", side: "purchase", amount: "$100,001–$250,000", trade_date: "2025-06-11", filed_date: "2025-07-20", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "GOOGL", side: "sale", amount: "$50,001–$100,000", trade_date: "2024-09-09", filed_date: "2024-10-18", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$1,000,001–$5,000,000", trade_date: "2024-01-22", filed_date: "2024-02-28", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "TSLA", side: "sale", amount: "$250,001–$500,000", trade_date: "2023-10-03", filed_date: "2023-11-14", owner: "spouse" },
+        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "AMZN", side: "purchase", amount: "$100,001–$250,000", trade_date: "2023-05-16", filed_date: "2023-06-27", owner: "spouse" }
+      ]
+    };
+
+    const id = new URLSearchParams(location.search).get("id") || "nancy-pelosi";
+    const cutoff = new Date();
+    cutoff.setFullYear(cutoff.getFullYear() - 3);
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function shortSeat(name) {
+      return String(name || "").replace(/^Senate Committee on\s+/i, "");
+    }
+
+    function listHtml(items) {
+      if (!items || !items.length) return "<p class=\"muted\">None listed on the current roster.</p>";
+      return "<ul>" + items.map((c) => {
+        const title = c.title ? " — " + esc(c.title) : "";
+        return "<li>" + esc(shortSeat(c.name)) + title + "</li>";
+      }).join("") + "</ul>";
+    }
+
+    function subsHtml(items) {
+      if (!items || !items.length) return "<p class=\"muted\">None listed on the current roster.</p>";
+      const groups = new Map();
+      items.forEach((c) => {
+        const parts = String(c.name || "").split(/\s+[—–-]\s+/);
+        const parent = shortSeat(parts[0] || "Other");
+        const child = parts.length > 1 ? parts.slice(1).join(" — ") : shortSeat(c.name);
+        if (!groups.has(parent)) groups.set(parent, []);
+        groups.get(parent).push({ child: child, title: c.title || "" });
+      });
+      let html = "";
+      groups.forEach((rows, parent) => {
+        html += "<p class=\"subhead\">" + esc(parent) + "</p><ul>";
+        rows.forEach((r) => {
+          html += "<li>" + esc(r.child) + (r.title ? " — " + esc(r.title) : "") + "</li>";
+        });
+        html += "</ul>";
+      });
+      return html;
+    }
+
+    const OVERLAP_RULES = [
+      {
+        seat: /environment and public works|clean air, climate, and nuclear|energy and natural resources|interior, environment/i,
+        industry: /electric services|petroleum refining|crude petroleum|natural gas|coal mining|metal mining|gas transmission|gas distribution/i,
+        name: /constellation energy|chevron|exxon|conocophillips|occidental|valero|phillips 66|kinder morgan|cheniere|duke energy|nextera|sempra|dominion|exelon|firstenergy|freeport/i,
+        why: "Energy / environment"
+      },
+      {
+        seat: /chemical safety|waste management/i,
+        industry: /industrial organic chemical|plastic material|paints|coatings|agricultural chemical/i,
+        name: /sherwin-williams|dow inc|dow chemical|dupont|celanese|carlisle|air products|ppg industries|lyondell/i,
+        why: "Chemical safety"
+      },
+      {
+        seat: /labor, health|health and human|public health/i,
+        industry: /pharmaceutical|hospital & medical|biological product/i,
+        name: /eli lilly|unitedhealth|pfizer|merck|abbvie|zoetis|johnson & johnson|cigna|elevance|humana|medtronic|abbott|amgen|bristol|gilead|moderna|regeneron/i,
+        why: "Health funding (HHS)"
+      },
+      {
+        seat: /telecommunication|telecommunications and media|consumer protection, technology|data privacy/i,
+        industry: /semiconductor|prepackaged software|cable & other pay|telephone|radio & tv|computer communications|computer programming|data proc/i,
+        name: /alphabet|google|meta platforms|facebook|cisco|comcast|broadcom|apple|microsoft|verizon|at&t|t-mobile|nvidia|intel|qualcomm|oracle/i,
+        why: "Tech / telecom"
+      },
+      {
+        seat: /aviation, space|department of defense|armed services|intelligence/i,
+        industry: /aircraft|aerospace|guided missile|ordnance/i,
+        name: /boeing|lockheed|rtx\b|raytheon|northrop|general dynamics|ge aerospace|l3harris|transdigm|palantir/i,
+        why: "Defense / aviation"
+      },
+      {
+        seat: /surface transportation|freight, pipelines|transportation and infrastructure/i,
+        industry: /railroad|trucking|air transportation, scheduled|transportation services/i,
+        name: /union pacific|norfolk southern|csx|fedex|ups|prologis|delta air|southwest air|united airlines|kinder morgan|enbridge/i,
+        why: "Transportation / freight"
+      },
+      {
+        seat: /\bbanking\b|committee on finance|financial services/i,
+        industry: /national commercial bank|state commercial bank/i,
+        name: /jpmorgan|bank of america|wells fargo|goldman|morgan stanley|pnc financial|citigroup/i,
+        why: "Financial services"
+      },
+      {
+        seat: /agriculture|nutrition|forestry/i,
+        industry: /agriculture|meat packing|grain mill|farm machinery/i,
+        name: /archer-daniels|tyson foods|mondelez|general mills|deere|corteva/i,
+        why: "Agriculture"
+      }
+    ];
+
+    function findOverlaps(bio, rows, file) {
+      const seats = []
+        .concat((bio && bio.committees) || [])
+        .concat((bio && bio.subcommittees) || []);
+      if (!seats.length) return [];
+      const byCode = new Map();
+      rows.filter((t) => t.side === "purchase").forEach((t) => {
+        const info = tickerInfo(t, file);
+        const blob = (info.code + " " + info.name).toLowerCase();
+        const industry = info.industry || "";
+        seats.forEach((seat) => {
+          OVERLAP_RULES.forEach((rule) => {
+            if (!rule.seat.test(seat.name || "")) return;
+            if (!rule.industry.test(industry) && !rule.name.test(blob)) return;
+            const prev = byCode.get(info.code);
+            if (!prev) {
+              byCode.set(info.code, { code: info.code, name: info.name, why: rule.why });
+              return;
+            }
+            if (prev.why.indexOf(rule.why) === -1) prev.why += "; " + rule.why;
+          });
+        });
+      });
+      return Array.from(byCode.values()).sort((a, b) => a.code.localeCompare(b.code));
+    }
+
+    function overlapHtml(items) {
+      if (!items.length) {
+        return "<p class=\"muted\">No 3-year stock buys matched this member’s current committee jurisdictions.</p>";
+      }
+      return "<ul>" + items.map((o) =>
+        "<li><strong>" + esc(o.code) + "</strong>" + esc(o.name) +
+        " <span class=\"why\">" + esc(o.why) + "</span></li>"
+      ).join("") + "</ul>" +
+        "<p class=\"muted\">Jurisdictional overlap only. Not proof of illegal trading.</p>";
+    }
+
+    function paintBio(bio, overlaps) {
+      const box = document.getElementById("bio");
+      if (!bio) {
+        box.innerHTML = "<article><h3>Bio</h3><p class=\"muted\">No official bio matched this filer yet.</p></article>";
+        return;
+      }
+      const elected = bio.first_elected_senate
+        ? "First elected to the Senate in " + bio.first_elected_senate + "."
+        : bio.first_elected_house
+          ? "First elected to the House in " + bio.first_elected_house + "."
+          : "Election year not on file.";
+      const term = (bio.term_start && bio.term_end)
+        ? " Current term " + bio.term_start + "–" + bio.term_end + "."
+        : "";
+      const party = bio.party ? " · " + bio.party : "";
+      box.innerHTML =
+        "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.name) + "</strong>" + esc(party) + "<br>" +
+        "State: " + esc(bio.state) +
+        (bio.district ? "-" + esc(String(bio.district).padStart(2, "0")) : "") +
+        (bio.chamber ? " · " + esc(bio.chamber) : "") + "<br>" + elected + term + "</p></article>" +
+        "<article class=\"economy\"><h3>State economy</h3><p>" + esc(bio.state_economy || "—") + "</p></article>" +
+        "<article class=\"committees\"><h3>Committees</h3>" + listHtml(bio.committees) + "</article>" +
+        "<article class=\"overlap\"><h3>Possible overlap</h3>" +
+        "<p class=\"muted\">3-year stock buys in industries these committees oversee.</p>" +
+        overlapHtml(overlaps || []) + "</article>" +
+        "<article class=\"subs\"><h3>Subcommittees</h3>" + subsHtml(bio.subcommittees) + "</article>";
+    }
+
+    function tickerInfo(t, file) {
+      const lookup = (file && file.tickers) || {};
+      const extra = ((file && file.assets) || {})[t.asset] || {};
+      const code = (t.ticker || extra.ticker || "").toUpperCase();
+      const meta = lookup[code] || {};
+      const bondLike = /bond|municipal/i.test(t.asset_type || "") || /rate\/coupon/i.test(t.asset || "");
+      const name = bondLike ? (t.asset || meta.name || "—") : (meta.name || cleanAsset(t.asset) || "—");
+      const industry = meta.industry || extra.industry || "—";
+      return { code: code || "—", name, industry };
+    }
+
+    function cleanAsset(s) {
+      return String(s || "").replace(/\s+(Common Stock.*|Class [A-Z].*)$/i, "").trim();
+    }
+
+    function threeYearRows(data) {
+      return (data.trades || []).filter((t) => t.filer_id === id && new Date(t.trade_date) >= cutoff)
+        .sort((a, b) => b.trade_date.localeCompare(a.trade_date));
+    }
+
+    function paint(rows, lookup) {
+      if (rows[0]) document.getElementById("who").textContent = rows[0].filer;
+      const buys = rows.filter((t) => t.side === "purchase").length;
+      const sells = rows.filter((t) => t.side === "sale").length;
+      document.getElementById("stats").innerHTML =
+        '<div class="stat"><b>' + rows.length + '</b><span>Disclosures in 3 years</span></div>' +
+        '<div class="stat"><b>' + buys + '</b><span>Purchases</span></div>' +
+        '<div class="stat"><b>' + sells + '</b><span>Sales</span></div>';
+      document.getElementById("rows").innerHTML = rows.map((t) => {
+        const cls = t.side === "purchase" ? "buy" : "sell";
+        const info = tickerInfo(t, lookup || {});
+        return "<tr>" +
+          "<td data-label=\"Trade date\">" + t.trade_date + "</td>" +
+          "<td data-label=\"Filed\">" + t.filed_date + "</td>" +
+          "<td data-label=\"Side\" class=\"" + cls + "\">" + t.side + "</td>" +
+          "<td data-label=\"Ticker\">" + esc(info.code) + "</td>" +
+          "<td data-label=\"Company\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
+          "<td data-label=\"Industry\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +
+          "<td data-label=\"Amount\">" + t.amount + "</td>" +
+          "<td data-label=\"Owner\">" + t.owner + "</td></tr>";
+      }).join("");
+    }
+
+    Promise.all([
+      fetch("trades.json").then((r) => r.json()).catch(() => fallback),
+      fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} })),
+      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
+    ]).then(([data, bios, tickerFile]) => {
+      const rows = threeYearRows(data);
+      const bio = (bios.people || {})[id] || null;
+      paint(rows, tickerFile || {});
+      paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
+      const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
+      if ((bios.people || {})[id] && (bios.people || {})[id].name) {
+        document.getElementById("who").textContent = bios.people[id].name;
+      } else if (fromTrades) {
+        document.getElementById("who").textContent = fromTrades.filer;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -405,6 +405,20 @@
     .sell { color: #ef7a74; }
     .co { display: block; color: var(--paper); }
     .ind { color: var(--mute); font-size: 0.88rem; }
+    .filing-err {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    table.tape-table tr.has-err td:nth-child(2) { box-shadow: inset 3px 0 0 var(--red); }
     .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 10px; }
     .more-row { margin: 14px 0 0; }
 
@@ -539,6 +553,8 @@
         font-weight: 700;
       }
       table.tape-table .tix-stamp .yr { color: var(--mute); font-size: 0.72rem; }
+      table.tape-table .tix-stamp .filing-err { margin: 5px 0 0; margin-left: 0; }
+      table.tape-table tr.has-err { box-shadow: inset 3px 0 0 var(--red); }
       table.tape-table .tix-who {
         grid-area: who;
         font-family: "Barlow Condensed", sans-serif;
@@ -727,6 +743,16 @@
     const PAGE = 120;
     let showAll = false;
 
+    function isFilingError(t) {
+      const td = t.trade_date || "";
+      const fd = t.filed_date || "";
+      return td.length >= 10 && fd.length >= 10 && td > fd;
+    }
+
+    function errBadge() {
+      return "<span class=\"filing-err\" title=\"Trade date is after the filed date on the official PTR.\">Filing error</span>";
+    }
+
     function stampHtml(iso) {
       const d = new Date(String(iso || "") + "T00:00:00");
       if (isNaN(d.getTime())) {
@@ -753,10 +779,12 @@
       }
       box.innerHTML = visible.map((t) => {
         const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
+        const bad = isFilingError(t);
+        const flag = bad ? errBadge() : "";
         const meta = [t.company, t.industry || "—", t.owner].join(" · ");
-        return "<tr>" +
-          stampHtml(t.trade_date) +
-          "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + "</td>" +
+        return "<tr" + (bad ? " class=\"has-err\"" : "") + ">" +
+          stampHtml(t.trade_date).replace("</td>", flag + "</td>") +
+          "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + flag + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
           "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
             escapeHtml(t.filer) + "</a></td>" +

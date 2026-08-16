@@ -164,6 +164,8 @@
       }
       table.tape-table .tix-stamp .day { font-size: 1.55rem; line-height: 1; font-weight: 700; }
       table.tape-table .tix-stamp .yr { color: var(--mute); font-size: 0.72rem; }
+      table.tape-table .tix-stamp .filing-err { margin: 5px 0 0; margin-left: 0; }
+      table.tape-table tr.has-err { box-shadow: inset 3px 0 0 var(--red); }
       table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; font-size: 1.05rem; }
       table.tape-table .tix-side { grid-area: side; text-align: right; }
       table.tape-table .tix-amt {
@@ -192,6 +194,19 @@
     .ind { display: block; color: var(--mute); font-size: 0.82rem; }
     .buy { color: #7dcf7a; }
     .sell { color: #ef7a74; }
+    .filing-err {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
     footer {
       border-top: 2px solid var(--caution); margin-top: 40px; padding: 18px 0 36px;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
@@ -439,10 +454,12 @@
         const mon = isNaN(d.getTime()) ? "—" : d.toLocaleString("en-US", { month: "short" }).toUpperCase();
         const day = isNaN(d.getTime()) ? "—" : String(d.getDate()).padStart(2, "0");
         const yr = isNaN(d.getTime()) ? "" : d.getFullYear();
-        return "<tr>" +
+        const bad = (t.trade_date || "").length >= 10 && (t.filed_date || "").length >= 10 && t.trade_date > t.filed_date;
+        const flag = bad ? "<span class=\"filing-err\" title=\"Trade date is after the filed date on the official PTR.\">Filing error</span>" : "";
+        return "<tr" + (bad ? " class=\"has-err\"" : "") + ">" +
           "<td class=\"tix-stamp\"><span class=\"mon\">" + mon + "</span><span class=\"day\">" + day +
-          "</span><span class=\"yr\">" + yr + "</span></td>" +
-          "<td class=\"desk-only\">" + t.trade_date + "</td>" +
+          "</span><span class=\"yr\">" + yr + "</span>" + flag + "</td>" +
+          "<td class=\"desk-only\">" + t.trade_date + flag + "</td>" +
           "<td class=\"desk-only\">" + t.filed_date + "</td>" +
           "<td class=\"tix-side " + cls + "\">" + t.side + "</td>" +
           "<td class=\"tix-tk\">" + esc(info.code) + "</td>" +

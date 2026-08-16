@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v1";
+const CACHE = "qc-shell-v2";
 const SHELL = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const SHELL = [
   "./city.jpg?v=15",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
+  "./icons/icon-512-maskable.png",
   "./icons/apple-touch-icon.png"
 ];
 

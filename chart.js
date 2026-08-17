@@ -84,9 +84,8 @@ function drawChart(points, marks, opts) {
     "</defs>" +
     grid +
     "<path d=\"" + area + "\" fill=\"" + fill + "\" />" +
-    dots +
-    "<path d=\"" + line + "\" fill=\"none\" stroke=\"#10151c\" stroke-width=\"4.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\" />" +
-    "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\" />";
+    "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2\" />" +
+    dots;
   if (yBox) {
     yBox.innerHTML = yTicks.map((px) => "<span>" + axisPrice(px) + "</span>").join("");
   }

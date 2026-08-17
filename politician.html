@@ -553,7 +553,7 @@
         (bio.chamber ? " · " + esc(bio.chamber) : "") + "<br>" + elected + term + "</p></article>" +
         "<article class=\"economy\"><h3>State economy</h3><p>" + esc(bio.state_economy || "—") + "</p></article>" +
         "<article class=\"committees\"><h3>Committees</h3>" + listHtml(bio.committees) + "</article>" +
-        "<article class=\"overlap\"><h3>Possible overlap</h3>" +
+        "<article class=\"overlap\"><h3>Conflicts</h3>" +
         "<p class=\"muted\">3-year stock buys in industries these committees oversee.</p>" +
         overlapHtml(overlaps || []) + "</article>" +
         "<article class=\"subs\"><h3>Subcommittees</h3>" + subsHtml(bio.subcommittees) + "</article>";

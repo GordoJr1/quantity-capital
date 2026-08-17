@@ -714,18 +714,19 @@
       white-space: nowrap;
     }
     #board-more { margin-top: 12px; }
-    .board-list button.tk-link {
-      background: none;
-      border: 0;
-      padding: 0;
-      color: var(--white);
-      font: inherit;
-      letter-spacing: inherit;
-      text-transform: uppercase;
-      cursor: pointer;
-      text-align: left;
+    .tk-link {
+      color: inherit;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: #4a5563;
     }
-    .board-list button.tk-link:hover { color: var(--caution); }
+    .tk-link:hover { color: var(--caution); }
+    .board-list a.tk-link {
+      color: var(--white);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
     .chart-back {
       position: fixed;
       inset: 0;
@@ -919,25 +920,6 @@
   </footer>
   <div class="stripe"></div>
   </div>
-  <div class="chart-back" id="chart-back" hidden></div>
-  <div class="chart-panel" id="chart-panel" hidden>
-    <div class="chart-head">
-      <div>
-        <p class="kicker" id="chart-kicker">Ticker</p>
-        <h2 id="chart-title">—</h2>
-      </div>
-      <button type="button" class="chart-close" id="chart-close">Close</button>
-    </div>
-    <p class="board-note" id="chart-note"></p>
-    <div class="chart-pnl" id="chart-pnl"></div>
-    <div class="chart-frame">
-      <div class="chart-y" id="chart-y"></div>
-      <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
-      <div class="chart-x" id="chart-x"></div>
-    </div>
-    <p class="chart-legend"><span class="buy">● purchase</span><span class="sell">● sale</span></p>
-    <ul class="chart-marks" id="chart-marks"></ul>
-  </div>
 
   <script>
     function escapeHtml(s) {
@@ -1052,7 +1034,9 @@
           "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
             escapeHtml(t.filer) + "</a></td>" +
           "<td class=\"tix-side " + cls + "\">" + escapeHtml(t.side) + "</td>" +
-          "<td class=\"tix-tk\">" + escapeHtml(t.code) + "</td>" +
+          "<td class=\"tix-tk\">" + (isChartTicker(t.code)
+            ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
+            : escapeHtml(t.code)) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
           "<td class=\"tix-amt\">" + escapeHtml(t.amount) + "</td>" +
@@ -1163,73 +1147,6 @@
       return pick;
     }
 
-    const priceCache = {};
-
-    function closeChart() {
-      document.getElementById("chart-back").hidden = true;
-      document.getElementById("chart-panel").hidden = true;
-    }
-
-    function openStockBuys(code, trades) {
-      const ticker = String(code || "").toUpperCase();
-      const panel = document.getElementById("chart-panel");
-      const back = document.getElementById("chart-back");
-      const title = document.getElementById("chart-title");
-      const note = document.getElementById("chart-note");
-      const pnl = document.getElementById("chart-pnl");
-      const marks = document.getElementById("chart-marks");
-      back.hidden = false;
-      panel.hidden = false;
-      title.textContent = ticker;
-      note.textContent = "Loading daily closes…";
-      pnl.innerHTML = "";
-      marks.innerHTML = "";
-      document.getElementById("chart-svg").innerHTML = "";
-      const cutoff = new Date();
-      cutoff.setFullYear(cutoff.getFullYear() - 3);
-      const deals = trades.filter((t) => {
-        if ((t.side !== "purchase" && t.side !== "sale") || isBond(t) || isOptionLike(t)) return false;
-        if ((t.code || "").toUpperCase() !== ticker) return false;
-        return new Date(t.trade_date) >= cutoff;
-      }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
-      const load = priceCache[ticker]
-        ? Promise.resolve(priceCache[ticker])
-        : fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => {
-          if (!r.ok) throw new Error("missing");
-          return r.json();
-        }).then((data) => { priceCache[ticker] = data; return data; });
-      load.then((data) => {
-        const points = data.c || [];
-        if (points.length < 2) throw new Error("short");
-        const people = new Set(deals.map((t) => t.filer_id));
-        const buys = deals.filter((t) => t.side === "purchase").length;
-        const sells = deals.filter((t) => t.side === "sale").length;
-        const last = points[points.length - 1];
-        document.getElementById("chart-kicker").textContent = data.n || "Ticker";
-        title.textContent = ticker;
-        note.textContent = "Every disclosed buy and sell in the last three years. Last close " +
-          formatMoney(last[1]) + " on " + prettyDate(last[0]) + ".";
-        pnl.innerHTML =
-          "<div><b>" + buys + "</b><span>buys</span></div>" +
-          "<div><b>" + sells + "</b><span>sells</span></div>" +
-          "<div><b>" + formatMoney(last[1]) + "</b><span>last close</span></div>";
-        drawChart(points, deals.map((t) => ({ date: t.trade_date, side: t.side })));
-        marks.innerHTML = deals.map((t) => {
-          const px = nearestClose(points, t.trade_date);
-          const cls = t.side === "purchase" ? "buy" : "sell";
-          return "<li><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
-            escapeHtml(t.filer) + "</a><span class=\"" + cls + "\">" + escapeHtml(t.side) +
-            "</span><span>" + prettyDate(t.trade_date) + "</span><span>" +
-            escapeHtml(t.amount) + "</span><span>" + (px ? formatMoney(px[1]) + " close" : "no close") +
-            "</span></li>";
-        }).join("");
-      }).catch(() => {
-        note.textContent = "No daily prices on file for " + ticker + ".";
-        pnl.innerHTML = "";
-        document.getElementById("chart-svg").innerHTML = "";
-      });
-    }
-
     function bookValue(rows) {
       const book = new Map();
       rows.slice().sort((a, b) => {
@@ -1329,7 +1246,7 @@
       };
     }
 
-    function bindBoard(boards, trades) {
+    function bindBoard(boards) {
       const list = document.getElementById("board-list");
       const note = document.getElementById("board-note");
       const more = document.getElementById("board-more");
@@ -1352,8 +1269,8 @@
         list.innerHTML = rows.map((r, i) => {
           if (state.mode === "stocks") {
             return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-              "<span><button type=\"button\" class=\"tk-link\" data-ticker=\"" + escapeHtml(r.code) + "\">" +
-              escapeHtml(r.code) + "</button><span class=\"board-why\">" + escapeHtml(r.name) +
+              "<span><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
+              escapeHtml(r.code) + "</a><span class=\"board-why\">" + escapeHtml(r.name) +
               " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
               "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
           }
@@ -1454,18 +1371,7 @@
         });
         fillIndustries(kindPool());
         apply();
-        bindBoard(buildBoards(rows, bios), rows);
-        document.addEventListener("click", (e) => {
-          const btn = e.target.closest("[data-ticker]");
-          if (btn) {
-            openStockBuys(btn.getAttribute("data-ticker"), rows);
-            return;
-          }
-          if (e.target.id === "chart-close" || e.target.id === "chart-back") closeChart();
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeChart();
-        });
+        bindBoard(buildBoards(rows, bios));
       } catch (err) {
         bindPicker([]);
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";
@@ -1501,7 +1407,6 @@
       navigator.serviceWorker.register("sw.js");
     }
   </script>
-  <script src="chart.js"></script>
   <script src="refresh.js"></script>
 </body>
 </html>

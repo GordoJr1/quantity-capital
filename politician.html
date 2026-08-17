@@ -483,25 +483,6 @@
     </table>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <div class="chart-back" id="chart-back" hidden></div>
-  <div class="chart-panel" id="chart-panel" hidden>
-    <div class="chart-head">
-      <div>
-        <p class="kicker" id="chart-kicker">Ticker</p>
-        <h2 id="chart-title">—</h2>
-      </div>
-      <button type="button" class="chart-close" id="chart-close">Close</button>
-    </div>
-    <p class="muted" id="chart-note"></p>
-    <div class="chart-pnl" id="chart-pnl"></div>
-    <div class="chart-frame">
-      <div class="chart-y" id="chart-y"></div>
-      <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
-      <div class="chart-x" id="chart-x"></div>
-    </div>
-    <p class="chart-legend"><span class="buy">● purchase</span><span class="sell">● sale</span></p>
-    <ul class="chart-marks" id="chart-marks"></ul>
-  </div>
   <script>
     const fallback = {
       trades: [
@@ -828,7 +809,8 @@
         const buyLabel = p.buys ? (p.buys === 1 ? "1 buy" : p.buys + " buys") : "";
         const tk = (p.key && p.key.indexOf("T:") === 0) ? p.key.slice(2) : "";
         const title = tk
-          ? "<button type=\"button\" class=\"tk-link\" data-ticker=\"" + esc(tk) + "\">" + esc(p.label) + "</button>"
+          ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(tk) +
+            "&id=" + encodeURIComponent(id) + "\">" + esc(p.label) + "</a>"
           : esc(p.label);
         return "<li>" +
           "<span class=\"swatch\" style=\"background:" + sliceColor + "\"></span>" +
@@ -879,132 +861,8 @@
 
     function tickerCell(code) {
       if (!isChartTicker(code)) return esc(code);
-      return "<button type=\"button\" class=\"tk-link\" data-ticker=\"" + esc(code) + "\">" + esc(code) + "</button>";
-    }
-
-    function signedMoney(n) {
-      const abs = formatMoney(Math.abs(n));
-      if (n > 0) return "+" + abs;
-      if (n < 0) return "−" + abs;
-      return abs;
-    }
-
-    function nearestClose(points, date) {
-      if (!points || !points.length) return null;
-      let pick = points[0];
-      for (let i = 0; i < points.length; i++) {
-        if (points[i][0] <= date) pick = points[i];
-        else break;
-      }
-      if (date < points[0][0]) return points[0];
-      return pick;
-    }
-
-    function theoreticalPnl(trades, points) {
-      const last = points[points.length - 1];
-      const lots = [];
-      let realized = 0;
-      trades.slice().sort((a, b) => (a.trade_date || "").localeCompare(b.trade_date || "")).forEach((t) => {
-        if (t.side !== "purchase" && t.side !== "sale") return;
-        const pxRow = nearestClose(points, t.trade_date);
-        const dollars = amountHigh(t.amount);
-        if (!pxRow || !pxRow[1] || !dollars) return;
-        const px = pxRow[1];
-        let shares = dollars / px;
-        if (t.side === "purchase") {
-          lots.push({ shares: shares, px: px });
-          return;
-        }
-        while (shares > 0 && lots.length) {
-          const take = Math.min(shares, lots[0].shares);
-          realized += (px - lots[0].px) * take;
-          lots[0].shares -= take;
-          shares -= take;
-          if (lots[0].shares <= 0.0001) lots.shift();
-        }
-      });
-      let remainShares = 0;
-      let remainCost = 0;
-      lots.forEach((lot) => {
-        remainShares += lot.shares;
-        remainCost += lot.shares * lot.px;
-      });
-      const market = remainShares * last[1];
-      const unrealized = market - remainCost;
-      return {
-        last: last,
-        realized: realized,
-        unrealized: unrealized,
-        total: realized + unrealized,
-        market: market,
-        remainCost: remainCost
-      };
-    }
-
-    const priceCache = {};
-    let pageRows = [];
-    let pageLookup = {};
-
-    function closeChart() {
-      document.getElementById("chart-back").hidden = true;
-      document.getElementById("chart-panel").hidden = true;
-    }
-
-    function openTicker(code) {
-      const ticker = String(code || "").toUpperCase();
-      const panel = document.getElementById("chart-panel");
-      const back = document.getElementById("chart-back");
-      const title = document.getElementById("chart-title");
-      const note = document.getElementById("chart-note");
-      const pnl = document.getElementById("chart-pnl");
-      const marks = document.getElementById("chart-marks");
-      back.hidden = false;
-      panel.hidden = false;
-      title.textContent = ticker;
-      note.textContent = "Loading daily closes…";
-      pnl.innerHTML = "";
-      marks.innerHTML = "";
-      document.getElementById("chart-svg").innerHTML = "";
-      const trades = pageRows.filter((t) => {
-        if (isOptionLike(t) || isBond(t)) return false;
-        return tickerInfo(t, pageLookup).code === ticker;
-      });
-      const load = priceCache[ticker]
-        ? Promise.resolve(priceCache[ticker])
-        : fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => {
-          if (!r.ok) throw new Error("missing");
-          return r.json();
-        }).then((data) => { priceCache[ticker] = data; return data; });
-      load.then((data) => {
-        const points = data.c || [];
-        if (points.length < 2) throw new Error("short");
-        document.getElementById("chart-kicker").textContent = data.n || "Ticker";
-        title.textContent = ticker;
-        const est = theoreticalPnl(trades, points);
-        const totalCls = est.total > 0 ? "up" : est.total < 0 ? "down" : "";
-        const realCls = est.realized > 0 ? "up" : est.realized < 0 ? "down" : "";
-        const unCls = est.unrealized > 0 ? "up" : est.unrealized < 0 ? "down" : "";
-        note.textContent = "Theoretical P&L uses the high end of each official range and that day’s close (or the last close before it). Not actual fills or share counts. Last close " +
-          formatMoney(est.last[1]) + " on " + prettyDate(est.last[0]) + ".";
-        pnl.innerHTML =
-          "<div><b class=\"" + totalCls + "\">" + signedMoney(est.total) + "</b><span>theoretical P&L</span></div>" +
-          "<div><b class=\"" + unCls + "\">" + signedMoney(est.unrealized) + "</b><span>still held (est.)</span></div>" +
-          "<div><b class=\"" + realCls + "\">" + signedMoney(est.realized) + "</b><span>realized (est.)</span></div>";
-        drawChart(points, trades.filter((t) => t.side === "purchase" || t.side === "sale").map((t) => ({
-          date: t.trade_date, side: t.side
-        })));
-        marks.innerHTML = trades.map((t) => {
-          const px = nearestClose(points, t.trade_date);
-          const cls = t.side === "purchase" ? "buy" : "sell";
-          return "<li><span class=\"" + cls + "\">" + esc(t.side) + "</span><span>" +
-            prettyDate(t.trade_date) + "</span><span>" + esc(t.amount) + "</span><span>" +
-            (px ? formatMoney(px[1]) + " close" : "no close") + "</span></li>";
-        }).join("");
-      }).catch(() => {
-        note.textContent = "No daily prices on file for " + ticker + ". Only tickers from the official tape are stored.";
-        pnl.innerHTML = "";
-        document.getElementById("chart-svg").innerHTML = "";
-      });
+      return "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(code) +
+        "&id=" + encodeURIComponent(id) + "\">" + esc(code) + "</a>";
     }
 
     function paint(rows, lookup) {
@@ -1047,11 +905,9 @@
     ]).then(([data, bios, tickerFile]) => {
       const rows = threeYearRows(data);
       const bio = (bios.people || {})[id] || null;
-      pageRows = rows;
-      pageLookup = tickerFile || {};
-      paint(rows, pageLookup);
-      paintHoldings(rows, pageLookup);
-      paintBio(bio, findOverlaps(bio, rows, pageLookup));
+      paint(rows, tickerFile || {});
+      paintHoldings(rows, tickerFile || {});
+      paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
       const shown = ((bios.people || {})[id] && bios.people[id].name)
         || (fromTrades && fromTrades.filer)
@@ -1062,23 +918,10 @@
       }
     });
 
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-ticker]");
-      if (btn) {
-        openTicker(btn.getAttribute("data-ticker"));
-        return;
-      }
-      if (e.target.id === "chart-close" || e.target.id === "chart-back") closeChart();
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeChart();
-    });
-
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("sw.js");
     }
   </script>
-  <script src="chart.js"></script>
   <script src="refresh.js"></script>
 </body>
 </html>

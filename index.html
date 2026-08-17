@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1c2430" />
+  <meta name="theme-color" content="#1a1d26" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -29,6 +29,9 @@
       --red: #c2302a;
       --caution: #e3b41a;
       --mute: #8b96a3;
+      --ink: #1a1d26;
+      --teal: #36999d;
+      --navy: #1c2d4e;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,8 +87,8 @@
       height: 10px;
       background: repeating-linear-gradient(
         -45deg,
-        #111 0 10px,
-        var(--caution) 10px 20px
+        var(--ink) 0 10px,
+        var(--teal) 10px 20px
       );
     }
 
@@ -95,14 +98,14 @@
       position: sticky;
       top: 0;
       z-index: 20;
-      background: #151b24;
+      background: var(--ink);
     }
 
     header {
       position: relative;
       z-index: 1;
-      border-bottom: 2px solid var(--caution);
-      background: #151b24;
+      border-bottom: 2px solid var(--teal);
+      background: var(--ink);
     }
 
     header .wrap {
@@ -120,7 +123,7 @@
       font-size: 1.15rem;
     }
 
-    .mark span { color: var(--red); }
+    .mark span { color: var(--teal); }
 
     nav {
       display: flex;
@@ -314,14 +317,16 @@
       position: sticky;
       top: var(--site-header-h, 52px);
       z-index: 30;
-      background: #151b24;
+      background: var(--ink);
       box-shadow: 0 8px 16px rgba(16, 20, 28, 0.55);
     }
 
     .tape-lock {
       padding: 12px 0 8px;
-      background: #151b24;
+      background: var(--ink);
     }
+
+    .tape-chrome h2 { color: var(--teal); }
 
     .picker-menu {
       position: absolute;
@@ -508,15 +513,15 @@
         top: auto;
         flex: 0 0 auto;
         z-index: 50;
-        background: var(--steel);
+        background: var(--ink);
       }
-      header { background: var(--steel); }
+      header { background: var(--ink); }
       .tape-chrome {
         position: relative;
         top: auto;
         flex: 0 0 auto;
         z-index: 45;
-        background: var(--steel);
+        background: var(--ink);
         box-shadow: 0 10px 18px rgba(16, 20, 28, 0.92);
       }
       .tape-scroll {

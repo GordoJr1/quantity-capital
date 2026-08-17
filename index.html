@@ -654,6 +654,7 @@
     }
 
     #board { padding: 16px 0 8px; }
+    #tape .filter-fold { margin: 0 0 12px; }
     .board-tabs {
       display: flex;
       flex-wrap: wrap;
@@ -728,43 +729,6 @@
         <p class="feed-head">
           Latest disclosed Senate and House trades. Search for one person’s last three years.
         </p>
-        <details class="filter-fold">
-          <summary>Search &amp; filters</summary>
-          <div class="picker">
-            <label for="who-search">Look up a politician</label>
-            <input id="who-search" type="search" placeholder="Type a name…" autocomplete="off" />
-            <div class="picker-menu" id="who-menu"></div>
-          </div>
-          <div class="filters">
-            <div>
-              <label for="filter-company">Company</label>
-              <input id="filter-company" type="search" placeholder="Name or ticker…" />
-            </div>
-            <div>
-              <label for="filter-industry">Industry</label>
-              <select id="filter-industry">
-                <option value="">All industries</option>
-              </select>
-            </div>
-            <div>
-              <label for="filter-kind">Stocks / bonds</label>
-              <select id="filter-kind">
-                <option value="stock" selected>Stocks</option>
-                <option value="bond">Bonds</option>
-                <option value="">All</option>
-              </select>
-            </div>
-            <div>
-              <label for="filter-side">Bought / sold</label>
-              <select id="filter-side">
-                <option value="">All</option>
-                <option value="purchase">Bought</option>
-                <option value="sale">Sold</option>
-              </select>
-            </div>
-          </div>
-        </details>
-        <p class="count" id="tape-count"></p>
       </div>
     </div>
   </div>
@@ -784,6 +748,43 @@
     </section>
 
     <section id="tape">
+      <details class="filter-fold">
+        <summary>Search &amp; filters</summary>
+        <div class="picker">
+          <label for="who-search">Look up a politician</label>
+          <input id="who-search" type="search" placeholder="Type a name…" autocomplete="off" />
+          <div class="picker-menu" id="who-menu"></div>
+        </div>
+        <div class="filters">
+          <div>
+            <label for="filter-company">Company</label>
+            <input id="filter-company" type="search" placeholder="Name or ticker…" />
+          </div>
+          <div>
+            <label for="filter-industry">Industry</label>
+            <select id="filter-industry">
+              <option value="">All industries</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-kind">Stocks / bonds</label>
+            <select id="filter-kind">
+              <option value="stock" selected>Stocks</option>
+              <option value="bond">Bonds</option>
+              <option value="">All</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-side">Bought / sold</label>
+            <select id="filter-side">
+              <option value="">All</option>
+              <option value="purchase">Bought</option>
+              <option value="sale">Sold</option>
+            </select>
+          </div>
+        </div>
+      </details>
+      <p class="count" id="tape-count"></p>
       <div class="table-wrap">
         <table class="tape-table">
           <thead>

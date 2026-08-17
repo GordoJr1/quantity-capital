@@ -197,6 +197,106 @@
     .stat { background: var(--panel); border: 1px solid #4a5563; padding: 14px 16px; min-width: 140px; }
     .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
     .stat span { color: var(--mute); font-size: 0.85rem; }
+
+    .holdings {
+      margin: 0 0 28px;
+      border: 1px solid #4a5563;
+      background: #151b24;
+      padding: 16px 18px 18px;
+    }
+    .holdings h2 { font-size: 1.15rem; margin: 0 0 6px; }
+    .holdings > .muted { margin-bottom: 16px; line-height: 1.45; }
+    .hold-grid {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px 32px;
+      align-items: center;
+    }
+    .donut-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      margin: 0 auto;
+    }
+    .donut {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    .donut-hole {
+      position: absolute;
+      inset: 27%;
+      border-radius: 50%;
+      background: #151b24;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px;
+    }
+    .donut-hole b {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.55rem;
+      letter-spacing: 0.04em;
+      color: var(--caution);
+      line-height: 1;
+    }
+    .donut-hole span { color: var(--mute); font-size: 0.72rem; margin-top: 4px; }
+    .hold-list { list-style: none; }
+    .hold-list li {
+      display: grid;
+      grid-template-columns: 12px minmax(0, 1fr) minmax(56px, 1.4fr) auto auto;
+      gap: 8px 10px;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid #2c3440;
+    }
+    .hold-list li:last-child { border-bottom: 0; }
+    .swatch { width: 12px; height: 12px; border-radius: 2px; }
+    .hold-name b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+    .hold-name small { display: block; color: var(--mute); font-size: 0.75rem; }
+    .hold-bar {
+      height: 7px;
+      background: #2c3440;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .hold-bar i { display: block; height: 100%; border-radius: 99px; }
+    .hold-amt {
+      font-family: "Barlow Condensed", sans-serif;
+      color: var(--caution);
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+    .hold-pct { color: var(--mute); font-size: 0.8rem; min-width: 2.6em; text-align: right; }
+    .hold-more { margin-top: 12px; }
+    .hold-toggle {
+      background: transparent;
+      border: 1px solid #4a5563;
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 14px;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .hold-toggle:hover { background: rgba(227, 180, 26, 0.08); }
+    @media (max-width: 820px) {
+      .hold-grid { grid-template-columns: 1fr; }
+      .hold-list { width: 100%; }
+      .hold-list li {
+        grid-template-columns: 12px minmax(0, 1fr) auto auto;
+      }
+      .hold-bar { display: none; }
+    }
     table { width: 100%; border-collapse: collapse; background: var(--panel); }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; }
     th { color: var(--caution); font-weight: 600; letter-spacing: 0.1em; }
@@ -239,6 +339,8 @@
       <div class="bio" id="bio"></div>
     </details>
     <div class="stats" id="stats"></div>
+    <section class="holdings" id="holdings" hidden></section>
+    <p class="kicker">Trade tape</p>
     <table class="tape-table">
       <thead>
         <tr>
@@ -452,6 +554,171 @@
         .sort((a, b) => b.trade_date.localeCompare(a.trade_date));
     }
 
+    const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1 };
+    const SLICE = ["#e3b41a", "#3db8c4", "#1e4b8a", "#7dcf7a", "#ef7a74", "#9b7ed9", "#e08a4a", "#6b7582"];
+
+    function amountHigh(amount) {
+      const nums = String(amount || "").match(/\$[\d,]+/g);
+      if (!nums || !nums.length) return 0;
+      return parseInt(nums[nums.length - 1].replace(/[$,]/g, ""), 10) || 0;
+    }
+
+    function isBond(t) {
+      const type = (t.asset_type || "").toLowerCase();
+      const asset = (t.asset || "").toLowerCase();
+      return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
+    }
+
+    function isOptionLike(t) {
+      const type = (t.asset_type || "").toLowerCase();
+      const asset = (t.asset || "").toLowerCase();
+      return type.includes("option") || /exercised|call option|put option|strike pric/.test(asset);
+    }
+
+    function formatMoney(n) {
+      if (n >= 1000000) {
+        const m = n / 1000000;
+        const s = (m >= 10 ? m.toFixed(0) : m.toFixed(1)).replace(/\.0$/, "");
+        return "$" + s + "M";
+      }
+      if (n >= 1000) return "$" + Math.round(n / 1000) + "K";
+      return "$" + n.toLocaleString("en-US");
+    }
+
+    function prettyDate(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return iso || "—";
+      return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+
+    function formatPct(value, total) {
+      if (!total) return "0%";
+      const p = (value / total) * 100;
+      if (p > 0 && p < 1) return "<1%";
+      const rounded = Math.round(p);
+      if (rounded === 100 && value < total) return "99%";
+      return rounded + "%";
+    }
+
+    function tidyName(name) {
+      return String(name || "").replace(/\s+-\s*$/, "").trim();
+    }
+
+    function holdingIdentity(t, lookup) {
+      if (isBond(t)) {
+        return { key: "BONDS", label: "Bonds", name: "Municipal and corporate bonds", kind: "bond" };
+      }
+      const info = tickerInfo(t, lookup);
+      const code = (info.code || "").toUpperCase();
+      if (code && code !== "—" && !BAD_TICKERS[code] && /^[A-Z][A-Z0-9.]{0,6}$/.test(code)) {
+        return { key: "T:" + code, label: code, name: tidyName(info.name), kind: "stock" };
+      }
+      const name = tidyName((info.name && info.name !== "—") ? info.name : (cleanAsset(t.asset) || "Other"));
+      const short = name.length > 34 ? name.slice(0, 32) + "…" : name;
+      return { key: "A:" + name.toUpperCase(), label: short, name: name, kind: "other" };
+    }
+
+    function buildHoldings(rows, lookup) {
+      const book = new Map();
+      let latest = "";
+      rows.forEach((t) => {
+        if ((t.filed_date || "") > latest) latest = t.filed_date;
+      });
+      rows.slice().sort((a, b) => {
+        const td = (a.trade_date || "").localeCompare(b.trade_date || "");
+        return td !== 0 ? td : (a.filed_date || "").localeCompare(b.filed_date || "");
+      }).forEach((t) => {
+        if (t.side === "exchange" || isOptionLike(t)) return;
+        const hi = amountHigh(t.amount);
+        if (!hi) return;
+        const idn = holdingIdentity(t, lookup);
+        const prev = book.get(idn.key) || { key: idn.key, label: idn.label, name: idn.name, kind: idn.kind, value: 0 };
+        if (t.side === "purchase") prev.value += hi;
+        else if (t.side === "sale") prev.value -= hi;
+        book.set(idn.key, prev);
+      });
+      const positions = Array.from(book.values()).filter((p) => p.value > 0).sort((a, b) => b.value - a.value);
+      const total = positions.reduce((sum, p) => sum + p.value, 0);
+      return { latest: latest, positions: positions, total: total };
+    }
+
+    function chartSlices(positions) {
+      const cap = 7;
+      if (positions.length <= cap) return positions.slice();
+      const head = positions.slice(0, cap - 1);
+      const rest = positions.slice(cap - 1);
+      const value = rest.reduce((sum, p) => sum + p.value, 0);
+      head.push({ label: "Other", name: rest.length + " more positions", kind: "other", value: value });
+      return head;
+    }
+
+    function paintHoldings(rows, lookup) {
+      const box = document.getElementById("holdings");
+      const book = buildHoldings(rows, lookup || {});
+      if (!book.positions.length) {
+        box.hidden = false;
+        box.innerHTML = "<p class=\"kicker\">Estimated book</p><h2>Holdings</h2>" +
+          "<p class=\"muted\">No residual positions after netting the 3-year tape at the high end of each official range.</p>";
+        return;
+      }
+      const slices = chartSlices(book.positions);
+      let acc = 0;
+      const stops = slices.map((s, i) => {
+        const start = acc;
+        acc += (s.value / book.total) * 100;
+        return SLICE[i % SLICE.length] + " " + start.toFixed(2) + "% " + acc.toFixed(2) + "%";
+      }).join(", ");
+      const shown = { all: false };
+      const colorFor = (p, i, list) => {
+        if (list === slices) return SLICE[i % SLICE.length];
+        const hit = slices.findIndex((s) => s.key === p.key);
+        if (hit >= 0) return SLICE[hit % SLICE.length];
+        return SLICE[slices.length - 1];
+      };
+      const rowHtml = (p, i, list) => {
+        const pct = formatPct(p.value, book.total);
+        const barPct = book.total ? Math.max(1, Math.round((p.value / book.total) * 100)) : 0;
+        const sliceColor = colorFor(p, i, list);
+        return "<li>" +
+          "<span class=\"swatch\" style=\"background:" + sliceColor + "\"></span>" +
+          "<span class=\"hold-name\"><b>" + esc(p.label) + "</b><small>" + esc(p.name) + "</small></span>" +
+          "<span class=\"hold-bar\"><i style=\"width:" + barPct + "%;background:" + sliceColor + "\"></i></span>" +
+          "<span class=\"hold-amt\">" + formatMoney(p.value) + "</span>" +
+          "<span class=\"hold-pct\">" + pct + "</span></li>";
+      };
+      const extra = book.positions.slice(slices.length - (book.positions.length > slices.length ? 1 : 0));
+      const renderList = () => {
+        const list = shown.all ? slices.slice(0, -1).concat(extra.slice(0, 40)) : slices;
+        const moreLeft = extra.length > 40 && shown.all;
+        return "<ol class=\"hold-list\">" + list.map((p, i) => rowHtml(p, i, list)).join("") + "</ol>" +
+          (book.positions.length > slices.length
+            ? "<div class=\"hold-more\"><button type=\"button\" class=\"hold-toggle\">" +
+              (shown.all ? "Show chart breakdown" : "Show more names") +
+              "</button>" + (moreLeft ? "<p class=\"muted\">Showing 40 of " + extra.length + " smaller positions.</p>" : "") +
+              "</div>"
+            : "");
+      };
+      box.hidden = false;
+      box.innerHTML =
+        "<p class=\"kicker\">Estimated book</p>" +
+        "<h2>Holdings</h2>" +
+        "<p class=\"muted\">High end of official ranges, through the " + prettyDate(book.latest) +
+        " filing. Bonds grouped. Inferred from the 3-year tape — not an official holdings list.</p>" +
+        "<div class=\"hold-grid\">" +
+          "<div class=\"donut-wrap\"><div class=\"donut\" style=\"background:conic-gradient(" + stops + ")\"></div>" +
+          "<div class=\"donut-hole\"><b>" + formatMoney(book.total) + "</b><span>high-end est.</span></div></div>" +
+          "<div id=\"hold-list-wrap\">" + renderList() + "</div>" +
+        "</div>";
+      const wrap = document.getElementById("hold-list-wrap");
+      if (wrap) {
+        wrap.addEventListener("click", (e) => {
+          if (!e.target.closest(".hold-toggle")) return;
+          shown.all = !shown.all;
+          wrap.innerHTML = renderList();
+        });
+      }
+    }
+
     function paint(rows, lookup) {
       if (rows[0]) document.getElementById("who").textContent = rows[0].filer;
       const buys = rows.filter((t) => t.side === "purchase").length;
@@ -493,6 +760,7 @@
       const rows = threeYearRows(data);
       const bio = (bios.people || {})[id] || null;
       paint(rows, tickerFile || {});
+      paintHoldings(rows, tickerFile || {});
       paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
       const shown = ((bios.people || {})[id] && bios.people[id].name)

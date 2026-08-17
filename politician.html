@@ -137,7 +137,7 @@
           "overlap"
           "subs";
       }
-      .stat { flex: 1 1 calc(50% - 16px); min-width: 0; }
+
       table.tape-table thead { display: none; }
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
@@ -193,10 +193,27 @@
       }
     }
 
-    .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
-    .stat { background: var(--panel); border: 1px solid #4a5563; padding: 14px 16px; min-width: 140px; }
-    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
-    .stat span { color: var(--mute); font-size: 0.85rem; }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      margin: 0 0 16px;
+      border: 1px solid #4a5563;
+      background: var(--panel);
+    }
+    .stat {
+      padding: 8px 10px;
+      min-width: 0;
+      border-right: 1px solid #3a4452;
+    }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: inline;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.15rem;
+      color: var(--caution);
+      margin-right: 6px;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; }
 
     .holdings {
       margin: 0 0 28px;
@@ -737,9 +754,9 @@
       const buys = rows.filter((t) => t.side === "purchase").length;
       const sells = rows.filter((t) => t.side === "sale").length;
       document.getElementById("stats").innerHTML =
-        '<div class="stat"><b>' + rows.length + '</b><span>Disclosures in 3 years</span></div>' +
-        '<div class="stat"><b>' + buys + '</b><span>Purchases</span></div>' +
-        '<div class="stat"><b>' + sells + '</b><span>Sales</span></div>';
+        '<div class="stat"><b>' + rows.length + '</b><span>trades</span></div>' +
+        '<div class="stat"><b>' + buys + '</b><span>buys</span></div>' +
+        '<div class="stat"><b>' + sells + '</b><span>sells</span></div>';
       document.getElementById("rows").innerHTML = rows.map((t) => {
         const cls = t.side === "purchase" ? "buy" : "sell";
         const info = tickerInfo(t, lookup || {});

@@ -59,33 +59,34 @@ function drawChart(points, marks, opts) {
     const pack = grouped[i];
     const cx = xAt(i);
     const cy0 = yAt(points[i][1]);
-    const gap = 11;
+    const gap = 7;
     return pack.map((m, n) => {
       const off = (n - (pack.length - 1) / 2) * gap;
       const cy = Math.max(plotTop, Math.min(plotBot, cy0 + off));
-      const jx = pack.length > 1 ? ((n % 2 ? 1 : -1) * (2 + (n % 3))) : 0;
+      const jx = pack.length > 1 ? ((n % 2 ? 1 : -1) * (1 + (n % 3))) : 0;
       const buy = m.side !== "sale";
       const color = buy ? "#3dff55" : "#ff4b4b";
       const glow = buy ? "glow-buy" : "glow-sell";
       return "<circle cx=\"" + (cx + jx).toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
-        "\" r=\"5.6\" fill=\"" + color + "\" stroke=\"#ffffff\" stroke-width=\"1.7\" filter=\"url(#" + glow + ")\" />";
+        "\" r=\"3.1\" fill=\"" + color + "\" stroke=\"#ffffff\" stroke-width=\"1.1\" filter=\"url(#" + glow + ")\" />";
     }).join("");
   }).join("");
   svg.innerHTML =
     "<defs>" +
       "<filter id=\"glow-buy\" x=\"-90%\" y=\"-90%\" width=\"280%\" height=\"280%\">" +
-        "<feGaussianBlur stdDeviation=\"2.4\" result=\"b\" />" +
+        "<feGaussianBlur stdDeviation=\"1.2\" result=\"b\" />" +
         "<feMerge><feMergeNode in=\"b\" /><feMergeNode in=\"SourceGraphic\" /></feMerge>" +
       "</filter>" +
       "<filter id=\"glow-sell\" x=\"-90%\" y=\"-90%\" width=\"280%\" height=\"280%\">" +
-        "<feGaussianBlur stdDeviation=\"2.4\" result=\"b\" />" +
+        "<feGaussianBlur stdDeviation=\"1.2\" result=\"b\" />" +
         "<feMerge><feMergeNode in=\"b\" /><feMergeNode in=\"SourceGraphic\" /></feMerge>" +
       "</filter>" +
     "</defs>" +
     grid +
     "<path d=\"" + area + "\" fill=\"" + fill + "\" />" +
-    "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2\" />" +
-    dots;
+    dots +
+    "<path d=\"" + line + "\" fill=\"none\" stroke=\"#10151c\" stroke-width=\"4.5\" stroke-linejoin=\"round\" stroke-linecap=\"round\" />" +
+    "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2.2\" stroke-linejoin=\"round\" stroke-linecap=\"round\" />";
   if (yBox) {
     yBox.innerHTML = yTicks.map((px) => "<span>" + axisPrice(px) + "</span>").join("");
   }

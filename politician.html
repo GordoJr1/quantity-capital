@@ -262,6 +262,14 @@
       font-size: 0.95rem;
     }
     .hold-name small { display: block; color: var(--mute); font-size: 0.75rem; }
+    .hold-name em {
+      font-style: normal;
+      color: var(--caution);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-left: 8px;
+      font-size: 0.78rem;
+    }
     .hold-bar {
       height: 7px;
       background: #2c3440;
@@ -632,9 +640,9 @@
         const hi = amountHigh(t.amount);
         if (!hi) return;
         const idn = holdingIdentity(t, lookup);
-        const prev = book.get(idn.key) || { key: idn.key, label: idn.label, name: idn.name, kind: idn.kind, value: 0 };
-        if (t.side === "purchase") prev.value += hi;
-        else if (t.side === "sale") prev.value -= hi;
+        const prev = book.get(idn.key) || { key: idn.key, label: idn.label, name: idn.name, kind: idn.kind, value: 0, buys: 0, sells: 0 };
+        if (t.side === "purchase") { prev.value += hi; prev.buys += 1; }
+        else if (t.side === "sale") { prev.value -= hi; prev.sells += 1; }
         book.set(idn.key, prev);
       });
       const positions = Array.from(book.values()).filter((p) => p.value > 0).sort((a, b) => b.value - a.value);
@@ -648,7 +656,9 @@
       const head = positions.slice(0, cap - 1);
       const rest = positions.slice(cap - 1);
       const value = rest.reduce((sum, p) => sum + p.value, 0);
-      head.push({ label: "Other", name: rest.length + " more positions", kind: "other", value: value });
+      const buys = rest.reduce((sum, p) => sum + (p.buys || 0), 0);
+      const sells = rest.reduce((sum, p) => sum + (p.sells || 0), 0);
+      head.push({ label: "Other", name: rest.length + " more positions", kind: "other", value: value, buys: buys, sells: sells });
       return head;
     }
 
@@ -679,9 +689,12 @@
         const pct = formatPct(p.value, book.total);
         const barPct = book.total ? Math.max(1, Math.round((p.value / book.total) * 100)) : 0;
         const sliceColor = colorFor(p, i, list);
+        const buyLabel = p.buys ? (p.buys === 1 ? "1 buy" : p.buys + " buys") : "";
         return "<li>" +
           "<span class=\"swatch\" style=\"background:" + sliceColor + "\"></span>" +
-          "<span class=\"hold-name\"><b>" + esc(p.label) + "</b><small>" + esc(p.name) + "</small></span>" +
+          "<span class=\"hold-name\"><b>" + esc(p.label) +
+          (buyLabel ? "<em>" + buyLabel + "</em>" : "") +
+          "</b><small>" + esc(p.name) + "</small></span>" +
           "<span class=\"hold-bar\"><i style=\"width:" + barPct + "%;background:" + sliceColor + "\"></i></span>" +
           "<span class=\"hold-amt\">" + formatMoney(p.value) + "</span>" +
           "<span class=\"hold-pct\">" + pct + "</span></li>";

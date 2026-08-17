@@ -46,13 +46,43 @@ function drawChart(points, marks, opts) {
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
       "\" stroke=\"#2c3440\" stroke-width=\"1\" />";
   }).join("");
-  const dots = (marks || []).map((m) => {
+  const grouped = {};
+  (marks || []).forEach((m) => {
     const i = idxFor(m.date);
-    const color = m.side === "sale" ? "#ef7a74" : "#7dcf7a";
-    return "<circle cx=\"" + xAt(i).toFixed(1) + "\" cy=\"" + yAt(points[i][1]).toFixed(1) +
-      "\" r=\"4.5\" fill=\"" + color + "\" stroke=\"#151b24\" stroke-width=\"1.5\" />";
+    if (!grouped[i]) grouped[i] = [];
+    grouped[i].push(m);
+  });
+  const plotTop = pad.t + 8;
+  const plotBot = h - pad.b - 8;
+  const dots = Object.keys(grouped).map((key) => {
+    const i = Number(key);
+    const pack = grouped[i];
+    const cx = xAt(i);
+    const cy0 = yAt(points[i][1]);
+    const gap = 11;
+    return pack.map((m, n) => {
+      const off = (n - (pack.length - 1) / 2) * gap;
+      const cy = Math.max(plotTop, Math.min(plotBot, cy0 + off));
+      const jx = pack.length > 1 ? ((n % 2 ? 1 : -1) * (2 + (n % 3))) : 0;
+      const buy = m.side !== "sale";
+      const color = buy ? "#3dff55" : "#ff4b4b";
+      const glow = buy ? "glow-buy" : "glow-sell";
+      return "<circle cx=\"" + (cx + jx).toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
+        "\" r=\"5.6\" fill=\"" + color + "\" stroke=\"#ffffff\" stroke-width=\"1.7\" filter=\"url(#" + glow + ")\" />";
+    }).join("");
   }).join("");
-  svg.innerHTML = grid +
+  svg.innerHTML =
+    "<defs>" +
+      "<filter id=\"glow-buy\" x=\"-90%\" y=\"-90%\" width=\"280%\" height=\"280%\">" +
+        "<feGaussianBlur stdDeviation=\"2.4\" result=\"b\" />" +
+        "<feMerge><feMergeNode in=\"b\" /><feMergeNode in=\"SourceGraphic\" /></feMerge>" +
+      "</filter>" +
+      "<filter id=\"glow-sell\" x=\"-90%\" y=\"-90%\" width=\"280%\" height=\"280%\">" +
+        "<feGaussianBlur stdDeviation=\"2.4\" result=\"b\" />" +
+        "<feMerge><feMergeNode in=\"b\" /><feMergeNode in=\"SourceGraphic\" /></feMerge>" +
+      "</filter>" +
+    "</defs>" +
+    grid +
     "<path d=\"" + area + "\" fill=\"" + fill + "\" />" +
     "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2\" />" +
     dots;

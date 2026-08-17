@@ -794,6 +794,7 @@
       padding: 6px 4px 0;
     }
     .chart-legend { color: var(--mute); font-size: 0.78rem; margin: 8px 0 0; }
+    .chart-legend .buy, .chart-legend .sell { margin-right: 12px; }
     .chart-marks { list-style: none; margin-top: 12px; }
     .chart-marks li {
       display: flex;
@@ -841,7 +842,7 @@
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
         <button type="button" data-board="activity">Most active</button>
         <button type="button" data-board="holdings">Largest book</button>
-        <button type="button" data-board="stocks">Top buys</button>
+        <button type="button" data-board="stocks">Top trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
       <ol class="board-list" id="board-list"></ol>
@@ -934,7 +935,7 @@
       <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
       <div class="chart-x" id="chart-x"></div>
     </div>
-    <p class="chart-legend"><span class="buy">● purchase</span></p>
+    <p class="chart-legend"><span class="buy">● purchase</span><span class="sell">● sale</span></p>
     <ul class="chart-marks" id="chart-marks"></ul>
   </div>
 
@@ -1186,8 +1187,8 @@
       document.getElementById("chart-svg").innerHTML = "";
       const cutoff = new Date();
       cutoff.setFullYear(cutoff.getFullYear() - 3);
-      const buys = trades.filter((t) => {
-        if (t.side !== "purchase" || isBond(t) || isOptionLike(t)) return false;
+      const deals = trades.filter((t) => {
+        if ((t.side !== "purchase" && t.side !== "sale") || isBond(t) || isOptionLike(t)) return false;
         if ((t.code || "").toUpperCase() !== ticker) return false;
         return new Date(t.trade_date) >= cutoff;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
@@ -1200,21 +1201,25 @@
       load.then((data) => {
         const points = data.c || [];
         if (points.length < 2) throw new Error("short");
-        const buyers = new Set(buys.map((t) => t.filer_id));
+        const people = new Set(deals.map((t) => t.filer_id));
+        const buys = deals.filter((t) => t.side === "purchase").length;
+        const sells = deals.filter((t) => t.side === "sale").length;
         const last = points[points.length - 1];
         document.getElementById("chart-kicker").textContent = data.n || "Ticker";
         title.textContent = ticker;
-        note.textContent = "Every disclosed purchase in the last three years. Last close " +
+        note.textContent = "Every disclosed buy and sell in the last three years. Last close " +
           formatMoney(last[1]) + " on " + prettyDate(last[0]) + ".";
         pnl.innerHTML =
-          "<div><b>" + buys.length + "</b><span>buys</span></div>" +
-          "<div><b>" + buyers.size + "</b><span>politicians</span></div>" +
+          "<div><b>" + buys + "</b><span>buys</span></div>" +
+          "<div><b>" + sells + "</b><span>sells</span></div>" +
           "<div><b>" + formatMoney(last[1]) + "</b><span>last close</span></div>";
-        drawChart(points, buys.map((t) => ({ date: t.trade_date, side: "purchase" })));
-        marks.innerHTML = buys.map((t) => {
+        drawChart(points, deals.map((t) => ({ date: t.trade_date, side: t.side })));
+        marks.innerHTML = deals.map((t) => {
           const px = nearestClose(points, t.trade_date);
+          const cls = t.side === "purchase" ? "buy" : "sell";
           return "<li><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
-            escapeHtml(t.filer) + "</a><span>" + prettyDate(t.trade_date) + "</span><span>" +
+            escapeHtml(t.filer) + "</a><span class=\"" + cls + "\">" + escapeHtml(t.side) +
+            "</span><span>" + prettyDate(t.trade_date) + "</span><span>" +
             escapeHtml(t.amount) + "</span><span>" + (px ? formatMoney(px[1]) + " close" : "no close") +
             "</span></li>";
         }).join("");
@@ -1299,11 +1304,12 @@
       const byTicker = new Map();
       trades.forEach((t) => {
         if (!t.filer_id || new Date(t.trade_date) < cutoff) return;
-        if (t.side !== "purchase" || isBond(t) || isOptionLike(t) || !isChartTicker(t.code)) return;
+        if ((t.side !== "purchase" && t.side !== "sale") || isBond(t) || isOptionLike(t) || !isChartTicker(t.code)) return;
         const code = t.code.toUpperCase();
-        const prev = byTicker.get(code) || { code: code, name: t.company || code, buys: 0, buyers: new Set() };
-        prev.buys += 1;
-        prev.buyers.add(t.filer_id);
+        const prev = byTicker.get(code) || { code: code, name: t.company || code, buys: 0, sells: 0, people: new Set() };
+        if (t.side === "purchase") prev.buys += 1;
+        else prev.sells += 1;
+        prev.people.add(t.filer_id);
         if (t.company && t.company !== "—") prev.name = String(t.company).replace(/\s+-\s*$/, "");
         byTicker.set(code, prev);
       });
@@ -1311,8 +1317,10 @@
         code: s.code,
         name: s.name,
         buys: s.buys,
-        buyers: s.buyers.size
-      })).sort((a, b) => b.buys - a.buys || a.code.localeCompare(b.code));
+        sells: s.sells,
+        trades: s.buys + s.sells,
+        people: s.people.size
+      })).sort((a, b) => b.trades - a.trades || b.buys - a.buys || a.code.localeCompare(b.code));
       return {
         activity: rows.slice().sort((a, b) => b.trades - a.trades || a.name.localeCompare(b.name)),
         holdings: rows.filter((r) => r.book > 0).sort((a, b) => b.book - a.book || a.name.localeCompare(b.name)),
@@ -1332,7 +1340,7 @@
         conflicts: "Unique tickers bought that overlap current committee jurisdictions. Not proof of illegal trading.",
         activity: "Disclosed trades in the last three years.",
         holdings: "High end of official ranges, inferred from the 3-year tape. Not an official holdings list.",
-        stocks: "Most purchased stock tickers in the last three years. Tap a ticker to see every buy on the chart."
+        stocks: "Most traded stock tickers in the last three years. Tap a ticker to see every buy and sell on the chart."
       };
       const paint = () => {
         const pool = boards[state.mode] || [];
@@ -1346,8 +1354,8 @@
             return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
               "<span><button type=\"button\" class=\"tk-link\" data-ticker=\"" + escapeHtml(r.code) + "\">" +
               escapeHtml(r.code) + "</button><span class=\"board-why\">" + escapeHtml(r.name) +
-              " · " + r.buyers + (r.buyers === 1 ? " buyer" : " buyers") + "</span></span>" +
-              "<span class=\"board-val\">" + r.buys + (r.buys === 1 ? " buy" : " buys") + "</span></li>";
+              " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
+              "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
           }
           let val = r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
           if (state.mode === "activity") val = r.trades + (r.trades === 1 ? " trade" : " trades");

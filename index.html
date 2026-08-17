@@ -652,6 +652,62 @@
     @media (display-mode: standalone) {
       .site-bar { padding-top: env(safe-area-inset-top, 0px); }
     }
+
+    #board { padding: 16px 0 8px; }
+    .board-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 10px;
+    }
+    .board-tabs button {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: transparent;
+      border: 1px solid #4a5563;
+      color: var(--mute);
+      padding: 8px 12px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+    .board-tabs button.on {
+      border-color: var(--caution);
+      color: var(--caution);
+    }
+    .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
+    .board-list { list-style: none; border: 1px solid #4a5563; background: var(--panel); }
+    .board-list li {
+      display: grid;
+      grid-template-columns: 2.2em minmax(0, 1fr) auto;
+      gap: 8px 12px;
+      align-items: baseline;
+      padding: 9px 12px;
+      border-bottom: 1px solid #3a4452;
+    }
+    .board-list li:last-child { border-bottom: 0; }
+    .board-rank {
+      font-family: "Barlow Condensed", sans-serif;
+      color: var(--mute);
+      letter-spacing: 0.06em;
+    }
+    .board-list li:first-child .board-rank { color: var(--caution); }
+    .board-list a {
+      color: var(--white);
+      text-decoration: none;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .board-list a:hover { color: var(--caution); }
+    .board-why { display: block; color: var(--mute); font-size: 0.75rem; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
+    .board-val {
+      font-family: "Barlow Condensed", sans-serif;
+      color: var(--caution);
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+    #board-more { margin-top: 12px; }
   </style>
 </head>
 <body>
@@ -714,6 +770,18 @@
   </div>
   <div class="tape-scroll">
   <div class="wrap">
+
+    <section class="board" id="board">
+      <h2>Leaderboard</h2>
+      <div class="board-tabs" role="tablist">
+        <button type="button" data-board="conflicts" class="on">Conflicts</button>
+        <button type="button" data-board="activity">Most active</button>
+        <button type="button" data-board="holdings">Largest book</button>
+      </div>
+      <p class="board-note" id="board-note"></p>
+      <ol class="board-list" id="board-list"></ol>
+      <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
+    </section>
 
     <section id="tape">
       <div class="table-wrap">
@@ -872,6 +940,209 @@
       }).join("");
     }
 
+    const OVERLAP_RULES = [
+      {
+        seat: /environment and public works|clean air, climate, and nuclear|energy and natural resources|interior, environment/i,
+        industry: /electric services|petroleum refining|crude petroleum|natural gas|coal mining|metal mining|gas transmission|gas distribution/i,
+        name: /constellation energy|chevron|exxon|conocophillips|occidental|valero|phillips 66|kinder morgan|cheniere|duke energy|nextera|sempra|dominion|exelon|firstenergy|freeport/i,
+        why: "Energy / environment"
+      },
+      {
+        seat: /chemical safety|waste management/i,
+        industry: /industrial organic chemical|plastic material|paints|coatings|agricultural chemical/i,
+        name: /sherwin-williams|dow inc|dow chemical|dupont|celanese|carlisle|air products|ppg industries|lyondell/i,
+        why: "Chemical safety"
+      },
+      {
+        seat: /labor, health|health and human|public health/i,
+        industry: /pharmaceutical|hospital & medical|biological product/i,
+        name: /eli lilly|unitedhealth|pfizer|merck|abbvie|zoetis|johnson & johnson|cigna|elevance|humana|medtronic|abbott|amgen|bristol|gilead|moderna|regeneron/i,
+        why: "Health funding (HHS)"
+      },
+      {
+        seat: /telecommunication|telecommunications and media|consumer protection, technology|data privacy/i,
+        industry: /semiconductor|prepackaged software|cable & other pay|telephone|radio & tv|computer communications|computer programming|data proc/i,
+        name: /alphabet|google|meta platforms|facebook|cisco|comcast|broadcom|apple|microsoft|verizon|at&t|t-mobile|nvidia|intel|qualcomm|oracle/i,
+        why: "Tech / telecom"
+      },
+      {
+        seat: /aviation, space|department of defense|armed services|intelligence/i,
+        industry: /aircraft|aerospace|guided missile|ordnance/i,
+        name: /boeing|lockheed|rtx\b|raytheon|northrop|general dynamics|ge aerospace|l3harris|transdigm|palantir/i,
+        why: "Defense / aviation"
+      },
+      {
+        seat: /surface transportation|freight, pipelines|transportation and infrastructure/i,
+        industry: /railroad|trucking|air transportation, scheduled|transportation services/i,
+        name: /union pacific|norfolk southern|csx|fedex|ups|prologis|delta air|southwest air|united airlines|kinder morgan|enbridge/i,
+        why: "Transportation / freight"
+      },
+      {
+        seat: /\bbanking\b|committee on finance|financial services/i,
+        industry: /national commercial bank|state commercial bank/i,
+        name: /jpmorgan|bank of america|wells fargo|goldman|morgan stanley|pnc financial|citigroup/i,
+        why: "Financial services"
+      },
+      {
+        seat: /agriculture|nutrition|forestry/i,
+        industry: /agriculture|meat packing|grain mill|farm machinery/i,
+        name: /archer-daniels|tyson foods|mondelez|general mills|deere|corteva/i,
+        why: "Agriculture"
+      }
+    ];
+
+    function amountHigh(amount) {
+      const nums = String(amount || "").match(/\$[\d,]+/g);
+      if (!nums || !nums.length) return 0;
+      return parseInt(nums[nums.length - 1].replace(/[$,]/g, ""), 10) || 0;
+    }
+
+    function isBond(t) {
+      const type = (t.asset_type || "").toLowerCase();
+      const asset = (t.asset || "").toLowerCase();
+      return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
+    }
+
+    function isOptionLike(t) {
+      const type = (t.asset_type || "").toLowerCase();
+      const asset = (t.asset || "").toLowerCase();
+      return type.includes("option") || /exercised|call option|put option|strike pric/.test(asset);
+    }
+
+    function formatMoney(n) {
+      if (n >= 1000000) {
+        const m = n / 1000000;
+        const s = (m >= 10 ? m.toFixed(0) : m.toFixed(1)).replace(/\.0$/, "");
+        return "$" + s + "M";
+      }
+      if (n >= 1000) return "$" + Math.round(n / 1000) + "K";
+      return "$" + n.toLocaleString("en-US");
+    }
+
+    function bookValue(rows) {
+      const book = new Map();
+      rows.slice().sort((a, b) => {
+        const td = (a.trade_date || "").localeCompare(b.trade_date || "");
+        return td !== 0 ? td : (a.filed_date || "").localeCompare(b.filed_date || "");
+      }).forEach((t) => {
+        if (t.side === "exchange" || isOptionLike(t)) return;
+        const hi = amountHigh(t.amount);
+        if (!hi) return;
+        const key = isBond(t) ? "BONDS" : ((t.code && t.code !== "—") ? "T:" + t.code : "A:" + (t.asset || t.company || ""));
+        const prev = book.get(key) || 0;
+        if (t.side === "purchase") book.set(key, prev + hi);
+        else if (t.side === "sale") book.set(key, prev - hi);
+      });
+      let total = 0;
+      book.forEach((v) => { if (v > 0) total += v; });
+      return total;
+    }
+
+    function findOverlaps(bio, rows) {
+      const seats = [].concat((bio && bio.committees) || []).concat((bio && bio.subcommittees) || []);
+      if (!seats.length) return [];
+      const byCode = new Map();
+      rows.filter((t) => t.side === "purchase").forEach((t) => {
+        const code = t.code || "—";
+        const blob = (code + " " + (t.company || "")).toLowerCase();
+        const industry = t.industry || "";
+        seats.forEach((seat) => {
+          OVERLAP_RULES.forEach((rule) => {
+            if (!rule.seat.test(seat.name || "")) return;
+            if (!rule.industry.test(industry) && !rule.name.test(blob)) return;
+            const prev = byCode.get(code);
+            if (!prev) {
+              byCode.set(code, { code: code, why: rule.why });
+              return;
+            }
+            if (prev.why.indexOf(rule.why) === -1) prev.why += "; " + rule.why;
+          });
+        });
+      });
+      return Array.from(byCode.values());
+    }
+
+    function buildBoards(trades, bios) {
+      const cutoff = new Date();
+      cutoff.setFullYear(cutoff.getFullYear() - 3);
+      const byId = new Map();
+      trades.forEach((t) => {
+        if (!t.filer_id || new Date(t.trade_date) < cutoff) return;
+        if (!byId.has(t.filer_id)) byId.set(t.filer_id, []);
+        byId.get(t.filer_id).push(t);
+      });
+      const people = (bios && bios.people) || {};
+      const rows = [];
+      byId.forEach((list, id) => {
+        const overlaps = findOverlaps(people[id], list);
+        const whys = [];
+        overlaps.forEach((o) => {
+          String(o.why || "").split("; ").forEach((w) => {
+            if (w && whys.indexOf(w) === -1) whys.push(w);
+          });
+        });
+        rows.push({
+          id: id,
+          name: (people[id] && people[id].name) || list[0].filer,
+          trades: list.length,
+          book: bookValue(list),
+          conflicts: overlaps.length,
+          whys: whys
+        });
+      });
+      return {
+        activity: rows.slice().sort((a, b) => b.trades - a.trades || a.name.localeCompare(b.name)),
+        holdings: rows.filter((r) => r.book > 0).sort((a, b) => b.book - a.book || a.name.localeCompare(b.name)),
+        conflicts: rows.filter((r) => r.conflicts > 0).sort((a, b) => b.conflicts - a.conflicts || b.trades - a.trades)
+      };
+    }
+
+    function bindBoard(boards) {
+      const list = document.getElementById("board-list");
+      const note = document.getElementById("board-note");
+      const more = document.getElementById("board-more");
+      const tabs = document.querySelectorAll(".board-tabs button");
+      if (!list) return;
+      const state = { mode: "conflicts", limit: 10 };
+      const notes = {
+        conflicts: "Unique tickers bought that overlap current committee jurisdictions. Not proof of illegal trading.",
+        activity: "Disclosed trades in the last three years.",
+        holdings: "High end of official ranges, inferred from the 3-year tape. Not an official holdings list."
+      };
+      const paint = () => {
+        const pool = boards[state.mode] || [];
+        const rows = pool.slice(0, state.limit);
+        note.textContent = notes[state.mode] || "";
+        more.hidden = pool.length <= 10;
+        more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
+        tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
+        list.innerHTML = rows.map((r, i) => {
+          let val = r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
+          if (state.mode === "activity") val = r.trades + (r.trades === 1 ? " trade" : " trades");
+          if (state.mode === "holdings") val = formatMoney(r.book);
+          const why = (state.mode === "conflicts" && r.whys.length)
+            ? "<span class=\"board-why\">" + escapeHtml(r.whys.join(" · ")) + "</span>"
+            : "";
+          return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+            "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+            escapeHtml(r.name) + "</a>" + why + "</span>" +
+            "<span class=\"board-val\">" + escapeHtml(val) + "</span></li>";
+        }).join("");
+      };
+      tabs.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.mode = btn.dataset.board;
+          state.limit = 10;
+          paint();
+        });
+      });
+      more.addEventListener("click", () => {
+        state.limit = state.limit > 10 ? 10 : 30;
+        paint();
+      });
+      paint();
+    }
+
     async function loadTape() {
       const box = document.getElementById("tape-list");
       if (!box) return;
@@ -881,6 +1152,10 @@
         let tickerFile = { tickers: {}, assets: {} };
         try {
           tickerFile = await (await fetch("tickers.json")).json();
+        } catch (e) {}
+        let bios = { people: {} };
+        try {
+          bios = await (await fetch("bios.json")).json();
         } catch (e) {}
         const rows = (data.trades || []).map((t) => enrich(t, tickerFile)).sort((a, b) => {
           const td = (b.trade_date || "").localeCompare(a.trade_date || "");
@@ -939,6 +1214,7 @@
         });
         fillIndustries(kindPool());
         apply();
+        bindBoard(buildBoards(rows, bios));
       } catch (err) {
         bindPicker([]);
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";

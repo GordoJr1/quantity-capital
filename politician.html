@@ -410,7 +410,28 @@
     .chart-pnl span { color: var(--mute); font-size: 0.75rem; }
     .up { color: #7dcf7a; }
     .down { color: #ef7a74; }
-    #chart-svg { width: 100%; height: 220px; display: block; background: #10151c; }
+    .chart-frame {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      grid-template-rows: 220px 22px;
+      background: #10151c;
+      padding: 6px 8px 4px 0;
+    }
+    #chart-svg { width: 100%; height: 220px; display: block; background: transparent; }
+    .chart-y, .chart-x { color: var(--mute); font-size: 0.68rem; line-height: 1; }
+    .chart-y {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 8px 6px 8px 4px;
+    }
+    .chart-x {
+      grid-column: 2;
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 4px 0;
+    }
     .chart-legend { color: var(--mute); font-size: 0.78rem; margin: 8px 0 0; }
     .chart-legend .buy, .chart-legend .sell { margin-right: 12px; }
     .chart-marks { list-style: none; margin-top: 12px; }
@@ -473,7 +494,11 @@
     </div>
     <p class="muted" id="chart-note"></p>
     <div class="chart-pnl" id="chart-pnl"></div>
-    <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
+    <div class="chart-frame">
+      <div class="chart-y" id="chart-y"></div>
+      <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
+      <div class="chart-x" id="chart-x"></div>
+    </div>
     <p class="chart-legend"><span class="buy">● purchase</span><span class="sell">● sale</span></p>
     <ul class="chart-marks" id="chart-marks"></ul>
   </div>
@@ -916,40 +941,6 @@
       };
     }
 
-    function drawChart(points, marks) {
-      const svg = document.getElementById("chart-svg");
-      const w = 720;
-      const h = 220;
-      const pad = { l: 8, r: 8, t: 16, b: 16 };
-      const xs = points.map((p) => p[1]);
-      const min = Math.min.apply(null, xs);
-      const max = Math.max.apply(null, xs);
-      const span = max - min || 1;
-      const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
-      const yAt = (px) => pad.t + (1 - (px - min) / span) * (h - pad.t - pad.b);
-      const line = points.map((p, i) => (i ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1)).join(" ");
-      const area = line + " L" + xAt(points.length - 1).toFixed(1) + " " + (h - pad.b) +
-        " L" + xAt(0).toFixed(1) + " " + (h - pad.b) + " Z";
-      const idxFor = (date) => {
-        let idx = 0;
-        for (let i = 0; i < points.length; i++) {
-          if (points[i][0] <= date) idx = i;
-          else break;
-        }
-        return idx;
-      };
-      const dots = marks.map((m) => {
-        const i = idxFor(m.date);
-        const fill = m.side === "purchase" ? "#7dcf7a" : "#ef7a74";
-        return "<circle cx=\"" + xAt(i).toFixed(1) + "\" cy=\"" + yAt(points[i][1]).toFixed(1) +
-          "\" r=\"4.5\" fill=\"" + fill + "\" stroke=\"#151b24\" stroke-width=\"1.5\" />";
-      }).join("");
-      svg.innerHTML =
-        "<path d=\"" + area + "\" fill=\"rgba(227,180,26,0.08)\" />" +
-        "<path d=\"" + line + "\" fill=\"none\" stroke=\"#e3b41a\" stroke-width=\"2\" />" +
-        dots;
-    }
-
     const priceCache = {};
     let pageRows = [];
     let pageLookup = {};
@@ -1001,7 +992,7 @@
           "<div><b class=\"" + realCls + "\">" + signedMoney(est.realized) + "</b><span>realized (est.)</span></div>";
         drawChart(points, trades.filter((t) => t.side === "purchase" || t.side === "sale").map((t) => ({
           date: t.trade_date, side: t.side
-        })));
+        })), { stroke: "#e3b41a", fill: "rgba(227,180,26,0.08)" });
         marks.innerHTML = trades.map((t) => {
           const px = nearestClose(points, t.trade_date);
           const cls = t.side === "purchase" ? "buy" : "sell";
@@ -1087,6 +1078,7 @@
       navigator.serviceWorker.register("sw.js");
     }
   </script>
+  <script src="chart.js"></script>
   <script src="refresh.js"></script>
 </body>
 </html>

@@ -714,6 +714,80 @@
       white-space: nowrap;
     }
     #board-more { margin-top: 12px; }
+    .board-list button.tk-link {
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--white);
+      font: inherit;
+      letter-spacing: inherit;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-align: left;
+    }
+    .board-list button.tk-link:hover { color: var(--caution); }
+    .chart-back {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 12, 16, 0.72);
+      z-index: 80;
+    }
+    .chart-panel {
+      position: fixed;
+      left: 50%;
+      top: 6vh;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 24px));
+      max-height: 88vh;
+      overflow: auto;
+      background: #151b24;
+      border: 1px solid #4a5563;
+      z-index: 81;
+      padding: 16px 18px 20px;
+    }
+    .chart-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .chart-close {
+      background: transparent;
+      border: 1px solid #4a5563;
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 12px;
+      min-height: 40px;
+      cursor: pointer;
+    }
+    .chart-pnl {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .chart-pnl div { background: var(--panel); border: 1px solid #3a4452; padding: 8px 10px; }
+    .chart-pnl b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.2rem;
+      color: var(--caution);
+    }
+    .chart-pnl span { color: var(--mute); font-size: 0.75rem; }
+    #chart-svg { width: 100%; height: 220px; display: block; background: #10151c; }
+    .chart-legend { color: var(--mute); font-size: 0.78rem; margin: 8px 0 0; }
+    .chart-marks { list-style: none; margin-top: 12px; }
+    .chart-marks li {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 0;
+      border-bottom: 1px solid #2c3440;
+      font-size: 0.88rem;
+    }
+    .chart-marks a { color: var(--white); text-decoration: none; }
+    .chart-marks a:hover { color: var(--caution); }
+    @media (max-width: 820px) {
+      .chart-pnl { grid-template-columns: 1fr; }
+      .chart-panel { top: 2vh; max-height: 96vh; }
+    }
   </style>
 </head>
 <body>
@@ -746,6 +820,7 @@
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
         <button type="button" data-board="activity">Most active</button>
         <button type="button" data-board="holdings">Largest book</button>
+        <button type="button" data-board="stocks">Top buys</button>
       </div>
       <p class="board-note" id="board-note"></p>
       <ol class="board-list" id="board-list"></ol>
@@ -821,6 +896,21 @@
     </div>
   </footer>
   <div class="stripe"></div>
+  </div>
+  <div class="chart-back" id="chart-back" hidden></div>
+  <div class="chart-panel" id="chart-panel" hidden>
+    <div class="chart-head">
+      <div>
+        <p class="kicker" id="chart-kicker">Ticker</p>
+        <h2 id="chart-title">—</h2>
+      </div>
+      <button type="button" class="chart-close" id="chart-close">Close</button>
+    </div>
+    <p class="board-note" id="chart-note"></p>
+    <div class="chart-pnl" id="chart-pnl"></div>
+    <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
+    <p class="chart-legend"><span class="buy">● purchase</span></p>
+    <ul class="chart-marks" id="chart-marks"></ul>
   </div>
 
   <script>
@@ -1025,6 +1115,124 @@
       return "$" + n.toLocaleString("en-US");
     }
 
+    function prettyDate(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return iso || "—";
+      return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+
+    function isChartTicker(code) {
+      const c = String(code || "").toUpperCase();
+      return !!(c && c !== "—" && /^[A-Z][A-Z0-9.]{0,6}$/.test(c) && !/^(LLC|THE|AND|INC|CORP|CLASS|NONE|NA)$/.test(c));
+    }
+
+    function nearestClose(points, date) {
+      if (!points || !points.length) return null;
+      let pick = points[0];
+      for (let i = 0; i < points.length; i++) {
+        if (points[i][0] <= date) pick = points[i];
+        else break;
+      }
+      if (date < points[0][0]) return points[0];
+      return pick;
+    }
+
+    function drawChart(points, marks) {
+      const svg = document.getElementById("chart-svg");
+      const w = 720;
+      const h = 220;
+      const pad = { l: 8, r: 8, t: 16, b: 16 };
+      const xs = points.map((p) => p[1]);
+      const min = Math.min.apply(null, xs);
+      const max = Math.max.apply(null, xs);
+      const span = max - min || 1;
+      const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
+      const yAt = (px) => pad.t + (1 - (px - min) / span) * (h - pad.t - pad.b);
+      const line = points.map((p, i) => (i ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1)).join(" ");
+      const area = line + " L" + xAt(points.length - 1).toFixed(1) + " " + (h - pad.b) +
+        " L" + xAt(0).toFixed(1) + " " + (h - pad.b) + " Z";
+      const idxFor = (date) => {
+        let idx = 0;
+        for (let i = 0; i < points.length; i++) {
+          if (points[i][0] <= date) idx = i;
+          else break;
+        }
+        return idx;
+      };
+      const dots = marks.map((m) => {
+        const i = idxFor(m.date);
+        return "<circle cx=\"" + xAt(i).toFixed(1) + "\" cy=\"" + yAt(points[i][1]).toFixed(1) +
+          "\" r=\"4.5\" fill=\"#7dcf7a\" stroke=\"#151b24\" stroke-width=\"1.5\" />";
+      }).join("");
+      svg.innerHTML =
+        "<path d=\"" + area + "\" fill=\"rgba(54,153,157,0.12)\" />" +
+        "<path d=\"" + line + "\" fill=\"none\" stroke=\"#36999d\" stroke-width=\"2\" />" +
+        dots;
+    }
+
+    const priceCache = {};
+
+    function closeChart() {
+      document.getElementById("chart-back").hidden = true;
+      document.getElementById("chart-panel").hidden = true;
+    }
+
+    function openStockBuys(code, trades) {
+      const ticker = String(code || "").toUpperCase();
+      const panel = document.getElementById("chart-panel");
+      const back = document.getElementById("chart-back");
+      const title = document.getElementById("chart-title");
+      const note = document.getElementById("chart-note");
+      const pnl = document.getElementById("chart-pnl");
+      const marks = document.getElementById("chart-marks");
+      back.hidden = false;
+      panel.hidden = false;
+      title.textContent = ticker;
+      note.textContent = "Loading daily closes…";
+      pnl.innerHTML = "";
+      marks.innerHTML = "";
+      document.getElementById("chart-svg").innerHTML = "";
+      const cutoff = new Date();
+      cutoff.setFullYear(cutoff.getFullYear() - 3);
+      const buys = trades.filter((t) => {
+        if (t.side !== "purchase" || isBond(t) || isOptionLike(t)) return false;
+        if ((t.code || "").toUpperCase() !== ticker) return false;
+        return new Date(t.trade_date) >= cutoff;
+      }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
+      const load = priceCache[ticker]
+        ? Promise.resolve(priceCache[ticker])
+        : fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => {
+          if (!r.ok) throw new Error("missing");
+          return r.json();
+        }).then((data) => { priceCache[ticker] = data; return data; });
+      load.then((data) => {
+        const points = data.c || [];
+        if (points.length < 2) throw new Error("short");
+        const buyers = new Set(buys.map((t) => t.filer_id));
+        const last = points[points.length - 1];
+        document.getElementById("chart-kicker").textContent = data.n || "Ticker";
+        title.textContent = ticker;
+        note.textContent = "Every disclosed purchase in the last three years. Last close " +
+          formatMoney(last[1]) + " on " + prettyDate(last[0]) + ".";
+        pnl.innerHTML =
+          "<div><b>" + buys.length + "</b><span>buys</span></div>" +
+          "<div><b>" + buyers.size + "</b><span>politicians</span></div>" +
+          "<div><b>" + formatMoney(last[1]) + "</b><span>last close</span></div>";
+        drawChart(points, buys.map((t) => ({ date: t.trade_date, side: "purchase" })));
+        marks.innerHTML = buys.map((t) => {
+          const px = nearestClose(points, t.trade_date);
+          return "<li><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
+            escapeHtml(t.filer) + "</a><span>" + prettyDate(t.trade_date) + "</span><span>" +
+            escapeHtml(t.amount) + "</span><span>" + (px ? formatMoney(px[1]) + " close" : "no close") +
+            "</span></li>";
+        }).join("");
+      }).catch(() => {
+        note.textContent = "No daily prices on file for " + ticker + ".";
+        pnl.innerHTML = "";
+        document.getElementById("chart-svg").innerHTML = "";
+      });
+    }
+
     function bookValue(rows) {
       const book = new Map();
       rows.slice().sort((a, b) => {
@@ -1096,14 +1304,32 @@
           whys: whys
         });
       });
+      const byTicker = new Map();
+      trades.forEach((t) => {
+        if (!t.filer_id || new Date(t.trade_date) < cutoff) return;
+        if (t.side !== "purchase" || isBond(t) || isOptionLike(t) || !isChartTicker(t.code)) return;
+        const code = t.code.toUpperCase();
+        const prev = byTicker.get(code) || { code: code, name: t.company || code, buys: 0, buyers: new Set() };
+        prev.buys += 1;
+        prev.buyers.add(t.filer_id);
+        if (t.company && t.company !== "—") prev.name = String(t.company).replace(/\s+-\s*$/, "");
+        byTicker.set(code, prev);
+      });
+      const stocks = Array.from(byTicker.values()).map((s) => ({
+        code: s.code,
+        name: s.name,
+        buys: s.buys,
+        buyers: s.buyers.size
+      })).sort((a, b) => b.buys - a.buys || a.code.localeCompare(b.code));
       return {
         activity: rows.slice().sort((a, b) => b.trades - a.trades || a.name.localeCompare(b.name)),
         holdings: rows.filter((r) => r.book > 0).sort((a, b) => b.book - a.book || a.name.localeCompare(b.name)),
-        conflicts: rows.filter((r) => r.conflicts > 0).sort((a, b) => b.conflicts - a.conflicts || b.trades - a.trades)
+        conflicts: rows.filter((r) => r.conflicts > 0).sort((a, b) => b.conflicts - a.conflicts || b.trades - a.trades),
+        stocks: stocks
       };
     }
 
-    function bindBoard(boards) {
+    function bindBoard(boards, trades) {
       const list = document.getElementById("board-list");
       const note = document.getElementById("board-note");
       const more = document.getElementById("board-more");
@@ -1113,7 +1339,8 @@
       const notes = {
         conflicts: "Unique tickers bought that overlap current committee jurisdictions. Not proof of illegal trading.",
         activity: "Disclosed trades in the last three years.",
-        holdings: "High end of official ranges, inferred from the 3-year tape. Not an official holdings list."
+        holdings: "High end of official ranges, inferred from the 3-year tape. Not an official holdings list.",
+        stocks: "Most purchased stock tickers in the last three years. Tap a ticker to see every buy on the chart."
       };
       const paint = () => {
         const pool = boards[state.mode] || [];
@@ -1123,6 +1350,13 @@
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
         tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
         list.innerHTML = rows.map((r, i) => {
+          if (state.mode === "stocks") {
+            return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+              "<span><button type=\"button\" class=\"tk-link\" data-ticker=\"" + escapeHtml(r.code) + "\">" +
+              escapeHtml(r.code) + "</button><span class=\"board-why\">" + escapeHtml(r.name) +
+              " · " + r.buyers + (r.buyers === 1 ? " buyer" : " buyers") + "</span></span>" +
+              "<span class=\"board-val\">" + r.buys + (r.buys === 1 ? " buy" : " buys") + "</span></li>";
+          }
           let val = r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
           if (state.mode === "activity") val = r.trades + (r.trades === 1 ? " trade" : " trades");
           if (state.mode === "holdings") val = formatMoney(r.book);
@@ -1220,7 +1454,18 @@
         });
         fillIndustries(kindPool());
         apply();
-        bindBoard(buildBoards(rows, bios));
+        bindBoard(buildBoards(rows, bios), rows);
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest("[data-ticker]");
+          if (btn) {
+            openStockBuys(btn.getAttribute("data-ticker"), rows);
+            return;
+          }
+          if (e.target.id === "chart-close" || e.target.id === "chart-back") closeChart();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeChart();
+        });
       } catch (err) {
         bindPicker([]);
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";

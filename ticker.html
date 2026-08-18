@@ -151,7 +151,7 @@
       <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
       <div class="chart-x" id="chart-x"></div>
     </div>
-    <p class="chart-legend"><span class="buy">● purchase</span><span class="sell">● sale</span></p>
+    <p class="chart-legend"><span class="buy">● buy</span><span class="sell">● sell</span></p>
     <p class="kicker">Trades</p>
     <ul class="chart-marks" id="marks"></ul>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
@@ -314,7 +314,7 @@
           ? "<span class=\"who\">" + esc(t.owner || "self") + "</span>"
           : "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
         return "<li>" + name +
-          "<span class=\"side " + cls + "\">" + esc(t.side) + "</span>" +
+          "<span class=\"side " + cls + "\">" + (t.side === "purchase" ? "Buy" : t.side === "sale" ? "Sell" : esc(t.side)) + "</span>" +
           "<span class=\"when\">" + prettyDate(t.trade_date) + "</span>" +
           "<span class=\"amt\">" + esc(t.amount) + "</span>" +
           "<span class=\"px\">" + (px ? formatMoney(px[1]) + " close" : "no close") + "</span></li>";

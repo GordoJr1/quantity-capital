@@ -854,6 +854,12 @@
       }
     }
 
+    function sideLabel(side) {
+      if (side === "purchase") return "Buy";
+      if (side === "sale") return "Sell";
+      return side || "";
+    }
+
     function isChartTicker(code) {
       const c = String(code || "").toUpperCase();
       return !!(c && c !== "—" && !BAD_TICKERS[c] && /^[A-Z][A-Z0-9.]{0,6}$/.test(c));
@@ -888,7 +894,7 @@
           "</span><span class=\"yr\">" + yr + "</span>" + flag + "</td>" +
           "<td class=\"desk-only\">" + t.trade_date + flag + "</td>" +
           "<td class=\"desk-only\">" + t.filed_date + "</td>" +
-          "<td class=\"tix-side " + cls + "\">" + t.side + "</td>" +
+          "<td class=\"tix-side " + cls + "\">" + sideLabel(t.side) + "</td>" +
           "<td class=\"tix-tk\">" + tickerCell(info.code) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
           "<td class=\"desk-only\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +

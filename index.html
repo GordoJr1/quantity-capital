@@ -878,11 +878,11 @@
             </select>
           </div>
           <div>
-            <label for="filter-side">Bought / sold</label>
+            <label for="filter-side">Buy / sell</label>
             <select id="filter-side">
               <option value="">All</option>
-              <option value="purchase">Bought</option>
-              <option value="sale">Sold</option>
+              <option value="purchase">Buy</option>
+              <option value="sale">Sell</option>
             </select>
           </div>
         </div>
@@ -1033,7 +1033,7 @@
           "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
           "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
             escapeHtml(t.filer) + "</a></td>" +
-          "<td class=\"tix-side " + cls + "\">" + escapeHtml(t.side) + "</td>" +
+          "<td class=\"tix-side " + cls + "\">" + escapeHtml(sideLabel(t.side)) + "</td>" +
           "<td class=\"tix-tk\">" + (isChartTicker(t.code)
             ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
             : escapeHtml(t.code)) + "</td>" +
@@ -1129,6 +1129,12 @@
       const d = new Date(String(iso || "") + "T00:00:00");
       if (isNaN(d.getTime())) return iso || "—";
       return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+
+    function sideLabel(side) {
+      if (side === "purchase") return "Buy";
+      if (side === "sale") return "Sell";
+      return side || "";
     }
 
     function isChartTicker(code) {

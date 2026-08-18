@@ -145,7 +145,7 @@
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
         display: grid;
-        grid-template-columns: 58px 1fr auto;
+        grid-template-columns: 58px minmax(0, 1fr) 3.2em;
         grid-template-areas:
           "stamp ticker side"
           "stamp amt amt"
@@ -181,7 +181,10 @@
       table.tape-table .tix-stamp .filing-err { margin: 5px 0 0; margin-left: 0; }
       table.tape-table tr.has-err { box-shadow: inset 3px 0 0 var(--red); }
       table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; font-size: 1.05rem; }
-      table.tape-table .tix-side { grid-area: side; text-align: right; }
+      table.tape-table .tix-side {
+        grid-area: side;
+        text-align: left;
+      }
       table.tape-table .tix-amt {
         grid-area: amt;
         color: var(--caution);

@@ -579,7 +579,7 @@
       table.tape-table, table.tape-table tbody { display: block; width: 100%; }
       table.tape-table tr {
         display: grid;
-        grid-template-columns: 58px 1fr auto;
+        grid-template-columns: 58px minmax(0, 1fr) 6.25em;
         grid-template-areas:
           "stamp who side"
           "stamp ticker amt"
@@ -631,11 +631,15 @@
         font-size: 1.05rem;
       }
       table.tape-table .tix-who a { color: var(--white); }
-      table.tape-table .tix-side { grid-area: side; text-align: right; padding-top: 2px; }
+      table.tape-table .tix-side {
+        grid-area: side;
+        text-align: left;
+        padding-top: 2px;
+      }
       table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; }
       table.tape-table .tix-amt {
         grid-area: amt;
-        text-align: right;
+        text-align: left;
         color: var(--caution);
         font-family: "Barlow Condensed", sans-serif;
         font-size: 1.05rem;

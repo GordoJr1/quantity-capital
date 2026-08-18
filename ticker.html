@@ -121,16 +121,19 @@
       .chart-frame { grid-template-rows: 240px 22px; }
       #chart-svg { min-height: 240px; }
       .chart-marks li {
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) 8.5em;
         grid-template-areas:
           "who side"
           "date amt"
           "px px";
       }
       .chart-marks .who { grid-area: who; }
-      .chart-marks .side { grid-area: side; }
+      .chart-marks .side {
+        grid-area: side;
+        text-align: left;
+      }
       .chart-marks .when { grid-area: date; color: var(--mute); }
-      .chart-marks .amt { grid-area: amt; }
+      .chart-marks .amt { grid-area: amt; text-align: left; }
       .chart-marks .px { grid-area: px; color: var(--mute); font-size: 0.8rem; }
     }
   </style>

@@ -984,7 +984,7 @@
       return {
         ...t,
         code: code || "—",
-        company: bondLike ? (t.asset || meta.name || "—") : (meta.name || t.asset || "—"),
+        company: bondLike ? (t.asset || meta.name || "—") : (issuerName(code, meta.name || t.asset) || "—"),
         industry: meta.industry || extra.industry || ""
       };
     }
@@ -1052,9 +1052,10 @@
 
     const OVERLAP_RULES = [
       {
-        seat: /environment and public works|clean air, climate, and nuclear|energy and natural resources|interior, environment/i,
-        industry: /electric services|petroleum refining|crude petroleum|natural gas|coal mining|metal mining|gas transmission|gas distribution/i,
-        name: /constellation energy|chevron|exxon|conocophillips|occidental|valero|phillips 66|kinder morgan|cheniere|duke energy|nextera|sempra|dominion|exelon|firstenergy|freeport/i,
+        seat: /environment and public works|clean air, climate, and nuclear|energy and natural resources|energy and commerce|natural resources|interior, environment|\benergy\b/i,
+        industry: /electric services|petroleum refining|crude petroleum|natural gas|coal mining|metal mining|gas transmission|gas distribution|oil.{0,12}gas|petroleum|pipeline|drilling oil/i,
+        name: /constellation energy|chevron|exxon|conocophillips|occidental|valero|phillips 66|kinder morgan|cheniere|duke energy|nextera|sempra|dominion|exelon|firstenergy|freeport|bp p\.?l\.?c|british petroleum|championx|bwx technologies/i,
+        tickers: /^(BP|XOM|CVX|COP|OXY|VLO|PSX|MPC|EOG|SLB|HAL|BKR|WMB|KMI|OKE|LNG|FANG|DVN|HES|MRO|CHX|NEE|DUK|SO|D|EXC|AEP|SRE)$/,
         why: "Energy / environment"
       },
       {
@@ -1065,8 +1066,8 @@
       },
       {
         seat: /labor, health|health and human|public health/i,
-        industry: /pharmaceutical|hospital & medical|biological product/i,
-        name: /eli lilly|unitedhealth|pfizer|merck|abbvie|zoetis|johnson & johnson|cigna|elevance|humana|medtronic|abbott|amgen|bristol|gilead|moderna|regeneron/i,
+        industry: /pharmaceutical|hospital & medical|biological product|home health/i,
+        name: /eli lilly|unitedhealth|pfizer|merck|abbvie|zoetis|johnson & johnson|cigna|elevance|humana|medtronic|abbott|amgen|bristol|gilead|moderna|regeneron|chemed/i,
         why: "Health funding (HHS)"
       },
       {
@@ -1077,8 +1078,9 @@
       },
       {
         seat: /aviation, space|department of defense|armed services|intelligence/i,
-        industry: /aircraft|aerospace|guided missile|ordnance/i,
-        name: /boeing|lockheed|rtx\b|raytheon|northrop|general dynamics|ge aerospace|l3harris|transdigm|palantir/i,
+        industry: /aircraft|aerospace|guided missile|ordnance|ship & boat|search, detection/i,
+        name: /boeing|lockheed|rtx\b|raytheon|northrop|general dynamics|ge aerospace|l3harris|transdigm|palantir|bwx technologies/i,
+        tickers: /^(BWXT|LMT|NOC|GD|RTX|BA|LHX|TDG|PLTR|HII|TXT)$/,
         why: "Defense / aviation"
       },
       {
@@ -1089,8 +1091,9 @@
       },
       {
         seat: /\bbanking\b|committee on finance|financial services/i,
-        industry: /national commercial bank|state commercial bank/i,
-        name: /jpmorgan|bank of america|wells fargo|goldman|morgan stanley|pnc financial|citigroup/i,
+        industry: /national commercial bank|state commercial bank|security brokers|dealers & flotation|investment advice|savings institution/i,
+        name: /jpmorgan|bank of america|wells fargo|goldman sachs|morgan stanley|pnc financial|citigroup/i,
+        tickers: /^(JPM|BAC|WFC|GS|MS|PNC|C|USB|TFC|COF|AXP|BLK|SCHW|BK|STT|CBU|CATY|CFG|FITB|HBAN|KEY|RF|MTB|NTRS)$/,
         why: "Financial services"
       },
       {
@@ -1100,6 +1103,56 @@
         why: "Agriculture"
       }
     ];
+
+    const BROKER_ISSUERS = {
+      MS: /morgan stanley/i,
+      GS: /goldman sachs/i,
+      JPM: /jpmorgan|jp morgan/i,
+      BAC: /bank of america|merrill/i,
+      WFC: /wells fargo/i,
+      SCHW: /schwab/i,
+      C: /\bcitigroup\b|\bciti\b/i,
+      BLK: /blackrock/i,
+      UBS: /\bubs\b/i,
+      PNC: /\bpnc\b/i,
+      IBKR: /interactive brokers/i
+    };
+
+    function issuerName(code, raw) {
+      const c = String(code || "").toUpperCase();
+      let s = String(raw || "").replace(/\s+/g, " ").trim();
+      if (!s || s === "—") return c && c !== "—" ? c : "";
+      s = (s.split(/\s*>\s*/).pop() || s).trim();
+      const brokerStock = BROKER_ISSUERS[c] && BROKER_ISSUERS[c].test(s)
+        && !/\b(ira|roth|trust account|brokerage|select uma|unified management|joint tbe)\b/i.test(s);
+      if (brokerStock) {
+        return s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "").replace(/\s*-\s*$/, "").trim() || c;
+      }
+      const brokers = "morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\\bschwab\\b|bank of america|merrill lynch|\\bmerrill\\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\\bubs\\b|raymond james|edward jones|ameriprise|e\\*?trade|td ameritrade|interactive brokers|\\bchase\\b|aperio group(?: llc)?";
+      const account = "smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\\bbrokerage\\b|select uma(?: account)?|unified management account|joint tbe";
+      if (!BROKER_ISSUERS[c]) {
+        s = s.replace(new RegExp("^(?:" + brokers + ")\\b[\\s,:-]*", "i"), "");
+      }
+      s = s.replace(new RegExp("^(?:" + account + "|uma(?: account)?|select uma(?: account)?)\\b[\\s,:-]*", "i"), "");
+      s = s.replace(/^(?:account(?:\s*#\s*\d+)?|uma account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
+      s = s.replace(/^#\s*\d+\s+/, "");
+      s = s.replace(/^\d{2,5}\s+/, "");
+      s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/i, "");
+      s = s.replace(/^(?:tacs r3k)\s+/i, "");
+      s = s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "");
+      s = s.replace(/\s*-\s*$/, "").trim();
+      if (!s || /^(common stock|class [a-z]|llc|inc|corp)$/i.test(s)) return c && c !== "—" ? c : "";
+      if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return c && c !== "—" ? c : s;
+      return s;
+    }
+
+    function overlapHit(rule, code, name, industry) {
+      const c = String(code || "").toUpperCase();
+      if (rule.tickers && rule.tickers.test(c)) return true;
+      if (rule.industry && rule.industry.test(industry || "")) return true;
+      const blob = (c + " " + issuerName(c, name)).toLowerCase();
+      return !!(rule.name && rule.name.test(blob));
+    }
 
     function amountHigh(amount) {
       const nums = String(amount || "").match(/\$[\d,]+/g);
@@ -1180,14 +1233,13 @@
       const seats = [].concat((bio && bio.committees) || []).concat((bio && bio.subcommittees) || []);
       if (!seats.length) return [];
       const byCode = new Map();
-      rows.filter((t) => t.side === "purchase").forEach((t) => {
+      rows.filter((t) => t.side === "purchase" && !isBond(t) && !isOptionLike(t)).forEach((t) => {
         const code = t.code || "—";
-        const blob = (code + " " + (t.company || "")).toLowerCase();
         const industry = t.industry || "";
         seats.forEach((seat) => {
           OVERLAP_RULES.forEach((rule) => {
             if (!rule.seat.test(seat.name || "")) return;
-            if (!rule.industry.test(industry) && !rule.name.test(blob)) return;
+            if (!overlapHit(rule, code, t.company || t.asset || "", industry)) return;
             const prev = byCode.get(code);
             if (!prev) {
               byCode.set(code, { code: code, why: rule.why });

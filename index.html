@@ -868,9 +868,9 @@
             <input id="filter-company" type="search" placeholder="Name or ticker…" />
           </div>
           <div>
-            <label for="filter-industry">Industry</label>
+            <label for="filter-industry">Sector</label>
             <select id="filter-industry">
-              <option value="">All industries</option>
+              <option value="">All sectors</option>
             </select>
           </div>
           <div>
@@ -1154,6 +1154,45 @@
       return !!(rule.name && rule.name.test(blob));
     }
 
+    const SECTORS = [
+      "Energy",
+      "Materials",
+      "Industrials",
+      "Utilities",
+      "Healthcare",
+      "Financials",
+      "Consumer Discretionary",
+      "Consumer Staples",
+      "Information Technology",
+      "Communication Services",
+      "Real Estate",
+      "Metals & Mining"
+    ];
+
+    const SECTOR_RULES = [
+      [/gold and silver|metal mining|metal ores|steel works|blast furnaces|primary production of aluminum|nonferrous metals|nonferrous wire|metals service/i, "Metals & Mining"],
+      [/crude petroleum|petroleum refining|natural gas|oil & gas|oil and gas|drilling oil|pipe lines|oil royalty|bituminous coal|coal mining|oil & gas field|mineral royalty/i, "Energy"],
+      [/electric services|electric & other services|water supply|gas & other services combined|cogeneration|municipal — water/i, "Utilities"],
+      [/real estate investment|real estate agents|\breal estate\b|nonresidential buildings|real estate operators|municipal — housing/i, "Real Estate"],
+      [/pharmaceutical|biological product|biological research|surgical & medical|orthopedic|medical laborator|hospital & medical|in vitro|electromedical|x-ray apparatus|dental equipment|home health|health & allied|medical & surgical hospital|\bhospitals\b|outpatient|doctors of medicine|clinics of doctors|nursing & personal care|health services|medicinal chemical|drugs, proprietar|medical, dental & hospital|ophthalmic|laboratory analytical|diagnostic substance|municipal — health/i, "Healthcare"],
+      [/commercial bank|national commercial|state commercial|investment advice|security brokers|life insurance|casualty insurance|finance services|insurance agents|commodity contracts|security & commodity|investment company|accident & health insurance|savings institution|surety insurance|title insurance|credit agencies|credit institution|insurance carriers|asset-backed|investors, nec|credit reporting|blank checks|personal credit|cryptocurrency|government-sponsored|^municipal$/i, "Financials"],
+      [/telephone communications|cable & other pay|television broadcasting|radio broadcasting stations|radiotelephone|newspapers|advertising agencies|books: publishing|communications services, nec/i, "Communication Services"],
+      [/prepackaged software|semiconductor|computer programming|computer processing|computer integrated|electronic computers|computer communications|computer peripheral|computer storage|electronic components|computer & office|printed circuit|electronic connectors|communications equipment|electronic coils|electronic parts|computer software stores|telephone & telegraph apparatus|optical instruments|photographic equipment|electronic & other electrical equipment|meas & testing of electricity|measuring & controlling devices|calculating & accounting machines/i, "Information Technology"],
+      [/\bbeverages\b|soft drinks|food and kindred|perfumes, cosmetics|soap, detergents|grocery stores|fats & oils|cigarettes|groceries|grain mill|malt beverages|canned, frozen|canned, fruits|miscellaneous food|sugar & confectionery|poultry|meat packing|ice cream|beer, wine|drug stores|food stores|agricultural production|farm product raw|cleang preparations|specialty cleaning/i, "Consumer Staples"],
+      [/motor vehicles & passenger|hotels & motels|eating  places|eating & drinking|variety stores|auto dealers|amusement|mail-order|family clothing|footwear|household furniture|apparel|auto & home supply|furnishgs|building materials, hardware|household audio|household appliances|building materials dealers|radio, tv & consumer|games, toys|furniture stores|mobile homes|motorcycles|shoe stores|department stores|miscellaneous retail|home furniture|video tape|personal services|membership sports|racing|educational services|sporting & athletic|motor homes|lawn & garden|office furniture|auto rental|jewelry|shopping goods|retail stores, nec|wholesale-motor vehicle|operative builders|residential bldgs|leather & leather|electric housewares/i, "Consumer Discretionary"],
+      [/plastic materials|chemicals & allied|agricultural chemical|inorganic chemical|organic chemical|paints, varnishes|paper mills|paperboard|lumber & wood|cement|concrete|abrasive|plastics products|fabricated rubber|adhesives|chemical products|synth resin|plastics foam|converted paper|millwood|sawmills|nonmetallic mineral|metal cans|paperboard containers|^commodities$/i, "Materials"],
+      [/aircraft|guided missile|ordnance|search, detection|heavy construction|trucking|railroad|air transportation|water transportation|transportation services|farm machinery|engines & turbines|construction machinery|electrical industrial|refuse systems|hazardous waste|engineering services|electrical work|construction|freight & cargo|air courier|airport|ship & boat|industrial trucks|metalworkg|ball & roller|switchgear|motors & generators|pumps & pumping|industrial machinery|special industry machinery|materials handling|cutlery|fabricated plate|fabricated metal|heating equip|air-cond|fans & blowers|refrigeration|help supply|equipment rental|detective, guard|management consulting|management services|testing laborator|industrial instruments|miscellaneous electrical|motor vehicle parts|truck & bus bodies|deep sea|water, sewer, pipeline|business services|miscellaneous manufacturing|misc industrial|municipal — transportation|municipal — education/i, "Industrials"]
+    ];
+
+    function sectorOf(industry) {
+      const s = String(industry || "").replace(/\s+/g, " ").trim();
+      if (!s) return "";
+      for (let i = 0; i < SECTOR_RULES.length; i++) {
+        if (SECTOR_RULES[i][0].test(s)) return SECTOR_RULES[i][1];
+      }
+      return "Industrials";
+    }
+
     function amountHigh(amount) {
       const nums = String(amount || "").match(/\$[\d,]+/g);
       if (!nums || !nums.length) return 0;
@@ -1389,18 +1428,17 @@
           return rows;
         }
 
-        function fillIndustries(list) {
+        function fillIndustries() {
           const sel = document.getElementById("filter-industry");
           const keep = sel.value;
-          const names = Array.from(new Set(list.map((r) => r.industry).filter(Boolean))).sort();
-          sel.innerHTML = '<option value="">All industries</option>';
-          names.forEach((name) => {
+          sel.innerHTML = '<option value="">All sectors</option>';
+          SECTORS.forEach((name) => {
             const opt = document.createElement("option");
             opt.value = name;
             opt.textContent = name;
             sel.appendChild(opt);
           });
-          if (names.includes(keep)) sel.value = keep;
+          if (SECTORS.indexOf(keep) >= 0) sel.value = keep;
         }
 
         function apply() {
@@ -1409,7 +1447,7 @@
           const side = document.getElementById("filter-side").value;
           const filtered = kindPool().filter((t) => {
             if (side && t.side !== side) return false;
-            if (industry && t.industry !== industry) return false;
+            if (industry && sectorOf(t.industry) !== industry) return false;
             if (companyQ) {
               const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
               if (!blob.includes(companyQ)) return false;
@@ -1423,7 +1461,7 @@
         document.getElementById("filter-industry").addEventListener("change", () => { showAll = false; apply(); });
         document.getElementById("filter-kind").addEventListener("change", () => {
           showAll = false;
-          fillIndustries(kindPool());
+          fillIndustries();
           apply();
         });
         document.getElementById("filter-side").addEventListener("change", () => { showAll = false; apply(); });
@@ -1431,7 +1469,7 @@
           showAll = !showAll;
           apply();
         });
-        fillIndustries(kindPool());
+        fillIndustries();
         apply();
         bindBoard(buildBoards(rows, bios));
       } catch (err) {

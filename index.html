@@ -696,6 +696,51 @@
       border-bottom: 1px solid #3a4452;
     }
     .board-list li:last-child { border-bottom: 0; }
+    .board-list li.board-trader {
+      grid-template-areas: "rank name val";
+      cursor: pointer;
+    }
+    .board-list li.board-trader .board-rank { grid-area: rank; }
+    .board-list li.board-trader .board-who { grid-area: name; }
+    .board-list li.board-trader .board-val { grid-area: val; }
+    .board-list li.board-trader.open {
+      grid-template-areas:
+        "rank name val"
+        "sec sec sec";
+      background: rgba(227, 180, 26, 0.05);
+    }
+    .board-sectors {
+      grid-area: sec;
+      list-style: none;
+      margin: 4px 0 2px;
+      padding: 6px 0 0;
+      border-top: 1px solid #3a4452;
+      display: none;
+    }
+    .board-list li.board-trader.open .board-sectors { display: block; }
+    .board-sectors li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 8px;
+      align-items: baseline;
+      padding: 5px 0 5px 2.2em;
+      border: 0;
+      cursor: default;
+    }
+    .board-sectors .sec-name { color: var(--paper); font-size: 0.88rem; }
+    .board-flag {
+      display: inline-block;
+      padding: 1px 6px;
+      border: 1px solid var(--caution);
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .board-val.up { color: #7dcf7a; }
+    .board-val.down { color: #ef7a74; }
     .board-rank {
       font-family: "Barlow Condensed", sans-serif;
       color: var(--mute);
@@ -846,7 +891,7 @@
       <div class="board-tabs" role="tablist">
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
         <button type="button" data-board="activity">Most active</button>
-        <button type="button" data-board="holdings">Largest book</button>
+        <button type="button" data-board="traders">Top Traders</button>
         <button type="button" data-board="stocks">Top trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
@@ -1221,6 +1266,13 @@
       return "$" + n.toLocaleString("en-US");
     }
 
+    function signedMoney(n) {
+      const abs = formatMoney(Math.abs(n));
+      if (n > 0) return "+" + abs;
+      if (n < 0) return "−" + abs;
+      return abs;
+    }
+
     function prettyDate(iso) {
       const d = new Date(String(iso || "") + "T00:00:00");
       if (isNaN(d.getTime())) return iso || "—";
@@ -1291,7 +1343,36 @@
       return Array.from(byCode.values());
     }
 
-    function buildBoards(trades, bios) {
+    function tickerSector(list, code) {
+      const hit = list.find((t) => (t.code || "").toUpperCase() === code);
+      return sectorOf(hit && hit.industry) || "Industrials";
+    }
+
+    function traderSectors(list, overlaps, tickers) {
+      const pnlBy = {};
+      Object.keys(tickers || {}).forEach((code) => {
+        const sec = tickerSector(list, code);
+        pnlBy[sec] = (pnlBy[sec] || 0) + (tickers[code] || 0);
+      });
+      const conflictBy = {};
+      (overlaps || []).forEach((o) => {
+        const sec = tickerSector(list, String(o.code || "").toUpperCase());
+        if (!conflictBy[sec]) conflictBy[sec] = [];
+        String(o.why || "").split("; ").forEach((w) => {
+          if (w && conflictBy[sec].indexOf(w) === -1) conflictBy[sec].push(w);
+        });
+      });
+      const names = SECTORS.filter((s) => pnlBy[s] || conflictBy[s]);
+      names.sort((a, b) => Math.abs(pnlBy[b] || 0) - Math.abs(pnlBy[a] || 0) || a.localeCompare(b));
+      return names.map((name) => ({
+        name: name,
+        pnl: pnlBy[name] || 0,
+        conflict: !!(conflictBy[name] && conflictBy[name].length),
+        why: (conflictBy[name] || []).join(" · ")
+      }));
+    }
+
+    function buildBoards(trades, bios, tradersFile) {
       const cutoff = new Date();
       cutoff.setFullYear(cutoff.getFullYear() - 3);
       const byId = new Map();
@@ -1301,6 +1382,7 @@
         byId.get(t.filer_id).push(t);
       });
       const people = (bios && bios.people) || {};
+      const pnlPeople = (tradersFile && tradersFile.people) || {};
       const rows = [];
       byId.forEach((list, id) => {
         const overlaps = findOverlaps(people[id], list);
@@ -1310,13 +1392,15 @@
             if (w && whys.indexOf(w) === -1) whys.push(w);
           });
         });
+        const rec = pnlPeople[id] || { pnl: 0, tickers: {} };
         rows.push({
           id: id,
           name: (people[id] && people[id].name) || list[0].filer,
           trades: list.length,
-          book: bookValue(list),
           conflicts: overlaps.length,
-          whys: whys
+          whys: whys,
+          pnl: rec.pnl || 0,
+          sectors: traderSectors(list, overlaps, rec.tickers)
         });
       });
       const byTicker = new Map();
@@ -1341,7 +1425,7 @@
       })).sort((a, b) => b.trades - a.trades || b.buys - a.buys || a.code.localeCompare(b.code));
       return {
         activity: rows.slice().sort((a, b) => b.trades - a.trades || a.name.localeCompare(b.name)),
-        holdings: rows.filter((r) => r.book > 0).sort((a, b) => b.book - a.book || a.name.localeCompare(b.name)),
+        traders: rows.filter((r) => r.pnl !== 0 || (r.sectors && r.sectors.length)).sort((a, b) => b.pnl - a.pnl || a.name.localeCompare(b.name)),
         conflicts: rows.filter((r) => r.conflicts > 0).sort((a, b) => b.conflicts - a.conflicts || b.trades - a.trades),
         stocks: stocks
       };
@@ -1357,7 +1441,7 @@
       const notes = {
         conflicts: "Unique tickers bought that overlap current committee jurisdictions. Not proof of illegal trading.",
         activity: "Disclosed trades in the last three years.",
-        holdings: "High end of official ranges, inferred from the 3-year tape. Not an official holdings list.",
+        traders: "Theoretical P&L from the 3-year tape, high-end official ranges and daily closes. Not official. Tap a row — not the name — for sector performance.",
         stocks: "Most traded stock tickers in the last three years. Tap a ticker to see every buy and sell on the chart."
       };
       const paint = () => {
@@ -1375,9 +1459,25 @@
               " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
               "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
           }
+          if (state.mode === "traders") {
+            const cls = r.pnl > 0 ? "up" : r.pnl < 0 ? "down" : "";
+            const secs = (r.sectors || []).map((s) => {
+              const sc = s.pnl > 0 ? "up" : s.pnl < 0 ? "down" : "";
+              const flag = s.conflict
+                ? "<span class=\"board-flag\" title=\"" + escapeHtml(s.why || "Jurisdictional overlap") + "\">Conflict</span>"
+                : "<span></span>";
+              return "<li><span class=\"sec-name\">" + escapeHtml(s.name) + "</span>" + flag +
+                "<span class=\"board-val " + sc + "\">" + signedMoney(s.pnl) + "</span></li>";
+            }).join("");
+            return "<li class=\"board-trader\" data-id=\"" + escapeHtml(r.id) + "\">" +
+              "<span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+              "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+              escapeHtml(r.name) + "</a></span>" +
+              "<span class=\"board-val " + cls + "\">" + signedMoney(r.pnl) + "</span>" +
+              "<ul class=\"board-sectors\">" + (secs || "<li class=\"sec-name\">No priced stock trades.</li>") + "</ul></li>";
+          }
           let val = r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
           if (state.mode === "activity") val = r.trades + (r.trades === 1 ? " trade" : " trades");
-          if (state.mode === "holdings") val = formatMoney(r.book);
           const why = (state.mode === "conflicts" && r.whys.length)
             ? "<span class=\"board-why\">" + escapeHtml(r.whys.join(" · ")) + "</span>"
             : "";
@@ -1398,6 +1498,12 @@
         state.limit = state.limit > 10 ? 10 : 30;
         paint();
       });
+      list.addEventListener("click", (e) => {
+        if (e.target.closest("a") || e.target.closest(".board-sectors")) return;
+        const row = e.target.closest("li.board-trader");
+        if (!row) return;
+        row.classList.toggle("open");
+      });
       paint();
     }
 
@@ -1414,6 +1520,10 @@
         let bios = { people: {} };
         try {
           bios = await (await fetch("bios.json")).json();
+        } catch (e) {}
+        let tradersFile = { people: {} };
+        try {
+          tradersFile = await (await fetch("traders.json")).json();
         } catch (e) {}
         const rows = (data.trades || []).map((t) => enrich(t, tickerFile)).sort((a, b) => {
           const td = (b.trade_date || "").localeCompare(a.trade_date || "");
@@ -1471,7 +1581,7 @@
         });
         fillIndustries();
         apply();
-        bindBoard(buildBoards(rows, bios));
+        bindBoard(buildBoards(rows, bios, tradersFile));
       } catch (err) {
         bindPicker([]);
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";

@@ -165,7 +165,7 @@
       <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
       <div class="chart-x" id="chart-x"></div>
     </div>
-    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span></p>
+    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>
     <p class="kicker">Trades</p>
     <ul class="chart-marks" id="marks"></ul>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
@@ -299,18 +299,23 @@
 
     Promise.all([
       fetch("trades.json").then((r) => r.json()),
-      fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null)
-    ]).then(([data, prices]) => {
+      fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
+    ]).then(([data, prices, tickerFile]) => {
+      function tradeCode(t) {
+        const extra = ((tickerFile && tickerFile.assets) || {})[t.asset] || {};
+        const opt = optionMeta(t);
+        return (t.ticker || extra.ticker || opt.under || "").toUpperCase();
+      }
       const deals = (data.trades || []).filter((t) => {
         if ((t.side !== "purchase" && t.side !== "sale") || isBond(t)) return false;
-        const under = optionMeta(t).under || (t.ticker || "").toUpperCase();
-        const tk = (t.ticker || "").toUpperCase();
-        if (tk !== ticker && under !== ticker) return false;
+        if (tradeCode(t) !== ticker) return false;
         if (new Date(t.trade_date) < cutoff) return false;
         if (filerId && t.filer_id !== filerId) return false;
         return true;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       const stockDeals = deals.filter((t) => !isOptionLike(t));
+      const chartDeals = deals.filter((t) => !isOptionLike(t) || t.side === "purchase");
 
       const who = filerId && deals[0] ? deals[0].filer : "";
       if (who) {
@@ -346,7 +351,7 @@
           "<div class=\"stat\"><b>" + formatMoney(last[1]) + "</b><span>close</span></div>";
       }
 
-      drawChart(points, stockDeals.map((t) => ({ date: t.trade_date, side: t.side })));
+      drawChart(points, chartDeals.map((t) => ({ date: t.trade_date, side: t.side })));
       document.getElementById("marks").innerHTML = deals.map((t) => {
         const px = nearestClose(points, t.trade_date);
         const cls = t.side === "purchase" ? "buy" : "sell";

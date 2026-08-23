@@ -47,8 +47,11 @@
     .mark, h1, h2, th, .kicker, .back {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
     }
-    .mark { font-weight: 700; letter-spacing: 0.18em; }
+    .mark { font-weight: 700; letter-spacing: 0.18em; color: inherit; text-decoration: none; }
     .mark span { color: var(--teal); }
+    nav { display: flex; gap: 16px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.9rem; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
@@ -469,10 +472,13 @@
   <div class="stripe"></div>
   <div class="wrap">
     <header>
-      <div class="mark">Quantity <span>Capital</span></div>
-      <a class="back" href="index.html#tape">← Tape</a>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="signals.html">Signals</a>
+      </nav>
     </header>
-
+    <p><a class="back" href="index.html#tape">← Tape</a></p>
     <p class="kicker">3 year history</p>
     <h1 id="who">Member</h1>
     <details class="bio-wrap">

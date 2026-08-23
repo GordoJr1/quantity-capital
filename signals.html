@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Signals — Quantity Capital</title>
+  <meta name="description" content="Recency-weighted politician buy heat from official STOCK Act / OGE 278-T tape." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430;
+      --panel: #2a3340;
+      --paper: #d8dde3;
+      --white: #eef2f5;
+      --fed: #1e4b8a;
+      --red: #c2302a;
+      --caution: #e3b41a;
+      --mute: #8b96a3;
+      --ink: #1a1d26;
+      --teal: #36999d;
+      --navy: #1c2d4e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+    .stripe {
+      height: 10px;
+      background: repeating-linear-gradient(-45deg, var(--ink) 0 10px, var(--teal) 10px 20px);
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--teal);
+    }
+    .mark, h1, h2, .kicker, nav, .chip, .rank, .tk {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 16px; font-size: 0.9rem; letter-spacing: 0.12em; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .lede { color: var(--paper); max-width: 62ch; line-height: 1.5; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+    .chip {
+      background: #151b24;
+      border: 1px solid #4a5563;
+      color: var(--paper);
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .desk {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 0 22px;
+    }
+    .lead {
+      padding: 16px 18px;
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-top: 4px solid var(--teal);
+      min-width: 0;
+    }
+    .lead.conflict { border-top-color: var(--caution); }
+    .lead.cluster { border-top-color: #7dcf7a; }
+    .lead-top { display: flex; justify-content: space-between; align-items: start; gap: 10px; }
+    .lead .tk { font-size: 2.2rem; }
+    .ago {
+      text-align: right;
+      color: var(--caution);
+      line-height: 1;
+    }
+    .ago b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+    }
+    .ago span {
+      display: block;
+      margin-top: 4px;
+      color: var(--mute);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .why { color: var(--paper); margin: 8px 0 0; font-size: 0.9rem; line-height: 1.4; }
+    .subhead {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mute);
+      margin: 8px 0 10px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 0 0 28px;
+      border: 1px solid #4a5563;
+      background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem;
+      color: var(--caution);
+      letter-spacing: 0.06em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .heat {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .card {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) 88px;
+      gap: 8px 14px;
+      padding: 14px 16px;
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-left: 6px solid var(--teal);
+    }
+    .card.conflict { border-left-color: var(--caution); }
+    .card.cluster { border-left-color: #7dcf7a; }
+    .rank { color: var(--caution); font-size: 1.5rem; line-height: 1; padding-top: 4px; }
+    .tk {
+      font-size: 1.7rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.92rem; }
+    .bar {
+      height: 4px;
+      background: #151b24;
+      margin: 8px 0 10px;
+    }
+    .bar > i {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--caution));
+    }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: var(--mute);
+      font-size: 0.82rem;
+    }
+    .meta b { color: var(--white); font-weight: 600; }
+    .pct.up { color: #7dcf7a; }
+    .pct.down { color: #ef7a74; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border: 1px solid #6b7582;
+      color: #c5cdd6;
+    }
+    .tag.hot { border-color: var(--caution); color: var(--caution); }
+    .tag.hit { border-color: #7dcf7a; color: #7dcf7a; }
+    .tag.warn { border-color: var(--caution); color: var(--caution); }
+    .spark { width: 88px; height: 42px; align-self: start; }
+    .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; line-height: 1.45; }
+    .who-list a { color: var(--teal); text-decoration: none; }
+    .who-list a:hover { color: var(--caution); }
+    details.how {
+      margin: 28px 0 40px;
+      border: 1px solid #4a5563;
+      background: #151b24;
+    }
+    details.how summary {
+      cursor: pointer;
+      padding: 12px 16px;
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    footer {
+      border-top: 2px solid var(--caution);
+      margin-top: 20px;
+    }
+    footer .wrap {
+      display: flex; justify-content: space-between;
+      padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    footer a { color: var(--caution); }
+    @media (max-width: 860px) {
+      .desk { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .card { grid-template-columns: 40px minmax(0, 1fr); }
+      .spark { display: none; }
+    }
+    @media (display-mode: standalone) {
+      body { padding-top: env(safe-area-inset-top, 0px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="signals.html" class="on">Signals</a>
+      </nav>
+    </header>
+    <p class="kicker">Buy heat</p>
+    <h1>Signals</h1>
+    <p class="lede">
+      Public stocks officials have been buying, ranked so the newest prints count most.
+      Independent buyers, fat tickets, and committee-overlap buys rise. Net selling is pushed down.
+      Not a recommendation — ranges are not share counts, and filings lag the trade.
+    </p>
+    <p class="asof" id="asof"></p>
+    <div class="windows" id="windows"></div>
+    <div class="stats" id="stats"></div>
+    <div class="desk" id="desk"></div>
+    <p class="subhead" id="rest-label" hidden>The rest of the heat</p>
+    <ol class="heat" id="heat"></ol>
+    <details class="how">
+      <summary>How the heat is scored</summary>
+      <div class="body">
+        <p>Each listed stock in the window gets a recency-weighted buy mass: log of the high end of each official purchase range, decayed with a 10-day half-life. More unique buyers raise the score. Repeat tickets from one filer still count, but a cluster of independent buyers counts more. Net selling in the same window cuts it. A committee-overlap buy gets a lift. A burst versus the prior 3-year baseline gets a lift. Mega-caps get a slight haircut so a lonely mid-cap print can surface. Bonds, options, ETFs, preferreds, and private names are out — you cannot buy those on the tape.</p>
+        <p class="muted" style="margin-top:10px;">STOCK Act amounts are ranges, not share counts. Filings can lag the trade by weeks. Price change is from the close on the last buy date to the latest close on file — not proof anyone knew anything.</p>
+      </div>
+    </details>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const MEGA = {
+      AAPL: 1, MSFT: 1, NVDA: 1, AMZN: 1, GOOGL: 1, GOOG: 1, META: 1, TSLA: 1,
+      BRK: 1, "BRK.B": 1, BRKB: 1, AVGO: 1, JPM: 1, LLY: 1, UNH: 1, V: 1, MA: 1
+    };
+    const SKIP = {
+      LP: 1, SPCX: 1, GOOGM: 1, GOOGN: 1, SPY: 1, QQQ: 1, QQQM: 1, VOO: 1, VTI: 1,
+      IWM: 1, DIA: 1, IVV: 1, VEA: 1, VWO: 1, ARKK: 1, TLT: 1, BND: 1, AGG: 1,
+      XLF: 1, XLK: 1, XLE: 1, XLV: 1, XLI: 1, XLY: 1, XLP: 1, XLU: 1, XLB: 1,
+      XLRE: 1, SMH: 1, SOXX: 1, IJR: 1, IJH: 1, RSP: 1, VGT: 1, VOOG: 1, VUG: 1, VTV: 1
+    };
+    const HALF = 10;
+    const WINDOWS = [14, 30, 90];
+    const params = new URLSearchParams(location.search);
+    let windowDays = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
+    let hideMega = params.get("mega") === "0";
+
+    function isoDay(ms) {
+      const d = new Date(ms);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return y + "-" + m + "-" + day;
+    }
+    function daysBetween(iso, now) {
+      const a = new Date(iso + "T00:00:00").getTime();
+      return Math.max(0, (now - a) / 86400000);
+    }
+    function decay(days) {
+      return Math.pow(2, -days / HALF);
+    }
+    function nearestClose(points, date) {
+      if (!points || !points.length) return null;
+      let pick = points[0];
+      for (let i = 0; i < points.length; i++) {
+        if (points[i][0] <= date) pick = points[i];
+        else break;
+      }
+      return pick;
+    }
+    function sparkPath(points) {
+      if (!points || points.length < 2) return "";
+      const w = 88, h = 42, pad = 2;
+      const xs = points.map((p) => p[1]);
+      const min = Math.min.apply(null, xs);
+      const max = Math.max.apply(null, xs);
+      const span = max - min || 1;
+      return points.map((p, i) => {
+        const x = pad + (i / (points.length - 1)) * (w - pad * 2);
+        const y = pad + (1 - (p[1] - min) / span) * (h - pad * 2);
+        return (i ? "L" : "M") + x.toFixed(1) + " " + y.toFixed(1);
+      }).join(" ");
+    }
+    function prettyIssuer(name) {
+      let s = String(name || "").replace(/\s+/g, " ").trim();
+      s = s.replace(/^(?:joint ownership\s+)?(?:lpl account)\s+/i, "");
+      s = s.replace(/^morgan stanley ira(?:\s*-\s*\S+)?\s+/i, "");
+      s = s.replace(/^[A-Z]{1,4}\d{2,5}\s+/i, "");
+      return s.replace(/\s*-\s*$/, "");
+    }
+    function parenTicker(asset) {
+      const m = String(asset || "").match(/\(([A-Z]{1,5})\)/);
+      return m ? m[1] : "";
+    }
+    function resolveInfo(t, tickerFile) {
+      const fake = Object.assign({}, t);
+      if (!QC.isChartTicker(fake.ticker)) {
+        const p = parenTicker(fake.asset);
+        if (p) fake.ticker = p;
+      }
+      return QC.tickerInfo(fake, tickerFile);
+    }
+    function isPublicStock(t, info) {
+      if (SKIP[info.code]) return false;
+      const type = (t.asset_type || "").toLowerCase();
+      if (/non-public|municipal|corporate bond|\bbond\b|other/.test(type)) return false;
+      if (QC.isBond(t) || QC.isOptionLike(t) || QC.isFilingError(t)) return false;
+      const blob = ((info.name || "") + " " + (info.industry || "") + " " + (t.asset || "")).toLowerCase();
+      if (/exchange traded|\betf\b|space exploration technologies|mandatory convertible|private equity|pooled investment|successor agency/.test(blob)) return false;
+      return QC.isChartTicker(info.code);
+    }
+    function whyLine(row, now) {
+      const days = Math.round(daysBetween(row.lastBuy, now));
+      const bits = [];
+      if (days <= 3) bits.push("Just printed");
+      else if (days <= 14) bits.push("Fresh · " + days + "d ago");
+      else bits.push("Last buy " + days + "d ago");
+      if (row.cluster) bits.push(row.nBuyers + " independent buyers");
+      else if (row.nPrints >= 3) bits.push(row.nPrints + " tickets from one filer");
+      if (row.whale) bits.push("whale-sized range");
+      if (row.conflict) bits.push("committee overlap");
+      if (row.sellHigh > 0) bits.push("some selling in window");
+      return bits.join(" · ");
+    }
+    function pctBits(px, lastBuy) {
+      if (!px || px.missing || !px.c || px.c.length < 2) return { pct: "", spark: "", chg: null };
+      const last = px.c[px.c.length - 1];
+      const at = nearestClose(px.c, lastBuy);
+      let pct = "";
+      let chg = null;
+      if (at && at[1]) {
+        chg = (last[1] - at[1]) / at[1];
+        const cls = chg > 0.002 ? "up" : chg < -0.002 ? "down" : "";
+        const sign = chg > 0 ? "+" : "";
+        pct = "<span class=\"pct " + cls + "\"><b>" + sign + (chg * 100).toFixed(1) + "%</b> since last buy</span>";
+      }
+      const slice = px.c.slice(-30);
+      const d = sparkPath(slice);
+      const stroke = (last[1] >= slice[0][1]) ? "#7dcf7a" : "#ef7a74";
+      const spark = "<svg class=\"spark\" viewBox=\"0 0 88 42\" aria-hidden=\"true\"><path d=\"" + d + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"1.8\" /></svg>";
+      return { pct: pct, spark: spark, chg: chg };
+    }
+
+    function scoreRows(trades, tickerFile, bios, now, win) {
+      const cut = isoDay(now - win * 86400000);
+      const baseCut = isoDay(QC.threeYearCutoff().getTime());
+      const by = new Map();
+      trades.forEach((t) => {
+        if (t.side !== "purchase" && t.side !== "sale") return;
+        const info = resolveInfo(t, tickerFile);
+        if (!isPublicStock(t, info)) return;
+        const rec = by.get(info.code) || {
+          code: info.code,
+          name: info.name,
+          industry: info.industry,
+          sector: (info.industry && info.industry !== "—") ? QC.sectorOf(info.industry) : "",
+          buys: [],
+          sells: [],
+          histBuys: 0
+        };
+        if (info.name && info.name !== "—") rec.name = info.name;
+        if (info.industry && info.industry !== "—") {
+          rec.industry = info.industry;
+          rec.sector = QC.sectorOf(info.industry);
+        }
+        const when = t.trade_date || "";
+        if (when >= baseCut && t.side === "purchase") rec.histBuys += 1;
+        if (when >= cut) {
+          if (t.side === "purchase") rec.buys.push(t);
+          else rec.sells.push(t);
+        }
+        by.set(info.code, rec);
+      });
+
+      const out = [];
+      by.forEach((rec) => {
+        if (!rec.buys.length) return;
+        const filers = new Map();
+        function touch(t, side) {
+          const hi = QC.amountHigh(t.amount);
+          const prev = filers.get(t.filer_id) || {
+            name: t.filer, id: t.filer_id, buyHigh: 0, sellHigh: 0,
+            lastBuy: "", lastSell: "", filed: "", nBuys: 0, conflict: false
+          };
+          if (side === "buy") {
+            prev.buyHigh += hi;
+            prev.nBuys += 1;
+            if (t.trade_date > prev.lastBuy) prev.lastBuy = t.trade_date;
+            if ((t.filed_date || "") > prev.filed) prev.filed = t.filed_date || "";
+          } else {
+            prev.sellHigh += hi;
+            if (t.trade_date > prev.lastSell) prev.lastSell = t.trade_date;
+          }
+          filers.set(t.filer_id, prev);
+        }
+        rec.buys.forEach((t) => touch(t, "buy"));
+        rec.sells.forEach((t) => touch(t, "sell"));
+
+        const buyers = [];
+        let buyHigh = 0;
+        let sellHigh = 0;
+        filers.forEach((f) => {
+          buyHigh += f.buyHigh;
+          sellHigh += f.sellHigh;
+          const netHigh = f.buyHigh - f.sellHigh;
+          if (netHigh > 0 && f.lastBuy) {
+            buyers.push({
+              name: f.name, id: f.id, high: netHigh, last: f.lastBuy,
+              filed: f.filed, nBuys: f.nBuys, conflict: false
+            });
+          }
+        });
+        if (!buyers.length) return;
+
+        let recency = 0;
+        buyers.forEach((b) => {
+          recency += Math.log10(1 + b.high / 1000) * decay(daysBetween(b.last, now));
+        });
+        recency += 0.1 * Math.max(0, buyers.reduce((n, b) => n + b.nBuys, 0) - buyers.length);
+
+        let conflict = false;
+        buyers.forEach((b) => {
+          const bio = (bios.people || {})[b.id];
+          const seats = [].concat((bio && bio.committees) || []).concat((bio && bio.subcommittees) || []);
+          seats.forEach((seat) => {
+            QC.OVERLAP_RULES.forEach((rule) => {
+              if (!rule.seat.test(seat.name || "")) return;
+              if (QC.overlapHit(rule, rec.code, rec.name, rec.industry)) {
+                b.conflict = true;
+                conflict = true;
+              }
+            });
+          });
+        });
+
+        const lastBuy = buyers.reduce((m, b) => b.last > m ? b.last : m, buyers[0].last);
+        const lastFiled = buyers.reduce((m, b) => (b.filed || "") > m ? b.filed : m, buyers[0].filed || "");
+        const nBuyers = buyers.length;
+        const nPrints = buyers.reduce((n, b) => n + b.nBuys, 0);
+        const months = Math.max(1, (now - QC.threeYearCutoff().getTime()) / (86400000 * 30));
+        const burst = 1 + Math.min(2, nBuyers / Math.max(0.35, rec.histBuys / months));
+        const mixed = sellHigh > 0 ? 0.82 : 1;
+        const mega = MEGA[rec.code] ? 0.8 : 1;
+        const heat = recency * (1 + Math.log(1 + nBuyers)) * mixed * (conflict ? 1.32 : 1) * burst * mega;
+        const whale = buyers.some((b) => b.high >= 500000);
+        const fresh = daysBetween(lastBuy, now) <= 14;
+        out.push({
+          code: rec.code,
+          name: rec.name,
+          sector: rec.sector,
+          heat: heat,
+          buyers: buyers.sort((a, b) => b.high - a.high || b.last.localeCompare(a.last)),
+          nBuyers: nBuyers,
+          nPrints: nPrints,
+          buyHigh: buyHigh,
+          sellHigh: sellHigh,
+          lastBuy: lastBuy,
+          lastFiled: lastFiled,
+          conflict: conflict,
+          whale: whale,
+          fresh: fresh,
+          cluster: nBuyers >= 3,
+          mega: !!MEGA[rec.code]
+        });
+      });
+      out.sort((a, b) => b.heat - a.heat || b.lastBuy.localeCompare(a.lastBuy));
+      return out;
+    }
+
+    function paintWindows() {
+      const chips = WINDOWS.map((d) =>
+        "<button type=\"button\" class=\"chip" + (d === windowDays ? " on" : "") + "\" data-w=\"" + d + "\">Last " + d + " days</button>"
+      );
+      chips.push(
+        "<button type=\"button\" class=\"chip" + (hideMega ? " on" : "") + "\" data-mega=\"1\">Hide mega-caps</button>"
+      );
+      document.getElementById("windows").innerHTML = chips.join("");
+    }
+
+    function paintStats(rows) {
+      const n = rows.length;
+      const cluster = rows.filter((r) => r.cluster).length;
+      const conflict = rows.filter((r) => r.conflict).length;
+      const fresh = rows.filter((r) => r.fresh).length;
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + n + "</b><span>names in window</span></div>" +
+        "<div class=\"stat\"><b>" + cluster + "</b><span>clustered 3+ buyers</span></div>" +
+        "<div class=\"stat\"><b>" + conflict + "</b><span>committee overlap</span></div>" +
+        "<div class=\"stat\"><b>" + fresh + "</b><span>printed in 14 days</span></div>";
+    }
+
+    function tagsFor(row) {
+      const tags = [];
+      if (row.fresh) tags.push("<span class=\"tag hot\">Fresh</span>");
+      if (row.cluster) tags.push("<span class=\"tag hit\">Cluster</span>");
+      else if (row.nPrints >= 3) tags.push("<span class=\"tag\">Repeat</span>");
+      if (row.conflict) tags.push("<span class=\"tag warn\">Conflict</span>");
+      if (row.whale) tags.push("<span class=\"tag\">Whale</span>");
+      if (row.sellHigh > 0) tags.push("<span class=\"tag\">Selling too</span>");
+      return tags;
+    }
+
+    function peopleHtml(row) {
+      const people = row.buyers.slice(0, 6).map((b) =>
+        "<a href=\"politician.html?id=" + encodeURIComponent(b.id) + "\">" + QC.esc(b.name) + "</a>" +
+        (b.conflict ? " · conflict" : "")
+      ).join(" · ");
+      const more = row.buyers.length > 6 ? " · +" + (row.buyers.length - 6) : "";
+      return people + more;
+    }
+
+    function leadHtml(row, now, px, maxHeat) {
+      const days = Math.max(0, Math.round(daysBetween(row.lastBuy, now)));
+      const bits = pctBits(px, row.lastBuy);
+      const width = Math.max(18, Math.round(100 * row.heat / maxHeat));
+      const cls = row.conflict ? " conflict" : row.cluster ? " cluster" : "";
+      const name = prettyIssuer(row.name) || row.name || "—";
+      return "<article class=\"lead" + cls + "\">" +
+        "<div class=\"lead-top\">" +
+          "<div>" +
+            "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(name) + (row.sector ? " · " + QC.esc(row.sector) : "") + "</div>" +
+          "</div>" +
+          "<div class=\"ago\"><b>" + days + "</b><span>" + (days === 1 ? "day ago" : "days ago") + "</span></div>" +
+        "</div>" +
+        "<p class=\"why\">" + QC.esc(whyLine(row, now)) + "</p>" +
+        "<div class=\"bar\" style=\"margin-top:12px\"><i style=\"width:" + width + "%\"></i></div>" +
+        "<div class=\"meta\">" +
+          "<span><b>" + row.nBuyers + "</b> buyer" + (row.nBuyers === 1 ? "" : "s") + "</span>" +
+          "<span><b>" + QC.formatMoney(row.buyHigh) + "</b> buy high-end</span>" +
+          bits.pct +
+        "</div>" +
+        "<div class=\"tags\">" + tagsFor(row).join("") + "</div>" +
+        "<div class=\"who-list\">" + peopleHtml(row) + "</div>" +
+      "</article>";
+    }
+
+    function cardHtml(row, i, maxHeat, now, px) {
+      const width = Math.max(8, Math.round(100 * row.heat / maxHeat));
+      const bits = pctBits(px, row.lastBuy);
+      const cls = row.conflict ? " conflict" : row.cluster ? " cluster" : "";
+      const name = prettyIssuer(row.name) || row.name || "—";
+      return "<li class=\"card" + cls + "\">" +
+        "<div class=\"rank\">" + String(i + 1).padStart(2, "0") + "</div>" +
+        "<div>" +
+          "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+          "<div class=\"co\">" + QC.esc(name) + (row.sector ? " · " + QC.esc(row.sector) : "") + "</div>" +
+          "<div class=\"bar\"><i style=\"width:" + width + "%\"></i></div>" +
+          "<div class=\"meta\">" +
+            "<span><b>" + row.nBuyers + "</b> buyer" + (row.nBuyers === 1 ? "" : "s") + "</span>" +
+            "<span><b>" + QC.formatMoney(row.buyHigh) + "</b> buy high-end</span>" +
+            "<span>last buy <b>" + QC.prettyDate(row.lastBuy) + "</b></span>" +
+            bits.pct +
+          "</div>" +
+          "<p class=\"why\">" + QC.esc(whyLine(row, now)) + "</p>" +
+          (tagsFor(row).length ? "<div class=\"tags\">" + tagsFor(row).join("") + "</div>" : "") +
+          "<div class=\"who-list\">" + peopleHtml(row) + "</div>" +
+        "</div>" + bits.spark +
+      "</li>";
+    }
+
+    async function run() {
+      paintWindows();
+      const heat = document.getElementById("heat");
+      const desk = document.getElementById("desk");
+      const restLabel = document.getElementById("rest-label");
+      heat.innerHTML = "<li class=\"muted\">Reading the tape…</li>";
+      desk.innerHTML = "";
+      restLabel.hidden = true;
+      const [tape, tickerFile, bios] = await Promise.all([
+        fetch("trades-lite.json").then((r) => r.json()),
+        fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} })),
+        fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} }))
+      ]);
+      const asof = document.getElementById("asof");
+      const collected = QC.asOfLabel(tape.collected);
+      asof.textContent = collected
+        ? "Tape collected " + collected + ". Newest disclosed trade dates can lag filings by weeks."
+        : "Newest disclosed trade dates can lag filings by weeks.";
+      const now = Date.now();
+      let ranked = scoreRows(tape.trades || [], tickerFile, bios, now, windowDays);
+      if (hideMega) ranked = ranked.filter((r) => !r.mega);
+      paintStats(ranked);
+      if (!ranked.length) {
+        heat.innerHTML = "<li class=\"muted\">No listed-stock buys in this window. Filings lag the trade — try 90 days.</li>";
+        return;
+      }
+      const top = ranked.slice(0, 36);
+      const maxHeat = top[0].heat || 1;
+      const prices = {};
+      await Promise.all(top.map(async (row) => {
+        try {
+          const res = await fetch("prices/" + encodeURIComponent(row.code) + ".json");
+          if (res.ok) prices[row.code] = await res.json();
+        } catch (e) {}
+      }));
+      const leads = top.slice(0, 3);
+      desk.innerHTML = leads.map((row) => leadHtml(row, now, prices[row.code], maxHeat)).join("");
+      const rest = top.slice(3);
+      restLabel.hidden = rest.length === 0;
+      heat.innerHTML = rest.length
+        ? rest.map((row, i) => cardHtml(row, i + 3, maxHeat, now, prices[row.code])).join("")
+        : "";
+    }
+
+    document.getElementById("windows").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-w], button[data-mega]");
+      if (!btn) return;
+      if (btn.dataset.mega) hideMega = !hideMega;
+      if (btn.dataset.w) windowDays = Number(btn.dataset.w);
+      const p = new URLSearchParams(location.search);
+      p.set("w", String(windowDays));
+      if (hideMega) p.set("mega", "0");
+      else p.delete("mega");
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      run();
+    });
+
+    run().catch(() => {
+      document.getElementById("heat").innerHTML = "<li class=\"muted\">Could not load the tape.</li>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+</body>
+</html>

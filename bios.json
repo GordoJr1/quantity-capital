@@ -4204,23 +4204,6 @@
       "bioguide": "A000372",
       "opensecrets": "N00033720"
     },
-    "cindy-axne": {
-      "name": "Cynthia Axne",
-      "display": "Cindy Axne",
-      "chamber": "House",
-      "state": "IA",
-      "party": "Democrat",
-      "class": null,
-      "district": 3,
-      "first_elected_house": 2019,
-      "term_start": "2021",
-      "term_end": "2023",
-      "committees": [],
-      "subcommittees": [],
-      "state_economy": "Corn, soy, pork, insurance, and renewable fuels.",
-      "bioguide": "A000378",
-      "opensecrets": "N00041104"
-    },
     "brian-babin": {
       "name": "Brian Babin",
       "display": "Brian Babin",
@@ -4521,21 +4504,47 @@
       "opensecrets": "N00044579"
     },
     "dan-daniel-bishop": {
-      "name": "Dan Bishop",
+      "name": "Sanford D. Bishop, Jr.",
       "display": "Dan Daniel Bishop",
       "chamber": "House",
-      "state": "NC",
-      "party": "Republican",
+      "state": "GA",
+      "party": "Democrat",
       "class": null,
-      "district": 8,
-      "first_elected_house": 2019,
-      "term_start": "2023",
-      "term_end": "2025",
-      "committees": [],
-      "subcommittees": [],
-      "state_economy": "Banking, research-triangle tech, furniture, and agriculture.",
-      "bioguide": "B001311",
-      "opensecrets": "N00044335"
+      "district": 2,
+      "first_elected_house": 1993,
+      "term_start": "2025",
+      "term_end": "2027",
+      "committees": [
+        {
+          "name": "House Committee on Appropriations",
+          "code": "HSAP",
+          "subcommittee": false,
+          "title": ""
+        }
+      ],
+      "subcommittees": [
+        {
+          "name": "House Committee on Appropriations \u2014 Agriculture, Rural Development, Food and Drug Administration, and Related Agencies",
+          "code": "HSAP01",
+          "subcommittee": true,
+          "title": "Ranking Member"
+        },
+        {
+          "name": "House Committee on Appropriations \u2014 Financial Services and General Government",
+          "code": "HSAP23",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Appropriations \u2014 Military Construction, Veterans Affairs, and Related Agencies",
+          "code": "HSAP18",
+          "subcommittee": true,
+          "title": ""
+        }
+      ],
+      "state_economy": "Film, logistics (Atlanta), agriculture, and a growing tech scene.",
+      "bioguide": "B000490",
+      "opensecrets": "N00002674"
     },
     "earl-blumenauer": {
       "name": "Earl Blumenauer",
@@ -9979,21 +9988,53 @@
       "opensecrets": "N00038260"
     },
     "april-mcclain-delaney": {
-      "name": "John K. Delaney",
+      "name": "April McClain Delaney",
       "display": "April McClain Delaney",
       "chamber": "House",
       "state": "MD",
       "party": "Democrat",
       "class": null,
       "district": 6,
-      "first_elected_house": 2013,
-      "term_start": "2017",
-      "term_end": "2019",
-      "committees": [],
-      "subcommittees": [],
+      "first_elected_house": 2025,
+      "term_start": "2025",
+      "term_end": "2027",
+      "committees": [
+        {
+          "name": "House Committee on Science, Space, and Technology",
+          "code": "HSSY",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Agriculture",
+          "code": "HSAG",
+          "subcommittee": false,
+          "title": ""
+        }
+      ],
+      "subcommittees": [
+        {
+          "name": "House Committee on Agriculture \u2014 Commodity Markets, Digital Assets, and Rural Development",
+          "code": "HSAG22",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Agriculture \u2014 Conservation, Research, and Biotechnology",
+          "code": "HSAG14",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Science, Space, and Technology \u2014 Research and Technology",
+          "code": "HSSY15",
+          "subcommittee": true,
+          "title": ""
+        }
+      ],
       "state_economy": "Federal contracting, biotech, ports, and cybersecurity.",
-      "bioguide": "D000620",
-      "opensecrets": "N00033897"
+      "bioguide": "M001232",
+      "opensecrets": "N00053899"
     },
     "scott-desjarlais": {
       "name": "Scott DesJarlais",
@@ -13326,5 +13367,10 @@
       "state_economy": ""
     }
   },
-  "unmatched": []
+  "unmatched": [
+    [
+      "cindy-axne",
+      "Cindy Axne"
+    ]
+  ]
 }

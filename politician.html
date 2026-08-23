@@ -615,7 +615,7 @@
       const party = bio.party ? " · " + bio.party : "";
       if ((bio.chamber || "") === "White House") {
         box.innerHTML =
-          "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.name) + "</strong>" + esc(party) + "<br>" +
+          "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.display || bio.name) + "</strong>" + esc(party) + "<br>" +
           esc(bio.title || "White House") + "<br>White House" + term + "</p></article>" +
           "<article class=\"economy\"><h3>Agency</h3><p>" + esc(bio.agency || "White House") + "</p></article>" +
           "<article class=\"committees\"><h3>Committees</h3>" +
@@ -631,7 +631,7 @@
           ? "First elected to the House in " + bio.first_elected_house + "."
           : "Election year not on file.";
       box.innerHTML =
-        "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.name) + "</strong>" + esc(party) + "<br>" +
+        "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.display || bio.name) + "</strong>" + esc(party) + "<br>" +
         "State: " + esc(bio.state) +
         (bio.district ? "-" + esc(String(bio.district).padStart(2, "0")) : "") +
         (bio.chamber ? " · " + esc(bio.chamber) : "") + "<br>" + elected + term + "</p></article>" +
@@ -850,8 +850,10 @@
       paintHoldings(rows, tickerFile || {});
       paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
-      const shown = ((bios.people || {})[id] && bios.people[id].name)
-        || (fromTrades && fromTrades.filer)
+      const bioPerson = (bios.people || {})[id] || {};
+      const shown = (fromTrades && fromTrades.filer)
+        || bioPerson.display
+        || bioPerson.name
         || "";
       if (shown) {
         document.getElementById("who").textContent = shown;

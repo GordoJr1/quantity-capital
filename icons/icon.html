@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; width: 512px; height: 512px; overflow: hidden; }
+    .tile {
+      width: 512px;
+      height: 512px;
+      background: #1c2430;
+      position: relative;
+    }
+    .stripe {
+      height: 48px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #111 0 16px,
+        #e3b41a 16px 32px
+      );
+    }
+    .mark {
+      position: absolute;
+      inset: 48px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 248px;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: #eef2f5;
+    }
+    .mark span { color: #c2302a; }
+    .rule {
+      position: absolute;
+      left: 96px;
+      right: 96px;
+      bottom: 92px;
+      height: 8px;
+      background: #e3b41a;
+    }
+  </style>
+</head>
+<body>
+  <div class="tile">
+    <div class="stripe"></div>
+    <div class="mark">Q<span>C</span></div>
+    <div class="rule"></div>
+  </div>
+</body>
+</html>

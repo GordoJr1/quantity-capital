@@ -499,19 +499,23 @@
     </table>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
+  <script src="qc.js"></script>
   <script>
-    const fallback = {
-      trades: [
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$1,000,001–$5,000,000", trade_date: "2026-07-02", filed_date: "2026-08-12", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "AAPL", side: "sale", amount: "$250,001–$500,000", trade_date: "2026-03-18", filed_date: "2026-04-22", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$500,001–$1,000,000", trade_date: "2025-11-04", filed_date: "2025-12-15", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "MSFT", side: "purchase", amount: "$100,001–$250,000", trade_date: "2025-06-11", filed_date: "2025-07-20", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "GOOGL", side: "sale", amount: "$50,001–$100,000", trade_date: "2024-09-09", filed_date: "2024-10-18", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "NVDA", side: "purchase", amount: "$1,000,001–$5,000,000", trade_date: "2024-01-22", filed_date: "2024-02-28", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "TSLA", side: "sale", amount: "$250,001–$500,000", trade_date: "2023-10-03", filed_date: "2023-11-14", owner: "spouse" },
-        { filer: "Nancy Pelosi", filer_id: "nancy-pelosi", ticker: "AMZN", side: "purchase", amount: "$100,001–$250,000", trade_date: "2023-05-16", filed_date: "2023-06-27", owner: "spouse" }
-      ]
-    };
+    const isOptionLike = QC.isOptionLike;
+    const optionMeta = QC.optionMeta;
+    const optionTag = QC.optionTag;
+    const isBond = QC.isBond;
+    const issuerName = QC.issuerName;
+    const OVERLAP_RULES = QC.OVERLAP_RULES;
+    const overlapHit = QC.overlapHit;
+    const tickerInfo = QC.tickerInfo;
+    const cleanAsset = QC.cleanAsset;
+    const amountHigh = QC.amountHigh;
+    const formatMoney = QC.formatMoney;
+    const prettyDate = QC.prettyDate;
+    const sideLabel = QC.sideLabel;
+    const isChartTicker = QC.isChartTicker;
+    const esc = QC.esc;
 
     const id = new URLSearchParams(location.search).get("id");
     if (!id) {
@@ -520,11 +524,6 @@
     const cutoff = new Date();
     cutoff.setFullYear(cutoff.getFullYear() - 3);
 
-    function esc(s) {
-      return String(s || "").replace(/[&<>"']/g, (c) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      }[c]));
-    }
 
     function shortSeat(name) {
       return String(name || "").replace(/^Senate Committee on\s+/i, "");
@@ -559,109 +558,6 @@
       return html;
     }
 
-    const OVERLAP_RULES = [
-      {
-        seat: /environment and public works|clean air, climate, and nuclear|energy and natural resources|energy and commerce|natural resources|interior, environment|\benergy\b/i,
-        industry: /electric services|petroleum refining|crude petroleum|natural gas|coal mining|metal mining|gas transmission|gas distribution|oil.{0,12}gas|petroleum|pipeline|drilling oil/i,
-        name: /constellation energy|chevron|exxon|conocophillips|occidental|valero|phillips 66|kinder morgan|cheniere|duke energy|nextera|sempra|dominion|exelon|firstenergy|freeport|bp p\.?l\.?c|british petroleum|championx|bwx technologies/i,
-        tickers: /^(BP|XOM|CVX|COP|OXY|VLO|PSX|MPC|EOG|SLB|HAL|BKR|WMB|KMI|OKE|LNG|FANG|DVN|HES|MRO|CHX|NEE|DUK|SO|D|EXC|AEP|SRE)$/,
-        why: "Energy / environment"
-      },
-      {
-        seat: /chemical safety|waste management/i,
-        industry: /industrial organic chemical|plastic material|paints|coatings|agricultural chemical/i,
-        name: /sherwin-williams|dow inc|dow chemical|dupont|celanese|carlisle|air products|ppg industries|lyondell/i,
-        why: "Chemical safety"
-      },
-      {
-        seat: /labor, health|health and human|public health/i,
-        industry: /pharmaceutical|hospital & medical|biological product|home health/i,
-        name: /eli lilly|unitedhealth|pfizer|merck|abbvie|zoetis|johnson & johnson|cigna|elevance|humana|medtronic|abbott|amgen|bristol|gilead|moderna|regeneron|chemed/i,
-        why: "Health funding (HHS)"
-      },
-      {
-        seat: /telecommunication|telecommunications and media|consumer protection, technology|data privacy/i,
-        industry: /semiconductor|prepackaged software|cable & other pay|telephone|radio & tv|computer communications|computer programming|data proc/i,
-        name: /alphabet|google|meta platforms|facebook|cisco|comcast|broadcom|apple|microsoft|verizon|at&t|t-mobile|nvidia|intel|qualcomm|oracle/i,
-        why: "Tech / telecom"
-      },
-      {
-        seat: /aviation, space|department of defense|armed services|intelligence/i,
-        industry: /aircraft|aerospace|guided missile|ordnance|ship & boat|search, detection/i,
-        name: /boeing|lockheed|rtx\b|raytheon|northrop|general dynamics|ge aerospace|l3harris|transdigm|palantir|bwx technologies/i,
-        tickers: /^(BWXT|LMT|NOC|GD|RTX|BA|LHX|TDG|PLTR|HII|TXT)$/,
-        why: "Defense / aviation"
-      },
-      {
-        seat: /surface transportation|freight, pipelines|transportation and infrastructure/i,
-        industry: /railroad|trucking|air transportation, scheduled|transportation services/i,
-        name: /union pacific|norfolk southern|csx|fedex|ups|prologis|delta air|southwest air|united airlines|kinder morgan|enbridge/i,
-        why: "Transportation / freight"
-      },
-      {
-        seat: /\bbanking\b|committee on finance|financial services/i,
-        industry: /national commercial bank|state commercial bank|security brokers|dealers & flotation|investment advice|savings institution/i,
-        name: /jpmorgan|bank of america|wells fargo|goldman sachs|morgan stanley|pnc financial|citigroup/i,
-        tickers: /^(JPM|BAC|WFC|GS|MS|PNC|C|USB|TFC|COF|AXP|BLK|SCHW|BK|STT|CBU|CATY|CFG|FITB|HBAN|KEY|RF|MTB|NTRS)$/,
-        why: "Financial services"
-      },
-      {
-        seat: /agriculture|nutrition|forestry/i,
-        industry: /agriculture|meat packing|grain mill|farm machinery/i,
-        name: /archer-daniels|tyson foods|mondelez|general mills|deere|corteva/i,
-        why: "Agriculture"
-      }
-    ];
-
-    const BROKER_ISSUERS = {
-      MS: /morgan stanley/i,
-      GS: /goldman sachs/i,
-      JPM: /jpmorgan|jp morgan/i,
-      BAC: /bank of america|merrill/i,
-      WFC: /wells fargo/i,
-      SCHW: /schwab/i,
-      C: /\bcitigroup\b|\bciti\b/i,
-      BLK: /blackrock/i,
-      UBS: /\bubs\b/i,
-      PNC: /\bpnc\b/i,
-      IBKR: /interactive brokers/i
-    };
-
-    function issuerName(code, raw) {
-      const c = String(code || "").toUpperCase();
-      let s = String(raw || "").replace(/\s+/g, " ").trim();
-      if (!s || s === "—") return c && c !== "—" ? c : "";
-      s = (s.split(/\s*>\s*/).pop() || s).trim();
-      const brokerStock = BROKER_ISSUERS[c] && BROKER_ISSUERS[c].test(s)
-        && !/\b(ira|roth|trust account|brokerage|select uma|unified management|joint tbe)\b/i.test(s);
-      if (brokerStock) {
-        return s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "").replace(/\s*-\s*$/, "").trim() || c;
-      }
-      const brokers = "morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\\bschwab\\b|bank of america|merrill lynch|\\bmerrill\\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\\bubs\\b|raymond james|edward jones|ameriprise|e\\*?trade|td ameritrade|interactive brokers|\\bchase\\b|aperio group(?: llc)?";
-      const account = "smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\\bbrokerage\\b|select uma(?: account)?|unified management account|joint tbe";
-      if (!BROKER_ISSUERS[c]) {
-        s = s.replace(new RegExp("^(?:" + brokers + ")\\b[\\s,:-]*", "i"), "");
-      }
-      s = s.replace(new RegExp("^(?:" + account + "|uma(?: account)?|select uma(?: account)?)\\b[\\s,:-]*", "i"), "");
-      s = s.replace(/^(?:account(?:\s*#\s*\d+)?|uma account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
-      s = s.replace(/^#\s*\d+\s+/, "");
-      s = s.replace(/^\d{2,5}\s+/, "");
-      s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/i, "");
-      s = s.replace(/^(?:tacs r3k)\s+/i, "");
-      s = s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "");
-      s = s.replace(/\s*-\s*$/, "").trim();
-      if (!s || /^(common stock|class [a-z]|llc|inc|corp)$/i.test(s)) return c && c !== "—" ? c : "";
-      if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return c && c !== "—" ? c : s;
-      return s;
-    }
-
-    function overlapHit(rule, code, name, industry) {
-      const c = String(code || "").toUpperCase();
-      if (rule.tickers && rule.tickers.test(c)) return true;
-      if (rule.industry && rule.industry.test(industry || "")) return true;
-      const blob = (c + " " + issuerName(c, name)).toLowerCase();
-      return !!(rule.name && rule.name.test(blob));
-    }
 
     function findOverlaps(bio, rows, file) {
       const seats = []
@@ -741,21 +637,7 @@
         "<article class=\"subs\"><h3>Subcommittees</h3>" + subsHtml(bio.subcommittees) + "</article>";
     }
 
-    function tickerInfo(t, file) {
-      const lookup = (file && file.tickers) || {};
-      const extra = ((file && file.assets) || {})[t.asset] || {};
-      const opt = optionMeta(t);
-      const code = (t.ticker || extra.ticker || opt.under || "").toUpperCase();
-      const meta = lookup[code] || {};
-      const bondLike = /bond|municipal/i.test(t.asset_type || "") || /rate\/coupon/i.test(t.asset || "");
-      const name = bondLike ? (t.asset || meta.name || "—") : (issuerName(code, meta.name || cleanAsset(t.asset)) || "—");
-      const industry = meta.industry || extra.industry || "—";
-      return { code: code || "—", name, industry };
-    }
 
-    function cleanAsset(s) {
-      return String(s || "").replace(/\s+(Common Stock.*|Class [A-Z].*)$/i, "").trim();
-    }
 
     function threeYearRows(data) {
       return (data.trades || []).filter((t) => t.filer_id === id && new Date(t.trade_date) >= cutoff)
@@ -765,64 +647,12 @@
     const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1 };
     const SLICE = ["#e3b41a", "#3db8c4", "#1e4b8a", "#7dcf7a", "#ef7a74", "#9b7ed9", "#e08a4a", "#6b7582"];
 
-    function amountHigh(amount) {
-      const nums = String(amount || "").match(/\$[\d,]+/g);
-      if (!nums || !nums.length) return 0;
-      return parseInt(nums[nums.length - 1].replace(/[$,]/g, ""), 10) || 0;
-    }
 
-    function isBond(t) {
-      const type = (t.asset_type || "").toLowerCase();
-      const asset = (t.asset || "").toLowerCase();
-      return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
-    }
 
-    function isOptionLike(t) {
-      const type = (t.asset_type || "").toLowerCase();
-      const asset = (t.asset || "").toLowerCase();
-      return type.includes("option") || /exercised|call option|put option|strike pric|flex euro|\bcall\/|\bput\/|@\s*\d/.test(asset);
-    }
 
-    function optionMeta(t) {
-      const a = String(t.asset || "");
-      let kind = "";
-      if (/\bput\b|\bput\/|>ut\//i.test(a)) kind = "Put";
-      else if (/\bcall\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
-      const strike = (a.match(/strike\s*price:\s*\$?([\d,.]+)/i) || a.match(/@\s*\$?([\d,.]+)/) || [])[1];
-      const exp = (a.match(/expires?:\s*([\d./-]+)/i) || a.match(/exp(?:ires)?\s*([\d./-]+)/i) || [])[1];
-      let under = "";
-      const m = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
-      if (m) {
-        under = m[1].toUpperCase();
-        if (under === "INJ") under = "JNJ";
-      }
-      return { kind: kind, strike: strike || "", exp: exp || "", under: under };
-    }
 
-    function optionTag(t) {
-      if (!isOptionLike(t)) return "";
-      const o = optionMeta(t);
-      const bits = [o.kind || "Option"];
-      if (o.strike) bits.push("$" + o.strike.replace(/\.00$/, ""));
-      if (o.exp) bits.push(o.exp);
-      return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
-    }
 
-    function formatMoney(n) {
-      if (n >= 1000000) {
-        const m = n / 1000000;
-        const s = (m >= 10 ? m.toFixed(0) : m.toFixed(1)).replace(/\.0$/, "");
-        return "$" + s + "M";
-      }
-      if (n >= 1000) return "$" + Math.round(n / 1000) + "K";
-      return "$" + n.toLocaleString("en-US");
-    }
 
-    function prettyDate(iso) {
-      const d = new Date(String(iso || "") + "T00:00:00");
-      if (isNaN(d.getTime())) return iso || "—";
-      return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
-    }
 
     function formatPct(value, total) {
       if (!total) return "0%";
@@ -962,16 +792,7 @@
       }
     }
 
-    function sideLabel(side) {
-      if (side === "purchase") return "Buy";
-      if (side === "sale") return "Sell";
-      return side || "";
-    }
 
-    function isChartTicker(code) {
-      const c = String(code || "").toUpperCase();
-      return !!(c && c !== "—" && !BAD_TICKERS[c] && /^[A-Z][A-Z0-9.]{0,6}$/.test(c));
-    }
 
     function tickerCell(code) {
       if (!isChartTicker(code)) return esc(code);
@@ -1013,7 +834,7 @@
     }
 
     Promise.all([
-      fetch("trades.json").then((r) => r.json()).catch(() => fallback),
+      fetch("trades.json").then((r) => r.json()),
       fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} })),
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
     ]).then(([data, bios, tickerFile]) => {
@@ -1030,6 +851,9 @@
         document.getElementById("who").textContent = shown;
         document.title = shown + " — Quantity Capital";
       }
+    }).catch(() => {
+      document.getElementById("rows").innerHTML =
+        "<tr><td colspan=\"9\">Could not load the official tape.</td></tr>";
     });
 
     if ("serviceWorker" in navigator) {

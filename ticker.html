@@ -170,6 +170,7 @@
     <ul class="chart-marks" id="marks"></ul>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
+  <script src="qc.js"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -177,69 +178,15 @@
     const filerId = params.get("id") || "";
     if (!ticker) location.replace("index.html");
 
-    function esc(s) {
-      return String(s || "").replace(/[&<>"']/g, (c) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-      }[c]));
-    }
-    function amountHigh(amount) {
-      const nums = String(amount || "").match(/\$[\d,]+/g);
-      if (!nums || !nums.length) return 0;
-      return parseInt(nums[nums.length - 1].replace(/[$,]/g, ""), 10) || 0;
-    }
-    function isBond(t) {
-      const type = (t.asset_type || "").toLowerCase();
-      const asset = (t.asset || "").toLowerCase();
-      return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
-    }
-    function isOptionLike(t) {
-      const type = (t.asset_type || "").toLowerCase();
-      const asset = (t.asset || "").toLowerCase();
-      return type.includes("option") || /exercised|call option|put option|strike pric|flex euro|\bcall\/|\bput\/|@\s*\d/.test(asset);
-    }
-    function optionMeta(t) {
-      const a = String(t.asset || "");
-      let kind = "";
-      if (/\bput\b|\bput\/|>ut\//i.test(a)) kind = "Put";
-      else if (/\bcall\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
-      const strike = (a.match(/strike\s*price:\s*\$?([\d,.]+)/i) || a.match(/@\s*\$?([\d,.]+)/) || [])[1];
-      const exp = (a.match(/expires?:\s*([\d./-]+)/i) || a.match(/exp(?:ires)?\s*([\d./-]+)/i) || [])[1];
-      let under = (t.ticker || "").toUpperCase();
-      const m = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
-      if (m) {
-        under = m[1].toUpperCase();
-        if (under === "INJ") under = "JNJ";
-      }
-      return { kind: kind, strike: strike || "", exp: exp || "", under: under };
-    }
-    function optionTag(t) {
-      if (!isOptionLike(t)) return "";
-      const o = optionMeta(t);
-      const bits = [o.kind || "Option"];
-      if (o.strike) bits.push("$" + o.strike.replace(/\.00$/, ""));
-      if (o.exp) bits.push(o.exp);
-      return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
-    }
-    function formatMoney(n) {
-      if (n >= 1000000) {
-        const m = n / 1000000;
-        const s = (m >= 10 ? m.toFixed(0) : m.toFixed(1)).replace(/\.0$/, "");
-        return "$" + s + "M";
-      }
-      if (n >= 1000) return "$" + Math.round(n / 1000) + "K";
-      return "$" + n.toLocaleString("en-US");
-    }
-    function signedMoney(n) {
-      const abs = formatMoney(Math.abs(n));
-      if (n > 0) return "+" + abs;
-      if (n < 0) return "−" + abs;
-      return abs;
-    }
-    function prettyDate(iso) {
-      const d = new Date(String(iso || "") + "T00:00:00");
-      if (isNaN(d.getTime())) return iso || "—";
-      return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
-    }
+    const esc = QC.esc;
+    const amountHigh = QC.amountHigh;
+    const isBond = QC.isBond;
+    const isOptionLike = QC.isOptionLike;
+    const optionMeta = QC.optionMeta;
+    const optionTag = QC.optionTag;
+    const formatMoney = QC.formatMoney;
+    const signedMoney = QC.signedMoney;
+    const prettyDate = QC.prettyDate;
     function nearestClose(points, date) {
       if (!points || !points.length) return null;
       let pick = points[0];
@@ -326,7 +273,9 @@
       if (!prices || !prices.c || prices.c.length < 2) {
         const note = document.getElementById("note");
         note.hidden = false;
-        note.textContent = "No daily prices on file for " + ticker + ".";
+        note.textContent = prices && prices.missing
+          ? "Yahoo has no daily series for " + ticker + "."
+          : "No daily prices on file for " + ticker + ".";
         return;
       }
       const points = prices.c;

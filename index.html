@@ -12,9 +12,9 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <title>Quantity Capital</title>
-  <meta name="description" content="Official Senate and House STOCK Act tape. Amounts are ranges, not share counts." />
+  <meta name="description" content="Official Senate, House, and White House STOCK Act / OGE 278-T tape. Amounts are ranges, not share counts." />
   <meta property="og:title" content="Quantity Capital" />
-  <meta property="og:description" content="Official Senate and House STOCK Act tape." />
+  <meta property="og:description" content="Official Senate, House, and White House STOCK Act / OGE 278-T tape." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -889,9 +889,9 @@
   <div class="tape-chrome">
     <div class="wrap">
       <div class="tape-lock">
-        <h2>Congressional tape</h2>
+        <h2>Official tape</h2>
         <p class="feed-head">
-          Latest disclosed Senate and House trades. Search for one person’s last three years.
+          Latest disclosed Senate, House, and White House trades. Search for one person’s last three years.
         </p>
       </div>
     </div>
@@ -946,6 +946,15 @@
               <option value="">All</option>
               <option value="purchase">Buy</option>
               <option value="sale">Sell</option>
+            </select>
+          </div>
+          <div>
+            <label for="filter-chamber">Chamber</label>
+            <select id="filter-chamber">
+              <option value="">All</option>
+              <option value="Senate">Senate</option>
+              <option value="House">House</option>
+              <option value="White House">White House</option>
             </select>
           </div>
         </div>
@@ -1600,8 +1609,10 @@
           const companyQ = document.getElementById("filter-company").value.trim().toLowerCase();
           const industry = document.getElementById("filter-industry").value;
           const side = document.getElementById("filter-side").value;
+          const chamber = document.getElementById("filter-chamber").value;
           const filtered = kindPool().filter((t) => {
             if (side && t.side !== side) return false;
+            if (chamber && (t.chamber || "") !== chamber) return false;
             if (industry && sectorOf(t.industry) !== industry) return false;
             if (companyQ) {
               const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
@@ -1620,6 +1631,7 @@
           apply();
         });
         document.getElementById("filter-side").addEventListener("change", () => { showAll = false; apply(); });
+        document.getElementById("filter-chamber").addEventListener("change", () => { showAll = false; apply(); });
         document.getElementById("show-all").addEventListener("click", () => {
           showAll = !showAll;
           apply();

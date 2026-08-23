@@ -707,15 +707,27 @@
         box.innerHTML = "<article><h3>Bio</h3><p class=\"muted\">No official bio matched this filer yet.</p></article>";
         return;
       }
+      const term = (bio.term_start && bio.term_end)
+        ? " Current term " + bio.term_start + "–" + bio.term_end + "."
+        : "";
+      const party = bio.party ? " · " + bio.party : "";
+      if ((bio.chamber || "") === "White House") {
+        box.innerHTML =
+          "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.name) + "</strong>" + esc(party) + "<br>" +
+          esc(bio.title || "White House") + "<br>White House" + term + "</p></article>" +
+          "<article class=\"economy\"><h3>Agency</h3><p>" + esc(bio.agency || "White House") + "</p></article>" +
+          "<article class=\"committees\"><h3>Committees</h3>" +
+          "<p class=\"muted\">White House officials do not sit on congressional committees.</p></article>" +
+          "<article class=\"overlap\"><h3>Conflicts</h3>" +
+          "<p class=\"muted\">Committee-overlap scoring applies to House and Senate seats only.</p></article>" +
+          "<article class=\"subs\"><h3>Subcommittees</h3><p class=\"muted\">None.</p></article>";
+        return;
+      }
       const elected = bio.first_elected_senate
         ? "First elected to the Senate in " + bio.first_elected_senate + "."
         : bio.first_elected_house
           ? "First elected to the House in " + bio.first_elected_house + "."
           : "Election year not on file.";
-      const term = (bio.term_start && bio.term_end)
-        ? " Current term " + bio.term_start + "–" + bio.term_end + "."
-        : "";
-      const party = bio.party ? " · " + bio.party : "";
       box.innerHTML =
         "<article class=\"office\"><h3>Office</h3><p><strong>" + esc(bio.name) + "</strong>" + esc(party) + "<br>" +
         "State: " + esc(bio.state) +

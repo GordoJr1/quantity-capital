@@ -428,6 +428,19 @@
     table.tape-table a:hover { color: var(--caution); }
     .buy { color: #7dcf7a; }
     .sell { color: #ef7a74; }
+    .opt-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid #6b7582;
+      color: #c5cdd6;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
     .co { display: block; color: var(--paper); }
     .ind { color: var(--mute); font-size: 0.88rem; }
     .filing-err {
@@ -922,6 +935,7 @@
             <label for="filter-kind">Stocks / bonds</label>
             <select id="filter-kind">
               <option value="stock" selected>Stocks</option>
+              <option value="option">Options</option>
               <option value="bond">Bonds</option>
               <option value="">All</option>
             </select>
@@ -1012,9 +1026,41 @@
       });
     }
 
+    function isOptionLike(t) {
+      const type = (t.asset_type || "").toLowerCase();
+      const asset = (t.asset || "").toLowerCase();
+      return type.includes("option") || /exercised|call option|put option|strike pric|flex euro|\bcall\/|\bput\/|@\s*\d/.test(asset);
+    }
+
+    function optionMeta(t) {
+      const a = String(t.asset || "");
+      let kind = "";
+      if (/\bput\b|\bput\/|>ut\//i.test(a)) kind = "Put";
+      else if (/\bcall\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
+      const strike = (a.match(/strike\s*price:\s*\$?([\d,.]+)/i) || a.match(/@\s*\$?([\d,.]+)/) || [])[1];
+      const exp = (a.match(/expires?:\s*([\d./-]+)/i) || a.match(/exp(?:ires)?\s*([\d./-]+)/i) || [])[1];
+      let under = "";
+      const m = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
+      if (m) {
+        under = m[1].toUpperCase();
+        if (under === "INJ") under = "JNJ";
+      }
+      return { kind: kind, strike: strike || "", exp: exp || "", under: under };
+    }
+
+    function optionTag(t) {
+      if (!isOptionLike(t)) return "";
+      const o = optionMeta(t);
+      const bits = [o.kind || "Option"];
+      if (o.strike) bits.push("$" + o.strike.replace(/\.00$/, ""));
+      if (o.exp) bits.push(o.exp);
+      return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
+    }
+
     function assetKind(t) {
       const type = (t.asset_type || "").toLowerCase();
       const asset = (t.asset || "").toLowerCase();
+      if (isOptionLike(t)) return "option";
       if (type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset)) return "bond";
       if (type.includes("stock")) return "stock";
       return "other";
@@ -1023,14 +1069,19 @@
     function enrich(t, file) {
       const lookup = (file && file.tickers) || {};
       const extra = ((file && file.assets) || {})[t.asset] || {};
-      const code = (t.ticker || extra.ticker || "").toUpperCase();
+      const opt = optionMeta(t);
+      const code = (t.ticker || extra.ticker || opt.under || "").toUpperCase();
       const meta = lookup[code] || {};
       const bondLike = /bond|municipal/i.test(t.asset_type || "") || /rate\/coupon/i.test(t.asset || "");
+      const name = bondLike
+        ? (t.asset || meta.name || "—")
+        : (issuerName(code, meta.name || t.asset) || "—");
       return {
         ...t,
         code: code || "—",
-        company: bondLike ? (t.asset || meta.name || "—") : (issuerName(code, meta.name || t.asset) || "—"),
-        industry: meta.industry || extra.industry || ""
+        company: name,
+        industry: meta.industry || extra.industry || "",
+        option: isOptionLike(t) ? opt : null
       };
     }
 
@@ -1085,7 +1136,7 @@
           "<td class=\"tix-side " + cls + "\">" + escapeHtml(sideLabel(t.side)) + "</td>" +
           "<td class=\"tix-tk\">" + (isChartTicker(t.code)
             ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
-            : escapeHtml(t.code)) + "</td>" +
+            : escapeHtml(t.code)) + optionTag(t) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
           "<td class=\"tix-amt\">" + escapeHtml(t.amount) + "</td>" +
@@ -1248,12 +1299,6 @@
       const type = (t.asset_type || "").toLowerCase();
       const asset = (t.asset || "").toLowerCase();
       return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
-    }
-
-    function isOptionLike(t) {
-      const type = (t.asset_type || "").toLowerCase();
-      const asset = (t.asset || "").toLowerCase();
-      return type.includes("option") || /exercised|call option|put option|strike pric/.test(asset);
     }
 
     function formatMoney(n) {

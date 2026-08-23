@@ -72,6 +72,17 @@
     .stat span { color: var(--mute); font-size: 0.75rem; }
     .up { color: #7dcf7a; }
     .down { color: #ef7a74; }
+    .opt-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid #6b7582;
+      color: #c5cdd6;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
     .buy { color: #7dcf7a; }
     .sell { color: #ef7a74; }
     .chart-frame {
@@ -184,7 +195,30 @@
     function isOptionLike(t) {
       const type = (t.asset_type || "").toLowerCase();
       const asset = (t.asset || "").toLowerCase();
-      return type.includes("option") || /exercised|call option|put option|strike pric/.test(asset);
+      return type.includes("option") || /exercised|call option|put option|strike pric|flex euro|\bcall\/|\bput\/|@\s*\d/.test(asset);
+    }
+    function optionMeta(t) {
+      const a = String(t.asset || "");
+      let kind = "";
+      if (/\bput\b|\bput\/|>ut\//i.test(a)) kind = "Put";
+      else if (/\bcall\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
+      const strike = (a.match(/strike\s*price:\s*\$?([\d,.]+)/i) || a.match(/@\s*\$?([\d,.]+)/) || [])[1];
+      const exp = (a.match(/expires?:\s*([\d./-]+)/i) || a.match(/exp(?:ires)?\s*([\d./-]+)/i) || [])[1];
+      let under = (t.ticker || "").toUpperCase();
+      const m = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
+      if (m) {
+        under = m[1].toUpperCase();
+        if (under === "INJ") under = "JNJ";
+      }
+      return { kind: kind, strike: strike || "", exp: exp || "", under: under };
+    }
+    function optionTag(t) {
+      if (!isOptionLike(t)) return "";
+      const o = optionMeta(t);
+      const bits = [o.kind || "Option"];
+      if (o.strike) bits.push("$" + o.strike.replace(/\.00$/, ""));
+      if (o.exp) bits.push(o.exp);
+      return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
     }
     function formatMoney(n) {
       if (n >= 1000000) {
@@ -268,12 +302,15 @@
       fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null)
     ]).then(([data, prices]) => {
       const deals = (data.trades || []).filter((t) => {
-        if ((t.side !== "purchase" && t.side !== "sale") || isBond(t) || isOptionLike(t)) return false;
-        if ((t.ticker || "").toUpperCase() !== ticker) return false;
+        if ((t.side !== "purchase" && t.side !== "sale") || isBond(t)) return false;
+        const under = optionMeta(t).under || (t.ticker || "").toUpperCase();
+        const tk = (t.ticker || "").toUpperCase();
+        if (tk !== ticker && under !== ticker) return false;
         if (new Date(t.trade_date) < cutoff) return false;
         if (filerId && t.filer_id !== filerId) return false;
         return true;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
+      const stockDeals = deals.filter((t) => !isOptionLike(t));
 
       const who = filerId && deals[0] ? deals[0].filer : "";
       if (who) {
@@ -289,12 +326,12 @@
       }
       const points = prices.c;
       const last = points[points.length - 1];
-      const buys = deals.filter((t) => t.side === "purchase").length;
-      const sells = deals.filter((t) => t.side === "sale").length;
+      const buys = stockDeals.filter((t) => t.side === "purchase").length;
+      const sells = stockDeals.filter((t) => t.side === "sale").length;
       document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker");
 
       if (filerId) {
-        const est = theoreticalPnl(deals, points);
+        const est = theoreticalPnl(stockDeals, points);
         const totalCls = est.total > 0 ? "up" : est.total < 0 ? "down" : "";
         const unCls = est.unrealized > 0 ? "up" : est.unrealized < 0 ? "down" : "";
         const realCls = est.realized > 0 ? "up" : est.realized < 0 ? "down" : "";
@@ -309,7 +346,7 @@
           "<div class=\"stat\"><b>" + formatMoney(last[1]) + "</b><span>close</span></div>";
       }
 
-      drawChart(points, deals.map((t) => ({ date: t.trade_date, side: t.side })));
+      drawChart(points, stockDeals.map((t) => ({ date: t.trade_date, side: t.side })));
       document.getElementById("marks").innerHTML = deals.map((t) => {
         const px = nearestClose(points, t.trade_date);
         const cls = t.side === "purchase" ? "buy" : "sell";
@@ -317,7 +354,7 @@
           ? "<span class=\"who\">" + esc(t.owner || "self") + "</span>"
           : "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
         return "<li>" + name +
-          "<span class=\"side " + cls + "\">" + (t.side === "purchase" ? "Buy" : t.side === "sale" ? "Sell" : esc(t.side)) + "</span>" +
+          "<span class=\"side " + cls + "\">" + (t.side === "purchase" ? "Buy" : t.side === "sale" ? "Sell" : esc(t.side)) + optionTag(t) + "</span>" +
           "<span class=\"when\">" + prettyDate(t.trade_date) + "</span>" +
           "<span class=\"amt\">" + esc(t.amount) + "</span>" +
           "<span class=\"px\">" + (px ? formatMoney(px[1]) + " close" : "no close") + "</span></li>";

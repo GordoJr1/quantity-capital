@@ -12927,6 +12927,67 @@
       "state_economy": "Autos, advanced manufacturing, and agriculture.",
       "bioguide": "W000798",
       "opensecrets": "N00026368"
+    },
+    "ro-khanna": {
+      "name": "Ro Khanna",
+      "display": "Ro Khanna",
+      "chamber": "House",
+      "state": "CA",
+      "party": "Democrat",
+      "class": null,
+      "district": 17,
+      "first_elected_house": 2017,
+      "term_start": "2025",
+      "term_end": "2027",
+      "committees": [
+        {
+          "name": "House Committee on Armed Services",
+          "code": "HSAS",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Oversight and Government Reform",
+          "code": "HSGO",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "House Select Committee on the Strategic Competition Between the United States and the Chinese Communist Party",
+          "code": "HSZS",
+          "subcommittee": false,
+          "title": "Ranking Member"
+        }
+      ],
+      "subcommittees": [
+        {
+          "name": "House Committee on Oversight and Government Reform \u2014 Economic Growth, Energy Policy, and Regulatory Affairs",
+          "code": "HSGO05",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Oversight and Government Reform \u2014 Cybersecurity, Information Technology, and Government Innovation",
+          "code": "HSGO12",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Armed Services \u2014 Seapower and Projection Forces",
+          "code": "HSAS28",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "House Committee on Armed Services \u2014 Cyber, Information Technologies, and Innovation",
+          "code": "HSAS35",
+          "subcommittee": true,
+          "title": "Ranking Member"
+        }
+      ],
+      "state_economy": "Technology, entertainment, agriculture, and international trade.",
+      "bioguide": "K000389",
+      "opensecrets": "N00026427"
     }
   },
   "unmatched": []

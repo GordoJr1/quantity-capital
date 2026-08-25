@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Landed — Quantity Capital</title>
+  <meta name="description" content="Trades newly added to the Quantity Capital tape, ranked by ingest time — not trade date." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430;
+      --panel: #2a3340;
+      --paper: #d8dde3;
+      --white: #eef2f5;
+      --red: #c2302a;
+      --caution: #e3b41a;
+      --mute: #8b96a3;
+      --ink: #1a1d26;
+      --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+    .stripe {
+      height: 10px;
+      background: repeating-linear-gradient(-45deg, var(--ink) 0 10px, var(--caution) 10px 20px);
+    }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--teal);
+    }
+    .mark, h1, h2, .kicker, nav, .chip, .tk, .gate, .lag b {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 16px; font-size: 0.9rem; letter-spacing: 0.12em; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 18px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+    .chip {
+      background: #151b24;
+      border: 1px solid #4a5563;
+      color: var(--paper);
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 0 0 28px;
+      border: 1px solid #4a5563;
+      background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem;
+      color: var(--caution);
+      letter-spacing: 0.06em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .drop { margin: 0 0 28px; }
+    .drop-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 2px solid var(--caution);
+      margin-bottom: 12px;
+    }
+    .gate { color: var(--caution); font-size: 1.35rem; }
+    .drop-meta { color: var(--mute); font-size: 0.82rem; }
+    .card {
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-left: 6px solid var(--caution);
+      padding: 14px 16px;
+      margin: 0 0 10px;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+    .who {
+      color: var(--white);
+      text-decoration: none;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 1.35rem;
+    }
+    .who:hover { color: var(--teal); }
+    .lag { text-align: right; color: var(--caution); line-height: 1; }
+    .lag b { display: block; font-size: 1.7rem; }
+    .lag span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .tickets { list-style: none; margin-top: 10px; }
+    .tickets li {
+      display: grid;
+      grid-template-columns: 52px 64px minmax(0, 1fr) auto;
+      gap: 10px;
+      padding: 8px 0;
+      border-top: 1px solid #3a4452;
+      font-size: 0.9rem;
+      align-items: baseline;
+    }
+    .tickets .side.buy { color: #7dcf7a; }
+    .tickets .side.sell { color: #ef7a74; }
+    .tk { color: var(--white); text-decoration: none; font-size: 1.05rem; }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.86rem; }
+    .amt { color: var(--white); font-weight: 600; white-space: nowrap; }
+    .opt-tag {
+      display: inline-block; margin-left: 6px; padding: 1px 6px;
+      border: 1px solid #6b7582; color: #c5cdd6;
+      font-family: "Barlow Condensed", sans-serif; font-size: 0.68rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    footer {
+      border-top: 2px solid var(--caution);
+      margin-top: 20px;
+    }
+    footer .wrap {
+      display: flex; justify-content: space-between;
+      padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mute);
+    }
+    footer a { color: var(--caution); }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
+      .tickets li { grid-template-columns: 48px 52px minmax(0, 1fr); }
+      .amt { grid-column: 2 / -1; }
+    }
+    @media (display-mode: standalone) {
+      body { padding-top: env(safe-area-inset-top, 0px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html" class="on">Landed</a>
+        <a href="signals.html">Signals</a>
+      </nav>
+    </header>
+    <p class="kicker">Drop log</p>
+    <h1>Landed</h1>
+    <p class="lede">
+      Prints that just hit Quantity Capital. Ranked by when we ingested them, not the trade date.
+      A July ticket that showed up this morning still leads — that’s the Pelosi problem this board solves.
+    </p>
+    <div class="windows" id="windows"></div>
+    <div class="stats" id="stats"></div>
+    <div id="board"></div>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const WINDOWS = [72, 168, 336];
+    const params = new URLSearchParams(location.search);
+    let hours = WINDOWS.indexOf(Number(params.get("h"))) >= 0 ? Number(params.get("h")) : 72;
+
+    function labelHours(h) {
+      if (h <= 72) return "Last 3 days";
+      if (h <= 168) return "Last 7 days";
+      return "Last 14 days";
+    }
+    function dropKey(iso) {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        year: "numeric", month: "2-digit", day: "2-digit",
+        hour: "2-digit", hourCycle: "h23"
+      }).formatToParts(d);
+      const get = (t) => ((parts.find((p) => p.type === t) || {}).value || "");
+      return get("year") + "-" + get("month") + "-" + get("day") + "T" + get("hour");
+    }
+    function dropTitle(iso) {
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      return d.toLocaleString("en-US", {
+        weekday: "short", month: "short", day: "numeric", year: "numeric",
+        hour: "numeric", minute: "2-digit", timeZone: "America/New_York"
+      }) + " ET";
+    }
+
+    function groupDrops(rows) {
+      const map = new Map();
+      rows.forEach((t) => {
+        const key = dropKey(t.added);
+        if (!map.has(key)) map.set(key, { key: key, added: t.added, rows: [] });
+        map.get(key).rows.push(t);
+      });
+      return Array.from(map.values()).sort((a, b) => String(b.added).localeCompare(String(a.added)));
+    }
+
+    function groupFilers(rows) {
+      const map = new Map();
+      rows.forEach((t) => {
+        const id = t.filer_id || t.filer;
+        const rec = map.get(id) || { id: t.filer_id, name: t.filer, chamber: t.chamber, rows: [], lag: 0 };
+        rec.rows.push(t);
+        const lag = QC.lagDays(t);
+        if (lag != null && lag > rec.lag) rec.lag = lag;
+        map.set(id, rec);
+      });
+      return Array.from(map.values()).sort((a, b) => b.rows.length - a.rows.length || a.name.localeCompare(b.name));
+    }
+
+    function ticketLine(t) {
+      const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
+      const code = t.code && t.code !== "—" ? t.code : "—";
+      const tk = QC.isChartTicker(code)
+        ? "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(code) + "\">" + QC.esc(code) + "</a>"
+        : "<span class=\"tk\">" + QC.esc(code) + "</span>";
+      return "<li>" +
+        "<span class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</span>" +
+        tk +
+        "<span class=\"co\">" + QC.esc(t.company || t.asset || "—") + QC.optionTag(t) +
+          " · traded " + QC.esc(QC.prettyDate(t.trade_date)) + "</span>" +
+        "<span class=\"amt\">" + QC.esc(t.amount) + "</span>" +
+      "</li>";
+    }
+
+    function filerCard(g) {
+      const lag = g.lag;
+      const lagHtml = lag
+        ? "<div class=\"lag\"><b>" + lag + "d</b><span>after the trade</span></div>"
+        : "<div class=\"lag\"><b>0d</b><span>same-day print</span></div>";
+      return "<article class=\"card\">" +
+        "<div class=\"card-top\">" +
+          "<div>" +
+            "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(g.id) + "\">" + QC.esc(g.name) + "</a>" +
+            "<div class=\"muted\">" + QC.esc(g.chamber || "") + " · " + g.rows.length + " ticket" + (g.rows.length === 1 ? "" : "s") + "</div>" +
+          "</div>" + lagHtml +
+        "</div>" +
+        "<ul class=\"tickets\">" + g.rows.map(ticketLine).join("") + "</ul>" +
+      "</article>";
+    }
+
+    function paint(rows) {
+      const drops = groupDrops(rows);
+      const people = new Set(rows.map((t) => t.filer_id));
+      const laggy = rows.filter((t) => (QC.lagDays(t) || 0) >= 7).length;
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + rows.length + "</b><span>prints in window</span></div>" +
+        "<div class=\"stat\"><b>" + people.size + "</b><span>filers</span></div>" +
+        "<div class=\"stat\"><b>" + laggy + "</b><span>traded 7+ days earlier</span></div>";
+      if (!rows.length) {
+        document.getElementById("board").innerHTML =
+          "<p class=\"muted\">Nothing new has landed in this window. Morning and 6 PM drops show up here.</p>";
+        return;
+      }
+      document.getElementById("board").innerHTML = drops.map((d) => {
+        const chambers = Array.from(new Set(d.rows.map((t) => t.chamber).filter(Boolean))).join(" · ");
+        return "<section class=\"drop\">" +
+          "<div class=\"drop-head\">" +
+            "<div class=\"gate\">Drop · " + QC.esc(dropTitle(d.added)) + "</div>" +
+            "<div class=\"drop-meta\">" + d.rows.length + " ticket" + (d.rows.length === 1 ? "" : "s") +
+              (chambers ? " · " + QC.esc(chambers) : "") + "</div>" +
+          "</div>" +
+          groupFilers(d.rows).map(filerCard).join("") +
+        "</section>";
+      }).join("");
+    }
+
+    function paintWindows() {
+      document.getElementById("windows").innerHTML = WINDOWS.map((h) =>
+        "<button type=\"button\" class=\"chip" + (h === hours ? " on" : "") + "\" data-h=\"" + h + "\">" +
+          labelHours(h) + "</button>"
+      ).join("");
+    }
+
+    async function run() {
+      paintWindows();
+      document.getElementById("board").innerHTML = "<p class=\"muted\">Reading the tape…</p>";
+      const [tape, tickerFile] = await Promise.all([
+        fetch("trades-lite.json").then((r) => r.json()),
+        fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
+      ]);
+      const rows = (tape.trades || [])
+        .filter((t) => QC.isLanded(t, hours))
+        .map((t) => QC.enrich(t, tickerFile))
+        .sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")) ||
+          (b.trade_date || "").localeCompare(a.trade_date || ""));
+      paint(rows);
+    }
+
+    document.getElementById("windows").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-h]");
+      if (!btn) return;
+      hours = Number(btn.dataset.h);
+      const p = new URLSearchParams(location.search);
+      p.set("h", String(hours));
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      run();
+    });
+
+    run().catch(() => {
+      document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the tape.</p>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+</body>
+</html>

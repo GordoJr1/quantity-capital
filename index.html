@@ -457,7 +457,35 @@
       vertical-align: middle;
       white-space: nowrap;
     }
+    .landed-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 6px;
+      border: 1px solid var(--caution);
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
     table.tape-table tr.has-err td:nth-child(2) { box-shadow: inset 3px 0 0 var(--red); }
+    table.tape-table tr.just-in td:first-child { box-shadow: inset 3px 0 0 var(--caution); }
+    .tape-asof a { color: var(--caution); }
+    .check-landed {
+      display: flex;
+      align-items: flex-end;
+    }
+    .check-landed label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin: 0;
+      height: 42px;
+    }
+    .check-landed input { width: auto; accent-color: var(--caution); }
     .count { color: var(--mute); font-size: 0.85rem; margin: 0; padding: 0 0 10px; }
     .more-row { margin: 14px 0 0; }
 
@@ -887,6 +915,7 @@
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav>
         <a href="index.html" class="on">Tape</a>
+        <a href="landed.html">Landed</a>
         <a href="signals.html">Signals</a>
       </nav>
     </div>
@@ -963,6 +992,12 @@
               <option value="House">House</option>
               <option value="White House">White House</option>
             </select>
+          </div>
+          <div class="check-landed">
+            <label for="filter-landed">
+              <input id="filter-landed" type="checkbox" />
+              Just landed
+            </label>
           </div>
         </div>
       </details>
@@ -1096,9 +1131,12 @@
       box.innerHTML = visible.map((t) => {
         const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
         const bad = isFilingError(t);
-        const flag = bad ? errBadge() : "";
+        const fresh = QC.isLanded(t, 72);
+        const flag = (bad ? errBadge() : "") +
+          (fresh ? "<span class=\"landed-tag\" title=\"This print was added to Quantity Capital recently — the trade itself may be older.\">Landed</span>" : "");
         const meta = [t.company, t.industry || "—", t.owner].join(" · ");
-        return "<tr" + (bad ? " class=\"has-err\"" : "") + ">" +
+        const trCls = (bad ? " has-err" : "") + (fresh ? " just-in" : "");
+        return "<tr" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
           stampHtml(t.trade_date).replace("</td>", flag + "</td>") +
           "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + flag + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
@@ -1343,7 +1381,12 @@
         const asof = document.getElementById("tape-asof");
         if (asof) {
           const label = QC.asOfLabel(data.collected);
-          asof.textContent = label ? "Tape through " + label : "";
+          const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;
+          asof.innerHTML = (label ? "Tape through " + QC.esc(label) : "") +
+            (freshN
+              ? (label ? " · " : "") + "<a href=\"landed.html\">" + freshN +
+                " print" + (freshN === 1 ? "" : "s") + " landed in the last 3 days</a>"
+              : "");
         }
         let tickerFile = { tickers: {}, assets: {} };
         try {
@@ -1396,6 +1439,7 @@
           if (chamber) p.set("chamber", chamber);
           if (industry) p.set("industry", industry);
           if (company) p.set("q", company);
+          if (document.getElementById("filter-landed").checked) p.set("landed", "1");
           const qs = p.toString();
           history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
         }
@@ -1407,6 +1451,7 @@
           if (p.get("chamber")) document.getElementById("filter-chamber").value = p.get("chamber");
           if (p.get("q")) document.getElementById("filter-company").value = p.get("q");
           if (p.get("industry")) document.getElementById("filter-industry").value = p.get("industry");
+          if (p.get("landed") === "1") document.getElementById("filter-landed").checked = true;
         }
 
         function apply() {
@@ -1414,16 +1459,21 @@
           const industry = document.getElementById("filter-industry").value;
           const side = document.getElementById("filter-side").value;
           const chamber = document.getElementById("filter-chamber").value;
+          const onlyLanded = document.getElementById("filter-landed").checked;
           const filtered = kindPool().filter((t) => {
             if (side && t.side !== side) return false;
             if (chamber && (t.chamber || "") !== chamber) return false;
             if (industry && sectorOf(t.industry) !== industry) return false;
+            if (onlyLanded && !QC.isLanded(t, 72)) return false;
             if (companyQ) {
               const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
               if (!blob.includes(companyQ)) return false;
             }
             return true;
           });
+          if (onlyLanded) {
+            filtered.sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")));
+          }
           writeFilters();
           renderTape(filtered);
         }
@@ -1437,6 +1487,7 @@
         });
         document.getElementById("filter-side").addEventListener("change", () => { showAll = false; apply(); });
         document.getElementById("filter-chamber").addEventListener("change", () => { showAll = false; apply(); });
+        document.getElementById("filter-landed").addEventListener("change", () => { showAll = false; apply(); });
         document.getElementById("show-all").addEventListener("click", () => {
           showAll = !showAll;
           apply();

@@ -275,6 +275,28 @@
     return { code: code || "—", name: name, industry: industry };
   }
 
+  function parseAdded(t) {
+    const s = t && t.added;
+    if (!s) return null;
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function isLanded(t, hours) {
+    const d = parseAdded(t);
+    if (!d) return false;
+    const h = hours == null ? 72 : hours;
+    return (Date.now() - d.getTime()) <= h * 3600000;
+  }
+
+  function lagDays(t) {
+    const a = parseAdded(t);
+    if (!a || !t.trade_date) return null;
+    const tr = new Date(String(t.trade_date) + "T00:00:00");
+    if (isNaN(tr.getTime())) return null;
+    return Math.max(0, Math.round((a.getTime() - tr.getTime()) / 86400000));
+  }
+
   function asOfLabel(iso) {
     if (!iso) return "";
     try {
@@ -313,6 +335,9 @@
     enrich: enrich,
     tickerInfo: tickerInfo,
     asOfLabel: asOfLabel,
+    parseAdded: parseAdded,
+    isLanded: isLanded,
+    lagDays: lagDays,
     BAD_TICKERS: BAD_TICKERS
   };
 })(window);

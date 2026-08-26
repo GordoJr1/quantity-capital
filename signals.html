@@ -64,6 +64,74 @@
     .lede { color: var(--paper); max-width: 62ch; line-height: 1.5; margin-bottom: 10px; }
     .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .blotter {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 0 0 28px;
+    }
+    .play {
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-left: 6px solid var(--teal);
+      padding: 16px 18px;
+    }
+    .play.buy-dip { border-left-color: #7dcf7a; }
+    .play.watch { border-left-color: var(--caution); }
+    .play.avoid { border-left-color: #ef7a74; }
+    .play-top {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+    }
+    .play .tk { font-size: 2rem; }
+    .action {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      padding: 6px 10px;
+      border: 1px solid #6b7582;
+      white-space: nowrap;
+    }
+    .action.buy-dip { color: #7dcf7a; border-color: #7dcf7a; }
+    .action.watch { color: var(--caution); border-color: var(--caution); }
+    .action.avoid { color: #ef7a74; border-color: #ef7a74; }
+    .pxline { margin-top: 4px; color: var(--paper); font-size: 0.92rem; }
+    .pxline .up { color: #7dcf7a; }
+    .pxline .down { color: #ef7a74; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: #3a4452;
+      border: 1px solid #3a4452;
+      margin-top: 14px;
+    }
+    .cell { background: #151b24; padding: 8px 10px; }
+    .cell span {
+      display: block;
+      color: var(--mute);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-family: "Barlow Condensed", sans-serif;
+    }
+    .cell b { color: var(--white); font-weight: 600; font-size: 0.92rem; }
+    .cell b.up { color: #7dcf7a; }
+    .cell b.down { color: #ef7a74; }
+    .avoid-row {
+      display: grid;
+      grid-template-columns: 48px 88px minmax(0, 1fr);
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--panel);
+      border: 1px solid #4a5563;
+      border-left: 6px solid #ef7a74;
+      margin: 0 0 8px;
+    }
+    .heat-kicker { margin-top: 8px; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
     .chip {
       background: #151b24;
@@ -229,12 +297,16 @@
     footer a { color: var(--caution); }
     @media (max-width: 860px) {
       .desk { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .play-top { grid-template-columns: 40px minmax(0, 1fr); }
+      .action { justify-self: start; }
     }
     @media (max-width: 720px) {
       .stats { grid-template-columns: 1fr 1fr; }
       .stat:nth-child(2) { border-right: 0; }
       .card { grid-template-columns: 40px minmax(0, 1fr); }
       .spark { display: none; }
+      .avoid-row { grid-template-columns: 40px minmax(0, 1fr); }
     }
     @media (display-mode: standalone) {
       body { padding-top: env(safe-area-inset-top, 0px); }
@@ -251,8 +323,15 @@
         <a href="signals.html" class="on">Signals</a>
       </nav>
     </header>
-    <p class="kicker">Buy heat</p>
+    <p class="kicker">Today's book</p>
     <h1>Signals</h1>
+    <p class="asof" id="book-asof"></p>
+    <div class="blotter" id="book"></div>
+    <div id="avoid-wrap" hidden>
+      <p class="subhead">Avoid the open</p>
+      <div id="avoid"></div>
+    </div>
+    <p class="subhead heat-kicker">Buy heat</p>
     <p class="asof" id="asof"></p>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
@@ -262,8 +341,8 @@
     <details class="how">
       <summary>How the heat is scored</summary>
       <div class="body">
-        <p>Each listed stock in the window gets a recency-weighted buy mass: log of the high end of each official purchase range, decayed with a 10-day half-life. More unique buyers raise the score. Repeat tickets from one filer still count, but a cluster of independent buyers counts more. Net selling in the same window cuts it. A committee-overlap buy gets a lift. A burst versus the prior 3-year baseline gets a lift. Mega-caps get a slight haircut so a lonely mid-cap print can surface. Bonds, options, ETFs, preferreds, and private names are out — you cannot buy those on the tape.</p>
-        <p class="muted" style="margin-top:10px;">STOCK Act amounts are ranges, not share counts. Filings can lag the trade by weeks. Price change is from the close on the last buy date to the latest close on file — not proof anyone knew anything.</p>
+        <p>Today’s book is rebuilt on every site update (morning and 6 PM). It mixes three tape boards — Landed ingest time, committee-overlap conflicts, and recency-weighted buy heat — with weekly and monthly technicals from the closes on file. A weekly washout (RSI 20–48) with an intact monthly (RSI ≥ 45 or price near the 10-month) is favored. Names that already ran more than 12% since the last official buy while the weekly trend is still down, or that print a weekly RSI above 72, are pushed to Avoid the open.</p>
+        <p class="muted" style="margin-top:10px;">Not a recommendation. STOCK Act amounts are ranges, not share counts. Filings lag the trade. Technicals use Yahoo daily closes resampled to weeks and months.</p>
       </div>
     </details>
   </div>
@@ -291,6 +370,94 @@
     let windowDays = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
     let hideMega = params.get("mega") === "0";
 
+    function signedPct(x, alreadyPct) {
+      if (x == null || isNaN(x)) return "—";
+      const v = alreadyPct ? x : x * 100;
+      const cls = v > 0.15 ? "up" : v < -0.15 ? "down" : "";
+      const sign = v > 0 ? "+" : "";
+      return "<b class=\"" + cls + "\">" + sign + v.toFixed(1) + "%</b>";
+    }
+    function cell(label, value) {
+      return "<div class=\"cell\"><span>" + label + "</span>" + value + "</div>";
+    }
+    function actionLabel(a) {
+      if (a === "buy-dip") return "Buy dip";
+      if (a === "avoid") return "Avoid open";
+      return "Watch";
+    }
+    function playCard(row) {
+      const w = row.weekly || {};
+      const m = row.monthly || {};
+      const chg = row.chgSinceBuy;
+      const chgHtml = chg == null ? "" : " · " + signedPct(chg, false).replace(/^<b/, "<span").replace(/<\/b>$/, "</span>") + " since last buy";
+      const people = (row.buyers || []).map((b) =>
+        "<a href=\"politician.html?id=" + encodeURIComponent(b.id) + "\">" + QC.esc(b.name) + "</a>"
+      ).join(" · ");
+      const tags = (row.flags || []).map((f) => "<span class=\"tag" +
+        (/washout|landed|whale/i.test(f) ? " hot" : /conflict|cluster/i.test(f) ? " hit" : /ran|extended/i.test(f) ? " warn" : "") +
+        "\">" + QC.esc(f) + "</span>").join("");
+      return "<article class=\"play " + row.action + "\">" +
+        "<div class=\"play-top\">" +
+          "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
+          "<div>" +
+            "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name || "—") + "</div>" +
+            "<div class=\"pxline\">$" + (row.last != null ? row.last.toFixed(2) : "—") +
+              chgHtml + "</div>" +
+            "<p class=\"why\">" + QC.esc(row.why || "") + "</p>" +
+            (tags ? "<div class=\"tags\">" + tags + "</div>" : "") +
+            (people ? "<div class=\"who-list\">" + people + "</div>" : "") +
+          "</div>" +
+          "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
+        "</div>" +
+        "<div class=\"grid\">" +
+          cell("Landed", "<b>" + (row.landed ? (row.lagDays != null ? row.lagDays + "d lag" : "Yes") : "No") + "</b>") +
+          cell("Signal heat", "<b>#" + (row.heatRank || "—") + "</b>") +
+          cell("Buyers / high-end", "<b>" + row.nBuyers + " · " + QC.formatMoney(row.buyHigh || 0) + "</b>") +
+          cell("Conflict", "<b>" + (row.conflict ? QC.esc((row.conflictWhy || []).join(", ") || "Yes") : "No") + "</b>") +
+          cell("Last buy", "<b>" + QC.prettyDate(row.lastBuy) + (row.buyPx != null ? " @ $" + row.buyPx.toFixed(2) : "") + "</b>") +
+          cell("Weekly RSI", "<b>" + (w.rsi != null ? w.rsi.toFixed(1) : "—") + "</b>") +
+          cell("Weekly trend", "<b class=\"" + (w.trend === "UP" ? "up" : w.trend === "DOWN" ? "down" : "") + "\">" + QC.esc(w.trend || "—") + "</b>") +
+          cell("vs 20-week", signedPct(w.vs20, true)) +
+          cell("20w / 40w", "<b>" + (w.sma20 != null ? w.sma20.toFixed(2) : "—") + " / " + (w.sma40 != null ? w.sma40.toFixed(2) : "—") + "</b>") +
+          cell("4-week / 13-week", (w.ret4w == null ? "<b>—</b>" : signedPct(w.ret4w, true)) + " <span style=\"color:#8b96a3\">/</span> " + (w.ret13w == null ? "<b>—</b>" : signedPct(w.ret13w, true))) +
+          cell("Off 20w high", signedPct(w.fromHigh, true)) +
+          cell("Monthly RSI", "<b>" + (m.rsi != null ? m.rsi.toFixed(1) : "—") + "</b>") +
+          cell("Monthly trend", "<b class=\"" + (m.trend === "UP" ? "up" : m.trend === "DOWN" ? "down" : "") + "\">" + QC.esc(m.trend || "—") + "</b>") +
+          cell("vs 10-month", signedPct(m.vs10, true)) +
+          cell("Invalidation", "<b>" + (row.invalidation != null ? "$" + Number(row.invalidation).toFixed(2) : "—") + "</b>") +
+        "</div>" +
+      "</article>";
+    }
+    function avoidRow(row) {
+      return "<article class=\"avoid-row\">" +
+        "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
+        "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+        "<div><div class=\"co\">" + QC.esc(row.name || "") + "</div><p class=\"why\">" + QC.esc(row.why || "") + "</p></div>" +
+      "</article>";
+    }
+    async function paintAnalysis() {
+      const box = document.getElementById("book");
+      const asof = document.getElementById("book-asof");
+      try {
+        const res = await fetch("analysis.json");
+        if (!res.ok) throw new Error("no analysis");
+        const data = await res.json();
+        const when = QC.asOfLabel(data.generated || data.tapeCollected);
+        asof.textContent = (when ? "Book rebuilt " + when : "") +
+          (data.priceAsof ? " · prices through " + QC.prettyDate(data.priceAsof) : "") +
+          " · not a recommendation";
+        box.innerHTML = (data.book || []).map(playCard).join("") ||
+          "<p class=\"muted\">No book this update.</p>";
+        const avoid = data.avoid || [];
+        const wrap = document.getElementById("avoid-wrap");
+        wrap.hidden = avoid.length === 0;
+        document.getElementById("avoid").innerHTML = avoid.map(avoidRow).join("");
+      } catch (e) {
+        asof.textContent = "Book rebuilds on each site update.";
+        box.innerHTML = "<p class=\"muted\">Today’s book is not on file yet.</p>";
+      }
+    }
     function isoDay(ms) {
       const d = new Date(ms);
       const y = d.getFullYear();
@@ -662,6 +829,7 @@
       run();
     });
 
+    paintAnalysis();
     run().catch(() => {
       document.getElementById("heat").innerHTML = "<li class=\"muted\">Could not load the tape.</li>";
     });

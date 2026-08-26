@@ -1,0 +1,173 @@
+{
+  "generated": "2026-08-26T16:30:25.869327+00:00",
+  "tapeCollected": "2026-08-26T10:57:19.340157+00:00",
+  "priceAsof": "2026-08-26",
+  "rules": {
+    "spike": 0.2,
+    "sessions": 21,
+    "nearLow": 0.08,
+    "openCap": 0.15
+  },
+  "disclaimer": "Not a recommendation. A tell is an official stock buy within 8% of the prior 20-session low that then rose 20% within 15 sessions. Past spikes do not mean the next buy works.",
+  "hands": [
+    {
+      "id": "alan-armstrong",
+      "name": "Alan Armstrong",
+      "chamber": "Senate",
+      "scored": 644,
+      "hits": 94,
+      "rate": 0.146,
+      "median": 0.287,
+      "score": 0.855,
+      "tells": [
+        {
+          "code": "INTC",
+          "name": "Intel Corporation",
+          "day": "2026-03-27",
+          "buy": 43.13,
+          "high": 84.99,
+          "ret": 0.971,
+          "days": 6,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "KXIAY",
+          "name": "Kioxia Holdings Corporation",
+          "day": "2026-03-30",
+          "buy": 12.12,
+          "high": 23.53,
+          "ret": 0.941,
+          "days": 4,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "NBIS",
+          "name": "Nebius Group N.V.",
+          "day": "2026-03-30",
+          "buy": 92.26,
+          "high": 166.77,
+          "ret": 0.808,
+          "days": 4,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "SFTBY",
+          "name": "Softbank Group Corp",
+          "day": "2026-03-30",
+          "buy": 11.0,
+          "high": 19.36,
+          "ret": 0.76,
+          "days": 10,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        }
+      ]
+    },
+    {
+      "id": "debbie-wasserman-schultz",
+      "name": "Debbie Wasserman Schultz",
+      "chamber": "House",
+      "scored": 8,
+      "hits": 2,
+      "rate": 0.25,
+      "median": 0.353,
+      "score": 0.372,
+      "tells": [
+        {
+          "code": "ICHR",
+          "name": "TLH",
+          "day": "2025-08-05",
+          "buy": 14.06,
+          "high": 19.02,
+          "ret": 0.353,
+          "days": 3,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "HL",
+          "name": "Hecla Mining Company",
+          "day": "2024-08-09",
+          "buy": 5.04,
+          "high": 6.24,
+          "ret": 0.238,
+          "days": 8,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        }
+      ]
+    },
+    {
+      "id": "nancy-pelosi",
+      "name": "Nancy Pelosi",
+      "chamber": "House",
+      "scored": 10,
+      "hits": 1,
+      "rate": 0.1,
+      "median": 0.421,
+      "score": 0.133,
+      "tells": [
+        {
+          "code": "BE",
+          "name": "Bloom Energy Corporation",
+          "day": "2026-07-28",
+          "buy": 166.84,
+          "high": 237.16,
+          "ret": 0.421,
+          "days": 2,
+          "amount": "$500,001\u2013$1,000,000",
+          "highEnd": 1000000
+        }
+      ]
+    }
+  ],
+  "now": [
+    {
+      "code": "INTC",
+      "name": "Intel Corporation",
+      "last": 87.48,
+      "pxAsof": "2026-08-25",
+      "lastBuy": "2026-07-24",
+      "buyPx": 92.32,
+      "chg": -0.0524,
+      "nearLow": true,
+      "hands": [
+        {
+          "id": "nancy-pelosi",
+          "name": "Nancy Pelosi",
+          "rate": 0.1,
+          "hits": 1
+        }
+      ],
+      "highEnd": 1000000,
+      "open": true,
+      "score": 0.116,
+      "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-24 still under water"
+    },
+    {
+      "code": "BE",
+      "name": "Bloom Energy Corporation",
+      "last": 217.45,
+      "pxAsof": "2026-08-25",
+      "lastBuy": "2026-07-28",
+      "buyPx": 166.84,
+      "chg": 0.3033,
+      "nearLow": true,
+      "hands": [
+        {
+          "id": "nancy-pelosi",
+          "name": "Nancy Pelosi",
+          "rate": 0.1,
+          "hits": 1
+        }
+      ],
+      "highEnd": 6000000,
+      "open": false,
+      "score": 0.054,
+      "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-28 already ran after the print"
+    }
+  ]
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Tells — Quantity Capital</title>
+  <meta name="description" content="Official buys that preceded fast price spikes, and what those filers are buying now." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1100px, calc(100% - 40px)); margin: 0 auto; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--teal);
+    }
+    .mark, h1, .kicker, nav, .chip, .tk, .who, .subhead, .rate b, .rank {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 16px; font-size: 0.9rem; letter-spacing: 0.12em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      margin: 0 0 28px; border: 1px solid #4a5563; background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block; font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem; color: var(--caution); letter-spacing: 0.06em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .subhead { color: var(--mute); margin: 18px 0 10px; }
+    .card {
+      background: var(--panel); border: 1px solid #4a5563;
+      border-left: 6px solid var(--caution); padding: 14px 16px; margin: 0 0 10px;
+    }
+    .card.now { border-left-color: var(--teal); }
+    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .who { color: var(--white); text-decoration: none; font-size: 1.35rem; }
+    .who:hover { color: var(--teal); }
+    .rate { text-align: right; color: var(--caution); line-height: 1; }
+    .rate b { display: block; font-size: 1.7rem; }
+    .rate span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; }
+    .tickets { list-style: none; margin-top: 10px; }
+    .tickets li {
+      display: grid; grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 10px; padding: 8px 0; border-top: 1px solid #3a4452;
+      font-size: 0.9rem; align-items: baseline;
+    }
+    .tk { color: var(--white); text-decoration: none; font-size: 1.05rem; }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.86rem; }
+    .ret { color: #7dcf7a; font-weight: 600; white-space: nowrap; }
+    .ret.down { color: #ef7a74; }
+    .px { color: var(--mute); font-size: 0.82rem; }
+    .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; }
+    .who-list a { color: var(--teal); text-decoration: none; }
+    .who-list a:hover { color: var(--caution); }
+    details.how {
+      margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24;
+    }
+    details.how summary {
+      cursor: pointer; padding: 12px 16px; color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    footer a { color: var(--caution); }
+    @media (max-width: 720px) {
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
+      .tickets li { grid-template-columns: 64px minmax(0, 1fr); }
+      .ret { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html" class="on">Tells</a>
+        <a href="signals.html">Signals</a>
+      </nav>
+    </header>
+    <p class="kicker">Hot hands</p>
+    <h1>Tells</h1>
+    <p class="asof" id="asof"></p>
+    <div class="stats" id="stats"></div>
+    <p class="subhead">They're buying now</p>
+    <div id="now"></div>
+    <p class="subhead">The hands</p>
+    <div id="hands"></div>
+    <details class="how">
+      <summary>How a tell is scored</summary>
+      <div class="body">
+        <p>A tell is an official listed-stock buy placed within 8% of the prior 20-session low that then rose at least 20% within 15 sessions. Options, bonds, and ETFs are out. Filers need a handful of scored buys and more than a one-off bounce. The board then shows recent buys by those same people that have not already run 15%.</p>
+        <p class="muted" style="margin-top:10px;">Not a recommendation. A March 2026 market bounce can mint a lot of “hits.” Past spikes do not mean the next ticket works. Regenerated on every site update.</p>
+      </div>
+    </details>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    function pct(x) {
+      if (x == null || isNaN(x)) return "—";
+      const v = x * 100;
+      const sign = v > 0 ? "+" : "";
+      return sign + v.toFixed(0) + "%";
+    }
+    function nowCard(row) {
+      const cls = (row.chg || 0) < 0 ? "down" : "";
+      const people = (row.hands || []).map((h) =>
+        "<a href=\"politician.html?id=" + encodeURIComponent(h.id) + "\">" + QC.esc(h.name) + "</a>" +
+        " · " + Math.round((h.rate || 0) * 100) + "% hit rate"
+      ).join(" · ");
+      return "<article class=\"card now\">" +
+        "<div class=\"card-top\">" +
+          "<div>" +
+            "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name || "") + "</div>" +
+            "<p class=\"muted\" style=\"margin-top:6px\">" + QC.esc(row.why || "") +
+              (row.open === false ? " · already ran" : "") + "</p>" +
+            "<div class=\"who-list\">" + people + "</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b class=\"ret " + cls + "\">" + pct(row.chg) + "</b><span>since last buy</span></div>" +
+        "</div>" +
+        "<ul class=\"tickets\"><li>" +
+          "<span class=\"px\">" + QC.prettyDate(row.lastBuy) + "</span>" +
+          "<span class=\"co\">bought @ $" + (row.buyPx != null ? row.buyPx.toFixed(2) : "—") +
+            " · last $" + (row.last != null ? row.last.toFixed(2) : "—") +
+            (row.nearLow ? " · near the 20-day low" : "") + "</span>" +
+          "<span class=\"ret " + cls + "\">" + pct(row.chg) + "</span>" +
+        "</li></ul>" +
+      "</article>";
+    }
+    function tellLine(t) {
+      return "<li>" +
+        "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + QC.esc(t.code) + "</a>" +
+        "<span class=\"co\">" + QC.prettyDate(t.day) + " @ $" + t.buy.toFixed(2) +
+          " → $" + t.high.toFixed(2) + " in " + t.days + " sessions</span>" +
+        "<span class=\"ret\">" + pct(t.ret) + "</span>" +
+      "</li>";
+    }
+    function handCard(h) {
+      return "<article class=\"card\">" +
+        "<div class=\"card-top\">" +
+          "<div>" +
+            "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(h.id) + "\">" + QC.esc(h.name) + "</a>" +
+            "<div class=\"muted\">" + QC.esc(h.chamber || "") + " · " + h.hits + " of " + h.scored + " scored buys</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b>" + Math.round((h.rate || 0) * 100) + "%</b><span>hit rate</span></div>" +
+        "</div>" +
+        "<ul class=\"tickets\">" + (h.tells || []).map(tellLine).join("") + "</ul>" +
+      "</article>";
+    }
+    fetch("tells.json").then((r) => {
+      if (!r.ok) throw new Error("missing");
+      return r.json();
+    }).then((data) => {
+      const when = QC.asOfLabel(data.generated || data.tapeCollected);
+      document.getElementById("asof").textContent =
+        (when ? "Rebuilt " + when : "") +
+        (data.priceAsof ? " · prices through " + QC.prettyDate(data.priceAsof) : "") +
+        " · not a recommendation";
+      const hands = data.hands || [];
+      const now = data.now || [];
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + hands.length + "</b><span>hot hands</span></div>" +
+        "<div class=\"stat\"><b>" + hands.reduce((n, h) => n + (h.hits || 0), 0) + "</b><span>timed spikes</span></div>" +
+        "<div class=\"stat\"><b>" + now.length + "</b><span>open prints now</span></div>";
+      document.getElementById("now").innerHTML = now.length
+        ? now.map(nowCard).join("")
+        : "<p class=\"muted\">No recent buys from these hands are still sitting under a 15% run.</p>";
+      document.getElementById("hands").innerHTML = hands.length
+        ? hands.map(handCard).join("")
+        : "<p class=\"muted\">No filer cleared the tell bar this update.</p>";
+    }).catch(() => {
+      document.getElementById("asof").textContent = "Tells rebuild on each site update.";
+      document.getElementById("now").innerHTML = "<p class=\"muted\">Could not load tells.json.</p>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+</body>
+</html>

@@ -123,13 +123,31 @@
     .cell b.down { color: #ef7a74; }
     .avoid-row {
       display: grid;
-      grid-template-columns: 48px 88px minmax(0, 1fr);
-      gap: 10px;
+      grid-template-columns: 52px minmax(0, 1fr);
+      grid-template-areas: "rank body";
+      gap: 8px 14px;
       padding: 12px 16px;
       background: var(--panel);
       border: 1px solid #4a5563;
       border-left: 6px solid #ef7a74;
       margin: 0 0 8px;
+    }
+    .avoid-row .rank { grid-area: rank; }
+    .avoid-row .avoid-body { grid-area: body; min-width: 0; }
+    .avoid-row .tk {
+      display: inline-block;
+      font-size: 1.45rem;
+      margin-right: 10px;
+      vertical-align: baseline;
+    }
+    .avoid-row .co {
+      display: inline;
+      font-size: 0.95rem;
+    }
+    .avoid-row .why {
+      margin: 6px 0 0;
+      line-height: 1.45;
+      max-width: 70ch;
     }
     .heat-kicker { margin-top: 8px; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
@@ -432,8 +450,11 @@
     function avoidRow(row) {
       return "<article class=\"avoid-row\">" +
         "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
-        "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
-        "<div><div class=\"co\">" + QC.esc(row.name || "") + "</div><p class=\"why\">" + QC.esc(row.why || "") + "</p></div>" +
+        "<div class=\"avoid-body\">" +
+          "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+          "<span class=\"co\">" + QC.esc(row.name || "") + "</span>" +
+          "<p class=\"why\">" + QC.esc(row.why || "") + "</p>" +
+        "</div>" +
       "</article>";
     }
     async function paintAnalysis() {

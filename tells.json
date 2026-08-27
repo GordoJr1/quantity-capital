@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-26T22:19:53.129968+00:00",
+  "generated": "2026-08-27T11:36:34.443693+00:00",
   "tapeCollected": "2026-08-26T22:01:57.056874+00:00",
-  "priceAsof": "2026-08-26",
+  "priceAsof": "2026-08-27",
   "rules": {
     "spike": 0.2,
     "sessions": 21,
@@ -128,11 +128,11 @@
     {
       "code": "INTC",
       "name": "Intel Corporation",
-      "last": 87.48,
-      "pxAsof": "2026-08-25",
+      "last": 88.24,
+      "pxAsof": "2026-08-26",
       "lastBuy": "2026-07-24",
       "buyPx": 92.32,
-      "chg": -0.0524,
+      "chg": -0.0442,
       "nearLow": true,
       "hands": [
         {
@@ -144,17 +144,17 @@
       ],
       "highEnd": 1000000,
       "open": true,
-      "score": 0.116,
+      "score": 0.112,
       "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-24 still under water"
     },
     {
       "code": "BE",
       "name": "Bloom Energy Corporation",
-      "last": 217.45,
-      "pxAsof": "2026-08-25",
+      "last": 218.21,
+      "pxAsof": "2026-08-26",
       "lastBuy": "2026-07-28",
       "buyPx": 166.84,
-      "chg": 0.3033,
+      "chg": 0.3079,
       "nearLow": true,
       "hands": [
         {
@@ -166,7 +166,7 @@
       ],
       "highEnd": 6000000,
       "open": false,
-      "score": 0.054,
+      "score": 0.053,
       "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-28 already ran after the print"
     }
   ]

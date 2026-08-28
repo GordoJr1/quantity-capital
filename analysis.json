@@ -1,25 +1,87 @@
 {
-  "generated": "2026-08-27T22:19:09.063404+00:00",
+  "generated": "2026-08-28T11:37:35.457941+00:00",
   "tapeCollected": "2026-08-26T22:01:57.056874+00:00",
-  "priceAsof": "2026-08-26",
+  "priceAsof": "2026-08-27",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
     {
+      "code": "PG",
+      "name": "Procter & Gamble Company (The)",
+      "action": "buy-dip",
+      "score": 7.255,
+      "why": "Whale \u00b7 Cluster \u00b7 Weekly washout \u00b7 Monthly intact",
+      "last": 143.14,
+      "pxAsof": "2026-08-27",
+      "buyPx": 145.21,
+      "chgSinceBuy": -0.0143,
+      "lastBuy": "2026-08-11",
+      "nBuyers": 3,
+      "buyHigh": 865000,
+      "heatRank": 2,
+      "heat": 3.238,
+      "landed": false,
+      "landedAt": "",
+      "lagDays": null,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": true,
+      "cluster": true,
+      "buyers": [
+        {
+          "name": "Donald J. Trump",
+          "id": "donald-j-trump"
+        },
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        },
+        {
+          "name": "David J. Taylor",
+          "id": "david-j-taylor"
+        }
+      ],
+      "weekly": {
+        "rsi": 47.7,
+        "sma20": 146.62,
+        "sma40": 147.7,
+        "vs20": -2.4,
+        "ret4w": -0.9,
+        "ret13w": -0.3,
+        "fromHigh": -5.5,
+        "trend": "DOWN",
+        "recentLow": 143.14
+      },
+      "monthly": {
+        "rsi": 40.9,
+        "sma10": 147.98,
+        "vs10": -3.3,
+        "trend": "DOWN"
+      },
+      "invalidation": 134.55,
+      "flags": [
+        "Whale",
+        "Cluster",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 1
+    },
+    {
       "code": "INTC",
       "name": "Intel Corporation",
       "action": "buy-dip",
-      "score": 6.669,
+      "score": 6.644,
       "why": "Just landed, weekly washed out, monthly still up",
-      "last": 88.24,
-      "pxAsof": "2026-08-26",
+      "last": 92.09,
+      "pxAsof": "2026-08-27",
       "buyPx": 92.32,
-      "chgSinceBuy": -0.0442,
+      "chgSinceBuy": -0.0025,
       "lastBuy": "2026-07-24",
       "nBuyers": 1,
       "buyHigh": 1000000,
       "heatRank": 25,
-      "heat": 0.774,
+      "heat": 0.722,
       "landed": true,
       "landedAt": "2026-08-25T11:17:22.724711+00:00",
       "lagDays": 32,
@@ -34,88 +96,26 @@
         }
       ],
       "weekly": {
-        "rsi": 37.4,
-        "sma20": 104.76,
-        "sma40": 74.59,
-        "vs20": -15.8,
-        "ret4w": -2.2,
-        "ret13w": -23.1,
-        "fromHigh": -34.1,
+        "rsi": 39.0,
+        "sma20": 104.95,
+        "sma40": 74.69,
+        "vs20": -12.3,
+        "ret4w": 2.1,
+        "ret13w": -19.7,
+        "fromHigh": -31.3,
         "trend": "DOWN",
-        "recentLow": 88.24
+        "recentLow": 90.07
       },
       "monthly": {
-        "rsi": 67.7,
-        "sma10": 74.09,
-        "vs10": 19.1,
+        "rsi": 68.8,
+        "sma10": 74.47,
+        "vs10": 23.7,
         "trend": "UP"
       },
-      "invalidation": 82.95,
+      "invalidation": 90.07,
       "flags": [
         "Landed",
         "Whale",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
-    {
-      "code": "NVDA",
-      "name": "NVIDIA Corporation",
-      "action": "buy-dip",
-      "score": 5.944,
-      "why": "Whale \u00b7 Cluster \u00b7 Weekly washout \u00b7 Monthly intact",
-      "last": 209.66,
-      "pxAsof": "2026-08-26",
-      "buyPx": 211.94,
-      "chgSinceBuy": -0.0108,
-      "lastBuy": "2026-08-04",
-      "nBuyers": 3,
-      "buyHigh": 1265000,
-      "heatRank": 7,
-      "heat": 2.157,
-      "landed": false,
-      "landedAt": "",
-      "lagDays": null,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": true,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Tracey Robert Mann",
-          "id": "tracey-robert-mann"
-        },
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
-        {
-          "name": "Michael Rulli",
-          "id": "michael-rulli"
-        }
-      ],
-      "weekly": {
-        "rsi": 47.4,
-        "sma20": 208.93,
-        "sma40": 195.81,
-        "vs20": 0.3,
-        "ret4w": 4.4,
-        "ret13w": -0.7,
-        "fromHigh": -7.0,
-        "trend": "UP",
-        "recentLow": 200.75
-      },
-      "monthly": {
-        "rsi": 65.6,
-        "sma10": 192.74,
-        "vs10": 8.8,
-        "trend": "UP"
-      },
-      "invalidation": 200.75,
-      "flags": [
-        "Whale",
-        "Cluster",
         "Weekly washout",
         "Monthly intact"
       ],
@@ -125,17 +125,17 @@
       "code": "HON",
       "name": "Honeywell International Inc.",
       "action": "buy-dip",
-      "score": 5.692,
+      "score": 5.667,
       "why": "Conflict \u00b7 Cluster \u00b7 Weekly washout \u00b7 Monthly intact",
-      "last": 220.67,
-      "pxAsof": "2026-08-26",
+      "last": 220.39,
+      "pxAsof": "2026-08-27",
       "buyPx": 226.42,
-      "chgSinceBuy": -0.0254,
+      "chgSinceBuy": -0.0266,
       "lastBuy": "2026-07-10",
       "nBuyers": 4,
       "buyHigh": 295000,
       "heatRank": 30,
-      "heat": 0.724,
+      "heat": 0.675,
       "landed": false,
       "landedAt": "",
       "lagDays": null,
@@ -164,20 +164,20 @@
         }
       ],
       "weekly": {
-        "rsi": 42.9,
-        "sma20": 232.52,
-        "sma40": 231.48,
-        "vs20": -5.1,
-        "ret4w": -9.2,
-        "ret13w": -11.5,
-        "fromHigh": -11.5,
+        "rsi": 42.8,
+        "sma20": 232.51,
+        "sma40": 231.47,
+        "vs20": -5.2,
+        "ret4w": -9.3,
+        "ret13w": -11.7,
+        "fromHigh": -11.7,
         "trend": "DOWN",
         "recentLow": 215.9
       },
       "monthly": {
         "rsi": 47.7,
-        "sma10": 229.92,
-        "vs10": -4.0,
+        "sma10": 229.89,
+        "vs10": -4.1,
         "trend": "DOWN"
       },
       "invalidation": 215.9,
@@ -190,135 +190,20 @@
       "rank": 3
     },
     {
-      "code": "PG",
-      "name": "Procter & Gamble Company (The)",
-      "action": "watch",
-      "score": 5.28,
-      "why": "Whale \u00b7 Cluster \u00b7 Monthly intact",
-      "last": 145.0,
-      "pxAsof": "2026-08-26",
-      "buyPx": 145.21,
-      "chgSinceBuy": -0.0014,
-      "lastBuy": "2026-08-11",
-      "nBuyers": 3,
-      "buyHigh": 865000,
-      "heatRank": 2,
-      "heat": 3.471,
-      "landed": false,
-      "landedAt": "",
-      "lagDays": null,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": true,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        }
-      ],
-      "weekly": {
-        "rsi": 51.0,
-        "sma20": 146.71,
-        "sma40": 147.75,
-        "vs20": -1.2,
-        "ret4w": 0.4,
-        "ret13w": 1.0,
-        "fromHigh": -4.2,
-        "trend": "DOWN",
-        "recentLow": 144.49
-      },
-      "monthly": {
-        "rsi": 41.8,
-        "sma10": 148.17,
-        "vs10": -2.1,
-        "trend": "DOWN"
-      },
-      "invalidation": 134.97,
-      "flags": [
-        "Whale",
-        "Cluster",
-        "Monthly intact"
-      ],
-      "rank": 4
-    },
-    {
-      "code": "IBP",
-      "name": "Installed Building Products, Inc.",
-      "action": "watch",
-      "score": 5.275,
-      "why": "Conflict \u00b7 Monthly intact",
-      "last": 246.0,
-      "pxAsof": "2026-08-26",
-      "buyPx": 240.23,
-      "chgSinceBuy": 0.024,
-      "lastBuy": "2026-08-14",
-      "nBuyers": 1,
-      "buyHigh": 30000,
-      "heatRank": 1,
-      "heat": 4.061,
-      "landed": false,
-      "landedAt": "",
-      "lagDays": null,
-      "conflict": true,
-      "conflictWhy": [
-        "Transportation / freight"
-      ],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        }
-      ],
-      "weekly": {
-        "rsi": 65.6,
-        "sma20": 235.48,
-        "sma40": 262.39,
-        "vs20": 4.5,
-        "ret4w": 10.3,
-        "ret13w": 17.2,
-        "fromHigh": -18.7,
-        "trend": "MIX",
-        "recentLow": 222.94
-      },
-      "monthly": {
-        "rsi": 58.0,
-        "sma10": 260.58,
-        "vs10": -5.6,
-        "trend": "DOWN"
-      },
-      "invalidation": 222.94,
-      "flags": [
-        "Conflict",
-        "Monthly intact"
-      ],
-      "rank": 5
-    },
-    {
       "code": "CEG",
       "name": "Constellation Energy Corporation",
       "action": "buy-dip",
       "score": 5.263,
       "why": "Conflict \u00b7 Cluster \u00b7 Weekly washout \u00b7 Monthly intact",
-      "last": 279.52,
-      "pxAsof": "2026-08-26",
+      "last": 282.41,
+      "pxAsof": "2026-08-27",
       "buyPx": 267.97,
-      "chgSinceBuy": 0.0431,
+      "chgSinceBuy": 0.0539,
       "lastBuy": "2026-06-24",
       "nBuyers": 3,
       "buyHigh": 145000,
       "heatRank": 57,
-      "heat": 0.301,
+      "heat": 0.281,
       "landed": false,
       "landedAt": "",
       "lagDays": null,
@@ -343,20 +228,20 @@
         }
       ],
       "weekly": {
-        "rsi": 45.9,
-        "sma20": 275.09,
-        "sma40": 295.18,
-        "vs20": 1.6,
-        "ret4w": 6.4,
-        "ret13w": -2.9,
-        "fromHigh": -10.8,
+        "rsi": 46.8,
+        "sma20": 275.23,
+        "sma40": 295.25,
+        "vs20": 2.6,
+        "ret4w": 7.5,
+        "ret13w": -1.9,
+        "fromHigh": -9.9,
         "trend": "MIX",
         "recentLow": 251.38
       },
       "monthly": {
-        "rsi": 45.3,
-        "sma10": 299.88,
-        "vs10": -6.8,
+        "rsi": 45.6,
+        "sma10": 300.17,
+        "vs10": -5.9,
         "trend": "DOWN"
       },
       "invalidation": 251.38,
@@ -364,6 +249,113 @@
         "Conflict",
         "Cluster",
         "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 4
+    },
+    {
+      "code": "IBP",
+      "name": "Installed Building Products, Inc.",
+      "action": "watch",
+      "score": 5.25,
+      "why": "Conflict \u00b7 Monthly intact",
+      "last": 240.86,
+      "pxAsof": "2026-08-27",
+      "buyPx": 240.23,
+      "chgSinceBuy": 0.0026,
+      "lastBuy": "2026-08-14",
+      "nBuyers": 1,
+      "buyHigh": 30000,
+      "heatRank": 1,
+      "heat": 3.789,
+      "landed": false,
+      "landedAt": "",
+      "lagDays": null,
+      "conflict": true,
+      "conflictWhy": [
+        "Transportation / freight"
+      ],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "David J. Taylor",
+          "id": "david-j-taylor"
+        }
+      ],
+      "weekly": {
+        "rsi": 62.4,
+        "sma20": 235.22,
+        "sma40": 262.26,
+        "vs20": 2.4,
+        "ret4w": 8.0,
+        "ret13w": 14.7,
+        "fromHigh": -20.4,
+        "trend": "MIX",
+        "recentLow": 222.94
+      },
+      "monthly": {
+        "rsi": 57.5,
+        "sma10": 260.06,
+        "vs10": -7.4,
+        "trend": "DOWN"
+      },
+      "invalidation": 222.94,
+      "flags": [
+        "Conflict",
+        "Monthly intact"
+      ],
+      "rank": 5
+    },
+    {
+      "code": "BWXT",
+      "name": "BWX Technologies, Inc.",
+      "action": "buy-dip",
+      "score": 5.129,
+      "why": "Weekly washout \u00b7 Deep washout \u00b7 Monthly intact",
+      "last": 155.85,
+      "pxAsof": "2026-08-27",
+      "buyPx": 165.59,
+      "chgSinceBuy": -0.0588,
+      "lastBuy": "2026-07-30",
+      "nBuyers": 1,
+      "buyHigh": 80000,
+      "heatRank": 14,
+      "heat": 1.299,
+      "landed": false,
+      "landedAt": "",
+      "lagDays": null,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "April McClain Delaney",
+          "id": "april-mcclain-delaney"
+        }
+      ],
+      "weekly": {
+        "rsi": 26.9,
+        "sma20": 190.7,
+        "sma40": 193.82,
+        "vs20": -18.3,
+        "ret4w": -7.6,
+        "ret13w": -20.4,
+        "fromHigh": -33.9,
+        "trend": "DOWN",
+        "recentLow": 155.85
+      },
+      "monthly": {
+        "rsi": 52.7,
+        "sma10": 189.91,
+        "vs10": -17.9,
+        "trend": "DOWN"
+      },
+      "invalidation": 146.5,
+      "flags": [
+        "Weekly washout",
+        "Deep washout",
         "Monthly intact"
       ],
       "rank": 6
@@ -374,17 +366,17 @@
       "code": "BE",
       "name": "Bloom Energy Corporation",
       "action": "avoid",
-      "score": 5.45,
+      "score": 5.425,
       "why": "Politician already in; price ran and weekly is still down \u2014 do not chase the open",
-      "last": 218.21,
-      "pxAsof": "2026-08-26",
+      "last": 217.83,
+      "pxAsof": "2026-08-27",
       "buyPx": 166.84,
-      "chgSinceBuy": 0.3079,
+      "chgSinceBuy": 0.3056,
       "lastBuy": "2026-07-28",
       "nBuyers": 1,
       "buyHigh": 6000000,
       "heatRank": 5,
-      "heat": 2.399,
+      "heat": 2.238,
       "landed": true,
       "landedAt": "2026-08-25T11:17:22.724711+00:00",
       "lagDays": 28,
@@ -399,20 +391,20 @@
         }
       ],
       "weekly": {
-        "rsi": 39.0,
-        "sma20": 247.44,
-        "sma40": 189.22,
-        "vs20": -11.8,
-        "ret4w": 6.0,
-        "ret13w": -23.4,
-        "fromHigh": -33.7,
+        "rsi": 38.9,
+        "sma20": 247.43,
+        "sma40": 189.21,
+        "vs20": -12.0,
+        "ret4w": 5.8,
+        "ret13w": -23.6,
+        "fromHigh": -33.8,
         "trend": "DOWN",
         "recentLow": 184.89
       },
       "monthly": {
         "rsi": 68.7,
-        "sma10": 193.37,
-        "vs10": 12.8,
+        "sma10": 193.34,
+        "vs10": 12.7,
         "trend": "UP"
       },
       "invalidation": 184.89,
@@ -426,20 +418,74 @@
       "rank": 1
     },
     {
+      "code": "SWKS",
+      "name": "Skyworks Solutions, Inc.",
+      "action": "avoid",
+      "score": 1.679,
+      "why": "Politician already in; price ran and weekly is still down \u2014 do not chase the open",
+      "last": 67.36,
+      "pxAsof": "2026-08-27",
+      "buyPx": 59.76,
+      "chgSinceBuy": 0.1272,
+      "lastBuy": "2026-07-07",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 81,
+      "heat": 0.136,
+      "landed": false,
+      "landedAt": "",
+      "lagDays": null,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        }
+      ],
+      "weekly": {
+        "rsi": 30.6,
+        "sma20": 67.76,
+        "sma40": 63.85,
+        "vs20": -0.6,
+        "ret4w": 8.2,
+        "ret13w": -13.5,
+        "fromHigh": -18.3,
+        "trend": "DOWN",
+        "recentLow": 59.35
+      },
+      "monthly": {
+        "rsi": 46.1,
+        "sma10": 64.37,
+        "vs10": 4.6,
+        "trend": "UP"
+      },
+      "invalidation": 59.35,
+      "flags": [
+        "Weekly washout",
+        "Deep washout",
+        "Monthly intact",
+        "Already ran"
+      ],
+      "rank": 2
+    },
+    {
       "code": "LTH",
       "name": "Life Time Group Holdings, Inc.",
       "action": "avoid",
-      "score": -0.195,
+      "score": -0.22,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 44.8,
-      "pxAsof": "2026-08-26",
+      "last": 44.35,
+      "pxAsof": "2026-08-27",
       "buyPx": 45.1,
-      "chgSinceBuy": -0.0067,
+      "chgSinceBuy": -0.0166,
       "lastBuy": "2026-07-31",
       "nBuyers": 1,
       "buyHigh": 205000,
       "heatRank": 10,
-      "heat": 1.809,
+      "heat": 1.688,
       "landed": false,
       "landedAt": "",
       "lagDays": null,
@@ -454,78 +500,26 @@
         }
       ],
       "weekly": {
-        "rsi": 85.3,
-        "sma20": 37.46,
-        "sma40": 32.4,
-        "vs20": 19.6,
-        "ret4w": -0.7,
-        "ret13w": 35.4,
-        "fromHigh": -1.0,
+        "rsi": 83.3,
+        "sma20": 37.44,
+        "sma40": 32.39,
+        "vs20": 18.5,
+        "ret4w": -1.7,
+        "ret13w": 34.1,
+        "fromHigh": -2.0,
         "trend": "UP",
         "recentLow": 41.89
       },
       "monthly": {
-        "rsi": 71.5,
-        "sma10": 32.82,
-        "vs10": 36.5,
+        "rsi": 70.5,
+        "sma10": 32.78,
+        "vs10": 35.3,
         "trend": "UP"
       },
       "invalidation": 41.89,
       "flags": [
         "Monthly intact",
         "Weekly extended"
-      ],
-      "rank": 2
-    },
-    {
-      "code": "ENTG",
-      "name": "Entegris, Inc.",
-      "action": "avoid",
-      "score": -0.295,
-      "why": "Politician already in; price ran and weekly is still down \u2014 do not chase the open",
-      "last": 142.46,
-      "pxAsof": "2026-08-26",
-      "buyPx": 117.11,
-      "chgSinceBuy": 0.2165,
-      "lastBuy": "2026-07-30",
-      "nBuyers": 1,
-      "buyHigh": 60000,
-      "heatRank": 16,
-      "heat": 1.302,
-      "landed": false,
-      "landedAt": "",
-      "lagDays": null,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "April McClain Delaney",
-          "id": "april-mcclain-delaney"
-        }
-      ],
-      "weekly": {
-        "rsi": 51.9,
-        "sma20": 144.78,
-        "sma40": 127.4,
-        "vs20": -1.6,
-        "ret4w": 19.7,
-        "ret13w": 2.6,
-        "fromHigh": -20.3,
-        "trend": "DOWN",
-        "recentLow": 119.05
-      },
-      "monthly": {
-        "rsi": 62.2,
-        "sma10": 125.07,
-        "vs10": 13.9,
-        "trend": "UP"
-      },
-      "invalidation": 119.05,
-      "flags": [
-        "Monthly intact",
-        "Already ran"
       ],
       "rank": 3
     },
@@ -535,15 +529,15 @@
       "action": "avoid",
       "score": -0.71,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 114.1,
-      "pxAsof": "2026-08-26",
+      "last": 111.59,
+      "pxAsof": "2026-08-27",
       "buyPx": 90.62,
-      "chgSinceBuy": 0.2591,
+      "chgSinceBuy": 0.2314,
       "lastBuy": "2026-06-16",
       "nBuyers": 3,
       "buyHigh": 295000,
       "heatRank": 79,
-      "heat": 0.166,
+      "heat": 0.155,
       "landed": false,
       "landedAt": "",
       "lagDays": null,
@@ -566,20 +560,20 @@
         }
       ],
       "weekly": {
-        "rsi": 80.3,
-        "sma20": 96.48,
-        "sma40": 105.66,
-        "vs20": 18.3,
-        "ret4w": 7.9,
-        "ret13w": 33.3,
-        "fromHigh": -2.2,
+        "rsi": 75.9,
+        "sma20": 96.35,
+        "sma40": 105.6,
+        "vs20": 15.8,
+        "ret4w": 5.6,
+        "ret13w": 30.4,
+        "fromHigh": -4.3,
         "trend": "MIX",
         "recentLow": 93.93
       },
       "monthly": {
-        "rsi": 40.8,
-        "sma10": 106.94,
-        "vs10": 6.7,
+        "rsi": 39.5,
+        "sma10": 106.69,
+        "vs10": 4.6,
         "trend": "UP"
       },
       "invalidation": 93.93,
@@ -594,17 +588,17 @@
       "code": "PYPL",
       "name": "PayPal Holdings, Inc.",
       "action": "avoid",
-      "score": -0.717,
+      "score": -0.742,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 61.81,
-      "pxAsof": "2026-08-26",
+      "last": 61.47,
+      "pxAsof": "2026-08-27",
       "buyPx": 57.65,
-      "chgSinceBuy": 0.0722,
+      "chgSinceBuy": 0.0663,
       "lastBuy": "2026-07-30",
       "nBuyers": 1,
       "buyHigh": 30000,
       "heatRank": 22,
-      "heat": 0.892,
+      "heat": 0.832,
       "landed": false,
       "landedAt": "",
       "lagDays": null,
@@ -619,20 +613,20 @@
         }
       ],
       "weekly": {
-        "rsi": 84.4,
-        "sma20": 50.3,
-        "sma40": 50.72,
-        "vs20": 22.9,
-        "ret4w": 8.0,
-        "ret13w": 38.1,
-        "fromHigh": 0.0,
+        "rsi": 84.0,
+        "sma20": 50.28,
+        "sma40": 50.71,
+        "vs20": 22.3,
+        "ret4w": 7.4,
+        "ret13w": 37.4,
+        "fromHigh": -0.3,
         "trend": "MIX",
         "recentLow": 46.32
       },
       "monthly": {
-        "rsi": 40.6,
-        "sma10": 52.23,
-        "vs10": 18.3,
+        "rsi": 40.3,
+        "sma10": 52.2,
+        "vs10": 17.8,
         "trend": "UP"
       },
       "invalidation": 46.32,

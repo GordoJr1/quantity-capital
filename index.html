@@ -100,6 +100,34 @@
       background: var(--ink);
     }
 
+    .landed-chip-row {
+      background: var(--ink);
+      border-bottom: 1px solid #2a3340;
+    }
+    .landed-chip-row .wrap {
+      display: flex;
+      align-items: center;
+      padding: 0 0 10px;
+    }
+    .landed-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: var(--caution);
+      background: rgba(227, 180, 26, 0.08);
+      border: 1px solid var(--caution);
+      padding: 8px 14px;
+      min-height: 44px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .landed-chip:hover { background: rgba(227, 180, 26, 0.16); color: var(--caution); }
+    .landed-chip .n { font-weight: 700; }
+
     header {
       position: relative;
       z-index: 1;
@@ -606,6 +634,7 @@
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
       header .wrap { padding: 12px 0; }
+      .landed-chip-row .wrap { padding: 0 0 8px; }
       nav { gap: 12px; font-size: 0.85rem; }
       section { padding: 16px 0 40px; }
       .tape-lock { padding: 8px 0 6px; }
@@ -920,6 +949,11 @@
       </nav>
     </div>
   </header>
+    <div class="landed-chip-row">
+      <div class="wrap">
+        <a class="landed-chip" id="landed-chip" href="landed.html">Just landed</a>
+      </div>
+    </div>
   </div>
   <div class="tape-chrome">
     <div class="wrap">
@@ -1379,14 +1413,16 @@
         const res = await fetch("trades-lite.json");
         const data = await res.json();
         const asof = document.getElementById("tape-asof");
+        const chip = document.getElementById("landed-chip");
+        const label = QC.asOfLabel(data.collected);
+        const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;
         if (asof) {
-          const label = QC.asOfLabel(data.collected);
-          const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;
-          asof.innerHTML = (label ? "Tape through " + QC.esc(label) : "") +
-            (freshN
-              ? (label ? " · " : "") + "<a href=\"landed.html\">" + freshN +
-                " print" + (freshN === 1 ? "" : "s") + " landed in the last 3 days</a>"
-              : "");
+          asof.textContent = label ? "Tape through " + label : "";
+        }
+        if (chip) {
+          chip.innerHTML = freshN
+            ? "Just landed \u00b7 <span class=\"n\">" + freshN + "</span>"
+            : "Just landed";
         }
         let tickerFile = { tickers: {}, assets: {} };
         try {

@@ -741,15 +741,27 @@
     }
     .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
     .board-list { list-style: none; border: 1px solid #4a5563; background: var(--panel); }
+    footer[hidden], .stripe[hidden] { display: none !important; }
+    #board-list { min-height: 70vh; }
+    body.is-ready #board-list { min-height: 0; }
     .board-list li.skel {
-      min-height: 38px;
+      min-height: 52px;
       pointer-events: none;
     }
-    .board-list li.skel::before {
+    .board-list li.skel::before,
+    .board-list li.skel::after {
       content: "";
       display: block;
-      height: 12px;
       background: #3a4452;
+      border-radius: 2px;
+    }
+    .board-list li.skel::before {
+      height: 14px;
+      grid-column: 1 / -1;
+    }
+    .board-list li.skel::after {
+      height: 10px;
+      width: 55%;
       grid-column: 1 / -1;
     }
     .board-list li {
@@ -1009,6 +1021,10 @@
         <li class="skel" aria-hidden="true"></li>
         <li class="skel" aria-hidden="true"></li>
         <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
       </ol>
       <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
     </section>
@@ -1097,7 +1113,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <div class="stripe"></div>
+  <div class="stripe" hidden></div>
   </div>
 
   <script src="qc.js"></script>
@@ -1437,6 +1453,14 @@
       paint();
     }
 
+    function markTapeReady() {
+      document.body.classList.add("is-ready");
+      const foot = document.querySelector("footer");
+      if (foot) foot.hidden = false;
+      const stripe = document.querySelector(".stripe");
+      if (stripe) stripe.hidden = false;
+    }
+
     async function loadTape() {
       const box = document.getElementById("tape-list");
       if (!box) return;
@@ -1564,12 +1588,10 @@
         fillIndustries();
         apply();
         bindBoard(buildBoards(rows, bios, tradersFile));
-        const foot = document.querySelector("footer");
-        if (foot) foot.hidden = false;
+        markTapeReady();
       } catch (err) {
         bindPicker([]);
-        const foot = document.querySelector("footer");
-        if (foot) foot.hidden = false;
+        markTapeReady();
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";
       }
     }

@@ -349,7 +349,7 @@
         return "<li>" + name +
           "<span class=\"side " + cls + "\">" + (t.side === "purchase" ? "Buy" : t.side === "sale" ? "Sell" : esc(t.side)) + optionTag(t) + "</span>" +
           "<span class=\"when\">" + prettyDate(t.trade_date) + "</span>" +
-          "<span class=\"amt\">" + esc(t.amount) + "</span>" +
+          "<span class=\"amt\">" + esc(QC.formatAmountRange(t.amount)) + "</span>" +
           "<span class=\"px\">" + (px ? formatMoney(px[1]) + " close" : "no close") + "</span></li>";
       }).join("") || "<li class=\"muted\">No stock trades on this ticker in the last three years.</li>";
     }).catch(() => {

@@ -867,7 +867,7 @@
           "<td class=\"tix-tk\">" + tickerCell(info.code) + optionTag(t) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
           "<td class=\"desk-only\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +
-          "<td class=\"tix-amt\">" + t.amount + "</td>" +
+          "<td class=\"tix-amt\">" + esc(QC.formatAmountRange(t.amount)) + "</td>" +
           "<td class=\"desk-only\">" + t.owner + "</td>" +
           "<td class=\"tix-meta\">" + esc(meta) + "</td></tr>";
       }).join("");

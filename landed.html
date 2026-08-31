@@ -286,7 +286,7 @@
         tk +
         "<span class=\"co\">" + QC.esc(t.company || t.asset || "—") + QC.optionTag(t) +
           " · traded " + QC.esc(QC.prettyDate(t.trade_date)) + "</span>" +
-        "<span class=\"amt\">" + QC.esc(t.amount) + "</span>" +
+        "<span class=\"amt\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</span>" +
       "</li>";
     }
 

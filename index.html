@@ -1186,7 +1186,7 @@
             : escapeHtml(t.code)) + optionTag(t) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
-          "<td class=\"tix-amt\">" + escapeHtml(t.amount) + "</td>" +
+          "<td class=\"tix-amt\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.owner) + "</td>" +
           "<td class=\"tix-meta\">" + escapeHtml(meta) + "</td>" +
           "</tr>";

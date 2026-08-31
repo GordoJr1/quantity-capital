@@ -741,6 +741,17 @@
     }
     .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
     .board-list { list-style: none; border: 1px solid #4a5563; background: var(--panel); }
+    .board-list li.skel {
+      min-height: 38px;
+      pointer-events: none;
+    }
+    .board-list li.skel::before {
+      content: "";
+      display: block;
+      height: 12px;
+      background: #3a4452;
+      grid-column: 1 / -1;
+    }
     .board-list li {
       display: grid;
       grid-template-columns: 2.2em minmax(0, 1fr) auto;
@@ -991,7 +1002,14 @@
         <button type="button" data-board="stocks">Top trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
-      <ol class="board-list" id="board-list"></ol>
+      <ol class="board-list" id="board-list">
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+        <li class="skel" aria-hidden="true"></li>
+      </ol>
       <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
     </section>
 
@@ -1073,7 +1091,7 @@
     </section>
 
   </div>
-  <footer>
+  <footer hidden>
     <div class="wrap">
       <span>© Quantity Capital</span>
       <a href="mailto:gordojr@proton.me">Transmit</a>
@@ -1546,8 +1564,12 @@
         fillIndustries();
         apply();
         bindBoard(buildBoards(rows, bios, tradersFile));
+        const foot = document.querySelector("footer");
+        if (foot) foot.hidden = false;
       } catch (err) {
         bindPicker([]);
+        const foot = document.querySelector("footer");
+        if (foot) foot.hidden = false;
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";
       }
     }

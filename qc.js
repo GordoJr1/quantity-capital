@@ -77,6 +77,22 @@
     return parseInt(nums[nums.length - 1].replace(/[$,]/g, ""), 10) || 0;
   }
 
+  function formatAmountRange(amount) {
+    const raw = String(amount || "").trim();
+    if (!raw) return raw;
+    const bits = raw.split(/\s*[\u2013\u2014\-]\s*/);
+    if (bits.length === 2 && /\$/.test(bits[0]) && /\$/.test(bits[1])) {
+      const a = parseInt(bits[0].replace(/[^\d]/g, ""), 10);
+      const b = parseInt(bits[1].replace(/[^\d]/g, ""), 10);
+      if (a && b) return formatMoney(a) + "\u2013" + formatMoney(b);
+    }
+    if (/^\$[\d,]+$/.test(raw)) {
+      const n = parseInt(raw.replace(/[^\d]/g, ""), 10);
+      if (n) return formatMoney(n);
+    }
+    return raw;
+  }
+
   function formatMoney(n) {
     if (n >= 1000000) {
       const m = n / 1000000;
@@ -322,6 +338,7 @@
     sideLabel: sideLabel,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
+    formatAmountRange: formatAmountRange,
     formatMoney: formatMoney,
     signedMoney: signedMoney,
     prettyDate: prettyDate,

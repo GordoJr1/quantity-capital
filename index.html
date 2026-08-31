@@ -681,10 +681,14 @@
     #tape .filter-fold { margin: 0 0 12px; }
     .board-tabs {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       gap: 8px;
       margin: 0 0 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .board-tabs::-webkit-scrollbar { display: none; }
     .board-tabs button {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em;
@@ -693,7 +697,9 @@
       border: 1px solid #4a5563;
       color: var(--mute);
       padding: 8px 12px;
-      min-height: 40px;
+      min-height: 44px;
+      flex: 0 0 auto;
+      white-space: nowrap;
       cursor: pointer;
     }
     .board-tabs button.on {

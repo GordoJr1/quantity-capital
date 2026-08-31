@@ -38,7 +38,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html {
       scroll-behavior: smooth;
-      background: var(--steel);
+      background: var(--ink);
       color-scheme: dark;
     }
 
@@ -51,15 +51,7 @@
       min-height: 100vh;
     }
 
-    .bay-left, .bay-right {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: min(9vw, 110px);
-      pointer-events: none;
-      z-index: 0;
-      background: var(--steel);
-    }
+    .bay-left, .bay-right { display: none; }
 
     .bay-left::after, .bay-right::after {
       content: "";
@@ -547,9 +539,6 @@
     @media (max-width: 820px), (orientation: landscape) and (max-height: 620px) {
       .feed-head { display: none; }
       .tape-asof { display: block; margin: 0 0 8px; }
-      html, body {
-        background: var(--steel);
-      }
       .tape-chrome {
         position: relative;
         top: auto;
@@ -560,7 +549,6 @@
       .tape-scroll {
         position: relative;
         z-index: 1;
-        background: var(--steel);
       }
       #tape { padding-top: 8px; }
       .filter-fold {

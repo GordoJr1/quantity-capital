@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v33";
+const CACHE = "qc-shell-v34";
 const SHELL = [
   "./",
   "./index.html",
@@ -44,7 +44,19 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.endsWith("/")
     || url.pathname.endsWith("/refresh.js")
     || url.pathname.endsWith("/sw.js");
-  if (isData || isDoc) {
+  if (isData) {
+    event.respondWith((async () => {
+      const cached = await caches.match(event.request);
+      const network = fetch(event.request).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        return res;
+      }).catch(() => cached);
+      return cached || network;
+    })());
+    return;
+  }
+  if (isDoc) {
     event.respondWith(
       fetch(event.request)
         .then((res) => {

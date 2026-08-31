@@ -885,15 +885,38 @@
       return String(fid || "").split("-").filter((part) => part.length > 1).join("-");
     }
 
+    function compactId(fid) {
+      return dropInitials(fid).replace(/-/g, "");
+    }
+
+    function editDistance(a, b) {
+      if (a === b) return 0;
+      if (Math.abs(a.length - b.length) > 1) return 99;
+      const rows = a.length + 1;
+      const cols = b.length + 1;
+      const dp = [];
+      for (let i = 0; i < rows; i++) {
+        dp[i] = [];
+        dp[i][0] = i;
+      }
+      for (let j = 0; j < cols; j++) dp[0][j] = j;
+      for (let i = 1; i < rows; i++) {
+        for (let j = 1; j < cols; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+        }
+      }
+      return dp[a.length][b.length];
+    }
+
     function suggestFilers(want, data, bios) {
       const known = new Set(Object.keys(bios.people || {}));
       (data.trades || []).forEach((t) => { if (t.filer_id) known.add(t.filer_id); });
-      const core = dropInitials(want);
+      const compact = compactId(want);
       const hits = [];
       known.forEach((fid) => {
         if (fid === want) return;
-        const other = dropInitials(fid);
-        if (other === core || other === want || fid === core) hits.push(fid);
+        if (editDistance(compactId(fid), compact) <= 1) hits.push(fid);
       });
       return hits.slice(0, 3).map((fid) => ({ id: fid, name: filerName(fid, data, bios) }));
     }

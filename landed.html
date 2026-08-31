@@ -157,11 +157,8 @@
     }
     footer a { color: var(--caution); }
     @media (max-width: 720px) {
-      .stats { grid-template-columns: repeat(3, 1fr); }
-      .stat { padding: 10px 8px; border-right: 1px solid #3a4452; border-bottom: 0; }
-      .stat:last-child { border-right: 0; }
-      .stat b { font-size: 1.25rem; }
-      .stat span { font-size: 0.68rem; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
       .tickets li { grid-template-columns: 48px 52px minmax(0, 1fr); }
       .amt { grid-column: 2 / -1; }
     }

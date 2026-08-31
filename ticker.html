@@ -51,9 +51,65 @@
     nav a:hover, nav a.on { color: var(--caution); }
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 22px 0 8px; }
-    h1 { font-size: clamp(2.2rem, 8vw, 3.6rem); line-height: 0.9; margin-bottom: 10px; }
+    h1 { font-size: clamp(2.2rem, 8vw, 3.6rem); line-height: 0.9; margin-bottom: 0; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     #note { margin: 0 0 12px; }
+    .ticker-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .price-pill {
+      flex: 0 0 auto;
+      min-width: 8.5rem;
+      text-align: right;
+      border: 2px solid var(--caution);
+      background: #151b24;
+      padding: 8px 14px 7px;
+      border-radius: 8px;
+    }
+    .price-pill b {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: clamp(1.5rem, 5vw, 2.1rem);
+      color: var(--caution);
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .price-pill span {
+      display: block;
+      margin-top: 5px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      color: var(--mute);
+    }
+    .range {
+      display: flex;
+      background: #151b24;
+      border: 1px solid #3a4452;
+      margin: 0 0 10px;
+    }
+    .range button {
+      flex: 1;
+      background: transparent;
+      border: 0;
+      color: var(--paper);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      padding: 10px 8px;
+      cursor: pointer;
+    }
+    .range button.on {
+      color: var(--caution);
+      background: rgba(227, 180, 26, 0.1);
+      box-shadow: inset 0 0 0 1px var(--caution);
+    }
     .stats {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -88,6 +144,7 @@
     }
     .buy { color: #7dcf7a; }
     .sell { color: #ef7a74; }
+    .chart-wrap { position: relative; }
     .chart-frame {
       display: grid;
       grid-template-columns: 52px 1fr;
@@ -97,6 +154,50 @@
       padding: 6px 8px 4px 0;
     }
     #chart-svg { width: 100%; height: 100%; display: block; background: transparent; min-height: 260px; }
+    .mark-pop {
+      position: absolute;
+      z-index: 5;
+      min-width: 180px;
+      max-width: min(260px, calc(100% - 16px));
+      transform: translate(-50%, calc(-100% - 14px));
+      background: #1c2430;
+      border: 1px solid #4a5563;
+      padding: 10px 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      pointer-events: none;
+    }
+    .mark-pop::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -7px;
+      width: 10px;
+      height: 10px;
+      background: #1c2430;
+      border-right: 1px solid #4a5563;
+      border-bottom: 1px solid #4a5563;
+      transform: translateX(-50%) rotate(45deg);
+    }
+    .mark-pop .pop-row { display: flex; gap: 8px; align-items: flex-start; }
+    .mark-pop .dot {
+      flex: 0 0 22px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #eef2f5;
+      margin-top: 1px;
+    }
+    .mark-pop .dot.buy { background: #2f9e4f; }
+    .mark-pop .dot.sell { background: #c2302a; }
+    .mark-pop b { display: block; color: var(--white); font-size: 0.92rem; }
+    .mark-pop .pop-meta { color: var(--paper); font-size: 0.82rem; margin-top: 2px; }
+    .mark-pop .pop-date { color: var(--mute); font-size: 0.78rem; margin-top: 2px; }
     .chart-y, .chart-x { color: var(--mute); font-size: 0.68rem; line-height: 1; }
     .chart-y {
       display: flex;
@@ -132,8 +233,10 @@
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
       header { padding: 12px 0; }
-      .chart-frame { grid-template-rows: 240px 22px; }
-      #chart-svg { min-height: 240px; }
+      .chart-frame { grid-template-rows: 280px 22px; }
+      #chart-svg { min-height: 280px; }
+      .ticker-head { align-items: center; }
+      .price-pill { min-width: 7.2rem; padding: 7px 10px; }
       .chart-marks li {
         grid-template-columns: minmax(0, 1fr) 8.5em;
         grid-template-areas:
@@ -195,14 +298,26 @@
       </nav>
     </header>
     <p><a class="back" id="back" href="index.html">← Tape</a></p>
-    <p class="kicker" id="kicker">Ticker</p>
-    <h1 id="who">—</h1>
+    <div class="ticker-head">
+      <div>
+        <p class="kicker" id="kicker">Ticker</p>
+        <h1 id="who">—</h1>
+      </div>
+      <div class="price-pill" id="price-pill" hidden>
+        <b id="last-px">—</b>
+        <span>Last price</span>
+      </div>
+    </div>
     <p class="muted" id="note" hidden></p>
     <div class="stats" id="stats"></div>
-    <div class="chart-frame">
-      <div class="chart-y" id="chart-y"></div>
-      <svg id="chart-svg" viewBox="0 0 720 220" preserveAspectRatio="none"></svg>
-      <div class="chart-x" id="chart-x"></div>
+    <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+    <div class="chart-wrap" id="chart-wrap">
+      <div class="chart-frame">
+        <div class="chart-y" id="chart-y"></div>
+        <svg id="chart-svg" viewBox="0 0 720 260" preserveAspectRatio="none"></svg>
+        <div class="chart-x" id="chart-x"></div>
+      </div>
+      <div class="mark-pop" id="mark-pop" hidden></div>
     </div>
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>
     <p class="kicker">Trades</p>
@@ -282,6 +397,72 @@
 
     const cutoff = new Date();
     cutoff.setFullYear(cutoff.getFullYear() - 3);
+    const mobile = window.matchMedia("(max-width: 820px)").matches;
+    const RANGES = ["3m", "1y", "3y"];
+    let range = RANGES.indexOf(String(params.get("r") || "").toLowerCase()) >= 0
+      ? String(params.get("r")).toLowerCase()
+      : (mobile ? "1y" : "3y");
+    let allPoints = [];
+    let chartDeals = [];
+
+    function chartHeight() {
+      return window.matchMedia("(max-width: 820px)").matches ? 280 : 260;
+    }
+    function hidePop() {
+      const pop = document.getElementById("mark-pop");
+      if (pop) pop.hidden = true;
+    }
+    function showPop(rec) {
+      const pop = document.getElementById("mark-pop");
+      const wrap = document.getElementById("chart-wrap");
+      if (!pop || !wrap) return;
+      const m = rec.mark || {};
+      const buy = m.side !== "sale";
+      const side = buy ? "Buy" : "Sell";
+      pop.innerHTML =
+        "<div class=\"pop-row\">" +
+          "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + (buy ? "B" : "S") + "</div>" +
+          "<div>" +
+            "<b>" + esc(m.filer || "Official tape") + "</b>" +
+            "<div class=\"pop-meta\"><span class=\"" + (buy ? "buy" : "sell") + "\">" + side + "</span>" +
+              (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") + "</div>" +
+            "<div class=\"pop-date\">" + prettyDate(m.date) + "</div>" +
+          "</div>" +
+        "</div>";
+      const svg = document.getElementById("chart-svg") || wrap.querySelector(".chart-frame");
+      const wr = wrap.getBoundingClientRect();
+      const sr = svg.getBoundingClientRect();
+      const pad = 96;
+      let left = (sr.left - wr.left) + rec.xPct * sr.width;
+      const top = (sr.top - wr.top) + rec.yPct * sr.height;
+      left = Math.max(pad, Math.min(wr.width - pad, left));
+      pop.style.left = left + "px";
+      pop.style.top = top + "px";
+      pop.style.transform = rec.yPct < 0.28
+        ? "translate(-50%, 16px)"
+        : "translate(-50%, calc(-100% - 14px))";
+      pop.hidden = false;
+    }
+    function paintRange() {
+      document.getElementById("range").innerHTML = RANGES.map((r) =>
+        "<button type=\"button\" class=\"" + (r === range ? "on" : "") + "\" data-r=\"" + r + "\">" +
+          r.toUpperCase() + "</button>"
+      ).join("");
+    }
+    function paintChart() {
+      hidePop();
+      const slice = slicePriceRange(allPoints, range);
+      const marks = chartDeals.map((t) => ({
+        date: t.trade_date,
+        side: t.side,
+        filer: t.filer,
+        amount: t.amount
+      }));
+      drawChart(slice, marks, {
+        height: chartHeight(),
+        onMark: showPop
+      });
+    }
 
     Promise.all([
       fetch("trades.json").then((r) => r.json()),
@@ -301,7 +482,7 @@
         return true;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       const stockDeals = deals.filter((t) => !isOptionLike(t));
-      const chartDeals = deals.filter((t) => !isOptionLike(t) || t.side === "purchase");
+      chartDeals = deals.filter((t) => !isOptionLike(t) || t.side === "purchase");
 
       const who = filerId && deals[0] ? deals[0].filer : "";
       if (who) {
@@ -317,14 +498,17 @@
           : "No daily prices on file for " + ticker + ".";
         return;
       }
-      const points = prices.c;
-      const last = points[points.length - 1];
+      allPoints = prices.c;
+      const last = allPoints[allPoints.length - 1];
       const buys = stockDeals.filter((t) => t.side === "purchase").length;
       const sells = stockDeals.filter((t) => t.side === "sale").length;
       document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker");
+      const pill = document.getElementById("price-pill");
+      document.getElementById("last-px").textContent = formatMoney(last[1]);
+      pill.hidden = false;
 
       if (filerId) {
-        const est = theoreticalPnl(stockDeals, points);
+        const est = theoreticalPnl(stockDeals, allPoints);
         const totalCls = est.total > 0 ? "up" : est.total < 0 ? "down" : "";
         const unCls = est.unrealized > 0 ? "up" : est.unrealized < 0 ? "down" : "";
         const realCls = est.realized > 0 ? "up" : est.realized < 0 ? "down" : "";
@@ -339,9 +523,10 @@
           "<div class=\"stat\"><b>" + formatMoney(last[1]) + "</b><span>close</span></div>";
       }
 
-      drawChart(points, chartDeals.map((t) => ({ date: t.trade_date, side: t.side })));
+      paintRange();
+      paintChart();
       document.getElementById("marks").innerHTML = deals.map((t) => {
-        const px = nearestClose(points, t.trade_date);
+        const px = nearestClose(allPoints, t.trade_date);
         const cls = t.side === "purchase" ? "buy" : "sell";
         const name = filerId
           ? "<span class=\"who\">" + esc(t.owner || "self") + "</span>"
@@ -356,6 +541,21 @@
       const note = document.getElementById("note");
       note.hidden = false;
       note.textContent = "Could not load trades.json.";
+    });
+
+    document.getElementById("range").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-r]");
+      if (!btn) return;
+      range = btn.dataset.r;
+      const p = new URLSearchParams(location.search);
+      p.set("r", range);
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      paintRange();
+      paintChart();
+    });
+    document.addEventListener("click", (e) => {
+      if (e.target.closest(".chart-mark") || e.target.closest("#mark-pop")) return;
+      hidePop();
     });
 
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");

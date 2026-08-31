@@ -93,21 +93,9 @@
 
     .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; position: relative; z-index: 1; }
 
-    .site-bar {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: var(--ink);
-    }
-
     .landed-chip-row {
       background: var(--ink);
-      border-bottom: 1px solid #2a3340;
-    }
-    .landed-chip-row .wrap {
-      display: flex;
-      align-items: center;
-      padding: 0 0 10px;
+      padding: 10px 0;
     }
     .landed-chip {
       display: inline-flex;
@@ -129,17 +117,11 @@
     .landed-chip .n { font-weight: 700; }
 
     header {
-      position: relative;
-      z-index: 1;
-      border-bottom: 2px solid var(--teal);
-      background: var(--ink);
-    }
-
-    header .wrap {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 16px 0;
+      border-bottom: 2px solid var(--teal);
     }
 
     .mark {
@@ -568,13 +550,6 @@
       html, body {
         background: var(--steel);
       }
-      .site-bar {
-        position: relative;
-        top: auto;
-        z-index: 50;
-        background: var(--ink);
-      }
-      header { background: var(--ink); }
       .tape-chrome {
         position: relative;
         top: auto;
@@ -615,8 +590,6 @@
 
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
-      header .wrap { padding: 12px 0; }
-      .landed-chip-row .wrap { padding: 0 0 8px; }
       nav { gap: 12px; font-size: 0.85rem; }
       section { padding: 16px 0 40px; }
       .tape-lock { padding: 8px 0 6px; }
@@ -713,7 +686,7 @@
       .filters { grid-template-columns: 1fr; }
     }
     @media (display-mode: standalone) {
-      .site-bar { padding-top: env(safe-area-inset-top, 0px); }
+      body { padding-top: env(safe-area-inset-top, 0px); }
     }
 
     #board { padding: 16px 0 8px; }
@@ -973,9 +946,8 @@
 <body>
   <div class="bay-left" aria-hidden="true"></div>
   <div class="bay-right" aria-hidden="true"></div>
-  <div class="site-bar">
-  <header>
-    <div class="wrap">
+  <div class="wrap">
+    <header>
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav>
         <a href="index.html" class="on">Tape</a>
@@ -983,12 +955,9 @@
         <a href="tells.html">Tells</a>
         <a href="signals.html">Signals</a>
       </nav>
-    </div>
-  </header>
+    </header>
     <div class="landed-chip-row">
-      <div class="wrap">
-        <a class="landed-chip" id="landed-chip" href="landed.html">Just landed</a>
-      </div>
+      <a class="landed-chip" id="landed-chip" href="landed.html">Just landed</a>
     </div>
   </div>
   <div class="tape-chrome">
@@ -1602,7 +1571,7 @@
       const chromeEl = document.querySelector(".tape-chrome");
       const tape = document.getElementById("tape");
       const fold = document.querySelector(".filter-fold");
-      const bar = document.querySelector(".site-bar");
+      const bar = document.querySelector("header");
       if (!lock || !tape || !window.ResizeObserver) return;
       const sync = () => {
         const hh = bar ? bar.offsetHeight : 0;

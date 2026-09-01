@@ -39,7 +39,7 @@
         url("city.jpg?v=15") 50% 30% / cover fixed;
       min-height: 100vh;
     }
-    .wrap { width: min(1100px, calc(100% - 24px)); margin: 0 auto; }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
     .stripe {
       height: 10px;
       background: repeating-linear-gradient(-45deg, var(--ink) 0 10px, var(--caution) 10px 20px);
@@ -168,6 +168,7 @@
 
     .tabbar { display: none; }
     @media (max-width: 820px) {
+      .wrap { width: calc(100% - 24px); }
       header nav { display: none; }
       .tabbar {
         display: flex;

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <link rel="prefetch" href="backtest.json">
+  <title>Paper — Quantity Capital</title>
+  <meta name="description" content="Hypothetical STOCK Act copy: buy when the filing hits, not on the trade date. Equal-weight purchase legs. Not investment advice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --red: #c2302a; --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--teal);
+    }
+    .mark, h1, h2, .kicker, nav, .chip, .tk, .who, .subhead, .rate b, .rank, .board-tabs button {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 16px; font-size: 0.9rem; letter-spacing: 0.12em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    body { padding-top: env(safe-area-inset-top, 0px); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .warn {
+      border: 1px solid var(--red); color: var(--paper); background: rgba(194, 48, 42, 0.12);
+      padding: 10px 14px; margin: 0 0 22px; font-size: 0.88rem; line-height: 1.45;
+    }
+    .warn b { color: var(--red); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block; font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem; color: var(--caution); letter-spacing: 0.06em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .board-tabs {
+      display: flex; flex-wrap: nowrap; gap: 8px; margin: 0 0 12px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    }
+    .board-tabs::-webkit-scrollbar { display: none; }
+    .board-tabs button, .chip {
+      background: transparent; border: 1px solid #4a5563; color: var(--mute);
+      padding: 8px 12px; min-height: 44px; flex: 0 0 auto; white-space: nowrap; cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .board-tabs button.on, .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    [hidden], .hidden { display: none !important; }
+    .picker { max-width: 420px; margin: 0 0 16px; }
+    .picker input {
+      width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
+      padding: 10px 12px; font: inherit; min-height: 44px;
+    }
+    .picker input:focus { outline: 1px solid var(--caution); }
+    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 10px; }
+    .card {
+      background: var(--panel); border: 1px solid #4a5563;
+      border-left: 6px solid var(--caution); padding: 14px 16px; margin: 0 0 10px;
+    }
+    .card.open { background: rgba(227, 180, 26, 0.05); }
+    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; cursor: pointer; scroll-margin-top: 12px; }
+    .who, .tk-title { color: var(--white); text-decoration: none; font-size: 1.35rem; }
+    .who:hover, .tk-title:hover { color: var(--teal); }
+    .rate { text-align: right; color: var(--caution); line-height: 1; }
+    .rate b { display: block; font-size: 1.7rem; }
+    .rate b.up { color: #7dcf7a; }
+    .rate b.down { color: #ef7a74; }
+    .rate span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; }
+    .rank { color: var(--mute); margin-right: 8px; font-size: 0.95rem; }
+    .card:first-child .rank { color: var(--caution); }
+    .tickets { list-style: none; margin-top: 10px; display: none; }
+    .card.open .tickets { display: block; }
+    .tickets li {
+      display: grid; grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 10px; padding: 8px 0; border-top: 1px solid #3a4452;
+      font-size: 0.9rem; align-items: baseline;
+    }
+    .tk { color: var(--white); text-decoration: none; font-size: 1.05rem; }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.86rem; min-width: 0; }
+    .co .dot { color: var(--mute); }
+    .ret { color: #7dcf7a; font-weight: 600; white-space: nowrap; }
+    .ret.down { color: #ef7a74; }
+    details.how {
+      margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24;
+    }
+    details.how summary {
+      cursor: pointer; padding: 12px 16px; color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    details.how .body p + p { margin-top: 10px; }
+    .more-row { margin: 12px 0 8px; }
+    .btn {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.14em; text-transform: uppercase;
+      text-decoration: none; font-weight: 600; font-size: 0.95rem; padding: 10px 16px;
+      border: 2px solid var(--caution); color: var(--caution); background: transparent; cursor: pointer;
+      min-height: 44px;
+    }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    footer a { color: var(--caution); }
+    @media (max-width: 820px) {
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid #3a4452; }
+    }
+    @media (max-width: 720px) {
+      .tickets li {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+      .tickets li .co {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        line-height: 1.35;
+      }
+      .tickets li .co .dot { display: none; }
+      .ret { grid-column: 2; grid-row: 1; }
+      .picker { max-width: none; }
+    }
+    @media (display-mode: standalone) {
+      body { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    .tabbar { display: none; }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 24px); }
+      header nav { display: none; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+        font-size: 0.78rem; color: var(--paper); text-decoration: none; padding: 0 2px; text-align: center;
+      }
+      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
+      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html">Tells</a>
+        <a href="signals.html">Signals</a>
+        <a href="paper.html" class="on">Paper</a>
+      </nav>
+    </header>
+    <p class="kicker">Filed-date copy</p>
+    <h1>Paper</h1>
+    <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
+    <p class="asof" id="asof"></p>
+    <p class="warn"><b>Not advice.</b> Hypothetical paper returns from official STOCK Act / OGE 278-T filings and daily closes. Amounts are ranges, not share counts. Returns are not annualized. Nobody got this fill.</p>
+    <div class="stats" id="stats"></div>
+    <div class="board-tabs" role="tablist">
+      <button type="button" data-board="filers" class="on">Filers</button>
+      <button type="button" data-board="tickers">Tickers</button>
+    </div>
+    <div class="windows" id="chamber"></div>
+    <div class="windows" id="mins"></div>
+    <div class="windows" id="sorts"></div>
+    <div class="picker">
+      <input id="q" type="search" placeholder="Name or ticker…" autocomplete="off" />
+    </div>
+    <p class="count" id="count"></p>
+    <div id="board"></div>
+    <div class="more-row" id="more-row" hidden>
+      <button type="button" class="btn" id="more">Show all</button>
+    </div>
+    <details class="how">
+      <summary>How the paper score is built</summary>
+      <div class="body">
+        <p>Each listed-stock <b>purchase</b> is one equal-weight leg. Entry is the first daily close on or after the official <b>filed date</b> (when the public can copy), allowing up to 10 calendar days for weekends and holidays. Exit is the latest close in the site’s price file, labeled as-of. Return is exit ÷ entry − 1 and is <b>not annualized</b>. A filer’s score is the unweighted average of those legs.</p>
+        <p>Bonds, options, junk tickers, and legs with no price file or no close in that window are skipped. Official amounts are ranges, so position size is not used — a $1,001–$15,000 ticket counts the same as a $1,000,001–$5,000,000 ticket. Coverage counts (priced vs skipped) sit on every row.</p>
+        <p class="muted">This is not the politician’s P&amp;L. They traded earlier, often weeks before the print. Tape’s “Top Traders” board is a different, trade-date FIFO estimate. Regenerated from trades-lite.json and prices/ on each site update.</p>
+      </div>
+    </details>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const PAGE = 30;
+    const MINS = [1, 5, 10];
+    const params = new URLSearchParams(location.search);
+    const state = {
+      board: (params.get("t") && !params.get("id")) || params.get("view") === "tickers" ? "tickers" : "filers",
+      chamber: params.get("c") || "",
+      min: MINS.indexOf(Number(params.get("min"))) >= 0 ? Number(params.get("min")) : 5,
+      sort: params.get("sort") === "worst" ? "worst" : "best",
+      q: (params.get("q") || "").trim(),
+      open: params.get("id") || params.get("t") || "",
+      showAll: false,
+      needDeepScroll: !!(params.get("id") || params.get("t"))
+    };
+    let data = null;
+
+    function pct(x) {
+      if (x == null || !isFinite(x)) return "—";
+      const v = x * 100;
+      const abs = Math.abs(v);
+      const n = abs >= 100 ? v.toFixed(0) : v.toFixed(1);
+      return (v > 0 ? "+" : "") + n + "%";
+    }
+    function px(n) {
+      if (n == null || !isFinite(n)) return "—";
+      return "$" + Number(n).toFixed(2);
+    }
+    function retClass(x) {
+      if (x > 0) return "up";
+      if (x < 0) return "down";
+      return "";
+    }
+    function writeUrl() {
+      const p = new URLSearchParams();
+      if (state.board === "tickers") p.set("view", "tickers");
+      if (state.chamber) p.set("c", state.chamber);
+      if (state.min !== 5) p.set("min", String(state.min));
+      if (state.sort === "worst") p.set("sort", "worst");
+      if (state.q) p.set("q", state.q);
+      if (state.board === "filers" && state.open) p.set("id", state.open);
+      if (state.board === "tickers" && state.open) p.set("t", state.open);
+      const qs = p.toString();
+      history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+    }
+    function chips(el, items, value, key) {
+      el.innerHTML = items.map((it) => {
+        const on = it.value === value ? " on" : "";
+        return "<button type=\"button\" class=\"chip" + on + "\" data-k=\"" + key + "\" data-v=\"" + QC.esc(String(it.value)) + "\">" +
+          QC.esc(it.label) + "</button>";
+      }).join("");
+    }
+    function tickerLegs(code) {
+      const out = [];
+      (data.filers || []).forEach((f) => {
+        (f.legs || []).forEach((leg) => {
+          if (leg.t === code) out.push({ filer: f, leg: leg });
+        });
+      });
+      out.sort((a, b) => String(b.leg.filed).localeCompare(String(a.leg.filed)));
+      return out;
+    }
+    function legLine(leg, who) {
+      const down = (leg.ret || 0) < 0 ? " down" : "";
+      const filed = QC.prettyDate(leg.filed);
+      const entryD = QC.prettyDate(leg.inD || leg.filed);
+      const exitD = QC.prettyDate(leg.outD || data.priceAsof);
+      const amtBit = leg.amt ? QC.formatAmountRange(leg.amt) : "";
+      const whoBit = who
+        ? "<a class=\"tk\" href=\"politician.html?id=" + encodeURIComponent(who.id) + "\">" + QC.esc(who.name) + "</a>"
+        : "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(leg.t) + "\">" + QC.esc(leg.t) + "</a>";
+      const dateBit = who ? QC.esc(filed) : "filed " + QC.esc(filed);
+      const pxBit = who
+        ? px(leg.in) + " → " + px(leg.out)
+        : "in " + QC.esc(entryD) + " @ " + px(leg.in) + " → as-of " + QC.esc(exitD) + " @ " + px(leg.out);
+      const amtHtml = amtBit
+        ? "<span class=\"dot\"> · </span><span class=\"leg-amt\">" + QC.esc(amtBit) + "</span>"
+        : "";
+      return "<li>" + whoBit +
+        "<span class=\"co\">" +
+          "<span class=\"leg-d\">" + dateBit + "</span>" +
+          "<span class=\"dot\"> · </span>" +
+          "<span class=\"leg-px\">" + pxBit + "</span>" +
+          amtHtml +
+        "</span>" +
+        "<span class=\"ret" + down + "\">" + pct(leg.ret) + "</span></li>";
+    }
+    function filerCard(f, i) {
+      const open = state.open === f.id ? " open" : "";
+      const cls = retClass(f.avg);
+      const skip = f.skip ? " · " + f.skip + " skipped" : "";
+      const legs = (state.open === f.id ? (f.legs || []) : []).map((leg) => legLine(leg, null)).join("");
+      return "<article class=\"card" + open + "\" data-open=\"" + QC.esc(f.id) + "\">" +
+        "<div class=\"card-top\">" +
+          "<div>" +
+            "<span class=\"rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+            "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(f.id) + "\">" + QC.esc(f.name) + "</a>" +
+            "<div class=\"muted\">" + QC.esc(f.chamber || "") + " · " + f.n + " priced buy" + (f.n === 1 ? "" : "s") +
+              skip + " · " + f.win + " up · median " + pct(f.med) + "</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(f.avg) + "</b><span>equal-weight</span></div>" +
+        "</div>" +
+        "<ul class=\"tickets\">" + (legs || "") + "</ul>" +
+      "</article>";
+    }
+    function tickerCard(t, i) {
+      const open = state.open === t.t ? " open" : "";
+      const cls = retClass(t.avg);
+      const rows = state.open === t.t
+        ? tickerLegs(t.t).map((row) => legLine(row.leg, row.filer)).join("")
+        : "";
+      return "<article class=\"card" + open + "\" data-open=\"" + QC.esc(t.t) + "\">" +
+        "<div class=\"card-top\">" +
+          "<div>" +
+            "<span class=\"rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+            "<a class=\"tk-title\" href=\"ticker.html?t=" + encodeURIComponent(t.t) + "\">" + QC.esc(t.t) + "</a>" +
+            "<div class=\"muted\">" + QC.esc(t.name || t.t) + " · " + t.n + " cop" + (t.n === 1 ? "y" : "ies") +
+              " · " + t.people + " filer" + (t.people === 1 ? "" : "s") + " · " + t.win + " up</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(t.avg) + "</b><span>equal-weight</span></div>" +
+        "</div>" +
+        "<ul class=\"tickets\">" + (rows || "") + "</ul>" +
+      "</article>";
+    }
+    function pool() {
+      const q = state.q.toLowerCase();
+      if (state.board === "tickers") {
+        let rows = (data.tickers || []).filter((t) => t.n >= state.min);
+        if (q) {
+          rows = rows.filter((t) =>
+            t.t.toLowerCase().includes(q) || String(t.name || "").toLowerCase().includes(q)
+          );
+        }
+        rows = rows.slice().sort((a, b) =>
+          state.sort === "worst" ? a.avg - b.avg || b.n - a.n : b.avg - a.avg || b.n - a.n
+        );
+        return rows;
+      }
+      let rows = (data.filers || []).filter((f) => f.n >= state.min);
+      if (state.chamber) rows = rows.filter((f) => f.chamber === state.chamber);
+      if (q) {
+        rows = rows.filter((f) => {
+          if (f.name.toLowerCase().includes(q)) return true;
+          return (f.legs || []).some((leg) => leg.t.toLowerCase() === q || leg.t.toLowerCase().includes(q));
+        });
+      }
+      rows = rows.slice().sort((a, b) =>
+        state.sort === "worst" ? a.avg - b.avg || b.n - a.n : b.avg - a.avg || b.n - a.n
+      );
+      return rows;
+    }
+    function paint() {
+      const rows = pool();
+      if (state.open && !state.showAll) {
+        const idx = rows.findIndex((r) => (state.board === "tickers" ? r.t : r.id) === state.open);
+        if (idx >= PAGE) state.showAll = true;
+      }
+      const visible = state.showAll ? rows : rows.slice(0, PAGE);
+      const noun = state.board === "tickers" ? "ticker" : "filer";
+      document.getElementById("count").textContent = rows.length
+        ? (visible.length === rows.length
+          ? rows.length + " " + noun + (rows.length === 1 ? "" : "s") + " with at least " + state.min + " priced buy" + (state.min === 1 ? "" : "s")
+          : "Showing " + visible.length + " of " + rows.length + " " + noun + "s")
+        : "No " + noun + "s match these filters.";
+      const moreRow = document.getElementById("more-row");
+      const moreBtn = document.getElementById("more");
+      moreRow.hidden = rows.length <= PAGE;
+      moreBtn.textContent = state.showAll ? "Show first 30" : "Show all";
+      document.getElementById("board").innerHTML = visible.length
+        ? visible.map((row, i) => state.board === "tickers" ? tickerCard(row, i) : filerCard(row, i)).join("")
+        : "<p class=\"muted\">Nothing cleared the bar. Drop the minimum legs or clear the search.</p>";
+      document.querySelectorAll(".board-tabs button").forEach((btn) => {
+        btn.classList.toggle("on", btn.dataset.board === state.board);
+      });
+      if (state.needDeepScroll && state.open) {
+        const top = document.querySelector(".card.open .card-top") || document.querySelector(".card.open");
+        if (top) top.scrollIntoView({ block: "start" });
+        state.needDeepScroll = false;
+      }
+    }
+    function paintChrome() {
+      chips(document.getElementById("chamber"), [
+        { value: "", label: "All chambers" },
+        { value: "Senate", label: "Senate" },
+        { value: "House", label: "House" },
+        { value: "White House", label: "White House" }
+      ], state.chamber, "chamber");
+      const chamberEl = document.getElementById("chamber");
+      const hideChamber = state.board === "tickers";
+      chamberEl.hidden = hideChamber;
+      chamberEl.classList.toggle("hidden", hideChamber);
+      chips(document.getElementById("mins"), [
+        { value: "1", label: "≥1 buy" },
+        { value: "5", label: "≥5 buys" },
+        { value: "10", label: "≥10 buys" }
+      ], String(state.min), "min");
+      chips(document.getElementById("sorts"), [
+        { value: "best", label: "Best copy" },
+        { value: "worst", label: "Worst copy" }
+      ], state.sort, "sort");
+      document.getElementById("q").value = state.q;
+    }
+
+    document.querySelector(".board-tabs").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-board]");
+      if (!btn) return;
+      state.board = btn.dataset.board;
+      state.open = "";
+      state.showAll = false;
+      paintChrome();
+      paint();
+      writeUrl();
+    });
+    document.getElementById("chamber").addEventListener("click", onChip);
+    document.getElementById("mins").addEventListener("click", onChip);
+    document.getElementById("sorts").addEventListener("click", onChip);
+    function onChip(e) {
+      const btn = e.target.closest("button[data-k]");
+      if (!btn) return;
+      const k = btn.dataset.k;
+      if (k === "min") state.min = Number(btn.dataset.v);
+      else if (k === "chamber") state.chamber = btn.dataset.v;
+      else if (k === "sort") state.sort = btn.dataset.v;
+      state.showAll = false;
+      paintChrome();
+      paint();
+      writeUrl();
+    }
+    document.getElementById("q").addEventListener("input", (e) => {
+      state.q = e.target.value.trim();
+      state.showAll = false;
+      paint();
+      writeUrl();
+    });
+    document.getElementById("more").addEventListener("click", () => {
+      state.showAll = !state.showAll;
+      paint();
+    });
+    document.getElementById("board").addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      const card = e.target.closest(".card[data-open]");
+      if (!card) return;
+      const id = card.getAttribute("data-open");
+      state.open = state.open === id ? "" : id;
+      paint();
+      writeUrl();
+    });
+
+    fetch("backtest.json").then((r) => {
+      if (!r.ok) throw new Error("missing");
+      return r.json();
+    }).then((file) => {
+      data = file;
+      const when = QC.asOfLabel(file.generated);
+      const asof = file.priceAsof ? QC.prettyDate(file.priceAsof) : "";
+      document.getElementById("asof").textContent =
+        (when ? "Rebuilt " + when : "") +
+        (asof ? " · prices through " + asof : "") +
+        " · paper copy, not a fill · returns not annualized";
+      const s = file.stats || {};
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + (s.priced || 0) + "</b><span>priced buy legs</span></div>" +
+        "<div class=\"stat\"><b>" + (s.filers || 0) + "</b><span>filers with a print</span></div>" +
+        "<div class=\"stat\"><b>" + ((s.skippedNoPrice || 0) + (s.skippedStale || 0)) + "</b><span>skipped missing prices</span></div>" +
+        "<div class=\"stat\"><b>" + (s.tickers || 0) + "</b><span>tickers covered</span></div>";
+      if (params.get("id")) {
+        state.board = "filers";
+        state.open = params.get("id");
+        const hit = (file.filers || []).find((f) => f.id === state.open);
+        if (hit && hit.n < state.min) state.min = 1;
+      } else if (params.get("t")) {
+        state.board = "tickers";
+        state.open = String(params.get("t") || "").toUpperCase();
+        const hit = (file.tickers || []).find((t) => t.t === state.open);
+        if (hit && hit.n < state.min) state.min = 1;
+      }
+      paintChrome();
+      paint();
+    }).catch(() => {
+      document.getElementById("asof").textContent = "Paper rebuilds on each site update.";
+      document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load backtest.json. Run <code>python3 build-backtest.py</code>.</p>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Primary">
+    <a href="index.html">Tape</a>
+    <a href="landed.html">Landed</a>
+    <a href="tells.html">Tells</a>
+    <a href="signals.html">Signals</a>
+    <a href="paper.html" class="on">Paper</a>
+  </nav>
+</body>
+</html>

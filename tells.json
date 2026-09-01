@@ -1,7 +1,7 @@
 {
-  "generated": "2026-08-31T22:19:20.422787+00:00",
-  "tapeCollected": "2026-08-31T22:01:56.322123+00:00",
-  "priceAsof": "2026-08-31",
+  "generated": "2026-09-01T11:52:50.612689+00:00",
+  "tapeCollected": "2026-09-01T11:01:22.778560+00:00",
+  "priceAsof": "2026-09-01",
   "rules": {
     "spike": 0.2,
     "sessions": 21,
@@ -14,11 +14,11 @@
       "id": "alan-armstrong",
       "name": "Alan Armstrong",
       "chamber": "Senate",
-      "scored": 644,
-      "hits": 94,
-      "rate": 0.146,
+      "scored": 643,
+      "hits": 93,
+      "rate": 0.145,
       "median": 0.287,
-      "score": 0.855,
+      "score": 0.846,
       "tells": [
         {
           "code": "INTC",
@@ -128,11 +128,11 @@
     {
       "code": "INTC",
       "name": "Intel Corporation",
-      "last": 89.47,
-      "pxAsof": "2026-08-28",
+      "last": 89.51,
+      "pxAsof": "2026-08-31",
       "lastBuy": "2026-07-24",
       "buyPx": 92.32,
-      "chg": -0.0309,
+      "chg": -0.0304,
       "nearLow": true,
       "hands": [
         {
@@ -144,17 +144,17 @@
       ],
       "highEnd": 1000000,
       "open": true,
-      "score": 0.095,
+      "score": 0.09,
       "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-24 still under water"
     },
     {
       "code": "BE",
       "name": "Bloom Energy Corporation",
-      "last": 210.77,
-      "pxAsof": "2026-08-28",
+      "last": 206.3,
+      "pxAsof": "2026-08-31",
       "lastBuy": "2026-07-28",
       "buyPx": 166.84,
-      "chg": 0.2633,
+      "chg": 0.2365,
       "nearLow": true,
       "hands": [
         {
@@ -166,7 +166,7 @@
       ],
       "highEnd": 6000000,
       "open": false,
-      "score": 0.046,
+      "score": 0.044,
       "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-28 already ran after the print"
     }
   ]

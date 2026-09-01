@@ -43,13 +43,176 @@ def is_chart_ticker(code: str) -> bool:
     return bool(c and c != "—" and CHART_RE.match(c) and c not in BAD_TICKERS)
 
 
+# Port of qc.js issuerName, plus PTR-row / account / share-class junk that
+# pollutes tickers.json names. Prefer a real issuer over a glued filing line.
+BROKER_ISSUERS = {
+    "MS": re.compile(r"morgan stanley", re.I),
+    "GS": re.compile(r"goldman sachs", re.I),
+    "JPM": re.compile(r"jpmorgan|jp morgan", re.I),
+    "BAC": re.compile(r"bank of america|merrill", re.I),
+    "WFC": re.compile(r"wells fargo", re.I),
+    "SCHW": re.compile(r"schwab", re.I),
+    "C": re.compile(r"\bcitigroup\b|\bciti\b", re.I),
+    "BLK": re.compile(r"blackrock", re.I),
+    "UBS": re.compile(r"\bubs\b", re.I),
+    "PNC": re.compile(r"\bpnc\b", re.I),
+    "IBKR": re.compile(r"interactive brokers", re.I),
+}
+BROKERS = (
+    r"morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|"
+    r"charles schwab|\bschwab\b|bank of america|merrill lynch|\bmerrill\b|"
+    r"jpmorgan(?: chase)?|jp ?morgan|wells fargo|\bubs\b|raymond james|"
+    r"edward jones|ameriprise|e\*?trade|td ameritrade|interactive brokers|"
+    r"\bchase\b|aperio group(?: llc)?"
+)
+ACCOUNT = (
+    r"smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|"
+    r"\bbrokerage\b|select uma(?: account)?|unified management account|joint tbe"
+)
+SHARE_TAIL = re.compile(
+    r"\s+(?:Common Stock.*|Class [A-Z].*|Ordinary Shares?.*|"
+    r"American Depositary Shares?.*|\bADS\b.*|Registered Shares.*|"
+    r"Common Shares.*|New York Registry Shares.*|"
+    r"Common Units(?: Representing.*)?|\bVoting\b.*|Series [A-Z]\b.*|"
+    r"\bCMN\b.*)$",
+    re.I,
+)
+PTR_OTHER = re.compile(
+    r"^.*\([A-Z]{1,6}\)(?:\s*\[ST\])?\s+[PS]\s+\d{1,2}/\d{1,2}/\d{2,4}"
+    r".*?(?:\$[\d,]+(?:\s*-\s*\$[\d,]+)?)\s+"
+)
+PTR_ROW = re.compile(
+    r"^[PS]\s+\d{1,2}/\d{1,2}/\d{2,4}.*?(?:\$[\d,]+(?:\s*-\s*\$[\d,]+)?)\s+"
+)
+JUNK_NAME = re.compile(r"\$[\d,]|\d{2}/\d{2}/\d{4}|\[ST\]|rate/coupon|matures:", re.I)
+
+
 def issuer_name(code: str, raw: str) -> str:
+    c = (code or "").upper()
     s = re.sub(r"\s+", " ", raw or "").strip()
-    s = re.sub(r"\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$", "", s, flags=re.I)
-    s = re.sub(r"\s*-\s*$", "", s).strip()
     if not s or s == "—":
-        return code
+        return c
+    s = PTR_OTHER.sub("", s)
+    s = PTR_ROW.sub("", s)
+    s = re.sub(r"\s*Bond\s+Rate/Coupon:.*$", "", s, flags=re.I)
+    s = (s.split(">")[-1] if ">" in s else s).strip()
+    broker_re = BROKER_ISSUERS.get(c)
+    broker_stock = bool(
+        broker_re
+        and broker_re.search(s)
+        and not re.search(
+            r"\b(ira|roth|trust account|brokerage|select uma|unified management|joint tbe)\b",
+            s,
+            re.I,
+        )
+    )
+    if broker_stock:
+        s = SHARE_TAIL.sub("", s)
+        s = re.sub(r"\s*-\s*$", "", s).strip()
+        return s or c
+    if c not in BROKER_ISSUERS:
+        s = re.sub(rf"^(?:{BROKERS})\b[\s,:-]*", "", s, flags=re.I)
+    s = re.sub(
+        rf"^(?:{ACCOUNT}|uma(?: account)?|select uma(?: account)?)\b[\s,:-]*",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(
+        r"^(?:account(?:\s*#\s*\d+)?|uma account(?:\s*#\s*\d+)?)\b[\s,:-]*",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(r"^#\s*\d+\s+", "", s)
+    s = re.sub(r"^\d{2,5}\s+", "", s)
+    s = re.sub(
+        r"^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(r"^(?:tacs r3k)\s+", "", s, flags=re.I)
+    s = re.sub(
+        r"^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|"
+        r"Professionally managed account|D/B/A)\s+",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(
+        r"^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(r"^(?:investment account(?:\s*#\s*\d+)?)\b[\s,:-]*", "", s, flags=re.I)
+    s = re.sub(r"^financial disclosure\.\s*", "", s, flags=re.I)
+    s = re.sub(r"^active assets\s*\(\d+\)\s*", "", s, flags=re.I)
+    s = re.sub(
+        r"^.*\bD:\s*(?:professionally managed account\.?\s*|sold entire holding\.?\s*|own/operate\s+(?:mobile home park\s+)?)",
+        "",
+        s,
+        flags=re.I,
+    )
+    s = re.sub(r"^C:\s*Sell to Open\s*[–—-]\s*(?:New\s+)?Covered Call Contract\s+", "", s)
+    s = re.sub(r"^.*\bFamily Partnership\s+", "", s, flags=re.I)
+    s = SHARE_TAIL.sub("", s)
+    if c:
+        s = re.sub(rf"\s*\({re.escape(c)}\)\s*$", "", s, flags=re.I)
+    s = re.sub(r"\s*-\s*Common\s+Sto.*$", "", s, flags=re.I)
+    s = re.sub(r"\s*-\s*$", "", s).strip()
+    s = re.sub(r"\s+CMN\b.*$", "", s, flags=re.I).strip()
+    s = re.sub(r"\s*S/ADR\s*$", "", s, flags=re.I).strip()
+    if not s or re.match(r"^(common stock|class [a-z]|llc|inc|corp)$", s, re.I):
+        return c
+    if re.match(r"^[A-Z][A-Z0-9.]{0,6}$", s) and s.upper() != c:
+        return c
+    if JUNK_NAME.search(s):
+        return c
     return s
+
+
+def name_quality(code: str, s: str) -> int:
+    if not s or s == code:
+        return 0
+    sl = s.lower()
+    if len(s) > 90:
+        return 0
+    if JUNK_NAME.search(s):
+        return 0
+    if re.search(r"\b(uma account|brokerage account|select uma|investment account|financial disclosure|sell to open|professionally managed)\b", sl):
+        return 0
+    if re.search(r"\bD:\s|\bC:\s|\bL:\s", s):
+        return 0
+    q = 5
+    if re.search(
+        r"\b(inc|incorp|corp|corporation|ltd|limited|plc|llc|co|company|"
+        r"group|holdings?|etf|n\.?v\.?)\b",
+        sl,
+    ):
+        q += 6
+    if " " in s:
+        q += 3
+    if re.search(r"\b(ira|roth|trust account|partnership|grandchildren)\b", sl):
+        q -= 6
+    if s.isupper() and len(s) > 24:
+        q -= 2
+    return q
+
+
+def pick_name(code: str, cands: list[str]) -> str:
+    best, best_q = code, -1
+    seen = set()
+    for s in cands:
+        if not s or s in seen:
+            continue
+        seen.add(s)
+        q = name_quality(code, s)
+        if q > best_q or (q == best_q and q > 0 and len(s) < len(best)):
+            best, best_q = s, q
+    return best if best_q > 0 else code
+
 
 
 def first_on_or_after(closes: list, date: str):
@@ -129,12 +292,25 @@ def main() -> int:
     trades = tape.get("trades") or []
 
     names = {}
+    name_cands: dict[str, list[str]] = {}
     tickers_path = ROOT / "tickers.json"
     if tickers_path.is_file():
         with tickers_path.open() as f:
             tickers_file = json.load(f)
         for code, meta in (tickers_file.get("tickers") or {}).items():
-            names[str(code).upper()] = issuer_name(str(code).upper(), (meta or {}).get("name") or "")
+            c = str(code).upper()
+            cleaned = issuer_name(c, (meta or {}).get("name") or "")
+            names[c] = cleaned
+            if cleaned:
+                name_cands.setdefault(c, []).append(cleaned)
+
+    for t in trades:
+        code = (t.get("ticker") or "").upper()
+        if not is_chart_ticker(code):
+            continue
+        asset_name = issuer_name(code, t.get("asset") or "")
+        if asset_name:
+            name_cands.setdefault(code, []).append(asset_name)
 
     price_cache: dict = {}
     stats = {
@@ -203,7 +379,8 @@ def main() -> int:
             stats["skippedNoPrice"] += 1
             continue
         lag = (entry_dt - filed_dt).days
-        # Weekend/holiday slack only. A first bar far after filed_date is missing history, not a real print.
+        # Weekend/holiday slack only. A first bar far after filed_date is the
+        # start of a truncated price file (missing history), not a real print.
         if lag < 0 or lag > MAX_ENTRY_LAG_DAYS:
             rec["skip"] += 1
             stats["skippedStale"] += 1
@@ -214,10 +391,9 @@ def main() -> int:
             stats["skippedNoPrice"] += 1
             continue
         ret = exit_px / entry_px - 1.0
-        name = names.get(code) or issuer_name(code, t.get("asset") or code)
         rec["legs"].append({
             "t": code,
-            "name": name,
+            "name": pick_name(code, name_cands.get(code) or [code]),
             "filed": filed,
             "trade": (t.get("trade_date") or "")[:10],
             "amt": t.get("amount") or "",
@@ -271,7 +447,7 @@ def main() -> int:
         rets = acc["rets"]
         tickers.append({
             "t": code,
-            "name": names.get(code) or code,
+            "name": pick_name(code, name_cands.get(code) or [code]),
             "n": len(rets),
             "people": len(acc["people"]),
             "avg": round_ret(mean(rets)),
@@ -295,7 +471,7 @@ def main() -> int:
         "disclaimer": (
             "Not investment advice. Hypothetical paper returns from public filing dates, "
             "not the politician's actual trade date or fill. Amounts are official ranges, "
-            "not share counts. Past copies do not mean the next filing works."
+            "not share counts. Returns are not annualized. Past copies do not mean the next filing works."
         ),
         "stats": {
             "purchases": stats["purchases"],

@@ -81,6 +81,7 @@
     }
     .board-tabs button.on, .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    [hidden], .hidden { display: none !important; }
     .picker { max-width: 420px; margin: 0 0 16px; }
     .picker input {
       width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
@@ -93,7 +94,7 @@
       border-left: 6px solid var(--caution); padding: 14px 16px; margin: 0 0 10px;
     }
     .card.open { background: rgba(227, 180, 26, 0.05); }
-    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; cursor: pointer; }
+    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; cursor: pointer; scroll-margin-top: 12px; }
     .who, .tk-title { color: var(--white); text-decoration: none; font-size: 1.35rem; }
     .who:hover, .tk-title:hover { color: var(--teal); }
     .rate { text-align: right; color: var(--caution); line-height: 1; }
@@ -112,7 +113,8 @@
     }
     .tk { color: var(--white); text-decoration: none; font-size: 1.05rem; }
     .tk:hover { color: var(--teal); }
-    .co { color: var(--paper); font-size: 0.86rem; }
+    .co { color: var(--paper); font-size: 0.86rem; min-width: 0; }
+    .co .dot { color: var(--mute); }
     .ret { color: #7dcf7a; font-weight: 600; white-space: nowrap; }
     .ret.down { color: #ef7a74; }
     details.how {
@@ -146,8 +148,20 @@
       .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid #3a4452; }
     }
     @media (max-width: 720px) {
-      .tickets li { grid-template-columns: 64px minmax(0, 1fr); }
-      .ret { grid-column: 2; }
+      .tickets li {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+      .tickets li .co {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+        line-height: 1.35;
+      }
+      .tickets li .co .dot { display: none; }
+      .ret { grid-column: 2; grid-row: 1; }
       .picker { max-width: none; }
     }
     @media (display-mode: standalone) {
@@ -188,7 +202,7 @@
     <h1>Paper</h1>
     <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
     <p class="asof" id="asof"></p>
-    <p class="warn"><b>Not advice.</b> Hypothetical paper returns from official STOCK Act / OGE 278-T filings and daily closes. Amounts are ranges, not share counts. Nobody got this fill.</p>
+    <p class="warn"><b>Not advice.</b> Hypothetical paper returns from official STOCK Act / OGE 278-T filings and daily closes. Amounts are ranges, not share counts. Returns are not annualized. Nobody got this fill.</p>
     <div class="stats" id="stats"></div>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="filers" class="on">Filers</button>
@@ -208,7 +222,7 @@
     <details class="how">
       <summary>How the paper score is built</summary>
       <div class="body">
-        <p>Each listed-stock <b>purchase</b> is one equal-weight leg. Entry is the first daily close on or after the official <b>filed date</b> (when the public can copy), allowing up to 10 calendar days for weekends and holidays. Exit is the latest close in the site’s price file, labeled as-of. Return is exit ÷ entry − 1. A filer’s score is the unweighted average of those legs.</p>
+        <p>Each listed-stock <b>purchase</b> is one equal-weight leg. Entry is the first daily close on or after the official <b>filed date</b> (when the public can copy), allowing up to 10 calendar days for weekends and holidays. Exit is the latest close in the site’s price file, labeled as-of. Return is exit ÷ entry − 1 and is <b>not annualized</b>. A filer’s score is the unweighted average of those legs.</p>
         <p>Bonds, options, junk tickers, and legs with no price file or no close in that window are skipped. Official amounts are ranges, so position size is not used — a $1,001–$15,000 ticket counts the same as a $1,000,001–$5,000,000 ticket. Coverage counts (priced vs skipped) sit on every row.</p>
         <p class="muted">This is not the politician’s P&amp;L. They traded earlier, often weeks before the print. Tape’s “Top Traders” board is a different, trade-date FIFO estimate. Regenerated from trades-lite.json and prices/ on each site update.</p>
       </div>
@@ -232,7 +246,8 @@
       sort: params.get("sort") === "worst" ? "worst" : "best",
       q: (params.get("q") || "").trim(),
       open: params.get("id") || params.get("t") || "",
-      showAll: false
+      showAll: false,
+      needDeepScroll: !!(params.get("id") || params.get("t"))
     };
     let data = null;
 
@@ -286,15 +301,24 @@
       const filed = QC.prettyDate(leg.filed);
       const entryD = QC.prettyDate(leg.inD || leg.filed);
       const exitD = QC.prettyDate(leg.outD || data.priceAsof);
-      const amt = leg.amt ? " · " + QC.formatAmountRange(leg.amt) : "";
+      const amtBit = leg.amt ? QC.formatAmountRange(leg.amt) : "";
       const whoBit = who
         ? "<a class=\"tk\" href=\"politician.html?id=" + encodeURIComponent(who.id) + "\">" + QC.esc(who.name) + "</a>"
         : "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(leg.t) + "\">" + QC.esc(leg.t) + "</a>";
-      const mid = who
-        ? QC.esc(filed) + " · " + px(leg.in) + " → " + px(leg.out) + amt
-        : "filed " + QC.esc(filed) + " · in " + QC.esc(entryD) + " @ " + px(leg.in) +
-          " → as-of " + QC.esc(exitD) + " @ " + px(leg.out) + amt;
-      return "<li>" + whoBit + "<span class=\"co\">" + mid + "</span>" +
+      const dateBit = who ? QC.esc(filed) : "filed " + QC.esc(filed);
+      const pxBit = who
+        ? px(leg.in) + " → " + px(leg.out)
+        : "in " + QC.esc(entryD) + " @ " + px(leg.in) + " → as-of " + QC.esc(exitD) + " @ " + px(leg.out);
+      const amtHtml = amtBit
+        ? "<span class=\"dot\"> · </span><span class=\"leg-amt\">" + QC.esc(amtBit) + "</span>"
+        : "";
+      return "<li>" + whoBit +
+        "<span class=\"co\">" +
+          "<span class=\"leg-d\">" + dateBit + "</span>" +
+          "<span class=\"dot\"> · </span>" +
+          "<span class=\"leg-px\">" + pxBit + "</span>" +
+          amtHtml +
+        "</span>" +
         "<span class=\"ret" + down + "\">" + pct(leg.ret) + "</span></li>";
     }
     function filerCard(f, i) {
@@ -384,9 +408,10 @@
       document.querySelectorAll(".board-tabs button").forEach((btn) => {
         btn.classList.toggle("on", btn.dataset.board === state.board);
       });
-      if (state.open) {
-        const card = document.querySelector(".card.open");
-        if (card) card.scrollIntoView({ block: "nearest" });
+      if (state.needDeepScroll && state.open) {
+        const top = document.querySelector(".card.open .card-top") || document.querySelector(".card.open");
+        if (top) top.scrollIntoView({ block: "start" });
+        state.needDeepScroll = false;
       }
     }
     function paintChrome() {
@@ -396,7 +421,10 @@
         { value: "House", label: "House" },
         { value: "White House", label: "White House" }
       ], state.chamber, "chamber");
-      document.getElementById("chamber").hidden = state.board === "tickers";
+      const chamberEl = document.getElementById("chamber");
+      const hideChamber = state.board === "tickers";
+      chamberEl.hidden = hideChamber;
+      chamberEl.classList.toggle("hidden", hideChamber);
       chips(document.getElementById("mins"), [
         { value: "1", label: "≥1 buy" },
         { value: "5", label: "≥5 buys" },
@@ -464,7 +492,7 @@
       document.getElementById("asof").textContent =
         (when ? "Rebuilt " + when : "") +
         (asof ? " · prices through " + asof : "") +
-        " · paper copy, not a fill";
+        " · paper copy, not a fill · returns not annualized";
       const s = file.stats || {};
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + (s.priced || 0) + "</b><span>priced buy legs</span></div>" +

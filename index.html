@@ -1308,7 +1308,7 @@
       if (!list) return;
       const state = { mode: "conflicts", limit: 10 };
       const notes = {
-        conflicts: "Unique tickers bought that overlap current committee jurisdictions. Not proof of illegal trading.",
+        conflicts: "",
         activity: "Disclosed trades in the last three years.",
         traders: "Theoretical P&L from the 3-year tape, high-end official ranges and daily closes. Not official. Tap a row — not the name — for sector performance.",
         stocks: "Most traded stock tickers in the last three years. Tap a ticker to see every buy and sell on the chart."
@@ -1317,6 +1317,7 @@
         const pool = boards[state.mode] || [];
         const rows = pool.slice(0, state.limit);
         note.textContent = notes[state.mode] || "";
+        note.hidden = !note.textContent;
         more.hidden = pool.length <= 10;
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
         tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));

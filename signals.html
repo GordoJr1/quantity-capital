@@ -285,6 +285,44 @@
     .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; line-height: 1.45; }
     .who-list a { color: var(--teal); text-decoration: none; }
     .who-list a:hover { color: var(--caution); }
+    .book-rule {
+      color: var(--paper);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      max-width: 88ch;
+      margin: -8px 0 18px;
+    }
+    .explain {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .explain > div {
+      background: #151b24;
+      border: 1px solid #3a4452;
+      padding: 12px 14px;
+    }
+    .explain h3 {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+    }
+    .explain p { color: var(--paper); font-size: 0.9rem; line-height: 1.5; }
+    .parts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .parts span {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border: 1px solid #4a5563;
+      color: var(--paper);
+    }
+    .parts span b { color: var(--caution); font-weight: 600; }
     details.how {
       margin: 28px 0 40px;
       border: 1px solid #4a5563;
@@ -319,6 +357,7 @@
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .play-top { grid-template-columns: 40px minmax(0, 1fr); }
       .action { justify-self: start; }
+      .explain { grid-template-columns: 1fr; }
     }
     @media (max-width: 720px) {
       .stats { grid-template-columns: 1fr 1fr; }
@@ -378,6 +417,7 @@
     <p class="kicker">Today's book</p>
     <h1>Signals</h1>
     <p class="asof" id="book-asof"></p>
+    <p class="book-rule" id="book-rule" hidden></p>
     <div class="blotter" id="book"></div>
     <div id="avoid-wrap" hidden>
       <p class="subhead">Avoid the open</p>
@@ -437,7 +477,112 @@
       if (a === "avoid") return "Avoid open";
       return "Watch";
     }
-    function playCard(row) {
+    function joinList(items) {
+      items = (items || []).filter(Boolean);
+      if (!items.length) return "";
+      if (items.length === 1) return items[0];
+      if (items.length === 2) return items[0] + " and " + items[1];
+      return items.slice(0, -1).join(", ") + ", and " + items[items.length - 1];
+    }
+    function explainPlay(row, book) {
+      const w = row.weekly || {};
+      const m = row.monthly || {};
+      const flags = row.flags || [];
+      const names = (row.buyers || []).map((b) => b.name);
+      const who = names.length === 1 ? names[0]
+        : names.length === 2 ? names[0] + " and " + names[1]
+        : names.length > 2 ? names[0] + " + " + (names.length - 1) + " others"
+        : "an official";
+      const drivers = [];
+      if (row.landed) {
+        drivers.push("a just-landed filing" + (row.lagDays != null
+          ? " (" + row.lagDays + "-day lag from trade to ingest)"
+          : ""));
+      }
+      if (row.whale) {
+        drivers.push("a whale-sized official buy (" + QC.formatMoney(row.buyHigh) + " high-end, " + who + ")");
+      } else if (row.cluster && row.nBuyers > 1) {
+        drivers.push("a cluster of " + row.nBuyers + " buyers (" + who +
+          (row.buyHigh ? ", " + QC.formatMoney(row.buyHigh) + " high-end" : "") + ")");
+      } else if (names.length) {
+        drivers.push(who + (row.buyHigh ? " · " + QC.formatMoney(row.buyHigh) + " high-end" : ""));
+      }
+      if (row.conflict) drivers.push("committee overlap (" + (row.conflictWhy || []).join(", ") + ")");
+      if (flags.indexOf("Weekly washout") >= 0 && w.rsi != null) {
+        drivers.push("weekly RSI " + w.rsi.toFixed(1) + " in the 20–48 washout band");
+      }
+      if (flags.indexOf("Deep washout") >= 0 && w.rsi != null) {
+        drivers.push("a deep weekly washout (RSI " + w.rsi.toFixed(1) + ")");
+      }
+      if (flags.indexOf("Monthly intact") >= 0) {
+        if (m.trend === "UP" && m.rsi != null) {
+          drivers.push("monthly still up (RSI " + m.rsi.toFixed(1) + ")");
+        } else if (m.rsi != null && m.rsi >= 45) {
+          drivers.push("monthly RSI " + m.rsi.toFixed(1) + " still at or above 45, even if monthly trend is down");
+        } else if (m.vs10 != null) {
+          drivers.push("price still near the 10-month average");
+        } else {
+          drivers.push("an intact monthly");
+        }
+      }
+      let rankWhy = row.code + " is #" + row.rank + " because of " + joinList(drivers) + ".";
+      if (row.heatRank) {
+        rankWhy += " Recency heat is only #" + row.heatRank +
+          " in the 90-day window — heat alone does not pick the rank.";
+      }
+      const lead = book && book[0];
+      const next = book && book[1];
+      if (lead && row.rank === 1 && next) {
+        const lack = [];
+        if (row.landed && !next.landed) lack.push("the just-landed bump");
+        if (row.whale && !next.whale) lack.push("the whale bump");
+        if (lack.length) {
+          rankWhy += " Next is " + next.code + ", which does not get " + joinList(lack) + ".";
+        }
+      } else if (lead && row.rank > 1) {
+        const missing = [];
+        if (lead.landed && !row.landed) missing.push("just-landed");
+        if (lead.whale && !row.whale) missing.push("whale size");
+        if (missing.length) {
+          rankWhy += " Trails #" + lead.rank + " " + lead.code + " mainly on " + joinList(missing) + ".";
+        }
+      }
+      let playWhy = "";
+      if (row.action === "buy-dip") {
+        playWhy = "Tagged buy-dip because weekly RSI " + (w.rsi != null ? w.rsi.toFixed(1) : "—") +
+          " is in the 20–48 washout this book wants, and the monthly is still healthy";
+        if (m.rsi != null) playWhy += " (monthly RSI " + m.rsi.toFixed(1) + (m.trend ? ", trend " + m.trend : "") + ")";
+        playWhy += ". That is a pullback setup, not a chase of a name that already ran.";
+        if (row.buyPx != null && row.last != null && row.chgSinceBuy != null) {
+          const chg = row.chgSinceBuy * 100;
+          playWhy += " Last official buy " + QC.prettyDate(row.lastBuy) + " at $" + row.buyPx.toFixed(2) +
+            "; last close $" + row.last.toFixed(2) + " (" + (chg >= 0 ? "+" : "") + chg.toFixed(1) + "%).";
+        }
+        if (row.invalidation != null) playWhy += " Invalidation $" + Number(row.invalidation).toFixed(2) + ".";
+        playWhy += " Not a recommendation.";
+      } else if (row.action === "watch") {
+        playWhy = "Watch — not buy-dip — because ";
+        if (w.rsi == null) playWhy += "the weekly RSI is missing.";
+        else if (w.rsi > 48) playWhy += "weekly RSI " + w.rsi.toFixed(1) + " is above the 48 washout ceiling.";
+        else if (w.rsi < 20) playWhy += "weekly RSI " + w.rsi.toFixed(1) + " is below 20 (too washed; wait).";
+        else playWhy += "the monthly is not intact enough for a dip tag.";
+        playWhy += " Heat can still rank it high. Not a recommendation.";
+      } else {
+        playWhy = row.why || "Avoid the open.";
+      }
+      const parts = [];
+      if (row.landed) parts.push(["Landed", "+2.4"]);
+      if (row.whale) parts.push(["Whale", "+0.8"]);
+      if (row.conflict) parts.push(["Conflict", "+1.5"]);
+      if (row.cluster) parts.push(["Cluster", "+1.1"]);
+      if (flags.indexOf("Weekly washout") >= 0) parts.push(["Weekly washout", "+2.0"]);
+      if (flags.indexOf("Deep washout") >= 0) parts.push(["Deep washout", "+1.2"]);
+      if (flags.indexOf("Monthly intact") >= 0) parts.push(["Monthly intact", "+0.5"]);
+      if (flags.indexOf("Already ran") >= 0) parts.push(["Already ran", "−2.2"]);
+      if (flags.indexOf("Weekly extended") >= 0) parts.push(["Weekly extended", "−2.4"]);
+      return { rankWhy: rankWhy, playWhy: playWhy, parts: parts };
+    }
+    function playCard(row, book) {
       const w = row.weekly || {};
       const m = row.monthly || {};
       const chg = row.chgSinceBuy;
@@ -448,6 +593,10 @@
       const tags = (row.flags || []).map((f) => "<span class=\"tag" +
         (/washout|landed|whale/i.test(f) ? " hot" : /conflict|cluster/i.test(f) ? " hit" : /ran|extended/i.test(f) ? " warn" : "") +
         "\">" + QC.esc(f) + "</span>").join("");
+      const ex = explainPlay(row, book);
+      const playTitle = row.action === "buy-dip" ? "Why this is a buy dip"
+        : row.action === "avoid" ? "Why avoid" : "Why watch, not buy";
+      const parts = ex.parts.map((p) => "<span>" + QC.esc(p[0]) + " <b>" + QC.esc(p[1]) + "</b></span>").join("");
       return "<article class=\"play " + row.action + "\">" +
         "<div class=\"play-top\">" +
           "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
@@ -456,11 +605,15 @@
             "<div class=\"co\">" + QC.esc(row.name || "—") + "</div>" +
             "<div class=\"pxline\">$" + (row.last != null ? row.last.toFixed(2) : "—") +
               chgHtml + "</div>" +
-            "<p class=\"why\">" + QC.esc(row.why || "") + "</p>" +
             (tags ? "<div class=\"tags\">" + tags + "</div>" : "") +
             (people ? "<div class=\"who-list\">" + people + "</div>" : "") +
           "</div>" +
           "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
+        "</div>" +
+        "<div class=\"explain\">" +
+          "<div><h3>Why #" + row.rank + "</h3><p>" + QC.esc(ex.rankWhy) + "</p>" +
+            (parts ? "<div class=\"parts\">" + parts + "</div>" : "") + "</div>" +
+          "<div><h3>" + playTitle + "</h3><p>" + QC.esc(ex.playWhy) + "</p></div>" +
         "</div>" +
         "<div class=\"grid\">" +
           cell("Landed", "<b>" + (row.landed ? (row.lagDays != null ? row.lagDays + "d lag" : "Yes") : "No") + "</b>") +
@@ -502,7 +655,12 @@
         asof.textContent = (when ? "Book rebuilt " + when : "") +
           (data.priceAsof ? " · prices through " + QC.prettyDate(data.priceAsof) : "") +
           " · not a recommendation";
-        box.innerHTML = (data.book || []).map(playCard).join("") ||
+        const rule = document.getElementById("book-rule");
+        if (rule) {
+          rule.hidden = false;
+          rule.textContent = "Buy dip = weekly RSI 20–48 with the monthly still intact. Rank mixes that setup with just-landed filings, whale size, committee overlap, and clusters. Recency heat alone does not pick #1.";
+        }
+        box.innerHTML = (data.book || []).map((row) => playCard(row, data.book)).join("") ||
           "<p class=\"muted\">No book this update.</p>";
         const avoid = data.avoid || [];
         const wrap = document.getElementById("avoid-wrap");

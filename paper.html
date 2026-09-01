@@ -20,7 +20,7 @@
   <style>
     :root {
       --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
-      --red: #c2302a; --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--ink); color-scheme: dark; }
@@ -53,11 +53,6 @@
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 10px; }
     .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
-    .warn {
-      border: 1px solid var(--red); color: var(--paper); background: rgba(194, 48, 42, 0.12);
-      padding: 10px 14px; margin: 0 0 22px; font-size: 0.88rem; line-height: 1.45;
-    }
-    .warn b { color: var(--red); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
     .stats {
       display: grid; grid-template-columns: repeat(4, 1fr);
       margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
@@ -202,7 +197,6 @@
     <h1>Paper</h1>
     <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
     <p class="asof" id="asof"></p>
-    <p class="warn"><b>Not advice.</b> Hypothetical paper returns from official STOCK Act / OGE 278-T filings and daily closes. Amounts are ranges, not share counts. Returns are not annualized. Nobody got this fill.</p>
     <div class="stats" id="stats"></div>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="filers" class="on">Filers</button>

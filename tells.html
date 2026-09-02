@@ -108,8 +108,10 @@
     }
     footer a { color: var(--caution); }
     @media (max-width: 720px) {
-      .stats { grid-template-columns: 1fr; }
-      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .stat { padding: 8px 6px; }
+      .stat b { font-size: 1.2rem; }
+      .stat span { white-space: normal; }
       .tickets li { grid-template-columns: 64px minmax(0, 1fr); }
       .ret { grid-column: 2; }
     }
@@ -146,6 +148,8 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
+      .kicker { margin-top: 14px; }
     }
   </style>
 </head>

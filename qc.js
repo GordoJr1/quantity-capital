@@ -63,6 +63,7 @@
   function sideLabel(side) {
     if (side === "purchase") return "Buy";
     if (side === "sale") return "Sell";
+    if (side === "exchange") return "Exch";
     return side || "";
   }
 

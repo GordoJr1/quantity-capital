@@ -322,6 +322,22 @@
       border-radius: 50%;
       background: #7dcf7a;
     }
+
+    .play-more { margin-top: 12px; }
+    .play-more > summary {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caution);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      list-style: none;
+    }
+    .play-more > summary::-webkit-details-marker { display: none; }
+    .play-more > summary::before { content: "▸ "; }
+    .play-more[open] > summary::before { content: "▾ "; }
     details.how {
       margin: 28px 0 40px;
       border: 1px solid #4a5563;
@@ -400,6 +416,8 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
+      .kicker { margin-top: 14px; }
     }
   </style>
 </head>
@@ -542,6 +560,9 @@
           "</div>" +
           "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
         "</div>" +
+        (row.why ? "<p class=\"why\">" + QC.esc(row.why) + "</p>" : "") +
+        "<details class=\"play-more\">" +
+        "<summary>Details</summary>" +
         hitList +
         "<div class=\"grid\">" +
           cell("Landed", "<b>" + (row.landed ? (row.lagDays != null ? row.lagDays + "d lag" : "Yes") : "No") + "</b>") +
@@ -560,6 +581,7 @@
           cell("vs 10-month", signedPct(m.vs10, true)) +
           cell("Invalidation", "<b>" + (row.invalidation != null ? "$" + Number(row.invalidation).toFixed(2) : "—") + "</b>") +
         "</div>" +
+        "</details>" +
       "</article>";
     }
     function avoidRow(row) {
@@ -585,6 +607,8 @@
           " · not a recommendation";
         box.innerHTML = (data.book || []).map(playCard).join("") ||
           "<p class=\"muted\">No book this update.</p>";
+        const desk = window.matchMedia("(min-width: 821px)").matches;
+        document.querySelectorAll(".play-more").forEach((el) => { el.open = desk; });
         const avoid = data.avoid || [];
         const wrap = document.getElementById("avoid-wrap");
         wrap.hidden = avoid.length === 0;

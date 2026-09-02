@@ -156,11 +156,15 @@
       color: var(--mute);
     }
     footer a { color: var(--caution); }
+    .tickets li.no-tk { grid-template-columns: 4.5em minmax(0, 1fr) auto; }
     @media (max-width: 720px) {
-      .stats { grid-template-columns: 1fr; }
-      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
-      .tickets li { grid-template-columns: 48px 52px minmax(0, 1fr); }
-      .amt { grid-column: 2 / -1; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+      .stat { padding: 8px 6px; }
+      .stat b { font-size: 1.2rem; }
+      .stat span { white-space: normal; }
+      .tickets li { grid-template-columns: 4.5em minmax(0, 1fr); }
+      .tickets li .tk, .tickets li .co { grid-column: 2; min-width: 0; }
+      .amt { grid-column: 1 / -1; }
     }
     @media (display-mode: standalone) {
       body { padding-top: env(safe-area-inset-top, 0px); }
@@ -198,6 +202,8 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
+      .kicker { margin-top: 14px; }
     }
   </style>
 </head>
@@ -281,11 +287,12 @@
 
     function ticketLine(t) {
       const cls = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
-      const code = t.code && t.code !== "—" ? t.code : "—";
-      const tk = QC.isChartTicker(code)
+      const code = t.code && t.code !== "—" ? t.code : "";
+      const hasTk = !!code;
+      const tk = !hasTk ? "" : (QC.isChartTicker(code)
         ? "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(code) + "\">" + QC.esc(code) + "</a>"
-        : "<span class=\"tk\">" + QC.esc(code) + "</span>";
-      return "<li>" +
+        : "<span class=\"tk\">" + QC.esc(code) + "</span>");
+      return "<li" + (hasTk ? "" : " class=\"no-tk\"") + ">" +
         "<span class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</span>" +
         tk +
         "<span class=\"co\">" + QC.esc(t.company || t.asset || "—") + QC.optionTag(t) +

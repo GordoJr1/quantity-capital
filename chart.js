@@ -50,8 +50,6 @@ function drawChart(points, marks, opts) {
   const line = points.map((p, i) => (i ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1)).join(" ");
   const lastX = xAt(points.length - 1);
   const lastY = yAt(points[points.length - 1][1]);
-  const area = line + " L" + lastX.toFixed(1) + " " + (h - pad.b) +
-    " L" + xAt(0).toFixed(1) + " " + (h - pad.b) + " Z";
   const idxFor = (date) => {
     let idx = 0;
     for (let i = 0; i < points.length; i++) {
@@ -60,6 +58,19 @@ function drawChart(points, marks, opts) {
     }
     return idx;
   };
+  const buys = (marks || []).filter((m) => m.side !== "sale" && m.date);
+  let lastBuy = opts.lastBuy || null;
+  if (!lastBuy && buys.length) lastBuy = buys.map((m) => m.date).sort().pop();
+  let area = "";
+  if (lastBuy) {
+    const si = idxFor(lastBuy);
+    const shadeLine = points.slice(si).map((p, k) => {
+      const i = si + k;
+      return (k ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1);
+    }).join(" ");
+    area = shadeLine + " L" + lastX.toFixed(1) + " " + (h - pad.b) +
+      " L" + xAt(si).toFixed(1) + " " + (h - pad.b) + " Z";
+  }
   const yTicks = [1, 0.75, 0.5, 0.25, 0].map((t) => min + span * t);
   const grid = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
@@ -96,6 +107,8 @@ function drawChart(points, marks, opts) {
       hit.push({ mark: m, x: x, y: cy, xPct: x / w, yPct: cy / h });
       return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
         "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
+          "\" r=\"14\" fill=\"transparent\" />" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
           "\" r=\"9\" fill=\"" + color + "\" stroke=\"#eef2f5\" stroke-width=\"1.6\" />" +
         "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 3.2).toFixed(1) +
           "\" text-anchor=\"middle\" fill=\"#eef2f5\" font-size=\"8.5\" font-weight=\"700\" " +
@@ -106,12 +119,12 @@ function drawChart(points, marks, opts) {
   svg.innerHTML =
     "<defs>" +
       "<linearGradient id=\"qc-area\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">" +
-        "<stop offset=\"0%\" stop-color=\"" + stroke + "\" stop-opacity=\"0.42\" />" +
+        "<stop offset=\"0%\" stop-color=\"" + stroke + "\" stop-opacity=\"0.2\" />" +
         "<stop offset=\"100%\" stop-color=\"" + stroke + "\" stop-opacity=\"0.04\" />" +
       "</linearGradient>" +
     "</defs>" +
     grid +
-    "<path d=\"" + area + "\" fill=\"url(#qc-area)\" />" +
+    (area ? "<path d=\"" + area + "\" fill=\"url(#qc-area)\" />" : "") +
     "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2.4\" />" +
     "<circle cx=\"" + lastX.toFixed(1) + "\" cy=\"" + lastY.toFixed(1) +
       "\" r=\"4.2\" fill=\"" + stroke + "\" stroke=\"#eef2f5\" stroke-width=\"1.4\" />" +

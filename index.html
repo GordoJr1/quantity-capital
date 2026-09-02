@@ -662,14 +662,16 @@
     .board-tabs::-webkit-scrollbar { display: none; }
     .board-tabs button {
       font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       background: transparent;
       border: 1px solid #4a5563;
       color: var(--mute);
-      padding: 8px 12px;
+      padding: 8px 4px;
       min-height: 44px;
-      flex: 0 0 auto;
+      flex: 1 1 0;
+      min-width: 0;
+      font-size: 0.72rem;
       white-space: nowrap;
       cursor: pointer;
     }
@@ -679,6 +681,9 @@
     }
     .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
     .board-list { list-style: none; border: 1px solid #4a5563; background: var(--panel); }
+    @media (min-width: 821px) {
+      #board .board-list, #tape .table-wrap { max-width: 1040px; }
+    }
     footer[hidden], .stripe[hidden] { display: none !important; }
     #board-list { min-height: 70vh; }
     body.is-ready #board-list { min-height: 0; }
@@ -935,9 +940,9 @@
       <h2>Leaderboard</h2>
       <div class="board-tabs" role="tablist">
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
-        <button type="button" data-board="activity">Most active</button>
-        <button type="button" data-board="traders">Top Traders</button>
-        <button type="button" data-board="stocks">Top trades</button>
+        <button type="button" data-board="activity">Active</button>
+        <button type="button" data-board="traders">Traders</button>
+        <button type="button" data-board="stocks">Trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
       <ol class="board-list" id="board-list">

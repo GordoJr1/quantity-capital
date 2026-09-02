@@ -486,6 +486,7 @@
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       const stockDeals = deals.filter((t) => !isOptionLike(t));
       chartDeals = deals.filter((t) => !isOptionLike(t) || t.side === "purchase");
+      if (!params.has("r") && chartDeals.length > 24) range = "3m";
 
       const who = filerId && deals[0] ? deals[0].filer : "";
       if (who) {

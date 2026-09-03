@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Insider — Quantity Capital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 2px solid var(--teal); }
+    .mark, h1, .kicker, nav, .tk, .back {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 18px 0 8px; }
+    .kicker { color: var(--caution); margin: 8px 0; }
+    h1 { font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 0.9; margin-bottom: 8px; }
+    .muted { color: var(--mute); font-size: 0.88rem; margin-bottom: 16px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .tape-item {
+      display: grid; grid-template-columns: 88px 1fr auto; gap: 14px; align-items: center;
+      background: var(--panel); border: 1px solid #4a5563; padding: 14px 16px; text-decoration: none; color: inherit; margin: 0 0 8px;
+    }
+    .tape-item:hover { border-color: var(--caution); }
+    .pill { font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.85rem; text-align: center; padding: 6px 8px; border: 1px solid currentColor; }
+    .pill.buy { color: #7dcf7a; } .pill.sell { color: #ef7a74; }
+    .tape-item h3 { font-family: "Barlow Condensed", sans-serif; font-size: 1.25rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 4px; }
+    .tape-item p { color: var(--mute); font-size: 0.9rem; }
+    .amt { font-family: "Barlow Condensed", sans-serif; color: var(--caution); text-align: right; }
+    footer { border-top: 2px solid var(--caution); margin-top: 28px; }
+    footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    @media (max-width: 860px) {
+      .wrap { width: calc(100% - 24px); }
+      header nav { display: none; }
+      .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .tabbar a { flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center; }
+      .tabbar a.on { color: var(--caution); }
+      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html">Tells</a>
+        <a href="signals.html">Signals</a>
+        <a href="paper.html">Paper</a>
+        <a href="insiders.html" class="on">Insiders</a>
+      </nav>
+    </header>
+    <p><a class="back" href="insiders.html">← Insiders</a></p>
+    <p class="kicker" id="kicker">Officer</p>
+    <h1 id="who">—</h1>
+    <p class="muted" id="title"></p>
+    <div class="stats" id="stats"></div>
+    <div id="list"></div>
+  </div>
+  <footer>
+    <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const id = new URLSearchParams(location.search).get("id") || "";
+    if (!id) location.replace("insiders.html");
+    fetch("insider-trades-lite.json").then((r) => r.json()).then((data) => {
+      const rows = (data.trades || []).filter((t) => t.filer_id === id)
+        .sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
+      if (!rows.length) {
+        document.getElementById("who").textContent = "Not on tape";
+        return;
+      }
+      const name = rows[0].filer;
+      document.getElementById("who").textContent = name;
+      document.title = name + " — Insiders — Quantity Capital";
+      document.getElementById("title").textContent = rows[0].title || "";
+      const buys = rows.filter((t) => t.side === "purchase");
+      const val = buys.reduce((s, t) => s + (Number(t.value) || 0), 0);
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + rows.length + "</b><span>prints</span></div>" +
+        "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
+        "<div class=\"stat\"><b>" + (val ? QC.formatMoney(val) : "—") + "</b><span>buy value</span></div>";
+      document.getElementById("list").innerHTML = rows.map((t) => {
+        const href = "insider-ticker.html?t=" + encodeURIComponent(t.ticker || "") + "&id=" + encodeURIComponent(id);
+        return "<a class=\"tape-item\" href=\"" + href + "\">" +
+          "<div class=\"pill " + (t.side === "purchase" ? "buy" : "sell") + "\">" + QC.esc(QC.sideLabel(t.side)) + "</div>" +
+          "<div><h3>" + QC.esc(t.ticker || "—") + "</h3><p>" + QC.esc(t.company || "") + " · traded " + QC.esc(QC.prettyDate(t.trade_date)) +
+            " · filed " + QC.esc(QC.prettyDate(t.filed_date)) + "</p></div>" +
+          "<div class=\"amt\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</div></a>";
+      }).join("");
+    }).catch(() => { document.getElementById("who").textContent = "Could not load"; });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Primary">
+    <a href="index.html">Tape</a>
+    <a href="landed.html">Landed</a>
+    <a href="tells.html">Tells</a>
+    <a href="signals.html">Signals</a>
+    <a href="paper.html">Paper</a>
+    <a href="insiders.html" class="on">Insiders</a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Insider signals — Quantity Capital</title>
+  <meta name="description" content="Officer buy heat, cluster prints, and copy-trade performance on the Quantity Capital watchlist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 2px solid var(--teal); }
+    .mark, h1, h2, .kicker, nav, .chip, .rank, .tk, .subhead, .action {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.88; margin-bottom: 10px; }
+    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 8px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .subhead { color: var(--mute); margin: 22px 0 10px; letter-spacing: 0.14em; }
+    .blotter { display: flex; flex-direction: column; gap: 12px; margin: 0 0 28px; }
+    .play { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 16px 18px; }
+    .play.buy-dip { border-left-color: #7dcf7a; }
+    .play.watch { border-left-color: var(--caution); }
+    .play.avoid { border-left-color: #ef7a74; }
+    .play-top { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+    .play .tk { font-size: 2rem; color: var(--white); text-decoration: none; }
+    .play .tk:hover { color: var(--teal); }
+    .action { font-size: 0.85rem; padding: 6px 10px; border: 1px solid #6b7582; white-space: nowrap; }
+    .action.buy-dip { color: #7dcf7a; border-color: #7dcf7a; }
+    .action.watch { color: var(--caution); border-color: var(--caution); }
+    .action.avoid { color: #ef7a74; border-color: #ef7a74; }
+    .pxline { margin-top: 4px; color: var(--paper); font-size: 0.92rem; }
+    .pxline .up, .up { color: #7dcf7a; }
+    .pxline .down, .down { color: #ef7a74; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #3a4452; border: 1px solid #3a4452; margin-top: 14px; }
+    .cell { background: #151b24; padding: 8px 10px; }
+    .cell span { display: block; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-family: "Barlow Condensed", sans-serif; }
+    .cell b { color: var(--white); font-weight: 600; font-size: 0.92rem; }
+    .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; }
+    .who-list a { color: var(--teal); text-decoration: none; }
+    .heat { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .card {
+      display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 8px 14px;
+      padding: 14px 16px; background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal);
+    }
+    .card.cluster { border-left-color: #7dcf7a; }
+    .rank { color: var(--caution); font-size: 1.5rem; line-height: 1; padding-top: 4px; }
+    .tk { font-size: 1.7rem; letter-spacing: 0.1em; text-decoration: none; color: var(--white); }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.92rem; }
+    .rate { text-align: right; }
+    .rate b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; }
+    .rate span { color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag { font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; padding: 2px 7px; border: 1px solid #6b7582; color: #c5cdd6; }
+    .tag.hot { border-color: var(--caution); color: var(--caution); }
+    .tag.hit { border-color: #7dcf7a; color: #7dcf7a; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    details.how { margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24; }
+    details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+    details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    @media (max-width: 860px) {
+      .wrap { width: calc(100% - 24px); }
+      .grid, .stats { grid-template-columns: 1fr 1fr; }
+      .play-top { grid-template-columns: 40px minmax(0, 1fr); }
+      header nav { display: none; }
+      .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .tabbar a { flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center; }
+      .tabbar a.on { color: var(--caution); }
+      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html">Tells</a>
+        <a href="signals.html">Signals</a>
+        <a href="paper.html">Paper</a>
+        <a href="insiders.html" class="on">Insiders</a>
+      </nav>
+    </header>
+    <p class="kicker">Today's book</p>
+    <h1>Insider signals</h1>
+    <p class="lede">Recency-weighted officer buying on the watchlist, mixed with weekly/monthly technicals. Copy return is from the first close after the filing landed.</p>
+    <p class="asof" id="asof"></p>
+    <div class="stats" id="stats"></div>
+    <div class="blotter" id="book"></div>
+    <p class="subhead">Buy performance</p>
+    <p class="muted">Ranked by return since the public filing. Equal-weight last officer buy, not a portfolio.</p>
+    <ol class="heat" id="perf"></ol>
+    <p class="subhead">Buy heat</p>
+    <ol class="heat" id="heat"></ol>
+    <details class="how">
+      <summary>How this is scored</summary>
+      <div class="body">
+        <p>Heat is recency-weighted open-market buys (Form 4 code P, or Yahoo purchase prints for Canadian-only names). CEO/president titles and two-or-more officers buying the same name get a boost. Sales in the window damp the score.</p>
+        <p class="muted" style="margin-top:10px;">The book favors a weekly washout with an intact monthly, plus a fresh filing. Names that already ran more than 12% since the last buy while the weekly trend is down, or that print a weekly RSI above 72, go to Avoid. Not a recommendation.</p>
+      </div>
+    </details>
+  </div>
+  <footer>
+    <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    function signedPct(x) {
+      if (x == null || isNaN(x)) return "—";
+      const v = x * 100;
+      const cls = v > 0.15 ? "up" : v < -0.15 ? "down" : "";
+      const sign = v > 0 ? "+" : "";
+      return "<b class=\"" + cls + "\">" + sign + v.toFixed(1) + "%</b>";
+    }
+    function cell(label, value) { return "<div class=\"cell\"><span>" + label + "</span>" + value + "</div>"; }
+    function actionLabel(a) { return a === "buy-dip" ? "Buy dip" : a === "avoid" ? "Avoid open" : "Watch"; }
+    function money(n) { return n ? QC.formatMoney(n) : "—"; }
+
+    fetch("insider-analysis.json").then((r) => r.json()).then((data) => {
+      const stats = data.stats || {};
+      document.getElementById("asof").textContent = [
+        data.tapeCollected ? "Tape " + QC.asOfLabel(data.tapeCollected) : "",
+        data.priceAsof ? "prices through " + data.priceAsof : ""
+      ].filter(Boolean).join(" · ");
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + (stats.names || 0) + "</b><span>names with buys</span></div>" +
+        "<div class=\"stat\"><b>" + (stats.landed || 0) + "</b><span>just landed</span></div>" +
+        "<div class=\"stat\"><b>" + (stats.clusters || 0) + "</b><span>cluster buys</span></div>" +
+        "<div class=\"stat\"><b>" + (stats.ceoBuys || 0) + "</b><span>CEO buying</span></div>";
+
+      document.getElementById("book").innerHTML = (data.book || []).slice(0, 12).map((row) => {
+        const w = row.weekly || {};
+        const buyers = (row.buyers || []).map((b) =>
+          "<a href=\"insider.html?id=" + encodeURIComponent(b.id) + "\">" + QC.esc(b.name) + "</a>"
+        ).join(", ");
+        return "<article class=\"play " + row.action + "\">" +
+          "<div class=\"play-top\">" +
+            "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div><div class=\"co\">" + QC.esc(row.name) + "</div><div class=\"pxline\">Last " + money(row.last) +
+              (row.chgSinceBuy != null ? " · since buy " + signedPct(row.chgSinceBuy) : "") + "</div></div>" +
+            "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
+          "</div>" +
+          "<div class=\"grid\">" +
+            cell("Why", "<b>" + QC.esc(row.why) + "</b>") +
+            cell("Buyers", "<b>" + row.nBuyers + "</b>") +
+            cell("Buy value", "<b>" + money(row.buyHigh) + "</b>") +
+            cell("Weekly RSI", "<b>" + (w.rsi != null ? w.rsi : "—") + "</b>") +
+          "</div>" +
+          (buyers ? "<div class=\"who-list\">" + buyers + "</div>" : "") +
+        "</article>";
+      }).join("") || "<p class=\"muted\">No officer buys in the window with prices on file.</p>";
+
+      document.getElementById("perf").innerHTML = (data.performance || []).slice(0, 25).map((row) => {
+        const ret = row.copyRet != null ? row.copyRet : row.retSince;
+        const cls = ret > 0 ? "up" : ret < 0 ? "down" : "";
+        return "<li class=\"card\">" +
+          "<div class=\"rank\">" + row.rank + "</div>" +
+          "<div><a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name) + " · last buy " + QC.esc(QC.prettyDate(row.lastBuy)) + "</div>" +
+            "<div class=\"tags\">" +
+              (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
+              (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
+              (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
+              "<span class=\"tag\">30d " + (row.ret30 == null ? "—" : ((row.ret30 * 100).toFixed(1) + "%")) + "</span>" +
+            "</div></div>" +
+          "<div class=\"rate\"><b class=\"" + cls + "\">" + (ret == null ? "—" : ((ret > 0 ? "+" : "") + (ret * 100).toFixed(1) + "%")) + "</b><span>since filing</span></div>" +
+        "</li>";
+      }).join("");
+
+      document.getElementById("heat").innerHTML = (data.heat || []).slice(0, 30).map((row) => {
+        const buyers = (row.buyers || []).map((b) => QC.esc(b.name)).join(", ");
+        return "<li class=\"card" + (row.cluster ? " cluster" : "") + "\">" +
+          "<div class=\"rank\">" + row.rank + "</div>" +
+          "<div><a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name) + "</div>" +
+            "<div class=\"who-list\">" + buyers + "</div>" +
+            "<div class=\"tags\">" +
+              (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
+              (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
+              (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
+              "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
+            "</div></div></li>";
+      }).join("");
+    }).catch(() => {
+      document.getElementById("book").innerHTML = "<p class=\"muted\">Could not load insider-analysis.json.</p>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Primary">
+    <a href="index.html">Tape</a>
+    <a href="landed.html">Landed</a>
+    <a href="tells.html">Tells</a>
+    <a href="signals.html">Signals</a>
+    <a href="paper.html">Paper</a>
+    <a href="insiders.html" class="on">Insiders</a>
+  </nav>
+</body>
+</html>

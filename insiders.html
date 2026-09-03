@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <link rel="prefetch" href="insider-trades-lite.json">
+  <title>Insiders — Quantity Capital</title>
+  <meta name="description" content="Officer and director open-market trades on the Quantity Capital watchlist. Form 4 within 2 business days; TSX names via public insider prints." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    .stripe { height: 10px; background: repeating-linear-gradient(-45deg, var(--ink) 0 10px, var(--teal) 10px 20px); }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 0; border-bottom: 2px solid var(--teal);
+    }
+    .mark, h1, h2, .kicker, nav, .chip, .tk, .who {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.88; margin-bottom: 10px; }
+    .lede { color: var(--paper); max-width: 68ch; line-height: 1.5; margin-bottom: 14px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .landed-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      font-size: 0.9rem; color: var(--caution); background: rgba(227, 180, 26, 0.08);
+      border: 1px solid var(--caution); padding: 8px 14px; min-height: 44px; text-decoration: none; margin: 0 8px 18px 0;
+    }
+    .landed-chip:hover { background: rgba(227, 180, 26, 0.16); }
+    .subnav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 14px; cursor: pointer; font-size: 0.9rem;
+    }
+    .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .picker { max-width: 420px; margin: 0 0 16px; }
+    .picker input {
+      width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
+      padding: 10px 12px; font: inherit; min-height: 44px;
+    }
+    .picker input:focus { outline: 1px solid var(--caution); }
+    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 10px; }
+    .table-wrap { overflow-x: auto; margin-bottom: 28px; }
+    table { width: 100%; border-collapse: collapse; min-width: 860px; }
+    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #3a4452; font-size: 0.9rem; vertical-align: top; }
+    th {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--mute); font-weight: 600; font-size: 0.78rem;
+    }
+    .side.buy { color: #7dcf7a; font-weight: 600; }
+    .side.sell { color: #ef7a74; font-weight: 600; }
+    .tk, .who { color: var(--white); text-decoration: none; }
+    .tk:hover, .who:hover { color: var(--teal); }
+    .title { color: var(--mute); font-size: 0.78rem; display: block; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
+    .amt { color: var(--caution); font-weight: 600; white-space: nowrap; }
+    .tag {
+      display: inline-block; margin-left: 6px; padding: 1px 6px; border: 1px solid #6b7582;
+      color: #c5cdd6; font-family: "Barlow Condensed", sans-serif; font-size: 0.68rem; letter-spacing: 0.06em;
+    }
+    .tag.hot { border-color: var(--caution); color: var(--caution); }
+    .tag.ceo { border-color: #7dcf7a; color: #7dcf7a; }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
+    }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    @media (max-width: 860px) {
+      .wrap { width: calc(100% - 24px); }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      header nav { display: none; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
+        font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center; padding: 0 2px;
+      }
+      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
+      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="stripe"></div>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html">Tells</a>
+        <a href="signals.html">Signals</a>
+        <a href="paper.html">Paper</a>
+        <a href="insiders.html" class="on">Insiders</a>
+      </nav>
+    </header>
+    <p class="kicker">Officer tape</p>
+    <h1>Insiders</h1>
+    <p class="lede">Open-market buys and sells by CEOs, CFOs, COOs, VPs, and directors in their own stock — watchlist names only, defunct issuers out. U.S. domestic issuers file Form 4 within two business days. TSX / TSX-V names file SEDI within five calendar days.</p>
+    <p class="asof" id="asof"></p>
+    <div class="subnav">
+      <a class="landed-chip" href="insider-landed.html">Just landed</a>
+      <a class="landed-chip" href="insider-signals.html">Signals &amp; ranks</a>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="windows" id="windows"></div>
+    <div class="picker">
+      <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
+    </div>
+    <p class="count" id="count"></p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Filed</th>
+            <th>Traded</th>
+            <th>Officer</th>
+            <th>Side</th>
+            <th>Ticker</th>
+            <th>Company</th>
+            <th>Value</th>
+            <th>Lag</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const WINDOWS = [14, 30, 90, 540];
+    const params = new URLSearchParams(location.search);
+    let days = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
+    let side = params.get("side") || "";
+    let q = "";
+
+    function labelW(d) {
+      if (d <= 14) return "14 days";
+      if (d <= 30) return "30 days";
+      if (d <= 90) return "90 days";
+      return "18 months";
+    }
+    function lag(t) {
+      if (!t.filed_date || !t.trade_date) return null;
+      const a = new Date(t.filed_date + "T00:00:00");
+      const b = new Date(t.trade_date + "T00:00:00");
+      if (isNaN(a) || isNaN(b)) return null;
+      return Math.max(0, Math.round((a - b) / 86400000));
+    }
+    function paint(rows, collected) {
+      const buys = rows.filter((t) => t.side === "purchase");
+      const officers = new Set(rows.map((t) => t.filer_id));
+      const names = new Set(rows.map((t) => t.ticker));
+      document.getElementById("asof").textContent = collected
+        ? "Tape as of " + QC.asOfLabel(collected)
+        : "";
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + rows.length + "</b><span>prints</span></div>" +
+        "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
+        "<div class=\"stat\"><b>" + officers.size + "</b><span>insiders</span></div>" +
+        "<div class=\"stat\"><b>" + names.size + "</b><span>tickers</span></div>";
+      document.getElementById("windows").innerHTML =
+        WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
+        "<button type=\"button\" class=\"chip" + (side === "purchase" ? " on" : "") + "\" data-side=\"purchase\">Buys</button>" +
+        "<button type=\"button\" class=\"chip" + (side === "sale" ? " on" : "") + "\" data-side=\"sale\">Sells</button>";
+      const cut = new Date(); cut.setDate(cut.getDate() - days);
+      const cutIso = cut.toISOString().slice(0, 10);
+      const needle = q.trim().toLowerCase();
+      const vis = rows.filter((t) => {
+        const day = t.filed_date || t.trade_date || "";
+        if (day && day < cutIso) return false;
+        if (side && t.side !== side) return false;
+        if (needle) {
+          const blob = [t.filer, t.title, t.ticker, t.company].join(" ").toLowerCase();
+          if (!blob.includes(needle)) return false;
+        }
+        return true;
+      });
+      document.getElementById("count").textContent = vis.length + " trades in view";
+      document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) => {
+        const cls = t.side === "purchase" ? "buy" : "sell";
+        const d = lag(t);
+        const tags = (t.ceo ? "<span class=\"tag ceo\">CEO</span>" : "") +
+          (QC.isLanded(t, 72) ? "<span class=\"tag hot\">Landed</span>" : "") +
+          (t.origin === "yahoo" ? "<span class=\"tag\">TSX</span>" : "");
+        const tk = QC.isChartTicker(t.ticker)
+          ? "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
+          : QC.esc(t.ticker || "—");
+        return "<tr>" +
+          "<td>" + QC.esc(QC.prettyDate(t.filed_date)) + "</td>" +
+          "<td>" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
+          "<td><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>" +
+            "<span class=\"title\">" + QC.esc(t.title || "") + tags + "</span></td>" +
+          "<td class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</td>" +
+          "<td>" + tk + "</td>" +
+          "<td>" + QC.esc(t.company || "—") + "</td>" +
+          "<td class=\"amt\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +
+          "<td>" + (d == null ? "—" : d + "d") + "</td>" +
+        "</tr>";
+      }).join("") || "<tr><td colspan=\"8\" class=\"muted\">No insider prints in this window.</td></tr>";
+    }
+
+    let all = [];
+    let collected = "";
+    async function run() {
+      const data = await fetch("insider-trades-lite.json").then((r) => r.json());
+      all = data.trades || [];
+      collected = data.collected || "";
+      paint(all, collected);
+    }
+    document.getElementById("windows").addEventListener("click", (e) => {
+      const w = e.target.closest("button[data-w]");
+      const s = e.target.closest("button[data-side]");
+      if (w) days = Number(w.dataset.w);
+      if (s) side = side === s.dataset.side ? "" : s.dataset.side;
+      const p = new URLSearchParams();
+      p.set("w", String(days));
+      if (side) p.set("side", side);
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      paint(all, collected);
+    });
+    document.getElementById("q").addEventListener("input", (e) => {
+      q = e.target.value;
+      paint(all, collected);
+    });
+    run().catch(() => {
+      document.getElementById("rows").innerHTML = "<tr><td colspan=\"8\">Could not load insider tape.</td></tr>";
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Primary">
+    <a href="index.html">Tape</a>
+    <a href="landed.html">Landed</a>
+    <a href="tells.html">Tells</a>
+    <a href="signals.html">Signals</a>
+    <a href="paper.html">Paper</a>
+    <a href="insiders.html" class="on">Insiders</a>
+  </nav>
+</body>
+</html>

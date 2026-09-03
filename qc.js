@@ -69,7 +69,7 @@
 
   function isChartTicker(code) {
     const c = String(code || "").toUpperCase();
-    return !!(c && c !== "—" && /^[A-Z][A-Z0-9.]{0,6}$/.test(c) && !BAD_TICKERS[c]);
+    return !!(c && c !== "—" && /^[A-Z][A-Z0-9.]{0,8}$/.test(c) && !BAD_TICKERS[c]);
   }
 
   function amountHigh(amount) {

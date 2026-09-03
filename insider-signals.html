@@ -126,7 +126,7 @@
     <div class="stats" id="stats"></div>
     <div class="blotter" id="book"></div>
     <p class="subhead">Buy performance</p>
-    <p class="muted">Ranked by return since the public filing. Equal-weight last officer buy, not a portfolio.</p>
+    <p class="muted">Ranked by return since the public filing. Buys under $5,000 are left out so illiquid prints do not dominate. Equal-weight last officer buy, not a portfolio.</p>
     <ol class="heat" id="perf"></ol>
     <p class="subhead">Buy heat</p>
     <ol class="heat" id="heat"></ol>
@@ -199,6 +199,7 @@
               (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
               (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
               (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
+              "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
               "<span class=\"tag\">30d " + (row.ret30 == null ? "—" : ((row.ret30 * 100).toFixed(1) + "%")) + "</span>" +
             "</div></div>" +
           "<div class=\"rate\"><b class=\"" + cls + "\">" + (ret == null ? "—" : ((ret > 0 ? "+" : "") + (ret * 100).toFixed(1) + "%")) + "</b><span>since filing</span></div>" +

@@ -11,6 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <link rel="prefetch" href="insider-analysis.json">
   <title>Insider signals — Quantity Capital</title>
   <meta name="description" content="Officer buy heat, cluster prints, and copy-trade performance on the Quantity Capital watchlist." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,16 +42,30 @@
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 8px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .subhead { color: var(--mute); margin: 22px 0 10px; letter-spacing: 0.14em; }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+    a.chip, .chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 14px; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px;
+    }
+    a.chip.on, .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .blotter { display: flex; flex-direction: column; gap: 12px; margin: 0 0 28px; }
     .play { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 16px 18px; }
     .play.buy-dip { border-left-color: #7dcf7a; }
     .play.watch { border-left-color: var(--caution); }
     .play.avoid { border-left-color: #ef7a74; }
     .play-top { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 12px; align-items: start; }
-    .play .tk { font-size: 2rem; color: var(--white); text-decoration: none; }
+    .play .tk { font-size: clamp(1.35rem, 4vw, 2rem); color: var(--white); text-decoration: none; overflow-wrap: anywhere; }
     .play .tk:hover { color: var(--teal); }
     .action { font-size: 0.85rem; padding: 6px 10px; border: 1px solid #6b7582; white-space: nowrap; }
     .action.buy-dip { color: #7dcf7a; border-color: #7dcf7a; }
@@ -59,34 +74,66 @@
     .pxline { margin-top: 4px; color: var(--paper); font-size: 0.92rem; }
     .pxline .up, .up { color: #7dcf7a; }
     .pxline .down, .down { color: #ef7a74; }
+    .why { color: var(--paper); margin: 8px 0 0; font-size: 0.9rem; line-height: 1.4; }
     .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: #3a4452; border: 1px solid #3a4452; margin-top: 14px; }
-    .cell { background: #151b24; padding: 8px 10px; }
+    .cell { background: #151b24; padding: 8px 10px; min-width: 0; }
     .cell span { display: block; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; font-family: "Barlow Condensed", sans-serif; }
-    .cell b { color: var(--white); font-weight: 600; font-size: 0.92rem; }
-    .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; }
+    .cell b { color: var(--white); font-weight: 600; font-size: 0.92rem; word-break: break-word; }
+    .who-list { margin-top: 8px; color: var(--paper); font-size: 0.86rem; line-height: 1.45; }
     .who-list a { color: var(--teal); text-decoration: none; }
+    .who-list a:hover { color: var(--caution); }
+    .title { color: var(--mute); font-size: 0.78rem; }
     .heat { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .card {
       display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 8px 14px;
       padding: 14px 16px; background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal);
     }
     .card.cluster { border-left-color: #7dcf7a; }
+    .card.landed { border-left-color: var(--caution); }
     .rank { color: var(--caution); font-size: 1.5rem; line-height: 1; padding-top: 4px; }
-    .tk { font-size: 1.7rem; letter-spacing: 0.1em; text-decoration: none; color: var(--white); }
+    .tk { font-size: clamp(1.15rem, 3.6vw, 1.7rem); letter-spacing: 0.08em; text-decoration: none; color: var(--white); overflow-wrap: anywhere; }
     .tk:hover { color: var(--teal); }
     .co { color: var(--paper); font-size: 0.92rem; }
-    .rate { text-align: right; }
+    .rate { text-align: right; min-width: 4.5rem; }
     .rate b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; }
     .rate span { color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .tag { font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; padding: 2px 7px; border: 1px solid #6b7582; color: #c5cdd6; }
     .tag.hot { border-color: var(--caution); color: var(--caution); }
     .tag.hit { border-color: #7dcf7a; color: #7dcf7a; }
-    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
-    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
-    .stat:last-child { border-right: 0; }
-    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
-    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .tag.warn { border-color: #ef7a74; color: #ef7a74; }
+    .avoid-row {
+      display: grid; grid-template-columns: 52px minmax(0, 1fr);
+      gap: 8px 14px; padding: 12px 16px; background: var(--panel);
+      border: 1px solid #4a5563; border-left: 6px solid #ef7a74; margin: 0 0 8px;
+    }
+    .avoid-row .tk { font-size: 1.45rem; margin-right: 10px; }
+    .avoid-row .why { margin: 6px 0 0; max-width: 70ch; }
+    .explain { background: #151b24; border: 1px solid #3a4452; padding: 12px 14px; margin-top: 14px; }
+    .explain h3 {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.78rem; margin-bottom: 8px;
+    }
+    .explain ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .explain li { color: var(--paper); font-size: 0.9rem; line-height: 1.4; padding-left: 14px; position: relative; }
+    .explain li::before {
+      content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px;
+      border-radius: 50%; background: #7dcf7a;
+    }
+    .play-more { margin-top: 12px; }
+    .play-more > summary {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--caution); min-height: 44px; display: flex; align-items: center; cursor: pointer; list-style: none;
+    }
+    .play-more > summary::-webkit-details-marker { display: none; }
+    .play-more > summary::before { content: "▸ "; }
+    .play-more[open] > summary::before { content: "▾ "; }
+    .more-row { margin: 8px 0 28px; }
+    .more-row button {
+      background: transparent; border: 1px solid var(--caution); color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 16px; min-height: 44px; cursor: pointer;
+    }
     details.how { margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24; }
     details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
     details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
@@ -96,13 +143,29 @@
     .tabbar { display: none; }
     @media (max-width: 860px) {
       .wrap { width: calc(100% - 24px); }
-      .grid, .stats { grid-template-columns: 1fr 1fr; }
+      .grid { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2), .stat:nth-child(4) { border-right: 0; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid #3a4452; }
       .play-top { grid-template-columns: 40px minmax(0, 1fr); }
+      .action { justify-self: start; }
       header nav { display: none; }
-      .tabbar { display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px); }
-      .tabbar a { flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
+        font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center;
+      }
       .tabbar a.on { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+    @media (max-width: 720px) {
+      .card { grid-template-columns: 40px minmax(0, 1fr); }
+      .card .rate { grid-column: 2; text-align: left; }
+      .avoid-row { grid-template-columns: 40px minmax(0, 1fr); }
     }
   </style>
 </head>
@@ -121,20 +184,33 @@
     </header>
     <p class="kicker">Today's book</p>
     <h1>Insider signals</h1>
-    <p class="lede">Recency-weighted officer buying on the watchlist, mixed with weekly/monthly technicals. Copy return is from the first close after the filing landed.</p>
-    <p class="asof" id="asof"></p>
+    <p class="lede">Officer open-market buys on the watchlist, scored like the politician book: fresh filings, cluster buying, and a weekly washout with the monthly still intact.</p>
+    <p class="asof" id="asof">Reading the book…</p>
+    <div class="windows" aria-label="Insider boards">
+      <a class="chip" href="insiders.html">Tape</a>
+      <a class="chip" href="insider-landed.html">Landed</a>
+      <a class="chip on" href="insider-signals.html">Signals</a>
+    </div>
     <div class="stats" id="stats"></div>
-    <div class="blotter" id="book"></div>
-    <p class="subhead">Buy performance</p>
-    <p class="muted">Ranked by return since the public filing. Buys under $5,000 are left out so illiquid prints do not dominate. Equal-weight last officer buy, not a portfolio.</p>
-    <ol class="heat" id="perf"></ol>
+    <div class="blotter" id="book"><p class="muted">Reading the book…</p></div>
+    <div id="avoid-wrap" hidden>
+      <p class="subhead">Avoid the open</p>
+      <div id="avoid"></div>
+    </div>
     <p class="subhead">Buy heat</p>
+    <p class="muted">Recency-weighted open-market buys in the last 90 days. Cluster and size lift the rank.</p>
     <ol class="heat" id="heat"></ol>
+    <p class="subhead">Buy performance</p>
+    <p class="muted">Return since the first close after the filing. Buys under $5,000 are left out. Not a portfolio.</p>
+    <ol class="heat" id="perf"></ol>
+    <div class="more-row" id="perf-more" hidden>
+      <button type="button" id="perf-more-btn">Show more ranks</button>
+    </div>
     <details class="how">
       <summary>How this is scored</summary>
       <div class="body">
-        <p>Heat is recency-weighted open-market buys: SEC Form 4 code P for U.S. domestic issuers, and SEDI nature code 10 for TSX / TSX-V names. Two-or-more officers buying the same name, and a CEO/president title on Form 4, get a boost. Sales in the window damp the score.</p>
-        <p class="muted" style="margin-top:10px;">The book favors a weekly washout with an intact monthly, plus a fresh filing. Names that already ran more than 12% since the last buy while the weekly trend is down, or that print a weekly RSI above 72, go to Avoid. Not a recommendation.</p>
+        <p>Heat is recency-weighted open-market buys: SEC Form 4 code P for U.S. domestic issuers, and SEDI nature code 10 for TSX / TSX-V names. Two or more officers buying the same name, and a CEO/president title on Form 4, get a boost. Sales in the window damp the score.</p>
+        <p class="muted" style="margin-top:10px;">The book favors a weekly washout (RSI 20–48) with an intact monthly, plus a fresh filing. Names that already ran more than 12% since the last buy while the weekly trend is down, or that print a weekly RSI above 72, go to Avoid the open. Copy return is the first close on or after the filing date. Not a recommendation.</p>
       </div>
     </details>
   </div>
@@ -143,85 +219,202 @@
   </footer>
   <script src="qc.js"></script>
   <script>
-    function signedPct(x) {
+    let showAllPerf = false;
+
+    function signedPct(x, alreadyPct) {
       if (x == null || isNaN(x)) return "—";
-      const v = x * 100;
+      const v = alreadyPct ? x : x * 100;
       const cls = v > 0.15 ? "up" : v < -0.15 ? "down" : "";
       const sign = v > 0 ? "+" : "";
       return "<b class=\"" + cls + "\">" + sign + v.toFixed(1) + "%</b>";
     }
+    function signedPctSpan(x, alreadyPct) {
+      return signedPct(x, alreadyPct).replace(/^<b/, "<span").replace(/<\/b>$/, "</span>");
+    }
     function cell(label, value) { return "<div class=\"cell\"><span>" + label + "</span>" + value + "</div>"; }
     function actionLabel(a) { return a === "buy-dip" ? "Buy dip" : a === "avoid" ? "Avoid open" : "Watch"; }
     function money(n) { return n ? QC.formatMoney(n) : "—"; }
+    function px(n) { return n == null || isNaN(n) ? "—" : "$" + Number(n).toFixed(n >= 10 ? 2 : 2); }
+    function daysAgo(iso) {
+      if (!iso) return null;
+      const d = new Date(String(iso).slice(0, 10) + "T00:00:00");
+      if (isNaN(d.getTime())) return null;
+      return Math.max(0, Math.round((Date.now() - d.getTime()) / 86400000));
+    }
+    function peopleHtml(buyers) {
+      return (buyers || []).map((b) => {
+        const title = b.title ? "<span class=\"title\"> · " + QC.esc(b.title) + "</span>" : "";
+        return "<a href=\"insider.html?id=" + encodeURIComponent(b.id) + "\">" + QC.esc(b.name) + "</a>" + title;
+      }).join("<br>");
+    }
+    function flagTags(row) {
+      return (row.flags || []).map((f) => {
+        const cls = /washout|landed|size|whale/i.test(f) ? " hot"
+          : /cluster|ceo/i.test(f) ? " hit"
+          : /ran|hot|selling/i.test(f) ? " warn" : "";
+        return "<span class=\"tag" + cls + "\">" + QC.esc(f) + "</span>";
+      }).join("");
+    }
+    function positiveSignals(row) {
+      const w = row.weekly || {};
+      const m = row.monthly || {};
+      const flags = row.flags || [];
+      const hits = [];
+      if (row.landed) hits.push("Just landed" + (row.lagDays != null ? " · " + row.lagDays + "-day filing lag" : ""));
+      if (row.whale) hits.push("Size · " + money(row.buyHigh) + " of open-market buys");
+      else if (row.cluster) hits.push("Cluster · " + row.nBuyers + " officers" + (row.buyHigh ? " · " + money(row.buyHigh) : ""));
+      if (row.ceo) hits.push("CEO / president buying");
+      if (flags.indexOf("Weekly washout") >= 0 && w.rsi != null) hits.push("Weekly washout · RSI " + Number(w.rsi).toFixed(1));
+      if (flags.indexOf("Monthly intact") >= 0) {
+        if (m.trend === "UP" && m.rsi != null) hits.push("Monthly still up · RSI " + Number(m.rsi).toFixed(1));
+        else if (m.rsi != null) hits.push("Monthly RSI still healthy · " + Number(m.rsi).toFixed(1));
+        else hits.push("Price still near the 10-month average");
+      }
+      if (row.chgSinceBuy != null && row.chgSinceBuy < 0 && row.buyPx != null) {
+        hits.push("Still under the last official buy · " + (row.chgSinceBuy * 100).toFixed(1) + "% vs " + px(row.buyPx));
+      }
+      return hits;
+    }
+    function playCard(row) {
+      const w = row.weekly || {};
+      const m = row.monthly || {};
+      const chgHtml = row.chgSinceBuy == null ? "" : " · " + signedPctSpan(row.chgSinceBuy, false) + " since last buy";
+      const hits = positiveSignals(row);
+      const hitList = hits.length
+        ? "<div class=\"explain\"><h3>Positive signals</h3><ul>" + hits.map((h) => "<li>" + QC.esc(h) + "</li>").join("") + "</ul></div>"
+        : "";
+      return "<article class=\"play " + row.action + "\">" +
+        "<div class=\"play-top\">" +
+          "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
+          "<div>" +
+            "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name || "—") + (row.commodity ? " · " + QC.esc(row.commodity) : "") + "</div>" +
+            "<div class=\"pxline\">" + px(row.last) + chgHtml + "</div>" +
+            (flagTags(row) ? "<div class=\"tags\">" + flagTags(row) + "</div>" : "") +
+            ((row.buyers || []).length ? "<div class=\"who-list\">" + peopleHtml(row.buyers) + "</div>" : "") +
+          "</div>" +
+          "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
+        "</div>" +
+        (row.why ? "<p class=\"why\">" + QC.esc(row.why) + "</p>" : "") +
+        "<details class=\"play-more\">" +
+          "<summary>Details</summary>" +
+          hitList +
+          "<div class=\"grid\">" +
+            cell("Landed", "<b>" + (row.landed ? (row.lagDays != null ? row.lagDays + "d lag" : "Yes") : "No") + "</b>") +
+            cell("Heat", "<b>#" + (row.heatRank || "—") + "</b>") +
+            cell("Buyers / value", "<b>" + row.nBuyers + " · " + money(row.buyHigh || 0) + "</b>") +
+            cell("Last buy", "<b>" + QC.prettyDate(row.lastBuy) + (row.buyPx != null ? " @ " + px(row.buyPx) : "") + "</b>") +
+            cell("Weekly RSI", "<b>" + (w.rsi != null ? Number(w.rsi).toFixed(1) : "—") + "</b>") +
+            cell("Weekly trend", "<b class=\"" + (w.trend === "UP" ? "up" : w.trend === "DOWN" ? "down" : "") + "\">" + QC.esc(w.trend || "—") + "</b>") +
+            cell("vs 20-week", signedPct(w.vs20, true)) +
+            cell("4-week / 13-week", (w.ret4w == null ? "<b>—</b>" : signedPct(w.ret4w, true)) +
+              " <span style=\"color:#8b96a3\">/</span> " + (w.ret13w == null ? "<b>—</b>" : signedPct(w.ret13w, true))) +
+            cell("Off 20w high", signedPct(w.fromHigh, true)) +
+            cell("Monthly RSI", "<b>" + (m.rsi != null ? Number(m.rsi).toFixed(1) : "—") + "</b>") +
+            cell("Monthly trend", "<b class=\"" + (m.trend === "UP" ? "up" : m.trend === "DOWN" ? "down" : "") + "\">" + QC.esc(m.trend || "—") + "</b>") +
+            cell("Invalidation", "<b>" + (row.invalidation != null ? px(row.invalidation) : "—") + "</b>") +
+          "</div>" +
+        "</details>" +
+      "</article>";
+    }
+    function avoidRow(row) {
+      return "<article class=\"avoid-row\">" +
+        "<div class=\"rank\">" + String(row.rank).padStart(2, "0") + "</div>" +
+        "<div>" +
+          "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+          "<span class=\"co\">" + QC.esc(row.name || "") + "</span>" +
+          "<p class=\"why\">" + QC.esc(row.why || "") + "</p>" +
+        "</div></article>";
+    }
+    function heatCard(row) {
+      const ago = daysAgo(row.lastBuy);
+      const buyers = peopleHtml(row.buyers);
+      return "<li class=\"card" + (row.landed ? " landed" : row.cluster ? " cluster" : "") + "\">" +
+        "<div class=\"rank\">" + row.rank + "</div>" +
+        "<div>" +
+          "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+          "<div class=\"co\">" + QC.esc(row.name) + "</div>" +
+          (buyers ? "<div class=\"who-list\">" + buyers + "</div>" : "") +
+          "<div class=\"tags\">" +
+            (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
+            (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
+            (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
+            "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
+          "</div>" +
+        "</div>" +
+        "<div class=\"rate\"><b>" + (ago == null ? "—" : ago + "d") + "</b><span>since last buy</span></div>" +
+      "</li>";
+    }
+    function perfCard(row) {
+      const ret = row.copyRet != null ? row.copyRet : row.retSince;
+      const cls = ret > 0 ? "up" : ret < 0 ? "down" : "";
+      const pct = ret == null ? "—" : ((ret > 0 ? "+" : "") + (ret * 100).toFixed(1) + "%");
+      const d30 = row.ret30 == null ? "—" : ((row.ret30 * 100).toFixed(1) + "%");
+      return "<li class=\"card\">" +
+        "<div class=\"rank\">" + row.rank + "</div>" +
+        "<div>" +
+          "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+          "<div class=\"co\">" + QC.esc(row.name) + " · last buy " + QC.esc(QC.prettyDate(row.lastBuy)) + "</div>" +
+          "<div class=\"tags\">" +
+            (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
+            (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
+            (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
+            "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
+            "<span class=\"tag\">30d " + d30 + "</span>" +
+          "</div>" +
+        "</div>" +
+        "<div class=\"rate\"><b class=\"" + cls + "\">" + pct + "</b><span>since filing</span></div>" +
+      "</li>";
+    }
 
-    fetch("insider-analysis.json").then((r) => r.json()).then((data) => {
+    function paint(data) {
       const stats = data.stats || {};
+      const book = data.book || [];
+      const plays = book.filter((r) => r.action === "buy-dip");
+      const avoid = book.filter((r) => r.action === "avoid").slice(0, 8);
       document.getElementById("asof").textContent = [
-        data.tapeCollected ? "Tape " + QC.asOfLabel(data.tapeCollected) : "",
-        data.priceAsof ? "prices through " + data.priceAsof : ""
+        data.tapeCollected ? "Book " + QC.asOfLabel(data.tapeCollected) : "",
+        data.priceAsof ? "prices through " + QC.prettyDate(data.priceAsof) : "",
+        "not a recommendation"
       ].filter(Boolean).join(" · ");
       document.getElementById("stats").innerHTML =
-        "<div class=\"stat\"><b>" + (stats.names || 0) + "</b><span>names with buys</span></div>" +
+        "<div class=\"stat\"><b>" + plays.length + "</b><span>buy-dip names</span></div>" +
         "<div class=\"stat\"><b>" + (stats.landed || 0) + "</b><span>just landed</span></div>" +
         "<div class=\"stat\"><b>" + (stats.clusters || 0) + "</b><span>cluster buys</span></div>" +
-        "<div class=\"stat\"><b>" + (stats.ceoBuys || 0) + "</b><span>CEO buying</span></div>";
+        "<div class=\"stat\"><b>" + (stats.names || 0) + "</b><span>names with buys</span></div>";
+      document.getElementById("book").innerHTML = plays.map(playCard).join("") ||
+        "<p class=\"muted\">No buy-dip names this update.</p>";
+      const wrap = document.getElementById("avoid-wrap");
+      wrap.hidden = avoid.length === 0;
+      document.getElementById("avoid").innerHTML = avoid.map(avoidRow).join("");
+      const desk = window.matchMedia("(min-width: 861px)").matches;
+      document.querySelectorAll(".play-more").forEach((el) => { el.open = desk; });
+      document.getElementById("heat").innerHTML = (data.heat || []).slice(0, 20).map(heatCard).join("") ||
+        "<p class=\"muted\">No officer buys in the window.</p>";
+      paintPerf(data);
+    }
+    function paintPerf(data) {
+      const perf = data.performance || [];
+      const vis = showAllPerf ? perf.slice(0, 40) : perf.slice(0, 12);
+      document.getElementById("perf").innerHTML = vis.map(perfCard).join("");
+      const more = document.getElementById("perf-more");
+      const btn = document.getElementById("perf-more-btn");
+      more.hidden = perf.length <= 12;
+      btn.textContent = showAllPerf ? "Show top 12" : "Show more ranks";
+    }
 
-      document.getElementById("book").innerHTML = (data.book || []).slice(0, 12).map((row) => {
-        const w = row.weekly || {};
-        const buyers = (row.buyers || []).map((b) =>
-          "<a href=\"insider.html?id=" + encodeURIComponent(b.id) + "\">" + QC.esc(b.name) + "</a>"
-        ).join(", ");
-        return "<article class=\"play " + row.action + "\">" +
-          "<div class=\"play-top\">" +
-            "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
-            "<div><div class=\"co\">" + QC.esc(row.name) + "</div><div class=\"pxline\">Last " + money(row.last) +
-              (row.chgSinceBuy != null ? " · since buy " + signedPct(row.chgSinceBuy) : "") + "</div></div>" +
-            "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
-          "</div>" +
-          "<div class=\"grid\">" +
-            cell("Why", "<b>" + QC.esc(row.why) + "</b>") +
-            cell("Buyers", "<b>" + row.nBuyers + "</b>") +
-            cell("Buy value", "<b>" + money(row.buyHigh) + "</b>") +
-            cell("Weekly RSI", "<b>" + (w.rsi != null ? w.rsi : "—") + "</b>") +
-          "</div>" +
-          (buyers ? "<div class=\"who-list\">" + buyers + "</div>" : "") +
-        "</article>";
-      }).join("") || "<p class=\"muted\">No officer buys in the window with prices on file.</p>";
-
-      document.getElementById("perf").innerHTML = (data.performance || []).slice(0, 25).map((row) => {
-        const ret = row.copyRet != null ? row.copyRet : row.retSince;
-        const cls = ret > 0 ? "up" : ret < 0 ? "down" : "";
-        return "<li class=\"card\">" +
-          "<div class=\"rank\">" + row.rank + "</div>" +
-          "<div><a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
-            "<div class=\"co\">" + QC.esc(row.name) + " · last buy " + QC.esc(QC.prettyDate(row.lastBuy)) + "</div>" +
-            "<div class=\"tags\">" +
-              (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
-              (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
-              (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
-              "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
-              "<span class=\"tag\">30d " + (row.ret30 == null ? "—" : ((row.ret30 * 100).toFixed(1) + "%")) + "</span>" +
-            "</div></div>" +
-          "<div class=\"rate\"><b class=\"" + cls + "\">" + (ret == null ? "—" : ((ret > 0 ? "+" : "") + (ret * 100).toFixed(1) + "%")) + "</b><span>since filing</span></div>" +
-        "</li>";
-      }).join("");
-
-      document.getElementById("heat").innerHTML = (data.heat || []).slice(0, 30).map((row) => {
-        const buyers = (row.buyers || []).map((b) => QC.esc(b.name)).join(", ");
-        return "<li class=\"card" + (row.cluster ? " cluster" : "") + "\">" +
-          "<div class=\"rank\">" + row.rank + "</div>" +
-          "<div><a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
-            "<div class=\"co\">" + QC.esc(row.name) + "</div>" +
-            "<div class=\"who-list\">" + buyers + "</div>" +
-            "<div class=\"tags\">" +
-              (row.ceo ? "<span class=\"tag hit\">CEO</span>" : "") +
-              (row.cluster ? "<span class=\"tag hit\">Cluster</span>" : "") +
-              (row.landed ? "<span class=\"tag hot\">Landed</span>" : "") +
-              "<span class=\"tag\">" + money(row.buyHigh) + "</span>" +
-            "</div></div></li>";
-      }).join("");
+    fetch("insider-analysis.json").then((r) => {
+      if (!r.ok) throw new Error("no analysis");
+      return r.json();
+    }).then((data) => {
+      paint(data);
+      document.getElementById("perf-more-btn").addEventListener("click", () => {
+        showAllPerf = !showAllPerf;
+        paintPerf(data);
+      });
     }).catch(() => {
-      document.getElementById("book").innerHTML = "<p class=\"muted\">Could not load insider-analysis.json.</p>";
+      document.getElementById("asof").textContent = "Book rebuilds on each site update.";
+      document.getElementById("book").innerHTML = "<p class=\"muted\">Today’s insider book is not on file yet.</p>";
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>

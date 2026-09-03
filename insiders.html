@@ -57,9 +57,10 @@
     .landed-chip:hover { background: rgba(227, 180, 26, 0.16); }
     .subnav { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
-    .chip {
+    a.chip, .chip {
       background: #151b24; border: 1px solid #4a5563; color: var(--paper);
       padding: 8px 14px; cursor: pointer; font-size: 0.9rem;
+      text-decoration: none; display: inline-flex; align-items: center; min-height: 44px;
     }
     .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
     .stats {
@@ -140,9 +141,10 @@
     <h1>Insiders</h1>
     <p class="lede">Open-market buys and sells by CEOs, CFOs, COOs, VPs, and directors in their own stock — watchlist names only, defunct issuers out. U.S. domestic issuers file Form 4 within two business days. TSX / TSX-V names file SEDI within five calendar days.</p>
     <p class="asof" id="asof"></p>
-    <div class="subnav">
-      <a class="landed-chip" id="landed-chip" href="insider-landed.html">Just landed</a>
-      <a class="landed-chip" href="insider-signals.html">Signals &amp; ranks</a>
+    <div class="windows" aria-label="Insider boards">
+      <a class="chip on" href="insiders.html">Tape</a>
+      <a class="chip" id="landed-chip" href="insider-landed.html">Landed</a>
+      <a class="chip" href="insider-signals.html">Signals</a>
     </div>
     <div class="stats" id="stats"></div>
     <div class="windows" id="windows"></div>
@@ -204,7 +206,7 @@
         : "";
       const landedN = rows.filter((t) => QC.isLanded(t, 72)).length;
       const chip = document.getElementById("landed-chip");
-      if (chip) chip.innerHTML = "Just landed" + (landedN ? " · " + landedN : "");
+      if (chip) chip.textContent = landedN ? "Landed · " + landedN : "Landed";
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + rows.length + "</b><span>prints</span></div>" +
         "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +

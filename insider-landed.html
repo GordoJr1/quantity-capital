@@ -43,7 +43,7 @@
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
-    .chip { background: #151b24; border: 1px solid #4a5563; color: var(--paper); padding: 8px 14px; cursor: pointer; font-size: 0.9rem; }
+    a.chip, .chip { background: #151b24; border: 1px solid #4a5563; color: var(--paper); padding: 8px 14px; cursor: pointer; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
     .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 28px; border: 1px solid #4a5563; background: var(--panel); }
     .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
@@ -102,6 +102,11 @@
     <p class="kicker">Drop log</p>
     <h1>Insider landed</h1>
     <p class="lede">Ranked by when the filing hit EDGAR or the public tape — not the trade date. Form 4 is due two business days after the trade.</p>
+    <div class="windows" aria-label="Insider boards">
+      <a class="chip" href="insiders.html">Tape</a>
+      <a class="chip on" href="insider-landed.html">Landed</a>
+      <a class="chip" href="insider-signals.html">Signals</a>
+    </div>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div id="board"></div>

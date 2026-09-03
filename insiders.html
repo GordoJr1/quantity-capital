@@ -30,7 +30,7 @@
       min-height: 100vh;
     }
     .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
-    .stripe { height: 10px; background: repeating-linear-gradient(-45deg, var(--ink) 0 10px, var(--teal) 10px 20px); }
+    .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 16px 0 0; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
     header {
       display: flex; justify-content: space-between; align-items: center;
       padding: 16px 0; border-bottom: 2px solid var(--teal);
@@ -124,7 +124,6 @@
   </style>
 </head>
 <body>
-  <div class="stripe"></div>
   <div class="wrap">
     <header>
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
@@ -137,14 +136,15 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
+    <p><a class="back" href="index.html">← Tape</a></p>
     <p class="kicker">Officer tape</p>
     <h1>Insiders</h1>
-    <p class="lede">Open-market buys and sells by CEOs, CFOs, COOs, VPs, and directors in their own stock — watchlist names only, defunct issuers out. U.S. domestic issuers file Form 4 within two business days. TSX / TSX-V names file SEDI within five calendar days.</p>
     <p class="asof" id="asof"></p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip on" href="insiders.html">Tape</a>
       <a class="chip" id="landed-chip" href="insider-landed.html">Landed</a>
       <a class="chip" href="insider-signals.html">Signals</a>
+      <a class="chip" href="insider-board.html">Leaders</a>
     </div>
     <div class="stats" id="stats"></div>
     <div class="windows" id="windows"></div>

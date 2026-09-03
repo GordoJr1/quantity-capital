@@ -38,7 +38,8 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; }
+    .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 16px 0 0; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase; }
+    .kicker { color: var(--caution); margin: 16px 0 8px; }
     h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; }
@@ -99,6 +100,7 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
+    <p><a class="back" href="insiders.html">← Insiders</a></p>
     <p class="kicker">Drop log</p>
     <h1>Insider landed</h1>
     <p class="lede">Ranked by when the filing hit EDGAR or the public tape — not the trade date. Form 4 is due two business days after the trade.</p>
@@ -106,6 +108,7 @@
       <a class="chip" href="insiders.html">Tape</a>
       <a class="chip on" href="insider-landed.html">Landed</a>
       <a class="chip" href="insider-signals.html">Signals</a>
+      <a class="chip" href="insider-board.html">Leaders</a>
     </div>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>

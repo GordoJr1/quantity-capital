@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <link rel="prefetch" href="insider-analysis.json">
+  <title>Insider leaders — Quantity Capital</title>
+  <meta name="description" content="Top performing and most active officers on the Quantity Capital watchlist. Copy book: buy and sell when they did." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 2px solid var(--teal); }
+    .mark, h1, .kicker, nav, .chip, .who, .tk, .subhead, .rate b, .rank, .back, .board-tabs button {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
+    nav a { color: var(--paper); text-decoration: none; }
+    nav a:hover, nav a.on { color: var(--caution); }
+    .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 16px 0 0; }
+    .kicker { color: var(--caution); margin: 16px 0 8px; }
+    h1 { font-size: clamp(2.4rem, 8vw, 5rem); line-height: 0.88; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; margin: 0 0 16px; }
+    a.chip, .chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 14px; font-size: 0.9rem; text-decoration: none;
+      display: inline-flex; align-items: center; min-height: 44px; cursor: pointer;
+    }
+    a.chip.on, .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+    .board-tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 0 0 18px; border: 1px solid #4a5563; }
+    .board-tabs button {
+      flex: 1 1 auto; background: #151b24; border: 0; border-right: 1px solid #4a5563;
+      color: var(--paper); padding: 12px 16px; min-height: 44px; cursor: pointer; font-size: 0.95rem;
+    }
+    .board-tabs button:last-child { border-right: 0; }
+    .board-tabs button.on { color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .card { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 14px 16px; margin: 0 0 10px; }
+    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .who, .tk { color: var(--white); text-decoration: none; font-size: 1.35rem; overflow-wrap: anywhere; }
+    .who:hover, .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); font-size: 0.86rem; margin-top: 4px; }
+    .rate { text-align: right; line-height: 1; }
+    .rate b { display: block; font-size: 1.7rem; }
+    .rate b.up { color: #7dcf7a; }
+    .rate b.down { color: #ef7a74; }
+    .rate span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; }
+    .rank { color: var(--mute); margin-right: 8px; }
+    .card:first-child .rank { color: var(--caution); }
+    .meta { color: var(--mute); font-size: 0.82rem; margin-top: 8px; }
+    .more-row { margin: 8px 0 36px; }
+    .more-row button {
+      background: transparent; border: 1px solid var(--caution); color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 16px; min-height: 44px; cursor: pointer;
+    }
+    details.how { margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24; }
+    details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
+    details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    @media (max-width: 860px) {
+      .wrap { width: calc(100% - 24px); }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2), .stat:nth-child(4) { border-right: 0; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid #3a4452; }
+      header nav { display: none; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em; text-transform: uppercase;
+        font-size: 0.7rem; color: var(--paper); text-decoration: none; text-align: center;
+      }
+      .tabbar a.on { color: var(--caution); }
+      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav>
+        <a href="index.html">Tape</a>
+        <a href="landed.html">Landed</a>
+        <a href="tells.html">Tells</a>
+        <a href="signals.html">Signals</a>
+        <a href="paper.html">Paper</a>
+        <a href="insiders.html" class="on">Insiders</a>
+      </nav>
+    </header>
+    <p><a class="back" href="insiders.html">← Insiders</a></p>
+    <p class="kicker">Copy book</p>
+    <h1>Leaders</h1>
+    <p class="asof" id="asof">Reading the board…</p>
+    <div class="windows" aria-label="Insider boards">
+      <a class="chip" href="insiders.html">Tape</a>
+      <a class="chip" href="insider-landed.html">Landed</a>
+      <a class="chip" href="insider-signals.html">Signals</a>
+      <a class="chip on" href="insider-board.html">Leaders</a>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="board-tabs" role="tablist">
+      <button type="button" data-board="leaders" class="on">Performers</button>
+      <button type="button" data-board="traders">Active traders</button>
+      <button type="button" data-board="names">Active names</button>
+    </div>
+    <div id="board"></div>
+    <div class="more-row" id="more-row" hidden>
+      <button type="button" id="more">Show all</button>
+    </div>
+    <details class="how">
+      <summary>How the copy book is scored</summary>
+      <div class="body">
+        <p>Performers assume you bought and sold the same share count on the insider’s trade dates, at their reported fill, or that day’s close if the fill is missing. Sales close the oldest lots first. Open leftovers are marked to the last close on file. Rank is total dollar P&amp;L. Percent is P&amp;L ÷ cash spent on buys. Filers with under $1,000 of priced buys are skipped.</p>
+        <p class="muted" style="margin-top:10px;">Active traders are ranked by print count. Active names are ranked by how many officer prints hit that ticker. Not a recommendation. Not the officer’s actual P&amp;L — they may have other lots, options, and taxes.</p>
+      </div>
+    </details>
+  </div>
+  <footer>
+    <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
+  </footer>
+  <script src="qc.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    let board = ["leaders", "traders", "names"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
+    let showAll = false;
+    let data = null;
+    const TOP = 30;
+
+    function signedMoney(n) {
+      if (n == null || isNaN(n)) return "—";
+      const abs = QC.formatMoney(Math.abs(n));
+      if (n > 0) return "+" + abs;
+      if (n < 0) return "−" + abs;
+      return abs;
+    }
+    function signedPct(x) {
+      if (x == null || isNaN(x)) return "—";
+      const v = x * 100;
+      const sign = v > 0 ? "+" : "";
+      return sign + v.toFixed(1) + "%";
+    }
+    function cls(n) { return n > 0 ? "up" : n < 0 ? "down" : ""; }
+
+    function performerCard(row) {
+      return "<article class=\"card\">" +
+        "<div class=\"card-top\">" +
+          "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
+            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(row.name) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.title || "") + " · " + row.nBuy + " buys / " + row.nSell + " sells · " +
+              row.nTickers + " name" + (row.nTickers === 1 ? "" : "s") + "</div>" +
+            "<div class=\"meta\">Spent " + QC.formatMoney(row.invested) +
+              " · realized " + signedMoney(row.realized) +
+              " · open " + signedMoney(row.unrealized) + "</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b class=\"" + cls(row.pnl) + "\">" + signedMoney(row.pnl) + "</b>" +
+            "<span>" + signedPct(row.ret) + " copy</span></div>" +
+        "</div></article>";
+    }
+    function traderCard(row) {
+      return "<article class=\"card\">" +
+        "<div class=\"card-top\">" +
+          "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
+            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(row.name) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.title || "") + " · last print " + QC.esc(QC.prettyDate(row.last)) + "</div>" +
+            "<div class=\"meta\">" + row.nBuy + " buys / " + row.nSell + " sells · spent " + QC.formatMoney(row.invested) + "</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b>" + row.n + "</b><span>prints</span></div>" +
+        "</div></article>";
+    }
+    function nameCard(row) {
+      const people = (row.filers || []).map((f) =>
+        "<a href=\"insider.html?id=" + encodeURIComponent(f.id) + "\">" + QC.esc(f.name) + "</a>"
+      ).join(" · ");
+      return "<article class=\"card\">" +
+        "<div class=\"card-top\">" +
+          "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
+            "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
+            "<div class=\"co\">" + QC.esc(row.name) + " · " + row.nFilers + " insider" + (row.nFilers === 1 ? "" : "s") + "</div>" +
+            (people ? "<div class=\"meta\">" + people + "</div>" : "") +
+          "</div>" +
+          "<div class=\"rate\"><b>" + row.n + "</b><span>" + row.nBuy + " buys / " + row.nSell + " sells</span></div>" +
+        "</div></article>";
+    }
+
+    function paint() {
+      if (!data) return;
+      const leaders = data.leaders || [];
+      const traders = data.activeFilers || [];
+      const names = data.activeNames || [];
+      const rows = board === "traders" ? traders : board === "names" ? names : leaders;
+      const vis = showAll ? rows : rows.slice(0, TOP);
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + leaders.length + "</b><span>priced filers</span></div>" +
+        "<div class=\"stat\"><b>" + traders.length + "</b><span>active traders</span></div>" +
+        "<div class=\"stat\"><b>" + names.length + "</b><span>active names</span></div>" +
+        "<div class=\"stat\"><b>" + vis.length + (vis.length === rows.length ? "" : " / " + rows.length) + "</b><span>in view</span></div>";
+      const card = board === "traders" ? traderCard : board === "names" ? nameCard : performerCard;
+      document.getElementById("board").innerHTML = vis.map(card).join("") ||
+        "<p class=\"muted\">No priced insider prints on file.</p>";
+      const more = document.getElementById("more-row");
+      const btn = document.getElementById("more");
+      more.hidden = rows.length <= TOP;
+      btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+      document.querySelectorAll(".board-tabs button").forEach((b) => {
+        b.classList.toggle("on", b.dataset.board === board);
+      });
+    }
+
+    fetch("insider-analysis.json").then((r) => r.json()).then((payload) => {
+      data = payload;
+      document.getElementById("asof").textContent = [
+        payload.tapeCollected ? "Tape " + QC.asOfLabel(payload.tapeCollected) : "",
+        payload.priceAsof ? "prices through " + QC.prettyDate(payload.priceAsof) : "",
+        "not a recommendation"
+      ].filter(Boolean).join(" · ");
+      paint();
+    }).catch(() => {
+      document.getElementById("asof").textContent = "";
+      document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the insider board.</p>";
+    });
+
+    document.querySelector(".board-tabs").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-board]");
+      if (!btn) return;
+      board = btn.dataset.board;
+      showAll = false;
+      const p = new URLSearchParams(location.search);
+      p.set("b", board);
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      paint();
+    });
+    document.getElementById("more").addEventListener("click", () => {
+      showAll = !showAll;
+      paint();
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Primary">
+    <a href="index.html">Tape</a>
+    <a href="landed.html">Landed</a>
+    <a href="tells.html">Tells</a>
+    <a href="signals.html">Signals</a>
+    <a href="paper.html">Paper</a>
+    <a href="insiders.html" class="on">Insiders</a>
+  </nav>
+</body>
+</html>

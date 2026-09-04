@@ -30,6 +30,25 @@ function slicePriceRange(points, range) {
   return cut.length >= 2 ? cut : points.slice(-2);
 }
 
+function formatVol(n) {
+  if (!n) return "$0";
+  if (n >= 1e6) return "$" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+  if (n >= 1e3) return "$" + Math.round(n / 1e3) + "k";
+  return "$" + Math.round(n);
+}
+
+function tradeValue(m) {
+  if (m.value != null && !isNaN(m.value) && m.value > 0) return Number(m.value);
+  if (m.shares != null && m.price != null && m.shares > 0 && m.price > 0) {
+    return Number(m.shares) * Number(m.price);
+  }
+  if (m.amount && typeof QC !== "undefined" && QC.amountHigh) {
+    const value = QC.amountHigh(m.amount);
+    if (value > 0) return value;
+  }
+  return 10000;
+}
+
 function drawChart(points, marks, opts) {
   opts = opts || {};
   const svg = document.getElementById("chart-svg");
@@ -38,15 +57,22 @@ function drawChart(points, marks, opts) {
   if (!svg || !points || points.length < 2) return [];
   const stroke = opts.stroke || "#36999d";
   const w = 720;
-  const h = opts.height || 220;
-  const pad = { l: 6, r: 14, t: 14, b: 10 };
+  const h = opts.height || 260;
+  const pad = { l: 8, r: 16, t: 14, b: 8 };
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+  const priceTop = pad.t;
+  const priceH = Math.round((h - pad.t - pad.b) * 0.67);
+  const priceBot = priceTop + priceH;
+  const splitY = priceBot + 8;
+  const volTop = splitY + 14;
+  const volBot = h - pad.b;
+  const volH = volBot - volTop;
   const xs = points.map((p) => p[1]);
   const min = Math.min.apply(null, xs);
   const max = Math.max.apply(null, xs);
   const span = max - min || 1;
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
-  const yAt = (px) => pad.t + (1 - (px - min) / span) * (h - pad.t - pad.b);
+  const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;
   const line = points.map((p, i) => (i ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1)).join(" ");
   const lastX = xAt(points.length - 1);
   const lastY = yAt(points[points.length - 1][1]);
@@ -68,10 +94,10 @@ function drawChart(points, marks, opts) {
       const i = si + k;
       return (k ? "L" : "M") + xAt(i).toFixed(1) + " " + yAt(p[1]).toFixed(1);
     }).join(" ");
-    area = shadeLine + " L" + lastX.toFixed(1) + " " + (h - pad.b) +
-      " L" + xAt(si).toFixed(1) + " " + (h - pad.b) + " Z";
+    area = shadeLine + " L" + lastX.toFixed(1) + " " + priceBot.toFixed(1) +
+      " L" + xAt(si).toFixed(1) + " " + priceBot.toFixed(1) + " Z";
   }
-  const yTicks = [1, 0.75, 0.5, 0.25, 0].map((t) => min + span * t);
+  const yTicks = [1, 0.66, 0.33, 0].map((t) => min + span * t);
   const grid = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
@@ -80,14 +106,36 @@ function drawChart(points, marks, opts) {
   const firstDate = points[0][0];
   const lastDate = points[points.length - 1][0];
   const visibleMarks = (marks || []).filter((m) => m.date >= firstDate && m.date <= lastDate);
+  const groupedVol = {};
+  visibleMarks.forEach((m) => {
+    const i = idxFor(m.date);
+    if (!groupedVol[i]) groupedVol[i] = { buy: 0, sell: 0 };
+    groupedVol[i][m.side === "sale" ? "sell" : "buy"] += tradeValue(m);
+  });
+  let maxVol = 1;
+  Object.keys(groupedVol).forEach((key) => {
+    maxVol = Math.max(maxVol, groupedVol[key].buy, groupedVol[key].sell);
+  });
+  const volBars = Object.keys(groupedVol).map((key) => {
+    const i = Number(key);
+    const g = groupedVol[i];
+    const x = xAt(i);
+    const width = Math.max(3, Math.min(14, (w - pad.l - pad.r) / Math.max(2, points.length)));
+    const buyH = g.buy ? Math.max(3, (g.buy / maxVol) * (volH - 8)) : 0;
+    const sellH = g.sell ? Math.max(3, (g.sell / maxVol) * (volH - 8)) : 0;
+    return (buyH ? "<rect x=\"" + (x - width / 2).toFixed(1) + "\" y=\"" + (volBot - buyH).toFixed(1) +
+      "\" width=\"" + width.toFixed(1) + "\" height=\"" + buyH.toFixed(1) + "\" fill=\"#2ecc71\" opacity=\".9\" />" : "") +
+      (sellH ? "<rect x=\"" + (x - width / 2).toFixed(1) + "\" y=\"" + volTop.toFixed(1) +
+        "\" width=\"" + width.toFixed(1) + "\" height=\"" + sellH.toFixed(1) + "\" fill=\"#e04843\" opacity=\".9\" />" : "");
+  }).join("");
   const grouped = {};
   visibleMarks.forEach((m) => {
     const i = idxFor(m.date);
     if (!grouped[i]) grouped[i] = [];
     grouped[i].push(m);
   });
-  const plotTop = pad.t + 12;
-  const plotBot = h - pad.b - 12;
+  const plotTop = priceTop + 12;
+  const plotBot = priceBot - 12;
   const hit = [];
   const dots = Object.keys(grouped).map((key) => {
     const i = Number(key);
@@ -128,9 +176,19 @@ function drawChart(points, marks, opts) {
     "<path d=\"" + line + "\" fill=\"none\" stroke=\"" + stroke + "\" stroke-width=\"2.4\" />" +
     "<circle cx=\"" + lastX.toFixed(1) + "\" cy=\"" + lastY.toFixed(1) +
       "\" r=\"4.2\" fill=\"" + stroke + "\" stroke=\"#eef2f5\" stroke-width=\"1.4\" />" +
-    dots;
+    dots +
+    "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + splitY + "\" y2=\"" + splitY +
+      "\" stroke=\"#2e3a4b\" stroke-width=\"1\" stroke-dasharray=\"3 3\" />" +
+    "<text x=\"" + pad.l + "\" y=\"" + (splitY + 9) + "\" fill=\"#8b96a3\" font-size=\"8.5\" font-weight=\"700\" font-family=\"Barlow Condensed, sans-serif\">TRADE FLOW ($)</text>" +
+    "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + (volBot - 1) + "\" y2=\"" + (volBot - 1) +
+      "\" stroke=\"#384659\" stroke-width=\"1\" />" +
+    volBars;
   if (yBox) {
-    yBox.innerHTML = yTicks.map((px) => "<span>" + axisPrice(px) + "</span>").join("");
+    yBox.innerHTML = yTicks.map((px) => {
+      const top = (yAt(px) / h * 100).toFixed(3);
+      return "<span style=\"position:absolute; right:6px; top:" + top + "%; transform:translateY(-50%);\">" +
+        axisPrice(px) + "</span>";
+    }).join("");
   }
   if (xBox) {
     const last = points.length - 1;

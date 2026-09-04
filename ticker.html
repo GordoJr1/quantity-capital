@@ -200,11 +200,9 @@
     .mark-pop .pop-date { color: var(--mute); font-size: 0.78rem; margin-top: 2px; }
     .chart-y, .chart-x { color: var(--mute); font-size: 0.68rem; line-height: 1; }
     .chart-y {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      position: relative;
       align-items: flex-end;
-      padding: 8px 6px 8px 4px;
+      padding: 0 6px 0 4px;
     }
     .chart-x {
       grid-column: 2;
@@ -323,7 +321,7 @@
       </div>
       <div class="mark-pop" id="mark-pop" hidden></div>
     </div>
-    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>
+    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span><span style="color:var(--teal); margin-right:12px;">Bars: trade flow</span> Option purchase dates are marked; option P&amp;L is not.</p>
     <p class="kicker">Trades</p>
     <ul class="chart-marks" id="marks"></ul>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>

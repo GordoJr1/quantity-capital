@@ -55,6 +55,23 @@ function drawChart(points, marks, opts) {
   const yBox = document.getElementById("chart-y");
   const xBox = document.getElementById("chart-x");
   if (!svg || !points || points.length < 2) return [];
+  // Some thinly traded tickers have only a short price history. Add trade
+  // dates to the x-axis using the nearest available close so older prints
+  // remain visible instead of being discarded outside the price series.
+  const pricePoints = points.slice();
+  const pointDates = new Set(pricePoints.map((p) => p[0]));
+  (marks || []).forEach((m) => {
+    if (!m.date || pointDates.has(m.date)) return;
+    let nearest = pricePoints[0];
+    pricePoints.forEach((p) => {
+      if (Math.abs(new Date(p[0]) - new Date(m.date)) < Math.abs(new Date(nearest[0]) - new Date(m.date))) {
+        nearest = p;
+      }
+    });
+    pricePoints.push([m.date, nearest[1]]);
+    pointDates.add(m.date);
+  });
+  points = pricePoints.sort((a, b) => a[0].localeCompare(b[0]));
   const stroke = opts.stroke || "#36999d";
   const w = 720;
   const h = opts.height || 260;

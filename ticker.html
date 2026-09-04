@@ -454,7 +454,12 @@
     function paintChart() {
       hidePop();
       const slice = slicePriceRange(allPoints, range);
-      const marks = chartDeals.map((t) => ({
+      const end = new Date(String(allPoints[allPoints.length - 1][0]) + "T00:00:00");
+      const start = new Date(end);
+      if (range === "3m") start.setMonth(start.getMonth() - 3);
+      else if (range === "1y") start.setFullYear(start.getFullYear() - 1);
+      const startIso = start.toISOString().slice(0, 10);
+      const marks = chartDeals.filter((t) => (t.trade_date || "") >= startIso).map((t) => ({
         date: t.trade_date,
         side: t.side,
         filer: t.filer,

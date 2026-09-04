@@ -231,6 +231,15 @@
       if (isNaN(a) || isNaN(b)) return null;
       return Math.max(0, Math.round((a - b) / 86400000));
     }
+    function newestFirst(a, b) {
+      const filed = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
+      if (filed) return filed;
+      const added = String(b.added || "").localeCompare(String(a.added || ""));
+      if (added) return added;
+      const traded = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
+      if (traded) return traded;
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    }
     function paint(rows, collected) {
       const buys = rows.filter((t) => t.side === "purchase");
       const officers = new Set(rows.map((t) => t.filer_id));
@@ -262,7 +271,7 @@
           if (!blob.includes(needle)) return false;
         }
         return true;
-      });
+      }).sort(newestFirst);
       document.getElementById("count").textContent = vis.length + " trades in view";
       document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) => {
         const cls = t.side === "purchase" ? "buy" : "sell";

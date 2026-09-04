@@ -58,10 +58,10 @@ function drawChart(points, marks, opts) {
   const stroke = opts.stroke || "#36999d";
   const w = 720;
   const h = opts.height || 260;
-  const pad = { l: 8, r: 16, t: 14, b: 8 };
+  const pad = { l: 8, r: 52, t: 14, b: 8 };
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
   const priceTop = pad.t;
-  const priceH = Math.round((h - pad.t - pad.b) * 0.67);
+  const priceH = Math.round((h - pad.t - pad.b) * 0.75);
   const priceBot = priceTop + priceH;
   const splitY = priceBot + 8;
   const volTop = splitY + 14;
@@ -120,7 +120,7 @@ function drawChart(points, marks, opts) {
     const i = Number(key);
     const g = groupedVol[i];
     const x = xAt(i);
-    const width = Math.max(3, Math.min(14, (w - pad.l - pad.r) / Math.max(2, points.length)));
+    const width = Math.max(8, Math.min(20, (w - pad.l - pad.r) / Math.max(2, points.length) * 2.5));
     const buyH = g.buy ? Math.max(3, (g.buy / maxVol) * (volH - 8)) : 0;
     const sellH = g.sell ? Math.max(3, (g.sell / maxVol) * (volH - 8)) : 0;
     return (buyH ? "<rect x=\"" + (x - width / 2).toFixed(1) + "\" y=\"" + (volBot - buyH).toFixed(1) +
@@ -180,6 +180,8 @@ function drawChart(points, marks, opts) {
     "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + splitY + "\" y2=\"" + splitY +
       "\" stroke=\"#2e3a4b\" stroke-width=\"1\" stroke-dasharray=\"3 3\" />" +
     "<text x=\"" + pad.l + "\" y=\"" + (splitY + 9) + "\" fill=\"#8b96a3\" font-size=\"8.5\" font-weight=\"700\" font-family=\"Barlow Condensed, sans-serif\">TRADE FLOW ($)</text>" +
+    "<text x=\"" + (w - 4) + "\" y=\"" + (volTop + 9) + "\" fill=\"#8b96a3\" font-size=\"8\" font-family=\"Barlow Condensed, sans-serif\" text-anchor=\"end\">PEAK " + formatVol(maxVol) + "</text>" +
+    "<text x=\"" + (w - 4) + "\" y=\"" + (volBot - 2) + "\" fill=\"#8b96a3\" font-size=\"8\" font-family=\"Barlow Condensed, sans-serif\" text-anchor=\"end\">$0</text>" +
     "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + (volBot - 1) + "\" y2=\"" + (volBot - 1) +
       "\" stroke=\"#384659\" stroke-width=\"1\" />" +
     volBars;

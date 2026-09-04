@@ -261,11 +261,7 @@
 
     fetch("insider-analysis.json").then((r) => r.json()).then((payload) => {
       data = payload;
-      document.getElementById("asof").textContent = [
-        payload.tapeCollected ? "Tape " + QC.asOfLabel(payload.tapeCollected) : "",
-        payload.priceAsof ? "prices through " + QC.prettyDate(payload.priceAsof) : "",
-        "not a recommendation"
-      ].filter(Boolean).join(" · ");
+      document.getElementById("asof").textContent = QC.asOfLabel(payload.generated || payload.tapeCollected);
       paint();
     }).catch(() => {
       document.getElementById("asof").textContent = "";

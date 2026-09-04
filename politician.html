@@ -966,7 +966,7 @@
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
     ]).then(([data, bios, tickerFile]) => {
       const asof = document.getElementById("asof");
-      if (asof && data.collected) asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+      if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = threeYearRows(data);
       const bio = (bios.people || {})[id] || null;
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);

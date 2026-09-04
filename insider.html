@@ -148,7 +148,7 @@
     if (!id) location.replace("insiders.html");
     fetch("insider-trades-lite.json").then((r) => r.json()).then((data) => {
       const asof = document.getElementById("asof");
-      if (asof && data.collected) asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+      if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = (data.trades || []).filter((t) => t.filer_id === id)
         .sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       if (!rows.length) {

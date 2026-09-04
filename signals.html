@@ -616,10 +616,7 @@
         const res = await fetch("analysis.json");
         if (!res.ok) throw new Error("no analysis");
         const data = await res.json();
-        const when = QC.asOfLabel(data.generated || data.tapeCollected);
-        asof.textContent = (when ? "Book rebuilt " + when : "") +
-          (data.priceAsof ? " · prices through " + QC.prettyDate(data.priceAsof) : "") +
-          " · not a recommendation";
+        asof.textContent = QC.asOfLabel(data.generated || data.tapeCollected);
         box.innerHTML = (data.book || []).map(playCard).join("") ||
           "<p class=\"muted\">No book this update.</p>";
         const desk = window.matchMedia("(min-width: 821px)").matches;
@@ -961,10 +958,7 @@
         fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} }))
       ]);
       const asof = document.getElementById("asof");
-      const collected = QC.asOfLabel(tape.collected);
-      asof.textContent = collected
-        ? "Tape collected " + collected + ". Newest disclosed trade dates can lag filings by weeks."
-        : "Newest disclosed trade dates can lag filings by weeks.";
+      if (asof && !asof.textContent) asof.textContent = QC.asOfLabel(tape.collected);
       const now = Date.now();
       let ranked = scoreRows(tape.trades || [], tickerFile, bios, now, windowDays);
       if (hideMega) ranked = ranked.filter((r) => !r.mega);

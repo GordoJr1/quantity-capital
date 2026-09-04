@@ -543,12 +543,7 @@
       return r.json();
     }).then((file) => {
       data = file;
-      const when = QC.asOfLabel(file.generated);
-      const asof = file.priceAsof ? QC.prettyDate(file.priceAsof) : "";
-      document.getElementById("asof").textContent =
-        (when ? "Rebuilt " + when : "") +
-        (asof ? " · prices through " + asof : "") +
-        " · paper copy, not a fill · returns not annualized";
+      document.getElementById("asof").textContent = QC.asOfLabel(file.generated);
       const s = file.stats || {};
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + (s.priced || 0) + "</b><span>priced buy legs</span></div>" +

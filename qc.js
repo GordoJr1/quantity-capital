@@ -316,16 +316,17 @@
 
   function asOfLabel(iso) {
     if (!iso) return "";
-    try {
-      const d = new Date(iso);
-      if (isNaN(d.getTime())) return "";
-      return d.toLocaleString("en-US", {
-        month: "short", day: "numeric", year: "numeric",
-        hour: "numeric", minute: "2-digit", timeZone: "America/New_York"
-      }) + " ET";
-    } catch (e) {
-      return "";
-    }
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    const date = d.toLocaleDateString("en-US", {
+      month: "short", day: "numeric", year: "numeric",
+      timeZone: "America/New_York"
+    });
+    const time = d.toLocaleTimeString("en-US", {
+      hour: "numeric", minute: "2-digit", hour12: true,
+      timeZone: "America/New_York"
+    });
+    return "Data of " + date + ", " + time + " ET";
   }
 
   global.QC = {

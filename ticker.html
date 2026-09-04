@@ -489,7 +489,7 @@
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
     ]).then(([data, prices, tickerFile]) => {
       const asof = document.getElementById("asof");
-      if (asof && data.collected) asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+      if (asof) asof.textContent = QC.asOfLabel(data.collected);
       function tradeCode(t) {
         const extra = ((tickerFile && tickerFile.assets) || {})[t.asset] || {};
         const opt = optionMeta(t);

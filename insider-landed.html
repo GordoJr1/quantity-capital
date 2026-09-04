@@ -219,7 +219,7 @@
       const tape = await fetch("insider-trades-lite.json").then((r) => r.json());
       const asof = document.getElementById("asof");
       if (asof && tape.collected) {
-        asof.textContent = "Tape as of " + QC.asOfLabel(tape.collected);
+        asof.textContent = QC.asOfLabel(tape.collected);
       }
       const rows = (tape.trades || []).filter((t) => QC.isLanded(t, hours) || (!t.added && t.filed_date && (Date.now() - new Date(t.filed_date + "T16:00:00Z").getTime()) <= hours * 3600000))
         .sort((a, b) => String(b.added || b.filed_date).localeCompare(String(a.added || a.filed_date)));

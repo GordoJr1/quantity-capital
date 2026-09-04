@@ -259,9 +259,7 @@
       const buys = rows.filter((t) => t.side === "purchase");
       const officers = new Set(rows.map((t) => t.filer_id));
       const names = new Set(rows.map((t) => t.ticker));
-      document.getElementById("asof").textContent = collected
-        ? "Tape as of " + QC.asOfLabel(collected)
-        : "";
+      document.getElementById("asof").textContent = QC.asOfLabel(collected);
       const landedN = rows.filter((t) => QC.isLanded(t, 72)).length;
       const chip = document.getElementById("landed-chip");
       if (chip) chip.textContent = landedN ? "Landed · " + landedN : "Landed";

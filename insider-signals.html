@@ -392,11 +392,7 @@
       const book = data.book || [];
       const plays = book.filter((r) => r.action === "buy-dip");
       const avoid = book.filter((r) => r.action === "avoid").slice(0, 8);
-      document.getElementById("asof").textContent = [
-        data.tapeCollected ? "Book " + QC.asOfLabel(data.tapeCollected) : "",
-        data.priceAsof ? "prices through " + QC.prettyDate(data.priceAsof) : "",
-        "not a recommendation"
-      ].filter(Boolean).join(" · ");
+      document.getElementById("asof").textContent = QC.asOfLabel(data.generated || data.tapeCollected);
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + plays.length + "</b><span>buy-dip names</span></div>" +
         "<div class=\"stat\"><b>" + (stats.landed || 0) + "</b><span>just landed</span></div>" +

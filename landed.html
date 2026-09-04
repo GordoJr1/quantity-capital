@@ -378,7 +378,7 @@
       ]);
       const asof = document.getElementById("asof");
       if (asof && tape.collected) {
-        asof.textContent = "Tape as of " + QC.asOfLabel(tape.collected);
+        asof.textContent = QC.asOfLabel(tape.collected);
       }
       const rows = (tape.trades || [])
         .filter((t) => QC.isLanded(t, hours))

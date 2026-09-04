@@ -1415,7 +1415,7 @@
         const data = await res.json();
         const asof = document.getElementById("asof");
         if (asof && data.collected) {
-          asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+          asof.textContent = QC.asOfLabel(data.collected);
         }
         const chip = document.getElementById("landed-chip");
         const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;

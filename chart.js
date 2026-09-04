@@ -128,12 +128,12 @@ function drawChart(points, marks, opts) {
       (sellH ? "<rect x=\"" + (x - width / 2).toFixed(1) + "\" y=\"" + volTop.toFixed(1) +
         "\" width=\"" + width.toFixed(1) + "\" height=\"" + sellH.toFixed(1) + "\" fill=\"#e04843\" opacity=\".9\" />" : "");
   }).join("");
-  const volGrid = [1, 0.5, 0].map((ratio) => {
+  const volGrid = [1, 0].map((ratio) => {
     const y = volBot - ratio * (volH - 8);
     const value = maxVol * ratio;
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y.toFixed(1) +
       "\" y2=\"" + y.toFixed(1) + "\" stroke=\"#2c3440\" stroke-width=\"1\" />" +
-      "<text x=\"4\" y=\"" + (y + 3).toFixed(1) + "\" fill=\"#8b96a3\" font-size=\"8.5\" font-family=\"IBM Plex Sans, sans-serif\">" +
+      "<text x=\"2\" y=\"" + (y + 3).toFixed(1) + "\" fill=\"#aeb7c3\" font-size=\"8.5\" font-family=\"IBM Plex Sans, sans-serif\">" +
       formatVol(value) + "</text>";
   }).join("");
   const grouped = {};

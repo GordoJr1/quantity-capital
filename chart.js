@@ -130,14 +130,7 @@ function drawChart(points, marks, opts) {
       "\" r=\"4.2\" fill=\"" + stroke + "\" stroke=\"#eef2f5\" stroke-width=\"1.4\" />" +
     dots;
   if (yBox) {
-    // Position labels at the SVG tick coordinates instead of distributing them
-    // across the full dual-pane height. This keeps the price axis out of the
-    // volume pane and guarantees alignment with the rendered grid lines.
-    yBox.innerHTML = yTicks.map((px) => {
-      const top = (yAt(px) / h * 100).toFixed(3);
-      return "<span style=\"position:absolute; right:6px; top:" + top + "%; transform:translateY(-50%);\">" +
-        axisPrice(px) + "</span>";
-    }).join("");
+    yBox.innerHTML = yTicks.map((px) => "<span>" + axisPrice(px) + "</span>").join("");
   }
   if (xBox) {
     const last = points.length - 1;

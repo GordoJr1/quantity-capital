@@ -124,6 +124,38 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
       .kicker { margin-top: 14px; }
+      .table-wrap { overflow: visible; margin-bottom: 22px; }
+      table { min-width: 0; display: block; }
+      thead { display: none; }
+      tbody { display: grid; gap: 10px; }
+      tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+          "traded side"
+          "officer side"
+          "ticker value"
+          "company lag";
+        gap: 5px 12px;
+        padding: 12px;
+        border: 1px solid #3a4452;
+        background: rgba(42, 51, 64, 0.72);
+      }
+      tbody td {
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        font-size: 0.88rem;
+      }
+      tbody td.traded { grid-area: traded; color: var(--mute); font-size: 0.78rem; }
+      tbody td.officer { grid-area: officer; }
+      tbody td.side { grid-area: side; align-self: center; text-align: right; }
+      tbody td.ticker { grid-area: ticker; }
+      tbody td.company { grid-area: company; color: var(--mute); font-size: 0.78rem; }
+      tbody td.value { grid-area: value; text-align: right; }
+      tbody td.lag { grid-area: lag; color: var(--mute); font-size: 0.78rem; text-align: right; }
+      tbody td.officer .title { margin-top: 2px; }
+      tbody tr > td.muted { grid-column: 1 / -1; }
     }
   </style>
 </head>
@@ -159,7 +191,6 @@
       <table>
         <thead>
           <tr>
-            <th>Filed</th>
             <th>Traded</th>
             <th>Officer</th>
             <th>Side</th>
@@ -243,17 +274,16 @@
           ? "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
           : QC.esc(t.ticker || "—");
         return "<tr>" +
-          "<td>" + QC.esc(QC.prettyDate(t.filed_date)) + "</td>" +
-          "<td>" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
-          "<td><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>" +
+          "<td class=\"traded\">" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
+          "<td class=\"officer\"><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>" +
             "<span class=\"title\">" + QC.esc(t.title || "") + tags + "</span></td>" +
           "<td class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</td>" +
-          "<td>" + tk + "</td>" +
-          "<td>" + QC.esc(t.company || "—") + "</td>" +
-          "<td class=\"amt\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +
-          "<td>" + (d == null ? "—" : d + "d") + "</td>" +
+          "<td class=\"ticker\">" + tk + "</td>" +
+          "<td class=\"company\">" + QC.esc(t.company || "—") + "</td>" +
+          "<td class=\"amt value\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +
+          "<td class=\"lag\">" + (d == null ? "—" : d + " lag") + "</td>" +
         "</tr>";
-      }).join("") || "<tr><td colspan=\"8\" class=\"muted\">No insider prints in this window.</td></tr>";
+      }).join("") || "<tr><td colspan=\"7\" class=\"muted\">No insider prints in this window.</td></tr>";
     }
 
     let all = [];

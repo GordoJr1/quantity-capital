@@ -55,6 +55,7 @@
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
     .bio-wrap {
       margin: 8px 0 22px;
       border: 1px solid #4a5563;
@@ -517,6 +518,7 @@
     <p><a class="back" href="index.html#tape">← Tape</a></p>
     <p class="kicker">3 year history</p>
     <h1 id="who">Member</h1>
+    <p class="asof" id="asof"></p>
     <details class="bio-wrap">
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>
@@ -958,6 +960,10 @@
       paint(rows, tickerFile || {});
       paintHoldings(rows, tickerFile || {});
       paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
+      const asof = document.getElementById("asof");
+      if (asof && data.collected) {
+        asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+      }
       const bioPerson = (bios.people || {})[id] || {};
       const shown = (fromTrades && fromTrades.filer)
         || bioPerson.display

@@ -40,6 +40,7 @@
     .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 18px 0 8px; }
     .kicker { color: var(--caution); margin: 8px 0; }
     h1 { font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 0.9; margin-bottom: 8px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; margin-bottom: 16px; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
     .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
@@ -97,6 +98,7 @@
     <p class="kicker" id="kicker">Officer</p>
     <h1 id="who">—</h1>
     <p class="muted" id="title"></p>
+    <p class="asof" id="asof"></p>
     <div class="stats" id="stats"></div>
     <div id="list"></div>
   </div>
@@ -118,6 +120,10 @@
       document.getElementById("who").textContent = name;
       document.title = name + " — Insiders — Quantity Capital";
       document.getElementById("title").textContent = rows[0].title || "";
+      const asof = document.getElementById("asof");
+      if (asof && data.collected) {
+        asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
+      }
       const buys = rows.filter((t) => t.side === "purchase");
       const val = buys.reduce((s, t) => s + (Number(t.value) || 0), 0);
       document.getElementById("stats").innerHTML =

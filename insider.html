@@ -77,6 +77,28 @@
       }
       .tabbar a.on { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2) { border-right: 0; }
+      .stat:nth-child(3) { border-top: 1px solid #3a4452; }
+      .tape-item {
+        grid-template-columns: 76px minmax(0, 1fr);
+        grid-template-areas:
+          "pill main"
+          "pill amount";
+        gap: 4px 12px;
+        align-items: center;
+        padding: 12px;
+      }
+      .tape-item .pill { grid-area: pill; }
+      .tape-item > div:nth-child(2) { grid-area: main; min-width: 0; }
+      .tape-item > div:nth-child(3) { grid-area: amount; text-align: left; }
+      .tape-item h3 { font-size: 1.1rem; }
+      .tape-item p {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
     }
   </style>
 </head>

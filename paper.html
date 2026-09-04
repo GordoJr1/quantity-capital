@@ -51,7 +51,20 @@
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 10px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .stats {
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -156,7 +169,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        margin: 0 0 8px;
+        margin: 0 0 0 auto;
       }
       .stats { margin: 8px 12px 12px; }
       .stat { padding: 8px 10px; }
@@ -233,10 +246,12 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
+    <div class="sub-bar">
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker">Filed-date copy</p>
     <h1>Paper</h1>
     <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
-    <p class="asof" id="asof"></p>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="filers" class="on">Filers</button>
       <button type="button" data-board="tickers">Tickers</button>
@@ -528,12 +543,11 @@
       return r.json();
     }).then((file) => {
       data = file;
-      const when = QC.asOfLabel(file.generated);
-      const asof = file.priceAsof ? QC.prettyDate(file.priceAsof) : "";
-      document.getElementById("asof").textContent =
-        (when ? "Rebuilt " + when : "") +
-        (asof ? " · prices through " + asof : "") +
-        " · paper copy, not a fill · returns not annualized";
+      const when = QC.asOfLabel(file.tapeCollected || file.generated);
+      const asof = document.getElementById("asof");
+      if (asof && when) {
+        asof.textContent = "Tape as of " + when;
+      }
       const s = file.stats || {};
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + (s.priced || 0) + "</b><span>priced buy legs</span></div>" +
@@ -554,7 +568,6 @@
       paintChrome();
       paint();
     }).catch(() => {
-      document.getElementById("asof").textContent = "Paper rebuilds on each site update.";
       document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load backtest.json. Run <code>python3 build-backtest.py</code>.</p>";
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");

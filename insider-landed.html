@@ -40,7 +40,20 @@
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 28px 0 8px; font-size: 0.9rem; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; font-weight: 700; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
@@ -112,9 +125,11 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
+    <div class="sub-bar">
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker">Drop log</p>
     <h1>Landed</h1>
-    <p class="asof" id="asof"></p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip" href="insiders.html">Tape</a>
       <a class="chip on" href="insider-landed.html">Landed</a>

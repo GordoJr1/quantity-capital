@@ -55,7 +55,20 @@
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .bio-wrap {
       margin: 8px 0 22px;
       border: 1px solid #4a5563;
@@ -515,10 +528,12 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p><a class="back" href="index.html#tape">← Tape</a></p>
+    <div class="sub-bar">
+      <a class="back" href="index.html#tape">← Tape</a>
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker">3 year history</p>
     <h1 id="who">Member</h1>
-    <p class="asof" id="asof"></p>
     <details class="bio-wrap">
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>

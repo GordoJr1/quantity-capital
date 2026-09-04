@@ -52,7 +52,20 @@
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 22px 0 8px; }
     h1 { font-size: clamp(2.2rem, 8vw, 3.6rem); line-height: 0.9; margin-bottom: 0; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 4px 0 14px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     #note { margin: 0 0 12px; }
     .ticker-head {
@@ -302,12 +315,14 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p><a class="back" id="back" href="index.html">← Tape</a></p>
+    <div class="sub-bar">
+      <a class="back" id="back" href="index.html">← Tape</a>
+      <p class="asof" id="asof"></p>
+    </div>
     <div class="ticker-head">
       <div>
         <p class="kicker" id="kicker">Ticker</p>
         <h1 id="who">—</h1>
-        <p class="asof" id="asof"></p>
       </div>
       <div class="price-pill" id="price-pill" hidden>
         <b id="last-px">—</b>

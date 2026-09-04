@@ -42,7 +42,20 @@
     .kicker { color: var(--caution); margin: 28px 0 8px; font-size: 0.9rem; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; font-weight: 700; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 8px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .subhead { color: var(--mute); margin: 22px 0 10px; letter-spacing: 0.14em; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
@@ -187,9 +200,11 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
+    <div class="sub-bar">
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker">Today's book</p>
     <h1>Signals</h1>
-    <p class="asof" id="asof">Reading the book…</p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip" href="insiders.html">Tape</a>
       <a class="chip" href="insider-landed.html">Landed</a>
@@ -377,11 +392,11 @@
       const book = data.book || [];
       const plays = book.filter((r) => r.action === "buy-dip");
       const avoid = book.filter((r) => r.action === "avoid").slice(0, 8);
-      document.getElementById("asof").textContent = [
-        data.tapeCollected ? "Book " + QC.asOfLabel(data.tapeCollected) : "",
-        data.priceAsof ? "prices through " + QC.prettyDate(data.priceAsof) : "",
-        "not a recommendation"
-      ].filter(Boolean).join(" · ");
+      const when = QC.asOfLabel(data.tapeCollected || data.generated);
+      const asof = document.getElementById("asof");
+      if (asof && when) {
+        asof.textContent = "Tape as of " + when;
+      }
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + plays.length + "</b><span>buy-dip names</span></div>" +
         "<div class=\"stat\"><b>" + (stats.landed || 0) + "</b><span>just landed</span></div>" +
@@ -418,7 +433,6 @@
         paintPerf(data);
       });
     }).catch(() => {
-      document.getElementById("asof").textContent = "Book rebuilds on each site update.";
       document.getElementById("book").innerHTML = "<p class=\"muted\">Today’s insider book is not on file yet.</p>";
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");

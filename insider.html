@@ -40,7 +40,20 @@
     .back { color: var(--teal); text-decoration: none; display: inline-block; margin: 18px 0 8px; }
     .kicker { color: var(--caution); margin: 8px 0; }
     h1 { font-size: clamp(2.2rem, 8vw, 3.8rem); line-height: 0.9; margin-bottom: 8px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .sub-bar {
+      padding: 10px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; margin-bottom: 16px; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
     .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
@@ -94,11 +107,13 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
-    <p><a class="back" href="insiders.html">← Insiders</a></p>
+    <div class="sub-bar">
+      <a class="back" href="insiders.html">← Insiders</a>
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker" id="kicker">Officer</p>
     <h1 id="who">—</h1>
     <p class="muted" id="title"></p>
-    <p class="asof" id="asof"></p>
     <div class="stats" id="stats"></div>
     <div id="list"></div>
   </div>

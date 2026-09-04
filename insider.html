@@ -100,6 +100,20 @@
         -webkit-line-clamp: 2;
       }
     }
+      .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -115,7 +129,10 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
-    <p><a class="back" href="insiders.html">← Insiders</a></p>
+    <div class="sub-bar">
+      <a class="back" href="insiders.html">← Insiders</a>
+      <p class="asof" id="asof"></p>
+    </div>
     <p class="kicker" id="kicker">Officer</p>
     <h1 id="who">—</h1>
     <p class="muted" id="title"></p>
@@ -130,6 +147,8 @@
     const id = new URLSearchParams(location.search).get("id") || "";
     if (!id) location.replace("insiders.html");
     fetch("insider-trades-lite.json").then((r) => r.json()).then((data) => {
+      const asof = document.getElementById("asof");
+      if (asof && data.collected) asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
       const rows = (data.trades || []).filter((t) => t.filer_id === id)
         .sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       if (!rows.length) {

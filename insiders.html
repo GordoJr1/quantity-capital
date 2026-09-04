@@ -42,11 +42,24 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; font-weight: 700; }
+    .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
     .lede { color: var(--paper); max-width: 68ch; line-height: 1.5; margin-bottom: 14px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .landed-chip {
       display: inline-flex; align-items: center; gap: 8px;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
@@ -172,9 +185,11 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Officer tape</p>
+    <div class="sub-bar">
+      <p class="kicker">Officer tape</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Insiders</h1>
-    <p class="asof" id="asof"></p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip on" href="insiders.html">Tape</a>
       <a class="chip" id="landed-chip" href="insider-landed.html">Landed</a>

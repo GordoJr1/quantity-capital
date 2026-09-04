@@ -38,8 +38,8 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; font-weight: 700; }
+    .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
@@ -96,6 +96,20 @@
       .kicker { margin-top: 14px; }
       .tickets li { grid-template-columns: 52px minmax(0, 1fr); }
     }
+      .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -111,7 +125,10 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Drop log</p>
+    <div class="sub-bar">
+      <p class="kicker">Drop log</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Landed</h1>
     <div class="windows" aria-label="Insider boards">
       <a class="chip" href="insiders.html">Tape</a>
@@ -200,6 +217,10 @@
         "<button type=\"button\" class=\"chip" + (h === hours ? " on" : "") + "\" data-h=\"" + h + "\">" + labelHours(h) + "</button>"
       ).join("");
       const tape = await fetch("insider-trades-lite.json").then((r) => r.json());
+      const asof = document.getElementById("asof");
+      if (asof && tape.collected) {
+        asof.textContent = "Tape as of " + QC.asOfLabel(tape.collected);
+      }
       const rows = (tape.trades || []).filter((t) => QC.isLanded(t, hours) || (!t.added && t.filed_date && (Date.now() - new Date(t.filed_date + "T16:00:00Z").getTime()) <= hours * 3600000))
         .sort((a, b) => String(b.added || b.filed_date).localeCompare(String(a.added || a.filed_date)));
       paint(rows);

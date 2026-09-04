@@ -62,6 +62,20 @@
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 18px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
     .chip {
       background: #151b24;
@@ -221,7 +235,10 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Drop log</p>
+    <div class="sub-bar">
+      <p class="kicker">Drop log</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Landed</h1>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
@@ -359,6 +376,10 @@
         fetch("trades-lite.json").then((r) => r.json()),
         fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
       ]);
+      const asof = document.getElementById("asof");
+      if (asof && tape.collected) {
+        asof.textContent = "Tape as of " + QC.asOfLabel(tape.collected);
+      }
       const rows = (tape.trades || [])
         .filter((t) => QC.isLanded(t, hours))
         .map((t) => QC.enrich(t, tickerFile))

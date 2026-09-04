@@ -39,9 +39,22 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; font-weight: 700; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 16px; }
+    .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
+    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; margin: 0 0 16px; }
     a.chip, .chip {
       background: #151b24; border: 1px solid #4a5563; color: var(--paper);
@@ -126,9 +139,11 @@
         <a href="insiders.html" class="on">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Copy book</p>
+    <div class="sub-bar">
+      <p class="kicker">Copy book</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Leaders</h1>
-    <p class="asof" id="asof">Reading the board…</p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip" href="insiders.html">Tape</a>
       <a class="chip" href="insider-landed.html">Landed</a>

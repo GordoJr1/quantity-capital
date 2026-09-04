@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v50";
+const CACHE = "qc-shell-v55";
 const SHELL = [
   "./",
   "./index.html",

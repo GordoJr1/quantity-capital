@@ -63,7 +63,20 @@
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 62ch; line-height: 1.5; margin-bottom: 10px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .blotter {
       display: flex;
@@ -434,16 +447,17 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Today's book</p>
+    <div class="sub-bar">
+      <p class="kicker">Today's book</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Signals</h1>
-    <p class="asof" id="book-asof"></p>
     <div class="blotter" id="book"></div>
     <div id="avoid-wrap" hidden>
       <p class="subhead">Avoid the open</p>
       <div id="avoid"></div>
     </div>
     <p class="subhead heat-kicker">Buy heat</p>
-    <p class="asof" id="asof"></p>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div class="desk" id="desk"></div>
@@ -597,7 +611,7 @@
     }
     async function paintAnalysis() {
       const box = document.getElementById("book");
-      const asof = document.getElementById("book-asof");
+      const asof = document.getElementById("asof");
       try {
         const res = await fetch("analysis.json");
         if (!res.ok) throw new Error("no analysis");

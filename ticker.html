@@ -53,6 +53,20 @@
     .kicker { color: var(--caution); margin: 22px 0 8px; }
     h1 { font-size: clamp(2.2rem, 8vw, 3.6rem); line-height: 0.9; margin-bottom: 0; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     #note { margin: 0 0 12px; }
     .ticker-head {
       display: flex;
@@ -299,7 +313,10 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p><a class="back" id="back" href="index.html">← Tape</a></p>
+    <div class="sub-bar">
+      <a class="back" id="back" href="index.html">← Tape</a>
+      <p class="asof" id="asof"></p>
+    </div>
     <div class="ticker-head">
       <div>
         <p class="kicker" id="kicker">Ticker</p>
@@ -471,6 +488,8 @@
       fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null),
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
     ]).then(([data, prices, tickerFile]) => {
+      const asof = document.getElementById("asof");
+      if (asof && data.collected) asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
       function tradeCode(t) {
         const extra = ((tickerFile && tickerFile.assets) || {})[t.asset] || {};
         const opt = optionMeta(t);

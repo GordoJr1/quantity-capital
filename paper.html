@@ -51,7 +51,20 @@
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 10px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 18px; }
+    .sub-bar {
+      padding: 8px 0 2px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .asof {
+      color: var(--mute);
+      font-size: 0.82rem;
+      margin: 0 0 0 auto;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .stats {
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -233,10 +246,12 @@
         <a href="insiders.html">Insiders</a>
       </nav>
     </header>
-    <p class="kicker">Filed-date copy</p>
+    <div class="sub-bar">
+      <p class="kicker">Filed-date copy</p>
+      <p class="asof" id="asof"></p>
+    </div>
     <h1>Paper</h1>
     <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
-    <p class="asof" id="asof"></p>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="filers" class="on">Filers</button>
       <button type="button" data-board="tickers">Tickers</button>

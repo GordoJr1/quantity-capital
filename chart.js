@@ -262,7 +262,14 @@ function drawChart(points, marks, opts) {
 
   // Y-axis Labels
   if (yBox) {
-    yBox.innerHTML = yTicks.map((px) => "<span>" + axisPrice(px) + "</span>").join("");
+    // Position labels at the SVG tick coordinates instead of distributing them
+    // across the full dual-pane height. This keeps the price axis out of the
+    // volume pane and guarantees alignment with the rendered grid lines.
+    yBox.innerHTML = yTicks.map((px) => {
+      const top = (yAt(px) / h * 100).toFixed(3);
+      return "<span style=\"position:absolute; right:6px; top:" + top + "%; transform:translateY(-50%);\">" +
+        axisPrice(px) + "</span>";
+    }).join("");
   }
 
   // X-axis Dates

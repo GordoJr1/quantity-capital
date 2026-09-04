@@ -232,12 +232,12 @@
       return Math.max(0, Math.round((a - b) / 86400000));
     }
     function newestFirst(a, b) {
+      const traded = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
+      if (traded) return traded;
       const filed = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
       if (filed) return filed;
       const added = String(b.added || "").localeCompare(String(a.added || ""));
       if (added) return added;
-      const traded = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
-      if (traded) return traded;
       return String(b.id || "").localeCompare(String(a.id || ""));
     }
     function paint(rows, collected) {

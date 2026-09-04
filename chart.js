@@ -58,7 +58,7 @@ function drawChart(points, marks, opts) {
   const stroke = opts.stroke || "#36999d";
   const w = 720;
   const h = opts.height || 260;
-  const pad = { l: 8, r: 52, t: 14, b: 8 };
+  const pad = { l: 8, r: 16, t: 14, b: 8 };
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
   const priceTop = pad.t;
   const priceH = Math.round((h - pad.t - pad.b) * 0.82);
@@ -128,6 +128,14 @@ function drawChart(points, marks, opts) {
       (sellH ? "<rect x=\"" + (x - width / 2).toFixed(1) + "\" y=\"" + volTop.toFixed(1) +
         "\" width=\"" + width.toFixed(1) + "\" height=\"" + sellH.toFixed(1) + "\" fill=\"#e04843\" opacity=\".9\" />" : "");
   }).join("");
+  const volGrid = [1, 0.5, 0].map((ratio) => {
+    const y = volBot - ratio * (volH - 8);
+    const value = maxVol * ratio;
+    return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y.toFixed(1) +
+      "\" y2=\"" + y.toFixed(1) + "\" stroke=\"#2c3440\" stroke-width=\"1\" />" +
+      "<text x=\"4\" y=\"" + (y + 3).toFixed(1) + "\" fill=\"#8b96a3\" font-size=\"8.5\" font-family=\"IBM Plex Sans, sans-serif\">" +
+      formatVol(value) + "</text>";
+  }).join("");
   const grouped = {};
   visibleMarks.forEach((m) => {
     const i = idxFor(m.date);
@@ -179,11 +187,7 @@ function drawChart(points, marks, opts) {
     dots +
     "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + splitY + "\" y2=\"" + splitY +
       "\" stroke=\"#536176\" stroke-width=\"1.4\" />" +
-    "<text x=\"" + pad.l + "\" y=\"" + (splitY + 11) + "\" fill=\"#b2bbc6\" font-size=\"8.5\" font-weight=\"700\" font-family=\"Barlow Condensed, sans-serif\">TRADE FLOW ($)</text>" +
-    "<line x1=\"" + (w - pad.r + 8) + "\" x2=\"" + (w - pad.r + 8) + "\" y1=\"" + volTop + "\" y2=\"" + volBot +
-      "\" stroke=\"#536176\" stroke-width=\"1\" />" +
-    "<text x=\"" + (w - 4) + "\" y=\"" + (volTop + 10) + "\" fill=\"#d8dde3\" font-size=\"9\" font-weight=\"700\" font-family=\"Barlow Condensed, sans-serif\" text-anchor=\"end\">PEAK " + formatVol(maxVol) + "</text>" +
-    "<text x=\"" + (w - 4) + "\" y=\"" + (volBot - 2) + "\" fill=\"#d8dde3\" font-size=\"9\" font-family=\"Barlow Condensed, sans-serif\" text-anchor=\"end\">$0</text>" +
+    volGrid +
     "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + (volBot - 1) + "\" y2=\"" + (volBot - 1) +
       "\" stroke=\"#384659\" stroke-width=\"1\" />" +
     volBars;

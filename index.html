@@ -88,17 +88,6 @@
     .landed-chip-row {
       background: var(--ink);
       padding: 10px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .asof {
-      color: var(--mute);
-      font-size: 0.82rem;
-      margin: 0;
-      font-family: "IBM Plex Sans", sans-serif;
     }
     .landed-chip {
       display: inline-flex;
@@ -942,7 +931,6 @@
     </header>
     <div class="landed-chip-row">
       <a class="landed-chip" id="landed-chip" href="landed.html">Just landed</a>
-      <p class="asof" id="asof"></p>
     </div>
   </div>
   <div class="tape-scroll">
@@ -1417,10 +1405,6 @@
           chip.innerHTML = freshN
             ? "Just landed \u00b7 <span class=\"n\">" + freshN + "</span>"
             : "Just landed";
-        }
-        const asof = document.getElementById("asof");
-        if (asof && data.collected) {
-          asof.textContent = "Tape as of " + QC.asOfLabel(data.collected);
         }
         let tickerFile = { tickers: {}, assets: {} };
         try {

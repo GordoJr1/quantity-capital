@@ -365,6 +365,14 @@ function drawChart(points, marks, opts) {
     });
   });
 
+  // Canvas click to dismiss trade popover if clicked outside marks
+  svg.addEventListener("click", (e) => {
+    if (!e.target.closest(".chart-mark")) {
+      const pop = wrap.querySelector("#mark-pop");
+      if (pop) pop.hidden = true;
+    }
+  });
+
   // Attach Pointer Scrubbing
   attachScrubberEvents(svg, wrap, pts, hit, w, h, opts);
 
@@ -513,6 +521,11 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
 
     // Update Floating HUD
     if (hud) {
+      const pop = wrap.querySelector("#mark-pop");
+      if (pop && !pop.hidden) {
+        hud.style.display = "none";
+        return;
+      }
       hud.style.display = "block";
       let hudContent =
         "<div class=\"qc-hud-section\">Market Quote</div>" +

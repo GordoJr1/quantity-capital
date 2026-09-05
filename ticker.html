@@ -337,6 +337,190 @@
       font-size: 10px;
       margin-top: 2px;
     }
+    .mark-pop {
+      position: absolute;
+      z-index: 70;
+      background: rgba(13, 20, 32, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(168, 85, 247, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #e2e8f0;
+      box-sizing: border-box;
+      pointer-events: auto;
+      animation: popFade 0.14s ease-out;
+    }
+    @keyframes popFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .mark-pop .pop-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mark-pop .pop-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+    .mark-pop .pop-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .mark-pop .pop-badge.buy {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    .mark-pop .pop-badge.sell {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+    }
+    .mark-pop .pop-title {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mark-pop .pop-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11.5px;
+      line-height: 1;
+      padding: 0;
+      flex-shrink: 0;
+      transition: all 0.12s ease;
+    }
+    .mark-pop .pop-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .mark-pop .pop-hint {
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .mark-pop .pop-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-height: 110px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .mark-pop .pop-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      font-size: 11.5px;
+      padding: 3px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .mark-pop .pop-item:first-child {
+      border-top: none;
+    }
+    .mark-pop .pop-item-filer {
+      font-weight: 600;
+      color: #f1f5f9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+      min-width: 0;
+    }
+    .mark-pop .pop-item-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: #94a3b8;
+    }
+    .mark-pop .pop-item-amt {
+      color: #f8fafc;
+      font-weight: 600;
+    }
+    .mark-pop .pop-item-date {
+      color: #94a3b8;
+      font-size: 10px;
+    }
+    .mark-pop .pop-more {
+      font-size: 10.5px;
+      margin-top: 4px;
+      text-align: right;
+      font-weight: 600;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .mark-pop .pop-more-link {
+      color: #38bdf8;
+      text-decoration: none;
+      transition: color 0.12s ease;
+    }
+    .mark-pop .pop-more-link:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
+    }
+    .mark-pop .pop-single-detail {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 5px 0 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+    }
+    .mark-pop .pop-single-amt {
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .mark-pop .pop-dot {
+      color: #64748b;
+      margin: 0 1px;
+    }
+    .mark-pop .pop-single-date {
+      color: #94a3b8;
+    }
+    .mark-pop .pop-single-shares {
+      color: #cbd5e1;
+      font-size: 10.5px;
+    }
     .chart-x {
       display: flex;
       justify-content: space-between;
@@ -381,6 +565,28 @@
       .qc-glass-hud {
         width: min(260px, calc(100% - 20px));
         padding: 10px 14px;
+      }
+      .mark-pop {
+        padding: 10px 12px;
+        border-radius: 12px;
+      }
+      .mark-pop .pop-header {
+        margin-bottom: 6px;
+        padding-bottom: 6px;
+      }
+      .mark-pop .pop-title {
+        font-size: 0.95rem;
+      }
+      .mark-pop .pop-hint {
+        font-size: 10.5px;
+        margin-bottom: 4px;
+      }
+      .mark-pop .pop-list {
+        max-height: 102px;
+      }
+      .mark-pop .pop-item {
+        padding: 3px 0;
+        font-size: 11.5px;
       }
       .chart-x {
         padding: 8px 22px 0 34px;
@@ -577,49 +783,152 @@
       const pop = document.getElementById("mark-pop");
       const wrap = document.getElementById("chart-wrap");
       if (!pop || !wrap) return;
+
+      // Hide hover HUD while mark pop is open so they do not overlap
+      const hud = wrap.querySelector(".qc-glass-hud");
+      if (hud) hud.style.display = "none";
+
       const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
       const buy = (rec.side || marks[0].side) !== "sale";
       const side = buy ? "Buy" : "Sell";
+      const isMobile = window.matchMedia("(max-width: 640px)").matches || wrap.clientWidth < 540;
+      const maxItems = isMobile ? 3 : 5;
+
+      function getAmt(m) {
+        if (m.amount) {
+          const r = QC.formatAmountRange(m.amount);
+          if (r) return esc(r);
+        }
+        if (m.shares && m.price) {
+          const val = Number(m.shares) * Number(m.price);
+          return formatVol(val);
+        }
+        if (m.shares) {
+          return Number(m.shares).toLocaleString() + " sh";
+        }
+        if (m.value) {
+          return formatVol(m.value);
+        }
+        return "";
+      }
+
+      let contentHtml = "";
       if (marks.length > 1) {
         const total = marks.reduce((s, m) => s + tradeValue(m), 0);
-        pop.innerHTML =
-          "<div class=\"pop-row\">" +
-            "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + marks.length + "</div>" +
-            "<div>" +
-              "<b>" + marks.length + (buy ? " buys" : " sells") + " · " + formatVol(total) + "</b>" +
-              "<div class=\"pop-date\">Tap a row in the table for the filing</div>" +
-              marks.slice(0, 6).map((m) =>
-                "<div class=\"pop-item\"><span>" + esc(m.filer || "Tape") + "</span><span>" +
-                  prettyDate(m.date) + (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") +
-                "</span></div>"
-              ).join("") +
-              (marks.length > 6 ? "<div class=\"pop-date\">+" + (marks.length - 6) + " more</div>" : "") +
-            "</div></div>";
+        const dateStr = marks[0].date ? prettyDate(marks[0].date) : "";
+        contentHtml =
+          "<div class=\"pop-header\">" +
+            "<div class=\"pop-title-wrap\">" +
+              "<span class=\"pop-badge " + (buy ? "buy" : "sell") + "\">" + marks.length + (buy ? " BUYS" : " SELLS") + "</span>" +
+              "<div class=\"pop-title\">" + formatVol(total) + " Total</div>" +
+            "</div>" +
+            "<button type=\"button\" class=\"pop-close\" aria-label=\"Close popover\">✕</button>" +
+          "</div>" +
+          "<div class=\"pop-hint\">Grouped transactions · " + dateStr + "</div>" +
+          "<div class=\"pop-list\">" +
+            marks.slice(0, maxItems).map((m) => {
+              const amt = getAmt(m);
+              const mDate = m.date ? prettyDate(m.date) : "";
+              return "<div class=\"pop-item\">" +
+                "<span class=\"pop-item-filer\" title=\"" + esc(m.filer || "Tape") + "\">" + esc(m.filer || "Tape") + "</span>" +
+                "<span class=\"pop-item-right\">" +
+                  (mDate && mDate !== dateStr ? "<span class=\"pop-item-date\">" + mDate + "</span>" : "") +
+                  (amt ? "<span class=\"pop-item-amt\">" + amt + "</span>" : "") +
+                "</span>" +
+              "</div>";
+            }).join("") +
+          "</div>" +
+          (marks.length > maxItems
+            ? "<div class=\"pop-more\"><a href=\"#marks\" class=\"pop-more-link\">+" + (marks.length - maxItems) + " more in table below ↓</a></div>"
+            : "");
       } else {
         const m = marks[0];
-        pop.innerHTML =
-          "<div class=\"pop-row\">" +
-            "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + (buy ? "B" : "S") + "</div>" +
-            "<div>" +
-              "<b>" + esc(m.filer || "Official tape") + "</b>" +
-              "<div class=\"pop-meta\"><span class=\"" + (buy ? "buy" : "sell") + "\">" + side + "</span>" +
-                (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") + "</div>" +
-              "<div class=\"pop-date\">" + prettyDate(m.date) + "</div>" +
+        const amt = getAmt(m);
+        const mDate = m.date ? prettyDate(m.date) : "";
+        contentHtml =
+          "<div class=\"pop-header\">" +
+            "<div class=\"pop-title-wrap\">" +
+              "<span class=\"pop-badge " + (buy ? "buy" : "sell") + "\">" + (buy ? "BUY" : "SELL") + "</span>" +
+              "<div class=\"pop-title\" title=\"" + esc(m.filer || "Official tape") + "\">" + esc(m.filer || "Official tape") + "</div>" +
             "</div>" +
-          "</div>";
+            "<button type=\"button\" class=\"pop-close\" aria-label=\"Close popover\">✕</button>" +
+          "</div>" +
+          "<div class=\"pop-single-detail\">" +
+            (amt ? "<span class=\"pop-single-amt\">" + amt + "</span>" : "") +
+            (amt && mDate ? "<span class=\"pop-dot\">·</span>" : "") +
+            (mDate ? "<span class=\"pop-single-date\">" + mDate + "</span>" : "") +
+            (m.shares && m.price ? "<span class=\"pop-single-shares\">(" + Number(m.shares).toLocaleString() + " sh @ $" + Number(m.price).toFixed(2) + ")</span>" : "") +
+          "</div>" +
+          "<div class=\"pop-more\"><a href=\"#marks\" class=\"pop-more-link\">View filing in table below ↓</a></div>";
       }
+
+      pop.innerHTML = contentHtml;
+
+      const closeBtn = pop.querySelector(".pop-close");
+      if (closeBtn) {
+        const closeFn = (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          hidePop();
+        };
+        closeBtn.addEventListener("click", closeFn);
+        closeBtn.addEventListener("touchend", closeFn);
+      }
+
+      const moreLink = pop.querySelector(".pop-more-link");
+      if (moreLink) {
+        moreLink.addEventListener("click", () => {
+          hidePop();
+        });
+      }
+
+      // Responsive positioning
       const svg = document.getElementById("chart-svg") || wrap.querySelector(".chart-frame");
       const wr = wrap.getBoundingClientRect();
       const sr = svg.getBoundingClientRect();
-      const pad = 96;
-      let left = (sr.left - wr.left) + rec.xPct * sr.width;
-      const top = (sr.top - wr.top) + rec.yPct * sr.height;
-      left = Math.max(pad, Math.min(wr.width - pad, left));
-      pop.style.left = left + "px";
-      pop.style.top = top + "px";
-      pop.style.transform = rec.yPct < 0.28
-        ? "translate(-50%, 16px)"
-        : "translate(-50%, calc(-100% - 14px))";
+
+      if (isMobile) {
+        // Mobile layout: dock cleanly to top or bottom inside chart-wrap with full width
+        pop.style.width = "auto";
+        pop.style.left = "8px";
+        pop.style.right = "8px";
+        pop.style.transform = "none";
+
+        if (rec.yPct < 0.48) {
+          // Pin is in upper half: dock to bottom of chart-wrap
+          pop.style.top = "auto";
+          pop.style.bottom = "8px";
+        } else {
+          // Pin is in lower half: dock to top of chart-wrap
+          pop.style.top = "8px";
+          pop.style.bottom = "auto";
+        }
+      } else {
+        // Desktop layout: contextual floating card near the mark
+        pop.style.right = "auto";
+        const popWidth = Math.min(320, wr.width - 24);
+        pop.style.width = popWidth + "px";
+
+        const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+        const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+
+        let popLeft = pinScreenX - (popWidth / 2);
+        popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, popLeft));
+        pop.style.left = popLeft + "px";
+
+        if (pinScreenY < 140 || rec.yPct < 0.46) {
+          // Place below pin
+          pop.style.top = (pinScreenY + 16) + "px";
+          pop.style.bottom = "auto";
+          pop.style.transform = "none";
+        } else {
+          // Place above pin
+          pop.style.top = (pinScreenY - 16) + "px";
+          pop.style.bottom = "auto";
+          pop.style.transform = "translateY(-100%)";
+        }
+      }
+
       pop.hidden = false;
     }
     function paintRange() {

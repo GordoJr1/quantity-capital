@@ -4,8 +4,8 @@
  * Features:
  * - Smooth Catmull-Rom cubic spline interpolation for organic price curves
  * - Dual-phase neon gradient (ice platinum -> electric purple/violet) with glowing blur underlayer
- * - Integrated Politician and Insider transaction pins along the spline with luminous buy/sell halos
- * - Split transaction volume pane with buy/sell net flow bars and reference grid
+ * - Integrated Politician and Insider transaction pins snapped directly onto the price spline
+ * - High-clarity, large luminous typography for Y-axis price levels and X-axis date intervals
  * - 60 FPS interactive pointer scrubber (mouse hover & mobile touch)
  * - Vertical crosshair line, snapped active node, attached price pill, and bottom date chip
  * - Floating glassmorphic HUD card showing Market Quote (Date, Close, Open/High/Low/Volume if available)
@@ -13,9 +13,10 @@
  * - Zero external dependencies, pure native SVG + DOM, fully responsive
  */
 
-function axisPrice(n) {
+function axisPrice(n, span) {
   if (n >= 10000) return "$" + Math.round(n / 1000) + "k";
-  if (n >= 1000) return "$" + (n / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+  if (n >= 1000 && (span == null || span >= 100)) return "$" + (n / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+  if (span != null && span < 10) return "$" + n.toFixed(2);
   if (n >= 100) return "$" + Math.round(n);
   if (n >= 10) return "$" + n.toFixed(1).replace(/\.0$/, "");
   return "$" + n.toFixed(2);
@@ -112,17 +113,13 @@ function drawChart(points, marks, opts) {
   // Dimensions & Padding
   const w = 840;
   const h = opts.height || 300;
-  const pad = { l: 48, r: 64, t: 18, b: 24 };
+  const pad = { l: 56, r: 60, t: 20, b: 20 };
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
-  // Price pane (top 76%) and Volume pane (bottom 24%)
+  // Full height for price curve
   const priceTop = pad.t;
-  const priceH = Math.round((h - pad.t - pad.b) * 0.74);
-  const priceBot = priceTop + priceH;
-  const splitY = priceBot + 8;
-  const volTop = splitY + 12;
-  const volBot = h - pad.b;
-  const volH = Math.max(12, volBot - volTop);
+  const priceBot = h - pad.b;
+  const priceH = priceBot - priceTop;
 
   const xs = points.map((p) => p[1]);
   const min = Math.min.apply(null, xs);
@@ -168,54 +165,23 @@ function drawChart(points, marks, opts) {
     }
   }
 
-  // Y-axis grid lines (5 horizontal levels)
+  // Y-axis grid lines (5 horizontal levels: 100%, 75%, 50%, 25%, 0%)
   const yTicks = [1, 0.75, 0.5, 0.25, 0].map((t) => min + span * t);
   const gridLines = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
-      "\" stroke=\"rgba(255,255,255,0.07)\" stroke-width=\"1\" />" +
-      "<text x=\"" + (pad.l - 8) + "\" y=\"" + (Number(y) + 3.5).toFixed(1) +
-      "\" fill=\"#828fa3\" font-size=\"10\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
-      axisPrice(px) + "</text>";
+      "\" stroke=\"rgba(255,255,255,0.075)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />" +
+      "<text x=\"" + (pad.l - 10) + "\" y=\"" + (Number(y) + 4.2).toFixed(1) +
+      "\" fill=\"#cbd5e1\" font-size=\"12.5\" font-weight=\"600\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
+      axisPrice(px, span) + "</text>";
   }).join("");
 
-  // Visible marks & volume bars
+  // Visible marks along the spline
   const firstDate = points[0][0];
   const lastDate = points[points.length - 1][0];
   const visibleMarks = (marks || []).filter((m) => m.date >= firstDate && m.date <= lastDate);
 
-  const groupedVol = {};
-  visibleMarks.forEach((m) => {
-    const i = idxFor(m.date);
-    if (!groupedVol[i]) groupedVol[i] = { buy: 0, sell: 0 };
-    groupedVol[i][m.side === "sale" ? "sell" : "buy"] += tradeValue(m);
-  });
-  let maxVol = 1;
-  Object.keys(groupedVol).forEach((key) => {
-    maxVol = Math.max(maxVol, groupedVol[key].buy, groupedVol[key].sell);
-  });
-
-  const volBarWidth = Math.max(3, Math.min(10, (w - pad.l - pad.r) / Math.max(2, points.length) * 1.8));
-  const volBars = Object.keys(groupedVol).map((key) => {
-    const i = Number(key);
-    const g = groupedVol[i];
-    const x = xAt(i);
-    const buyH = g.buy ? Math.max(2, (g.buy / maxVol) * (volH - 4)) : 0;
-    const sellH = g.sell ? Math.max(2, (g.sell / maxVol) * (volH - 4)) : 0;
-    return (buyH ? "<rect x=\"" + (x - volBarWidth / 2).toFixed(1) + "\" y=\"" + (volBot - buyH).toFixed(1) +
-      "\" width=\"" + volBarWidth.toFixed(1) + "\" height=\"" + buyH.toFixed(1) + "\" fill=\"#22c55e\" opacity=\".85\" rx=\"1\" />" : "") +
-      (sellH ? "<rect x=\"" + (x - volBarWidth / 2).toFixed(1) + "\" y=\"" + volTop.toFixed(1) +
-        "\" width=\"" + volBarWidth.toFixed(1) + "\" height=\"" + sellH.toFixed(1) + "\" fill=\"#f87171\" opacity=\".85\" rx=\"1\" />" : "");
-  }).join("");
-
-  const volGrid = "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + volBot + "\" y2=\"" + volBot +
-    "\" stroke=\"rgba(255,255,255,0.12)\" stroke-width=\"1\" />" +
-    "<text x=\"" + (pad.l - 8) + "\" y=\"" + (volBot - 2) + "\" fill=\"#64748b\" font-size=\"8.5\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">$0</text>" +
-    (maxVol > 1 ? "<text x=\"" + (pad.l - 8) + "\" y=\"" + (volTop + 8) + "\" fill=\"#64748b\" font-size=\"8.5\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" + formatVol(maxVol) + "</text>" : "");
-
   // Cluster overlapping trade marks for clean pins
-  const plotTop = priceTop + 14;
-  const plotBot = priceBot - 14;
   const hit = [];
 
   function clusterByX(arr, minGap) {
@@ -237,16 +203,33 @@ function drawChart(points, marks, opts) {
     return out;
   }
 
-  const buyClusters = clusterByX(visibleMarks.filter((m) => m.side !== "sale"), 24);
-  const sellClusters = clusterByX(visibleMarks.filter((m) => m.side === "sale"), 24);
+  const buyClusters = clusterByX(visibleMarks.filter((m) => m.side !== "sale"), 28);
+  const sellClusters = clusterByX(visibleMarks.filter((m) => m.side === "sale"), 28);
+
+  // If a buy cluster and a sell cluster land on the exact same date/spot,
+  // separate them slightly horizontally so both remain visible and centered on the price curve.
+  buyClusters.forEach((bc) => {
+    sellClusters.forEach((sc) => {
+      const dist = sc.x - bc.x;
+      if (Math.abs(dist) < 22) {
+        const shift = (22 - Math.abs(dist)) / 2;
+        if (dist >= 0) {
+          bc.x = Math.max(pad.l + 10, bc.x - shift);
+          sc.x = Math.min(w - pad.r - 10, sc.x + shift);
+        } else {
+          bc.x = Math.min(w - pad.r - 10, bc.x + shift);
+          sc.x = Math.max(pad.l + 10, sc.x - shift);
+        }
+      }
+    });
+  });
 
   function drawCluster(cluster, sale) {
     const n = cluster.items.length;
     const marksList = cluster.items.map((row) => row.mark);
     const mid = cluster.items[Math.floor((n - 1) / 2)];
-    const cy0 = yAt(points[mid.i][1]);
-    const lift = sale ? 16 : -16;
-    const cy = Math.max(plotTop, Math.min(plotBot, cy0 + lift));
+    // Snap dead-center onto the price line at this date
+    const cy = yAt(points[mid.i][1]);
     const color = sale ? "#f87171" : "#22c55e";
     const haloBg = sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)";
     const letter = sale ? "S" : "B";
@@ -269,7 +252,7 @@ function drawChart(points, marks, opts) {
         "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"14\" fill=\"transparent\" />" +
         "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"9\" fill=\"" + haloBg + "\" />" +
         "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"5.5\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 3).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
+        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 2.8).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
         "</g>";
     }
 
@@ -286,7 +269,7 @@ function drawChart(points, marks, opts) {
         "\" width=\"" + tw.toFixed(1) + "\" height=\"20\" rx=\"10\" fill=\"" +
         (sale ? "rgba(46, 22, 25, 0.9)" : "rgba(18, 38, 28, 0.9)") + "\" stroke=\"" + color + "\" stroke-width=\"1.4\" />" +
       "<circle cx=\"" + (x0 + 11).toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"6\" fill=\"" + color + "\" />" +
-      "<text x=\"" + (x0 + 11).toFixed(1) + "\" y=\"" + (cy + 3).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<text x=\"" + (x0 + 11).toFixed(1) + "\" y=\"" + (cy + 2.8).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
       "<text x=\"" + (x0 + 20 + (tw - 26) / 2).toFixed(1) + "\" y=\"" + (cy + 3.2).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"9.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
       "</g>";
   }
@@ -329,14 +312,9 @@ function drawChart(points, marks, opts) {
     "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5\" fill=\"#c084fc\" stroke=\"#ffffff\" stroke-width=\"1.8\" />" +
     // Interactive Trade Pins
     tradePinsHtml +
-    // Split line for volume
-    "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + splitY + "\" y2=\"" + splitY + "\" stroke=\"rgba(255,255,255,0.14)\" stroke-width=\"1\" stroke-dasharray=\"2 3\" />" +
-    // Volume grid & bars
-    volGrid +
-    volBars +
     // Scrubber elements (updated dynamically on pointermove)
     "<g id=\"qc-scrubber-g\" style=\"display:none; pointer-events:none;\">" +
-      "<line id=\"qc-scrub-line\" x1=\"0\" y1=\"" + pad.t + "\" x2=\"0\" y2=\"" + volBot + "\" stroke=\"rgba(255,255,255,0.22)\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\" />" +
+      "<line id=\"qc-scrub-line\" x1=\"0\" y1=\"" + pad.t + "\" x2=\"0\" y2=\"" + priceBot + "\" stroke=\"rgba(255,255,255,0.22)\" stroke-width=\"1.2\" stroke-dasharray=\"3 3\" />" +
       "<circle id=\"qc-scrub-halo\" cx=\"0\" cy=\"0\" r=\"7.5\" fill=\"rgba(255,255,255,0.24)\" />" +
       "<circle id=\"qc-scrub-dot\" cx=\"0\" cy=\"0\" r=\"3.8\" fill=\"#ffffff\" stroke=\"#0d141f\" stroke-width=\"2\" />" +
     "</g>";

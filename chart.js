@@ -103,6 +103,115 @@ function createSplinePath(pts) {
   return d;
 }
 
+// Built-in color palettes for chart spline and accents
+const CHART_PALETTES = {
+  emerald: {
+    name: "Emerald Matrix",
+    gradStops: [
+      { offset: "0%", color: "#f8fafc" },
+      { offset: "36%", color: "#f1f5f9" },
+      { offset: "58%", color: "#6ee7b7" },
+      { offset: "85%", color: "#10b981" },
+      { offset: "100%", color: "#059669" }
+    ],
+    glowStops: [
+      { offset: "0%", color: "#94a3b8", opacity: 0.15 },
+      { offset: "60%", color: "#34d399", opacity: 0.28 },
+      { offset: "100%", color: "#10b981", opacity: 0.55 }
+    ],
+    primary: "#10b981",
+    light: "#6ee7b7",
+    glowFilter: "drop-shadow(0 0 7px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 14px rgba(16, 185, 129, 0.32))",
+    terminalPillBg: "#059669",
+    terminalPillShadow: "0 4px 12px rgba(5, 150, 105, 0.45)",
+    popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(16, 185, 129, 0.16)"
+  },
+  cyan: {
+    name: "Electric Cyan",
+    gradStops: [
+      { offset: "0%", color: "#f8fafc" },
+      { offset: "36%", color: "#f1f5f9" },
+      { offset: "58%", color: "#67e8f9" },
+      { offset: "85%", color: "#06b6d4" },
+      { offset: "100%", color: "#0891b2" }
+    ],
+    glowStops: [
+      { offset: "0%", color: "#94a3b8", opacity: 0.15 },
+      { offset: "60%", color: "#22d3ee", opacity: 0.28 },
+      { offset: "100%", color: "#06b6d4", opacity: 0.55 }
+    ],
+    primary: "#06b6d4",
+    light: "#67e8f9",
+    glowFilter: "drop-shadow(0 0 7px rgba(6, 182, 212, 0.55)) drop-shadow(0 0 14px rgba(6, 182, 212, 0.32))",
+    terminalPillBg: "#0891b2",
+    terminalPillShadow: "0 4px 12px rgba(8, 145, 178, 0.45)",
+    popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(6, 182, 212, 0.16)"
+  },
+  amber: {
+    name: "Amber Gold",
+    gradStops: [
+      { offset: "0%", color: "#f8fafc" },
+      { offset: "36%", color: "#fef3c7" },
+      { offset: "58%", color: "#fcd34d" },
+      { offset: "85%", color: "#f59e0b" },
+      { offset: "100%", color: "#d97706" }
+    ],
+    glowStops: [
+      { offset: "0%", color: "#94a3b8", opacity: 0.15 },
+      { offset: "60%", color: "#fbbf24", opacity: 0.28 },
+      { offset: "100%", color: "#f59e0b", opacity: 0.55 }
+    ],
+    primary: "#f59e0b",
+    light: "#fcd34d",
+    glowFilter: "drop-shadow(0 0 7px rgba(245, 158, 11, 0.55)) drop-shadow(0 0 14px rgba(245, 158, 11, 0.32))",
+    terminalPillBg: "#d97706",
+    terminalPillShadow: "0 4px 12px rgba(217, 119, 6, 0.45)",
+    popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(245, 158, 11, 0.16)"
+  },
+  blue: {
+    name: "Cobalt Ice",
+    gradStops: [
+      { offset: "0%", color: "#f8fafc" },
+      { offset: "36%", color: "#f1f5f9" },
+      { offset: "58%", color: "#93c5fd" },
+      { offset: "85%", color: "#3b82f6" },
+      { offset: "100%", color: "#2563eb" }
+    ],
+    glowStops: [
+      { offset: "0%", color: "#94a3b8", opacity: 0.15 },
+      { offset: "60%", color: "#60a5fa", opacity: 0.28 },
+      { offset: "100%", color: "#3b82f6", opacity: 0.55 }
+    ],
+    primary: "#3b82f6",
+    light: "#93c5fd",
+    glowFilter: "drop-shadow(0 0 7px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 14px rgba(59, 130, 246, 0.32))",
+    terminalPillBg: "#2563eb",
+    terminalPillShadow: "0 4px 12px rgba(37, 99, 235, 0.45)",
+    popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(59, 130, 246, 0.16)"
+  },
+  purple: {
+    name: "Neon Purple",
+    gradStops: [
+      { offset: "0%", color: "#f8fafc" },
+      { offset: "36%", color: "#f1f5f9" },
+      { offset: "58%", color: "#c084fc" },
+      { offset: "85%", color: "#a855f7" },
+      { offset: "100%", color: "#c084fc" }
+    ],
+    glowStops: [
+      { offset: "0%", color: "#94a3b8", opacity: 0.15 },
+      { offset: "60%", color: "#c084fc", opacity: 0.28 },
+      { offset: "100%", color: "#a855f7", opacity: 0.5 }
+    ],
+    primary: "#a855f7",
+    light: "#c084fc",
+    glowFilter: "drop-shadow(0 0 7px rgba(168, 85, 247, 0.5)) drop-shadow(0 0 14px rgba(168, 85, 247, 0.28))",
+    terminalPillBg: "#8b5cf6",
+    terminalPillShadow: "0 4px 12px rgba(139, 92, 246, 0.45)",
+    popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(168, 85, 247, 0.12)"
+  }
+};
+
 /**
  * Main drawChart routine
  */
@@ -139,6 +248,10 @@ function drawChart(points, marks, opts) {
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
   const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;
 
+  // Active color theme (defaults to emerald)
+  const themeKey = (opts.theme && CHART_PALETTES[opts.theme]) ? opts.theme : (window.QC_CHART_THEME || "emerald");
+  const palette = CHART_PALETTES[themeKey] || CHART_PALETTES.emerald;
+
   // Build screen coordinates for each price bar
   const pts = points.map((p, i) => ({
     x: xAt(i),
@@ -160,18 +273,21 @@ function drawChart(points, marks, opts) {
     return idx;
   };
 
-  // Optional subtle shaded area under curve from last buy or start
-  const buys = (marks || []).filter((m) => m.side !== "sale" && m.date);
-  let lastBuy = opts.lastBuy || null;
-  if (!lastBuy && buys.length) lastBuy = buys.map((m) => m.date).sort().pop();
+  // Optional shaded area under curve - disabled per user request
+  // (area shading removed for crisp, clean price curve visibility)
   let areaPath = "";
-  if (lastBuy) {
-    const si = idxFor(lastBuy);
-    const subPts = pts.slice(si);
-    if (subPts.length >= 2) {
-      areaPath = createSplinePath(subPts) +
-        " L " + lastPt.x.toFixed(1) + " " + priceBot.toFixed(1) +
-        " L " + pts[si].x.toFixed(1) + " " + priceBot.toFixed(1) + " Z";
+  if (opts.showArea) {
+    const buys = (marks || []).filter((m) => m.side !== "sale" && m.date);
+    let lastBuy = opts.lastBuy || null;
+    if (!lastBuy && buys.length) lastBuy = buys.map((m) => m.date).sort().pop();
+    if (lastBuy) {
+      const si = idxFor(lastBuy);
+      const subPts = pts.slice(si);
+      if (subPts.length >= 2) {
+        areaPath = createSplinePath(subPts) +
+          " L " + lastPt.x.toFixed(1) + " " + priceBot.toFixed(1) +
+          " L " + pts[si].x.toFixed(1) + " " + priceBot.toFixed(1) + " Z";
+      }
     }
   }
 
@@ -306,35 +422,37 @@ function drawChart(points, marks, opts) {
   const terminalVal = lastPt.px;
 
   // Render complete SVG
+  const gradStopsHtml = palette.gradStops.map((s) =>
+    "<stop offset=\"" + s.offset + "\" stop-color=\"" + s.color + "\" />"
+  ).join("");
+
+  const glowStopsHtml = palette.glowStops.map((s) =>
+    "<stop offset=\"" + s.offset + "\" stop-color=\"" + s.color + "\" stop-opacity=\"" + s.opacity + "\" />"
+  ).join("");
+
   svg.innerHTML =
     "<defs>" +
       "<linearGradient id=\"neonGradient\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">" +
-        "<stop offset=\"0%\" stop-color=\"#f8fafc\" />" +
-        "<stop offset=\"36%\" stop-color=\"#f1f5f9\" />" +
-        "<stop offset=\"58%\" stop-color=\"#c084fc\" />" +
-        "<stop offset=\"85%\" stop-color=\"#a855f7\" />" +
-        "<stop offset=\"100%\" stop-color=\"#c084fc\" />" +
+        gradStopsHtml +
       "</linearGradient>" +
       "<linearGradient id=\"underGlow\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"0%\">" +
-        "<stop offset=\"0%\" stop-color=\"#94a3b8\" stop-opacity=\"0.15\" />" +
-        "<stop offset=\"60%\" stop-color=\"#c084fc\" stop-opacity=\"0.28\" />" +
-        "<stop offset=\"100%\" stop-color=\"#a855f7\" stop-opacity=\"0.5\" />" +
+        glowStopsHtml +
       "</linearGradient>" +
       "<linearGradient id=\"qc-sub-area\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">" +
-        "<stop offset=\"0%\" stop-color=\"#a855f7\" stop-opacity=\"0.2\" />" +
-        "<stop offset=\"100%\" stop-color=\"#a855f7\" stop-opacity=\"0.02\" />" +
+        "<stop offset=\"0%\" stop-color=\"" + palette.primary + "\" stop-opacity=\"0.18\" />" +
+        "<stop offset=\"100%\" stop-color=\"" + palette.primary + "\" stop-opacity=\"0.01\" />" +
       "</linearGradient>" +
     "</defs>" +
     // Y Grid lines
     gridLines +
-    // Area fill if present
+    // Area fill if explicitly enabled
     (areaPath ? "<path d=\"" + areaPath + "\" fill=\"url(#qc-sub-area)\" />" : "") +
     // Glowing underlayer
     "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"8\" opacity=\"0.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
     // Crisp foreground spline
-    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
+    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
     // Terminal point dot
-    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5\" fill=\"#c084fc\" stroke=\"#ffffff\" stroke-width=\"1.8\" />" +
+    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.8\" />" +
     // Interactive Trade Pins
     tradePinsHtml +
     // Scrubber elements (updated dynamically on pointermove)
@@ -354,7 +472,7 @@ function drawChart(points, marks, opts) {
   }
 
   // DOM Badges & Tooltip Container
-  ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h);
+  ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette);
 
   // Hook up mark click events
   svg.querySelectorAll(".chart-mark").forEach((el) => {
@@ -382,7 +500,7 @@ function drawChart(points, marks, opts) {
 /**
  * Ensure the floating HUD, hover badges, and terminal pill exist in the chart-wrap
  */
-function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h) {
+function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) {
   if (!wrap) return;
 
   // Terminal price pill on far right
@@ -393,6 +511,16 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h) {
     wrap.appendChild(termPill);
   }
   termPill.innerHTML = "<span class=\"qc-term-dot\"></span> " + axisPrice(terminalVal);
+  if (palette) {
+    if (palette.terminalPillBg) termPill.style.background = palette.terminalPillBg;
+    if (palette.terminalPillShadow) termPill.style.boxShadow = palette.terminalPillShadow;
+  }
+
+  // Update mark-pop box-shadow if active
+  const pop = wrap.querySelector("#mark-pop");
+  if (pop && palette && palette.popShadow) {
+    pop.style.boxShadow = palette.popShadow;
+  }
 
   // Attached price pill on cursor
   let hoverPricePill = wrap.querySelector(".qc-hover-price-pill");
@@ -600,3 +728,9 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
         }, 1800);
       });
 }
+
+// Export palettes globally
+if (typeof window !== "undefined") {
+  window.CHART_PALETTES = CHART_PALETTES;
+}
+

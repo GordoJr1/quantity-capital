@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Quantity Capital — Chart Color Theme Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430;
+      --panel: #2a3340;
+      --paper: #d8dde3;
+      --white: #eef2f5;
+      --caution: #e3b41a;
+      --mute: #8b96a3;
+      --ink: #1a1d26;
+      --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.96), rgba(28, 36, 48, 0.98)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+      padding: 24px 20px 60px;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 18px;
+      border-bottom: 2px solid var(--teal);
+      margin-bottom: 24px;
+    }
+    .mark {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: inherit;
+      text-decoration: none;
+    }
+    .mark span { color: var(--teal); }
+    .badge-sub {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      background: rgba(54, 153, 157, 0.18);
+      border: 1px solid var(--teal);
+      color: #5eead4;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .intro-hero {
+      margin-bottom: 28px;
+    }
+    .kicker {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.88rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--caution);
+      margin-bottom: 4px;
+    }
+    h1 {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .desc {
+      color: var(--mute);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: 820px;
+    }
+
+    /* Palette Selector Bar */
+    .palette-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .palette-card {
+      background: rgba(21, 27, 36, 0.82);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .palette-card:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    .palette-card.active {
+      background: rgba(28, 36, 48, 0.95);
+      border-color: var(--active-border, #10b981);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 16px var(--active-glow, rgba(16, 185, 129, 0.3));
+    }
+    .palette-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .palette-title {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+    .palette-swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+    }
+    .palette-gradient-bar {
+      height: 6px;
+      border-radius: 3px;
+      width: 100%;
+    }
+    .palette-desc {
+      font-size: 0.78rem;
+      color: var(--mute);
+      line-height: 1.35;
+    }
+
+    /* Live Preview Section */
+    .preview-box {
+      background: rgba(13, 20, 31, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      margin-bottom: 24px;
+    }
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .ticker-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .ticker-tab {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--paper);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+    .ticker-tab:hover {
+      background: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+    }
+    .ticker-tab.active {
+      background: var(--caution);
+      color: #0b111a;
+      border-color: var(--caution);
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.76rem;
+      color: #cbd5e1;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    /* Chart wrap standard container from ticker.html */
+    .chart-wrap {
+      position: relative;
+      background: rgba(13, 20, 31, 0.72);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 20px;
+      padding: 20px 20px 16px;
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      user-select: none;
+      margin-bottom: 8px;
+    }
+    .chart-frame {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    #chart-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: transparent;
+      min-height: 280px;
+      cursor: crosshair;
+      overflow: visible;
+    }
+    .qc-spline-main {
+      filter: drop-shadow(0 0 7px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 14px rgba(16, 185, 129, 0.32));
+    }
+    .qc-terminal-pill {
+      position: absolute;
+      background: #059669;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      padding: 3px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.45);
+      z-index: 5;
+    }
+    .qc-term-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #ffffff;
+    }
+    .qc-hover-price-pill {
+      position: absolute;
+      background: #ffffff;
+      color: #0b111a;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      padding: 3px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .qc-hover-date-pill {
+      position: absolute;
+      bottom: 6px;
+      background: #0d1522;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #cbd5e1;
+      font-size: 11px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .qc-glass-hud {
+      position: absolute;
+      top: 36px;
+      left: 360px;
+      background: rgba(14, 21, 33, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      pointer-events: none;
+      font-size: 11.5px;
+      color: #94a3b8;
+      z-index: 20;
+      width: 220px;
+      transition: opacity 0.15s ease, transform 0.08s ease;
+    }
+    .qc-hud-section {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caution);
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .qc-hud-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 1.6;
+    }
+    .qc-hud-val {
+      color: #ffffff;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 500;
+    }
+    .qc-hud-trade-box {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.14);
+    }
+    .qc-hud-tag {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .qc-hud-tag.tag-buy {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+    .qc-hud-tag.tag-sell {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.4);
+    }
+    .qc-hud-filer {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 11.5px;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .qc-hud-sub {
+      color: #94a3b8;
+      font-size: 10px;
+      margin-top: 2px;
+    }
+
+    .chart-x {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 60px 0 64px;
+      font-size: 11px;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      text-transform: uppercase;
+    }
+
+    /* Popover Styling */
+    .mark-pop {
+      position: absolute;
+      z-index: 70;
+      background: rgba(13, 20, 32, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(16, 185, 129, 0.16);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #e2e8f0;
+      box-sizing: border-box;
+      pointer-events: auto;
+      animation: popFade 0.14s ease-out;
+    }
+    @keyframes popFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .mark-pop .pop-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .mark-pop .pop-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+      flex: 1;
+    }
+    .mark-pop .pop-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .mark-pop .pop-badge.buy {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    .mark-pop .pop-badge.sell {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+    }
+    .mark-pop .pop-title {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mark-pop .pop-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11.5px;
+      line-height: 1;
+      padding: 0;
+      flex-shrink: 0;
+      transition: all 0.12s ease;
+    }
+    .mark-pop .pop-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+    .mark-pop .pop-single-detail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+    .mark-pop .pop-single-amt {
+      color: #ffffff;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+    }
+    .mark-pop .pop-dot { color: #64748b; }
+    .mark-pop .pop-single-date { color: #94a3b8; }
+    .mark-pop .pop-single-shares { color: #94a3b8; font-size: 11.5px; }
+
+    /* Comparison Grid */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .palette-feature-card {
+      background: rgba(21, 27, 36, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .palette-feature-card h3 {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .palette-feature-card p {
+      color: var(--mute);
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+    .feature-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <span class="badge-sub">Color Design Studio</span>
+    </header>
+
+    <div class="intro-hero">
+      <p class="kicker">Visual Revamp &middot; Zero Area Shading</p>
+      <h1>Select Your Preferred Chart Color Palette</h1>
+      <p class="desc">
+        As requested, the purple area shading under the price curve has been completely removed so the price spline remains razor crisp.
+        Below are 4 high-contrast, modern color schemes presented side-by-side on your real trading tape data (click any palette to preview instantly).
+      </p>
+    </div>
+
+    <!-- Palette Switcher -->
+    <div class="palette-bar" id="palette-bar">
+      <!-- Injected by script -->
+    </div>
+
+    <!-- Live Preview Card -->
+    <div class="preview-box">
+      <div class="preview-header">
+        <div class="ticker-tabs" id="ticker-tabs">
+          <button type="button" class="ticker-tab active" data-ticker="VSAT">VSAT (Screenshot Ticker)</button>
+          <button type="button" class="ticker-tab" data-ticker="NVDA">NVDA</button>
+          <button type="button" class="ticker-tab" data-ticker="HD">HD</button>
+        </div>
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span id="active-theme-label">Active: Emerald Matrix (Zero Area Shading)</span>
+        </div>
+      </div>
+
+      <div class="chart-wrap" id="chart-wrap">
+        <div class="chart-frame">
+          <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
+          <div class="chart-x" id="chart-x"></div>
+        </div>
+        <div class="mark-pop" id="mark-pop" hidden></div>
+      </div>
+    </div>
+
+    <!-- Palette Breakdown Details -->
+    <div class="comparison-grid">
+      <div class="palette-feature-card" style="border-top: 3px solid #10b981;">
+        <h3><span style="color:#10b981">●</span> Emerald Matrix <span class="feature-badge" style="background:rgba(16,185,129,0.2); color:#10b981;">Recommended</span></h3>
+        <p>Ice platinum transitioning into vibrant neon emerald with mint highlights. Harmonizes natively with Quantity Capital's financial intelligence theme and buy badges.</p>
+      </div>
+
+      <div class="palette-feature-card" style="border-top: 3px solid #06b6d4;">
+        <h3><span style="color:#06b6d4">●</span> Electric Cyan <span class="feature-badge" style="background:rgba(6,182,212,0.2); color:#06b6d4;">Cyber Clean</span></h3>
+        <p>Ultra-crisp cyan/teal neon glow that directly matches Quantity Capital's site accent color (`--teal: #36999d`), providing a cohesive institutional terminal aesthetic.</p>
+      </div>
+
+      <div class="palette-feature-card" style="border-top: 3px solid #f59e0b;">
+        <h3><span style="color:#f59e0b">●</span> Amber Gold <span class="feature-badge" style="background:rgba(245,158,11,0.2); color:#f59e0b;">High Visibility</span></h3>
+        <p>Warm luminous amber and gold glow directly matching the site's caution ticker pills and pull-to-refresh accents (`--caution: #e3b41a`), giving maximum contrast against charcoal.</p>
+      </div>
+
+      <div class="palette-feature-card" style="border-top: 3px solid #3b82f6;">
+        <h3><span style="color:#3b82f6">●</span> Cobalt Ice <span class="feature-badge" style="background:rgba(59,130,246,0.2); color:#3b82f6;">Wall St Pro</span></h3>
+        <p>Crisp electric blue and cobalt glow inspired by professional Bloomberg terminals. High legibility, cool tone, with zero color clash against green buys and red sells.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="qc.js"></script>
+  <script src="chart.js"></script>
+  <script>
+    const THEMES = [
+      {
+        id: "emerald",
+        name: "Emerald Matrix",
+        desc: "Luminous neon emerald & mint · Fresh, modern, highly legible",
+        border: "#10b981",
+        glow: "rgba(16, 185, 129, 0.4)",
+        gradient: "linear-gradient(90deg, #f8fafc 0%, #6ee7b7 55%, #10b981 100%)",
+        swatch: "#10b981"
+      },
+      {
+        id: "cyan",
+        name: "Electric Cyan",
+        desc: "Ice cyan & electric teal · Matches Quantity Capital theme",
+        border: "#06b6d4",
+        glow: "rgba(6, 182, 212, 0.4)",
+        gradient: "linear-gradient(90deg, #f8fafc 0%, #67e8f9 55%, #06b6d4 100%)",
+        swatch: "#06b6d4"
+      },
+      {
+        id: "amber",
+        name: "Amber Gold",
+        desc: "Warm gold & amber radiance · High contrast on dark glass",
+        border: "#f59e0b",
+        glow: "rgba(245, 158, 11, 0.4)",
+        gradient: "linear-gradient(90deg, #f8fafc 0%, #fcd34d 55%, #f59e0b 100%)",
+        swatch: "#f59e0b"
+      },
+      {
+        id: "blue",
+        name: "Cobalt Ice",
+        desc: "Deep electric blue & arctic ice · Professional terminal look",
+        border: "#3b82f6",
+        glow: "rgba(59, 130, 246, 0.4)",
+        gradient: "linear-gradient(90deg, #f8fafc 0%, #93c5fd 55%, #3b82f6 100%)",
+        swatch: "#3b82f6"
+      }
+    ];
+
+    let currentTheme = "emerald";
+    let currentTicker = "VSAT";
+    let tickerData = {};
+
+    function renderPaletteBar() {
+      const bar = document.getElementById("palette-bar");
+      bar.innerHTML = THEMES.map((t) => {
+        const active = t.id === currentTheme ? "active" : "";
+        return `
+          <div class="palette-card ${active}" data-theme="${t.id}" style="--active-border:${t.border}; --active-glow:${t.glow};">
+            <div class="palette-top">
+              <span class="palette-title">${t.name}</span>
+              <span class="palette-swatch" style="background:${t.swatch};"></span>
+            </div>
+            <div class="palette-gradient-bar" style="background:${t.gradient};"></div>
+            <p class="palette-desc">${t.desc}</p>
+          </div>
+        `;
+      }).join("");
+
+      bar.querySelectorAll(".palette-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          currentTheme = card.dataset.theme;
+          renderPaletteBar();
+          const themeObj = THEMES.find((x) => x.id === currentTheme);
+          document.getElementById("active-theme-label").textContent = "Active: " + (themeObj ? themeObj.name : currentTheme) + " (Zero Area Shading)";
+          paintChart();
+        });
+      });
+    }
+
+    function showPop(rec) {
+      const pop = document.getElementById("mark-pop");
+      const wrap = document.getElementById("chart-wrap");
+      if (!pop || !wrap) return;
+
+      const hud = wrap.querySelector(".qc-glass-hud");
+      if (hud) hud.style.display = "none";
+
+      const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
+      const buy = (rec.side || marks[0].side) !== "sale";
+      const m = marks[0];
+      const amt = m.amount ? QC.formatAmountRange(m.amount) : (m.value ? ("$" + Number(m.value).toLocaleString()) : "");
+      const mDate = m.date ? QC.prettyDate(m.date) : "";
+
+      pop.innerHTML = `
+        <div class="pop-header">
+          <div class="pop-title-wrap">
+            <span class="pop-badge ${buy ? "buy" : "sell"}">${buy ? "BUY" : "SELL"}</span>
+            <div class="pop-title">${QC.esc(m.filer || "Official disclosure")}</div>
+          </div>
+          <button type="button" class="pop-close" aria-label="Close">✕</button>
+        </div>
+        <div class="pop-single-detail">
+          ${amt ? `<span class="pop-single-amt">${amt}</span>` : ""}
+          ${amt && mDate ? `<span class="pop-dot">·</span>` : ""}
+          ${mDate ? `<span class="pop-single-date">${mDate}</span>` : ""}
+        </div>
+      `;
+
+      pop.querySelector(".pop-close").addEventListener("click", () => { pop.hidden = true; });
+
+      const svg = document.getElementById("chart-svg");
+      const wr = wrap.getBoundingClientRect();
+      const sr = svg.getBoundingClientRect();
+      const popWidth = Math.min(320, wr.width - 24);
+      pop.style.width = popWidth + "px";
+      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+
+      let popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, pinScreenX - (popWidth / 2)));
+      pop.style.left = popLeft + "px";
+      if (pinScreenY < 140 || rec.yPct < 0.46) {
+        pop.style.top = (pinScreenY + 16) + "px";
+        pop.style.transform = "none";
+      } else {
+        pop.style.top = (pinScreenY - 16) + "px";
+        pop.style.transform = "translateY(-100%)";
+      }
+
+      const pal = CHART_PALETTES[currentTheme];
+      if (pal && pal.popShadow) pop.style.boxShadow = pal.popShadow;
+      pop.hidden = false;
+    }
+
+    function paintChart() {
+      const pop = document.getElementById("mark-pop");
+      if (pop) pop.hidden = true;
+
+      const data = tickerData[currentTicker];
+      if (!data || !data.prices || !data.prices.c) return;
+
+      const slice = slicePriceRange(data.prices.c, "3y");
+      const marks = (data.trades || []).map((t) => ({
+        date: t.trade_date,
+        side: t.side,
+        filer: t.filer,
+        amount: t.amount,
+        value: t.value
+      }));
+
+      drawChart(slice, marks, {
+        height: 300,
+        range: "3y",
+        theme: currentTheme,
+        onMark: showPop
+      });
+    }
+
+    async function loadTicker(ticker) {
+      if (tickerData[ticker]) return;
+      const [tradeRes, priceRes] = await Promise.all([
+        fetch("trades.json").then((r) => r.json()).catch(() => ({ trades: [] })),
+        fetch(`prices/${ticker}.json`).then((r) => r.json()).catch(() => null)
+      ]);
+      const trades = (tradeRes.trades || []).filter((t) => (t.ticker || "").toUpperCase() === ticker);
+      tickerData[ticker] = { trades: trades, prices: priceRes };
+    }
+
+    document.querySelectorAll(".ticker-tab").forEach((tab) => {
+      tab.addEventListener("click", async () => {
+        document.querySelectorAll(".ticker-tab").forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        currentTicker = tab.dataset.ticker;
+        await loadTicker(currentTicker);
+        paintChart();
+      });
+    });
+
+    // Initialize
+    renderPaletteBar();
+    loadTicker(currentTicker).then(() => {
+      paintChart();
+    });
+  </script>
+</body>
+</html>

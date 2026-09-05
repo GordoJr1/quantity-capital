@@ -340,12 +340,13 @@
     .chart-x {
       display: flex;
       justify-content: space-between;
-      padding: 8px 60px 0 56px;
-      color: #cbd5e1;
-      font-size: 12px;
-      font-weight: 600;
+      padding: 10px 60px 0 64px;
+      color: #e2e8f0;
+      font-size: 13.5px;
+      font-weight: 700;
       font-family: "IBM Plex Sans", sans-serif;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
     .chart-legend { color: var(--mute); font-size: 0.8rem; margin: 12px 0 0; }
     .chart-legend .buy, .chart-legend .sell { margin-right: 12px; font-weight: 600; }
@@ -382,10 +383,10 @@
         padding: 10px 14px;
       }
       .chart-x {
-        padding: 6px 20px 0 20px;
-        font-size: 11px;
-        font-weight: 600;
-        color: #cbd5e1;
+        padding: 8px 22px 0 34px;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #e2e8f0;
       }
       .range button {
         padding: 5px 10px;
@@ -641,6 +642,7 @@
       }));
       drawChart(slice, marks, {
         height: chartHeight(),
+        range: range,
         onMark: showPop
       });
     }

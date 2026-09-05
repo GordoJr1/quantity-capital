@@ -22,9 +22,12 @@ function axisPrice(n, span) {
   return "$" + n.toFixed(2);
 }
 
-function axisDate(iso) {
+function axisDate(iso, isShortSpan) {
   const d = new Date(String(iso || "") + "T00:00:00");
   if (isNaN(d.getTime())) return "";
+  if (isShortSpan) {
+    return d.toLocaleString("en-US", { month: "short", day: "numeric" });
+  }
   return d.toLocaleString("en-US", { month: "short", year: "2-digit" });
 }
 
@@ -32,8 +35,9 @@ function hoverDateFmt(iso) {
   const d = new Date(String(iso || "") + "T00:00:00");
   if (isNaN(d.getTime())) return String(iso || "");
   const m = d.getMonth() + 1;
+  const day = d.getDate();
   const y = d.getFullYear();
-  return m + "/" + y;
+  return m + "/" + day + "/" + String(y).slice(-2);
 }
 
 function slicePriceRange(points, range) {
@@ -111,9 +115,15 @@ function drawChart(points, marks, opts) {
   if (!svg || !points || points.length < 2) return [];
 
   // Dimensions & Padding
+  const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 820px)").matches;
   const w = 840;
-  const h = opts.height || 300;
-  const pad = { l: 56, r: 60, t: 20, b: 20 };
+  const h = opts.height || (isMobile ? 240 : 300);
+  const pad = {
+    l: isMobile ? 82 : 64,
+    r: isMobile ? 54 : 60,
+    t: isMobile ? 24 : 22,
+    b: isMobile ? 20 : 20
+  };
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
   // Full height for price curve
@@ -166,13 +176,15 @@ function drawChart(points, marks, opts) {
   }
 
   // Y-axis grid lines (5 horizontal levels: 100%, 75%, 50%, 25%, 0%)
+  const yFontSize = isMobile ? 22 : 14.5;
+  const yTextOffset = isMobile ? 6.5 : 4.8;
   const yTicks = [1, 0.75, 0.5, 0.25, 0].map((t) => min + span * t);
   const gridLines = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
-      "\" stroke=\"rgba(255,255,255,0.075)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />" +
-      "<text x=\"" + (pad.l - 10) + "\" y=\"" + (Number(y) + 4.2).toFixed(1) +
-      "\" fill=\"#cbd5e1\" font-size=\"12.5\" font-weight=\"600\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
+      "\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />" +
+      "<text x=\"" + (pad.l - 12) + "\" y=\"" + (Number(y) + yTextOffset).toFixed(1) +
+      "\" fill=\"#e2e8f0\" font-size=\"" + yFontSize + "\" font-weight=\"700\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
       axisPrice(px, span) + "</text>";
   }).join("");
 
@@ -236,6 +248,11 @@ function drawChart(points, marks, opts) {
     const id = hit.length;
     let x = cluster.x;
 
+    const pinR = isMobile ? 8.5 : 5.5;
+    const haloR = isMobile ? 14 : 9;
+    const pinFontSize = isMobile ? 11 : 7.5;
+    const pinTextYOffset = isMobile ? 3.8 : 2.8;
+
     hit.push({
       mark: marksList[0],
       marks: marksList,
@@ -249,28 +266,36 @@ function drawChart(points, marks, opts) {
 
     if (n === 1) {
       return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"14\" fill=\"transparent\" />" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"9\" fill=\"" + haloBg + "\" />" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"5.5\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 2.8).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (haloR + 6) + "\" fill=\"transparent\" />" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + haloR + "\" fill=\"" + haloBg + "\" />" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + pinR + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
+        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + pinTextYOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontSize + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
         "</g>";
     }
 
+    const badgeH = isMobile ? 24 : 20;
+    const badgeR = isMobile ? 12 : 10;
+    const badgeCircleR = isMobile ? 8 : 6;
+    const badgeNumFont = isMobile ? 10 : 7.5;
+    const badgeWordFont = isMobile ? 12 : 9.5;
+    const badgeNumOffset = isMobile ? 3.5 : 2.8;
+    const badgeWordOffset = isMobile ? 4 : 3.2;
+
     const total = marksList.reduce((s, m) => s + tradeValue(m), 0);
     const word = (sale ? "SELLS" : "BUYS") + " · " + formatVol(total);
-    const tw = Math.max(76, 28 + word.length * 5.8);
+    const tw = Math.max(isMobile ? 92 : 76, 28 + word.length * (isMobile ? 6.8 : 5.8));
     const x0 = Math.max(pad.l, Math.min(w - pad.r - tw, x - tw / 2));
     x = x0 + tw / 2;
     hit[id].x = x;
     hit[id].xPct = x / w;
 
     return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-      "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - 10).toFixed(1) +
-        "\" width=\"" + tw.toFixed(1) + "\" height=\"20\" rx=\"10\" fill=\"" +
+      "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - badgeH / 2).toFixed(1) +
+        "\" width=\"" + tw.toFixed(1) + "\" height=\"" + badgeH + "\" rx=\"" + badgeR + "\" fill=\"" +
         (sale ? "rgba(46, 22, 25, 0.9)" : "rgba(18, 38, 28, 0.9)") + "\" stroke=\"" + color + "\" stroke-width=\"1.4\" />" +
-      "<circle cx=\"" + (x0 + 11).toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"6\" fill=\"" + color + "\" />" +
-      "<text x=\"" + (x0 + 11).toFixed(1) + "\" y=\"" + (cy + 2.8).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"7.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
-      "<text x=\"" + (x0 + 20 + (tw - 26) / 2).toFixed(1) + "\" y=\"" + (cy + 3.2).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"9.5\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
+      "<circle cx=\"" + (x0 + (isMobile ? 13 : 11)).toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + badgeCircleR + "\" fill=\"" + color + "\" />" +
+      "<text x=\"" + (x0 + (isMobile ? 13 : 11)).toFixed(1) + "\" y=\"" + (cy + badgeNumOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + badgeNumFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<text x=\"" + (x0 + (isMobile ? 22 : 20) + (tw - (isMobile ? 28 : 26)) / 2).toFixed(1) + "\" y=\"" + (cy + badgeWordOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"" + badgeWordFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
       "</g>";
   }
 
@@ -323,7 +348,9 @@ function drawChart(points, marks, opts) {
   if (xBox) {
     const last = points.length - 1;
     const spots = [0, Math.round(last / 4), Math.round(last / 2), Math.round((3 * last) / 4), last];
-    xBox.innerHTML = spots.map((i) => "<span>" + axisDate(points[i][0]) + "</span>").join("");
+    const daysSpan = (new Date(String(lastDate) + "T00:00:00") - new Date(String(firstDate) + "T00:00:00")) / 86400000;
+    const isShortSpan = daysSpan <= 210 || (opts && (opts.range === "1m" || opts.range === "3m" || opts.range === "6m"));
+    xBox.innerHTML = spots.map((i) => "<span>" + axisDate(points[i][0], isShortSpan) + "</span>").join("");
   }
 
   // DOM Badges & Tooltip Container

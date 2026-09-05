@@ -890,9 +890,13 @@
       const wrap = document.getElementById("chart-wrap");
       if (!pop || !wrap) return;
 
-      // Hide hover HUD while mark pop is open so they do not overlap
-      const hud = wrap.querySelector(".qc-glass-hud");
-      if (hud) hud.style.display = "none";
+      // Hide hover HUD / pills while mark pop is open so they do not flash or overlap
+      if (typeof hideChartHoverUi === "function") {
+        hideChartHoverUi(wrap, document.getElementById("chart-svg"));
+      } else {
+        const hud = wrap.querySelector(".qc-glass-hud");
+        if (hud) hud.style.display = "none";
+      }
 
       const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
       const buy = (rec.side || marks[0].side) !== "sale";

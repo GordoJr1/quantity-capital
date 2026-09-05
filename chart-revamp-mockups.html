@@ -665,8 +665,12 @@
       const wrap = document.getElementById("chart-wrap");
       if (!pop || !wrap) return;
 
-      const hud = wrap.querySelector(".qc-glass-hud");
-      if (hud) hud.style.display = "none";
+      if (typeof hideChartHoverUi === "function") {
+        hideChartHoverUi(wrap, document.getElementById("chart-svg"));
+      } else {
+        const hud = wrap.querySelector(".qc-glass-hud");
+        if (hud) hud.style.display = "none";
+      }
 
       const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
       const buy = (rec.side || marks[0].side) !== "sale";

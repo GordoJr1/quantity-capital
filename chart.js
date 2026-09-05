@@ -539,6 +539,7 @@ function drawChart(points, marks, opts) {
   svg.querySelectorAll(".chart-mark").forEach((el) => {
     el.addEventListener("click", (e) => {
       e.stopPropagation();
+      hideChartHoverUi(wrap, svg);
       const rec = hit[Number(el.getAttribute("data-i"))];
       if (rec && opts.onMark) opts.onMark(rec);
     });
@@ -620,6 +621,17 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) 
   updateTerminalPillPosition(wrap, termPill, lastPt, w, h);
 }
 
+function hideChartHoverUi(wrap, svg) {
+  const hud = wrap && wrap.querySelector(".qc-glass-hud");
+  const hoverPricePill = wrap && wrap.querySelector(".qc-hover-price-pill");
+  const hoverDatePill = wrap && wrap.querySelector(".qc-hover-date-pill");
+  const scrubG = svg && svg.querySelector("#qc-scrubber-g");
+  if (hud) hud.style.display = "none";
+  if (hoverPricePill) hoverPricePill.style.display = "none";
+  if (hoverDatePill) hoverDatePill.style.display = "none";
+  if (scrubG) scrubG.style.display = "none";
+}
+
 function updateTerminalPillPosition(wrap, termPill, lastPt, w, h) {
   const svg = wrap.querySelector("#chart-svg");
   if (!svg || !termPill || !lastPt) return;
@@ -651,6 +663,12 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
   const hud = wrap.querySelector(".qc-glass-hud");
 
   function onPointerMove(e) {
+    const pop = wrap.querySelector("#mark-pop");
+    if (pop && !pop.hidden) {
+      onPointerLeave();
+      return;
+    }
+
     const sr = svg.getBoundingClientRect();
     const wr = wrap.getBoundingClientRect();
     const clientX = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : null);
@@ -716,11 +734,6 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
 
     // Update Floating HUD
     if (hud) {
-      const pop = wrap.querySelector("#mark-pop");
-      if (pop && !pop.hidden) {
-        hud.style.display = "none";
-        return;
-      }
       hud.style.display = "block";
       let hudContent =
         "<div class=\"qc-hud-section\">Market Quote</div>" +
@@ -775,29 +788,86 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
     if (hud) hud.style.display = "none";
   }
 
-      svg.style.touchAction = "none";
-      let isTouching = false;
-      svg.addEventListener("touchstart", (e) => {
-        isTouching = true;
-        onPointerMove(e);
-      }, { passive: false });
-      svg.addEventListener("touchmove", (e) => {
-        if (isTouching) {
-          e.preventDefault(); // prevent page jerk while scrubbing chart on mobile
-          onPointerMove(e);
-        }
-      }, { passive: false });
-      svg.addEventListener("touchend", () => {
-        isTouching = false;
-        // Keep HUD visible for 1.8s after touch release so user can comfortably read it
-        setTimeout(() => {
-          if (!isTouching) onPointerLeave();
-        }, 1800);
-      });
+  svg.style.touchAction = "none";
+
+  let lastTouchAt = 0;
+  let isTouchScrubbing = false;
+  let didTouchMove = false;
+  let touchStartedOnMark = false;
+  let lingerTimer = 0;
+
+  function recentTouch() {
+    return Date.now() - lastTouchAt < 800;
+  }
+
+  function clearLinger() {
+    if (lingerTimer) {
+      window.clearTimeout(lingerTimer);
+      lingerTimer = 0;
+    }
+  }
+
+  function eventOnMark(e) {
+    const t = e.target;
+    return !!(t && t.closest && t.closest(".chart-mark"));
+  }
+
+  svg.addEventListener("mousemove", (e) => {
+    if (recentTouch() || isTouchScrubbing) return;
+    onPointerMove(e);
+  });
+  svg.addEventListener("mouseleave", () => {
+    if (recentTouch() || isTouchScrubbing) return;
+    onPointerLeave();
+  });
+
+  svg.addEventListener("touchstart", (e) => {
+    lastTouchAt = Date.now();
+    isTouchScrubbing = true;
+    didTouchMove = false;
+    touchStartedOnMark = eventOnMark(e);
+    clearLinger();
+    // Wait for an actual drag before showing the HUD so a tap does not flash
+    // the mobile quote box at the top of the chart.
+  }, { passive: true });
+
+  svg.addEventListener("touchmove", (e) => {
+    if (!isTouchScrubbing || e.touches.length !== 1) return;
+    lastTouchAt = Date.now();
+    didTouchMove = true;
+    if (touchStartedOnMark) return;
+    e.preventDefault();
+    onPointerMove(e);
+  }, { passive: false });
+
+  svg.addEventListener("touchend", (e) => {
+    lastTouchAt = Date.now();
+    if (!isTouchScrubbing) return;
+    isTouchScrubbing = false;
+    const openedMark = touchStartedOnMark || eventOnMark(e);
+    touchStartedOnMark = false;
+    if (!didTouchMove || openedMark) {
+      onPointerLeave();
+      return;
+    }
+    lingerTimer = window.setTimeout(() => {
+      lingerTimer = 0;
+      if (!isTouchScrubbing) onPointerLeave();
+    }, 1800);
+  });
+
+  svg.addEventListener("touchcancel", () => {
+    lastTouchAt = Date.now();
+    isTouchScrubbing = false;
+    touchStartedOnMark = false;
+    clearLinger();
+    onPointerLeave();
+  });
 }
 
 // Export palettes globally
 if (typeof window !== "undefined") {
   window.CHART_PALETTES = CHART_PALETTES;
+  window.hideChartHoverUi = hideChartHoverUi;
 }
 

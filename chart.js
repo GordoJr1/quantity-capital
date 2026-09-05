@@ -270,7 +270,7 @@ function drawChart(points, marks, opts) {
   const w = 840;
   const h = opts.height || (isMobile ? 240 : 300);
   const pad = {
-    l: isMobile ? 82 : 64,
+    l: isMobile ? 82 : 34,
     r: isMobile ? 54 : 60,
     t: isMobile ? 24 : 22,
     b: isMobile ? 20 : 20
@@ -414,10 +414,10 @@ function drawChart(points, marks, opts) {
     const id = hit.length;
     let x = cluster.x;
 
-    const pinRpx = isMobile ? 8 : 6.5;
-    const haloRpx = isMobile ? 13 : 10.5;
-    const pinFontPx = isMobile ? 11 : 9;
-    const pinTextY = isMobile ? 4 : 3.2;
+    const pinRpx = isMobile ? 10 : 9;
+    const haloRpx = isMobile ? 16 : 14;
+    const pinFontPx = isMobile ? 12 : 11;
+    const pinTextY = isMobile ? 4.4 : 4;
 
     hit.push({
       mark: marksList[0],
@@ -430,13 +430,15 @@ function drawChart(points, marks, opts) {
       date: marksList[0].date
     });
 
-    if (n === 1) {
+    // Buy clusters stay as dots (count if stacked). Sell clusters keep the volume pill.
+    if (n === 1 || !sale) {
+      const label = (!sale && n > 1) ? String(n) : letter;
       return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 22 : 16) + "\" fill=\"transparent\" />" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 24 : 18) + "\" fill=\"transparent\" />" +
         "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
           "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
           "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-          "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
+          "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
         "</g>" +
       "</g>";
     }
@@ -507,7 +509,7 @@ function drawChart(points, marks, opts) {
     // Crisp foreground spline (sleek, precision 2.2px line)
     "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
     // Terminal point dot
-    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"4.2\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.6\" />" +
+    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5.2\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.7\" />" +
     // Interactive Trade Pins
     tradePinsHtml +
     // Scrubber elements (updated dynamically on pointermove)
@@ -669,8 +671,8 @@ function updateTerminalPillPosition(wrap, termPill, lastPt, w, h) {
   const scaleY = sr.height / h;
   let screenX = (lastPt.x * scaleX) + (sr.left - wr.left) + 10;
   // Ensure pill stays inside the chart card on small screens
-  if (screenX + 54 > wr.width - 8) {
-    screenX = wr.width - 62;
+  if (screenX + 86 > wr.width - 8) {
+    screenX = wr.width - 94;
   }
   const screenY = (lastPt.y * scaleY) + (sr.top - wr.top);
   termPill.style.left = screenX + "px";
@@ -741,8 +743,8 @@ function attachScrubberEvents(svg, wrap, pts, w, h) {
     if (hoverPricePill) {
       hoverPricePill.style.display = "block";
       let pillLeft = screenX + 10;
-      if (pillLeft + 54 > wr.width - 8) {
-        pillLeft = screenX - 60;
+      if (pillLeft + 72 > wr.width - 8) {
+        pillLeft = screenX - 78;
       }
       hoverPricePill.style.left = pillLeft + "px";
       hoverPricePill.style.top = screenY + "px";

@@ -353,35 +353,38 @@ function drawChart(points, marks, opts) {
   // Cluster overlapping trade marks for clean pins
   const hit = [];
 
-  function clusterByX(arr, minGap) {
+  function clusterByDate(arr) {
     const items = arr.map((m) => {
       const i = idxFor(m.date);
-      return { mark: m, i: i, x: xAt(i) };
-    }).sort((a, b) => a.x - b.x);
+      return { mark: m, i: i, x: xAt(i), date: m.date };
+    }).sort((a, b) => {
+      if (a.date < b.date) return -1;
+      if (a.date > b.date) return 1;
+      return a.x - b.x;
+    });
     const out = [];
     items.forEach((it) => {
       const last = out[out.length - 1];
-      if (last && it.x - last.xMax < minGap) {
+      if (last && last.date === it.date) {
         last.items.push(it);
-        last.xMax = it.x;
         last.x = last.items.reduce((s, row) => s + row.x, 0) / last.items.length;
       } else {
-        out.push({ x: it.x, xMax: it.x, items: [it] });
+        out.push({ x: it.x, date: it.date, items: [it] });
       }
     });
     return out;
   }
 
-  const buyClusters = clusterByX(visibleMarks.filter((m) => m.side !== "sale"), 28);
-  const sellClusters = clusterByX(visibleMarks.filter((m) => m.side === "sale"), 28);
+  const buyClusters = clusterByDate(visibleMarks.filter((m) => m.side !== "sale"));
+  const sellClusters = clusterByDate(visibleMarks.filter((m) => m.side === "sale"));
 
   // If a buy cluster and a sell cluster land on the exact same date/spot,
   // separate them slightly horizontally so both remain visible and centered on the price curve.
   buyClusters.forEach((bc) => {
     sellClusters.forEach((sc) => {
       const dist = sc.x - bc.x;
-      if (Math.abs(dist) < 22) {
-        const shift = (22 - Math.abs(dist)) / 2;
+      if (Math.abs(dist) < 16) {
+        const shift = (16 - Math.abs(dist)) / 2;
         if (dist >= 0) {
           bc.x = Math.max(pad.l + 10, bc.x - shift);
           sc.x = Math.min(w - pad.r - 10, sc.x + shift);
@@ -410,14 +413,19 @@ function drawChart(points, marks, opts) {
     const cy = yAt(points[mid.i][1]);
     const color = sale ? "#f87171" : "#22c55e";
     const haloBg = sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)";
-    const letter = sale ? "S" : "B";
     const id = hit.length;
-    let x = cluster.x;
+    const x = cluster.x;
 
-    const pinRpx = isMobile ? 10 : 9;
-    const haloRpx = isMobile ? 16 : 14;
-    const pinFontPx = isMobile ? 12 : 11;
-    const pinTextY = isMobile ? 4.4 : 4;
+    const baseR = isMobile ? 10 : 9;
+    const pinRpx = n <= 1
+      ? baseR
+      : Math.min(isMobile ? 18 : 16, baseR + 3 + Math.min(5, Math.ceil(Math.log2(n))));
+    const haloRpx = pinRpx + (isMobile ? 6 : 5);
+    const pinFontPx = n <= 1
+      ? (isMobile ? 12 : 11)
+      : (n >= 10 ? (isMobile ? 12 : 11) : (isMobile ? 13 : 12));
+    const pinTextY = pinFontPx * 0.36;
+    const label = n > 1 ? String(n) : (sale ? "S" : "B");
 
     hit.push({
       mark: marksList[0],
@@ -430,46 +438,14 @@ function drawChart(points, marks, opts) {
       date: marksList[0].date
     });
 
-    // Buy clusters stay as dots (count if stacked). Sell clusters keep the volume pill.
-    if (n === 1 || !sale) {
-      const label = (!sale && n > 1) ? String(n) : letter;
-      return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 24 : 18) + "\" fill=\"transparent\" />" +
-        "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
-          "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
-          "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-          "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
-        "</g>" +
-      "</g>";
-    }
-
-    const badgeH = isMobile ? 24 : 20;
-    const badgeR = isMobile ? 12 : 10;
-    const badgeCircleR = isMobile ? 8 : 6;
-    const badgeNumFont = isMobile ? 10 : 7.5;
-    const badgeWordFont = isMobile ? 12 : 9.5;
-    const badgeNumOffset = isMobile ? 3.5 : 2.8;
-    const badgeWordOffset = isMobile ? 4 : 3.2;
-
-    const total = marksList.reduce((s, m) => s + tradeValue(m), 0);
-    const word = (sale ? "SELLS" : "BUYS") + " · " + formatVol(total);
-    const tw = Math.max(isMobile ? 92 : 76, 28 + word.length * (isMobile ? 6.8 : 5.8));
-    const x0 = Math.max(pad.l, Math.min(w - pad.r - tw, x - tw / 2));
-    x = x0 + tw / 2;
-    hit[id].x = x;
-    hit[id].xPct = x / w;
-
-    const badgeCx = x0 + (isMobile ? 13 : 11);
     return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-      "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - badgeH / 2).toFixed(1) +
-        "\" width=\"" + tw.toFixed(1) + "\" height=\"" + badgeH + "\" rx=\"" + badgeR + "\" fill=\"" +
-        (sale ? "rgba(46, 22, 25, 0.9)" : "rgba(18, 38, 28, 0.9)") + "\" stroke=\"" + color + "\" stroke-width=\"1.4\" />" +
-      "<g transform=\"translate(" + badgeCx.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
-        "<circle cx=\"0\" cy=\"0\" r=\"" + (isMobile ? 8 : 6.5) + "\" fill=\"" + color + "\" />" +
-        "<text x=\"0\" y=\"" + (isMobile ? 3.6 : 3) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + (isMobile ? 10 : 9) + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 24 : 18) + "\" fill=\"transparent\" />" +
+      "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
+        "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
+        "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
+        "<text x=\"0\" y=\"" + pinTextY.toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
       "</g>" +
-      "<text x=\"" + (x0 + (isMobile ? 22 : 20) + (tw - (isMobile ? 28 : 26)) / 2).toFixed(1) + "\" y=\"" + (cy + badgeWordOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"" + badgeWordFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
-      "</g>";
+    "</g>";
   }
 
   const tradePinsHtml = buyClusters.map((c) => drawCluster(c, false)).join("") +

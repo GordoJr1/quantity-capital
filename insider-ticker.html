@@ -219,7 +219,7 @@
       position: absolute;
       z-index: 5;
       min-width: 180px;
-      max-width: min(260px, calc(100% - 16px));
+      max-width: min(300px, calc(100% - 16px));
       transform: translate(-50%, calc(-100% - 14px));
       background: #1c2430;
       border: 1px solid #4a5563;
@@ -259,6 +259,16 @@
     .mark-pop b { display: block; color: var(--white); font-size: 0.92rem; }
     .mark-pop .pop-meta { color: var(--paper); font-size: 0.82rem; margin-top: 2px; }
     .mark-pop .pop-date { color: var(--mute); font-size: 0.78rem; margin-top: 2px; }
+    .mark-pop .pop-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.75rem;
+      border-top: 1px solid #2c3440;
+      padding: 4px 0 0;
+      margin-top: 4px;
+      color: var(--paper);
+    }
     .chart-y, .chart-x { color: var(--mute); font-size: 0.68rem; line-height: 1; }
     .chart-y {
       position: relative;
@@ -539,19 +549,37 @@
       const pop = document.getElementById("mark-pop");
       const wrap = document.getElementById("chart-wrap");
       if (!pop || !wrap) return;
-      const m = rec.mark || {};
-      const buy = m.side !== "sale";
+      const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
+      const buy = (rec.side || marks[0].side) !== "sale";
       const side = buy ? "Buy" : "Sell";
-      pop.innerHTML =
-        "<div class=\"pop-row\">" +
-          "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + (buy ? "B" : "S") + "</div>" +
-          "<div>" +
-            "<b>" + esc(m.filer || "Official tape") + "</b>" +
-            "<div class=\"pop-meta\"><span class=\"" + (buy ? "buy" : "sell") + "\">" + side + "</span>" +
-              (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") + "</div>" +
-            "<div class=\"pop-date\">" + prettyDate(m.date) + "</div>" +
-          "</div>" +
-        "</div>";
+      if (marks.length > 1) {
+        const total = marks.reduce((s, m) => s + tradeValue(m), 0);
+        pop.innerHTML =
+          "<div class=\"pop-row\">" +
+            "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + marks.length + "</div>" +
+            "<div>" +
+              "<b>" + marks.length + (buy ? " buys" : " sells") + " · " + formatVol(total) + "</b>" +
+              "<div class=\"pop-date\">See the table for each filing</div>" +
+              marks.slice(0, 6).map((m) =>
+                "<div class=\"pop-item\"><span>" + esc(m.filer || "Tape") + "</span><span>" +
+                  prettyDate(m.date) + (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") +
+                "</span></div>"
+              ).join("") +
+              (marks.length > 6 ? "<div class=\"pop-date\">+" + (marks.length - 6) + " more</div>" : "") +
+            "</div></div>";
+      } else {
+        const m = marks[0];
+        pop.innerHTML =
+          "<div class=\"pop-row\">" +
+            "<div class=\"dot " + (buy ? "buy" : "sell") + "\">" + (buy ? "B" : "S") + "</div>" +
+            "<div>" +
+              "<b>" + esc(m.filer || "Official tape") + "</b>" +
+              "<div class=\"pop-meta\"><span class=\"" + (buy ? "buy" : "sell") + "\">" + side + "</span>" +
+                (m.amount ? " · " + esc(QC.formatAmountRange(m.amount)) : "") + "</div>" +
+              "<div class=\"pop-date\">" + prettyDate(m.date) + "</div>" +
+            "</div>" +
+          "</div>";
+      }
       const svg = document.getElementById("chart-svg") || wrap.querySelector(".chart-frame");
       const wr = wrap.getBoundingClientRect();
       const sr = svg.getBoundingClientRect();
@@ -579,7 +607,10 @@
         date: t.trade_date,
         side: t.side,
         filer: t.filer,
-        amount: t.amount
+        amount: t.amount,
+        value: t.value,
+        shares: t.shares,
+        price: t.price
       }));
       drawChart(slice, marks, {
         height: chartHeight(),

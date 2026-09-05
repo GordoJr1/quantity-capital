@@ -136,42 +136,80 @@ function drawChart(points, marks, opts) {
       "<text x=\"2\" y=\"" + (y + 3).toFixed(1) + "\" fill=\"#aeb7c3\" font-size=\"8.5\" font-family=\"IBM Plex Sans, sans-serif\">" +
       formatVol(value) + "</text>";
   }).join("");
-  const grouped = {};
-  visibleMarks.forEach((m) => {
-    const i = idxFor(m.date);
-    if (!grouped[i]) grouped[i] = [];
-    grouped[i].push(m);
-  });
-  const plotTop = priceTop + 12;
-  const plotBot = priceBot - 12;
+  const plotTop = priceTop + 14;
+  const plotBot = priceBot - 14;
   const hit = [];
-  const dots = Object.keys(grouped).map((key) => {
-    const i = Number(key);
-    const pack = grouped[i];
-    const cx = xAt(i);
-    const cy0 = yAt(points[i][1]);
-    const gap = 22;
-    return pack.map((m, n) => {
-      const off = (n - (pack.length - 1) / 2) * gap;
-      const cy = Math.max(plotTop, Math.min(plotBot, cy0 + off));
-      const jx = pack.length > 1 ? ((n % 2 ? 1 : -1) * (4 + Math.floor(n / 2))) : 0;
-      const x = cx + jx;
-      const buy = m.side !== "sale";
-      const color = buy ? "#2f9e4f" : "#c2302a";
-      const letter = buy ? "B" : "S";
-      const id = hit.length;
-      hit.push({ mark: m, x: x, y: cy, xPct: x / w, yPct: cy / h });
+  function clusterByX(arr, minGap) {
+    const items = arr.map((m) => {
+      const i = idxFor(m.date);
+      return { mark: m, i: i, x: xAt(i) };
+    }).sort((a, b) => a.x - b.x);
+    const out = [];
+    items.forEach((it) => {
+      const last = out[out.length - 1];
+      if (last && it.x - last.xMax < minGap) {
+        last.items.push(it);
+        last.xMax = it.x;
+        last.x = last.items.reduce((s, row) => s + row.x, 0) / last.items.length;
+      } else {
+        out.push({ x: it.x, xMax: it.x, items: [it] });
+      }
+    });
+    return out;
+  }
+  const buyClusters = clusterByX(visibleMarks.filter((m) => m.side !== "sale"), 28);
+  const sellClusters = clusterByX(visibleMarks.filter((m) => m.side === "sale"), 28);
+  function drawCluster(cluster, sale) {
+    const n = cluster.items.length;
+    const marks = cluster.items.map((row) => row.mark);
+    const mid = cluster.items[Math.floor((n - 1) / 2)];
+    const cy0 = yAt(points[mid.i][1]);
+    const lift = sale ? 18 : -18;
+    const cy = Math.max(plotTop, Math.min(plotBot, cy0 + lift));
+    const color = sale ? "#c2302a" : "#2f9e4f";
+    const letter = sale ? "S" : "B";
+    const id = hit.length;
+    let x = cluster.x;
+    hit.push({
+      mark: marks[0],
+      marks: marks,
+      side: sale ? "sale" : "purchase",
+      x: x,
+      y: cy,
+      xPct: x / w,
+      yPct: cy / h
+    });
+    if (n === 1) {
       return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"14\" fill=\"transparent\" />" +
         "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
-          "\" r=\"14\" fill=\"transparent\" />" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
-          "\" r=\"9\" fill=\"" + color + "\" stroke=\"#eef2f5\" stroke-width=\"1.6\" />" +
-        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 3.2).toFixed(1) +
-          "\" text-anchor=\"middle\" fill=\"#eef2f5\" font-size=\"8.5\" font-weight=\"700\" " +
-          "font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
-      "</g>";
-    }).join("");
-  }).join("");
+          "\" r=\"8\" fill=\"" + color + "\" stroke=\"#eef2f5\" stroke-width=\"1.5\" />" +
+        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + 3).toFixed(1) +
+          "\" text-anchor=\"middle\" fill=\"#eef2f5\" font-size=\"8\" font-weight=\"700\" " +
+          "font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text></g>";
+    }
+    const total = marks.reduce((s, m) => s + tradeValue(m), 0);
+    const word = (sale ? "SELLS" : "BUYS") + " · " + formatVol(total);
+    const tw = Math.max(78, 32 + word.length * 6.2);
+    const x0 = Math.max(pad.l, Math.min(w - pad.r - tw, x - tw / 2));
+    x = x0 + tw / 2;
+    hit[id].x = x;
+    hit[id].xPct = x / w;
+    return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
+      "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - 11).toFixed(1) +
+        "\" width=\"" + tw.toFixed(1) + "\" height=\"22\" rx=\"11\" fill=\"" +
+        (sale ? "#2e1619" : "#1b2820") + "\" stroke=\"" + color + "\" stroke-width=\"1.6\" />" +
+      "<circle cx=\"" + (x0 + 12).toFixed(1) + "\" cy=\"" + cy.toFixed(1) +
+        "\" r=\"7\" fill=\"" + color + "\" />" +
+      "<text x=\"" + (x0 + 12).toFixed(1) + "\" y=\"" + (cy + 3).toFixed(1) +
+        "\" text-anchor=\"middle\" fill=\"#eef2f5\" font-size=\"8\" font-weight=\"800\" " +
+        "font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<text x=\"" + (x0 + 22 + (tw - 28) / 2).toFixed(1) + "\" y=\"" + (cy + 3.4).toFixed(1) +
+        "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"10\" font-weight=\"800\" " +
+        "font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text></g>";
+  }
+  const dots = buyClusters.map((c) => drawCluster(c, false)).join("") +
+    sellClusters.map((c) => drawCluster(c, true)).join("");
   svg.innerHTML =
     "<defs>" +
       "<linearGradient id=\"qc-area\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">" +

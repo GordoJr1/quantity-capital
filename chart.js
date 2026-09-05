@@ -8,8 +8,6 @@
  * - High-clarity, large luminous typography for Y-axis price levels and X-axis date intervals
  * - 60 FPS interactive pointer scrubber (mouse hover & mobile touch)
  * - Vertical crosshair line, snapped active node, attached price pill, and bottom date chip
- * - Floating glassmorphic HUD card showing Market Quote (Date, Close, Open/High/Low/Volume if available)
- *   and dynamically expanding with full Filer/Trade disclosure details when near transaction marks
  * - Zero external dependencies, pure native SVG + DOM, fully responsive
  */
 
@@ -554,7 +552,7 @@ function drawChart(points, marks, opts) {
   });
 
   // Attach Pointer Scrubbing
-  attachScrubberEvents(svg, wrap, pts, hit, w, h, opts);
+  attachScrubberEvents(svg, wrap, pts, w, h);
 
   if (svgRect.width <= 2) {
     requestAnimationFrame(function () {
@@ -566,7 +564,7 @@ function drawChart(points, marks, opts) {
 }
 
 /**
- * Ensure the floating HUD, hover badges, and terminal pill exist in the chart-wrap
+ * Ensure hover badges and the terminal pill exist in the chart-wrap
  */
 function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) {
   if (!wrap) return;
@@ -608,25 +606,17 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) 
     wrap.appendChild(hoverDatePill);
   }
 
-  // Floating Glass HUD
-  let hud = wrap.querySelector(".qc-glass-hud");
-  if (!hud) {
-    hud = document.createElement("div");
-    hud.className = "qc-glass-hud";
-    hud.style.display = "none";
-    wrap.appendChild(hud);
-  }
+  const leftoverHud = wrap.querySelector(".qc-glass-hud");
+  if (leftoverHud) leftoverHud.remove();
 
   // Initial positioning of terminal pill
   updateTerminalPillPosition(wrap, termPill, lastPt, w, h);
 }
 
 function hideChartHoverUi(wrap, svg) {
-  const hud = wrap && wrap.querySelector(".qc-glass-hud");
   const hoverPricePill = wrap && wrap.querySelector(".qc-hover-price-pill");
   const hoverDatePill = wrap && wrap.querySelector(".qc-hover-date-pill");
   const scrubG = svg && svg.querySelector("#qc-scrubber-g");
-  if (hud) hud.style.display = "none";
   if (hoverPricePill) hoverPricePill.style.display = "none";
   if (hoverDatePill) hoverDatePill.style.display = "none";
   if (scrubG) scrubG.style.display = "none";
@@ -653,14 +643,13 @@ function updateTerminalPillPosition(wrap, termPill, lastPt, w, h) {
 /**
  * Handle 60 FPS pointer tracking across mouse and touch devices
  */
-function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
+function attachScrubberEvents(svg, wrap, pts, w, h) {
   const scrubG = svg.querySelector("#qc-scrubber-g");
   const scrubLine = svg.querySelector("#qc-scrub-line");
   const scrubDot = svg.querySelector("#qc-scrub-dot");
   const scrubHalo = svg.querySelector("#qc-scrub-halo");
   const hoverPricePill = wrap.querySelector(".qc-hover-price-pill");
   const hoverDatePill = wrap.querySelector(".qc-hover-date-pill");
-  const hud = wrap.querySelector(".qc-glass-hud");
 
   function onPointerMove(e) {
     const pop = wrap.querySelector("#mark-pop");
@@ -728,64 +717,12 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
       hoverDatePill.style.left = screenX + "px";
       hoverDatePill.textContent = hoverDateFmt(pt.date);
     }
-
-    // Find if a trade mark is near this index (within 24px horizontal distance)
-    const nearby = hitMarks.find((m) => Math.abs(m.x - pt.x) < 24);
-
-    // Update Floating HUD
-    if (hud) {
-      hud.style.display = "block";
-      let hudContent =
-        "<div class=\"qc-hud-section\">Market Quote</div>" +
-        "<div class=\"qc-hud-row\"><span>Date</span><span class=\"qc-hud-val\">" + pt.date + "</span></div>" +
-        "<div class=\"qc-hud-row\"><span>Close</span><span class=\"qc-hud-val\">" + quotePrice(pt.px) + "</span></div>";
-
-      if (nearby) {
-        const marks = nearby.marks || [nearby.mark];
-        const isBuy = nearby.side !== "sale";
-        const tagClass = isBuy ? "tag-buy" : "tag-sell";
-        const tagWord = isBuy ? "BUY" : "SELL";
-        const primaryFiler = marks[0].filer || "Official Tape";
-        const amountStr = marks[0].amount ? (typeof QC !== "undefined" ? QC.formatAmountRange(marks[0].amount) : marks[0].amount) : (marks[0].value ? formatVol(marks[0].value) : "");
-
-        hudContent +=
-          "<div class=\"qc-hud-trade-box\">" +
-            "<div class=\"qc-hud-section\" style=\"color:" + (isBuy ? "var(--green)" : "var(--red)") + "\">Signal Intelligence</div>" +
-            "<span class=\"qc-hud-tag " + tagClass + "\">" + tagWord + (amountStr ? " · " + amountStr : "") + "</span>" +
-            "<div class=\"qc-hud-filer\">" + (typeof QC !== "undefined" ? QC.esc(primaryFiler) : primaryFiler) + "</div>" +
-            (marks.length > 1 ? "<div class=\"qc-hud-sub\">+" + (marks.length - 1) + " other trades grouped on this date</div>" :
-             "<div class=\"qc-hud-sub\">Official disclosure via eFD / Form 4</div>") +
-          "</div>";
-      }
-
-      hud.innerHTML = hudContent;
-
-      // Position HUD avoiding edge collisions
-      const isMobile = window.matchMedia("(max-width: 600px)").matches;
-      if (isMobile) {
-        // On small mobile screens, center HUD at the top of the chart frame to prevent covering the active node
-        hud.style.left = "50%";
-        hud.style.transform = "translateX(-50%)";
-        hud.style.top = "10px";
-        hud.style.maxWidth = "calc(100% - 24px)";
-      } else {
-        hud.style.transform = "none";
-        hud.style.maxWidth = "260px";
-        let hudLeft = screenX - 230;
-        if (hudLeft < 16) hudLeft = screenX + 24;
-        let hudTop = screenY - 80;
-        if (hudTop < 12) hudTop = 12;
-        hud.style.left = hudLeft + "px";
-        hud.style.top = hudTop + "px";
-      }
-    }
   }
 
   function onPointerLeave() {
     if (scrubG) scrubG.style.display = "none";
     if (hoverPricePill) hoverPricePill.style.display = "none";
     if (hoverDatePill) hoverDatePill.style.display = "none";
-    if (hud) hud.style.display = "none";
   }
 
   svg.style.touchAction = "none";
@@ -827,8 +764,7 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
     didTouchMove = false;
     touchStartedOnMark = eventOnMark(e);
     clearLinger();
-    // Wait for an actual drag before showing the HUD so a tap does not flash
-    // the mobile quote box at the top of the chart.
+    // Wait for an actual drag before showing hover pills so a tap does not flash them.
   }, { passive: true });
 
   svg.addEventListener("touchmove", (e) => {

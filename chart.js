@@ -399,6 +399,15 @@ function drawChart(points, marks, opts) {
     });
   });
 
+  // Counter-scale pins so they stay true circles when the SVG is stretched
+  // by preserveAspectRatio="none".
+  const svgRect = svg.getBoundingClientRect();
+  const stretchX = (svgRect.width > 2) ? svgRect.width / w : 1;
+  const stretchY = (svgRect.height > 2) ? svgRect.height / h : 1;
+  const pinSX = 1 / stretchX;
+  const pinSY = 1 / stretchY;
+  const pinScale = "scale(" + pinSX.toFixed(4) + " " + pinSY.toFixed(4) + ")";
+
   function drawCluster(cluster, sale) {
     const n = cluster.items.length;
     const marksList = cluster.items.map((row) => row.mark);
@@ -411,10 +420,10 @@ function drawChart(points, marks, opts) {
     const id = hit.length;
     let x = cluster.x;
 
-    const pinR = isMobile ? 8.5 : 5.5;
-    const haloR = isMobile ? 14 : 9;
-    const pinFontSize = isMobile ? 11 : 7.5;
-    const pinTextYOffset = isMobile ? 3.8 : 2.8;
+    const pinRpx = isMobile ? 8 : 6.5;
+    const haloRpx = isMobile ? 13 : 10.5;
+    const pinFontPx = isMobile ? 11 : 9;
+    const pinTextY = isMobile ? 4 : 3.2;
 
     hit.push({
       mark: marksList[0],
@@ -429,11 +438,13 @@ function drawChart(points, marks, opts) {
 
     if (n === 1) {
       return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (haloR + 6) + "\" fill=\"transparent\" />" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + haloR + "\" fill=\"" + haloBg + "\" />" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + pinR + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-        "<text x=\"" + x.toFixed(1) + "\" y=\"" + (cy + pinTextYOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontSize + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
-        "</g>";
+        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 22 : 16) + "\" fill=\"transparent\" />" +
+        "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
+          "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
+          "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
+          "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
+        "</g>" +
+      "</g>";
     }
 
     const badgeH = isMobile ? 24 : 20;
@@ -452,12 +463,15 @@ function drawChart(points, marks, opts) {
     hit[id].x = x;
     hit[id].xPct = x / w;
 
+    const badgeCx = x0 + (isMobile ? 13 : 11);
     return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
       "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - badgeH / 2).toFixed(1) +
         "\" width=\"" + tw.toFixed(1) + "\" height=\"" + badgeH + "\" rx=\"" + badgeR + "\" fill=\"" +
         (sale ? "rgba(46, 22, 25, 0.9)" : "rgba(18, 38, 28, 0.9)") + "\" stroke=\"" + color + "\" stroke-width=\"1.4\" />" +
-      "<circle cx=\"" + (x0 + (isMobile ? 13 : 11)).toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + badgeCircleR + "\" fill=\"" + color + "\" />" +
-      "<text x=\"" + (x0 + (isMobile ? 13 : 11)).toFixed(1) + "\" y=\"" + (cy + badgeNumOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + badgeNumFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<g transform=\"translate(" + badgeCx.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
+        "<circle cx=\"0\" cy=\"0\" r=\"" + (isMobile ? 8 : 6.5) + "\" fill=\"" + color + "\" />" +
+        "<text x=\"0\" y=\"" + (isMobile ? 3.6 : 3) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + (isMobile ? 10 : 9) + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "</g>" +
       "<text x=\"" + (x0 + (isMobile ? 22 : 20) + (tw - (isMobile ? 28 : 26)) / 2).toFixed(1) + "\" y=\"" + (cy + badgeWordOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"" + badgeWordFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
       "</g>";
   }
@@ -540,6 +554,12 @@ function drawChart(points, marks, opts) {
 
   // Attach Pointer Scrubbing
   attachScrubberEvents(svg, wrap, pts, hit, w, h, opts);
+
+  if (svgRect.width <= 2) {
+    requestAnimationFrame(function () {
+      if (svg.getBoundingClientRect().width > 2) drawChart(points, marks, opts);
+    });
+  }
 
   return hit;
 }

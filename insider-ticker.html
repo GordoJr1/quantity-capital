@@ -995,21 +995,47 @@
 
     Promise.all([
       fetch("insider-trades.json").then((r) => r.json()),
+      fetch("insider-companies.json").then((r) => r.json()).catch(() => ({ companies: [] })),
       fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null),
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
-    ]).then(([data, prices, tickerFile]) => {
+    ]).then(async ([data, companies, prices, tickerFile]) => {
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
+      const aliases = (function aliasesFor(t, file) {
+        const T = String(t || "").toUpperCase();
+        const list = (file && file.companies) || [];
+        for (let i = 0; i < list.length; i++) {
+          const co = list[i] || {};
+          const all = [].concat(co.us || [], co.cad || [], co.all || []).map((s) => String(s).toUpperCase());
+          if (all.indexOf(T) >= 0) return Array.from(new Set(all));
+        }
+        return [T];
+      })(ticker, companies);
+      const extraPx = await Promise.all(aliases.filter((a) => a !== ticker).map((a) =>
+        fetch("prices/" + encodeURIComponent(a) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null)
+      ));
+      const series = [prices].concat(extraPx).filter((p) => p && p.c && p.c.length >= 2 && !p.missing);
+      series.sort((a, b) => b.c.length - a.c.length);
+      if (series[0]) prices = series[0];
+      const aliasSet = {};
+      aliases.forEach((a) => { aliasSet[a] = true; });
       function tradeCode(t) {
         const extra = ((tickerFile && tickerFile.assets) || {})[t.asset] || {};
         const opt = optionMeta(t);
         return (t.ticker || extra.ticker || opt.under || "").toUpperCase();
       }
+      function dealKey(t) {
+        return [t.filer_id || t.filer, t.trade_date, t.side, t.shares, t.price].join("|");
+      }
+      const seen = {};
       const deals = (data.trades || []).filter((t) => {
         if ((t.side !== "purchase" && t.side !== "sale") || isBond(t)) return false;
-        if (tradeCode(t) !== ticker) return false;
+        if (!aliasSet[tradeCode(t)]) return false;
         if (new Date(t.trade_date) < cutoff) return false;
         if (filerId && t.filer_id !== filerId) return false;
+        const k = dealKey(t);
+        if (seen[k]) return false;
+        seen[k] = true;
         return true;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       const stockDeals = deals.filter((t) => !isOptionLike(t));
@@ -1034,7 +1060,8 @@
       const last = allPoints[allPoints.length - 1];
       const buys = stockDeals.filter((t) => t.side === "purchase").length;
       const sells = stockDeals.filter((t) => t.side === "sale").length;
-      document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker");
+      document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker") +
+        (prices.src && prices.src !== ticker ? " · " + prices.src : (prices.t && prices.t !== ticker ? " · " + prices.t : ""));
       const pill = document.getElementById("price-pill");
       document.getElementById("last-px").textContent = formatMoney(last[1]);
       pill.hidden = false;

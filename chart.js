@@ -11,8 +11,13 @@
  * - Zero external dependencies, pure native SVG + DOM, fully responsive
  */
 
-function axisPrice(n) {
-  if (n >= 1000) return "$" + Math.round(n / 1000) + "k";
+function axisPrice(n, step) {
+  if (n >= 1000 && (step == null || step >= 1)) return "$" + Math.round(n / 1000) + "k";
+  if (step != null && step < 1) {
+    if (Math.abs(n) < 1e-9) return "$0";
+    const decimals = step < 0.01 ? 3 : 2;
+    return "$" + n.toFixed(decimals);
+  }
   return "$" + Math.round(n);
 }
 
@@ -42,26 +47,29 @@ function niceNum(range, round) {
 }
 
 function niceAxisScale(dataMin, dataMax) {
-  const rawSpan = (dataMax - dataMin) || 1;
+  const rawSpan = (dataMax - dataMin) || Math.max(Math.abs(dataMax) * 0.25, 0.01);
   let lo = dataMin;
   let hi = dataMax;
   if (lo < 0 && dataMin >= 0) lo = 0;
-  let step = Math.max(1, Math.round(niceNum(rawSpan / 4, true)));
-  let niceMin = Math.floor(lo / step) * step;
-  let niceMax = Math.ceil(hi / step) * step;
-  if (niceMin === niceMax) niceMax = niceMin + step;
-  if (niceMin < 0 && dataMin >= 0) niceMin = 0;
-  let ticks = [];
-  for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
-  if (ticks.length > 7) {
-    step *= 2;
-    niceMin = Math.floor(lo / step) * step;
-    niceMax = Math.ceil(hi / step) * step;
+  const rawStep = niceNum(rawSpan / 4, true);
+  let step = (dataMax >= 10 || rawSpan >= 8) ? Math.max(1, Math.round(rawStep)) : rawStep;
+  if (step <= 0) step = 1;
+  function buildTicks(stepSize) {
+    let niceMin = Math.floor(lo / stepSize) * stepSize;
+    let niceMax = Math.ceil(hi / stepSize) * stepSize;
+    if (niceMin === niceMax) niceMax = niceMin + stepSize;
     if (niceMin < 0 && dataMin >= 0) niceMin = 0;
-    ticks = [];
-    for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
+    const count = Math.max(1, Math.round((niceMax - niceMin) / stepSize));
+    const ticks = [];
+    for (let i = 0; i <= count; i++) {
+      const v = niceMin + i * stepSize;
+      ticks.push(Math.abs(v) < stepSize * 1e-9 ? 0 : v);
+    }
+    return { min: niceMin, max: niceMax, ticks: ticks, step: stepSize };
   }
-  return { min: niceMin, max: niceMax, ticks: ticks };
+  let scale = buildTicks(step);
+  if (scale.ticks.length > 7) scale = buildTicks(step * 2);
+  return scale;
 }
 
 function axisDate(iso, isShortSpan) {
@@ -288,6 +296,7 @@ function drawChart(points, marks, opts) {
   const scale = niceAxisScale(dataMin, dataMax);
   const min = scale.min;
   const max = scale.max;
+  const axisStep = scale.step;
   const span = max - min || 1;
 
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
@@ -430,44 +439,14 @@ function drawChart(points, marks, opts) {
       date: marksList[0].date
     });
 
-    if (n === 1) {
-      return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-        "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 22 : 16) + "\" fill=\"transparent\" />" +
-        "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
-          "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
-          "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-          "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
-        "</g>" +
-      "</g>";
-    }
-
-    const badgeH = isMobile ? 24 : 20;
-    const badgeR = isMobile ? 12 : 10;
-    const badgeCircleR = isMobile ? 8 : 6;
-    const badgeNumFont = isMobile ? 10 : 7.5;
-    const badgeWordFont = isMobile ? 12 : 9.5;
-    const badgeNumOffset = isMobile ? 3.5 : 2.8;
-    const badgeWordOffset = isMobile ? 4 : 3.2;
-
-    const total = marksList.reduce((s, m) => s + tradeValue(m), 0);
-    const word = (sale ? "SELLS" : "BUYS") + " · " + formatVol(total);
-    const tw = Math.max(isMobile ? 92 : 76, 28 + word.length * (isMobile ? 6.8 : 5.8));
-    const x0 = Math.max(pad.l, Math.min(w - pad.r - tw, x - tw / 2));
-    x = x0 + tw / 2;
-    hit[id].x = x;
-    hit[id].xPct = x / w;
-
-    const badgeCx = x0 + (isMobile ? 13 : 11);
     return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-      "<rect x=\"" + x0.toFixed(1) + "\" y=\"" + (cy - badgeH / 2).toFixed(1) +
-        "\" width=\"" + tw.toFixed(1) + "\" height=\"" + badgeH + "\" rx=\"" + badgeR + "\" fill=\"" +
-        (sale ? "rgba(46, 22, 25, 0.9)" : "rgba(18, 38, 28, 0.9)") + "\" stroke=\"" + color + "\" stroke-width=\"1.4\" />" +
-      "<g transform=\"translate(" + badgeCx.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
-        "<circle cx=\"0\" cy=\"0\" r=\"" + (isMobile ? 8 : 6.5) + "\" fill=\"" + color + "\" />" +
-        "<text x=\"0\" y=\"" + (isMobile ? 3.6 : 3) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + (isMobile ? 10 : 9) + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + n + "</text>" +
+      "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 22 : 16) + "\" fill=\"transparent\" />" +
+      "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
+        "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
+        "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
+        "<text x=\"0\" y=\"" + pinTextY + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + letter + "</text>" +
       "</g>" +
-      "<text x=\"" + (x0 + (isMobile ? 22 : 20) + (tw - (isMobile ? 28 : 26)) / 2).toFixed(1) + "\" y=\"" + (cy + badgeWordOffset).toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + color + "\" font-size=\"" + badgeWordFont + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + word + "</text>" +
-      "</g>";
+    "</g>";
   }
 
   const tradePinsHtml = buyClusters.map((c) => drawCluster(c, false)).join("") +
@@ -517,7 +496,7 @@ function drawChart(points, marks, opts) {
       "<circle id=\"qc-scrub-dot\" cx=\"0\" cy=\"0\" r=\"3.8\" fill=\"#ffffff\" stroke=\"#0d141f\" stroke-width=\"2\" />" +
     "</g>";
 
-  paintYAxisLabels(wrap, svg, yBox, yTicks, yAt, w, h, pad);
+  paintYAxisLabels(wrap, svg, yBox, yTicks, yAt, w, h, pad, axisStep);
 
   // Bottom X-axis labels
   if (xBox) {
@@ -622,7 +601,7 @@ function syncYAxisOverlayBox(yBox, wrap, svg) {
   yBox.style.height = sr.height + "px";
 }
 
-function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad) {
+function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad, axisStep) {
   if (!wrap || !svg || !ticks || !ticks.length) return;
   if (!yBox) {
     yBox = wrap.querySelector("#chart-y");
@@ -639,7 +618,7 @@ function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad) {
   yBox.innerHTML = ticks.map((px) => {
     const topPct = (yAt(px) / h) * 100;
     return "<span style=\"top:" + topPct.toFixed(2) + "%;left:" + leftPct.toFixed(2) + "%\">" +
-      axisPrice(px) + "</span>";
+      axisPrice(px, axisStep) + "</span>";
   }).join("");
 
   if (!wrap._qcYAxisRO && typeof ResizeObserver !== "undefined") {

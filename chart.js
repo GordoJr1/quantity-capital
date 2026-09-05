@@ -419,10 +419,15 @@ function updateTerminalPillPosition(wrap, termPill, lastPt, w, h) {
   const sr = svg.getBoundingClientRect();
   const scaleX = sr.width / w;
   const scaleY = sr.height / h;
-  const screenX = (lastPt.x * scaleX) + (sr.left - wr.left);
+  let screenX = (lastPt.x * scaleX) + (sr.left - wr.left) + 10;
+  // Ensure pill stays inside the chart card on small screens
+  if (screenX + 54 > wr.width - 8) {
+    screenX = wr.width - 62;
+  }
   const screenY = (lastPt.y * scaleY) + (sr.top - wr.top);
   termPill.style.left = screenX + "px";
   termPill.style.top = screenY + "px";
+  termPill.style.transform = "translateY(-50%)";
 }
 
 /**
@@ -482,7 +487,11 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
     // Attached Price Pill
     if (hoverPricePill) {
       hoverPricePill.style.display = "block";
-      hoverPricePill.style.left = screenX + "px";
+      let pillLeft = screenX + 10;
+      if (pillLeft + 54 > wr.width - 8) {
+        pillLeft = screenX - 60;
+      }
+      hoverPricePill.style.left = pillLeft + "px";
       hoverPricePill.style.top = screenY + "px";
       hoverPricePill.textContent = axisPrice(pt.px);
     }
@@ -526,12 +535,23 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
       hud.innerHTML = hudContent;
 
       // Position HUD avoiding edge collisions
-      let hudLeft = screenX - 230;
-      if (hudLeft < 16) hudLeft = screenX + 24;
-      let hudTop = screenY - 80;
-      if (hudTop < 12) hudTop = 12;
-      hud.style.left = hudLeft + "px";
-      hud.style.top = hudTop + "px";
+      const isMobile = window.matchMedia("(max-width: 600px)").matches;
+      if (isMobile) {
+        // On small mobile screens, center HUD at the top of the chart frame to prevent covering the active node
+        hud.style.left = "50%";
+        hud.style.transform = "translateX(-50%)";
+        hud.style.top = "10px";
+        hud.style.maxWidth = "calc(100% - 24px)";
+      } else {
+        hud.style.transform = "none";
+        hud.style.maxWidth = "260px";
+        let hudLeft = screenX - 230;
+        if (hudLeft < 16) hudLeft = screenX + 24;
+        let hudTop = screenY - 80;
+        if (hudTop < 12) hudTop = 12;
+        hud.style.left = hudLeft + "px";
+        hud.style.top = hudTop + "px";
+      }
     }
   }
 
@@ -542,8 +562,23 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
     if (hud) hud.style.display = "none";
   }
 
-  svg.addEventListener("mousemove", onPointerMove);
-  svg.addEventListener("mouseleave", onPointerLeave);
-  svg.addEventListener("touchmove", onPointerMove, { passive: true });
-  svg.addEventListener("touchend", onPointerLeave);
+      svg.style.touchAction = "none";
+      let isTouching = false;
+      svg.addEventListener("touchstart", (e) => {
+        isTouching = true;
+        onPointerMove(e);
+      }, { passive: false });
+      svg.addEventListener("touchmove", (e) => {
+        if (isTouching) {
+          e.preventDefault(); // prevent page jerk while scrubbing chart on mobile
+          onPointerMove(e);
+        }
+      }, { passive: false });
+      svg.addEventListener("touchend", () => {
+        isTouching = false;
+        // Keep HUD visible for 1.8s after touch release so user can comfortably read it
+        setTimeout(() => {
+          if (!isTouching) onPointerLeave();
+        }, 1800);
+      });
 }

@@ -288,6 +288,23 @@
       z-index: 10;
       box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
+    .chart-y {
+      position: absolute;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .chart-y span {
+      position: absolute;
+      transform: translate(-100%, -50%);
+      padding-right: 8px;
+      color: #e2e8f0;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
     .chart-x {
       display: flex;
       justify-content: space-between;
@@ -489,6 +506,7 @@
           <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
           <div class="chart-x" id="chart-x"></div>
         </div>
+        <div class="chart-y" id="chart-y" aria-hidden="true"></div>
         <div class="mark-pop" id="mark-pop" hidden></div>
       </div>
     </div>

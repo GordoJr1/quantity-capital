@@ -454,6 +454,23 @@
       color: #cbd5e1;
       font-size: 10.5px;
     }
+    .chart-y {
+      position: absolute;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .chart-y span {
+      position: absolute;
+      transform: translate(-100%, -50%);
+      padding-right: 8px;
+      color: #e2e8f0;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
     .chart-x {
       display: flex;
       justify-content: space-between;
@@ -516,6 +533,10 @@
       .mark-pop .pop-item {
         padding: 3px 0;
         font-size: 11.5px;
+      }
+      .chart-y span {
+        font-size: 11.5px;
+        padding-right: 6px;
       }
       .chart-x {
         padding: 8px 22px 0 34px;
@@ -613,6 +634,7 @@
         <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
         <div class="chart-x" id="chart-x"></div>
       </div>
+      <div class="chart-y" id="chart-y" aria-hidden="true"></div>
       <div class="mark-pop" id="mark-pop" hidden></div>
     </div>
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>

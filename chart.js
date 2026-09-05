@@ -336,17 +336,13 @@ function drawChart(points, marks, opts) {
     }
   }
 
-  // Y-axis grid lines on whole-dollar nice ticks
-  const yFontSize = isMobile ? 22 : 14.5;
-  const yTextOffset = isMobile ? 6.5 : 4.8;
+  // Y-axis grid lines on whole-dollar nice ticks.
+  // Labels are HTML (not SVG text) so preserveAspectRatio="none" cannot stretch them.
   const yTicks = scale.ticks;
   const gridLines = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
-      "\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />" +
-      "<text x=\"" + (pad.l - 12) + "\" y=\"" + (Number(y) + yTextOffset).toFixed(1) +
-      "\" fill=\"#e2e8f0\" font-size=\"" + yFontSize + "\" font-weight=\"700\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
-      axisPrice(px) + "</text>";
+      "\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />";
   }).join("");
 
   // Visible marks along the spline
@@ -521,6 +517,8 @@ function drawChart(points, marks, opts) {
       "<circle id=\"qc-scrub-dot\" cx=\"0\" cy=\"0\" r=\"3.8\" fill=\"#ffffff\" stroke=\"#0d141f\" stroke-width=\"2\" />" +
     "</g>";
 
+  paintYAxisLabels(wrap, svg, yBox, yTicks, yAt, w, h, pad);
+
   // Bottom X-axis labels
   if (xBox) {
     const last = points.length - 1;
@@ -611,6 +609,46 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) 
 
   // Initial positioning of terminal pill
   updateTerminalPillPosition(wrap, termPill, lastPt, w, h);
+}
+
+function syncYAxisOverlayBox(yBox, wrap, svg) {
+  if (!yBox || !wrap || !svg) return;
+  const wr = wrap.getBoundingClientRect();
+  const sr = svg.getBoundingClientRect();
+  if (sr.width < 2 || sr.height < 2) return;
+  yBox.style.left = (sr.left - wr.left) + "px";
+  yBox.style.top = (sr.top - wr.top) + "px";
+  yBox.style.width = sr.width + "px";
+  yBox.style.height = sr.height + "px";
+}
+
+function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad) {
+  if (!wrap || !svg || !ticks || !ticks.length) return;
+  if (!yBox) {
+    yBox = wrap.querySelector("#chart-y");
+    if (!yBox) {
+      yBox = document.createElement("div");
+      yBox.id = "chart-y";
+      yBox.className = "chart-y";
+      wrap.appendChild(yBox);
+    }
+  }
+  yBox.setAttribute("aria-hidden", "true");
+  syncYAxisOverlayBox(yBox, wrap, svg);
+  const leftPct = (pad.l / w) * 100;
+  yBox.innerHTML = ticks.map((px) => {
+    const topPct = (yAt(px) / h) * 100;
+    return "<span style=\"top:" + topPct.toFixed(2) + "%;left:" + leftPct.toFixed(2) + "%\">" +
+      axisPrice(px) + "</span>";
+  }).join("");
+
+  if (!wrap._qcYAxisRO && typeof ResizeObserver !== "undefined") {
+    wrap._qcYAxisRO = new ResizeObserver(function () {
+      syncYAxisOverlayBox(yBox, wrap, svg);
+    });
+    wrap._qcYAxisRO.observe(svg);
+    wrap._qcYAxisRO.observe(wrap);
+  }
 }
 
 function hideChartHoverUi(wrap, svg) {

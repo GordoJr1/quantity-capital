@@ -13445,21 +13445,25 @@
       ]
     },
     {
-      "name": "Tincorp Metals",
-      "symbol_raw": "TIN.V, TINFF",
+      "name": "Auro Metals",
+      "symbol_raw": "TIN.V, TINFF, AURO.V, AURFF",
       "type": "Explorer",
       "commodity": "Other",
       "country": "Bolivia",
       "us": [
-        "TINFF"
+        "TINFF",
+        "AURFF"
       ],
       "cad": [
-        "TIN.V"
+        "TIN.V",
+        "AURO.V"
       ],
       "other": [],
       "all": [
         "TIN.V",
-        "TINFF"
+        "TINFF",
+        "AURO.V",
+        "AURFF"
       ]
     },
     {

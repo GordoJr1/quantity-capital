@@ -1,6 +1,6 @@
 {
-  "generated": "2026-09-05T11:21:50.040153+00:00",
-  "tapeCollected": "2026-09-05T11:20:18.116496+00:00",
+  "generated": "2026-09-05T17:45:59.291040+00:00",
+  "tapeCollected": "2026-09-05T17:28:45.938408+00:00",
   "priceAsof": "2026-09-04",
   "rules": {
     "spike": 0.2,
@@ -101,6 +101,62 @@
       ]
     },
     {
+      "id": "christopher-escobedo",
+      "name": "Christopher Escobedo",
+      "chamber": "White House",
+      "scored": 46,
+      "hits": 4,
+      "rate": 0.087,
+      "median": 0.287,
+      "score": 0.18,
+      "tells": [
+        {
+          "code": "TGB",
+          "name": "Taseko Mines Ltd.",
+          "day": "2025-04-04",
+          "buy": 1.83,
+          "high": 2.37,
+          "ret": 0.295,
+          "days": 12,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "BORR",
+          "name": "Borr Drilling Limited Common Shares (BORR)",
+          "day": "2025-04-04",
+          "buy": 1.71,
+          "high": 2.2,
+          "ret": 0.287,
+          "days": 3,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "PTHRF",
+          "name": "Pantheon Resources PLC (PTHRF)",
+          "day": "2025-04-24",
+          "buy": 0.46,
+          "high": 0.59,
+          "ret": 0.279,
+          "days": 13,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        },
+        {
+          "code": "CLF",
+          "name": "Cleveland-Cliffs Inc.",
+          "day": "2025-01-27",
+          "buy": 9.93,
+          "high": 12.02,
+          "ret": 0.21,
+          "days": 15,
+          "amount": "$1,001\u2013$15,000",
+          "highEnd": 15000
+        }
+      ]
+    },
+    {
       "id": "nancy-pelosi",
       "name": "Nancy Pelosi",
       "chamber": "House",
@@ -128,11 +184,11 @@
     {
       "code": "INTC",
       "name": "Intel Corporation",
-      "last": 91.67,
-      "pxAsof": "2026-09-03",
+      "last": 95.8,
+      "pxAsof": "2026-09-04",
       "lastBuy": "2026-07-24",
       "buyPx": 92.32,
-      "chg": -0.007,
+      "chg": 0.0377,
       "nearLow": true,
       "hands": [
         {
@@ -145,16 +201,16 @@
       "highEnd": 1000000,
       "open": true,
       "score": 0.073,
-      "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-24 still under water"
+      "why": "Nancy Pelosi timed spikes before; latest buy 2026-07-24 has not run away yet"
     },
     {
       "code": "BE",
       "name": "Bloom Energy Corporation",
-      "last": 235.55,
-      "pxAsof": "2026-09-03",
+      "last": 252.87,
+      "pxAsof": "2026-09-04",
       "lastBuy": "2026-07-28",
       "buyPx": 166.84,
-      "chg": 0.4118,
+      "chg": 0.5156,
       "nearLow": true,
       "hands": [
         {

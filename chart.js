@@ -3,7 +3,7 @@
  *
  * Features:
  * - Smooth Catmull-Rom cubic spline interpolation for organic price curves
- * - Dual-phase neon gradient (ice platinum -> electric purple/violet) with glowing blur underlayer
+ * - Dual-phase neon gradient (ice platinum -> electric cyan) with a thin glowing blur underlayer
  * - Integrated Politician and Insider transaction pins snapped directly onto the price spline
  * - High-clarity, large luminous typography for Y-axis price levels and X-axis date intervals
  * - 60 FPS interactive pointer scrubber (mouse hover & mobile touch)
@@ -142,7 +142,7 @@ const CHART_PALETTES = {
     ],
     primary: "#06b6d4",
     light: "#67e8f9",
-    glowFilter: "drop-shadow(0 0 7px rgba(6, 182, 212, 0.55)) drop-shadow(0 0 14px rgba(6, 182, 212, 0.32))",
+    glowFilter: "drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22))",
     terminalPillBg: "#0891b2",
     terminalPillShadow: "0 4px 12px rgba(8, 145, 178, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(6, 182, 212, 0.16)"
@@ -248,9 +248,9 @@ function drawChart(points, marks, opts) {
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
   const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;
 
-  // Active color theme (defaults to emerald)
-  const themeKey = (opts.theme && CHART_PALETTES[opts.theme]) ? opts.theme : (window.QC_CHART_THEME || "emerald");
-  const palette = CHART_PALETTES[themeKey] || CHART_PALETTES.emerald;
+  // Active color theme (defaults to cyan)
+  const themeKey = (opts.theme && CHART_PALETTES[opts.theme]) ? opts.theme : (window.QC_CHART_THEME || "cyan");
+  const palette = CHART_PALETTES[themeKey] || CHART_PALETTES.cyan;
 
   // Build screen coordinates for each price bar
   const pts = points.map((p, i) => ({
@@ -447,12 +447,12 @@ function drawChart(points, marks, opts) {
     gridLines +
     // Area fill if explicitly enabled
     (areaPath ? "<path d=\"" + areaPath + "\" fill=\"url(#qc-sub-area)\" />" : "") +
-    // Glowing underlayer
-    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"8\" opacity=\"0.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
-    // Crisp foreground spline
-    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"3.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
+    // Glowing underlayer (delicate, refined blur)
+    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"5.5\" opacity=\"0.55\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
+    // Crisp foreground spline (sleek, precision 2.2px line)
+    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
     // Terminal point dot
-    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.8\" />" +
+    "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"4.2\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.6\" />" +
     // Interactive Trade Pins
     tradePinsHtml +
     // Scrubber elements (updated dynamically on pointermove)

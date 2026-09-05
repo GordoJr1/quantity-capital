@@ -234,11 +234,11 @@
       overflow: visible;
     }
     .qc-spline-main {
-      filter: drop-shadow(0 0 7px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 14px rgba(16, 185, 129, 0.32));
+      filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
     }
     .qc-terminal-pill {
       position: absolute;
-      background: #059669;
+      background: #0891b2;
       color: #ffffff;
       font-size: 11px;
       font-weight: 700;
@@ -249,7 +249,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.45);
+      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.45);
       z-index: 5;
     }
     .qc-term-dot {
@@ -387,7 +387,7 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 12px;
       padding: 10px 12px;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(16, 185, 129, 0.16);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(6, 182, 212, 0.16);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       color: #e2e8f0;
@@ -539,8 +539,8 @@
       <p class="kicker">Visual Revamp &middot; Zero Area Shading</p>
       <h1>Select Your Preferred Chart Color Palette</h1>
       <p class="desc">
-        As requested, the purple area shading under the price curve has been completely removed so the price spline remains razor crisp.
-        Below are 4 high-contrast, modern color schemes presented side-by-side on your real trading tape data (click any palette to preview instantly).
+        Purple shading is gone. The live default is Electric Cyan with a thinner 2.2px price line.
+        Click any palette below to compare on real tape data (VSAT, NVDA, HD).
       </p>
     </div>
 
@@ -559,7 +559,7 @@
         </div>
         <div class="status-badge">
           <span class="status-dot"></span>
-          <span id="active-theme-label">Active: Emerald Matrix (Zero Area Shading)</span>
+          <span id="active-theme-label">Active: Electric Cyan (Zero Area Shading)</span>
         </div>
       </div>
 
@@ -574,14 +574,14 @@
 
     <!-- Palette Breakdown Details -->
     <div class="comparison-grid">
-      <div class="palette-feature-card" style="border-top: 3px solid #10b981;">
-        <h3><span style="color:#10b981">●</span> Emerald Matrix <span class="feature-badge" style="background:rgba(16,185,129,0.2); color:#10b981;">Recommended</span></h3>
-        <p>Ice platinum transitioning into vibrant neon emerald with mint highlights. Harmonizes natively with Quantity Capital's financial intelligence theme and buy badges.</p>
+      <div class="palette-feature-card" style="border-top: 3px solid #06b6d4;">
+        <h3><span style="color:#06b6d4">●</span> Electric Cyan <span class="feature-badge" style="background:rgba(6,182,212,0.2); color:#06b6d4;">Selected</span></h3>
+        <p>Ultra-crisp cyan/teal neon glow that directly matches Quantity Capital's site accent color (`--teal: #36999d`), providing a cohesive institutional terminal aesthetic.</p>
       </div>
 
-      <div class="palette-feature-card" style="border-top: 3px solid #06b6d4;">
-        <h3><span style="color:#06b6d4">●</span> Electric Cyan <span class="feature-badge" style="background:rgba(6,182,212,0.2); color:#06b6d4;">Cyber Clean</span></h3>
-        <p>Ultra-crisp cyan/teal neon glow that directly matches Quantity Capital's site accent color (`--teal: #36999d`), providing a cohesive institutional terminal aesthetic.</p>
+      <div class="palette-feature-card" style="border-top: 3px solid #10b981;">
+        <h3><span style="color:#10b981">●</span> Emerald Matrix</h3>
+        <p>Ice platinum transitioning into vibrant neon emerald with mint highlights. Harmonizes natively with Quantity Capital's financial intelligence theme and buy badges.</p>
       </div>
 
       <div class="palette-feature-card" style="border-top: 3px solid #f59e0b;">
@@ -600,15 +600,6 @@
   <script src="chart.js"></script>
   <script>
     const THEMES = [
-      {
-        id: "emerald",
-        name: "Emerald Matrix",
-        desc: "Luminous neon emerald & mint · Fresh, modern, highly legible",
-        border: "#10b981",
-        glow: "rgba(16, 185, 129, 0.4)",
-        gradient: "linear-gradient(90deg, #f8fafc 0%, #6ee7b7 55%, #10b981 100%)",
-        swatch: "#10b981"
-      },
       {
         id: "cyan",
         name: "Electric Cyan",
@@ -638,7 +629,7 @@
       }
     ];
 
-    let currentTheme = "emerald";
+    let currentTheme = "cyan";
     let currentTicker = "VSAT";
     let tickerData = {};
 

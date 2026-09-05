@@ -92,7 +92,7 @@
       <p class="asof" id="asof"></p>
     </div>
     <h1>Checks</h1>
-    <p class="lede">Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list.</p>
+    <p class="lede">Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list. A one-session lag after a morning pull is listed separately from names whose last bar is older than that.</p>
     <div class="windows" aria-label="Insider boards">
       <a class="chip" href="insiders.html">Tape</a>
       <a class="chip" href="insider-landed.html">Landed</a>
@@ -130,12 +130,22 @@
       const missing = data.missing || [];
       const off = data.offChart || [];
       const stale = data.stale || [];
+      const lagCount = data.lagCount || 0;
+      const lagLast = data.lagLast || "";
+      const staleCount = data.staleCount || stale.length;
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + thin.length + "</b><span>thin series</span></div>" +
         "<div class=\"stat\"><b>" + missing.length + "</b><span>missing</span></div>" +
         "<div class=\"stat\"><b>" + off.length + "</b><span>marks off chart</span></div>" +
-        "<div class=\"stat\"><b>" + (data.staleCount || stale.length) + "</b><span>stale last bar</span></div>";
+        "<div class=\"stat\"><b>" + staleCount + "</b><span>stale last bar</span></div>";
+      const lagNote = lagCount
+        ? "<p class=\"muted\">" + lagCount.toLocaleString() +
+          " files still show " + QC.esc(lagLast || "the prior session") +
+          " (one session behind " + QC.esc(data.expectLast || "") +
+          "). That is the morning Yahoo pull; the evening job should add the close without replacing borrowed series.</p>"
+        : "";
       document.getElementById("board").innerHTML =
+        lagNote +
         table("Thin 3-year pull", thin, [
           ["Ticker", tk],
           ["Bars", (r) => String(r.bars || "—")],
@@ -154,7 +164,7 @@
           ["Series", (r) => QC.esc((r.first || "") + " → " + (r.last || ""))],
           ["Why", (r) => QC.esc(r.why || "")]
         ]) +
-        table("Stale last bar (sample)", stale, [
+        table("Stale last bar (5+ days)", stale, [
           ["Ticker", tk],
           ["Last bar", (r) => QC.esc(r.last || "")],
           ["Expected", (r) => QC.esc(r.expect || "")],

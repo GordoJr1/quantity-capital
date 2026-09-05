@@ -1006,7 +1006,7 @@
         const list = (file && file.companies) || [];
         for (let i = 0; i < list.length; i++) {
           const co = list[i] || {};
-          const all = [].concat(co.us || [], co.cad || [], co.all || []).map((s) => String(s).toUpperCase());
+          const all = [].concat(co.us || [], co.cad || [], co.other || [], co.all || []).map((s) => String(s).toUpperCase());
           if (all.indexOf(T) >= 0) return Array.from(new Set(all));
         }
         return [T];

@@ -13,7 +13,9 @@
 
 function axisPrice(n) {
   if (n >= 1000) return "$" + Math.round(n / 1000) + "k";
-  return "$" + Math.round(n);
+  if (Math.abs(n) >= 10 || Math.abs(n - Math.round(n)) < 1e-8) return "$" + Math.round(n);
+  if (Math.abs(n) >= 1) return "$" + n.toFixed(1).replace(/\.0$/, "");
+  return "$" + n.toFixed(2);
 }
 
 function quotePrice(n) {
@@ -41,25 +43,39 @@ function niceNum(range, round) {
   return nf * mag;
 }
 
+function snapAxisTick(v, step) {
+  const decimals = step >= 1 ? 0 : (step >= 0.1 ? 1 : 2);
+  return Number((Math.round(v / step) * step).toFixed(decimals));
+}
+
+function pickCheapStep(span, dataMax) {
+  const allowed = dataMax < 1 ? [0.05, 0.1, 0.2, 0.25, 0.5] : [0.25, 0.5, 1];
+  let i = 0;
+  while (i < allowed.length - 1 && span / allowed[i] > 5) i += 1;
+  return allowed[i];
+}
+
 function niceAxisScale(dataMin, dataMax) {
-  const rawSpan = (dataMax - dataMin) || 1;
+  const rawSpan = (dataMax - dataMin) || Math.max(Math.abs(dataMax) * 0.25, dataMax < 1 ? 0.2 : 1);
   let lo = dataMin;
   let hi = dataMax;
   if (lo < 0 && dataMin >= 0) lo = 0;
-  let step = Math.max(1, Math.round(niceNum(rawSpan / 4, true)));
-  let niceMin = Math.floor(lo / step) * step;
-  let niceMax = Math.ceil(hi / step) * step;
-  if (niceMin === niceMax) niceMax = niceMin + step;
+  let step = dataMax >= 5
+    ? Math.max(1, Math.round(niceNum(rawSpan / 4, true)) || 1)
+    : pickCheapStep(rawSpan, dataMax);
+  let niceMin = snapAxisTick(Math.floor(lo / step) * step, step);
+  let niceMax = snapAxisTick(Math.ceil(hi / step) * step, step);
+  if (niceMin === niceMax) niceMax = snapAxisTick(niceMin + step, step);
   if (niceMin < 0 && dataMin >= 0) niceMin = 0;
   let ticks = [];
-  for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
+  for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(snapAxisTick(v, step));
   if (ticks.length > 7) {
-    step *= 2;
-    niceMin = Math.floor(lo / step) * step;
-    niceMax = Math.ceil(hi / step) * step;
+    step = dataMax >= 5 ? step * 2 : pickCheapStep(rawSpan * 2, dataMax);
+    niceMin = snapAxisTick(Math.floor(lo / step) * step, step);
+    niceMax = snapAxisTick(Math.ceil(hi / step) * step, step);
     if (niceMin < 0 && dataMin >= 0) niceMin = 0;
     ticks = [];
-    for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
+    for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(snapAxisTick(v, step));
   }
   return { min: niceMin, max: niceMax, ticks: ticks };
 }
@@ -289,6 +305,8 @@ function drawChart(points, marks, opts) {
   const min = scale.min;
   const max = scale.max;
   const span = max - min || 1;
+  const labelWide = scale.ticks.some((t) => axisPrice(t).length >= 5);
+  if (!isMobile && labelWide) pad.l = 50;
 
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
   const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;
@@ -504,6 +522,7 @@ function drawChart(points, marks, opts) {
     const daysSpan = (new Date(String(lastDate) + "T00:00:00") - new Date(String(firstDate) + "T00:00:00")) / 86400000;
     const isShortSpan = daysSpan <= 210 || (opts && (opts.range === "1m" || opts.range === "3m" || opts.range === "6m"));
     xBox.innerHTML = spots.map((i) => "<span>" + axisDate(points[i][0], isShortSpan) + "</span>").join("");
+    xBox.style.paddingLeft = pad.l + "px";
   }
 
   // DOM Badges & Tooltip Container

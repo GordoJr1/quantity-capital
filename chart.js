@@ -13,13 +13,57 @@
  * - Zero external dependencies, pure native SVG + DOM, fully responsive
  */
 
-function axisPrice(n, span) {
+function axisPrice(n) {
+  if (n >= 1000) return "$" + Math.round(n / 1000) + "k";
+  return "$" + Math.round(n);
+}
+
+function quotePrice(n) {
   if (n >= 10000) return "$" + Math.round(n / 1000) + "k";
-  if (n >= 1000 && (span == null || span >= 100)) return "$" + (n / 1000).toFixed(1).replace(/\.0$/, "") + "k";
-  if (span != null && span < 10) return "$" + n.toFixed(2);
+  if (n >= 1000) return "$" + (n / 1000).toFixed(1).replace(/\.0$/, "") + "k";
   if (n >= 100) return "$" + Math.round(n);
   if (n >= 10) return "$" + n.toFixed(1).replace(/\.0$/, "");
   return "$" + n.toFixed(2);
+}
+
+function niceNum(range, round) {
+  const exp = Math.floor(Math.log10(range || 1));
+  const mag = Math.pow(10, exp);
+  const f = range / mag;
+  let nf;
+  if (round) {
+    if (f < 1.5) nf = 1;
+    else if (f < 3) nf = 2;
+    else if (f < 7) nf = 5;
+    else nf = 10;
+  } else if (f <= 1) nf = 1;
+  else if (f <= 2) nf = 2;
+  else if (f <= 5) nf = 5;
+  else nf = 10;
+  return nf * mag;
+}
+
+function niceAxisScale(dataMin, dataMax) {
+  const rawSpan = (dataMax - dataMin) || 1;
+  let lo = dataMin;
+  let hi = dataMax;
+  if (lo < 0 && dataMin >= 0) lo = 0;
+  let step = Math.max(1, Math.round(niceNum(rawSpan / 4, true)));
+  let niceMin = Math.floor(lo / step) * step;
+  let niceMax = Math.ceil(hi / step) * step;
+  if (niceMin === niceMax) niceMax = niceMin + step;
+  if (niceMin < 0 && dataMin >= 0) niceMin = 0;
+  let ticks = [];
+  for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
+  if (ticks.length > 7) {
+    step *= 2;
+    niceMin = Math.floor(lo / step) * step;
+    niceMax = Math.ceil(hi / step) * step;
+    if (niceMin < 0 && dataMin >= 0) niceMin = 0;
+    ticks = [];
+    for (let v = niceMin; v <= niceMax + step * 0.0001; v += step) ticks.push(v);
+  }
+  return { min: niceMin, max: niceMax, ticks: ticks };
 }
 
 function axisDate(iso, isShortSpan) {
@@ -241,8 +285,11 @@ function drawChart(points, marks, opts) {
   const priceH = priceBot - priceTop;
 
   const xs = points.map((p) => p[1]);
-  const min = Math.min.apply(null, xs);
-  const max = Math.max.apply(null, xs);
+  const dataMin = Math.min.apply(null, xs);
+  const dataMax = Math.max.apply(null, xs);
+  const scale = niceAxisScale(dataMin, dataMax);
+  const min = scale.min;
+  const max = scale.max;
   const span = max - min || 1;
 
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
@@ -291,17 +338,17 @@ function drawChart(points, marks, opts) {
     }
   }
 
-  // Y-axis grid lines (5 horizontal levels: 100%, 75%, 50%, 25%, 0%)
+  // Y-axis grid lines on whole-dollar nice ticks
   const yFontSize = isMobile ? 22 : 14.5;
   const yTextOffset = isMobile ? 6.5 : 4.8;
-  const yTicks = [1, 0.75, 0.5, 0.25, 0].map((t) => min + span * t);
+  const yTicks = scale.ticks;
   const gridLines = yTicks.map((px) => {
     const y = yAt(px).toFixed(1);
     return "<line x1=\"" + pad.l + "\" x2=\"" + (w - pad.r) + "\" y1=\"" + y + "\" y2=\"" + y +
       "\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"1\" stroke-dasharray=\"3 4\" />" +
       "<text x=\"" + (pad.l - 12) + "\" y=\"" + (Number(y) + yTextOffset).toFixed(1) +
       "\" fill=\"#e2e8f0\" font-size=\"" + yFontSize + "\" font-weight=\"700\" text-anchor=\"end\" font-family=\"IBM Plex Sans, sans-serif\">" +
-      axisPrice(px, span) + "</text>";
+      axisPrice(px) + "</text>";
   }).join("");
 
   // Visible marks along the spline
@@ -510,7 +557,7 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) 
     termPill.className = "qc-terminal-pill";
     wrap.appendChild(termPill);
   }
-  termPill.innerHTML = "<span class=\"qc-term-dot\"></span> " + axisPrice(terminalVal);
+  termPill.innerHTML = "<span class=\"qc-term-dot\"></span> " + quotePrice(terminalVal);
   if (palette) {
     if (palette.terminalPillBg) termPill.style.background = palette.terminalPillBg;
     if (palette.terminalPillShadow) termPill.style.boxShadow = palette.terminalPillShadow;
@@ -634,7 +681,7 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
       }
       hoverPricePill.style.left = pillLeft + "px";
       hoverPricePill.style.top = screenY + "px";
-      hoverPricePill.textContent = axisPrice(pt.px);
+      hoverPricePill.textContent = quotePrice(pt.px);
     }
 
     // Bottom Date Pill
@@ -658,7 +705,7 @@ function attachScrubberEvents(svg, wrap, pts, hitMarks, w, h, opts) {
       let hudContent =
         "<div class=\"qc-hud-section\">Market Quote</div>" +
         "<div class=\"qc-hud-row\"><span>Date</span><span class=\"qc-hud-val\">" + pt.date + "</span></div>" +
-        "<div class=\"qc-hud-row\"><span>Close</span><span class=\"qc-hud-val\">" + axisPrice(pt.px) + "</span></div>";
+        "<div class=\"qc-hud-row\"><span>Close</span><span class=\"qc-hud-val\">" + quotePrice(pt.px) + "</span></div>";
 
       if (nearby) {
         const marks = nearby.marks || [nearby.mark];

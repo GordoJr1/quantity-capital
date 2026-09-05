@@ -556,8 +556,15 @@
       color: #64748b;
       margin: 0 1px;
     }
-    .mark-pop .pop-single-date {
-      color: #94a3b8;
+    .mark-pop .pop-single-date,
+    .mark-pop .pop-date-link {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .mark-pop .pop-date-link:hover {
+      color: #7dd3fc;
+      text-decoration: underline;
     }
     .mark-pop .pop-single-shares {
       color: #cbd5e1;
@@ -923,7 +930,9 @@
             "</div>" +
             "<button type=\"button\" class=\"pop-close\" aria-label=\"Close popover\">✕</button>" +
           "</div>" +
-          "<div class=\"pop-hint\">Grouped transactions · " + dateStr + "</div>" +
+          "<div class=\"pop-hint\">Grouped transactions · " +
+            (dateStr ? "<a href=\"#marks\" class=\"pop-date-link pop-more-link\">" + dateStr + "</a>" : "") +
+          "</div>" +
           "<div class=\"pop-list\">" +
             marks.slice(0, maxItems).map((m) => {
               const amt = getAmt(m);
@@ -955,10 +964,9 @@
           "<div class=\"pop-single-detail\">" +
             (amt ? "<span class=\"pop-single-amt\">" + amt + "</span>" : "") +
             (amt && mDate ? "<span class=\"pop-dot\">·</span>" : "") +
-            (mDate ? "<span class=\"pop-single-date\">" + mDate + "</span>" : "") +
+            (mDate ? "<a href=\"#marks\" class=\"pop-single-date pop-date-link pop-more-link\">" + mDate + "</a>" : "") +
             (m.shares && m.price ? "<span class=\"pop-single-shares\">(" + Number(m.shares).toLocaleString() + " sh @ $" + Number(m.price).toFixed(2) + ")</span>" : "") +
-          "</div>" +
-          "<div class=\"pop-more\"><a href=\"#marks\" class=\"pop-more-link\">View filing in table below ↓</a></div>";
+          "</div>";
       }
 
       pop.innerHTML = contentHtml;
@@ -974,58 +982,41 @@
         closeBtn.addEventListener("touchend", closeFn);
       }
 
-      const moreLink = pop.querySelector(".pop-more-link");
-      if (moreLink) {
-        moreLink.addEventListener("click", () => {
-          hidePop();
-        });
-      }
+      pop.querySelectorAll(".pop-more-link").forEach((link) => {
+        link.addEventListener("click", () => { hidePop(); });
+      });
 
       // Responsive positioning
       const svg = document.getElementById("chart-svg") || wrap.querySelector(".chart-frame");
       const wr = wrap.getBoundingClientRect();
       const sr = svg.getBoundingClientRect();
 
-      if (isMobile) {
-        // Mobile layout: dock cleanly to top or bottom inside chart-wrap with full width
-        pop.style.width = "auto";
-        pop.style.left = "8px";
-        pop.style.right = "8px";
-        pop.style.transform = "none";
+      const popWidth = Math.min(isMobile ? 236 : 220, wr.width - 24);
+      pop.style.width = popWidth + "px";
+      pop.style.right = "auto";
+      pop.style.transform = "none";
 
+      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+      let popLeft = pinScreenX - (popWidth / 2);
+      popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, popLeft));
+      pop.style.left = popLeft + "px";
+
+      if (isMobile) {
         if (rec.yPct < 0.48) {
-          // Pin is in upper half: dock to bottom of chart-wrap
           pop.style.top = "auto";
           pop.style.bottom = "8px";
         } else {
-          // Pin is in lower half: dock to top of chart-wrap
           pop.style.top = "8px";
           pop.style.bottom = "auto";
         }
+      } else if (pinScreenY < 140 || rec.yPct < 0.46) {
+        pop.style.top = (pinScreenY + 16) + "px";
+        pop.style.bottom = "auto";
       } else {
-        // Desktop layout: contextual floating card near the mark
-        pop.style.right = "auto";
-        const popWidth = Math.min(320, wr.width - 24);
-        pop.style.width = popWidth + "px";
-
-        const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
-        const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
-
-        let popLeft = pinScreenX - (popWidth / 2);
-        popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, popLeft));
-        pop.style.left = popLeft + "px";
-
-        if (pinScreenY < 140 || rec.yPct < 0.46) {
-          // Place below pin
-          pop.style.top = (pinScreenY + 16) + "px";
-          pop.style.bottom = "auto";
-          pop.style.transform = "none";
-        } else {
-          // Place above pin
-          pop.style.top = (pinScreenY - 16) + "px";
-          pop.style.bottom = "auto";
-          pop.style.transform = "translateY(-100%)";
-        }
+        pop.style.top = (pinScreenY - 16) + "px";
+        pop.style.bottom = "auto";
+        pop.style.transform = "translateY(-100%)";
       }
 
       pop.hidden = false;

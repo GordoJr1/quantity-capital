@@ -643,20 +643,24 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html" class="on">Insiders</a>
+      <nav class="qc-nav" aria-label="Insider tape">
+        <a href="insiders.html" title="Officer trade tape">Tape</a>
+        <a href="insider-landed.html" title="New insider filings">Filed</a>
+        <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+        <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+        <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <a class="back" id="back" href="insiders.html">← Insiders</a>
       <p class="asof" id="asof"></p>
@@ -1127,13 +1131,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html" class="on">Insiders</a>
+  <nav class="tabbar" aria-label="Insider tape">
+    <a href="insiders.html" title="Officer trade tape">Tape</a>
+    <a href="insider-landed.html" title="New insider filings">Filed</a>
+    <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+    <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+    <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
   </nav>
 </body>
 </html>

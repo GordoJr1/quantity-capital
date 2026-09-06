@@ -598,20 +598,24 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html">Insiders</a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" title="Live politician trades">Tape</a>
+        <a href="landed.html" title="New public filings">Filed</a>
+        <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+        <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+        <a href="paper.html" title="Copy on the filed date">Paper</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <a class="back" id="back" href="index.html">← Tape</a>
       <p class="asof" id="asof"></p>
@@ -993,13 +997,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html">Insiders</a>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" title="Live politician trades">Tape</a>
+    <a href="landed.html" title="New public filings">Filed</a>
+    <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+    <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+    <a href="paper.html" title="Copy on the filed date">Paper</a>
   </nav>
 </body>
 </html>

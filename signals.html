@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="trades-lite.json">
-  <title>Signals — Quantity Capital</title>
+  <title>Heat — Quantity Capital</title>
   <meta name="description" content="Recency-weighted politician buy heat from official STOCK Act / OGE 278-T tape." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -433,25 +433,30 @@
       .kicker { margin-top: 14px; }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html" class="on">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html">Insiders</a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" title="Live politician trades">Tape</a>
+        <a href="landed.html" title="New public filings">Filed</a>
+        <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+        <a href="signals.html" class="on" aria-current="page" title="Recency-weighted buy heat">Heat</a>
+        <a href="paper.html" title="Copy on the filed date">Paper</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <p class="kicker">Today's book</p>
       <p class="asof" id="asof"></p>
     </div>
-    <h1>Signals</h1>
+    <h1>Heat</h1>
+    <p class="lede">Today’s book from recency-weighted politician buy heat. Not a recommendation.</p>
     <div class="blotter" id="book"></div>
     <div id="avoid-wrap" hidden>
       <p class="subhead">Avoid the open</p>
@@ -466,7 +471,7 @@
     <details class="how">
       <summary>How the heat is scored</summary>
       <div class="body">
-        <p>Today’s book is rebuilt on every site update (morning and 6 PM). It mixes three tape boards — Landed ingest time, committee-overlap conflicts, and recency-weighted buy heat — with weekly and monthly technicals from the closes on file. A weekly washout (RSI 20–48) with an intact monthly (RSI ≥ 45 or price near the 10-month) is favored. Names that already ran more than 12% since the last official buy while the weekly trend is still down, or that print a weekly RSI above 72, are pushed to Avoid the open.</p>
+        <p>Today’s book is rebuilt on every site update (morning and 6 PM). It mixes three tape boards — Filed ingest time, committee-overlap conflicts, and recency-weighted buy heat — with weekly and monthly technicals from the closes on file. A weekly washout (RSI 20–48) with an intact monthly (RSI ≥ 45 or price near the 10-month) is favored. Names that already ran more than 12% since the last official buy while the weekly trend is still down, or that print a weekly RSI above 72, are pushed to Avoid the open.</p>
         <p class="muted" style="margin-top:10px;">Not a recommendation. STOCK Act amounts are ranges, not share counts. Filings lag the trade. Technicals use Yahoo daily closes resampled to weeks and months.</p>
       </div>
     </details>
@@ -521,7 +526,7 @@
         : "";
       const hits = [];
       if (row.landed) {
-        hits.push("Just landed" + (row.lagDays != null ? " · " + row.lagDays + "-day filing lag" : ""));
+        hits.push("Just filed" + (row.lagDays != null ? " · " + row.lagDays + "-day filing lag" : ""));
       }
       if (row.whale) {
         hits.push("Whale print · " + QC.formatMoney(row.buyHigh) + " high-end" + (who ? " · " + who : ""));
@@ -1005,13 +1010,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html" class="on">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html">Insiders</a>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" title="Live politician trades">Tape</a>
+    <a href="landed.html" title="New public filings">Filed</a>
+    <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+    <a href="signals.html" class="on" aria-current="page" title="Recency-weighted buy heat">Heat</a>
+    <a href="paper.html" title="Copy on the filed date">Paper</a>
   </nav>
 </body>
 </html>

@@ -73,33 +73,30 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html" class="on">Insiders</a>
+      <nav class="qc-nav" aria-label="Insider tape">
+        <a href="insiders.html" title="Officer trade tape">Tape</a>
+        <a href="insider-landed.html" title="New insider filings">Filed</a>
+        <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+        <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+        <a href="insider-checks.html" class="on" aria-current="page" title="Price-file hygiene">Checks</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <p class="kicker">Chart hygiene</p>
       <p class="asof" id="asof"></p>
     </div>
     <h1>Checks</h1>
     <p class="lede">Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list. A one-session lag after a morning pull is listed separately from names whose last bar is older than that.</p>
-    <div class="windows" aria-label="Insider boards">
-      <a class="chip" href="insiders.html">Tape</a>
-      <a class="chip" href="insider-landed.html">Landed</a>
-      <a class="chip" href="insider-signals.html">Signals</a>
-      <a class="chip" href="insider-board.html">Leaders</a>
-      <a class="chip on" href="insider-checks.html">Checks</a>
-    </div>
     <div class="stats" id="stats"></div>
     <div id="board"><p class="muted">Reading checks…</p></div>
   </div>
@@ -176,13 +173,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html" class="on">Insiders</a>
+  <nav class="tabbar" aria-label="Insider tape">
+    <a href="insiders.html" title="Officer trade tape">Tape</a>
+    <a href="insider-landed.html" title="New insider filings">Filed</a>
+    <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+    <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+    <a href="insider-checks.html" class="on" aria-current="page" title="Price-file hygiene">Checks</a>
   </nav>
 </body>
 </html>

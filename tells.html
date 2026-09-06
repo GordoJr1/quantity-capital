@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="trades-lite.json">
-  <title>Tells — Quantity Capital</title>
+  <title>Patterns — Quantity Capital</title>
   <meta name="description" content="Official buys that preceded fast price spikes, and what those filers are buying now." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,25 +165,30 @@
       .kicker { margin-top: 14px; }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html" class="on">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html">Insiders</a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" title="Live politician trades">Tape</a>
+        <a href="landed.html" title="New public filings">Filed</a>
+        <a href="tells.html" class="on" aria-current="page" title="Buys that preceded spikes">Patterns</a>
+        <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+        <a href="paper.html" title="Copy on the filed date">Paper</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <p class="kicker">Hot hands</p>
       <p class="asof" id="asof"></p>
     </div>
-    <h1>Tells</h1>
+    <h1>Patterns</h1>
+    <p class="lede">Filers whose official buys preceded fast spikes — and what those same hands are buying now.</p>
     <div class="stats" id="stats"></div>
     <p class="subhead">They're buying now</p>
     <div id="now"></div>
@@ -281,13 +286,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html" class="on">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html">Insiders</a>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" title="Live politician trades">Tape</a>
+    <a href="landed.html" title="New public filings">Filed</a>
+    <a href="tells.html" class="on" aria-current="page" title="Buys that preceded spikes">Patterns</a>
+    <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+    <a href="paper.html" title="Copy on the filed date">Paper</a>
   </nav>
 </body>
 </html>

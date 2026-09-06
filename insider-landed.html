@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
-  <title>Insider landed — Quantity Capital</title>
+  <title>Insider filed — Quantity Capital</title>
   <meta name="description" content="Newly filed officer and director trades on the Quantity Capital watchlist, ranked by filing time." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -111,32 +111,30 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html" class="on">Insiders</a>
+      <nav class="qc-nav" aria-label="Insider tape">
+        <a href="insiders.html" title="Officer trade tape">Tape</a>
+        <a href="insider-landed.html" class="on" aria-current="page" title="New insider filings">Filed</a>
+        <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+        <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+        <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <p class="kicker">Drop log</p>
       <p class="asof" id="asof"></p>
     </div>
-    <h1>Landed</h1>
-    <div class="windows" aria-label="Insider boards">
-      <a class="chip" href="insiders.html">Tape</a>
-      <a class="chip on" href="insider-landed.html">Landed</a>
-      <a class="chip" href="insider-signals.html">Signals</a>
-      <a class="chip" href="insider-board.html">Leaders</a>
-      <a class="chip" href="insider-checks.html">Checks</a>
-    </div>
+    <h1>Filed</h1>
+    <p class="lede">Officer filings that just hit the tape, newest ingest first — not by trade date.</p>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div id="board"></div>
@@ -237,13 +235,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html" class="on">Insiders</a>
+  <nav class="tabbar" aria-label="Insider tape">
+    <a href="insiders.html" title="Officer trade tape">Tape</a>
+    <a href="insider-landed.html" class="on" aria-current="page" title="New insider filings">Filed</a>
+    <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+    <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+    <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
   </nav>
 </body>
 </html>

@@ -926,24 +926,28 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
   <div class="bay-right" aria-hidden="true"></div>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html" class="on">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html">Paper</a>
-        <a href="insiders.html">Insiders</a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" class="on" aria-current="page" title="Live politician trades">Tape</a>
+        <a href="landed.html" title="New public filings">Filed</a>
+        <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+        <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+        <a href="paper.html" title="Copy on the filed date">Paper</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="landed-chip-row">
-      <a class="landed-chip" id="landed-chip" href="landed.html">Just landed</a>
+      <a class="landed-chip" id="landed-chip" href="landed.html">Just filed</a>
       <p class="asof" id="asof"></p>
     </div>
   </div>
@@ -1022,7 +1026,7 @@
           <div class="check-landed">
             <label for="filter-landed">
               <input id="filter-landed" type="checkbox" />
-              Just landed
+              Just filed
             </label>
           </div>
         </div>
@@ -1159,7 +1163,7 @@
         const bad = isFilingError(t);
         const fresh = QC.isLanded(t, 72);
         const flag = (bad ? errBadge() : "") +
-          (fresh ? "<span class=\"landed-tag\" title=\"This print was added to Quantity Capital recently — the trade itself may be older.\">Landed</span>" : "");
+          (fresh ? "<span class=\"landed-tag\" title=\"This print was added to Quantity Capital recently — the trade itself may be older.\">New</span>" : "");
         const meta = [t.company, t.industry || "—", t.owner].join(" · ");
         const trCls = (bad ? " has-err" : "") + (fresh ? " just-in" : "");
         return "<tr" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
@@ -1421,8 +1425,8 @@
         const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;
         if (chip) {
           chip.innerHTML = freshN
-            ? "Just landed \u00b7 <span class=\"n\">" + freshN + "</span>"
-            : "Just landed";
+            ? "Just filed \u00b7 <span class=\"n\">" + freshN + "</span>"
+            : "Just filed";
         }
         let tickerFile = { tickers: {}, assets: {} };
         try {
@@ -1550,8 +1554,8 @@
       const sync = () => {
         const hh = bar ? bar.offsetHeight : 0;
         document.documentElement.style.setProperty("--site-header-h", hh + "px");
-        document.documentElement.style.setProperty("--tape-lock-h", "0px");
-        tape.style.setProperty("--tape-lock-h", "0px");
+        document.documentElement.style.setProperty("--tape-lock-h", hh + "px");
+        tape.style.setProperty("--tape-lock-h", hh + "px");
       };
       if (window.ResizeObserver && bar) new ResizeObserver(sync).observe(bar);
       const compact = window.matchMedia("(max-width: 820px), (orientation: landscape) and (max-height: 620px)");
@@ -1566,13 +1570,12 @@
     }
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html" class="on">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html">Paper</a>
-    <a href="insiders.html">Insiders</a>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" class="on" aria-current="page" title="Live politician trades">Tape</a>
+    <a href="landed.html" title="New public filings">Filed</a>
+    <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+    <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+    <a href="paper.html" title="Copy on the filed date">Paper</a>
   </nav>
 </body>
 </html>

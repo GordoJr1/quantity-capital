@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="backtest.json">
-  <title>Paper — Quantity Capital</title>
+  <title>Paper trades — Quantity Capital</title>
   <meta name="description" content="Hypothetical STOCK Act copy: buy when the filing hits, not on the trade date. Equal-weight purchase legs. Not investment advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -232,25 +232,29 @@
       .kicker { margin: 8px 0 4px; }
     }
   </style>
+  <link rel="stylesheet" href="shell.css" />
 </head>
 <body>
-  <div class="wrap">
-    <header>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
-      <nav>
-        <a href="index.html">Tape</a>
-        <a href="landed.html">Landed</a>
-        <a href="tells.html">Tells</a>
-        <a href="signals.html">Signals</a>
-        <a href="paper.html" class="on">Paper</a>
-        <a href="insiders.html">Insiders</a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" title="Live politician trades">Tape</a>
+        <a href="landed.html" title="New public filings">Filed</a>
+        <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+        <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+        <a href="paper.html" class="on" aria-current="page" title="Copy on the filed date">Paper</a>
       </nav>
-    </header>
+      <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+    </div>
+  </header>
+  <div class="wrap" id="main">
     <div class="sub-bar">
       <p class="kicker">Filed-date copy</p>
       <p class="asof" id="asof"></p>
     </div>
-    <h1>Paper</h1>
+    <h1>Paper trades</h1>
     <p class="lede">If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="filers" class="on">Filers</button>
@@ -570,13 +574,12 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Primary">
-    <a href="index.html">Tape</a>
-    <a href="landed.html">Landed</a>
-    <a href="tells.html">Tells</a>
-    <a href="signals.html">Signals</a>
-    <a href="paper.html" class="on">Paper</a>
-    <a href="insiders.html">Insiders</a>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" title="Live politician trades">Tape</a>
+    <a href="landed.html" title="New public filings">Filed</a>
+    <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
+    <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
+    <a href="paper.html" class="on" aria-current="page" title="Copy on the filed date">Paper</a>
   </nav>
 </body>
 </html>

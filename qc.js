@@ -553,6 +553,8 @@
   function tapeRowHtml(t, opts) {
     opts = opts || {};
     const cls = txnClass(t);
+    const delta = positionDelta(t);
+    const hero = tradeHero(t);
     const name = titleCaseName(t.filer);
     const href = opts.nameHref || "";
     const nameHtml = name
@@ -565,6 +567,11 @@
     const tagsHtml = opts.tagsHtml != null
       ? opts.tagsHtml
       : (isLanded(t, 72) ? "<span class=\"qc-txn-tag hot\">New</span>" : "");
+    const company = String(t.company || "").trim();
+    const lag = filingLagDays(t);
+    const lagHtml = (lag != null && lag >= 3)
+      ? "<span class=\"qc-txn-lag\">" + lag + "d lag</span>"
+      : "";
 
     const whoParts = [];
     if (tickerHtml) whoParts.push(tickerHtml);
@@ -573,20 +580,42 @@
 
     const metaParts = [];
     if (t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
-    const company = String(t.company || "").trim();
     if (company) metaParts.push("<span class=\"qc-txn-co\">" + esc(company) + "</span>");
-    const lag = filingLagDays(t);
-    if (lag != null && lag >= 3) metaParts.push("<span class=\"qc-txn-lag\">" + lag + "d lag</span>");
+    if (lagHtml) metaParts.push(lagHtml);
 
     const who = dotted(whoParts);
     const meta = dotted(metaParts);
     const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
+    const subNameParts = [];
+    if (tickerHtml) subNameParts.push(tickerHtml);
+    if (role) subNameParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
+    if (tagsHtml) subNameParts.push(tagsHtml);
+    if (company) subNameParts.push("<span class=\"qc-txn-co\">" + esc(company) + "</span>");
+    if (lagHtml) subNameParts.push(lagHtml);
+    const subName = dotted(subNameParts);
+    const subNameHtml = subName.length
+      ? "<div class=\"qc-txn-id-sub\">" + subName.join("") + "</div>"
+      : "";
+
+    const tblParts = [];
+    if (t.trade_date) tblParts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
+    const sh = formatSharesQuiet(t.shares);
+    if (sh && hero.kind !== "shares") tblParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
+    const px = formatPriceQuiet(t.price);
+    if (px) tblParts.push("<span class=\"qc-txn-px\">" + esc(px) + "</span>");
+    const after = formatSharesQuiet(t.shares_after);
+    if (after) tblParts.push("<span class=\"qc-txn-after\">" + esc(after) + "</span>");
+    const held = formatHeldQuiet(t.held_pct);
+    if (held) tblParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
+    const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
+
     return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\">" +
-      "<div class=\"qc-txn-id\">" + nameHtml + "</div>" +
+      "<div class=\"qc-txn-id\">" + nameHtml + subNameHtml + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
+      tbl +
     "</li>";
   }
 

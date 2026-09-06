@@ -211,28 +211,6 @@
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
     }
-    .qc-terminal-pill {
-      position: absolute;
-      background: #0891b2;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: "JetBrains Mono", monospace;
-      padding: 5px 11px;
-      border-radius: 5px;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.45);
-      z-index: 5;
-    }
-    .qc-term-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #ffffff;
-    }
     .qc-hover-price-pill {
       position: absolute;
       background: #ffffff;
@@ -474,7 +452,7 @@
     .chart-x {
       display: flex;
       justify-content: space-between;
-      padding: 10px 60px 0 34px;
+      padding: 10px 28px 0 34px;
       color: #e2e8f0;
       font-size: 13.5px;
       font-weight: 700;
@@ -661,6 +639,7 @@
     const optionMeta = QC.optionMeta;
     const optionTag = QC.optionTag;
     const formatMoney = QC.formatMoney;
+    const formatQuote = QC.formatQuote;
     const signedMoney = QC.signedMoney;
     const prettyDate = QC.prettyDate;
     function nearestClose(points, date) {
@@ -939,7 +918,7 @@
       const sells = stockDeals.filter((t) => t.side === "sale").length;
       document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker");
       const pill = document.getElementById("price-pill");
-      document.getElementById("last-px").textContent = formatMoney(last[1]);
+      document.getElementById("last-px").textContent = formatQuote(last[1]);
       pill.hidden = false;
 
       if (filerId) {
@@ -955,7 +934,7 @@
         document.getElementById("stats").innerHTML =
           "<div class=\"stat\"><b>" + buys + "</b><span>buys</span></div>" +
           "<div class=\"stat\"><b>" + sells + "</b><span>sells</span></div>" +
-          "<div class=\"stat\"><b>" + formatMoney(last[1]) + "</b><span>close</span></div>";
+          "<div class=\"stat\"><b>" + formatQuote(last[1]) + "</b><span>close</span></div>";
       }
 
       paintRange();

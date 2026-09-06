@@ -90,6 +90,7 @@
     }
     .side.buy { color: #7dcf7a; font-weight: 600; }
     .side.sell { color: #ef7a74; font-weight: 600; }
+    .side.award { color: var(--caution); font-weight: 600; }
     .tk, .who { color: var(--white); text-decoration: none; }
     .tk:hover, .who:hover { color: var(--teal); }
     .title { color: var(--mute); font-size: 0.78rem; display: block; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
@@ -194,7 +195,7 @@
           <tr>
             <th>Traded</th>
             <th>Officer</th>
-            <th>Side</th>
+            <th>Tx</th>
             <th>Ticker</th>
             <th>Company</th>
             <th>Value</th>
@@ -262,7 +263,7 @@
       }).sort(newestFirst);
       document.getElementById("count").textContent = vis.length + " trades in view";
       document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) => {
-        const cls = t.side === "purchase" ? "buy" : "sell";
+        const cls = QC.txnClass(t);
         const d = lag(t);
         const tags = (t.ceo ? "<span class=\"tag ceo\">CEO</span>" : "") +
           (QC.isLanded(t, 72) ? "<span class=\"tag hot\">New</span>" : "") +
@@ -274,7 +275,7 @@
           "<td class=\"traded\">" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
           "<td class=\"officer\"><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>" +
             "<span class=\"title\">" + QC.esc(t.title || "") + tags + "</span></td>" +
-          "<td class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</td>" +
+          "<td class=\"side " + cls + "\">" + QC.esc(QC.txnLabel(t)) + "</td>" +
           "<td class=\"ticker\">" + tk + "</td>" +
           "<td class=\"company\">" + QC.esc(t.company || "—") + "</td>" +
           "<td class=\"amt value\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +

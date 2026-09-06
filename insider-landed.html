@@ -62,9 +62,10 @@
     .lag b { display: block; font-size: 1.7rem; }
     .lag span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; }
     .tickets { list-style: none; margin-top: 10px; }
-    .tickets li { display: grid; grid-template-columns: 52px 72px minmax(0, 1fr) auto; gap: 10px; padding: 8px 0; border-top: 1px solid #3a4452; font-size: 0.9rem; align-items: baseline; }
+    .tickets li { display: grid; grid-template-columns: 72px 72px minmax(0, 1fr) auto; gap: 10px; padding: 8px 0; border-top: 1px solid #3a4452; font-size: 0.9rem; align-items: baseline; }
     .tickets .side.buy { color: #7dcf7a; }
     .tickets .side.sell { color: #ef7a74; }
+    .tickets .side.award { color: var(--caution); }
     .tk { color: var(--white); text-decoration: none; font-size: 1.05rem; }
     .tk:hover { color: var(--teal); }
     .co { color: var(--paper); font-size: 0.86rem; }
@@ -94,7 +95,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
       .kicker { margin-top: 14px; }
-      .tickets li { grid-template-columns: 52px minmax(0, 1fr); }
+      .tickets li { grid-template-columns: 88px minmax(0, 1fr); }
     }
       .sub-bar {
       padding: 8px 0 2px;
@@ -161,11 +162,11 @@
       return d.toLocaleString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }) + " ET";
     }
     function ticketLine(t) {
-      const cls = t.side === "purchase" ? "buy" : "sell";
+      const cls = QC.txnClass(t);
       const tk = QC.isChartTicker(t.ticker)
         ? "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
         : "<span class=\"tk\">" + QC.esc(t.ticker || "—") + "</span>";
-      return "<li><span class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</span>" + tk +
+      return "<li><span class=\"side " + cls + "\">" + QC.esc(QC.txnLabel(t)) + "</span>" + tk +
         "<span class=\"co\">" + QC.esc(t.company || "—") + " · traded " + QC.esc(QC.prettyDate(t.trade_date)) + "</span>" +
         "<span class=\"amt\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</span></li>";
     }

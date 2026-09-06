@@ -113,8 +113,14 @@
     <h1 id="who">—</h1>
     <p class="muted" id="title"></p>
     <div class="stats" id="stats"></div>
-    <p class="kicker section-kicker">Trades</p>
-    <p class="qc-txn-legend">After / % held color by position change.</p>
+    <div class="qc-txn-head">
+      <p class="qc-txn-legend">
+        <span class="leg-buy">Buy</span>
+        <span class="leg-sell">Sell</span>
+        <span class="leg-note"><span class="leg-info" aria-hidden="true">i</span> Transaction date is when the trade was filed</span>
+      </p>
+      <p class="kicker qc-txn-kicker">Trades</p>
+    </div>
     <ol class="qc-txn-list" id="list"></ol>
   </div>
   <footer>

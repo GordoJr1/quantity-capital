@@ -506,9 +506,9 @@
     const px = formatPriceQuiet(t.price);
     if (px) parts.push("<span>@ " + esc(px) + "</span>");
     const after = formatSharesQuiet(t.shares_after);
-    if (after) parts.push("<span class=\"qc-txn-delta " + delta + "\">After " + esc(after) + "</span>");
+    if (after) parts.push("<span>After " + esc(after) + "</span>");
     const held = formatHeldQuiet(t.held_pct);
-    if (held) parts.push("<span class=\"qc-txn-delta " + delta + "\">" + esc(held) + "</span>");
+    if (held) parts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     extraMeta.forEach((html) => parts.push("<span>" + html + "</span>"));
 
     const meta = [];
@@ -525,10 +525,10 @@
       : "";
 
     return "<li class=\"qc-txn" + (cls ? " " + cls : "") + "\">" +
-      "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml +
-        "<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" + esc(chip) + "</span>" +
-        tagsHtml +
-      "</div>" +
+      "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml + tagsHtml + "</div>" +
+      (chip
+        ? "<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" + esc(chip) + "</span>"
+        : "") +
       heroHtml +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "") +
     "</li>";

@@ -44,7 +44,6 @@
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
     h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
-    .lede { color: var(--paper); max-width: 68ch; line-height: 1.5; margin-bottom: 14px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .sub-bar {
       padding: 8px 0 2px;
@@ -75,14 +74,6 @@
       text-decoration: none; display: inline-flex; align-items: center; min-height: 44px;
     }
     .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
-    .stats {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
-    }
-    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
-    .stat:last-child { border-right: 0; }
-    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
-    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
     .picker { max-width: 420px; margin: 0 0 16px; }
     .picker input {
       width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
@@ -121,8 +112,6 @@
     }
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
-      .stats { grid-template-columns: 1fr 1fr; }
-      .stat:nth-child(2) { border-right: 0; }
       header nav { display: none; }
       .tabbar {
         display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
@@ -194,8 +183,6 @@
       <p class="asof" id="asof"></p>
     </div>
     <h1>Insiders</h1>
-    <p class="lede">Officer and director open-market trades on the watchlist. Form 4 within 2 business days; TSX names via public insider prints.</p>
-    <div class="stats" id="stats"></div>
     <div class="windows" id="windows"></div>
     <div class="picker">
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
@@ -255,18 +242,7 @@
       return String(b.id || "").localeCompare(String(a.id || ""));
     }
     function paint(rows, collected) {
-      const buys = rows.filter((t) => t.side === "purchase");
-      const officers = new Set(rows.map((t) => t.filer_id));
-      const names = new Set(rows.map((t) => t.ticker));
       document.getElementById("asof").textContent = QC.asOfLabel(collected);
-      const landedN = rows.filter((t) => QC.isLanded(t, 72)).length;
-      const chip = document.getElementById("landed-chip");
-      if (chip) chip.textContent = landedN ? "Landed · " + landedN : "Landed";
-      document.getElementById("stats").innerHTML =
-        "<div class=\"stat\"><b>" + rows.length + "</b><span>prints</span></div>" +
-        "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
-        "<div class=\"stat\"><b>" + officers.size + "</b><span>insiders</span></div>" +
-        "<div class=\"stat\"><b>" + names.size + "</b><span>tickers</span></div>";
       document.getElementById("windows").innerHTML =
         WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
         "<button type=\"button\" class=\"chip" + (side === "purchase" ? " on" : "") + "\" data-side=\"purchase\">Buys</button>" +

@@ -34,7 +34,7 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 16px 0; border-bottom: 2px solid var(--teal);
     }
-    .mark, h1, h2, .kicker, nav, .chip, .tk, .who {
+    .mark, h1, h2, .kicker, nav, .chip {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
     }
     a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
@@ -80,28 +80,7 @@
       padding: 10px 12px; font: inherit; min-height: 44px;
     }
     .picker input:focus { outline: 1px solid var(--caution); }
-    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 10px; }
-    .table-wrap { overflow-x: auto; margin-bottom: 28px; }
-    table { width: 100%; border-collapse: collapse; min-width: 860px; }
-    th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid #3a4452; font-size: 0.9rem; vertical-align: top; }
-    th {
-      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--mute); font-weight: 600; font-size: 0.78rem;
-    }
-    .side.buy { color: #7dcf7a; font-weight: 600; }
-    .side.sell { color: #ef7a74; font-weight: 600; }
-    .side.award { color: var(--caution); font-weight: 600; }
-    .side.exercise { color: var(--teal); font-weight: 600; }
-    .tk, .who { color: var(--white); text-decoration: none; }
-    .tk:hover, .who:hover { color: var(--teal); }
-    .title { color: var(--mute); font-size: 0.78rem; display: block; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
-    .amt { color: var(--caution); font-weight: 600; white-space: nowrap; }
-    .tag {
-      display: inline-block; margin-left: 6px; padding: 1px 6px; border: 1px solid #6b7582;
-      color: #c5cdd6; font-family: "Barlow Condensed", sans-serif; font-size: 0.68rem; letter-spacing: 0.06em;
-    }
-    .tag.hot { border-color: var(--caution); color: var(--caution); }
-    .tag.ceo { border-color: #7dcf7a; color: #7dcf7a; }
+    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 6px; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
     footer .wrap {
       display: flex; justify-content: space-between; padding: 18px 0 36px;
@@ -128,38 +107,6 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
       .kicker { margin-top: 14px; }
-      .table-wrap { overflow: visible; margin-bottom: 22px; }
-      table { min-width: 0; display: block; }
-      thead { display: none; }
-      tbody { display: grid; gap: 10px; }
-      tbody tr {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        grid-template-areas:
-          "traded side"
-          "officer side"
-          "ticker value"
-          "company lag";
-        gap: 5px 12px;
-        padding: 12px;
-        border: 1px solid #3a4452;
-        background: rgba(42, 51, 64, 0.72);
-      }
-      tbody td {
-        min-width: 0;
-        padding: 0;
-        border: 0;
-        font-size: 0.88rem;
-      }
-      tbody td.traded { grid-area: traded; color: var(--mute); font-size: 0.78rem; }
-      tbody td.officer { grid-area: officer; }
-      tbody td.side { grid-area: side; align-self: center; text-align: right; }
-      tbody td.ticker { grid-area: ticker; }
-      tbody td.company { grid-area: company; color: var(--mute); font-size: 0.78rem; }
-      tbody td.value { grid-area: value; text-align: right; }
-      tbody td.lag { grid-area: lag; color: var(--mute); font-size: 0.78rem; text-align: right; }
-      tbody td.officer .title { margin-top: 2px; }
-      tbody tr > td.muted { grid-column: 1 / -1; }
     }
   </style>
   <link rel="stylesheet" href="shell.css" />
@@ -190,22 +137,8 @@
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
     </div>
     <p class="count" id="count"></p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Traded</th>
-            <th>Officer</th>
-            <th>Tx</th>
-            <th>Ticker</th>
-            <th>Company</th>
-            <th>Value</th>
-            <th>Lag</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
+    <p class="qc-txn-legend">After / % held color by position change.</p>
+    <ol class="qc-txn-list" id="rows"></ol>
   </div>
   <footer>
     <div class="wrap">
@@ -226,13 +159,6 @@
       if (d <= 30) return "30 days";
       if (d <= 90) return "90 days";
       return "18 months";
-    }
-    function lag(t) {
-      if (!t.filed_date || !t.trade_date) return null;
-      const a = new Date(t.filed_date + "T00:00:00");
-      const b = new Date(t.trade_date + "T00:00:00");
-      if (isNaN(a) || isNaN(b)) return null;
-      return Math.max(0, Math.round((a - b) / 86400000));
     }
     function newestFirst(a, b) {
       const traded = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
@@ -265,25 +191,21 @@
       }).sort(newestFirst);
       document.getElementById("count").textContent = vis.length + " trades in view";
       document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) => {
-        const cls = QC.txnClass(t);
-        const d = lag(t);
-        const tags = (t.ceo ? "<span class=\"tag ceo\">CEO</span>" : "") +
-          (QC.isLanded(t, 72) ? "<span class=\"tag hot\">New</span>" : "") +
-          (t.origin === "yahoo" ? "<span class=\"tag\">TSX</span>" : "");
-        const tk = QC.isChartTicker(t.ticker)
-          ? "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
-          : QC.esc(t.ticker || "—");
-        return "<tr>" +
-          "<td class=\"traded\">" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
-          "<td class=\"officer\"><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>" +
-            "<span class=\"title\">" + QC.esc(t.title || "") + tags + "</span></td>" +
-          "<td class=\"side " + cls + "\">" + QC.esc(QC.txnLabel(t)) + "</td>" +
-          "<td class=\"ticker\">" + tk + "</td>" +
-          "<td class=\"company\">" + QC.esc(t.company || "—") + "</td>" +
-          "<td class=\"amt value\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +
-          "<td class=\"lag\">" + (d == null ? "—" : d + " lag") + "</td>" +
-        "</tr>";
-      }).join("") || "<tr><td colspan=\"7\" class=\"muted\">No insider prints in this window.</td></tr>";
+        const tags = (t.ceo ? "<span class=\"qc-txn-tag ceo\">CEO</span>" : "") +
+          (QC.isLanded(t, 72) ? "<span class=\"qc-txn-tag hot\">New</span>" : "") +
+          (t.origin === "yahoo" ? "<span class=\"qc-txn-tag\">TSX</span>" : "");
+        const nameHtml = "<a class=\"qc-txn-name\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>";
+        const tickerHtml = t.ticker
+          ? (QC.isChartTicker(t.ticker)
+            ? "<a class=\"qc-txn-tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
+            : "<span class=\"qc-txn-tk\">" + QC.esc(t.ticker) + "</span>")
+          : "";
+        return QC.tradeRowHtml(t, {
+          nameHtml: nameHtml,
+          tickerHtml: tickerHtml,
+          tagsHtml: tags
+        });
+      }).join("") || "<li class=\"muted\">No insider prints in this window.</li>";
     }
 
     let all = [];
@@ -310,7 +232,7 @@
       paint(all, collected);
     });
     run().catch(() => {
-      document.getElementById("rows").innerHTML = "<tr><td colspan=\"8\">Could not load insider tape.</td></tr>";
+      document.getElementById("rows").innerHTML = "<li class=\"muted\">Could not load insider tape.</li>";
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
   </script>

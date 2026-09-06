@@ -438,6 +438,102 @@
     return "Data of " + date + ", " + time + " ET";
   }
 
+  function isFiniteNum(n) {
+    if (n == null || n === "") return false;
+    return isFinite(Number(n));
+  }
+
+  function formatSharesQuiet(n) {
+    if (!isFiniteNum(n)) return "";
+    return Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
+  }
+
+  function formatPriceQuiet(n) {
+    if (!isFiniteNum(n) || Number(n) === 0) return "";
+    return formatQuote(n);
+  }
+
+  function formatHeldQuiet(n) {
+    if (!isFiniteNum(n)) return "";
+    return Number(n).toFixed(4) + "%";
+  }
+
+  function txnChipLabel(t) {
+    const label = txnLabel(t);
+    if (label === "Sale Post-exercise") return "Post-ex";
+    return label;
+  }
+
+  function tradeHero(t) {
+    if (!t) return { text: "", kind: "" };
+    const range = formatAmountRange(t.amount);
+    if (range && amountHigh(t.amount) > 0) return { text: range, kind: "usd" };
+    const val = Number(t.value);
+    if (isFinite(val) && val > 0) return { text: formatMoney(val), kind: "usd" };
+    const sh = formatSharesQuiet(t.shares);
+    if (sh) return { text: sh, kind: "shares" };
+    return { text: "", kind: "" };
+  }
+
+  function positionDelta(t) {
+    if (!t) return "flat";
+    const before = isFiniteNum(t.shares_before) ? Number(t.shares_before) : null;
+    const after = isFiniteNum(t.shares_after) ? Number(t.shares_after) : null;
+    if (before != null && after != null) {
+      if (after > before) return "up";
+      if (after < before) return "down";
+      return "flat";
+    }
+    if (isMarketSale(t) || isSalePost(t)) return "down";
+    if (isMarketBuy(t) || isAward(t) || isExercise(t)) return "up";
+    return "flat";
+  }
+
+  function tradeRowHtml(t, opts) {
+    opts = opts || {};
+    const cls = txnClass(t);
+    const delta = positionDelta(t);
+    const hero = tradeHero(t);
+    const chip = txnChipLabel(t);
+    const fullLabel = txnLabel(t);
+    const nameHtml = opts.nameHtml || (t.filer ? "<span class=\"qc-txn-name\">" + esc(t.filer) + "</span>" : "");
+    const tickerHtml = opts.tickerHtml || "";
+    const tagsHtml = opts.tagsHtml || "";
+    const extraMeta = (opts.extraMeta || []).filter(Boolean);
+
+    const parts = [];
+    if (t.trade_date) parts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
+    const px = formatPriceQuiet(t.price);
+    if (px) parts.push("<span>@ " + esc(px) + "</span>");
+    const after = formatSharesQuiet(t.shares_after);
+    if (after) parts.push("<span class=\"qc-txn-delta " + delta + "\">After " + esc(after) + "</span>");
+    const held = formatHeldQuiet(t.held_pct);
+    if (held) parts.push("<span class=\"qc-txn-delta " + delta + "\">" + esc(held) + "</span>");
+    extraMeta.forEach((html) => parts.push("<span>" + html + "</span>"));
+
+    const meta = [];
+    parts.forEach((p, i) => {
+      if (i) meta.push("<span class=\"qc-txn-dot\" aria-hidden=\"true\">·</span>");
+      meta.push(p);
+    });
+
+    const heroHtml = hero.text
+      ? ("<span class=\"qc-txn-hero" + (hero.kind === "shares" ? " is-shares" : "") + "\">" +
+          esc(hero.text) +
+          (hero.kind === "shares" ? "<small> sh</small>" : "") +
+        "</span>")
+      : "";
+
+    return "<li class=\"qc-txn" + (cls ? " " + cls : "") + "\">" +
+      "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml +
+        "<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" + esc(chip) + "</span>" +
+        tagsHtml +
+      "</div>" +
+      heroHtml +
+      (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "") +
+    "</li>";
+  }
+
   global.QC = {
     esc: esc,
     isBond: isBond,
@@ -455,7 +551,14 @@
     isTapeTxn: isTapeTxn,
     txnLabel: txnLabel,
     txnClass: txnClass,
+    txnChipLabel: txnChipLabel,
     formatHeldPct: formatHeldPct,
+    formatSharesQuiet: formatSharesQuiet,
+    formatPriceQuiet: formatPriceQuiet,
+    formatHeldQuiet: formatHeldQuiet,
+    tradeHero: tradeHero,
+    positionDelta: positionDelta,
+    tradeRowHtml: tradeRowHtml,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,

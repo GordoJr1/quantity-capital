@@ -252,3 +252,177 @@ summary:focus-visible,
 @media (min-width: 821px) {
   .tabbar { display: none !important; }
 }
+
+/* Insider 2-line trade rows (tape, ticker Trades, officer Trades). */
+.qc-txn-legend {
+  color: var(--mute, #8b96a3);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  margin: 0 0 10px;
+  max-width: 62ch;
+}
+.qc-txn-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 28px;
+  padding: 0;
+}
+.qc-txn-list > .muted {
+  padding: 12px 2px;
+  background: none;
+  border: 0;
+}
+.qc-txn {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "id hero"
+    "meta hero";
+  column-gap: 10px;
+  row-gap: 3px;
+  align-items: baseline;
+  padding: 8px 10px 8px 11px;
+  background: rgba(42, 51, 64, 0.62);
+  border: 1px solid #3a4452;
+  border-left-width: 3px;
+  border-left-color: #5b6573;
+}
+.qc-txn.buy { border-left-color: #5aae62; }
+.qc-txn.sell { border-left-color: #d46d68; }
+.qc-txn.exercise { border-left-color: #6d8488; }
+.qc-txn.award { border-left-color: #9a8a4a; }
+.qc-txn.exch { border-left-color: #6b7582; }
+.qc-txn-id {
+  grid-area: id;
+  display: flex;
+  align-items: baseline;
+  gap: 6px 8px;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+.qc-txn-name,
+.qc-txn a.qc-txn-name {
+  min-width: 0;
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--white, #eef2f5);
+  text-decoration: none;
+  letter-spacing: 0;
+  text-transform: none;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+.qc-txn-name:hover,
+.qc-txn a.qc-txn-name:hover { color: var(--teal, #36999d); }
+.qc-txn-tk,
+.qc-txn a.qc-txn-tk {
+  flex: 0 0 auto;
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.82rem;
+  color: var(--paper, #d8dde3);
+  text-decoration: none;
+}
+.qc-txn-tk:hover,
+.qc-txn a.qc-txn-tk:hover { color: var(--teal, #36999d); }
+.qc-txn-chip {
+  flex: 0 0 auto;
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border: 1px solid currentColor;
+  line-height: 1.2;
+  color: var(--mute, #8b96a3);
+}
+.qc-txn.buy .qc-txn-chip { color: #7dcf7a; }
+.qc-txn.sell .qc-txn-chip { color: #ef7a74; }
+.qc-txn.exercise .qc-txn-chip { color: #8aa3a6; }
+.qc-txn.award .qc-txn-chip { color: var(--caution, #e3b41a); }
+.qc-txn-tag,
+.qc-txn .opt-tag {
+  flex: 0 0 auto;
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid #6b7582;
+  color: #c5cdd6;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-left: 0;
+}
+.qc-txn-tag.hot { border-color: var(--caution, #e3b41a); color: var(--caution, #e3b41a); }
+.qc-txn-tag.ceo { border-color: #7dcf7a; color: #7dcf7a; }
+.qc-txn-hero {
+  grid-area: hero;
+  align-self: start;
+  padding-top: 1px;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.18rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--caution, #e3b41a);
+  white-space: nowrap;
+  text-align: right;
+  line-height: 1.1;
+}
+.qc-txn-hero.is-shares {
+  color: var(--paper, #d8dde3);
+  font-weight: 600;
+}
+.qc-txn-hero small {
+  font-size: 0.62em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mute, #8b96a3);
+  margin-left: 3px;
+}
+.qc-txn-meta {
+  grid-area: meta;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  color: var(--mute, #8b96a3);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  min-width: 0;
+}
+.qc-txn-meta > span { white-space: nowrap; }
+.qc-txn-dot {
+  margin: 0 0.28em;
+  color: #5b6573;
+}
+.qc-txn-delta.up { color: #7dcf7a; }
+.qc-txn-delta.down { color: #ef7a74; }
+.qc-txn-delta.flat { color: var(--mute, #8b96a3); }
+
+@media (max-width: 820px) {
+  .qc-txn-list { gap: 7px; margin-bottom: 22px; }
+  .qc-txn {
+    padding: 9px 10px 8px 11px;
+  }
+  .qc-txn-name,
+  .qc-txn a.qc-txn-name { font-size: 0.88rem; }
+  .qc-txn-hero { font-size: 1.08rem; }
+  .qc-txn-meta { font-size: 0.72rem; }
+  .qc-txn-legend { font-size: 0.68rem; margin-bottom: 8px; }
+}
+
+@media (max-width: 420px) {
+  .qc-txn {
+    column-gap: 8px;
+    padding: 8px 8px 8px 10px;
+  }
+  .qc-txn-chip { font-size: 0.62rem; padding: 2px 5px; }
+  .qc-txn-hero { font-size: 1.02rem; }
+  .qc-txn-tag { display: none; }
+}

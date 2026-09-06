@@ -590,6 +590,21 @@
     "</li>";
   }
 
+  function tradeColsHtml(opts) {
+    opts = opts || {};
+    const nameLabel = opts.nameLabel || "Name";
+    return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+      "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
+      "<span class=\"qc-txn-chip\">Txn</span>" +
+      "<span class=\"qc-txn-date\">Date</span>" +
+      "<span class=\"qc-txn-sh\">Shares</span>" +
+      "<span class=\"qc-txn-hero\">Value</span>" +
+      "<span class=\"qc-txn-px\">@ Price</span>" +
+      "<span class=\"qc-txn-after\">After</span>" +
+      "<span class=\"qc-txn-held\">% Held</span>" +
+    "</li>";
+  }
+
   function tradeRowHtml(t, opts) {
     opts = opts || {};
     if (opts.variant === "tape") return tapeRowHtml(t, opts);
@@ -600,23 +615,29 @@
     const tickerHtml = opts.tickerHtml || "";
     const tagsHtml = opts.tagsHtml || "";
     const extraMeta = (opts.extraMeta || []).filter(Boolean);
+    const hero = tradeHero(t);
 
     const parts = [];
-    if (t.trade_date) parts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
+    if (t.trade_date) parts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
     const px = formatPriceQuiet(t.price);
-    if (px) parts.push("<span>@ " + esc(px) + "</span>");
+    if (px) parts.push("<span class=\"qc-txn-px\"><span class=\"qc-txn-lbl\">@ </span>" + esc(px) + "</span>");
     const after = formatSharesQuiet(t.shares_after);
-    if (after) parts.push("<span>After " + esc(after) + "</span>");
+    if (after) parts.push("<span class=\"qc-txn-after\"><span class=\"qc-txn-lbl\">After </span>" + esc(after) + "</span>");
     const held = formatHeldQuiet(t.held_pct);
     if (held) parts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     extraMeta.forEach((html) => parts.push("<span>" + html + "</span>"));
 
     const meta = dotted(parts);
+    const sh = formatSharesQuiet(t.shares);
+    const shHtml = (sh && hero.kind !== "shares")
+      ? "<span class=\"qc-txn-sh\">" + esc(sh) + "</span>"
+      : "";
 
     return "<li class=\"qc-txn" + (cls ? " " + cls : "") + "\">" +
       "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml + tagsHtml + "</div>" +
       txnEndHtml(t) +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "") +
+      shHtml +
     "</li>";
   }
 
@@ -648,6 +669,7 @@
     tradeHero: tradeHero,
     positionDelta: positionDelta,
     tradeRowHtml: tradeRowHtml,
+    tradeColsHtml: tradeColsHtml,
     tapeRowHtml: tapeRowHtml,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,

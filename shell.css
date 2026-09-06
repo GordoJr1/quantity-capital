@@ -253,7 +253,7 @@ summary:focus-visible,
   .tabbar { display: none !important; }
 }
 
-/* Insider trade rows v92: 2-line ticker Trades; 3-line tape hybrid. */
+/* Insider trade rows v93: 2-line ticker Trades; dense desktop table; 3-line tape hybrid. */
 .qc-txn-head {
   display: flex;
   flex-wrap: wrap;
@@ -487,6 +487,8 @@ summary:focus-visible,
 .qc-txn-held.up { color: #7dcf7a; }
 .qc-txn-held.down { color: #ef7a74; }
 .qc-txn-held.flat { color: var(--mute, #8b96a3); }
+.qc-txn-sh,
+.qc-txn-cols { display: none; }
 
 @media (max-width: 820px) {
   .qc-txn-list { gap: 8px; margin-bottom: 22px; }
@@ -627,4 +629,164 @@ summary:focus-visible,
   .qc-txn-tape .qc-txn-hero.is-shares { font-size: 1.2rem; }
   .qc-txn-tape .qc-txn-chip { padding: 4px 10px; font-size: 0.68rem; }
   .qc-txn-tape .qc-txn-end { gap: 6px; }
+}
+
+/* Desktop ticker Trades: Barchart-style density, QC chips/hero/held tints. Tape stays 3-line. */
+@media (min-width: 900px) {
+  .qc-txn-list:not(.qc-tape-list):not(:has(.qc-txn-tape)):has(.qc-txn) {
+    gap: 0;
+    margin-bottom: 28px;
+    border: 1px solid #3a4452;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(30, 37, 48, 0.94);
+  }
+  .qc-txn-list:not(.qc-tape-list):not(:has(.qc-txn-tape)) > .qc-txn-cols {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
+    grid-template-areas: "id chip date sh hero px after held";
+    align-items: center;
+    column-gap: 10px;
+    padding: 7px 12px 6px 12px;
+    background: rgba(15, 18, 24, 0.55);
+    border: 0;
+    border-left: 3px solid transparent;
+    border-bottom: 1px solid #3a4452;
+    color: var(--mute, #8b96a3);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .qc-txn-cols .qc-txn-id,
+  .qc-txn-cols .qc-txn-chip,
+  .qc-txn-cols .qc-txn-date,
+  .qc-txn-cols .qc-txn-sh,
+  .qc-txn-cols .qc-txn-hero,
+  .qc-txn-cols .qc-txn-px,
+  .qc-txn-cols .qc-txn-after,
+  .qc-txn-cols .qc-txn-held {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    font-weight: inherit;
+  }
+  .qc-txn-cols .qc-txn-id { grid-area: id; }
+  .qc-txn-cols .qc-txn-chip { grid-area: chip; justify-self: start; }
+  .qc-txn-cols .qc-txn-date { grid-area: date; }
+  .qc-txn-cols .qc-txn-sh { grid-area: sh; text-align: right; }
+  .qc-txn-cols .qc-txn-hero { grid-area: hero; text-align: right; font-size: inherit; }
+  .qc-txn-cols .qc-txn-px { grid-area: px; text-align: right; }
+  .qc-txn-cols .qc-txn-after { grid-area: after; text-align: right; }
+  .qc-txn-cols .qc-txn-held { grid-area: held; text-align: right; }
+
+  .qc-txn:not(.qc-txn-tape) {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
+    grid-template-areas: "id chip date sh hero px after held";
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 0;
+    padding: 5px 12px;
+    border-radius: 0;
+    border-width: 0 0 1px 3px;
+    border-bottom-color: rgba(58, 68, 82, 0.55);
+    background: transparent;
+    overflow: hidden;
+  }
+  .qc-txn-list:not(.qc-tape-list) > .qc-txn:not(.qc-txn-tape):last-child {
+    border-bottom-width: 0;
+  }
+  .qc-txn-list:not(.qc-tape-list) > .qc-txn:not(.qc-txn-tape):nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .qc-txn:not(.qc-txn-tape):hover {
+    background: rgba(54, 153, 157, 0.07);
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-end,
+  .qc-txn:not(.qc-txn-tape) .qc-txn-meta {
+    display: contents;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-id {
+    grid-area: id;
+    min-width: 0;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-chip {
+    grid-area: chip;
+    justify-self: start;
+    padding: 2px 8px;
+    font-size: 0.68rem;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-date {
+    grid-area: date;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-sh {
+    display: block;
+    grid-area: sh;
+    color: var(--paper, #d8dde3);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-hero,
+  .qc-txn:not(.qc-txn-tape) .qc-txn-hero.is-shares {
+    grid-area: hero;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #eef2f5;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-hero small {
+    font-size: 0.72em;
+    margin-left: 2px;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-px {
+    grid-area: px;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-after {
+    grid-area: after;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-held {
+    grid-area: held;
+    font-size: 0.72rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-dot,
+  .qc-txn:not(.qc-txn-tape) .qc-txn-lbl {
+    display: none;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-name,
+  .qc-txn:not(.qc-txn-tape) a.qc-txn-name {
+    font-size: 0.84rem;
+  }
 }

@@ -87,8 +87,8 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=92" />
-  <style id="qc-txn-v92">
+  <link rel="stylesheet" href="shell.css?v=93" />
+  <style id="qc-txn-v93">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
@@ -103,6 +103,25 @@
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
+    .qc-txn-sh, .qc-txn-cols { display: none; }
+    @media (min-width: 900px) {
+      .qc-txn:not(.qc-txn-tape) {
+        grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
+        grid-template-areas: "id chip date sh hero px after held";
+        column-gap: 10px; row-gap: 0; padding: 5px 12px 5px 10px; border-radius: 0; border-left-width: 3px;
+      }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-end,
+      .qc-txn:not(.qc-txn-tape) .qc-txn-meta { display: contents; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-chip { grid-area: chip; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-date { grid-area: date; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-sh { display: block; grid-area: sh; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-hero { grid-area: hero; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-px { grid-area: px; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-after { grid-area: after; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-held { grid-area: held; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-dot,
+      .qc-txn:not(.qc-txn-tape) .qc-txn-lbl { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -142,7 +161,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=92"></script>
+  <script src="qc.js?v=93"></script>
   <script>
     const id = new URLSearchParams(location.search).get("id") || "";
     if (!id) location.replace("insiders.html");
@@ -165,7 +184,7 @@
         "<div class=\"stat\"><b>" + rows.length + "</b><span>prints</span></div>" +
         "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
         "<div class=\"stat\"><b>" + (val ? QC.formatMoney(val) : "—") + "</b><span>buy value</span></div>";
-      document.getElementById("list").innerHTML = rows.map((t) => {
+      const tradeHtml = rows.map((t) => {
         const href = "insider-ticker.html?t=" + encodeURIComponent(t.ticker || "") + "&id=" + encodeURIComponent(id);
         const nameHtml = t.ticker
           ? (QC.isChartTicker(t.ticker)
@@ -173,7 +192,10 @@
             : "<span class=\"qc-txn-name\">" + QC.esc(t.ticker) + "</span>")
           : "<span class=\"qc-txn-name\">Trade</span>";
         return QC.tradeRowHtml(t, { nameHtml: nameHtml });
-      }).join("") || "<li class=\"muted\">No trades on tape for this officer.</li>";
+      }).join("");
+      document.getElementById("list").innerHTML = tradeHtml
+        ? QC.tradeColsHtml({ nameLabel: "Ticker" }) + tradeHtml
+        : "<li class=\"muted\">No trades on tape for this officer.</li>";
     }).catch(() => { document.getElementById("who").textContent = "Could not load"; });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

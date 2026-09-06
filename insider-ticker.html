@@ -199,6 +199,7 @@
     .buy { color: #22c55e; }
     .sell { color: #f87171; }
     .award { color: var(--caution); }
+    .exercise { color: var(--teal); }
     .chart-wrap {
       position: relative;
       background: rgba(13, 20, 31, 0.72);
@@ -718,13 +719,13 @@
       const lots = [];
       let realized = 0;
       trades.slice().sort((a, b) => (a.trade_date || "").localeCompare(b.trade_date || "")).forEach((t) => {
-        if (t.side !== "purchase" && t.side !== "sale") return;
+        if (!QC.isMarketBuy(t) && !QC.isMarketSale(t)) return;
         const pxRow = nearestClose(points, t.trade_date);
         const dollars = amountHigh(t.amount);
         if (!pxRow || !pxRow[1] || !dollars) return;
         const px = pxRow[1];
         let shares = dollars / px;
-        if (t.side === "purchase") {
+        if (QC.isMarketBuy(t)) {
           lots.push({ shares: shares, px: px });
           return;
         }
@@ -932,7 +933,7 @@
       const slice = slicePriceRange(allPoints, range);
       const marks = chartDeals.map((t) => ({
         date: t.trade_date,
-        side: t.side,
+        side: QC.isMarketSale(t) ? "sale" : "purchase",
         filer: t.filer,
         amount: t.amount,
         value: t.value,
@@ -983,7 +984,7 @@
       }
       const seen = {};
       const deals = (data.trades || []).filter((t) => {
-        if ((t.side !== "purchase" && t.side !== "sale" && t.side !== "award") || isBond(t)) return false;
+        if (!QC.isTapeTxn(t) || isBond(t)) return false;
         if (!aliasSet[tradeCode(t)]) return false;
         if (new Date(t.trade_date) < cutoff) return false;
         if (filerId && t.filer_id !== filerId) return false;
@@ -993,7 +994,7 @@
         return true;
       }).sort((a, b) => (b.trade_date || "").localeCompare(a.trade_date || ""));
       const stockDeals = deals.filter((t) => !isOptionLike(t));
-      const marketDeals = stockDeals.filter((t) => t.side === "purchase" || t.side === "sale");
+      const marketDeals = stockDeals.filter((t) => QC.isMarketBuy(t) || QC.isMarketSale(t));
       chartDeals = marketDeals;
       if (!params.has("r") && chartDeals.length > 24) range = "3m";
 
@@ -1031,8 +1032,8 @@
       }
       allPoints = prices.c;
       const last = allPoints[allPoints.length - 1];
-      const buys = marketDeals.filter((t) => t.side === "purchase").length;
-      const sells = marketDeals.filter((t) => t.side === "sale").length;
+      const buys = marketDeals.filter((t) => QC.isMarketBuy(t)).length;
+      const sells = marketDeals.filter((t) => QC.isMarketSale(t)).length;
       document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker") +
         (prices.src && prices.src !== ticker ? " · " + prices.src : (prices.t && prices.t !== ticker ? " · " + prices.t : ""));
       const pill = document.getElementById("price-pill");

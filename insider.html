@@ -61,6 +61,7 @@
     .co { display: block; color: var(--mute); font-size: 0.78rem; margin-top: 2px; }
     .buy { color: #7dcf7a; font-weight: 600; }
     .sell { color: #ef7a74; font-weight: 600; }
+    .award { color: var(--caution); font-weight: 600; }
     .amt { color: var(--caution); font-weight: 600; white-space: nowrap; }
     footer { border-top: 2px solid var(--caution); margin-top: 28px; }
     footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
@@ -169,7 +170,7 @@
             <th class="num">@Price</th>
             <th class="num">Total</th>
             <th class="num">After</th>
-            <th class="num">% Held</th>
+            <th class="num">%Held After</th>
           </tr>
         </thead>
         <tbody id="list"></tbody>
@@ -188,14 +189,13 @@
       return Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
     }
     function fmtPx(n) {
-      if (n == null || n === "") return "—";
+      if (n == null || n === "" || Number(n) === 0) return "—";
       const x = Number(n);
       if (!isFinite(x)) return "—";
       return "$" + x.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
     }
     function fmtPct(n) {
-      if (n == null || n === "") return "—";
-      return Number(n).toFixed(4).replace(/0+$/, "").replace(/\.$/, "") + "%";
+      return QC.formatHeldPct(n);
     }
     fetch("insider-trades-lite.json").then((r) => r.json()).then((data) => {
       const asof = document.getElementById("asof");
@@ -217,7 +217,7 @@
         "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
         "<div class=\"stat\"><b>" + (val ? QC.formatMoney(val) : "—") + "</b><span>buy value</span></div>";
       document.getElementById("list").innerHTML = rows.map((t) => {
-        const cls = t.side === "purchase" ? "buy" : "sell";
+        const cls = QC.txnClass(t);
         const href = "insider-ticker.html?t=" + encodeURIComponent(t.ticker || "") + "&id=" + encodeURIComponent(id);
         const tk = QC.isChartTicker(t.ticker)
           ? "<a class=\"tk\" href=\"" + href + "\">" + QC.esc(t.ticker) + "</a>"
@@ -225,11 +225,11 @@
         return "<tr>" +
           "<td class=\"stock\">" + tk +
             (t.company ? "<span class=\"co\">" + QC.esc(t.company) + "</span>" : "") + "</td>" +
-          "<td class=\"side " + cls + "\">" + QC.esc(QC.sideLabel(t.side)) + "</td>" +
+          "<td class=\"side " + cls + "\">" + QC.esc(QC.txnLabel(t)) + "</td>" +
           "<td class=\"date\">" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
           "<td class=\"num shares\">" + fmtShares(t.shares) + "</td>" +
           "<td class=\"num price\">" + fmtPx(t.price) + "</td>" +
-          "<td class=\"num amt total\">" + QC.esc(QC.formatAmountRange(t.amount)) + "</td>" +
+          "<td class=\"num amt total\">" + QC.esc(QC.formatAmountRange(t.amount) || "—") + "</td>" +
           "<td class=\"num after\">" + fmtShares(t.shares_after) + "</td>" +
           "<td class=\"num held\">" + fmtPct(t.held_pct) + "</td></tr>";
       }).join("");

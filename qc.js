@@ -63,8 +63,40 @@
   function sideLabel(side) {
     if (side === "purchase") return "Buy";
     if (side === "sale") return "Sell";
+    if (side === "award") return "Awarded";
     if (side === "exchange") return "Exch";
     return side || "";
+  }
+
+  function isAward(t) {
+    if (!t || typeof t !== "object") return false;
+    const code = String(t.code || "").toUpperCase();
+    const nature = String(t.nature || "");
+    if (t.side === "award") return true;
+    if (code === "A") return true;
+    if (code === "30" || code === "45" || code === "46") return true;
+    return /^(30|45|46)\b/.test(nature);
+  }
+
+  function txnLabel(t) {
+    if (t == null) return "";
+    if (typeof t === "string") return sideLabel(t);
+    if (isAward(t)) return "Awarded";
+    return sideLabel(t.side);
+  }
+
+  function txnClass(t) {
+    if (isAward(t)) return "award";
+    if (t && t.side === "purchase") return "buy";
+    if (t && t.side === "sale") return "sell";
+    return "";
+  }
+
+  function formatHeldPct(n) {
+    if (n == null || n === "") return "—";
+    const x = Number(n);
+    if (!isFinite(x)) return "—";
+    return x.toFixed(4) + "%";
   }
 
   function isChartTicker(code) {
@@ -376,6 +408,10 @@
     assetKind: assetKind,
     isFilingError: isFilingError,
     sideLabel: sideLabel,
+    isAward: isAward,
+    txnLabel: txnLabel,
+    txnClass: txnClass,
+    formatHeldPct: formatHeldPct,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,

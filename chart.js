@@ -180,8 +180,6 @@ const CHART_PALETTES = {
     primary: "#10b981",
     light: "#6ee7b7",
     glowFilter: "drop-shadow(0 0 7px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 14px rgba(16, 185, 129, 0.32))",
-    terminalPillBg: "#059669",
-    terminalPillShadow: "0 4px 12px rgba(5, 150, 105, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(16, 185, 129, 0.16)"
   },
   cyan: {
@@ -201,8 +199,6 @@ const CHART_PALETTES = {
     primary: "#06b6d4",
     light: "#67e8f9",
     glowFilter: "drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22))",
-    terminalPillBg: "#0891b2",
-    terminalPillShadow: "0 4px 12px rgba(8, 145, 178, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(6, 182, 212, 0.16)"
   },
   amber: {
@@ -222,8 +218,6 @@ const CHART_PALETTES = {
     primary: "#f59e0b",
     light: "#fcd34d",
     glowFilter: "drop-shadow(0 0 7px rgba(245, 158, 11, 0.55)) drop-shadow(0 0 14px rgba(245, 158, 11, 0.32))",
-    terminalPillBg: "#d97706",
-    terminalPillShadow: "0 4px 12px rgba(217, 119, 6, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(245, 158, 11, 0.16)"
   },
   blue: {
@@ -243,8 +237,6 @@ const CHART_PALETTES = {
     primary: "#3b82f6",
     light: "#93c5fd",
     glowFilter: "drop-shadow(0 0 7px rgba(59, 130, 246, 0.55)) drop-shadow(0 0 14px rgba(59, 130, 246, 0.32))",
-    terminalPillBg: "#2563eb",
-    terminalPillShadow: "0 4px 12px rgba(37, 99, 235, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(59, 130, 246, 0.16)"
   },
   purple: {
@@ -264,8 +256,6 @@ const CHART_PALETTES = {
     primary: "#a855f7",
     light: "#c084fc",
     glowFilter: "drop-shadow(0 0 7px rgba(168, 85, 247, 0.5)) drop-shadow(0 0 14px rgba(168, 85, 247, 0.28))",
-    terminalPillBg: "#8b5cf6",
-    terminalPillShadow: "0 4px 12px rgba(139, 92, 246, 0.45)",
     popShadow: "0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(168, 85, 247, 0.12)"
   }
 };
@@ -287,7 +277,7 @@ function drawChart(points, marks, opts) {
   const h = opts.height || (isMobile ? 240 : 300);
   const pad = {
     l: isMobile ? 82 : 34,
-    r: isMobile ? 54 : 60,
+    r: isMobile ? 22 : 28,
     t: isMobile ? 24 : 22,
     b: isMobile ? 20 : 20
   };
@@ -469,9 +459,6 @@ function drawChart(points, marks, opts) {
   const tradePinsHtml = buyClusters.map((c) => drawCluster(c, false)).join("") +
                         sellClusters.map((c) => drawCluster(c, true)).join("");
 
-  // Terminal price pill on far right
-  const terminalVal = lastPt.px;
-
   // Render complete SVG
   const gradStopsHtml = palette.gradStops.map((s) =>
     "<stop offset=\"" + s.offset + "\" stop-color=\"" + s.color + "\" />"
@@ -525,8 +512,8 @@ function drawChart(points, marks, opts) {
     xBox.style.paddingLeft = pad.l + "px";
   }
 
-  // DOM Badges & Tooltip Container
-  ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette);
+  // Hover badges (no end-of-chart last-price pill — last price lives in the page header)
+  ensureInteractiveDomElements(wrap, palette);
 
   // Hook up mark click events
   svg.querySelectorAll(".chart-mark").forEach((el) => {
@@ -559,23 +546,14 @@ function drawChart(points, marks, opts) {
 }
 
 /**
- * Ensure hover badges and the terminal pill exist in the chart-wrap
+ * Ensure hover badges exist in the chart-wrap.
+ * Last price is already on the ticker page — do not draw an end-of-chart pill.
  */
-function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) {
+function ensureInteractiveDomElements(wrap, palette) {
   if (!wrap) return;
 
-  // Terminal price pill on far right
-  let termPill = wrap.querySelector(".qc-terminal-pill");
-  if (!termPill) {
-    termPill = document.createElement("div");
-    termPill.className = "qc-terminal-pill";
-    wrap.appendChild(termPill);
-  }
-  termPill.innerHTML = "<span class=\"qc-term-dot\"></span> " + quotePrice(terminalVal);
-  if (palette) {
-    if (palette.terminalPillBg) termPill.style.background = palette.terminalPillBg;
-    if (palette.terminalPillShadow) termPill.style.boxShadow = palette.terminalPillShadow;
-  }
+  const leftoverTerm = wrap.querySelector(".qc-terminal-pill");
+  if (leftoverTerm) leftoverTerm.remove();
 
   // Update mark-pop box-shadow if active
   const pop = wrap.querySelector("#mark-pop");
@@ -603,9 +581,6 @@ function ensureInteractiveDomElements(wrap, terminalVal, lastPt, w, h, palette) 
 
   const leftoverHud = wrap.querySelector(".qc-glass-hud");
   if (leftoverHud) leftoverHud.remove();
-
-  // Initial positioning of terminal pill
-  updateTerminalPillPosition(wrap, termPill, lastPt, w, h);
 }
 
 function syncYAxisOverlayBox(yBox, wrap, svg) {
@@ -655,24 +630,6 @@ function hideChartHoverUi(wrap, svg) {
   if (hoverPricePill) hoverPricePill.style.display = "none";
   if (hoverDatePill) hoverDatePill.style.display = "none";
   if (scrubG) scrubG.style.display = "none";
-}
-
-function updateTerminalPillPosition(wrap, termPill, lastPt, w, h) {
-  const svg = wrap.querySelector("#chart-svg");
-  if (!svg || !termPill || !lastPt) return;
-  const wr = wrap.getBoundingClientRect();
-  const sr = svg.getBoundingClientRect();
-  const scaleX = sr.width / w;
-  const scaleY = sr.height / h;
-  let screenX = (lastPt.x * scaleX) + (sr.left - wr.left) + 10;
-  // Ensure pill stays inside the chart card on small screens
-  if (screenX + 86 > wr.width - 8) {
-    screenX = wr.width - 94;
-  }
-  const screenY = (lastPt.y * scaleY) + (sr.top - wr.top);
-  termPill.style.left = screenX + "px";
-  termPill.style.top = screenY + "px";
-  termPill.style.transform = "translateY(-50%)";
 }
 
 /**

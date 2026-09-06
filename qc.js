@@ -104,6 +104,18 @@
     return "$" + n.toLocaleString("en-US");
   }
 
+  function formatQuote(n) {
+    const x = Number(n);
+    if (!isFinite(x)) return "—";
+    const abs = Math.abs(x);
+    const min = 2;
+    const max = abs >= 1 ? 2 : 4;
+    return "$" + x.toLocaleString("en-US", {
+      minimumFractionDigits: min,
+      maximumFractionDigits: max
+    });
+  }
+
   function signedMoney(n) {
     const abs = formatMoney(Math.abs(n));
     if (n > 0) return "+" + abs;
@@ -342,6 +354,7 @@
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,
     formatMoney: formatMoney,
+    formatQuote: formatQuote,
     signedMoney: signedMoney,
     prettyDate: prettyDate,
     threeYearCutoff: threeYearCutoff,

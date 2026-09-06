@@ -140,34 +140,6 @@
       box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
       font-weight: 800;
     }
-    .windows {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin: 0 0 14px;
-    }
-    .window {
-      background: rgba(22, 30, 43, 0.75);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 10px 12px;
-    }
-    .window h3 {
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      color: var(--mute);
-      margin-bottom: 8px;
-    }
-    .window .pair {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 0.84rem;
-      margin-top: 4px;
-    }
-    .window .pair span { color: var(--mute); }
     .table-wrap { overflow-x: auto; margin: 16px 0 40px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
     th {
@@ -254,28 +226,6 @@
     }
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
-    }
-    .qc-terminal-pill {
-      position: absolute;
-      background: #0891b2;
-      color: #ffffff;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: "JetBrains Mono", monospace;
-      padding: 5px 11px;
-      border-radius: 5px;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.45);
-      z-index: 5;
-    }
-    .qc-term-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #ffffff;
     }
     .qc-hover-price-pill {
       position: absolute;
@@ -518,7 +468,7 @@
     .chart-x {
       display: flex;
       justify-content: space-between;
-      padding: 10px 60px 0 34px;
+      padding: 10px 28px 0 34px;
       color: #e2e8f0;
       font-size: 13.5px;
       font-weight: 700;
@@ -546,7 +496,6 @@
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
     }
     @media (max-width: 820px) {
-      .windows { grid-template-columns: 1fr; }
       .wrap { width: calc(100% - 20px); }
       header { padding: 12px 0; }
       .chart-wrap {
@@ -676,7 +625,6 @@
       </div>
     </div>
     <p class="muted" id="note" hidden></p>
-    <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
     <div class="chart-wrap" id="chart-wrap">
@@ -722,7 +670,7 @@
     const isOptionLike = QC.isOptionLike;
     const optionMeta = QC.optionMeta;
     const optionTag = QC.optionTag;
-    const formatMoney = QC.formatMoney;
+    const formatQuote = QC.formatQuote;
     const signedMoney = QC.signedMoney;
     const prettyDate = QC.prettyDate;
     function nearestClose(points, date) {
@@ -798,38 +746,11 @@
     }
     function fmtPx(n) {
       if (n == null || n === "") return "—";
-      const x = Number(n);
-      if (!isFinite(x)) return "—";
-      return "$" + x.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
+      return formatQuote(n);
     }
     function fmtPct(n) {
       if (n == null || n === "") return "—";
       return Number(n).toFixed(4).replace(/0+$/, "").replace(/\.$/, "") + "%";
-    }
-    function windowStats(deals, days) {
-      const cut = new Date();
-      cut.setDate(cut.getDate() - days);
-      const iso = cut.toISOString().slice(0, 10);
-      const rows = deals.filter((t) => (t.trade_date || "") >= iso);
-      const buys = rows.filter((t) => t.side === "purchase");
-      const sells = rows.filter((t) => t.side === "sale");
-      const sum = (xs) => xs.reduce((s, t) => s + (Number(t.shares) || 0), 0);
-      return { buys: buys.length, sells: sells.length, bsh: sum(buys), ssh: sum(sells) };
-    }
-    function paintWindows(deals) {
-      const box = document.getElementById("windows");
-      if (!box) return;
-      box.innerHTML = [
-        ["Last 3 months", 91],
-        ["Last 6 months", 182],
-        ["Last 12 months", 365]
-      ].map(([label, days]) => {
-        const w = windowStats(deals, days);
-        return "<div class=\"window\"><h3>" + label + "</h3>" +
-          "<div class=\"pair\"><b class=\"buy\">" + w.buys + " buy" + (w.buys === 1 ? "" : "s") + "</b>" +
-          "<b class=\"sell\">" + w.sells + " sell" + (w.sells === 1 ? "" : "s") + "</b></div>" +
-          "<div class=\"pair\"><span>" + fmtShares(w.bsh) + " sh</span><span>" + fmtShares(w.ssh) + " sh</span></div></div>";
-      }).join("");
     }
     function hidePop() {
       const pop = document.getElementById("mark-pop");
@@ -1067,7 +988,7 @@
       document.getElementById("kicker").textContent = (who ? who + " · " : "") + (prices.n || "Ticker") +
         (prices.src && prices.src !== ticker ? " · " + prices.src : (prices.t && prices.t !== ticker ? " · " + prices.t : ""));
       const pill = document.getElementById("price-pill");
-      document.getElementById("last-px").textContent = formatMoney(last[1]);
+      document.getElementById("last-px").textContent = formatQuote(last[1]);
       pill.hidden = false;
 
       if (filerId) {
@@ -1083,10 +1004,9 @@
         document.getElementById("stats").innerHTML =
           "<div class=\"stat\"><b>" + buys + "</b><span>buys</span></div>" +
           "<div class=\"stat\"><b>" + sells + "</b><span>sells</span></div>" +
-          "<div class=\"stat\"><b>" + formatMoney(last[1]) + "</b><span>close</span></div>";
+          "<div class=\"stat\"><b>" + formatQuote(last[1]) + "</b><span>close</span></div>";
       }
 
-      paintWindows(stockDeals);
       paintRange();
       paintChart();
       document.getElementById("marks").innerHTML = deals.map((t) => {

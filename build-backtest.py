@@ -94,7 +94,9 @@ def issuer_name(code: str, raw: str) -> str:
         return c
     s = PTR_OTHER.sub("", s)
     s = PTR_ROW.sub("", s)
-    s = re.sub(r"\s*Bond\s+Rate/Coupon:.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+Option Type:.*$", "", s, flags=re.I)
+    s = re.sub(r"\s*(?:Bond|Notes?|MTN)?\s*Rate/Coupon:.*$", "", s, flags=re.I)
+    s = re.sub(r"\s+\b(?:Bond|Notes?|MTN)\s*$", "", s, flags=re.I)
     s = (s.split(">")[-1] if ">" in s else s).strip()
     broker_re = BROKER_ISSUERS.get(c)
     broker_stock = bool(
@@ -133,6 +135,13 @@ def issuer_name(code: str, raw: str) -> str:
         flags=re.I,
     )
     s = re.sub(r"^(?:tacs r3k)\s+", "", s, flags=re.I)
+    s = re.sub(r"^\$[\d,]+(?:\.\d+)?\s+(?:F\s+S:\s*Amended\s+\S+\s+)?", "", s, flags=re.I)
+    s = re.sub(
+        r"^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+",
+        "",
+        s,
+        flags=re.I,
+    )
     s = re.sub(
         r"^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|"
         r"Professionally managed account|D/B/A)\s+",
@@ -140,12 +149,7 @@ def issuer_name(code: str, raw: str) -> str:
         s,
         flags=re.I,
     )
-    s = re.sub(
-        r"^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+",
-        "",
-        s,
-        flags=re.I,
-    )
+    s = re.sub(r"\b(?:D:\s*)?Portfolio Rebalance\s+", "", s, flags=re.I)
     s = re.sub(r"^(?:investment account(?:\s*#\s*\d+)?)\b[\s,:-]*", "", s, flags=re.I)
     s = re.sub(r"^financial disclosure\.\s*", "", s, flags=re.I)
     s = re.sub(r"^active assets\s*\(\d+\)\s*", "", s, flags=re.I)

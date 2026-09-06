@@ -153,15 +153,23 @@
     IBKR: /interactive brokers/i
   };
 
+  const SHARE_TAIL = /\s+(?:Common Stock.*|Class [A-Z].*|Ordinary Shares?.*|American Depositary Shares?.*|\bADS\b.*|Registered Shares.*|Common Shares.*|New York Registry Shares.*|Common Units(?: Representing.*)?|\bVoting\b.*|Series [A-Z]\b.*|\bCMN\b.*)$/i;
+
   function issuerName(code, raw) {
     const c = String(code || "").toUpperCase();
     let s = String(raw || "").replace(/\s+/g, " ").trim();
     if (!s || s === "—") return c && c !== "—" ? c : "";
+    // Glued PTR rows and option/note tails that leak into tickers.json names.
+    s = s.replace(/^.*\([A-Z]{1,6}\)(?:\s*\[ST\])?\s+[PS]\s+\d{1,2}\/\d{1,2}\/\d{2,4}.*?(?:\$[\d,]+(?:\s*-\s*\$[\d,]+)?)\s+/i, "");
+    s = s.replace(/^[PS]\s+\d{1,2}\/\d{1,2}\/\d{2,4}.*?(?:\$[\d,]+(?:\s*-\s*\$[\d,]+)?)\s+/i, "");
+    s = s.replace(/\s+Option Type:.*$/i, "");
+    s = s.replace(/\s*(?:Bond|Notes?|MTN)?\s*Rate\/Coupon:.*$/i, "");
+    s = s.replace(/\s+\b(?:Bond|Notes?|MTN)\s*$/i, "");
     s = (s.split(/\s*>\s*/).pop() || s).trim();
     const brokerStock = BROKER_ISSUERS[c] && BROKER_ISSUERS[c].test(s)
       && !/\b(ira|roth|trust account|brokerage|select uma|unified management|joint tbe)\b/i.test(s);
     if (brokerStock) {
-      return s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "").replace(/\s*-\s*$/, "").trim() || c;
+      return s.replace(SHARE_TAIL, "").replace(/\s*-\s*$/, "").trim() || c;
     }
     const brokers = "morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\\bschwab\\b|bank of america|merrill lynch|\\bmerrill\\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\\bubs\\b|raymond james|edward jones|ameriprise|e\\*?trade|td ameritrade|interactive brokers|\\bchase\\b|aperio group(?: llc)?";
     const account = "smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\\bbrokerage\\b|select uma(?: account)?|unified management account|joint tbe";
@@ -174,10 +182,28 @@
     s = s.replace(/^\d{2,5}\s+/, "");
     s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/i, "");
     s = s.replace(/^(?:tacs r3k)\s+/i, "");
-    s = s.replace(/\s+(Common Stock.*|Class [A-Z].*|Ordinary Shares.*)$/i, "");
+    s = s.replace(/^\$[\d,]+(?:\.\d+)?\s+(?:F\s+S:\s*Amended\s+\S+\s+)?/i, "");
+    s = s.replace(/^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+/i, "");
+    s = s.replace(/^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account|D\/B\/A)\s+/i, "");
+    s = s.replace(/\b(?:D:\s*)?Portfolio Rebalance\s+/i, "");
+    s = s.replace(/^(?:investment account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
+    s = s.replace(/^financial disclosure\.\s*/i, "");
+    s = s.replace(/^active assets\s*\(\d+\)\s*/i, "");
+    s = s.replace(/^.*\bD:\s*(?:professionally managed account\.?\s*|sold entire holding\.?\s*|own\/operate\s+(?:mobile home park\s+)?)/i, "");
+    s = s.replace(/^C:\s*Sell to Open\s*[–—-]\s*(?:New\s+)?Covered Call Contract\s+/i, "");
+    s = s.replace(/^.*\bFamily Partnership\s+/i, "");
+    s = s.replace(SHARE_TAIL, "");
+    if (c) {
+      const escCode = c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      s = s.replace(new RegExp("\\s*\\(" + escCode + "\\)\\s*$", "i"), "");
+    }
+    s = s.replace(/\s*-\s*Common\s+Sto.*$/i, "");
     s = s.replace(/\s*-\s*$/, "").trim();
+    s = s.replace(/\s+CMN\b.*$/i, "").trim();
+    s = s.replace(/\s*S\/ADR\s*$/i, "").trim();
     if (!s || /^(common stock|class [a-z]|llc|inc|corp)$/i.test(s)) return c && c !== "—" ? c : "";
     if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return c && c !== "—" ? c : s;
+    if (/\$[\d,]|\d{2}\/\d{2}\/\d{4}|\[ST\]|rate\/coupon|matures:/i.test(s)) return c && c !== "—" ? c : "";
     return s;
   }
 
@@ -282,7 +308,7 @@
     const bondLike = isBond(t);
     const name = bondLike
       ? (t.asset || meta.name || "—")
-      : (issuerName(code, meta.name || t.asset) || "—");
+      : (issuerName(code, meta.name || cleanAsset(t.asset)) || "—");
     return {
       ...t,
       code: code || "—",

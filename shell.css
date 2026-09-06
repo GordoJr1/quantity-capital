@@ -1,4 +1,22 @@
 /* Shared chrome: sticky header, family nav, mode switch, tab bar, a11y. */
+
+/* Reserve the classic Y scrollbar so MPA tab loads do not recrop city.jpg. */
+html {
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
+}
+
+/* Empty JSON slots: first paint already overflows; inject must not toggle the bar. */
+#now,
+#hands,
+#heat,
+#book {
+  min-height: 36vh;
+}
+#main > #board {
+  min-height: 50vh;
+}
+
 :root {
   --mute: #a7b1bd;
   --shell-bg: rgba(26, 29, 38, 0.96);

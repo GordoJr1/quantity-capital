@@ -109,20 +109,33 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=91" />
-  <style id="qc-txn-v91">
-    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
+  <link rel="stylesheet" href="shell.css?v=92" />
+  <style id="qc-txn-v92">
+    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
     .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
     .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
     .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
-    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #eef6f6; }
+    .qc-txn.postex .qc-txn-chip { background: #c5726b; color: #fff; }
+    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #fff; }
+    .qc-txn.postex { border-left-color: #c5726b; }
     .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
+    .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "sub sub"; row-gap: 3px; }
+    .qc-txn-sub { grid-area: sub; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+    .qc-txn-who { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; }
+    .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
+    .qc-txn-tape .qc-txn-name { font-weight: 600; }
+    .qc-txn-tape .qc-txn-tag { display: inline-block; }
+    .qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+    @media (max-width: 560px) {
+      .qc-txn-tape .qc-txn-sub { flex-direction: column; align-items: stretch; gap: 2px; }
+      .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
+    }
   </style>
 </head>
 <body>
@@ -159,7 +172,7 @@
       </p>
       <p class="kicker qc-txn-kicker">Trades</p>
     </div>
-    <ol class="qc-txn-list" id="rows"></ol>
+    <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
   </div>
   <footer>
     <div class="wrap">
@@ -167,7 +180,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=91"></script>
+  <script src="qc.js?v=92"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
     const params = new URLSearchParams(location.search);
@@ -211,22 +224,12 @@
         return true;
       }).sort(newestFirst);
       document.getElementById("count").textContent = vis.length + " trades in view";
-      document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) => {
-        const tags = (t.ceo ? "<span class=\"qc-txn-tag ceo\">CEO</span>" : "") +
-          (QC.isLanded(t, 72) ? "<span class=\"qc-txn-tag hot\">New</span>" : "") +
-          (t.origin === "yahoo" ? "<span class=\"qc-txn-tag\">TSX</span>" : "");
-        const nameHtml = "<a class=\"qc-txn-name\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + QC.esc(t.filer) + "</a>";
-        const tickerHtml = t.ticker
-          ? (QC.isChartTicker(t.ticker)
-            ? "<a class=\"qc-txn-tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + QC.esc(t.ticker) + "</a>"
-            : "<span class=\"qc-txn-tk\">" + QC.esc(t.ticker) + "</span>")
-          : "";
-        return QC.tradeRowHtml(t, {
-          nameHtml: nameHtml,
-          tickerHtml: tickerHtml,
-          tagsHtml: tags
-        });
-      }).join("") || "<li class=\"muted\">No insider prints in this window.</li>";
+      document.getElementById("rows").innerHTML = vis.slice(0, 400).map((t) =>
+        QC.tradeRowHtml(t, {
+          variant: "tape",
+          nameHref: t.filer_id ? "insider.html?id=" + encodeURIComponent(t.filer_id) : ""
+        })
+      ).join("") || "<li class=\"muted\">No insider prints in this window.</li>";
     }
 
     let all = [];

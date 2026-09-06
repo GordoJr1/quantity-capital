@@ -123,12 +123,48 @@
   }
 
   function txnClass(t) {
-    if (isSalePost(t) || (t && (t.side === "sale" || t.side === "sale_post"))) return "sell";
+    if (isSalePost(t) || (t && t.side === "sale_post")) return "postex";
+    if (t && t.side === "sale") return "sell";
     if (isExercise(t)) return "exercise";
     if (isAward(t)) return "award";
     if (t && t.side === "purchase") return "buy";
     if (t && t.side === "exchange") return "exch";
     return "";
+  }
+
+  function titleCaseName(s) {
+    const raw = String(s || "").trim();
+    if (!raw) return "";
+    if (/[a-z]/.test(raw)) return raw;
+    return raw.toLowerCase().replace(/(^|[\s',.\-/])([a-z])/g, (_, a, b) => a + b.toUpperCase());
+  }
+
+  function shortRole(t) {
+    if (!t) return "";
+    const title = String(t.title || "");
+    if (t.ceo || /\bCEO\b|Chief Executive/i.test(title)) return "CEO";
+    if (t.is_officer || /officer|president|cfo|coo|chief |\bvp\b|vice[ -]?pres|counsel|secretary|manager|founder|treasurer/i.test(title)) {
+      return "Officer";
+    }
+    if (t.is_director || /director|chair/i.test(title)) return "Dir";
+    return title ? "Officer" : "";
+  }
+
+  function filingLagDays(t) {
+    if (!t || !t.filed_date || !t.trade_date) return null;
+    const a = new Date(String(t.filed_date) + "T00:00:00");
+    const b = new Date(String(t.trade_date) + "T00:00:00");
+    if (isNaN(a.getTime()) || isNaN(b.getTime())) return null;
+    return Math.max(0, Math.round((a.getTime() - b.getTime()) / 86400000));
+  }
+
+  function dotted(parts) {
+    const out = [];
+    parts.forEach((p, i) => {
+      if (i) out.push("<span class=\"qc-txn-dot\" aria-hidden=\"true\">·</span>");
+      out.push(p);
+    });
+    return out;
   }
 
   function formatHeldPct(n) {
@@ -489,13 +525,77 @@
     return "flat";
   }
 
-  function tradeRowHtml(t, opts) {
-    opts = opts || {};
-    const cls = txnClass(t);
-    const delta = positionDelta(t);
+  function txnEndHtml(t) {
     const hero = tradeHero(t);
     const chip = txnChipLabel(t);
     const fullLabel = txnLabel(t);
+    const heroHtml = hero.text
+      ? ("<span class=\"qc-txn-hero" + (hero.kind === "shares" ? " is-shares" : "") + "\">" +
+          esc(hero.text) +
+          (hero.kind === "shares" ? "<small> sh</small>" : "") +
+        "</span>")
+      : "";
+    const chipHtml = chip
+      ? ("<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" +
+          esc(chip) +
+        "</span>")
+      : "";
+    return (chipHtml || heroHtml) ? "<div class=\"qc-txn-end\">" + chipHtml + heroHtml + "</div>" : "";
+  }
+
+  function tapeTickerHtml(t) {
+    if (!t || !t.ticker) return "";
+    return isChartTicker(t.ticker)
+      ? "<a class=\"qc-txn-tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t.ticker) + "\">" + esc(t.ticker) + "</a>"
+      : "<span class=\"qc-txn-tk\">" + esc(t.ticker) + "</span>";
+  }
+
+  function tapeRowHtml(t, opts) {
+    opts = opts || {};
+    const cls = txnClass(t);
+    const name = titleCaseName(t.filer);
+    const href = opts.nameHref || "";
+    const nameHtml = name
+      ? (href
+          ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(name) + "</a>"
+          : (opts.nameHtml || "<span class=\"qc-txn-name\">" + esc(name) + "</span>"))
+      : (opts.nameHtml || "");
+    const tickerHtml = opts.tickerHtml || tapeTickerHtml(t);
+    const role = shortRole(t);
+    const tagsHtml = opts.tagsHtml != null
+      ? opts.tagsHtml
+      : (isLanded(t, 72) ? "<span class=\"qc-txn-tag hot\">New</span>" : "");
+
+    const whoParts = [];
+    if (tickerHtml) whoParts.push(tickerHtml);
+    if (role) whoParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
+    if (tagsHtml) whoParts.push(tagsHtml);
+
+    const metaParts = [];
+    if (t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
+    const company = String(t.company || "").trim();
+    if (company) metaParts.push("<span class=\"qc-txn-co\">" + esc(company) + "</span>");
+    const lag = filingLagDays(t);
+    if (lag != null && lag >= 3) metaParts.push("<span class=\"qc-txn-lag\">" + lag + "d lag</span>");
+
+    const who = dotted(whoParts);
+    const meta = dotted(metaParts);
+    const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
+      (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
+
+    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\">" +
+      "<div class=\"qc-txn-id\">" + nameHtml + "</div>" +
+      txnEndHtml(t) +
+      (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
+    "</li>";
+  }
+
+  function tradeRowHtml(t, opts) {
+    opts = opts || {};
+    if (opts.variant === "tape") return tapeRowHtml(t, opts);
+
+    const cls = txnClass(t);
+    const delta = positionDelta(t);
     const nameHtml = opts.nameHtml || (t.filer ? "<span class=\"qc-txn-name\">" + esc(t.filer) + "</span>" : "");
     const tickerHtml = opts.tickerHtml || "";
     const tagsHtml = opts.tagsHtml || "";
@@ -511,32 +611,11 @@
     if (held) parts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     extraMeta.forEach((html) => parts.push("<span>" + html + "</span>"));
 
-    const meta = [];
-    parts.forEach((p, i) => {
-      if (i) meta.push("<span class=\"qc-txn-dot\" aria-hidden=\"true\">·</span>");
-      meta.push(p);
-    });
-
-    const heroHtml = hero.text
-      ? ("<span class=\"qc-txn-hero" + (hero.kind === "shares" ? " is-shares" : "") + "\">" +
-          esc(hero.text) +
-          (hero.kind === "shares" ? "<small> sh</small>" : "") +
-        "</span>")
-      : "";
-
-    const chipHtml = chip
-      ? ("<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" +
-          esc(chip) +
-        "</span>")
-      : "";
-
-    const endHtml = (chipHtml || heroHtml)
-      ? "<div class=\"qc-txn-end\">" + chipHtml + heroHtml + "</div>"
-      : "";
+    const meta = dotted(parts);
 
     return "<li class=\"qc-txn" + (cls ? " " + cls : "") + "\">" +
       "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml + tagsHtml + "</div>" +
-      endHtml +
+      txnEndHtml(t) +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "") +
     "</li>";
   }
@@ -559,6 +638,9 @@
     txnLabel: txnLabel,
     txnClass: txnClass,
     txnChipLabel: txnChipLabel,
+    titleCaseName: titleCaseName,
+    shortRole: shortRole,
+    filingLagDays: filingLagDays,
     formatHeldPct: formatHeldPct,
     formatSharesQuiet: formatSharesQuiet,
     formatPriceQuiet: formatPriceQuiet,
@@ -566,6 +648,7 @@
     tradeHero: tradeHero,
     positionDelta: positionDelta,
     tradeRowHtml: tradeRowHtml,
+    tapeRowHtml: tapeRowHtml,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,

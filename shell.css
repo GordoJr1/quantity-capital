@@ -253,7 +253,7 @@ summary:focus-visible,
   .tabbar { display: none !important; }
 }
 
-/* Insider 2-line trade rows v91: name left, filled pill + WHITE hero right. */
+/* Insider trade rows v92: 2-line ticker Trades; 3-line tape hybrid. */
 .qc-txn-head {
   display: flex;
   flex-wrap: wrap;
@@ -339,7 +339,7 @@ summary:focus-visible,
 }
 .qc-txn {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) max-content;
   grid-template-areas:
     "id end"
     "meta meta";
@@ -360,6 +360,7 @@ summary:focus-visible,
 }
 .qc-txn.buy { border-left-color: #2f9e4a; }
 .qc-txn.sell { border-left-color: #d45a55; }
+.qc-txn.postex { border-left-color: #c5726b; }
 .qc-txn.exercise { border-left-color: #2a6d72; }
 .qc-txn.award { border-left-color: #9a8a4a; }
 .qc-txn.exch { border-left-color: #6b7582; }
@@ -408,6 +409,7 @@ summary:focus-visible,
   gap: 8px;
   flex: 0 0 auto;
   min-width: max-content;
+  max-width: 100%;
 }
 .qc-txn-chip {
   flex: 0 0 auto;
@@ -426,7 +428,8 @@ summary:focus-visible,
 }
 .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
 .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
-.qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #eef6f6; }
+.qc-txn.postex .qc-txn-chip { background: #c5726b; color: #fff; }
+.qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #fff; }
 .qc-txn.award .qc-txn-chip { background: #8a7428; color: #fff; }
 .qc-txn.exch .qc-txn-chip { background: #5c6570; color: #eef2f5; }
 .qc-txn-tag,
@@ -509,4 +512,119 @@ summary:focus-visible,
   .qc-txn-hero,
   .qc-txn .qc-txn-hero { font-size: 1.16rem; }
   .qc-txn-tag { display: none; }
+}
+
+/* Tape 3-line hybrid: name | pill+$ ; ticker · role · New ; date · company. */
+.qc-txn-tape {
+  grid-template-columns: minmax(0, 1fr) max-content;
+  grid-template-areas:
+    "id end"
+    "sub sub";
+  row-gap: 3px;
+  padding: 9px 10px 8px 12px;
+}
+.qc-txn-tape .qc-txn-id {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.qc-txn-tape .qc-txn-name,
+.qc-txn-tape a.qc-txn-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.qc-txn-tape .qc-txn-hero,
+.qc-txn-tape .qc-txn-hero.is-shares {
+  font-size: 1.32rem;
+  color: #eef2f5;
+}
+.qc-txn-tape .qc-txn-chip {
+  padding: 5px 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #fff;
+}
+.qc-txn-sub {
+  grid-area: sub;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 12px;
+  min-width: 0;
+}
+.qc-txn-who {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.qc-txn-tape .qc-txn-tk,
+.qc-txn-tape a.qc-txn-tk {
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--paper, #d8dde3);
+  text-decoration: none;
+}
+.qc-txn-tape .qc-txn-tk:hover,
+.qc-txn-tape a.qc-txn-tk:hover { color: var(--teal, #36999d); }
+.qc-txn-role {
+  color: var(--mute, #8b96a3);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.qc-txn-tape .qc-txn-tag,
+.qc-txn-tape .qc-txn-tag.hot {
+  display: inline-block;
+  margin-left: 2px;
+}
+.qc-txn-tape .qc-txn-meta {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding-top: 0;
+  flex-wrap: nowrap;
+}
+.qc-txn-co {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+}
+.qc-txn-lag {
+  color: var(--mute, #8b96a3);
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .qc-txn-list.qc-tape-list,
+  .qc-txn-list:has(.qc-txn-tape) { gap: 6px; }
+  .qc-txn-tape {
+    padding: 8px 10px 7px 12px;
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+  .qc-txn-tape .qc-txn-name,
+  .qc-txn-tape a.qc-txn-name { font-size: 0.9rem; }
+  .qc-txn-tape .qc-txn-hero,
+  .qc-txn-tape .qc-txn-hero.is-shares { font-size: 1.22rem; }
+}
+
+@media (max-width: 560px) {
+  .qc-txn-tape .qc-txn-sub {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+  }
+  .qc-txn-tape .qc-txn-meta { flex: 1 1 auto; }
+}
+
+@media (max-width: 420px) {
+  .qc-txn-tape .qc-txn-tag,
+  .qc-txn-tape .qc-txn-tag.hot { display: inline-block; }
+  .qc-txn-tape .qc-txn-hero,
+  .qc-txn-tape .qc-txn-hero.is-shares { font-size: 1.2rem; }
+  .qc-txn-tape .qc-txn-chip { padding: 4px 10px; font-size: 0.68rem; }
+  .qc-txn-tape .qc-txn-end { gap: 6px; }
 }

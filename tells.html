@@ -165,7 +165,7 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="shell.css?v=91" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -208,7 +208,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js"></script>
+  <script src="qc.js?v=91"></script>
   <script>
     function pct(x) {
       if (x == null || isNaN(x)) return "—";
@@ -283,7 +283,7 @@
       document.getElementById("asof").textContent = "Tells rebuild on each site update.";
       document.getElementById("now").innerHTML = "<p class=\"muted\">Could not load tells.json.</p>";
     });
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Politician tape">

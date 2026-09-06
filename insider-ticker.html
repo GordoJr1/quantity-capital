@@ -14,7 +14,7 @@
   <title>Insider ticker — Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430;
@@ -571,7 +571,22 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="shell.css?v=91" />
+  <style id="qc-txn-v91">
+    /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
+    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
+    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
+    .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
+    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
+    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
+    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
+    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #eef6f6; }
+    .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
+    .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-meta { color: var(--mute, #8b96a3); }
+    .qc-txn-held.up { color: #7dcf7a; }
+    .qc-txn-held.down { color: #ef7a74; }
+  </style>
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -626,7 +641,7 @@
     <ol class="qc-txn-list" id="marks"></ol>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js"></script>
+  <script src="qc.js?v=91"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -1000,7 +1015,7 @@
       hidePop();
     });
 
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Insider tape">

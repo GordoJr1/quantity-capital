@@ -524,12 +524,19 @@
         "</span>")
       : "";
 
+    const chipHtml = chip
+      ? ("<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" +
+          esc(chip) +
+        "</span>")
+      : "";
+
+    const endHtml = (chipHtml || heroHtml)
+      ? "<div class=\"qc-txn-end\">" + chipHtml + heroHtml + "</div>"
+      : "";
+
     return "<li class=\"qc-txn" + (cls ? " " + cls : "") + "\">" +
       "<div class=\"qc-txn-id\">" + nameHtml + tickerHtml + tagsHtml + "</div>" +
-      (chip
-        ? "<span class=\"qc-txn-chip\"" + (chip !== fullLabel ? " title=\"" + esc(fullLabel) + "\"" : "") + ">" + esc(chip) + "</span>"
-        : "") +
-      heroHtml +
+      endHtml +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "") +
     "</li>";
   }

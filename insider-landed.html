@@ -113,7 +113,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="shell.css?v=91" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -144,7 +144,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js"></script>
+  <script src="qc.js?v=91"></script>
   <script>
     const WINDOWS = [72, 168, 336];
     const params = new URLSearchParams(location.search);
@@ -234,7 +234,7 @@
       run();
     });
     run().catch(() => { document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load insider tape.</p>"; });
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Insider tape">

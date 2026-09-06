@@ -14,7 +14,7 @@
   <title>Insider — Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
@@ -46,24 +46,7 @@
     .stat:last-child { border-right: 0; }
     .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
     .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .section-kicker { color: var(--caution); margin: 8px 0 10px; font-size: 0.9rem; }
-    .table-wrap { overflow-x: auto; margin: 0 0 28px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 760px; }
-    th {
-      text-align: left; color: var(--mute); font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.75rem; font-weight: 600;
-      padding: 8px 8px 8px 0; border-bottom: 1px solid #4a5563; white-space: nowrap;
-    }
-    td { padding: 10px 8px 10px 0; border-bottom: 1px solid #2c3440; vertical-align: top; }
-    td.num, th.num { text-align: right; }
-    .tk { color: inherit; text-decoration: none; font-weight: 600; }
-    .tk:hover { color: var(--caution); }
-    .co { display: block; color: var(--mute); font-size: 0.78rem; margin-top: 2px; }
-    .buy { color: #7dcf7a; font-weight: 600; }
-    .sell { color: #ef7a74; font-weight: 600; }
-    .award { color: var(--caution); font-weight: 600; }
-    .exercise { color: var(--teal); font-weight: 600; }
-    .amt { color: var(--caution); font-weight: 600; white-space: nowrap; }
+    .section-kicker { color: var(--caution); margin: 8px 0 6px; font-size: 0.9rem; }
     footer { border-top: 2px solid var(--caution); margin-top: 28px; }
     footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
     footer a { color: var(--caution); }
@@ -88,35 +71,6 @@
       .stats { grid-template-columns: 1fr 1fr; }
       .stat:nth-child(2) { border-right: 0; }
       .stat:nth-child(3) { border-top: 1px solid #3a4452; }
-      .table-wrap { overflow: visible; }
-      table { min-width: 0; display: block; }
-      thead { display: none; }
-      tbody { display: grid; gap: 10px; }
-      tbody tr {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        grid-template-areas:
-          "stock side"
-          "date total"
-          "shares after"
-          "price held";
-        gap: 4px 12px;
-        padding: 12px;
-        border: 1px solid #3a4452;
-        background: rgba(42, 51, 64, 0.72);
-      }
-      tbody td { min-width: 0; padding: 0; border: 0; font-size: 0.88rem; }
-      tbody td.stock { grid-area: stock; }
-      tbody td.side { grid-area: side; align-self: start; text-align: right; }
-      tbody td.date { grid-area: date; color: var(--mute); font-size: 0.78rem; }
-      tbody td.shares { grid-area: shares; }
-      tbody td.price { grid-area: price; color: var(--mute); font-size: 0.78rem; }
-      tbody td.total { grid-area: total; text-align: right; }
-      tbody td.after { grid-area: after; text-align: right; color: var(--mute); font-size: 0.78rem; }
-      tbody td.after::before { content: "After "; }
-      tbody td.held { grid-area: held; text-align: right; color: var(--mute); font-size: 0.78rem; }
-      tbody td.held::before { content: "% held "; }
-      tbody tr > td.muted { grid-column: 1 / -1; }
     }
       .sub-bar {
       padding: 8px 0 2px;
@@ -133,7 +87,21 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="shell.css?v=91" />
+  <style id="qc-txn-v91">
+    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
+    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
+    .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
+    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
+    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
+    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
+    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #eef6f6; }
+    .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
+    .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-meta { color: var(--mute, #8b96a3); }
+    .qc-txn-held.up { color: #7dcf7a; }
+    .qc-txn-held.down { color: #ef7a74; }
+  </style>
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -159,45 +127,23 @@
     <h1 id="who">—</h1>
     <p class="muted" id="title"></p>
     <div class="stats" id="stats"></div>
-    <p class="kicker section-kicker">Trades</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Stock</th>
-            <th>Tx</th>
-            <th>Date</th>
-            <th class="num">Shares</th>
-            <th class="num">@Price</th>
-            <th class="num">Total</th>
-            <th class="num">After</th>
-            <th class="num">%Held After</th>
-          </tr>
-        </thead>
-        <tbody id="list"></tbody>
-      </table>
+    <div class="qc-txn-head">
+      <p class="qc-txn-legend">
+        <span class="leg-buy">Buy</span>
+        <span class="leg-sell">Sell</span>
+        <span class="leg-note"><span class="leg-info" aria-hidden="true">i</span> Transaction date is when the trade was filed</span>
+      </p>
+      <p class="kicker qc-txn-kicker">Trades</p>
     </div>
+    <ol class="qc-txn-list" id="list"></ol>
   </div>
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js"></script>
+  <script src="qc.js?v=91"></script>
   <script>
     const id = new URLSearchParams(location.search).get("id") || "";
     if (!id) location.replace("insiders.html");
-    function fmtShares(n) {
-      if (n == null || n === "") return "—";
-      return Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
-    }
-    function fmtPx(n) {
-      if (n == null || n === "" || Number(n) === 0) return "—";
-      const x = Number(n);
-      if (!isFinite(x)) return "—";
-      return "$" + x.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
-    }
-    function fmtPct(n) {
-      return QC.formatHeldPct(n);
-    }
     fetch("insider-trades-lite.json").then((r) => r.json()).then((data) => {
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
@@ -218,24 +164,16 @@
         "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
         "<div class=\"stat\"><b>" + (val ? QC.formatMoney(val) : "—") + "</b><span>buy value</span></div>";
       document.getElementById("list").innerHTML = rows.map((t) => {
-        const cls = QC.txnClass(t);
         const href = "insider-ticker.html?t=" + encodeURIComponent(t.ticker || "") + "&id=" + encodeURIComponent(id);
-        const tk = QC.isChartTicker(t.ticker)
-          ? "<a class=\"tk\" href=\"" + href + "\">" + QC.esc(t.ticker) + "</a>"
-          : QC.esc(t.ticker || "—");
-        return "<tr>" +
-          "<td class=\"stock\">" + tk +
-            (t.company ? "<span class=\"co\">" + QC.esc(t.company) + "</span>" : "") + "</td>" +
-          "<td class=\"side " + cls + "\">" + QC.esc(QC.txnLabel(t)) + "</td>" +
-          "<td class=\"date\">" + QC.esc(QC.prettyDate(t.trade_date)) + "</td>" +
-          "<td class=\"num shares\">" + fmtShares(t.shares) + "</td>" +
-          "<td class=\"num price\">" + fmtPx(t.price) + "</td>" +
-          "<td class=\"num amt total\">" + QC.esc(QC.formatAmountRange(t.amount) || "—") + "</td>" +
-          "<td class=\"num after\">" + fmtShares(t.shares_after) + "</td>" +
-          "<td class=\"num held\">" + fmtPct(t.held_pct) + "</td></tr>";
-      }).join("");
+        const nameHtml = t.ticker
+          ? (QC.isChartTicker(t.ticker)
+            ? "<a class=\"qc-txn-name\" href=\"" + href + "\">" + QC.esc(t.ticker) + "</a>"
+            : "<span class=\"qc-txn-name\">" + QC.esc(t.ticker) + "</span>")
+          : "<span class=\"qc-txn-name\">Trade</span>";
+        return QC.tradeRowHtml(t, { nameHtml: nameHtml });
+      }).join("") || "<li class=\"muted\">No trades on tape for this officer.</li>";
     }).catch(() => { document.getElementById("who").textContent = "Could not load"; });
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Insider tape">

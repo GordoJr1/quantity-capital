@@ -14,7 +14,7 @@
   <title>Insider ticker — Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430;
@@ -140,28 +140,6 @@
       box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
       font-weight: 800;
     }
-    .table-wrap { overflow-x: auto; margin: 16px 0 40px; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 760px; }
-    th {
-      text-align: left;
-      color: var(--mute);
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 8px 8px 8px 0;
-      border-bottom: 1px solid #4a5563;
-      white-space: nowrap;
-    }
-    td {
-      padding: 8px 8px 8px 0;
-      border-bottom: 1px solid #2c3440;
-      vertical-align: top;
-    }
-    td.num, th.num { text-align: right; }
-    table a, table a:visited { color: inherit; text-decoration: none; }
-    table a:hover { color: var(--caution); }
     .stats {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -478,9 +456,8 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
-    .chart-legend { color: var(--mute); font-size: 0.8rem; margin: 12px 0 0; }
-    .chart-legend .buy, .chart-legend .sell { margin-right: 12px; font-weight: 600; }
-    .chart-legend .buy, .chart-legend .sell { margin-right: 12px; }
+    .chart-legend { color: var(--mute); font-size: 0.72rem; font-weight: 400; margin: 8px 0 0; opacity: 0.82; }
+    .chart-legend .buy, .chart-legend .sell { margin-right: 10px; font-weight: 500; }
     .chart-marks { list-style: none; margin: 16px 0 40px; }
     .chart-marks li {
       display: grid;
@@ -592,38 +569,24 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      .table-wrap { overflow: visible; }
-      table { min-width: 0; display: block; }
-      thead { display: none; }
-      tbody { display: grid; gap: 10px; }
-      tbody tr {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        grid-template-areas:
-          "who side"
-          "date total"
-          "shares after"
-          "price held";
-        gap: 4px 12px;
-        padding: 12px;
-        border: 1px solid #3a4452;
-        background: rgba(42, 51, 64, 0.72);
-      }
-      tbody td { min-width: 0; padding: 0; border: 0; font-size: 0.88rem; }
-      tbody td.who { grid-area: who; }
-      tbody td.side { grid-area: side; align-self: start; text-align: right; }
-      tbody td.date { grid-area: date; color: var(--mute); font-size: 0.78rem; }
-      tbody td.shares { grid-area: shares; }
-      tbody td.price { grid-area: price; color: var(--mute); font-size: 0.78rem; }
-      tbody td.total { grid-area: total; text-align: right; }
-      tbody td.after { grid-area: after; text-align: right; color: var(--mute); font-size: 0.78rem; }
-      tbody td.after::before { content: "After "; }
-      tbody td.held { grid-area: held; text-align: right; color: var(--mute); font-size: 0.78rem; }
-      tbody td.held::before { content: "% held "; }
-      tbody tr > td.muted { grid-column: 1 / -1; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css" />
+  <link rel="stylesheet" href="shell.css?v=91" />
+  <style id="qc-txn-v91">
+    /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
+    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
+    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
+    .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
+    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
+    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
+    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
+    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #eef6f6; }
+    .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
+    .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-meta { color: var(--mute, #8b96a3); }
+    .qc-txn-held.up { color: #7dcf7a; }
+    .qc-txn-held.down { color: #ef7a74; }
+  </style>
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -666,28 +629,19 @@
       <div class="chart-y" id="chart-y" aria-hidden="true"></div>
       <div class="mark-pop" id="mark-pop" hidden></div>
     </div>
-    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Marks indicate the insider’s transaction date, not the filing date.</p>
-    <p class="kicker">Trades</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Insider</th>
-            <th>Tx</th>
-            <th>Date</th>
-            <th class="num">Shares</th>
-            <th class="num">@Price</th>
-            <th class="num">Total</th>
-            <th class="num">After</th>
-            <th class="num">%Held After</th>
-          </tr>
-        </thead>
-        <tbody id="marks"></tbody>
-      </table>
+    <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Trade dates, not filings.</p>
+    <div class="qc-txn-head">
+      <p class="qc-txn-legend">
+        <span class="leg-buy">Buy</span>
+        <span class="leg-sell">Sell</span>
+        <span class="leg-note"><span class="leg-info" aria-hidden="true">i</span> Transaction date is when the trade was filed</span>
+      </p>
+      <p class="kicker qc-txn-kicker">Trades</p>
     </div>
+    <ol class="qc-txn-list" id="marks"></ol>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js"></script>
+  <script src="qc.js?v=91"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -770,17 +724,6 @@
 
     function chartHeight() {
       return window.matchMedia("(max-width: 820px)").matches ? 240 : 300;
-    }
-    function fmtShares(n) {
-      if (n == null || n === "") return "—";
-      return Number(n).toLocaleString("en-US", { maximumFractionDigits: 0 });
-    }
-    function fmtPx(n) {
-      if (n == null || n === "" || Number(n) === 0) return "—";
-      return formatQuote(n);
-    }
-    function fmtPct(n) {
-      return QC.formatHeldPct(n);
     }
     function hidePop() {
       const pop = document.getElementById("mark-pop");
@@ -1005,22 +948,14 @@
       }
 
       document.getElementById("marks").innerHTML = deals.map((t) => {
-        const cls = QC.txnClass(t);
-        const name = filerId
-          ? esc(t.owner === "indirect" ? "Indirect" : t.owner === "direct" ? "Direct" : (t.owner || "self"))
-          : "<a href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) +
-            (t.title && t.title !== "Senior Officer" && t.title !== "Director" && t.title !== "Officer"
-              ? " <span class=\"muted\">(" + esc(t.title) + ")</span>" : "") + "</a>";
-        return "<tr>" +
-          "<td class=\"who\">" + name + "</td>" +
-          "<td class=\"side " + cls + "\">" + esc(QC.txnLabel(t)) + optionTag(t) + "</td>" +
-          "<td class=\"date\">" + prettyDate(t.trade_date) + "</td>" +
-          "<td class=\"num shares\">" + fmtShares(t.shares) + "</td>" +
-          "<td class=\"num price\">" + fmtPx(t.price) + "</td>" +
-          "<td class=\"num amt total\">" + esc(QC.formatAmountRange(t.amount) || "—") + "</td>" +
-          "<td class=\"num after\">" + fmtShares(t.shares_after) + "</td>" +
-          "<td class=\"num held\">" + fmtPct(t.held_pct) + "</td></tr>";
-      }).join("") || "<tr><td colspan=\"8\" class=\"muted\">No stock trades on this ticker in the last three years.</td></tr>";
+        const nameHtml = filerId
+          ? "<span class=\"qc-txn-name\">" + esc(t.owner === "indirect" ? "Indirect" : t.owner === "direct" ? "Direct" : (t.owner || "self")) + "</span>"
+          : "<a class=\"qc-txn-name\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
+        return QC.tradeRowHtml(t, {
+          nameHtml: nameHtml,
+          tagsHtml: optionTag(t)
+        });
+      }).join("") || "<li class=\"muted\">No stock trades on this ticker in the last three years.</li>";
 
       if (!prices || !prices.c || prices.c.length < 2) {
         const note = document.getElementById("note");
@@ -1080,7 +1015,7 @@
       hidePop();
     });
 
-    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Insider tape">

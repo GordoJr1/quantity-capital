@@ -1,8 +1,9 @@
-const CACHE = "qc-shell-v87";
+const CACHE = "qc-shell-v91";
 const SHELL = [
   "./",
   "./index.html",
   "./shell.css",
+  "./shell.css?v=91",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -18,6 +19,7 @@ const SHELL = [
   "./insider-checks.html",
   "./chart-revamp-mockups.html",
   "./qc.js",
+  "./qc.js?v=91",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",
@@ -53,7 +55,10 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.endsWith(".html")
     || url.pathname.endsWith("/")
     || url.pathname.endsWith("/refresh.js")
-    || url.pathname.endsWith("/sw.js");
+    || url.pathname.endsWith("/sw.js")
+    || url.pathname.endsWith("/shell.css")
+    || url.pathname.endsWith("/qc.js")
+    || url.pathname.endsWith("/chart.js");
   if (isData) {
     event.respondWith((async () => {
       const cached = await caches.match(event.request);

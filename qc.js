@@ -63,6 +63,8 @@
   function sideLabel(side) {
     if (side === "purchase") return "Buy";
     if (side === "sale") return "Sell";
+    if (side === "sale_post") return "Sale Post-exercise";
+    if (side === "exercise") return "Exercise";
     if (side === "award") return "Awarded";
     if (side === "exchange") return "Exch";
     return side || "";
@@ -78,17 +80,54 @@
     return /^(30|45|46)\b/.test(nature);
   }
 
+  function isExercise(t) {
+    if (!t || typeof t !== "object") return false;
+    const code = String(t.code || "").toUpperCase();
+    const nature = String(t.nature || "");
+    if (t.side === "exercise") return true;
+    if (code === "M" || code === "X") return true;
+    if (code === "51" || code === "54" || code === "57" || code === "59" || code === "71") return true;
+    return /^(51|54|57|59|71)\b/.test(nature);
+  }
+
+  function isSalePost(t) {
+    if (!t || typeof t !== "object") return false;
+    const code = String(t.code || "").toUpperCase();
+    if (t.side === "sale_post") return true;
+    return code === "F";
+  }
+
+  function isMarketBuy(t) {
+    return !!(t && t.side === "purchase" && !isAward(t) && !isExercise(t));
+  }
+
+  function isMarketSale(t) {
+    return !!(t && (t.side === "sale" || t.side === "sale_post" || isSalePost(t)));
+  }
+
+  function isTapeTxn(t) {
+    if (!t) return false;
+    const side = t.side;
+    return side === "purchase" || side === "sale" || side === "sale_post" ||
+      side === "award" || side === "exercise" || side === "exchange" ||
+      isAward(t) || isExercise(t) || isSalePost(t);
+  }
+
   function txnLabel(t) {
     if (t == null) return "";
     if (typeof t === "string") return sideLabel(t);
+    if (isSalePost(t)) return "Sale Post-exercise";
+    if (isExercise(t)) return "Exercise";
     if (isAward(t)) return "Awarded";
     return sideLabel(t.side);
   }
 
   function txnClass(t) {
+    if (isSalePost(t) || (t && (t.side === "sale" || t.side === "sale_post"))) return "sell";
+    if (isExercise(t)) return "exercise";
     if (isAward(t)) return "award";
     if (t && t.side === "purchase") return "buy";
-    if (t && t.side === "sale") return "sell";
+    if (t && t.side === "exchange") return "exch";
     return "";
   }
 
@@ -409,6 +448,11 @@
     isFilingError: isFilingError,
     sideLabel: sideLabel,
     isAward: isAward,
+    isExercise: isExercise,
+    isSalePost: isSalePost,
+    isMarketBuy: isMarketBuy,
+    isMarketSale: isMarketSale,
+    isTapeTxn: isTapeTxn,
     txnLabel: txnLabel,
     txnClass: txnClass,
     formatHeldPct: formatHeldPct,

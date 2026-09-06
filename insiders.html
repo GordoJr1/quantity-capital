@@ -91,6 +91,7 @@
     .side.buy { color: #7dcf7a; font-weight: 600; }
     .side.sell { color: #ef7a74; font-weight: 600; }
     .side.award { color: var(--caution); font-weight: 600; }
+    .side.exercise { color: var(--teal); font-weight: 600; }
     .tk, .who { color: var(--white); text-decoration: none; }
     .tk:hover, .who:hover { color: var(--teal); }
     .title { color: var(--mute); font-size: 0.78rem; display: block; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
@@ -254,7 +255,8 @@
       const vis = rows.filter((t) => {
         const day = t.filed_date || t.trade_date || "";
         if (day && day < cutIso) return false;
-        if (side && t.side !== side) return false;
+        if (side === "purchase" && !QC.isMarketBuy(t)) return false;
+        if (side === "sale" && !QC.isMarketSale(t)) return false;
         if (needle) {
           const blob = [t.filer, t.title, t.ticker, t.company].join(" ").toLowerCase();
           if (!blob.includes(needle)) return false;

@@ -330,7 +330,7 @@ function drawChart(points, marks, opts) {
   // (area shading removed for crisp, clean price curve visibility)
   let areaPath = "";
   if (opts.showArea) {
-    const buys = (marks || []).filter((m) => m.side !== "sale" && m.date);
+    const buys = (marks || []).filter((m) => m.side !== "sale" && m.side !== "sale_post" && m.date);
     let lastBuy = opts.lastBuy || null;
     if (!lastBuy && buys.length) lastBuy = buys.map((m) => m.date).sort().pop();
     if (lastBuy) {
@@ -383,8 +383,8 @@ function drawChart(points, marks, opts) {
     return out;
   }
 
-  const buyClusters = clusterByDate(visibleMarks.filter((m) => m.side !== "sale"));
-  const sellClusters = clusterByDate(visibleMarks.filter((m) => m.side === "sale"));
+  const buyClusters = clusterByDate(visibleMarks.filter((m) => m.side !== "sale" && m.side !== "sale_post"));
+  const sellClusters = clusterByDate(visibleMarks.filter((m) => m.side === "sale" || m.side === "sale_post"));
 
   // If a buy cluster and a sell cluster land on the exact same date/spot,
   // separate them slightly horizontally so both remain visible and centered on the price curve.

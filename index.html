@@ -89,39 +89,13 @@
 
     .wrap { width: min(2800px, calc(100% - 48px)); margin: 0 auto; position: relative; z-index: 1; }
 
-    .landed-chip-row {
-      background: var(--ink);
-      padding: 10px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
     .asof {
       color: var(--mute);
       font-size: 0.82rem;
       margin: 0;
+      padding: 10px 0;
       font-family: "IBM Plex Sans", sans-serif;
     }
-    .landed-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      color: var(--caution);
-      background: rgba(227, 180, 26, 0.08);
-      border: 1px solid var(--caution);
-      padding: 8px 14px;
-      min-height: 44px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-    .landed-chip:hover { background: rgba(227, 180, 26, 0.16); color: var(--caution); }
-    .landed-chip .n { font-weight: 700; }
 
     header {
       display: flex;
@@ -1282,22 +1256,6 @@
       border: 1px solid #4a5563;
       padding: 12px 12px 14px;
     }
-    .focus-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin: 0 0 6px;
-    }
-    .focus h2 {
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--caution);
-      font-size: 0.82rem;
-      margin: 0 0 6px;
-      font-weight: 600;
-    }
     .focus .who {
       display: block;
       font-size: 1.42rem;
@@ -1599,10 +1557,7 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <div class="landed-chip-row">
-      <a class="landed-chip" id="landed-chip" href="landed.html">Just filed</a>
-      <p class="asof" id="asof"></p>
-    </div>
+    <p class="asof" id="asof"></p>
   </div>
   <div class="tape-scroll">
   <div class="wrap">
@@ -1722,9 +1677,6 @@
           <section class="wire" id="wire" aria-label="Signal wire"></section>
         </div>
         <aside class="focus" id="focus">
-          <div class="focus-top">
-            <h2>Focus</h2>
-          </div>
           <div id="focus-head"></div>
           <div class="focus-chart" id="focus-chart">
             <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
@@ -1980,9 +1932,6 @@
         else groups.push({ key: key, ids: [i] });
       });
       const parts = groups.map((g) => {
-        const n = g.ids.length;
-        const anyFresh = g.ids.some((i) => QC.isLanded(deskRows[i], 72));
-        const note = n + (n === 1 ? " print" : " prints") + (anyFresh ? " · just in" : "");
         const rows = g.ids.map((i) => {
           const t = deskRows[i];
           const side = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
@@ -2020,8 +1969,8 @@
           "</article>";
         }).join("");
         return {
-          head: "<h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em>",
-          block: "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em></div>" + rows,
+          head: "<h2>" + escapeHtml(filedHeading(g.key)) + "</h2>",
+          block: "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2></div>" + rows,
           rows: rows
         };
       });
@@ -2577,13 +2526,6 @@
         const asof = document.getElementById("asof");
         if (asof && data.collected) {
           asof.textContent = QC.asOfLabel(data.collected);
-        }
-        const chip = document.getElementById("landed-chip");
-        const freshN = (data.trades || []).filter((t) => QC.isLanded(t, 72)).length;
-        if (chip) {
-          chip.innerHTML = freshN
-            ? "Just filed \u00b7 <span class=\"n\">" + freshN + "</span>"
-            : "Just filed";
         }
         let tickerFile = { tickers: {}, assets: {} };
         try {

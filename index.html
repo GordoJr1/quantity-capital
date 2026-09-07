@@ -749,6 +749,11 @@
         white-space: nowrap;
         font-size: 0.92rem;
       }
+      #board .board-stock a {
+        display: inline;
+        overflow: visible;
+        font-weight: 700;
+      }
       #board .board-who { min-width: 0; }
       #board .board-val { font-size: 0.88rem; }
       #board .board-why {
@@ -757,6 +762,7 @@
         text-overflow: ellipsis;
         font-size: 0.68rem;
       }
+      #board .board-co { font-size: 0.72rem; }
       #board .board-rank { font-size: 0.78rem; }
       #board .board-sectors li { padding-left: 1.7em; }
     }
@@ -834,6 +840,25 @@
     }
     .board-val.up { color: #7dcf7a; }
     .board-val.down { color: #ef7a74; }
+    .board-val.flat { color: var(--mute); }
+    .board-stock {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      min-width: 0;
+    }
+    .board-stock a { flex: 0 0 auto; font-weight: 700; }
+    .board-co {
+      color: var(--mute);
+      font-size: 0.82rem;
+      font-family: "IBM Plex Sans", sans-serif;
+      text-transform: none;
+      letter-spacing: 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
     .board-rank {
       font-family: "Barlow Condensed", sans-serif;
       color: var(--mute);
@@ -1560,7 +1585,7 @@
     .focus .lag-note.late { color: #ef7a74; }
     .focus .lag-note.fresh { color: var(--caution); }
   </style>
-  <link rel="stylesheet" href="shell.css?v=102" />
+  <link rel="stylesheet" href="shell.css?v=103" />
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
@@ -1755,7 +1780,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=102"></script>
+  <script src="qc.js?v=103"></script>
   <script src="chart.js"></script>
   <script>
     function escapeHtml(s) {
@@ -2464,11 +2489,14 @@
       };
       function rowHtml(mode, r, i) {
         if (mode === "stocks") {
+          const tone = r.buys > r.sells ? "up" : r.sells > r.buys ? "down" : "flat";
+          const co = r.name && r.name !== r.code
+            ? "<span class=\"board-co\">" + escapeHtml(r.name) + "</span>"
+            : "";
           return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-            "<span><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
-            escapeHtml(r.code) + "</a><span class=\"board-why\">" + escapeHtml(r.name) +
-            " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
-            "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
+            "<span class=\"board-stock\"><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
+            escapeHtml(r.code) + "</a>" + co + "</span>" +
+            "<span class=\"board-val " + tone + "\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
         }
         if (mode === "traders") {
           const cls = r.pnl > 0 ? "up" : r.pnl < 0 ? "down" : "";

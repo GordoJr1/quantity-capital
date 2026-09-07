@@ -249,6 +249,14 @@ summary:focus-visible,
   }
 }
 
+/* Wide desktop: use the monitor, not a 1680px column. Mobile/tablet wrap rules above still win. */
+@media (min-width: 1101px) {
+  .wrap {
+    width: min(2800px, calc(100% - clamp(48px, 4vw, 96px)));
+    max-width: none;
+  }
+}
+
 @media (min-width: 821px) {
   .tabbar { display: none !important; }
 }

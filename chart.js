@@ -274,7 +274,8 @@ function drawChart(points, marks, opts) {
   // Dimensions & Padding
   const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 820px)").matches;
   const w = 840;
-  const h = opts.height || (isMobile ? 240 : 300);
+  const cssH = Math.round(svg.clientHeight || 0);
+  const h = opts.height || (cssH >= 160 ? cssH : (isMobile ? 240 : 300));
   const pad = {
     l: isMobile ? 82 : 34,
     r: isMobile ? 22 : 28,

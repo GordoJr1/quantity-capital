@@ -807,17 +807,17 @@ summary:focus-visible,
     font-size: 0.84rem;
   }
 
-  /* Tape: role beside name, ticker under name, Company as last column. */
+  /* Tape: Date | Name+role | ticker+Company | Txn | Shares | @ Price | Value | % Held. */
   .qc-txn-list.qc-tape-list > .qc-txn-cols,
   .qc-txn.qc-txn-tape {
-    grid-template-columns: minmax(9.5rem, 1.25fr) 5.6rem 6.4rem minmax(4.2rem, 0.6fr) minmax(4.6rem, 0.65fr) minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.6fr) 5rem minmax(8rem, 1.4fr);
-    grid-template-areas: "id chip date sh hero px after held co";
+    grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.55fr) minmax(4.8rem, 0.7fr) 4.8rem;
+    grid-template-areas: "date id co chip sh px hero held";
   }
   .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company {
     grid-area: co;
-    padding-left: 14px;
   }
   .qc-txn-tape .qc-txn-sub { display: none; }
+  .qc-txn-tape .qc-txn-after { display: none; }
   .qc-txn-tape .qc-txn-id {
     flex-direction: column;
     align-items: flex-start;
@@ -863,25 +863,32 @@ summary:focus-visible,
     margin: 0 0.28em;
     color: #5b6573;
   }
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-tk,
-  .qc-txn-tape .qc-txn-id-sub a.qc-txn-tk {
-    font-size: 0.68rem;
-    letter-spacing: 0.04em;
-    color: var(--paper, #d8dde3);
-  }
   .qc-txn-tape .qc-txn-id-sub .qc-txn-lag {
     font-size: inherit;
     color: inherit;
   }
   .qc-txn-tape .qc-txn-company {
-    display: block;
+    display: flex;
+    align-items: baseline;
+    gap: 0.45em;
     grid-area: co;
+    min-width: 0;
+    overflow: hidden;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+  }
+  .qc-txn-tape .qc-txn-company .qc-txn-tk,
+  .qc-txn-tape .qc-txn-company a.qc-txn-tk {
+    flex: 0 0 auto;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--paper, #d8dde3);
+  }
+  .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--mute, #8b96a3);
-    font-size: 0.72rem;
-    padding-left: 14px;
   }
 }

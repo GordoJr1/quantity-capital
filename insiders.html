@@ -109,8 +109,8 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=95" />
-  <style id="qc-txn-v95">
+  <link rel="stylesheet" href="shell.css?v=96" />
+  <style id="qc-txn-v96">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
@@ -141,8 +141,8 @@
     @media (min-width: 900px) {
       .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .qc-txn-tape {
-        grid-template-columns: minmax(9.5rem, 1.25fr) 5.6rem 6.4rem minmax(4.2rem, 0.6fr) minmax(4.6rem, 0.65fr) minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.6fr) 5rem minmax(8rem, 1.4fr);
-        grid-template-areas: "id chip date sh hero px after held co";
+        grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.55fr) minmax(4.8rem, 0.7fr) 4.8rem;
+        grid-template-areas: "date id co chip sh px hero held";
       }
       .qc-txn-tape {
         column-gap: 10px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px;
@@ -150,15 +150,18 @@
       .qc-txn-tape .qc-txn-end,
       .qc-txn-tape .qc-txn-tbl { display: contents; }
       .qc-txn-tape .qc-txn-sub { display: none; }
+      .qc-txn-tape .qc-txn-after { display: none; }
       .qc-txn-tape .qc-txn-chip { grid-area: chip; }
       .qc-txn-tape .qc-txn-date { grid-area: date; }
       .qc-txn-tape .qc-txn-sh { display: block; grid-area: sh; }
       .qc-txn-tape .qc-txn-hero { grid-area: hero; font-size: 0.95rem; }
       .qc-txn-tape .qc-txn-px { grid-area: px; }
-      .qc-txn-tape .qc-txn-after { grid-area: after; }
       .qc-txn-tape .qc-txn-held { grid-area: held; }
-      .qc-txn-tape .qc-txn-company { display: block; grid-area: co; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--mute, #8b96a3); font-size: 0.72rem; padding-left: 14px; }
-      .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; padding-left: 14px; }
+      .qc-txn-tape .qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; color: var(--mute, #8b96a3); font-size: 0.72rem; }
+      .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
+      .qc-txn-tape .qc-txn-company .qc-txn-tk,
+      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.78rem; letter-spacing: 0.05em; color: var(--paper, #d8dde3); }
+      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .qc-txn-tape .qc-txn-id { flex-direction: column; align-items: flex-start; gap: 1px; }
       .qc-txn-tape .qc-txn-id-line { width: 100%; }
       .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
@@ -210,7 +213,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=95"></script>
+  <script src="qc.js?v=96"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
     const params = new URLSearchParams(location.search);
@@ -261,7 +264,7 @@
         })
       ).join("");
       document.getElementById("rows").innerHTML = tradeHtml
-        ? QC.tradeColsHtml({ nameLabel: "Name", company: true }) + tradeHtml
+        ? QC.tradeColsHtml({ nameLabel: "Name", tape: true }) + tradeHtml
         : "<li class=\"muted\">No insider prints in this window.</li>";
     }
 

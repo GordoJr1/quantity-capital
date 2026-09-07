@@ -586,14 +586,16 @@
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
     const subNameParts = [];
-    if (tickerHtml) subNameParts.push(tickerHtml);
     if (lagHtml) subNameParts.push(lagHtml);
     const subName = dotted(subNameParts);
     const subNameHtml = subName.length
       ? "<div class=\"qc-txn-id-sub\">" + subName.join("") + "</div>"
       : "";
     const nameLine = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + "</div>";
-    const companyCol = "<span class=\"qc-txn-company\">" + (company ? esc(company) : "") + "</span>";
+    const companyBits = [];
+    if (tickerHtml) companyBits.push(tickerHtml);
+    if (company) companyBits.push("<span class=\"qc-txn-co-name\">" + esc(company) + "</span>");
+    const companyCol = "<span class=\"qc-txn-company\">" + companyBits.join("") + "</span>";
 
     const tblParts = [];
     if (t.trade_date) tblParts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
@@ -601,8 +603,6 @@
     if (sh && hero.kind !== "shares") tblParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
     const px = formatPriceQuiet(t.price);
     if (px) tblParts.push("<span class=\"qc-txn-px\">" + esc(px) + "</span>");
-    const after = formatSharesQuiet(t.shares_after);
-    if (after) tblParts.push("<span class=\"qc-txn-after\">" + esc(after) + "</span>");
     const held = formatHeldQuiet(t.held_pct);
     if (held) tblParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
@@ -619,9 +619,18 @@
   function tradeColsHtml(opts) {
     opts = opts || {};
     const nameLabel = opts.nameLabel || "Name";
-    const companyCol = opts.company
-      ? "<span class=\"qc-txn-company\">Company</span>"
-      : "";
+    if (opts.tape) {
+      return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+        "<span class=\"qc-txn-date\">Date</span>" +
+        "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
+        "<span class=\"qc-txn-company\">Company</span>" +
+        "<span class=\"qc-txn-chip\">Txn</span>" +
+        "<span class=\"qc-txn-sh\">Shares</span>" +
+        "<span class=\"qc-txn-px\">@ Price</span>" +
+        "<span class=\"qc-txn-hero\">Value</span>" +
+        "<span class=\"qc-txn-held\">% Held</span>" +
+      "</li>";
+    }
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
       "<span class=\"qc-txn-chip\">Txn</span>" +
@@ -631,7 +640,6 @@
       "<span class=\"qc-txn-px\">@ Price</span>" +
       "<span class=\"qc-txn-after\">After</span>" +
       "<span class=\"qc-txn-held\">% Held</span>" +
-      companyCol +
     "</li>";
   }
 

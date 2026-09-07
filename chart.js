@@ -297,7 +297,7 @@ function drawChart(points, marks, opts) {
   const max = scale.max;
   const span = max - min || 1;
   const labelWide = scale.ticks.some((t) => axisPrice(t).length >= 5);
-  if (!isMobile && labelWide) pad.l = 50;
+  if (!isMobile && labelWide) pad.l = 44;
 
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
   const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;

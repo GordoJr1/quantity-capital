@@ -19,7 +19,7 @@
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430;
@@ -33,6 +33,8 @@
       --ink: #1a1d26;
       --teal: #36999d;
       --navy: #1c2d4e;
+      --buy: #2f9e4a;
+      --sell: #d45a55;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -930,8 +932,531 @@
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
+
+    /* Desktop ≥900: B wire + C chart focus. Below 900 the live table/cards stay. */
+    .desk, .desk-status { display: none; }
+    @media (min-width: 900px) {
+      .desk-status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 22px;
+        margin: 0 0 12px;
+        padding: 8px 0;
+        border-top: 1px solid #3a4452;
+        border-bottom: 1px solid #3a4452;
+      }
+      .desk-status b {
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 1.35rem;
+        letter-spacing: 0.04em;
+        display: block;
+        line-height: 1;
+      }
+      .desk-status span {
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--mute);
+        font-size: 0.7rem;
+      }
+      .desk-status .hot b { color: var(--caution); }
+      .desk-status .up b { color: #7dcf7a; }
+      .desk-status .down b { color: #ef7a74; }
+      .desk {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr);
+        gap: 16px;
+        align-items: start;
+      }
+      #tape .table-wrap { display: none !important; }
+      #board .board-list { max-width: 1040px; }
+    }
+    .desk .day {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 14px 0 8px;
+    }
+    .desk .day:first-child { margin-top: 0; }
+    .desk .day h2 {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin: 0;
+    }
+    .desk .day em {
+      font-style: normal;
+      color: var(--mute);
+      font-size: 0.78rem;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0;
+    }
+    .desk .print {
+      display: grid;
+      grid-template-columns: 58px minmax(0, 1fr) auto;
+      grid-template-areas:
+        "stamp story pay"
+        "stamp asset pay";
+      gap: 4px 12px;
+      align-items: center;
+      background: rgba(37, 45, 56, 0.92);
+      border: 1px solid #3a4452;
+      border-left: 4px solid #5b6573;
+      padding: 10px 12px;
+      margin: 0 0 8px;
+      color: inherit;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      font: inherit;
+    }
+    .desk .print.buy { border-left-color: var(--buy); }
+    .desk .print.sell { border-left-color: var(--sell); }
+    .desk .print.fresh {
+      background: rgba(227, 180, 26, 0.06);
+      border-top-color: rgba(227, 180, 26, 0.45);
+      border-right-color: rgba(227, 180, 26, 0.35);
+      border-bottom-color: rgba(227, 180, 26, 0.35);
+    }
+    .desk .print.on {
+      border-color: var(--caution);
+      background: rgba(227, 180, 26, 0.1);
+    }
+    .desk .print:hover { border-right-color: var(--caution); }
+    .desk .stamp {
+      grid-area: stamp;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid #3a4452;
+      padding-right: 10px;
+      min-height: 52px;
+      font-family: "Barlow Condensed", sans-serif;
+      text-align: center;
+      align-self: stretch;
+    }
+    .desk .stamp .mon {
+      color: var(--caution);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+    }
+    .desk .stamp .dayn { font-size: 1.55rem; line-height: 0.9; font-weight: 700; }
+    .desk .body { grid-area: story; min-width: 0; }
+    .desk .who-line {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+    .desk .who {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-size: 1.08rem;
+      line-height: 1.05;
+      text-decoration: none;
+      color: var(--white);
+      min-width: 0;
+    }
+    .desk .who:hover { color: var(--teal); }
+    .desk .ch {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border: 1px solid #5b6573;
+      color: var(--paper);
+      white-space: nowrap;
+    }
+    .desk .ch.sen { border-color: var(--teal); color: var(--teal); }
+    .desk .ch.wh { border-color: var(--caution); color: var(--caution); }
+    .desk .ch.hot { border-color: var(--caution); color: var(--caution); }
+    .desk .ch.bad { border-color: #ef7a74; color: #ef7a74; }
+    .desk .asset {
+      grid-area: asset;
+      margin: 0;
+      color: var(--paper);
+      font-size: 0.84rem;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .desk .asset a {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+      margin-right: 6px;
+    }
+    .desk .asset a:hover { color: var(--teal); }
+    .desk .meta {
+      color: var(--mute);
+      font-size: 0.75rem;
+      margin-top: 2px;
+      letter-spacing: 0;
+      text-transform: none;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .desk .pay {
+      grid-area: pay;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      text-align: right;
+    }
+    .desk .print .pill {
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-weight: 600;
+      font-size: 0.74rem;
+      padding: 4px 11px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-transform: none;
+      text-align: center;
+    }
+    .desk .print.buy .pill { background: var(--buy); color: #fff; }
+    .desk .print.sell .pill { background: var(--sell); color: #fff; }
+    .desk .hero {
+      font-weight: 700;
+      font-size: 1.22rem;
+      color: #eef2f5;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .desk .print .tag {
+      display: inline-block;
+      margin: 0;
+      max-width: none;
+      padding: 1px 6px;
+      border: 1px solid var(--caution);
+      color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .desk .print .filing-err { margin-left: 0; }
+
+    .focus {
+      position: sticky;
+      top: calc(var(--site-header-h, 62px) + 8px);
+      background: rgba(21, 27, 36, 0.94);
+      border: 1px solid #4a5563;
+      padding: 12px 12px 14px;
+    }
+    .focus-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 0 0 6px;
+    }
+    .focus h2 {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.82rem;
+      margin: 0 0 6px;
+      font-weight: 600;
+    }
+    .focus .who {
+      display: block;
+      font-size: 1.42rem;
+      line-height: 0.95;
+      margin: 0 0 6px;
+    }
+    .focus .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+    .focus .asset { white-space: normal; display: block; margin: 0 0 2px; font-size: 0.95rem; }
+    .focus .quiet { color: var(--mute); font-size: 0.76rem; margin: 0 0 8px; }
+    .focus .cta { margin-top: 0; }
+    .focus .btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+    }
+
+    .focus .range {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      width: fit-content;
+      max-width: 100%;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      padding: 3px 5px;
+      margin: 0 0 10px;
+    }
+    .focus .range button {
+      flex: 0 0 auto;
+      background: transparent;
+      border: 0;
+      color: #94a3b8;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .focus .range button:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
+    .focus .range button.on {
+      color: #03140a;
+      background: #22c55e;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.45);
+      font-weight: 800;
+    }
+    .focus .chart-wrap {
+      position: relative;
+      background: rgba(13, 20, 31, 0.72);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 16px;
+      padding: 10px 8px 10px 4px;
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      user-select: none;
+      margin-bottom: 6px;
+    }
+    .focus .chart-frame {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      grid-template-columns: none;
+      grid-template-rows: none;
+      background: transparent;
+      padding: 0;
+    }
+    .focus #chart-svg {
+      width: 100%;
+      height: 198px;
+      display: block;
+      background: transparent;
+      min-height: 160px;
+      cursor: crosshair;
+      overflow: visible;
+    }
+    .focus .qc-spline-main {
+      filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
+    }
+    .focus .qc-hover-price-pill {
+      position: absolute;
+      background: #ffffff;
+      color: #0b111a;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      padding: 3px 8px;
+      border-radius: 5px;
+      pointer-events: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+      transform: translateY(-50%);
+      z-index: 10;
+    }
+    .focus .qc-hover-date-pill {
+      position: absolute;
+      bottom: 4px;
+      background: #0d1522;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #e2e8f0;
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 5px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .focus .mark-pop {
+      position: absolute;
+      z-index: 70;
+      background: rgba(13, 20, 32, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.82), 0 0 1px rgba(255, 255, 255, 0.25), 0 0 20px rgba(6, 182, 212, 0.16);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #e2e8f0;
+      box-sizing: border-box;
+      pointer-events: auto;
+      animation: popFade 0.14s ease-out;
+    }
+    @keyframes popFade { from { opacity: 0; } to { opacity: 1; } }
+    .focus .mark-pop .pop-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .focus .mark-pop .pop-title-wrap { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1; }
+    .focus .mark-pop .pop-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .focus .mark-pop .pop-badge.buy {
+      background: rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    .focus .mark-pop .pop-badge.sell {
+      background: rgba(248, 113, 113, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.5);
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
+    }
+    .focus .mark-pop .pop-title {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .focus .mark-pop .pop-close {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 11.5px;
+      line-height: 1;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .focus .mark-pop .pop-close:hover { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
+    .focus .mark-pop .pop-single-detail {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 5px 0 2px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11.5px;
+    }
+    .focus .mark-pop .pop-single-amt { color: #ffffff; font-weight: 700; }
+    .focus .mark-pop .pop-dot { color: #64748b; margin: 0 1px; }
+    .focus .mark-pop .pop-single-date { color: #38bdf8; font-weight: 600; }
+    .focus .chart-y {
+      position: absolute;
+      pointer-events: none;
+      z-index: 4;
+      display: block;
+      flex-direction: unset;
+      justify-content: unset;
+      align-items: unset;
+      padding: 0;
+    }
+    .focus .chart-y span {
+      position: absolute;
+      transform: translate(-100%, -50%);
+      padding-right: 8px;
+      color: #e2e8f0;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .focus .chart-x {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 16px 0 28px;
+      color: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      grid-column: auto;
+    }
+    .focus .chart-legend { color: var(--mute); font-size: 0.7rem; margin: 0 0 8px; }
+    .focus .chart-legend .buy { color: #22c55e; margin-right: 10px; }
+    .focus .chart-legend .sell { color: #f87171; margin-right: 10px; }
+    .focus .chart-note {
+      color: var(--mute);
+      font-size: 0.8rem;
+      padding: 18px 8px;
+      text-align: center;
+    }
+    .focus .lag h3 {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mute);
+      font-size: 0.72rem;
+      margin: 0 0 8px;
+      font-weight: 600;
+    }
+    .focus .lag-track {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      margin: 0 0 6px;
+    }
+    .focus .lag-track b { font-size: 0.8rem; }
+    .focus .lag-bar { height: 4px; background: #3a4452; position: relative; }
+    .focus .lag-bar i {
+      position: absolute;
+      top: -3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--caution);
+    }
+    .focus .lag-note { color: var(--mute); font-size: 0.76rem; margin: 0 0 10px; }
+    .focus .lag-note.late { color: #ef7a74; }
+    .focus .lag-note.fresh { color: var(--caution); }
   </style>
-  <link rel="stylesheet" href="shell.css?v=98" />
+  <link rel="stylesheet" href="shell.css?v=99" />
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
@@ -1037,6 +1562,31 @@
         </div>
       </details>
       <p class="count" id="tape-count"></p>
+      <div class="desk-status" id="desk-status"></div>
+      <div class="desk" id="desk">
+        <div class="wire-col">
+          <section class="wire" id="wire" aria-label="Signal wire"></section>
+        </div>
+        <aside class="focus" id="focus">
+          <div class="focus-top">
+            <h2>Focus</h2>
+          </div>
+          <div id="focus-head"></div>
+          <div class="focus-chart" id="focus-chart">
+            <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+            <div class="chart-wrap" id="chart-wrap">
+              <div class="chart-frame">
+                <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
+                <div class="chart-x" id="chart-x"></div>
+              </div>
+              <div class="chart-y" id="chart-y" aria-hidden="true"></div>
+              <div class="mark-pop" id="mark-pop" hidden></div>
+            </div>
+            <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> This print is called out on the company line.</p>
+          </div>
+          <div id="focus-foot"></div>
+        </aside>
+      </div>
       <div class="table-wrap">
         <table class="tape-table">
           <thead>
@@ -1070,7 +1620,8 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=98"></script>
+  <script src="qc.js?v=99"></script>
+  <script src="chart.js"></script>
   <script>
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, (c) => ({
@@ -1134,6 +1685,13 @@
 
     const PAGE = 120;
     let showAll = false;
+    const DESK_MQ = window.matchMedia("(min-width: 900px)");
+    const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
+    let deskRows = [];
+    let activeId = "";
+    let chartRange = "3m";
+    let chartToken = 0;
+    const priceCache = {};
 
     function errBadge() {
       return "<span class=\"filing-err\" title=\"Trade date is after the filed date on the official PTR.\">Filing error</span>";
@@ -1188,6 +1746,414 @@
           "<td class=\"tix-meta\">" + escapeHtml(meta) + "</td>" +
           "</tr>";
       }).join("");
+    }
+
+    function ownerLabel(s) {
+      const v = String(s || "").trim();
+      if (!v || v === "—") return "";
+      return v.replace(/\b([a-z])/g, (m, c) => c.toUpperCase());
+    }
+
+    function chamberClass(ch) {
+      if (ch === "Senate") return "sen";
+      if (ch === "White House") return "wh";
+      return "";
+    }
+
+    function fileLag(t) {
+      const td = new Date(String(t.trade_date || "") + "T00:00:00");
+      const fd = new Date(String(t.filed_date || "") + "T00:00:00");
+      if (isNaN(td.getTime()) || isNaN(fd.getTime())) return null;
+      return Math.round((fd.getTime() - td.getTime()) / 86400000);
+    }
+
+    function shortDate(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return iso || "—";
+      return d.toLocaleString("en-US", { month: "short", day: "numeric" });
+    }
+
+    function filedHeading(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return "Filed";
+      const w = d.toLocaleString("en-US", { weekday: "short" });
+      const rest = d.toLocaleString("en-US", { month: "short", day: "numeric" });
+      return "Filed " + w + " " + rest;
+    }
+
+    function stampBits(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return { mon: "—", day: "" };
+      return {
+        mon: d.toLocaleString("en-US", { month: "short" }).toUpperCase(),
+        day: String(d.getDate()).padStart(2, "0")
+      };
+    }
+
+    function activeTrade() {
+      return deskRows.find((t) => t.id === activeId) || deskRows[0] || null;
+    }
+
+    function renderDeskStatus(allFiltered, visible) {
+      const box = document.getElementById("desk-status");
+      if (!box) return;
+      const fresh = allFiltered.filter((t) => QC.isLanded(t, 72)).length;
+      const buys = allFiltered.filter((t) => t.side === "purchase").length;
+      const sells = allFiltered.filter((t) => t.side === "sale").length;
+      box.innerHTML =
+        "<div class=\"hot\"><b>" + fresh + "</b><span>Just filed</span></div>" +
+        "<div class=\"up\"><b>" + buys + "</b><span>Buys</span></div>" +
+        "<div class=\"down\"><b>" + sells + "</b><span>Sells</span></div>" +
+        "<div><b>" + visible.length + "</b><span>Prints in view</span></div>";
+    }
+
+    function paintWire() {
+      const box = document.getElementById("wire");
+      if (!box) return;
+      if (!deskRows.length) {
+        box.innerHTML = "<p class=\"feed-empty\">No trades match these filters.</p>";
+        return;
+      }
+      const groups = [];
+      deskRows.forEach((t, i) => {
+        const key = t.filed_date || "";
+        const last = groups[groups.length - 1];
+        if (last && last.key === key) last.ids.push(i);
+        else groups.push({ key: key, ids: [i] });
+      });
+      box.innerHTML = groups.map((g) => {
+        const n = g.ids.length;
+        const anyFresh = g.ids.some((i) => QC.isLanded(deskRows[i], 72));
+        const note = n + (n === 1 ? " print" : " prints") + (anyFresh ? " · just in" : "");
+        const rows = g.ids.map((i) => {
+          const t = deskRows[i];
+          const side = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
+          const fresh = QC.isLanded(t, 72);
+          const on = t.id === activeId;
+          const lag = fileLag(t);
+          const stamp = stampBits(t.trade_date);
+          const ch = chamberClass(t.chamber);
+          const cls = [side, fresh ? "fresh" : "", on ? "on" : ""].filter(Boolean).join(" ");
+          const tickerHtml = isChartTicker(t.code)
+            ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
+            : escapeHtml(t.code);
+          return "<article class=\"print " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
+            "<div class=\"stamp\"><span class=\"mon\">" + stamp.mon + "</span><span class=\"dayn\">" + stamp.day + "</span></div>" +
+            "<div class=\"body\">" +
+              "<div class=\"who-line\">" +
+                "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+                (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
+                (fresh ? "<span class=\"tag\">Just filed</span>" : "") +
+                (isFilingError(t) ? errBadge() : "") +
+              "</div>" +
+              "<p class=\"meta\">Traded " + escapeHtml(shortDate(t.trade_date)) +
+                (lag != null ? " · " + lag + "-day lag" : "") +
+                (t.owner ? " · " + escapeHtml(ownerLabel(t.owner)) : "") +
+              "</p>" +
+            "</div>" +
+            "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) +
+              (t.industry ? " · " + escapeHtml(t.industry) : "") +
+              optionTag(t) +
+            "</p>" +
+            "<div class=\"pay\">" +
+              "<span class=\"pill\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
+              "<span class=\"hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
+            "</div>" +
+          "</article>";
+        }).join("");
+        return "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em></div>" + rows;
+      }).join("");
+    }
+
+    function paintFocus() {
+      const head = document.getElementById("focus-head");
+      const foot = document.getElementById("focus-foot");
+      if (!head || !foot) return;
+      const t = activeTrade();
+      if (!t) {
+        head.innerHTML = "<p class=\"quiet\">Select a print on the wire.</p>";
+        foot.innerHTML = "";
+        return;
+      }
+      const ch = chamberClass(t.chamber);
+      const fresh = QC.isLanded(t, 72);
+      const lag = fileLag(t);
+      const pct = lag == null ? 0 : Math.min(100, Math.round((Math.max(0, lag) / 45) * 100));
+      const tickerHtml = isChartTicker(t.code)
+        ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
+        : escapeHtml(t.code);
+      head.innerHTML =
+        "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+        "<div class=\"chips\">" +
+          (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
+          (t.owner ? "<span class=\"ch\">" + escapeHtml(ownerLabel(t.owner)) + "</span>" : "") +
+          (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
+          (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
+        "</div>" +
+        "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) + "</p>" +
+        "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
+      let lagHtml = "";
+      if (lag != null) {
+        let note = "<p class=\"lag-note\">" + lag + " days from trade to public filing.</p>";
+        if (fresh) note = "<p class=\"lag-note fresh\">Just became public. Trade itself may be older.</p>";
+        else if (lag > 45) note = "<p class=\"lag-note late\">" + lag + " days from trade to file — outside the usual 45-day window.</p>";
+        else if (lag < 0) note = "<p class=\"lag-note late\">Trade date is after the filed date on the official PTR.</p>";
+        lagHtml = "<div class=\"lag\"><h3>Trade → filed</h3>" +
+          "<div class=\"lag-track\"><b>" + escapeHtml(shortDate(t.trade_date)) + "</b>" +
+          "<span class=\"lag-bar\"><i style=\"left:calc(" + pct + "% - 5px)\"></i></span>" +
+          "<b>" + escapeHtml(shortDate(t.filed_date)) + "</b></div>" +
+          note + "</div>";
+      }
+      const tickerBtn = isChartTicker(t.code)
+        ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">Open ticker</a>"
+        : "";
+      foot.innerHTML = lagHtml +
+        "<div class=\"cta\">" +
+          "<a class=\"btn fill\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">Open politician</a>" +
+          tickerBtn +
+        "</div>";
+    }
+
+    function loadPrices(ticker) {
+      const code = String(ticker || "").toUpperCase();
+      if (!code || !isChartTicker(code)) return Promise.resolve(null);
+      if (!priceCache[code]) {
+        priceCache[code] = fetch("prices/" + encodeURIComponent(code) + ".json")
+          .then((r) => r.ok ? r.json() : null)
+          .then((d) => (d && d.c && d.c.length >= 2) ? d.c : null)
+          .catch(() => null);
+      }
+      return priceCache[code];
+    }
+
+    function paintRange() {
+      const box = document.getElementById("range");
+      if (!box) return;
+      box.innerHTML = CHART_RANGES.map((r) =>
+        "<button type=\"button\" class=\"" + (r === chartRange ? "on" : "") + "\" data-r=\"" + r + "\">" +
+          r.toUpperCase() + "</button>"
+      ).join("");
+    }
+
+    function pickRangeForTrade(points, tradeIso, preferred) {
+      const order = preferred === "1m"
+        ? ["1m", "3m", "6m", "1y", "3y"]
+        : ["3m", "6m", "1y", "3y", "1m"];
+      const start = Math.max(0, order.indexOf(preferred));
+      for (let i = start; i < order.length; i++) {
+        const slice = slicePriceRange(points, order[i]);
+        if (slice.length >= 2 && tradeIso >= slice[0][0] && tradeIso <= slice[slice.length - 1][0]) {
+          return order[i];
+        }
+      }
+      return preferred;
+    }
+
+    function hidePop() {
+      const pop = document.getElementById("mark-pop");
+      if (pop) pop.hidden = true;
+    }
+
+    function showPop(rec) {
+      const pop = document.getElementById("mark-pop");
+      const wrap = document.getElementById("chart-wrap");
+      if (!pop || !wrap || !rec) return;
+      if (typeof hideChartHoverUi === "function") {
+        hideChartHoverUi(wrap, document.getElementById("chart-svg"));
+      }
+      const marks = (rec.marks && rec.marks.length) ? rec.marks : [rec.mark || {}];
+      const m = marks[0] || {};
+      const buy = (rec.side || m.side) !== "sale";
+      const amt = m.amount ? QC.formatAmountRange(m.amount) : "";
+      const mDate = m.date ? prettyDate(m.date) : "";
+      pop.innerHTML =
+        "<div class=\"pop-header\">" +
+          "<div class=\"pop-title-wrap\">" +
+            "<span class=\"pop-badge " + (buy ? "buy" : "sell") + "\">" + (buy ? "BUY" : "SELL") + "</span>" +
+            "<div class=\"pop-title\" title=\"" + escapeHtml(m.filer || "") + "\">" + escapeHtml(m.filer || "") + "</div>" +
+          "</div>" +
+          "<button type=\"button\" class=\"pop-close\" aria-label=\"Close popover\">✕</button>" +
+        "</div>" +
+        "<div class=\"pop-single-detail\">" +
+          (amt ? "<span class=\"pop-single-amt\">" + escapeHtml(amt) + "</span>" : "") +
+          (amt && mDate ? "<span class=\"pop-dot\">·</span>" : "") +
+          (mDate ? "<span class=\"pop-single-date\">" + escapeHtml(mDate) + "</span>" : "") +
+        "</div>";
+      const closeBtn = pop.querySelector(".pop-close");
+      if (closeBtn) {
+        const closeFn = (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          hidePop();
+        };
+        closeBtn.addEventListener("click", closeFn);
+        closeBtn.addEventListener("touchend", closeFn);
+      }
+      const svg = document.getElementById("chart-svg");
+      const wr = wrap.getBoundingClientRect();
+      const sr = svg.getBoundingClientRect();
+      const popWidth = Math.min(220, Math.max(160, wr.width - 20));
+      pop.style.width = popWidth + "px";
+      pop.style.right = "auto";
+      pop.style.transform = "none";
+      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+      let popLeft = pinScreenX - (popWidth / 2);
+      popLeft = Math.max(8, Math.min(wr.width - popWidth - 8, popLeft));
+      pop.style.left = popLeft + "px";
+      if (pinScreenY < 120 || rec.yPct < 0.46) {
+        pop.style.top = (pinScreenY + 16) + "px";
+        pop.style.bottom = "auto";
+      } else {
+        pop.style.top = (pinScreenY - 16) + "px";
+        pop.style.bottom = "auto";
+        pop.style.transform = "translateY(-100%)";
+      }
+      pop.hidden = false;
+    }
+
+    function clearChart(note) {
+      const svg = document.getElementById("chart-svg");
+      const xBox = document.getElementById("chart-x");
+      const yBox = document.getElementById("chart-y");
+      const wrap = document.getElementById("chart-wrap");
+      if (svg) svg.innerHTML = "";
+      if (xBox) xBox.innerHTML = "";
+      if (yBox) yBox.innerHTML = "";
+      hidePop();
+      if (!wrap) return;
+      let el = wrap.querySelector(".chart-note");
+      if (!note) {
+        if (el) el.remove();
+        return;
+      }
+      if (!el) {
+        el = document.createElement("p");
+        el.className = "chart-note";
+        wrap.appendChild(el);
+      }
+      el.textContent = note;
+    }
+
+    function paintChart() {
+      const t = activeTrade();
+      const token = ++chartToken;
+      hidePop();
+      paintRange();
+      if (!t) {
+        clearChart("Select a print on the wire.");
+        return;
+      }
+      if (!isChartTicker(t.code) || typeof drawChart !== "function" || typeof slicePriceRange !== "function") {
+        clearChart(t.code && t.code !== "—" ? "No daily prices on file for " + t.code + "." : "This print has no charted ticker.");
+        return;
+      }
+      loadPrices(t.code).then((points) => {
+        if (token !== chartToken) return;
+        if (!points || points.length < 2) {
+          clearChart("No daily prices on file for " + t.code + ".");
+          return;
+        }
+        clearChart("");
+        const tradeIso = t.trade_date || "";
+        const useRange = pickRangeForTrade(points, tradeIso, chartRange);
+        if (useRange !== chartRange) {
+          chartRange = useRange;
+          paintRange();
+        }
+        const slice = slicePriceRange(points, chartRange);
+        const marks = [{
+          date: tradeIso,
+          side: t.side,
+          filer: t.filer,
+          amount: t.amount
+        }];
+        const hits = drawChart(slice, marks, {
+          height: 198,
+          range: chartRange,
+          theme: "cyan",
+          onMark: showPop
+        });
+        requestAnimationFrame(() => {
+          if (token !== chartToken) return;
+          const hit = (hits || []).find((h) => h.date === tradeIso) || (hits && hits[0]);
+          if (hit) showPop(hit);
+        });
+      });
+    }
+
+    function selectDesk(id) {
+      if (!id) return;
+      const next = deskRows.find((t) => t.id === id);
+      if (!next) return;
+      const prev = activeTrade();
+      const tickerChanged = prev && prev.code !== next.code;
+      activeId = id;
+      if (tickerChanged) chartRange = "3m";
+      paintWire();
+      paintFocus();
+      if (DESK_MQ.matches) paintChart();
+    }
+
+    function renderDesk(filtered) {
+      const sorted = filtered.slice().sort((a, b) => {
+        const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
+        if (fd) return fd;
+        const td = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
+        if (td) return td;
+        return String(b.id || "").localeCompare(String(a.id || ""));
+      });
+      const visible = showAll ? sorted : sorted.slice(0, PAGE);
+      deskRows = visible;
+      if (!deskRows.some((row) => row.id === activeId)) {
+        activeId = deskRows[0] ? deskRows[0].id : "";
+        chartRange = "3m";
+      }
+      renderDeskStatus(filtered, visible);
+      paintWire();
+      paintFocus();
+      if (DESK_MQ.matches) paintChart();
+    }
+
+    function bindDesk() {
+      const wire = document.getElementById("wire");
+      const rangeBox = document.getElementById("range");
+      if (wire && !wire.dataset.bound) {
+        wire.dataset.bound = "1";
+        wire.addEventListener("click", (e) => {
+          if (e.target.closest("a")) return;
+          const row = e.target.closest(".print[data-id]");
+          if (row) selectDesk(row.getAttribute("data-id"));
+        });
+        wire.addEventListener("keydown", (e) => {
+          if (e.key !== "Enter" && e.key !== " ") return;
+          const row = e.target.closest(".print[data-id]");
+          if (!row) return;
+          e.preventDefault();
+          selectDesk(row.getAttribute("data-id"));
+        });
+      }
+      if (rangeBox && !rangeBox.dataset.bound) {
+        rangeBox.dataset.bound = "1";
+        rangeBox.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-r]");
+          if (!btn) return;
+          chartRange = btn.getAttribute("data-r");
+          paintChart();
+        });
+      }
+      if (!bindDesk._resize) {
+        bindDesk._resize = true;
+        DESK_MQ.addEventListener("change", () => {
+          if (DESK_MQ.matches) {
+            paintFocus();
+            paintChart();
+          }
+        });
+        window.addEventListener("resize", () => {
+          if (DESK_MQ.matches && activeTrade()) paintChart();
+        });
+      }
     }
 
     function nearestClose(points, date) {
@@ -1462,6 +2428,7 @@
           return td !== 0 ? td : (b.filed_date || "").localeCompare(a.filed_date || "");
         });
         bindPicker(uniqueFilers(rows));
+        bindDesk();
 
         function kindPool() {
           const kind = document.getElementById("filter-kind").value;
@@ -1533,6 +2500,7 @@
           }
           writeFilters();
           renderTape(filtered);
+          renderDesk(filtered);
         }
 
         document.getElementById("filter-company").addEventListener("input", () => { showAll = false; apply(); });

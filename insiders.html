@@ -109,8 +109,8 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=96" />
-  <style id="qc-txn-v96">
+  <link rel="stylesheet" href="shell.css?v=97" />
+  <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
@@ -122,6 +122,7 @@
     .qc-txn.postex { border-left-color: #c5726b; }
     .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-hero.is-empty { display: none; }
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
@@ -133,7 +134,8 @@
     .qc-txn-who { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; }
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
     .qc-txn-tape .qc-txn-name { font-weight: 600; }
-    .qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+    .qc-txn-co, .qc-txn-tape a.qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: inherit; text-decoration: none; }
+    .qc-txn-tape a.qc-txn-co:hover { color: var(--teal, #36999d); }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-sub { flex-direction: column; align-items: stretch; gap: 2px; }
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
@@ -155,13 +157,19 @@
       .qc-txn-tape .qc-txn-date { grid-area: date; }
       .qc-txn-tape .qc-txn-sh { display: block; grid-area: sh; }
       .qc-txn-tape .qc-txn-hero { grid-area: hero; font-size: 0.95rem; }
+      .qc-txn-tape .qc-txn-hero.is-shares { display: none; }
+      .qc-txn-tape .qc-txn-hero.is-empty { display: block; grid-area: hero; color: var(--mute, #8b96a3); font-weight: 400; font-size: 0.78rem; }
       .qc-txn-tape .qc-txn-px { grid-area: px; }
       .qc-txn-tape .qc-txn-held { grid-area: held; }
-      .qc-txn-tape .qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; color: var(--mute, #8b96a3); font-size: 0.72rem; }
+      .qc-txn-tape .qc-txn-company,
+      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
       .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
       .qc-txn-tape .qc-txn-company .qc-txn-tk,
-      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.78rem; letter-spacing: 0.05em; color: var(--paper, #d8dde3); }
-      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.05em; color: inherit; }
+      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; }
+      .qc-txn-tape a.qc-txn-company:hover,
+      .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
+      .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: var(--teal, #36999d); }
       .qc-txn-tape .qc-txn-id { flex-direction: column; align-items: flex-start; gap: 1px; }
       .qc-txn-tape .qc-txn-id-line { width: 100%; }
       .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
@@ -213,7 +221,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=96"></script>
+  <script src="qc.js?v=97"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
     const params = new URLSearchParams(location.search);

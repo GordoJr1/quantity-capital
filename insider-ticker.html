@@ -571,7 +571,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=96" />
+  <link rel="stylesheet" href="shell.css?v=97" />
   <style id="qc-txn-v93">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -585,6 +585,7 @@
     .qc-txn.postex { border-left-color: #c5726b; }
     .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-hero.is-empty { display: none; }
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
@@ -601,6 +602,8 @@
       .qc-txn:not(.qc-txn-tape) .qc-txn-date { grid-area: date; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-sh { display: block; grid-area: sh; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-hero { grid-area: hero; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-hero.is-shares { display: none; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-hero.is-empty { display: block; grid-area: hero; color: var(--mute, #8b96a3); font-weight: 400; font-size: 0.78rem; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-px { grid-area: px; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-after { grid-area: after; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-held { grid-area: held; }
@@ -662,7 +665,7 @@
     <ol class="qc-txn-list" id="marks"></ol>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=96"></script>
+  <script src="qc.js?v=97"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);

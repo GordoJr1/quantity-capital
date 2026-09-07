@@ -603,17 +603,17 @@ summary:focus-visible,
   padding-top: 0;
   flex-wrap: nowrap;
 }
-.qc-txn-co {
+.qc-txn-co,
+.qc-txn-tape a.qc-txn-co {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: inherit;
+  text-decoration: none;
 }
-.qc-txn-lag {
-  color: var(--mute, #8b96a3);
-  white-space: nowrap;
-}
+.qc-txn-tape a.qc-txn-co:hover { color: var(--teal, #36999d); }
+.qc-txn-hero.is-empty { display: none; }
 
 @media (max-width: 820px) {
   .qc-txn-list.qc-tape-list,
@@ -774,6 +774,15 @@ summary:focus-visible,
     font-size: 0.72em;
     margin-left: 2px;
   }
+  .qc-txn .qc-txn-hero.is-shares { display: none; }
+  .qc-txn .qc-txn-hero.is-empty {
+    display: block;
+    grid-area: hero;
+    color: var(--mute, #8b96a3);
+    font-weight: 400;
+    font-size: 0.78rem;
+    text-align: right;
+  }
   .qc-txn .qc-txn-px {
     grid-area: px;
     color: var(--mute, #8b96a3);
@@ -863,26 +872,29 @@ summary:focus-visible,
     margin: 0 0.28em;
     color: #5b6573;
   }
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-lag {
-    font-size: inherit;
-    color: inherit;
-  }
-  .qc-txn-tape .qc-txn-company {
+  .qc-txn-tape .qc-txn-company,
+  .qc-txn-tape a.qc-txn-company {
     display: flex;
     align-items: baseline;
     gap: 0.45em;
     grid-area: co;
     min-width: 0;
     overflow: hidden;
-    color: var(--mute, #8b96a3);
-    font-size: 0.72rem;
+    text-decoration: none;
+    color: var(--white, #eef2f5);
+    font-size: 0.84rem;
+    font-weight: 600;
+    font-family: "IBM Plex Sans", sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
   }
   .qc-txn-tape .qc-txn-company .qc-txn-tk,
   .qc-txn-tape .qc-txn-company a.qc-txn-tk {
     flex: 0 0 auto;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
+    font-weight: 600;
     letter-spacing: 0.05em;
-    color: var(--paper, #d8dde3);
+    color: inherit;
   }
   .qc-txn-tape .qc-txn-company .qc-txn-co-name {
     flex: 1 1 auto;
@@ -890,5 +902,12 @@ summary:focus-visible,
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 600;
+    color: inherit;
+  }
+  .qc-txn-tape a.qc-txn-company:hover,
+  .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
+  .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name {
+    color: var(--teal, #36999d);
   }
 }

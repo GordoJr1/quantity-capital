@@ -46,15 +46,15 @@
     },
     "james-e-banks": {
       "name": "Jim Banks",
-      "display": "James E. Banks",
-      "chamber": "Senate",
+      "display": "James E Hon Banks",
+      "chamber": "House",
       "state": "IN",
       "party": "Republican",
-      "class": 1,
-      "district": null,
-      "first_elected_senate": 2025,
-      "term_start": "2025",
-      "term_end": "2031",
+      "class": null,
+      "district": 3,
+      "first_elected_house": 2017,
+      "term_start": "2023",
+      "term_end": "2025",
       "committees": [
         {
           "name": "Senate Committee on Armed Services",
@@ -1075,15 +1075,15 @@
     },
     "john-r-curtis": {
       "name": "John R. Curtis",
-      "display": "John R. Curtis",
-      "chamber": "Senate",
+      "display": "John Curtis",
+      "chamber": "House",
       "state": "UT",
       "party": "Republican",
-      "class": 1,
-      "district": null,
-      "first_elected_senate": 2025,
-      "term_start": "2025",
-      "term_end": "2031",
+      "class": null,
+      "district": 3,
+      "first_elected_house": 2017,
+      "term_start": "2023",
+      "term_end": "2025",
       "committees": [
         {
           "name": "Senate Committee on Commerce, Science, and Transportation",
@@ -5124,7 +5124,7 @@
     },
     "c-scott-franklin": {
       "name": "Scott Franklin",
-      "display": "C. Scott Franklin",
+      "display": "Scott Scott Franklin",
       "chamber": "House",
       "state": "FL",
       "party": "Republican",
@@ -7883,7 +7883,7 @@
     },
     "rudy-yakym": {
       "name": "Rudy Yakym III",
-      "display": "Rudy Yakym",
+      "display": "Rudy C. Yakym",
       "chamber": "House",
       "state": "IN",
       "party": "Republican",
@@ -8397,6 +8397,23 @@
       "state_economy": "Oil and gas, petrochemicals, ports, and seafood.",
       "bioguide": "G000577",
       "opensecrets": "N00036135"
+    },
+    "marjorie-taylor-greene": {
+      "name": "Marjorie Taylor Greene",
+      "display": "Marjorie Taylor Greene",
+      "chamber": "House",
+      "state": "GA",
+      "party": "Republican",
+      "class": null,
+      "district": 14,
+      "first_elected_house": 2021,
+      "term_start": "2025",
+      "term_end": "2026",
+      "committees": [],
+      "subcommittees": [],
+      "state_economy": "Film, logistics (Atlanta), agriculture, and a growing tech scene.",
+      "bioguide": "G000596",
+      "opensecrets": "N00044701"
     },
     "darrell-e-issa": {
       "name": "Darrell Issa",
@@ -9095,7 +9112,7 @@
     },
     "thomas-r-suozzi": {
       "name": "Thomas R. Suozzi",
-      "display": "Thomas R. Suozzi",
+      "display": "Thomas Suozzi",
       "chamber": "House",
       "state": "NY",
       "party": "Democrat",
@@ -9892,23 +9909,6 @@
       "bioguide": "G000603",
       "opensecrets": "N00054402"
     },
-    "marjorie-taylor-greene": {
-      "name": "Marjorie Taylor Greene",
-      "display": "Marjorie Taylor Greene",
-      "chamber": "House",
-      "state": "GA",
-      "party": "Republican",
-      "class": null,
-      "district": 14,
-      "first_elected_house": 2021,
-      "term_start": "2025",
-      "term_end": "2026",
-      "committees": [],
-      "subcommittees": [],
-      "state_economy": "Film, logistics (Atlanta), agriculture, and a growing tech scene.",
-      "bioguide": "G000596",
-      "opensecrets": "N00044701"
-    },
     "valerie-hoyle": {
       "name": "Val T. Hoyle",
       "display": "Valerie Hoyle",
@@ -10331,7 +10331,7 @@
     },
     "john-mcguire": {
       "name": "John J. McGuire III",
-      "display": "John McGuire",
+      "display": "John J Mr McGuire",
       "chamber": "House",
       "state": "VA",
       "party": "Republican",
@@ -12788,17 +12788,5 @@
       "cindy-axne",
       "Cindy Axne"
     ]
-  ],
-  "aliases": {
-    "james-e-hon-banks": "james-e-banks",
-    "john-curtis": "john-r-curtis",
-    "john-j-mr-mcguire": "john-mcguire",
-    "laurel-mrs-lee": "laurel-lee",
-    "marjorie-taylor-mrs-greene": "marjorie-taylor-greene",
-    "neal-patrick-dunn-md-facs": "neal-patrick-md-facs-dunn",
-    "rudy-c-yakym": "rudy-yakym",
-    "scott-mr-franklin": "c-scott-franklin",
-    "scott-scott-franklin": "c-scott-franklin",
-    "thomas-suozzi": "thomas-r-suozzi"
-  }
+  ]
 }

@@ -699,13 +699,59 @@
       color: var(--caution);
     }
     .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
+    .board-col-title { display: none; }
+    .board-col { display: none; }
+    .board-col.on { display: block; }
     .board-list { list-style: none; border: 1px solid #4a5563; background: var(--panel); }
     @media (min-width: 821px) {
       #board .board-list, #tape .table-wrap { max-width: 1040px; }
     }
     footer[hidden], .stripe[hidden] { display: none !important; }
-    #board-list { min-height: 70vh; }
-    body.is-ready #board-list { min-height: 0; }
+    .board-grid { min-height: 70vh; }
+    body.is-ready .board-grid { min-height: 0; }
+    @media (min-width: 1100px) {
+      .board-tabs, #board-note { display: none; }
+      .board-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 8px 10px;
+        align-items: start;
+      }
+      #board .board-col { display: block; min-width: 0; }
+      .board-col-title {
+        display: block;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--caution);
+        font-size: 0.78rem;
+        font-weight: 600;
+        margin: 0 0 6px;
+      }
+      #board .board-list { max-width: none; }
+      #board .board-list li {
+        padding: 6px 8px;
+        gap: 4px 6px;
+        grid-template-columns: 1.7em minmax(0, 1fr) auto;
+      }
+      #board .board-list a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.92rem;
+      }
+      #board .board-who { min-width: 0; }
+      #board .board-val { font-size: 0.88rem; }
+      #board .board-why {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.68rem;
+      }
+      #board .board-rank { font-size: 0.78rem; }
+      #board .board-sectors li { padding-left: 1.7em; }
+    }
     .board-list li.skel {
       min-height: 52px;
       pointer-events: none;
@@ -965,8 +1011,28 @@
       .desk {
         display: grid;
         grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr);
-        gap: 16px;
+        grid-template-rows: auto 1fr;
+        column-gap: 16px;
+        row-gap: 0;
         align-items: start;
+      }
+      .desk .wire-col { display: contents; }
+      .desk .wire-day0 {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .desk .wire {
+        grid-column: 1;
+        grid-row: 2;
+        min-width: 0;
+        padding: 0;
+        margin: 0;
+      }
+      .desk .focus {
+        grid-column: 2;
+        grid-row: 2;
+        align-self: start;
+        min-width: 0;
       }
       #tape .table-wrap { display: none !important; }
       #board .board-list { max-width: 1040px; }
@@ -978,7 +1044,10 @@
       gap: 10px;
       margin: 14px 0 8px;
     }
-    .desk .day:first-child { margin-top: 0; }
+    .desk .day:first-child,
+    .desk .wire-day0 { margin-top: 0; }
+    .desk .wire-day0:empty,
+    .desk .wire-day0[hidden] { display: none; }
     .desk .day h2 {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.16em;
@@ -1456,7 +1525,7 @@
     .focus .lag-note.late { color: #ef7a74; }
     .focus .lag-note.fresh { color: var(--caution); }
   </style>
-  <link rel="stylesheet" href="shell.css?v=99" />
+  <link rel="stylesheet" href="shell.css?v=100" />
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
@@ -1493,18 +1562,48 @@
         <button type="button" data-board="stocks">Trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
-      <ol class="board-list" id="board-list">
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-        <li class="skel" aria-hidden="true"></li>
-      </ol>
+      <div class="board-grid" id="board-grid">
+        <section class="board-col on" data-board="conflicts">
+          <h3 class="board-col-title">Conflicts</h3>
+          <ol class="board-list" id="board-list-conflicts">
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+          </ol>
+        </section>
+        <section class="board-col" data-board="activity">
+          <h3 class="board-col-title">Active</h3>
+          <ol class="board-list" id="board-list-activity">
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+          </ol>
+        </section>
+        <section class="board-col" data-board="traders">
+          <h3 class="board-col-title">Traders</h3>
+          <ol class="board-list" id="board-list-traders">
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+          </ol>
+        </section>
+        <section class="board-col" data-board="stocks">
+          <h3 class="board-col-title">Trades</h3>
+          <ol class="board-list" id="board-list-stocks">
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+            <li class="skel" aria-hidden="true"></li>
+          </ol>
+        </section>
+      </div>
       <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
     </section>
 
@@ -1565,6 +1664,7 @@
       <div class="desk-status" id="desk-status"></div>
       <div class="desk" id="desk">
         <div class="wire-col">
+          <div class="day wire-day0" id="wire-day0" hidden></div>
           <section class="wire" id="wire" aria-label="Signal wire"></section>
         </div>
         <aside class="focus" id="focus">
@@ -1620,7 +1720,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=99"></script>
+  <script src="qc.js?v=100"></script>
   <script src="chart.js"></script>
   <script>
     function escapeHtml(s) {
@@ -1809,8 +1909,13 @@
 
     function paintWire() {
       const box = document.getElementById("wire");
+      const day0 = document.getElementById("wire-day0");
       if (!box) return;
       if (!deskRows.length) {
+        if (day0) {
+          day0.hidden = true;
+          day0.innerHTML = "";
+        }
         box.innerHTML = "<p class=\"feed-empty\">No trades match these filters.</p>";
         return;
       }
@@ -1821,7 +1926,7 @@
         if (last && last.key === key) last.ids.push(i);
         else groups.push({ key: key, ids: [i] });
       });
-      box.innerHTML = groups.map((g) => {
+      const parts = groups.map((g) => {
         const n = g.ids.length;
         const anyFresh = g.ids.some((i) => QC.isLanded(deskRows[i], 72));
         const note = n + (n === 1 ? " print" : " prints") + (anyFresh ? " · just in" : "");
@@ -1861,8 +1966,17 @@
             "</div>" +
           "</article>";
         }).join("");
-        return "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em></div>" + rows;
-      }).join("");
+        return {
+          head: "<h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em>",
+          block: "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2><em>" + escapeHtml(note) + "</em></div>" + rows,
+          rows: rows
+        };
+      });
+      if (day0) {
+        day0.hidden = false;
+        day0.innerHTML = parts[0].head;
+      }
+      box.innerHTML = parts[0].rows + parts.slice(1).map((p) => p.block).join("");
     }
 
     function paintFocus() {
@@ -2298,11 +2412,13 @@
     }
 
     function bindBoard(boards) {
-      const list = document.getElementById("board-list");
+      const grid = document.getElementById("board-grid");
       const note = document.getElementById("board-note");
       const more = document.getElementById("board-more");
       const tabs = document.querySelectorAll(".board-tabs button");
-      if (!list) return;
+      const cols = document.querySelectorAll(".board-col");
+      if (!grid) return;
+      const modes = ["conflicts", "activity", "traders", "stocks"];
       const state = { mode: "conflicts", limit: 10 };
       const notes = {
         conflicts: "",
@@ -2310,49 +2426,55 @@
         traders: "Theoretical P&L from the 3-year tape, high-end official ranges and daily closes. Not official. Tap a row — not the name — for sector performance.",
         stocks: "Most traded stock tickers in the last three years. Tap a ticker to see every buy and sell on the chart."
       };
+      function rowHtml(mode, r, i) {
+        if (mode === "stocks") {
+          return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+            "<span><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
+            escapeHtml(r.code) + "</a><span class=\"board-why\">" + escapeHtml(r.name) +
+            " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
+            "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
+        }
+        if (mode === "traders") {
+          const cls = r.pnl > 0 ? "up" : r.pnl < 0 ? "down" : "";
+          const secs = (r.sectors || []).map((s) => {
+            const sc = s.pnl > 0 ? "up" : s.pnl < 0 ? "down" : "";
+            const flag = s.conflict
+              ? "<span class=\"board-flag\" title=\"" + escapeHtml(s.why || "Jurisdictional overlap") + "\">Conflict</span>"
+              : "<span></span>";
+            return "<li><span class=\"sec-name\">" + escapeHtml(s.name) + "</span>" + flag +
+              "<span class=\"board-val " + sc + "\">" + signedMoney(s.pnl) + "</span></li>";
+          }).join("");
+          return "<li class=\"board-trader\" data-id=\"" + escapeHtml(r.id) + "\">" +
+            "<span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+            "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+            escapeHtml(r.name) + "</a></span>" +
+            "<span class=\"board-val " + cls + "\">" + signedMoney(r.pnl) + "</span>" +
+            "<ul class=\"board-sectors\">" + (secs || "<li class=\"sec-name\">No priced stock trades.</li>") + "</ul></li>";
+        }
+        const val = mode === "activity"
+          ? r.trades + (r.trades === 1 ? " trade" : " trades")
+          : r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
+        return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
+          "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+          escapeHtml(r.name) + "</a></span>" +
+          "<span class=\"board-val\">" + escapeHtml(val) + "</span></li>";
+      }
       const paint = () => {
-        const pool = boards[state.mode] || [];
-        const rows = pool.slice(0, state.limit);
-        note.textContent = notes[state.mode] || "";
-        note.hidden = !note.textContent;
-        more.hidden = pool.length <= 10;
+        modes.forEach((mode) => {
+          const el = document.getElementById("board-list-" + mode);
+          if (!el) return;
+          const pool = boards[mode] || [];
+          el.innerHTML = pool.slice(0, state.limit).map((r, i) => rowHtml(mode, r, i)).join("");
+        });
+        if (note) {
+          note.textContent = notes[state.mode] || "";
+          note.hidden = !note.textContent;
+        }
+        const anyMore = modes.some((mode) => (boards[mode] || []).length > 10);
+        more.hidden = !anyMore;
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
         tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
-        list.innerHTML = rows.map((r, i) => {
-          if (state.mode === "stocks") {
-            return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-              "<span><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
-              escapeHtml(r.code) + "</a><span class=\"board-why\">" + escapeHtml(r.name) +
-              " · " + r.buys + " buys · " + r.sells + " sells</span></span>" +
-              "<span class=\"board-val\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
-          }
-          if (state.mode === "traders") {
-            const cls = r.pnl > 0 ? "up" : r.pnl < 0 ? "down" : "";
-            const secs = (r.sectors || []).map((s) => {
-              const sc = s.pnl > 0 ? "up" : s.pnl < 0 ? "down" : "";
-              const flag = s.conflict
-                ? "<span class=\"board-flag\" title=\"" + escapeHtml(s.why || "Jurisdictional overlap") + "\">Conflict</span>"
-                : "<span></span>";
-              return "<li><span class=\"sec-name\">" + escapeHtml(s.name) + "</span>" + flag +
-                "<span class=\"board-val " + sc + "\">" + signedMoney(s.pnl) + "</span></li>";
-            }).join("");
-            return "<li class=\"board-trader\" data-id=\"" + escapeHtml(r.id) + "\">" +
-              "<span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-              "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
-              escapeHtml(r.name) + "</a></span>" +
-              "<span class=\"board-val " + cls + "\">" + signedMoney(r.pnl) + "</span>" +
-              "<ul class=\"board-sectors\">" + (secs || "<li class=\"sec-name\">No priced stock trades.</li>") + "</ul></li>";
-          }
-          let val = r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
-          if (state.mode === "activity") val = r.trades + (r.trades === 1 ? " trade" : " trades");
-          const why = (state.mode === "conflicts" && r.whys.length)
-            ? "<span class=\"board-why\">" + escapeHtml(r.whys.join(" · ")) + "</span>"
-            : "";
-          return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-            "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
-            escapeHtml(r.name) + "</a>" + why + "</span>" +
-            "<span class=\"board-val\">" + escapeHtml(val) + "</span></li>";
-        }).join("");
+        cols.forEach((col) => col.classList.toggle("on", col.dataset.board === state.mode));
       };
       tabs.forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -2365,7 +2487,7 @@
         state.limit = state.limit > 10 ? 10 : 30;
         paint();
       });
-      list.addEventListener("click", (e) => {
+      grid.addEventListener("click", (e) => {
         if (e.target.closest("a") || e.target.closest(".board-sectors")) return;
         const row = e.target.closest("li.board-trader");
         if (!row) return;

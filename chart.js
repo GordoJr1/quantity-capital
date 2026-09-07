@@ -589,19 +589,26 @@ function syncYAxisOverlayBox(yBox, wrap, svg) {
   const wr = wrap.getBoundingClientRect();
   const sr = svg.getBoundingClientRect();
   if (sr.width < 2 || sr.height < 2) return;
-  // Cover the wrap padding box so HTML ticks (translate -100%) stay inside the panel.
-  yBox.style.left = "0px";
-  yBox.style.top = (sr.top - wr.top) + "px";
-  yBox.style.width = wrap.clientWidth + "px";
-  yBox.style.height = sr.height + "px";
   const pad = wrap._qcYPad;
   const vw = wrap._qcYW;
   if (!pad || !vw) return;
-  const origin = wr.left + wrap.clientLeft;
-  const gridX = (sr.left - origin) + (pad.l / vw) * sr.width;
+  // Left gutter only: wrap padding-box left → plot pad.l. Height matches the SVG.
+  const originX = wr.left + wrap.clientLeft;
+  const originY = wr.top + wrap.clientTop;
+  const gridX = (sr.left - originX) + (pad.l / vw) * sr.width;
+  const gutterW = Math.max(0, gridX);
+  yBox.style.left = "0px";
+  yBox.style.right = "auto";
+  yBox.style.top = (sr.top - originY) + "px";
+  yBox.style.width = gutterW.toFixed(1) + "px";
+  yBox.style.height = sr.height + "px";
   const spans = yBox.children;
   for (let i = 0; i < spans.length; i++) {
-    spans[i].style.left = gridX.toFixed(1) + "px";
+    spans[i].style.left = "0px";
+    spans[i].style.right = "0px";
+    spans[i].style.width = "100%";
+    spans[i].style.textAlign = "right";
+    spans[i].style.transform = "translateY(-50%)";
   }
 }
 

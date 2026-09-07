@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <title>Politicians Tape — Option C Briefing · MOCK</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --fed: #1e4b8a; --red: #c2302a; --caution: #e3b41a; --mute: #8b96a3;
+      --ink: #1a1d26; --teal: #36999d; --navy: #1c2d4e;
+      --buy: #2f9e4a; --sell: #d45a55; --shell-bg: rgba(26, 29, 38, 0.96);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    .qc-skip {
+      position: absolute; left: 12px; top: 8px; z-index: 90; padding: 8px 12px;
+      background: var(--ink); color: var(--caution); border: 2px solid var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; transform: translateY(-200%);
+    }
+    .qc-skip:focus { transform: none; }
+    .qc-header {
+      position: sticky; top: 0; z-index: 70; border-bottom: 2px solid var(--teal);
+      background: var(--shell-bg); backdrop-filter: blur(10px);
+    }
+    .qc-header-inner {
+      display: flex; align-items: center; gap: 12px 16px; min-height: 48px; padding: 6px 0;
+    }
+    .mark {
+      font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; font-size: 1rem; color: inherit; text-decoration: none;
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
+    .mark span { color: var(--teal); }
+    .qc-nav { display: flex; flex: 1; align-items: center; justify-content: flex-end; gap: 2px 4px; }
+    .qc-nav a {
+      color: var(--paper); text-decoration: none; min-height: 44px; padding: 0 10px;
+      display: inline-flex; align-items: center; font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.9rem;
+      border-bottom: 2px solid transparent;
+    }
+    .qc-nav a.on, .qc-nav a:hover { color: var(--caution); }
+    .qc-nav a.on { border-bottom-color: var(--caution); }
+    .qc-mode {
+      min-height: 44px; padding: 0 12px; display: inline-flex; align-items: center;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.78rem; color: var(--mute); text-decoration: none; border: 1px solid #5b6573;
+    }
+    .mockbar { background: rgba(227, 180, 26, 0.1); border-bottom: 1px solid rgba(227, 180, 26, 0.35); }
+    .mockbar-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      min-height: 40px; padding: 6px 0; flex-wrap: wrap;
+    }
+    .mockbar .flag {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.82rem;
+    }
+    .mock-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mock-opts a {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 0.78rem; text-decoration: none; color: var(--paper); border: 1px solid #4a5563;
+      padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center;
+    }
+    .mock-opts a.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.1); }
+
+    .headrow {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; padding: 12px 0 8px; flex-wrap: wrap;
+    }
+    .kicker {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.9rem; margin: 0 0 2px;
+    }
+    h1 {
+      font-family: "Barlow Condensed", sans-serif; font-weight: 700;
+      font-size: clamp(1.8rem, 5vw, 3rem); line-height: 0.9;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .asof { color: var(--mute); font-size: 0.82rem; }
+    .lede { color: var(--paper); font-size: 0.9rem; margin: 0 0 12px; max-width: 70ch; }
+
+    .landed {
+      border: 1px solid rgba(227, 180, 26, 0.45);
+      background: rgba(227, 180, 26, 0.07);
+      padding: 10px 12px 12px; margin: 0 0 14px;
+    }
+    .landed h2 {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.82rem; margin: 0 0 8px; font-weight: 600;
+    }
+    .landed-row {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
+    }
+    .landed-row button {
+      display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 8px; align-items: center;
+      text-align: left; background: rgba(21, 27, 36, 0.7); border: 1px solid rgba(227, 180, 26, 0.28);
+      color: inherit; padding: 8px 10px; cursor: pointer; min-height: 56px;
+    }
+    .landed-row button:hover, .landed-row button.on {
+      border-color: var(--caution); background: rgba(227, 180, 26, 0.12);
+    }
+    .landed-row .pill {
+      border: 0; border-radius: 999px; color: #fff; font-size: 0.68rem; font-weight: 600;
+      padding: 3px 8px; font-family: "IBM Plex Sans", sans-serif;
+    }
+    .landed-row .sell { background: var(--sell); }
+    .landed-row .buy { background: var(--buy); }
+    .landed-row b {
+      display: block; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em;
+      text-transform: uppercase; font-size: 0.95rem; line-height: 1.05;
+    }
+    .landed-row small { color: var(--mute); font-size: 0.72rem; }
+    .landed-row .amt { font-weight: 700; color: #eef2f5; white-space: nowrap; font-size: 0.92rem; }
+
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    .chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 12px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em;
+      text-transform: uppercase; font-size: 0.84rem; min-height: 40px; display: inline-flex;
+      align-items: center;
+    }
+    .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+
+    .desk {
+      display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 16px; align-items: start; margin-bottom: 36px;
+    }
+    .wire h2, .focus h2 {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.82rem; margin: 0 0 8px; font-weight: 600;
+    }
+    .wire-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .wrow {
+      display: grid; grid-template-columns: 4.6rem 4.4rem minmax(0, 1fr) auto;
+      gap: 8px; align-items: center; width: 100%; text-align: left;
+      background: rgba(37, 45, 56, 0.92); border: 1px solid #3a4452;
+      border-left: 3px solid #5b6573; color: inherit; padding: 7px 10px; cursor: pointer;
+    }
+    .wrow.buy { border-left-color: var(--buy); }
+    .wrow.sell { border-left-color: var(--sell); }
+    .wrow.fresh { box-shadow: inset 0 1px 0 rgba(227, 180, 26, 0.45); }
+    .wrow.flagged { background: rgba(194, 48, 42, 0.08); }
+    .wrow.on {
+      border-color: var(--caution); background: rgba(227, 180, 26, 0.1);
+    }
+    .wrow .when { color: var(--mute); font-size: 0.72rem; white-space: nowrap; }
+    .wrow .pill {
+      border: 0; border-radius: 999px; color: #fff; font-size: 0.68rem; font-weight: 600;
+      padding: 3px 8px; font-family: "IBM Plex Sans", sans-serif; justify-self: start;
+    }
+    .wrow.buy .pill { background: var(--buy); }
+    .wrow.sell .pill { background: var(--sell); }
+    .wrow .mid { min-width: 0; }
+    .wrow .nm {
+      display: block; font-weight: 600; font-size: 0.86rem; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .wrow .co {
+      display: block; color: var(--mute); font-size: 0.72rem; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .heat {
+      display: flex; gap: 2px; align-items: flex-end; height: 16px; margin: 0 0 2px;
+    }
+    .heat i {
+      width: 7px; height: 6px; background: #2a3340; border: 1px solid #3a4452;
+    }
+    .heat i.on { background: #eef2f5; border-color: #eef2f5; height: 14px; }
+    .heat i.fill { background: rgba(54, 153, 157, 0.55); border-color: #36999d; height: 10px; }
+    .wrow.sell .heat i.on { background: #ef7a74; border-color: #ef7a74; }
+    .wrow.buy .heat i.on { background: #7dcf7a; border-color: #7dcf7a; }
+    .wrow .amt { font-weight: 700; color: #eef2f5; font-size: 0.88rem; white-space: nowrap; text-align: right; }
+    .badge {
+      display: inline-block; margin-left: 6px; padding: 0 5px; border: 1px solid var(--caution);
+      color: var(--caution); font-family: "Barlow Condensed", sans-serif; font-size: 0.62rem;
+      letter-spacing: 0.08em; text-transform: uppercase; vertical-align: 1px;
+    }
+    .badge.red { border-color: #ef7a74; color: #ef7a74; }
+
+    .focus {
+      position: sticky; top: 62px;
+      background: rgba(21, 27, 36, 0.94); border: 1px solid #4a5563; padding: 16px 16px 18px;
+    }
+    .focus .who {
+      font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; font-size: 1.7rem; line-height: 0.95; text-decoration: none;
+      color: var(--white);
+    }
+    .focus .who:hover { color: var(--teal); }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .ch {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.7rem; padding: 3px 8px; border: 1px solid #5b6573; color: var(--paper);
+    }
+    .ch.sen { border-color: var(--teal); color: var(--teal); }
+    .ch.wh { border-color: var(--caution); color: var(--caution); }
+    .ch.hot { border-color: var(--caution); color: var(--caution); }
+    .ch.bad { border-color: #ef7a74; color: #ef7a74; }
+    .focus-pay { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 14px; }
+    .focus .pill {
+      border: 0; border-radius: 999px; color: #fff; font-weight: 600; padding: 5px 12px;
+      font-family: "IBM Plex Sans", sans-serif;
+    }
+    .focus .pill.buy { background: var(--buy); }
+    .focus .pill.sell { background: var(--sell); }
+    .focus .hero { font-size: 1.8rem; font-weight: 700; color: #eef2f5; letter-spacing: -0.02em; }
+    .asset a {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+      font-weight: 700; color: var(--white); text-decoration: none; margin-right: 6px;
+    }
+    .asset a:hover { color: var(--teal); }
+    .asset { font-size: 0.95rem; margin: 0 0 4px; }
+    .quiet { color: var(--mute); font-size: 0.8rem; margin: 0 0 14px; }
+
+    .ladder h3, .lag h3 {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mute); font-size: 0.72rem; margin: 0 0 8px; font-weight: 600;
+    }
+    .buckets { display: flex; flex-direction: column; gap: 4px; margin: 0 0 16px; }
+    .buckets li {
+      display: grid; grid-template-columns: 7.2rem 1fr auto; gap: 8px; align-items: center;
+      list-style: none; font-size: 0.75rem; color: var(--mute);
+    }
+    .buckets .bar { height: 8px; background: #1c2430; border: 1px solid #3a4452; position: relative; }
+    .buckets .bar span { display: block; height: 100%; width: 0; background: #3a4452; }
+    .buckets li.on { color: var(--white); font-weight: 600; }
+    .buckets li.on .bar { border-color: var(--white); }
+    .buckets li.on .bar span { width: 100%; background: #eef2f5; }
+    .buckets li.fill .bar span { width: 100%; background: rgba(54, 153, 157, 0.45); }
+    .buckets li.sell.on .bar span { background: #d45a55; }
+    .buckets li.buy.on .bar span { background: #2f9e4a; }
+
+    .lag-track {
+      display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: center;
+      margin: 0 0 6px;
+    }
+    .lag-track b { font-size: 0.8rem; }
+    .lag-bar { height: 4px; background: #3a4452; position: relative; }
+    .lag-bar i {
+      position: absolute; top: -3px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--caution);
+    }
+    .lag-note { color: var(--mute); font-size: 0.78rem; margin: 0 0 16px; }
+    .lag-note.late { color: #ef7a74; }
+    .lag-note.fresh { color: var(--caution); }
+
+    .cta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .btn {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; font-weight: 600; font-size: 0.85rem; padding: 10px 14px;
+      border: 2px solid var(--caution); color: var(--caution); min-height: 40px;
+      display: inline-flex; align-items: center;
+    }
+    .btn.fill { background: var(--caution); color: #1a1404; }
+
+    footer { border-top: 2px solid var(--caution); }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    footer a { color: var(--caution); text-decoration: none; }
+    .tabbar { display: none; }
+    .mob-hint { display: none; color: var(--mute); font-size: 0.75rem; margin: 0 0 8px; }
+
+    @media (max-width: 980px) {
+      .desk { grid-template-columns: 1fr; }
+      .focus { position: static; order: -1; }
+      .landed-row {
+        grid-template-columns: none;
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .landed-row::-webkit-scrollbar { display: none; }
+      .landed-row button { flex: 0 0 78%; }
+    }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 20px); }
+      .qc-nav { display: none; }
+      .qc-header .mark span { display: none; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1; min-height: 48px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.03em; text-transform: uppercase;
+        font-size: 0.72rem; color: var(--paper); text-decoration: none; border-top: 2px solid transparent;
+      }
+      .tabbar a.on { color: var(--caution); border-top-color: var(--caution); }
+      body { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 8px); }
+      .wrow { grid-template-columns: 3.6rem 3.8rem minmax(0, 1fr) auto; }
+      .focus { padding: 10px 12px; }
+      .focus .who { font-size: 1.22rem; }
+      .focus .hero { font-size: 1.28rem; }
+      .mob-hint { display: none; }
+      .lede { display: none; }
+      .ladder { display: none; }
+      .quiet { display: none; }
+      .asof { display: none; }
+      h1 { font-size: 1.55rem; }
+      .landed { margin-bottom: 8px; padding: 8px 10px; }
+      .landed-row button { flex: 0 0 72%; min-height: 48px; }
+      .cta .btn { padding: 8px 12px; min-height: 36px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" class="on" aria-current="page">Tape</a>
+        <a href="landed.html">Filed</a>
+        <a href="tells.html">Patterns</a>
+        <a href="signals.html">Heat</a>
+        <a href="paper.html">Paper</a>
+      </nav>
+      <a class="qc-mode" href="insiders.html">Insiders</a>
+    </div>
+  </header>
+  <div class="mockbar">
+    <div class="wrap mockbar-inner">
+      <p class="flag">Mock data · layout only · not live</p>
+      <div class="mock-opts">
+        <a href="_mock-politician-tape-A.html">A Dense</a>
+        <a href="_mock-politician-tape-B.html">B Wire</a>
+        <a class="on" href="_mock-politician-tape-C.html">C Briefing</a>
+        <a href="_mock-politician-tape-BC.html">B+C Chart</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="main">
+    <div class="headrow">
+      <div>
+        <p class="kicker">Live briefing</p>
+        <h1>Politicians</h1>
+      </div>
+      <p class="asof">Data of Sep 6, 2026, 6:20 PM ET</p>
+    </div>
+    <p class="lede">Just-filed rail on top. Wire on the left, focus on the right: amount as a STOCK Act bucket, trade-to-file lag, owner, optional committee flag. Click a print.</p>
+
+    <section class="landed" aria-label="Just filed">
+      <h2>Just filed · 3 prints</h2>
+      <div class="landed-row" id="landed">
+        <button type="button" data-id="0" class="on">
+          <span class="pill sell">Sell</span>
+          <span><b>Jackson</b><small>VSAT · House</small></span>
+          <span class="amt">$1K–$15K</span>
+        </button>
+        <button type="button" data-id="1">
+          <span class="pill sell">Sell</span>
+          <span><b>Whitehouse</b><small>NVDA · Senate</small></span>
+          <span class="amt">$15K–$50K</span>
+        </button>
+        <button type="button" data-id="2">
+          <span class="pill sell">Sell</span>
+          <span><b>Whitehouse</b><small>LRCX · Senate</small></span>
+          <span class="amt">$1K–$15K</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="windows">
+      <button type="button" class="chip on">90 days</button>
+      <button type="button" class="chip">$50K+</button>
+      <button type="button" class="chip">$250K+</button>
+      <button type="button" class="chip">Buys</button>
+      <button type="button" class="chip">Sells</button>
+      <button type="button" class="chip">Senate</button>
+      <button type="button" class="chip">House</button>
+      <button type="button" class="chip">Conflicts</button>
+    </div>
+
+    <div class="desk">
+      <section class="wire">
+        <h2>Live wire · 12 prints</h2>
+        <p class="mob-hint">Tap a row to load the briefing.</p>
+        <ol class="wire-list" id="wire"></ol>
+      </section>
+      <aside class="focus" id="focus" aria-live="polite"></aside>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" class="on">Tape</a>
+    <a href="landed.html">Filed</a>
+    <a href="tells.html">Patterns</a>
+    <a href="signals.html">Heat</a>
+    <a href="paper.html">Paper</a>
+  </nav>
+  <script>
+    const BUCKETS = ["$1K–$15K", "$15K–$50K", "$50K–$100K", "$100K–$250K", "$250K–$500K", "$500K–$1M", "$1M–$5M"];
+    const ROWS = [
+      { who: "Jonathan Jackson", id: "jonathan-jackson", chamber: "House", ch: "", side: "sell", ticker: "VSAT", company: "ViaSat", industry: "Communications", amt: "$1K–$15K", bucket: 0, owner: "Joint", trade: "Aug 28, 2026", filed: "Sep 2, 2026", tradeShort: "Aug 28", lag: 5, fresh: true, conflict: "" },
+      { who: "Sheldon Whitehouse", id: "sheldon-whitehouse", chamber: "Senate", ch: "sen", side: "sell", ticker: "NVDA", company: "NVIDIA", industry: "Semiconductors", amt: "$15K–$50K", bucket: 1, owner: "Self", trade: "Aug 13, 2026", filed: "Sep 2, 2026", tradeShort: "Aug 13", lag: 20, fresh: true, conflict: "" },
+      { who: "Sheldon Whitehouse", id: "sheldon-whitehouse", chamber: "Senate", ch: "sen", side: "sell", ticker: "LRCX", company: "Lam Research", industry: "Semiconductors", amt: "$1K–$15K", bucket: 0, owner: "Spouse", trade: "Aug 13, 2026", filed: "Sep 2, 2026", tradeShort: "Aug 13", lag: 20, fresh: true, conflict: "" },
+      { who: "John McGuire", id: "john-j-mr-mcguire", chamber: "House", ch: "", side: "buy", ticker: "NVDA", company: "NVIDIA", industry: "Semiconductors", amt: "$1K–$15K", bucket: 0, owner: "Spouse", trade: "Aug 18, 2026", filed: "Sep 1, 2026", tradeShort: "Aug 18", lag: 14, fresh: false, conflict: "" },
+      { who: "John McGuire", id: "john-j-mr-mcguire", chamber: "House", ch: "", side: "sell", ticker: "AAPL", company: "Apple", industry: "Technology", amt: "$1K–$15K", bucket: 0, owner: "Spouse", trade: "Aug 18, 2026", filed: "Sep 1, 2026", tradeShort: "Aug 18", lag: 14, fresh: false, conflict: "" },
+      { who: "Kevin Hern", id: "kevin-hern", chamber: "House", ch: "", side: "sell", ticker: "HD", company: "Home Depot", industry: "Retail", amt: "$50K–$100K", bucket: 2, owner: "Joint", trade: "Aug 24, 2026", filed: "Aug 27, 2026", tradeShort: "Aug 24", lag: 3, fresh: false, conflict: "" },
+      { who: "Kevin Hern", id: "kevin-hern", chamber: "House", ch: "", side: "sell", ticker: "PG", company: "Procter & Gamble", industry: "Consumer staples", amt: "$50K–$100K", bucket: 2, owner: "Joint", trade: "Aug 24, 2026", filed: "Aug 27, 2026", tradeShort: "Aug 24", lag: 3, fresh: false, conflict: "" },
+      { who: "Tracey Mann", id: "tracey-robert-mann", chamber: "House", ch: "", side: "buy", ticker: "NVDA", company: "NVIDIA", industry: "Semiconductors", amt: "$500K–$1M", bucket: 5, owner: "Spouse", trade: "Aug 4, 2026", filed: "Aug 13, 2026", tradeShort: "Aug 4", lag: 9, fresh: false, conflict: "" },
+      { who: "Tracey Mann", id: "tracey-robert-mann", chamber: "House", ch: "", side: "sell", ticker: "META", company: "Meta Platforms", industry: "Technology", amt: "$500K–$1M", bucket: 5, owner: "Spouse", trade: "Aug 4, 2026", filed: "Aug 13, 2026", tradeShort: "Aug 4", lag: 9, fresh: false, conflict: "" },
+      { who: "Ro Khanna", id: "ro-khanna", chamber: "House", ch: "", side: "buy", ticker: "SCHW", company: "Charles Schwab", industry: "Financials", amt: "$100K–$250K", bucket: 3, owner: "Spouse", trade: "Jul 20, 2026", filed: "Aug 7, 2026", tradeShort: "Jul 20", lag: 18, fresh: false, conflict: "Financial services" },
+      { who: "Ro Khanna", id: "ro-khanna", chamber: "House", ch: "", side: "buy", ticker: "NEE", company: "NextEra Energy", industry: "Utilities", amt: "$100K–$250K", bucket: 3, owner: "Child", trade: "Jul 20, 2026", filed: "Aug 7, 2026", tradeShort: "Jul 20", lag: 18, fresh: false, conflict: "" },
+      { who: "Donald J. Trump", id: "donald-j-trump", chamber: "White House", ch: "wh", side: "buy", ticker: "GS", company: "Goldman Sachs", industry: "Financials", amt: "$250K–$500K", bucket: 4, owner: "Self", trade: "Jun 15, 2026", filed: "Aug 12, 2026", tradeShort: "Jun 15", lag: 58, fresh: false, conflict: "" }
+    ];
+
+    function heat(bucket) {
+      return BUCKETS.map((_, i) => {
+        const cls = i === bucket ? "on" : i < bucket ? "fill" : "";
+        return "<i class=\"" + cls + "\"></i>";
+      }).join("");
+    }
+
+    function paintWire(active) {
+      document.getElementById("wire").innerHTML = ROWS.map((r, i) => {
+        const cls = [r.side, r.fresh ? "fresh" : "", r.conflict ? "flagged" : "", i === active ? "on" : ""].filter(Boolean).join(" ");
+        const tags = (r.fresh ? "<span class=\"badge\">New</span>" : "") + (r.conflict ? "<span class=\"badge red\">Flag</span>" : "");
+        return "<li><button type=\"button\" class=\"wrow " + cls + "\" data-id=\"" + i + "\">" +
+          "<span class=\"when\">" + r.tradeShort + "</span>" +
+          "<span class=\"pill\">" + (r.side === "buy" ? "Buy" : "Sell") + "</span>" +
+          "<span class=\"mid\"><span class=\"nm\">" + r.who + tags + "</span>" +
+          "<span class=\"co\">" + r.ticker + " " + r.company + " · " + r.chamber + "</span></span>" +
+          "<span><span class=\"heat\" aria-hidden=\"true\">" + heat(r.bucket) + "</span>" +
+          "<span class=\"amt\">" + r.amt + "</span></span></button></li>";
+      }).join("");
+    }
+
+    function lagNote(r) {
+      if (r.fresh) return "<p class=\"lag-note fresh\">Just became public. Trade itself may be older.</p>";
+      if (r.lag > 45) return "<p class=\"lag-note late\">" + r.lag + " days from trade to file — outside the usual 45-day window.</p>";
+      return "<p class=\"lag-note\">" + r.lag + " days from trade to public filing.</p>";
+    }
+
+    function paintFocus(i) {
+      const r = ROWS[i];
+      const side = r.side === "buy" ? "Buy" : "Sell";
+      const buckets = BUCKETS.map((label, n) => {
+        const cls = [n === r.bucket ? "on " + r.side : "", n < r.bucket ? "fill" : ""].filter(Boolean).join(" ");
+        return "<li class=\"" + cls + "\"><span>" + label + "</span><span class=\"bar\"><span></span></span><span>" +
+          (n === r.bucket ? "this print" : "") + "</span></li>";
+      }).join("");
+      const pct = Math.min(100, Math.round((r.lag / 45) * 100));
+      document.getElementById("focus").innerHTML =
+        "<h2>Focus</h2>" +
+        "<a class=\"who\" href=\"politician.html?id=" + r.id + "\">" + r.who + "</a>" +
+        "<div class=\"chips\">" +
+          "<span class=\"ch " + r.ch + "\">" + r.chamber + "</span>" +
+          "<span class=\"ch\">" + r.owner + "</span>" +
+          (r.fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
+          (r.conflict ? "<span class=\"ch bad\">Overlap · " + r.conflict + "</span>" : "") +
+        "</div>" +
+        "<div class=\"focus-pay\"><span class=\"pill " + r.side + "\">" + side + "</span><span class=\"hero\">" + r.amt + "</span></div>" +
+        "<p class=\"asset\"><a href=\"ticker.html?t=" + r.ticker + "\">" + r.ticker + "</a>" + r.company + "</p>" +
+        "<p class=\"quiet\">" + r.industry + " · official STOCK Act range, not a share count</p>" +
+        "<div class=\"ladder\"><h3>Amount bucket</h3><ul class=\"buckets\">" + buckets + "</ul></div>" +
+        "<div class=\"lag\"><h3>Trade → filed</h3>" +
+          "<div class=\"lag-track\"><b>" + r.trade.replace(", 2026", "") + "</b>" +
+          "<span class=\"lag-bar\"><i style=\"left:calc(" + pct + "% - 5px)\"></i></span>" +
+          "<b>" + r.filed.replace(", 2026", "") + "</b></div>" +
+          lagNote(r) +
+        "</div>" +
+        "<div class=\"cta\">" +
+          "<a class=\"btn fill\" href=\"politician.html?id=" + r.id + "\">Open politician</a>" +
+          "<a class=\"btn\" href=\"ticker.html?t=" + r.ticker + "\">Open ticker</a>" +
+        "</div>";
+    }
+
+    let active = 0;
+    function select(i) {
+      active = i;
+      paintWire(active);
+      paintFocus(active);
+      document.querySelectorAll("#landed button").forEach((b) => {
+        b.classList.toggle("on", Number(b.dataset.id) === active);
+      });
+    }
+    paintWire(0);
+    paintFocus(0);
+    document.getElementById("wire").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-id]");
+      if (btn) select(Number(btn.dataset.id));
+    });
+    document.getElementById("landed").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-id]");
+      if (btn) select(Number(btn.dataset.id));
+    });
+  </script>
+</body>
+</html>

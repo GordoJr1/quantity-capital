@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <title>Politicians Tape — Option A Dense · MOCK</title>
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --fed: #1e4b8a; --red: #c2302a; --caution: #e3b41a; --mute: #8b96a3;
+      --ink: #1a1d26; --teal: #36999d; --navy: #1c2d4e;
+      --buy: #2f9e4a; --sell: #d45a55; --shell-bg: rgba(26, 29, 38, 0.96);
+      --focus: #e3b41a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    .qc-skip {
+      position: absolute; left: 12px; top: 8px; z-index: 90;
+      padding: 8px 12px; background: var(--ink); color: var(--caution);
+      border: 2px solid var(--caution); font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      transform: translateY(-200%);
+    }
+    .qc-skip:focus { transform: none; }
+    .qc-header {
+      position: sticky; top: 0; z-index: 70; border-bottom: 2px solid var(--teal);
+      background: var(--shell-bg); backdrop-filter: blur(10px);
+    }
+    .qc-header-inner {
+      display: flex; align-items: center; gap: 12px 16px; min-height: 48px; padding: 6px 0;
+    }
+    .mark {
+      font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; font-size: 1rem; color: inherit; text-decoration: none;
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
+    .mark span { color: var(--teal); }
+    .qc-nav {
+      display: flex; flex: 1; align-items: center; justify-content: flex-end;
+      gap: 2px 4px; flex-wrap: wrap;
+    }
+    .qc-nav a {
+      color: var(--paper); text-decoration: none; min-height: 44px; padding: 0 10px;
+      display: inline-flex; align-items: center; font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.9rem;
+      border-bottom: 2px solid transparent;
+    }
+    .qc-nav a:hover, .qc-nav a.on { color: var(--caution); }
+    .qc-nav a.on { border-bottom-color: var(--caution); }
+    .qc-mode {
+      min-height: 44px; padding: 0 12px; display: inline-flex; align-items: center;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.78rem; color: var(--mute); text-decoration: none; border: 1px solid #5b6573;
+    }
+    .qc-mode:hover { color: var(--caution); border-color: var(--caution); }
+
+    .mockbar {
+      background: rgba(227, 180, 26, 0.1); border-bottom: 1px solid rgba(227, 180, 26, 0.35);
+    }
+    .mockbar-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      min-height: 40px; padding: 6px 0; flex-wrap: wrap;
+    }
+    .mockbar .flag {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.82rem;
+    }
+    .mock-opts { display: flex; gap: 6px; flex-wrap: wrap; }
+    .mock-opts a {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 0.78rem; text-decoration: none; color: var(--paper); border: 1px solid #4a5563;
+      padding: 6px 10px; min-height: 32px; display: inline-flex; align-items: center;
+    }
+    .mock-opts a.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.1); }
+
+    .sub-bar {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; padding: 10px 0 0; flex-wrap: wrap;
+    }
+    .kicker {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--caution); font-size: 0.9rem; margin: 0;
+    }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 0 auto; }
+    h1 {
+      font-family: "Barlow Condensed", sans-serif; font-weight: 700;
+      font-size: clamp(2.4rem, 7vw, 4.6rem); line-height: 0.88;
+      letter-spacing: 0.04em; text-transform: uppercase; margin: 2px 0 12px;
+    }
+    .lede { color: var(--paper); max-width: 62ch; line-height: 1.45; margin: 0 0 14px; font-size: 0.95rem; }
+
+    .pulse {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0 0 16px;
+    }
+    .pulse article {
+      background: rgba(37, 45, 56, 0.88); border: 1px solid #3a4452; padding: 10px 12px;
+    }
+    .pulse b {
+      display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.45rem;
+      letter-spacing: 0.04em; color: var(--white); line-height: 1;
+    }
+    .pulse span {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--mute); font-size: 0.72rem;
+    }
+    .pulse article.hot b { color: var(--caution); }
+    .pulse article.up b { color: #7dcf7a; }
+    .pulse article.down b { color: #ef7a74; }
+
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    .chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 14px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em;
+      text-transform: uppercase; font-size: 0.9rem; min-height: 44px; display: inline-flex;
+      align-items: center; cursor: default;
+    }
+    .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .picker { max-width: 420px; margin: 0 0 12px; }
+    .picker input {
+      width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
+      padding: 10px 12px; font: inherit; min-height: 44px;
+    }
+    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 6px; }
+
+    .qc-txn-head {
+      display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+      gap: 8px 14px; margin: 10px 0 8px;
+    }
+    .qc-txn-legend {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+      color: var(--mute); font-size: 0.72rem; margin: 0;
+    }
+    .leg-buy, .leg-sell { color: var(--paper); }
+    .leg-buy::before, .leg-sell::before {
+      content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+      margin-right: 6px; vertical-align: 1px;
+    }
+    .leg-buy::before { background: #3d9a4a; }
+    .leg-sell::before { background: #c45c58; }
+    .qc-txn-kicker {
+      margin: 0 0 0 auto; font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--caution); font-size: 0.9rem;
+    }
+
+    .tape { list-style: none; margin: 0 0 36px; padding: 0; }
+    .cols, .row {
+      display: grid; align-items: center; column-gap: 10px;
+    }
+    .cols {
+      display: none; padding: 6px 12px; color: var(--mute);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.72rem; border-bottom: 1px solid #3a4452;
+    }
+    .row {
+      background: rgba(37, 45, 56, 0.92); border: 1px solid #3a4452;
+      border-left: 4px solid #5b6573; padding: 11px 12px 10px;
+      border-radius: 10px; margin: 0 0 8px;
+      grid-template-columns: minmax(0, 1fr) max-content;
+      grid-template-areas: "who end" "sub sub";
+      row-gap: 3px;
+    }
+    .row.buy { border-left-color: var(--buy); }
+    .row.sell { border-left-color: var(--sell); }
+    .row.fresh { box-shadow: inset 0 1px 0 rgba(227, 180, 26, 0.45); }
+    .who { grid-area: who; min-width: 0; }
+    .name {
+      font-weight: 600; font-size: 0.94rem; color: var(--white); text-decoration: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline;
+    }
+    .name:hover { color: var(--teal); }
+    .role { color: var(--mute); font-size: 0.72rem; font-weight: 400; }
+    .role::before { content: "– "; color: #5b6573; }
+    .end { grid-area: end; display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+    .pill {
+      border: 0; border-radius: 999px; background: #5c6570; color: #fff;
+      font-family: "IBM Plex Sans", sans-serif; font-weight: 600; font-size: 0.74rem;
+      padding: 4px 11px; line-height: 1.2; white-space: nowrap;
+    }
+    .row.buy .pill { background: var(--buy); }
+    .row.sell .pill { background: var(--sell); }
+    .hero {
+      font-weight: 700; font-size: 1.22rem; color: #eef2f5; white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .sub {
+      grid-area: sub; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px;
+      color: var(--mute); font-size: 0.78rem; min-width: 0;
+    }
+    .tk {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--paper); text-decoration: none; font-size: 0.86rem;
+    }
+    .tk:hover { color: var(--teal); }
+    .co { color: var(--paper); }
+    .tag {
+      display: inline-block; padding: 1px 6px; border: 1px solid var(--caution); color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; font-size: 0.66rem; letter-spacing: 0.1em;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .date, .filed, .owner, .co-cell { display: none; }
+
+    footer { border-top: 2px solid var(--caution); margin-top: 12px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    footer a { color: var(--caution); text-decoration: none; }
+    .tabbar { display: none; }
+
+    @media (min-width: 900px) {
+      .cols, .row {
+        grid-template-columns: 6.6rem minmax(11rem, 1.35fr) minmax(10rem, 1.8fr) 5.4rem minmax(6.4rem, 0.95fr) 6.2rem 4.8rem;
+        grid-template-areas: "date who co chip hero filed owner";
+        column-gap: 10px; row-gap: 0;
+      }
+      .cols { display: grid; }
+      .tape { gap: 0; }
+      .row {
+        margin: 0; border-radius: 0; border-left-width: 3px; padding: 5px 12px;
+        border-top: 0; min-height: 36px;
+      }
+      .row:first-of-type { border-top: 1px solid #3a4452; }
+      .end { display: contents; }
+      .sub { display: none; }
+      .date, .filed, .owner, .co-cell { display: block; min-width: 0; }
+      .date { grid-area: date; color: var(--paper); font-size: 0.84rem; white-space: nowrap; }
+      .who { display: flex; align-items: baseline; gap: 0.35em; min-width: 0; overflow: hidden; }
+      .who .role { display: inline; }
+      .who .tag { flex: 0 0 auto; }
+      .co-cell {
+        grid-area: co; display: flex; align-items: baseline; gap: 0.45em;
+        min-width: 0; overflow: hidden; text-decoration: none; color: var(--white);
+        font-size: 0.84rem; font-weight: 600;
+      }
+      .co-cell .tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; color: inherit; }
+      .co-cell .co-name {
+        flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+        white-space: nowrap; font-weight: 600; color: inherit;
+      }
+      .co-cell:hover, .co-cell:hover .tk, .co-cell:hover .co-name { color: var(--teal); }
+      .pill { grid-area: chip; justify-self: start; }
+      .hero { grid-area: hero; font-size: 0.95rem; }
+      .filed { grid-area: filed; color: var(--mute); font-size: 0.78rem; white-space: nowrap; }
+      .owner {
+        grid-area: owner; color: var(--mute); font-size: 0.78rem; text-transform: capitalize;
+        white-space: nowrap;
+      }
+      .date .tag { margin-left: 6px; }
+    }
+
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 20px); }
+      .qc-nav { display: none; }
+      .qc-header .mark span { display: none; }
+      .qc-mode { font-size: 0.7rem; padding: 0 10px; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1; min-height: 48px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.03em; text-transform: uppercase;
+        font-size: 0.72rem; color: var(--paper); text-decoration: none; border-top: 2px solid transparent;
+      }
+      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
+      .tabbar a.on { border-top-color: var(--caution); }
+      body { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 8px); }
+      h1 { font-size: clamp(1.55rem, 7.2vw, 2.15rem); }
+      .lede { display: none; }
+      .pulse {
+        display: flex; grid-template-columns: none; gap: 14px 16px; margin: 0 0 10px;
+      }
+      .pulse article { background: none; border: 0; padding: 0; white-space: nowrap; }
+      .pulse b { font-size: 1.15rem; display: inline; margin-right: 4px; }
+      .pulse span { font-size: 0.62rem; }
+      .windows { margin-bottom: 8px; }
+      .hero { font-size: 1.12rem; }
+      .who { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+      .who .role { display: inline; font-size: 0.7rem; }
+      .who .role::before { content: none; }
+      .who .tag { display: none; }
+    }
+    @media (max-width: 560px) {
+      .sub { gap: 2px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Politician tape">
+        <a href="index.html" class="on" aria-current="page">Tape</a>
+        <a href="landed.html">Filed</a>
+        <a href="tells.html">Patterns</a>
+        <a href="signals.html">Heat</a>
+        <a href="paper.html">Paper</a>
+      </nav>
+      <a class="qc-mode" href="insiders.html">Insiders</a>
+    </div>
+  </header>
+  <div class="mockbar">
+    <div class="wrap mockbar-inner">
+      <p class="flag">Mock data · layout only · not live</p>
+      <div class="mock-opts">
+        <a class="on" href="_mock-politician-tape-A.html">A Dense</a>
+        <a href="_mock-politician-tape-B.html">B Wire</a>
+        <a href="_mock-politician-tape-C.html">C Briefing</a>
+        <a href="_mock-politician-tape-BC.html">B+C Chart</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" id="main">
+    <div class="sub-bar">
+      <p class="kicker">Institutional tape</p>
+      <p class="asof">Data of Sep 6, 2026, 6:20 PM ET</p>
+    </div>
+    <h1>Politicians</h1>
+    <p class="lede">STOCK Act / OGE 278-T prints. Amounts are official ranges, not share counts. Dense desk language — politician, chamber, ticker, side, range.</p>
+
+    <div class="pulse" aria-label="Tape pulse">
+      <article class="hot"><b>3</b><span>Just filed</span></article>
+      <article class="up"><b>5</b><span>Buys in view</span></article>
+      <article class="down"><b>7</b><span>Sells in view</span></article>
+      <article><b>1</b><span>Committee flag</span></article>
+    </div>
+
+    <div class="windows">
+      <button type="button" class="chip">30 days</button>
+      <button type="button" class="chip on">90 days</button>
+      <button type="button" class="chip">18 months</button>
+      <button type="button" class="chip">Buys</button>
+      <button type="button" class="chip">Sells</button>
+      <button type="button" class="chip">Senate</button>
+      <button type="button" class="chip">House</button>
+      <button type="button" class="chip">Just filed</button>
+    </div>
+    <div class="picker">
+      <input type="search" placeholder="Search politician, ticker, or company" value="" readonly />
+    </div>
+    <p class="count">12 trades in view · mock sample</p>
+
+    <div class="qc-txn-head">
+      <p class="qc-txn-legend">
+        <span class="leg-buy">Buy</span>
+        <span class="leg-sell">Sell</span>
+        <span>Amount is a STOCK Act range. Filed date is when it became public.</span>
+      </p>
+      <p class="qc-txn-kicker">Tape</p>
+    </div>
+
+    <ol class="tape">
+      <li class="cols" aria-hidden="true">
+        <span>Date</span><span>Politician</span><span>Company</span><span>Side</span><span>Amount</span><span>Filed</span><span>Owner</span>
+      </li>
+
+      <li class="row sell fresh">
+        <span class="date">Aug 28, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=jonathan-jackson">Jonathan Jackson</a>
+          <span class="role">House</span>
+          <span class="tag">New</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=VSAT"><span class="tk">VSAT</span><span class="co-name">ViaSat</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$1K–$15K</span>
+        </div>
+        <span class="filed">Sep 2, 2026</span>
+        <span class="owner">Joint</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=VSAT">VSAT</a>
+          <span class="co">ViaSat</span>
+          <span>Traded Aug 28 · Filed Sep 2</span>
+          <span>Joint</span>
+          <span class="tag">New</span>
+        </div>
+      </li>
+
+      <li class="row sell fresh">
+        <span class="date">Aug 13, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=sheldon-whitehouse">Sheldon Whitehouse</a>
+          <span class="role">Senate</span>
+          <span class="tag">New</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=NVDA"><span class="tk">NVDA</span><span class="co-name">NVIDIA</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$15K–$50K</span>
+        </div>
+        <span class="filed">Sep 2, 2026</span>
+        <span class="owner">Self</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=NVDA">NVDA</a>
+          <span class="co">NVIDIA</span>
+          <span>Traded Aug 13 · Filed Sep 2</span>
+          <span>Self</span>
+          <span class="tag">New</span>
+        </div>
+      </li>
+
+      <li class="row sell fresh">
+        <span class="date">Aug 13, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=sheldon-whitehouse">Sheldon Whitehouse</a>
+          <span class="role">Senate</span>
+          <span class="tag">New</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=LRCX"><span class="tk">LRCX</span><span class="co-name">Lam Research</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$1K–$15K</span>
+        </div>
+        <span class="filed">Sep 2, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=LRCX">LRCX</a>
+          <span class="co">Lam Research</span>
+          <span>Traded Aug 13 · Filed Sep 2</span>
+          <span>Spouse</span>
+          <span class="tag">New</span>
+        </div>
+      </li>
+
+      <li class="row buy">
+        <span class="date">Aug 18, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=john-j-mr-mcguire">John McGuire</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=NVDA"><span class="tk">NVDA</span><span class="co-name">NVIDIA</span></a>
+        <div class="end">
+          <span class="pill">Buy</span>
+          <span class="hero">$1K–$15K</span>
+        </div>
+        <span class="filed">Sep 1, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=NVDA">NVDA</a>
+          <span class="co">NVIDIA</span>
+          <span>Traded Aug 18 · Filed Sep 1</span>
+          <span>Spouse</span>
+        </div>
+      </li>
+
+      <li class="row sell">
+        <span class="date">Aug 18, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=john-j-mr-mcguire">John McGuire</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=AAPL"><span class="tk">AAPL</span><span class="co-name">Apple</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$1K–$15K</span>
+        </div>
+        <span class="filed">Sep 1, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=AAPL">AAPL</a>
+          <span class="co">Apple</span>
+          <span>Traded Aug 18 · Filed Sep 1</span>
+          <span>Spouse</span>
+        </div>
+      </li>
+
+      <li class="row sell">
+        <span class="date">Aug 24, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=kevin-hern">Kevin Hern</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=HD"><span class="tk">HD</span><span class="co-name">Home Depot</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$50K–$100K</span>
+        </div>
+        <span class="filed">Aug 27, 2026</span>
+        <span class="owner">Joint</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=HD">HD</a>
+          <span class="co">Home Depot</span>
+          <span>Traded Aug 24 · Filed Aug 27</span>
+          <span>Joint</span>
+        </div>
+      </li>
+
+      <li class="row sell">
+        <span class="date">Aug 24, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=kevin-hern">Kevin Hern</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=PG"><span class="tk">PG</span><span class="co-name">Procter &amp; Gamble</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$50K–$100K</span>
+        </div>
+        <span class="filed">Aug 27, 2026</span>
+        <span class="owner">Joint</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=PG">PG</a>
+          <span class="co">Procter &amp; Gamble</span>
+          <span>Traded Aug 24 · Filed Aug 27</span>
+          <span>Joint</span>
+        </div>
+      </li>
+
+      <li class="row buy">
+        <span class="date">Aug 4, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=tracey-robert-mann">Tracey Mann</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=NVDA"><span class="tk">NVDA</span><span class="co-name">NVIDIA</span></a>
+        <div class="end">
+          <span class="pill">Buy</span>
+          <span class="hero">$500K–$1M</span>
+        </div>
+        <span class="filed">Aug 13, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=NVDA">NVDA</a>
+          <span class="co">NVIDIA</span>
+          <span>Traded Aug 4 · Filed Aug 13</span>
+          <span>Spouse</span>
+        </div>
+      </li>
+
+      <li class="row sell">
+        <span class="date">Aug 4, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=tracey-robert-mann">Tracey Mann</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=META"><span class="tk">META</span><span class="co-name">Meta Platforms</span></a>
+        <div class="end">
+          <span class="pill">Sell</span>
+          <span class="hero">$500K–$1M</span>
+        </div>
+        <span class="filed">Aug 13, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=META">META</a>
+          <span class="co">Meta Platforms</span>
+          <span>Traded Aug 4 · Filed Aug 13</span>
+          <span>Spouse</span>
+        </div>
+      </li>
+
+      <li class="row buy">
+        <span class="date">Jul 20, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=ro-khanna">Ro Khanna</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=SCHW"><span class="tk">SCHW</span><span class="co-name">Charles Schwab</span></a>
+        <div class="end">
+          <span class="pill">Buy</span>
+          <span class="hero">$100K–$250K</span>
+        </div>
+        <span class="filed">Aug 7, 2026</span>
+        <span class="owner">Spouse</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=SCHW">SCHW</a>
+          <span class="co">Charles Schwab</span>
+          <span>Traded Jul 20 · Filed Aug 7</span>
+          <span>Spouse</span>
+        </div>
+      </li>
+
+      <li class="row buy">
+        <span class="date">Jul 20, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=ro-khanna">Ro Khanna</a>
+          <span class="role">House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=NEE"><span class="tk">NEE</span><span class="co-name">NextEra Energy</span></a>
+        <div class="end">
+          <span class="pill">Buy</span>
+          <span class="hero">$100K–$250K</span>
+        </div>
+        <span class="filed">Aug 7, 2026</span>
+        <span class="owner">Child</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=NEE">NEE</a>
+          <span class="co">NextEra Energy</span>
+          <span>Traded Jul 20 · Filed Aug 7</span>
+          <span>Child</span>
+        </div>
+      </li>
+
+      <li class="row buy">
+        <span class="date">Jun 15, 2026</span>
+        <div class="who">
+          <a class="name" href="politician.html?id=donald-j-trump">Donald J. Trump</a>
+          <span class="role">White House</span>
+        </div>
+        <a class="co-cell" href="ticker.html?t=GS"><span class="tk">GS</span><span class="co-name">Goldman Sachs</span></a>
+        <div class="end">
+          <span class="pill">Buy</span>
+          <span class="hero">$250K–$500K</span>
+        </div>
+        <span class="filed">Aug 12, 2026</span>
+        <span class="owner">Self</span>
+        <div class="sub">
+          <a class="tk" href="ticker.html?t=GS">GS</a>
+          <span class="co">Goldman Sachs</span>
+          <span>Traded Jun 15 · Filed Aug 12</span>
+          <span>Self</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <nav class="tabbar" aria-label="Politician tape">
+    <a href="index.html" class="on">Tape</a>
+    <a href="landed.html">Filed</a>
+    <a href="tells.html">Patterns</a>
+    <a href="signals.html">Heat</a>
+    <a href="paper.html">Paper</a>
+  </nav>
+</body>
+</html>

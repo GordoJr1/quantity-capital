@@ -1717,10 +1717,19 @@
       }[c]));
     }
 
-    function uniqueFilers(trades) {
+    function canonFilerId(fid, bios) {
+      const aliases = (bios && bios.aliases) || {};
+      return aliases[fid] || fid;
+    }
+
+    function uniqueFilers(trades, bios) {
       const map = new Map();
+      const people = (bios && bios.people) || {};
       trades.forEach((t) => {
-        if (!map.has(t.filer_id)) map.set(t.filer_id, t.filer);
+        const id = canonFilerId(t.filer_id, bios);
+        if (!id || map.has(id)) return;
+        const person = people[id] || {};
+        map.set(id, person.name || person.display || t.filer);
       });
       return Array.from(map, ([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name));
     }
@@ -2329,9 +2338,10 @@
       cutoff.setFullYear(cutoff.getFullYear() - 3);
       const byId = new Map();
       trades.forEach((t) => {
-        if (!t.filer_id || new Date(t.trade_date) < cutoff) return;
-        if (!byId.has(t.filer_id)) byId.set(t.filer_id, []);
-        byId.get(t.filer_id).push(t);
+        const fid = canonFilerId(t.filer_id, bios);
+        if (!fid || new Date(t.trade_date) < cutoff) return;
+        if (!byId.has(fid)) byId.set(fid, []);
+        byId.get(fid).push(t);
       });
       const people = (bios && bios.people) || {};
       const pnlPeople = (tradersFile && tradersFile.people) || {};
@@ -2357,13 +2367,14 @@
       });
       const byTicker = new Map();
       trades.forEach((t) => {
-        if (!t.filer_id || new Date(t.trade_date) < cutoff) return;
+        const fid = canonFilerId(t.filer_id, bios);
+        if (!fid || new Date(t.trade_date) < cutoff) return;
         if ((t.side !== "purchase" && t.side !== "sale") || isBond(t) || isOptionLike(t) || !isChartTicker(t.code)) return;
         const code = t.code.toUpperCase();
         const prev = byTicker.get(code) || { code: code, name: t.company || code, buys: 0, sells: 0, people: new Set() };
         if (t.side === "purchase") prev.buys += 1;
         else prev.sells += 1;
-        prev.people.add(t.filer_id);
+        prev.people.add(fid);
         if (t.company && t.company !== "—") prev.name = String(t.company).replace(/\s+-\s*$/, "");
         byTicker.set(code, prev);
       });
@@ -2517,7 +2528,7 @@
           const td = (b.trade_date || "").localeCompare(a.trade_date || "");
           return td !== 0 ? td : (b.filed_date || "").localeCompare(a.filed_date || "");
         });
-        bindPicker(uniqueFilers(rows));
+        bindPicker(uniqueFilers(rows, bios));
         bindDesk();
 
         function kindPool() {

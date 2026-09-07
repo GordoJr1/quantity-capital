@@ -580,7 +580,7 @@
     const isChartTicker = QC.isChartTicker;
     const esc = QC.esc;
 
-    const id = new URLSearchParams(location.search).get("id");
+    let id = new URLSearchParams(location.search).get("id");
     if (!id) {
       location.replace("index.html#tape");
     }
@@ -969,6 +969,13 @@
       fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} })),
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
     ]).then(([data, bios, tickerFile]) => {
+      const aliases = (bios && bios.aliases) || {};
+      if (aliases[id]) {
+        id = aliases[id];
+        const url = new URL(location.href);
+        url.searchParams.set("id", id);
+        history.replaceState(null, "", url.pathname + url.search + url.hash);
+      }
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = threeYearRows(data);

@@ -1546,9 +1546,6 @@
       text-transform: uppercase;
       grid-column: auto;
     }
-    .focus .chart-legend { color: var(--mute); font-size: 0.7rem; margin: 0 0 8px; }
-    .focus .chart-legend .buy { color: #22c55e; margin-right: 10px; }
-    .focus .chart-legend .sell { color: #f87171; margin-right: 10px; }
     .focus .chart-note {
       color: var(--mute);
       font-size: 0.8rem;
@@ -1581,9 +1578,6 @@
       border-radius: 50%;
       background: var(--caution);
     }
-    .focus .lag-note { color: var(--mute); font-size: 0.76rem; margin: 0 0 10px; }
-    .focus .lag-note.late { color: #ef7a74; }
-    .focus .lag-note.fresh { color: var(--caution); }
   </style>
   <link rel="stylesheet" href="shell.css?v=103" />
 </head>
@@ -1742,7 +1736,6 @@
               <div class="chart-y" id="chart-y" aria-hidden="true"></div>
               <div class="mark-pop" id="mark-pop" hidden></div>
             </div>
-            <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> This print is called out on the company line.</p>
           </div>
           <div id="focus-foot"></div>
         </aside>
@@ -2068,15 +2061,10 @@
         "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
       let lagHtml = "";
       if (lag != null) {
-        let note = "<p class=\"lag-note\">" + lag + " days from trade to public filing.</p>";
-        if (fresh) note = "<p class=\"lag-note fresh\">Just became public. Trade itself may be older.</p>";
-        else if (lag > 45) note = "<p class=\"lag-note late\">" + lag + " days from trade to file — outside the usual 45-day window.</p>";
-        else if (lag < 0) note = "<p class=\"lag-note late\">Trade date is after the filed date on the official PTR.</p>";
         lagHtml = "<div class=\"lag\"><h3>Trade → filed</h3>" +
           "<div class=\"lag-track\"><b>" + escapeHtml(shortDate(t.trade_date)) + "</b>" +
           "<span class=\"lag-bar\"><i style=\"left:calc(" + pct + "% - 5px)\"></i></span>" +
-          "<b>" + escapeHtml(shortDate(t.filed_date)) + "</b></div>" +
-          note + "</div>";
+          "<b>" + escapeHtml(shortDate(t.filed_date)) + "</b></div></div>";
       }
       const tickerBtn = isChartTicker(t.code)
         ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">Open ticker</a>"

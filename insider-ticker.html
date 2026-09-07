@@ -571,8 +571,8 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=92" />
-  <style id="qc-txn-v92">
+  <link rel="stylesheet" href="shell.css?v=96" />
+  <style id="qc-txn-v93">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -588,6 +588,25 @@
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
+    .qc-txn-sh, .qc-txn-cols { display: none; }
+    @media (min-width: 900px) {
+      .qc-txn:not(.qc-txn-tape) {
+        grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
+        grid-template-areas: "id chip date sh hero px after held";
+        column-gap: 10px; row-gap: 0; padding: 5px 12px 5px 10px; border-radius: 0; border-left-width: 3px;
+      }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-end,
+      .qc-txn:not(.qc-txn-tape) .qc-txn-meta { display: contents; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-chip { grid-area: chip; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-date { grid-area: date; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-sh { display: block; grid-area: sh; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-hero { grid-area: hero; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-px { grid-area: px; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-after { grid-area: after; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-held { grid-area: held; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-dot,
+      .qc-txn:not(.qc-txn-tape) .qc-txn-lbl { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -643,7 +662,7 @@
     <ol class="qc-txn-list" id="marks"></ol>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=92"></script>
+  <script src="qc.js?v=96"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -949,7 +968,7 @@
         document.title = ticker + " — " + who + " — Quantity Capital";
       }
 
-      document.getElementById("marks").innerHTML = deals.map((t) => {
+      const tradeHtml = deals.map((t) => {
         const nameHtml = filerId
           ? "<span class=\"qc-txn-name\">" + esc(t.owner === "indirect" ? "Indirect" : t.owner === "direct" ? "Direct" : (t.owner || "self")) + "</span>"
           : "<a class=\"qc-txn-name\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
@@ -957,7 +976,10 @@
           nameHtml: nameHtml,
           tagsHtml: optionTag(t)
         });
-      }).join("") || "<li class=\"muted\">No stock trades on this ticker in the last three years.</li>";
+      }).join("");
+      document.getElementById("marks").innerHTML = tradeHtml
+        ? QC.tradeColsHtml({ nameLabel: filerId ? "Owner" : "Name" }) + tradeHtml
+        : "<li class=\"muted\">No stock trades on this ticker in the last three years.</li>";
 
       if (!prices || !prices.c || prices.c.length < 2) {
         const note = document.getElementById("note");

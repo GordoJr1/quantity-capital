@@ -1314,7 +1314,8 @@
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 16px;
-      padding: 10px 8px 10px 4px;
+      padding: 10px 8px 10px 52px;
+      overflow: hidden;
       box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
       user-select: none;
       margin-bottom: 6px;
@@ -1479,11 +1480,14 @@
       justify-content: unset;
       align-items: unset;
       padding: 0;
+      overflow: hidden;
     }
     .focus .chart-y span {
       position: absolute;
       transform: translate(-100%, -50%);
       padding-right: 8px;
+      padding-left: 4px;
+      box-sizing: border-box;
       color: #e2e8f0;
       font-size: 12px;
       font-weight: 700;
@@ -1509,32 +1513,6 @@
       font-size: 0.8rem;
       padding: 18px 8px;
       text-align: center;
-    }
-    .focus .lag h3 {
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--mute);
-      font-size: 0.72rem;
-      margin: 0 0 8px;
-      font-weight: 600;
-    }
-    .focus .lag-track {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 8px;
-      align-items: center;
-      margin: 0 0 6px;
-    }
-    .focus .lag-track b { font-size: 0.8rem; }
-    .focus .lag-bar { height: 4px; background: #3a4452; position: relative; }
-    .focus .lag-bar i {
-      position: absolute;
-      top: -3px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--caution);
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=103" />
@@ -1993,8 +1971,6 @@
       }
       const ch = chamberClass(t.chamber);
       const fresh = QC.isLanded(t, 72);
-      const lag = fileLag(t);
-      const pct = lag == null ? 0 : Math.min(100, Math.round((Math.max(0, lag) / 45) * 100));
       const tickerHtml = isChartTicker(t.code)
         ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
         : escapeHtml(t.code);
@@ -2008,17 +1984,10 @@
         "</div>" +
         "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) + "</p>" +
         "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
-      let lagHtml = "";
-      if (lag != null) {
-        lagHtml = "<div class=\"lag\"><h3>Trade → filed</h3>" +
-          "<div class=\"lag-track\"><b>" + escapeHtml(shortDate(t.trade_date)) + "</b>" +
-          "<span class=\"lag-bar\"><i style=\"left:calc(" + pct + "% - 5px)\"></i></span>" +
-          "<b>" + escapeHtml(shortDate(t.filed_date)) + "</b></div></div>";
-      }
       const tickerBtn = isChartTicker(t.code)
         ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">Open ticker</a>"
         : "";
-      foot.innerHTML = lagHtml +
+      foot.innerHTML =
         "<div class=\"cta\">" +
           "<a class=\"btn fill\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">Open politician</a>" +
           tickerBtn +

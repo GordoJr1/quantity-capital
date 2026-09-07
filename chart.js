@@ -589,10 +589,20 @@ function syncYAxisOverlayBox(yBox, wrap, svg) {
   const wr = wrap.getBoundingClientRect();
   const sr = svg.getBoundingClientRect();
   if (sr.width < 2 || sr.height < 2) return;
-  yBox.style.left = (sr.left - wr.left) + "px";
+  // Cover the wrap padding box so HTML ticks (translate -100%) stay inside the panel.
+  yBox.style.left = "0px";
   yBox.style.top = (sr.top - wr.top) + "px";
-  yBox.style.width = sr.width + "px";
+  yBox.style.width = wrap.clientWidth + "px";
   yBox.style.height = sr.height + "px";
+  const pad = wrap._qcYPad;
+  const vw = wrap._qcYW;
+  if (!pad || !vw) return;
+  const origin = wr.left + wrap.clientLeft;
+  const gridX = (sr.left - origin) + (pad.l / vw) * sr.width;
+  const spans = yBox.children;
+  for (let i = 0; i < spans.length; i++) {
+    spans[i].style.left = gridX.toFixed(1) + "px";
+  }
 }
 
 function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad) {
@@ -606,14 +616,14 @@ function paintYAxisLabels(wrap, svg, yBox, ticks, yAt, w, h, pad) {
       wrap.appendChild(yBox);
     }
   }
+  wrap._qcYPad = pad;
+  wrap._qcYW = w;
   yBox.setAttribute("aria-hidden", "true");
-  syncYAxisOverlayBox(yBox, wrap, svg);
-  const leftPct = (pad.l / w) * 100;
   yBox.innerHTML = ticks.map((px) => {
     const topPct = (yAt(px) / h) * 100;
-    return "<span style=\"top:" + topPct.toFixed(2) + "%;left:" + leftPct.toFixed(2) + "%\">" +
-      axisPrice(px) + "</span>";
+    return "<span style=\"top:" + topPct.toFixed(2) + "%\">" + axisPrice(px) + "</span>";
   }).join("");
+  syncYAxisOverlayBox(yBox, wrap, svg);
 
   if (!wrap._qcYAxisRO && typeof ResizeObserver !== "undefined") {
     wrap._qcYAxisRO = new ResizeObserver(function () {

@@ -564,9 +564,7 @@
       : (opts.nameHtml || "");
     const tickerHtml = opts.tickerHtml || tapeTickerHtml(t);
     const role = shortRole(t);
-    const tagsHtml = opts.tagsHtml != null
-      ? opts.tagsHtml
-      : (isLanded(t, 72) ? "<span class=\"qc-txn-tag hot\">New</span>" : "");
+    const roleHtml = role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "";
     const company = String(t.company || "").trim();
     const lag = filingLagDays(t);
     const lagHtml = (lag != null && lag >= 3)
@@ -575,8 +573,7 @@
 
     const whoParts = [];
     if (tickerHtml) whoParts.push(tickerHtml);
-    if (role) whoParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
-    if (tagsHtml) whoParts.push(tagsHtml);
+    if (roleHtml) whoParts.push(roleHtml);
 
     const metaParts = [];
     if (t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
@@ -590,14 +587,13 @@
 
     const subNameParts = [];
     if (tickerHtml) subNameParts.push(tickerHtml);
-    if (role) subNameParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
-    if (tagsHtml) subNameParts.push(tagsHtml);
-    if (company) subNameParts.push("<span class=\"qc-txn-co\">" + esc(company) + "</span>");
     if (lagHtml) subNameParts.push(lagHtml);
     const subName = dotted(subNameParts);
     const subNameHtml = subName.length
       ? "<div class=\"qc-txn-id-sub\">" + subName.join("") + "</div>"
       : "";
+    const nameLine = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + "</div>";
+    const companyCol = "<span class=\"qc-txn-company\">" + (company ? esc(company) : "") + "</span>";
 
     const tblParts = [];
     if (t.trade_date) tblParts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
@@ -612,16 +608,20 @@
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
 
     return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\">" +
-      "<div class=\"qc-txn-id\">" + nameHtml + subNameHtml + "</div>" +
+      "<div class=\"qc-txn-id\">" + nameLine + subNameHtml + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       tbl +
+      companyCol +
     "</li>";
   }
 
   function tradeColsHtml(opts) {
     opts = opts || {};
     const nameLabel = opts.nameLabel || "Name";
+    const companyCol = opts.company
+      ? "<span class=\"qc-txn-company\">Company</span>"
+      : "";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
       "<span class=\"qc-txn-chip\">Txn</span>" +
@@ -631,6 +631,7 @@
       "<span class=\"qc-txn-px\">@ Price</span>" +
       "<span class=\"qc-txn-after\">After</span>" +
       "<span class=\"qc-txn-held\">% Held</span>" +
+      companyCol +
     "</li>";
   }
 

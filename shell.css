@@ -490,7 +490,20 @@ summary:focus-visible,
 .qc-txn-sh,
 .qc-txn-cols,
 .qc-txn-id-sub,
-.qc-txn-tbl { display: none; }
+.qc-txn-tbl,
+.qc-txn-company { display: none; }
+.qc-txn-id-line {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.qc-txn-id-line .qc-txn-name,
+.qc-txn-id-line a.qc-txn-name {
+  flex: 0 1 auto;
+}
+.qc-txn-id-line .qc-txn-role { display: none; }
 
 @media (max-width: 820px) {
   .qc-txn-list { gap: 8px; margin-bottom: 22px; }
@@ -518,7 +531,7 @@ summary:focus-visible,
   .qc-txn-tag { display: none; }
 }
 
-/* Tape 3-line hybrid: name | pill+$ ; ticker · role · New ; date · company. */
+/* Tape 3-line hybrid: name | pill+$ ; ticker · role ; date · company. */
 .qc-txn-tape {
   grid-template-columns: minmax(0, 1fr) max-content;
   grid-template-areas:
@@ -669,7 +682,8 @@ summary:focus-visible,
   .qc-txn-cols .qc-txn-hero,
   .qc-txn-cols .qc-txn-px,
   .qc-txn-cols .qc-txn-after,
-  .qc-txn-cols .qc-txn-held {
+  .qc-txn-cols .qc-txn-held,
+  .qc-txn-cols .qc-txn-company {
     display: block;
     min-width: 0;
     overflow: hidden;
@@ -793,7 +807,16 @@ summary:focus-visible,
     font-size: 0.84rem;
   }
 
-  /* Tape extras fold under NAME; 3-line .qc-txn-sub stays mobile/tablet only. */
+  /* Tape: role beside name, ticker under name, Company as last column. */
+  .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-txn.qc-txn-tape {
+    grid-template-columns: minmax(9.5rem, 1.25fr) 5.6rem 6.4rem minmax(4.2rem, 0.6fr) minmax(4.6rem, 0.65fr) minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.6fr) 5rem minmax(8rem, 1.4fr);
+    grid-template-areas: "id chip date sh hero px after held co";
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company {
+    grid-area: co;
+    padding-left: 14px;
+  }
   .qc-txn-tape .qc-txn-sub { display: none; }
   .qc-txn-tape .qc-txn-id {
     flex-direction: column;
@@ -801,6 +824,24 @@ summary:focus-visible,
     justify-content: center;
     gap: 1px;
     overflow: hidden;
+  }
+  .qc-txn-tape .qc-txn-id-line {
+    width: 100%;
+  }
+  .qc-txn-tape .qc-txn-id-line .qc-txn-role {
+    display: inline;
+    flex: 0 0 auto;
+    margin-left: 0.35em;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+  .qc-txn-tape .qc-txn-id-line .qc-txn-role::before {
+    content: "– ";
+    color: #5b6573;
   }
   .qc-txn-tape .qc-txn-id-sub {
     display: block;
@@ -828,18 +869,19 @@ summary:focus-visible,
     letter-spacing: 0.04em;
     color: var(--paper, #d8dde3);
   }
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-role,
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-co,
   .qc-txn-tape .qc-txn-id-sub .qc-txn-lag {
     font-size: inherit;
     color: inherit;
   }
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-tag,
-  .qc-txn-tape .qc-txn-id-sub .qc-txn-tag.hot {
-    display: inline-block;
-    margin-left: 0;
-    padding: 0 4px;
-    font-size: 0.58rem;
-    vertical-align: 1px;
+  .qc-txn-tape .qc-txn-company {
+    display: block;
+    grid-area: co;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    padding-left: 14px;
   }
 }

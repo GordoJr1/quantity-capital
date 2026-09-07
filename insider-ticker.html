@@ -571,8 +571,8 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=97" />
-  <style id="qc-txn-v93">
+  <link rel="stylesheet" href="shell.css?v=98" />
+  <style id="qc-txn-v98">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -591,11 +591,15 @@
     .qc-txn-held.down { color: #ef7a74; }
     .qc-txn-sh, .qc-txn-cols { display: none; }
     @media (min-width: 900px) {
+      .qc-txn-list > .qc-txn-cols,
       .qc-txn:not(.qc-txn-tape) {
-        grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
-        grid-template-areas: "id chip date sh hero px after held";
+        grid-template-columns: 6.7rem minmax(9.2rem, 1.5fr) 5.6rem minmax(4.2rem, 0.7fr) minmax(4.3rem, 0.65fr) minmax(4.6rem, 0.75fr) minmax(5.8rem, 0.85fr) 4.9rem;
+        grid-template-areas: "date id chip sh px hero after held";
+      }
+      .qc-txn:not(.qc-txn-tape) {
         column-gap: 10px; row-gap: 0; padding: 5px 12px 5px 10px; border-radius: 0; border-left-width: 3px;
       }
+      .qc-txn-list > .qc-txn-cols { display: grid; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-end,
       .qc-txn:not(.qc-txn-tape) .qc-txn-meta { display: contents; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-chip { grid-area: chip; }
@@ -609,6 +613,11 @@
       .qc-txn:not(.qc-txn-tape) .qc-txn-held { grid-area: held; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-dot,
       .qc-txn:not(.qc-txn-tape) .qc-txn-lbl { display: none; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-name,
+      .qc-txn:not(.qc-txn-tape) a.qc-txn-name { font-weight: 600; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-id-line { width: 100%; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-id-line .qc-txn-role::before { content: "– "; color: #5b6573; }
     }
   </style>
 </head>
@@ -665,7 +674,7 @@
     <ol class="qc-txn-list" id="marks"></ol>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=97"></script>
+  <script src="qc.js?v=98"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -977,7 +986,8 @@
           : "<a class=\"qc-txn-name\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
         return QC.tradeRowHtml(t, {
           nameHtml: nameHtml,
-          tagsHtml: optionTag(t)
+          tagsHtml: optionTag(t),
+          withRole: !filerId
         });
       }).join("");
       document.getElementById("marks").innerHTML = tradeHtml

@@ -639,13 +639,13 @@
       "</li>";
     }
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+      "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
       "<span class=\"qc-txn-chip\">Txn</span>" +
-      "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-sh\">Shares</span>" +
-      "<span class=\"qc-txn-hero\">Value</span>" +
       "<span class=\"qc-txn-px\">@ Price</span>" +
-      "<span class=\"qc-txn-after\">After</span>" +
+      "<span class=\"qc-txn-hero\">Value</span>" +
+      "<span class=\"qc-txn-after\">Total Held</span>" +
       "<span class=\"qc-txn-held\">% Held</span>" +
     "</li>";
   }
@@ -656,10 +656,17 @@
 
     const cls = txnClass(t);
     const delta = positionDelta(t);
-    const nameHtml = opts.nameHtml || (t.filer ? "<span class=\"qc-txn-name\">" + esc(t.filer) + "</span>" : "");
+    let nameHtml = opts.nameHtml || (t.filer ? "<span class=\"qc-txn-name\">" + esc(t.filer) + "</span>" : "");
     const tickerHtml = opts.tickerHtml || "";
     const tagsHtml = opts.tagsHtml || "";
     const extraMeta = (opts.extraMeta || []).filter(Boolean);
+    if (opts.withRole) {
+      const role = shortRole(t);
+      if (role) {
+        nameHtml = "<div class=\"qc-txn-id-line\">" + nameHtml +
+          "<span class=\"qc-txn-role\">" + esc(role) + "</span></div>";
+      }
+    }
 
     const parts = [];
     if (t.trade_date) parts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");

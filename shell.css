@@ -656,10 +656,11 @@ summary:focus-visible,
     overflow: hidden;
     background: rgba(30, 37, 48, 0.94);
   }
+  /* Officer + ticker Trades: Date | Ticker/Name | Txn | Shares | @ Price | Value | Total Held | % Held. */
   .qc-txn-list > .qc-txn-cols {
     display: grid;
-    grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
-    grid-template-areas: "id chip date sh hero px after held";
+    grid-template-columns: 6.7rem minmax(9.2rem, 1.5fr) 5.6rem minmax(4.2rem, 0.7fr) minmax(4.3rem, 0.65fr) minmax(4.6rem, 0.75fr) minmax(5.8rem, 0.85fr) 4.9rem;
+    grid-template-areas: "date id chip sh px hero after held";
     align-items: center;
     column-gap: 10px;
     padding: 7px 12px 6px 12px;
@@ -705,13 +706,13 @@ summary:focus-visible,
   .qc-txn-cols .qc-txn-sh { grid-area: sh; text-align: right; }
   .qc-txn-cols .qc-txn-hero { grid-area: hero; text-align: right; font-size: inherit; }
   .qc-txn-cols .qc-txn-px { grid-area: px; text-align: right; }
-  .qc-txn-cols .qc-txn-after { grid-area: after; }
+  .qc-txn-cols .qc-txn-after { grid-area: after; text-align: right; }
   .qc-txn-cols .qc-txn-held { grid-area: held; text-align: right; }
 
   .qc-txn {
     display: grid;
-    grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
-    grid-template-areas: "id chip date sh hero px after held";
+    grid-template-columns: 6.7rem minmax(9.2rem, 1.5fr) 5.6rem minmax(4.2rem, 0.7fr) minmax(4.3rem, 0.65fr) minmax(4.6rem, 0.75fr) minmax(5.8rem, 0.85fr) 4.9rem;
+    grid-template-areas: "date id chip sh px hero after held";
     align-items: center;
     column-gap: 10px;
     row-gap: 0;
@@ -814,6 +815,25 @@ summary:focus-visible,
   .qc-txn .qc-txn-name,
   .qc-txn a.qc-txn-name {
     font-size: 0.84rem;
+    font-weight: 600;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-id-line {
+    width: 100%;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-id-line .qc-txn-role {
+    display: inline;
+    flex: 0 0 auto;
+    margin-left: 0.35em;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+  .qc-txn:not(.qc-txn-tape) .qc-txn-id-line .qc-txn-role::before {
+    content: "– ";
+    color: #5b6573;
   }
 
   /* Tape: Date | Name+role | ticker+Company | Txn | Shares | @ Price | Value | % Held. */

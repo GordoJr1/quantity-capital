@@ -87,8 +87,8 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=97" />
-  <style id="qc-txn-v93">
+  <link rel="stylesheet" href="shell.css?v=98" />
+  <style id="qc-txn-v98">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
@@ -106,11 +106,15 @@
     .qc-txn-held.down { color: #ef7a74; }
     .qc-txn-sh, .qc-txn-cols { display: none; }
     @media (min-width: 900px) {
+      .qc-txn-list > .qc-txn-cols,
       .qc-txn:not(.qc-txn-tape) {
-        grid-template-columns: minmax(8.5rem, 1.45fr) 5.6rem 6.7rem minmax(4.2rem, 0.7fr) minmax(4.6rem, 0.75fr) minmax(4.3rem, 0.65fr) minmax(4.8rem, 0.75fr) 4.9rem;
-        grid-template-areas: "id chip date sh hero px after held";
+        grid-template-columns: 6.7rem minmax(9.2rem, 1.5fr) 5.6rem minmax(4.2rem, 0.7fr) minmax(4.3rem, 0.65fr) minmax(4.6rem, 0.75fr) minmax(5.8rem, 0.85fr) 4.9rem;
+        grid-template-areas: "date id chip sh px hero after held";
+      }
+      .qc-txn:not(.qc-txn-tape) {
         column-gap: 10px; row-gap: 0; padding: 5px 12px 5px 10px; border-radius: 0; border-left-width: 3px;
       }
+      .qc-txn-list > .qc-txn-cols { display: grid; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-end,
       .qc-txn:not(.qc-txn-tape) .qc-txn-meta { display: contents; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-chip { grid-area: chip; }
@@ -124,6 +128,8 @@
       .qc-txn:not(.qc-txn-tape) .qc-txn-held { grid-area: held; }
       .qc-txn:not(.qc-txn-tape) .qc-txn-dot,
       .qc-txn:not(.qc-txn-tape) .qc-txn-lbl { display: none; }
+      .qc-txn:not(.qc-txn-tape) .qc-txn-name,
+      .qc-txn:not(.qc-txn-tape) a.qc-txn-name { font-weight: 600; }
     }
   </style>
 </head>
@@ -164,7 +170,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=97"></script>
+  <script src="qc.js?v=98"></script>
   <script>
     const id = new URLSearchParams(location.search).get("id") || "";
     if (!id) location.replace("insiders.html");
@@ -188,7 +194,7 @@
         "<div class=\"stat\"><b>" + buys.length + "</b><span>buys</span></div>" +
         "<div class=\"stat\"><b>" + (val ? QC.formatMoney(val) : "—") + "</b><span>buy value</span></div>";
       const tradeHtml = rows.map((t) => {
-        const href = "insider-ticker.html?t=" + encodeURIComponent(t.ticker || "") + "&id=" + encodeURIComponent(id);
+        const href = t.ticker ? "insider-ticker.html?t=" + encodeURIComponent(t.ticker) : "";
         const nameHtml = t.ticker
           ? (QC.isChartTicker(t.ticker)
             ? "<a class=\"qc-txn-name\" href=\"" + href + "\">" + QC.esc(t.ticker) + "</a>"

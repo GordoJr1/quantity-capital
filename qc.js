@@ -1044,7 +1044,8 @@
     if (held) tblParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
 
-    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\">" +
+    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\"" +
+      (t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
       "<div class=\"qc-txn-id\">" + nameLine + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
@@ -1060,7 +1061,7 @@
       return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">" + esc(nameLabel) + "</span>" +
-        "<span class=\"qc-txn-company\">Company</span>" +
+        "<span class=\"qc-txn-company\">" + esc(opts.companyLabel || "Company") + "</span>" +
         "<span class=\"qc-txn-chip\">Txn</span>" +
         "<span class=\"qc-txn-sh\">Shares</span>" +
         "<span class=\"qc-txn-px\">@ Price</span>" +

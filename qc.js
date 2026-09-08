@@ -413,7 +413,7 @@
     NOTE: 1, NOTES: 1, BOND: 1, BONDS: 1, MTN: 1, NTS: 1, BDS: 1, CLASS: 1,
     COMMON: 1, STOCK: 1, ADR: 1, SPONSORED: 1, UNSPONSORED: 1, CMN: 1, CMIN: 1,
     CIN: 1, CMY: 1, COM: 1, NPV: 1, CL: 1, SHS: 1, SHARES: 1, VOTING: 1,
-    HYBRID: 1, PERPETUAL: 1
+    HYBRID: 1, PERPETUAL: 1, FUNDING: 1
   };
   const NAME_GENERIC = {
     GLOBAL: 1, NATIONAL: 1, AMERICAN: 1, FIRST: 1, BANK: 1, ENERGY: 1, CAPITAL: 1,
@@ -430,15 +430,141 @@
     "BERKSHIRE HATHAWAY": "BRK.B",
     "BROWN FORMAN": "BF.B",
     APPLE: "AAPL",
-    "META PLATFORMS": "META"
+    "META PLATFORMS": "META",
+    MICROSOFT: "MSFT",
+    FISERV: "FI",
+    SOLVENTUM: "SOLV",
+    CARVANA: "CVNA",
+    APPLOVIN: "APP",
+    WORKDAY: "WDAY",
+    LENNAR: "LEN",
+    ACCENTURE: "ACN",
+    NVIDIA: "NVDA",
+    ALPHABET: "GOOGL",
+    MASTERCARD: "MA",
+    WEYERHAEUSER: "WY",
+    MCKESSON: "MCK",
+    DATADOG: "DDOG",
+    COSTAR: "CSGP",
+    CINTAS: "CTAS",
+    "EQUITY RESIDENTIAL": "EQR",
+    KLA: "KLAC",
+    PROGRESSIVE: "PGR",
+    SYSCO: "SYY",
+    STRYKER: "SYK",
+    AMETEK: "AME",
+    EQUIFAX: "EFX",
+    NASDAQ: "NDAQ",
+    TARGET: "TGT",
+    AIRBNB: "ABNB",
+    PAYCHEX: "PAYX",
+    GARTNER: "IT",
+    MOSAIC: "MOS",
+    KROGER: "KR",
+    "TIX COMPANIES": "TJX",
+    "TJX COMPANIES": "TJX",
+    INSULET: "PODD",
+    DECKERS: "DECK",
+    "DECKERS OUTDOOR": "DECK",
+    AMRIZE: "AMRZ",
+    EQUITABLE: "EQH",
+    INTERCONTINENTAL: "ICE",
+    "INTERCONTINENTAL EXCHANGE": "ICE",
+    FLUTTER: "FLUT",
+    "FLUTTER ENTERTAINMENT": "FLUT",
+    "COOPER COMPANIES": "COO",
+    KKR: "KKR",
+    SHELL: "SHEL",
+    WABTEC: "WAB",
+    ZILLOW: "Z",
+    HIVE: "HIVE",
+    PERRIGO: "PRGO",
+    BENTLEY: "BSY",
+    "BENTLEY SYSTEMS": "BSY",
+    GIBRALTAR: "ROCK",
+    "CHESAPEAKE UTILITIES": "CPK",
+    SHIFT4: "FOUR",
+    "SHIFT4 PAYMENTS": "FOUR",
+    "FRESH MONTE": "FDP",
+    MARSH: "MMC",
+    HOLOGIC: "HOLX",
+    ZOETIS: "ZTS",
+    "CROWN CASTLE": "CCI",
+    "INTERNATIONAL PAPER": "IP",
+    "KIMBERLY CLARK": "KMB",
+    HORTON: "DHI",
+    QUALCOMM: "QCOM",
+    "ANALOG DEVICES": "ADI",
+    BLACKROCK: "BLK",
+    "JPMORGAN CHASE": "JPM",
+    "UNITED AIRLINES": "UAL",
+    "ILLINOIS TOOL": "ITW",
+    "CAPITAL ONE": "COF",
+    "TEXAS INSTRUMENTS": "TXN",
+    BLOCK: "XYZ",
+    "WARNER BROS": "WBD",
+    "WARNER DISCOVERY": "WBD",
+    HARTFORD: "HIG",
+    "CARDINAL HEALTH": "CAH",
+    MONSTER: "MNST",
+    "MONSTER BEVERAGE": "MNST",
+    COSTCO: "COST",
+    "XCEL ENERGY": "XEL",
+    "BANK AMERICA": "BAC",
+    "TAKE TWO": "TTWO",
+    "TWO INTERACTIVE": "TTWO",
+    "JB HUNT": "JBHT",
+    "ELECTRONIC ARTS": "EA",
+    CROWDSTRIKE: "CRWD",
+    LINDE: "LIN"
   };
   const OCR_PHRASES = [
     [/\bL[XI]ETON\b/g, "EXELON"],
     [/\bOWN\s+FORMAN\b/g, "BROWN FORMAN"],
     [/\b4T\s*&?\s*T\b/g, "AT T"],
-    [/^(?:WE|XE|KE|IKE)\s+CLASS[- ]B\b/i, "NIKE CLASS B"]
+    [/\bIPMORGAN\b/g, "JPMORGAN"],
+    [/\bPMORGAN\b/g, "JPMORGAN"],
+    [/\bIRNER\s+BROS\b/g, "WARNER BROS"],
+    [/\bOISCOVERY\b/g, "DISCOVERY"],
+    [/\bRTFORP\b/g, "HARTFORD"],
+    [/\bDINAL\s+HEALTH\b/g, "CARDINAL HEALTH"],
+    [/\bINSTER\s+BEVERAGE\b/g, "MONSTER BEVERAGE"],
+    [/\bOSTCO\s+WHOLESALE\b/g, "COSTCO WHOLESALE"],
+    [/\bPAYCHE\b/g, "PAYCHEX"],
+    [/\bTWO\s+INTERACTIVE\b/g, "TAKE TWO INTERACTIVE"],
+    [/\bVK\s+OF\s+AMERICA\b/g, "BANK OF AMERICA"],
+    [/\bXCEL\s*,?\s*ENERGY\b/g, "XCEL ENERGY"],
+    [/\bOSTEO\s+WHOLESALE\b/g, "COSTCO WHOLESALE"],
+    [/\bJB\s+HUNT\b/g, "JB HUNT"],
+    [/\bTECTROWIC\s+ARTS\b/g, "ELECTRONIC ARTS"],
+    [/\bCLASS\s+8\b/g, "CLASS B"],
+    [/\bCROW\s+DSTRIKE\b/g, "CROWDSTRIKE"],
+    [/\bITED\s+AIRLINES\b/g, "UNITED AIRLINES"],
+    [/\bNOIS\s+TOOL\b/g, "ILLINOIS TOOL"],
+    [/\bCAPTRAT\s+ONE\b/g, "CAPITAL ONE"],
+    [/\bEXAS\s+INSTRUMENTS\b/g, "TEXAS INSTRUMENTS"],
+    [/^(?:WE|XE|KE|IKE)\s+CLASS[- ]B\b/i, "NIKE CLASS B"],
+    [/\bCOOPER\s+COS\b/g, "COOPER COMPANIES"],
+    [/\bTIX\s+COMPANIES\b/g, "TJX COMPANIES"],
+    [/\bENTMT\b/g, "ENTERTAINMENT"],
+    [/\bEXCHANG\b/g, "EXCHANGE"],
+    [/\bOUTDOORS\b/g, "OUTDOOR"],
+    [/\bUTILS\b/g, "UTILITIES"],
+    [/\bPMTS\b/g, "PAYMENTS"],
+    [/\bSYS\b/g, "SYSTEMS"],
+    [/\bINDS\b/g, "INDUSTRIES"],
+    [/\bINTERNTNL\b/g, "INTERNATIONAL"],
+    [/\bJALCOMM\b/g, "QUALCOMM"],
+    [/\bJALOG\b/g, "ANALOG"],
+    [/\bMBERLY\b/g, "KIMBERLY"],
+    [/\bD\s+RHORTON\b/g, "HORTON"],
+    [/\bD\s+R\s+HORTON\b/g, "HORTON"],
+    [/\bRHORTON\b/g, "HORTON"]
   ];
   const MUNI_NAME_RE = /\b(SCH(?:OOL)?|INDPT|CNTY|COUNTY|TWP|TOWNSHIP|CITY\s+OF|MUNI(?:CIPAL)?|TURNPIKE|AUTH(?:ORITY)?|UNIV(?:ERSITY)?|HOSP(?:ITAL)?|HOUSING|WTR|WATER|SWR|SEWER|\bGO\b|REV(?:ENUE)?|BLDG|LOC\s+BLDG)\b/i;
+  const UNLINKED_NAME_RE = /preferred stock|perpetual preferred|structured note|linked note|\betf\b|index fund|dividend appreciation index|\bbdc\b|business development company|non-cumulative|cumulative redeemable|commodities plus|fund class|class y shares/i;
+  const BROKER_PREFIX_RE = /^(?:morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\bschwab\b|bank of america|merrill lynch|\bmerrill\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\bubs\b|raymond james|edward jones|ameriprise|e\*?trade|td ameritrade|interactive brokers|\bchase\b|aperio group(?: llc)?)\b[\s,:-]*/i;
+  const ACCOUNT_PREFIX_RE = /^(?:smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\bbrokerage\b|select uma(?: account)?|unified management account|joint tbe|uma(?: account)?|account(?:\s*#\s*\d+)?)\b[\s,:-]*/i;
 
   function dist1(a, b) {
     if (!a || !b || a === b) return false;
@@ -473,6 +599,8 @@
       if (out.length && out[out.length - 1] === t) return;
       out.push(t);
     });
+    if (out.length && out.every((t) => t.length === 1)) return [out.join("")];
+    while (out.length && out[out.length - 1].length === 1 && "ABC".indexOf(out[out.length - 1]) >= 0) out.pop();
     return out;
   }
 
@@ -481,9 +609,22 @@
     return m ? m[1] : "";
   }
 
+  function unglue(s) {
+    let prev = "";
+    while (prev !== s) {
+      prev = s;
+      s = s.replace(/([A-Z])(INCORPORATED|INTERNATIONAL|CORPORATION|COMPANY|CLASS|CMN|INC|CORP|PLC|INTL|LTD)\b/g, "$1 $2");
+      s = s.replace(/\b(INCORPORATED|INTERNATIONAL|CORPORATION|COMPANY|INTL|INC|CORP|PLC|CMN)(INCORPORATED|CORPORATION|COMPANY|CLASS|CMN|INC|CORP|PLC|INTL)\b/g, "$1 $2");
+      s = s.replace(/\bCMNCLASS\b/g, "CMN CLASS");
+      s = s.replace(/\bCLASS([ABC])\b/g, "CLASS $1");
+    }
+    return s;
+  }
+
   function normalizeIssuer(asset) {
-    let s = String(asset || "").toUpperCase().replace(/_/g, " ");
+    let s = String(asset || "").toUpperCase().replace(/_/g, " ").replace(/\./g, " ").replace(/,/g, " ");
     OCR_PHRASES.forEach((pair) => { s = s.replace(pair[0], pair[1]); });
+    s = unglue(s);
     s = s.replace(/(INC|CORP|CO|PLC|COMPANY|CORPORATION)(CMN|COM|CLASS|INC)/g, "$1 $2");
     s = s.replace(/\b(?:CLASS|CL)[- ]?[ABC]\b/g, " ");
     s = s.replace(/^[^A-Z]+/, "");
@@ -497,7 +638,34 @@
     if (type.indexOf("commodit") >= 0 || type.indexOf("crypto") >= 0 || type.indexOf("non-public") >= 0) return true;
     const asset = t.asset || "";
     if (MUNI_NAME_RE.test(asset)) return true;
+    if (UNLINKED_NAME_RE.test(asset)) return true;
+    if (/\d(?:\.\d+)?%\s/.test(asset)) return true;
+    if (/\b(hybrid|perpetual|rate\/coupon|matures:)/i.test(asset) && !/\b(cmn|common|class\s*[a-z])/i.test(asset)) return true;
+    if (/\b(?:CALL|PUT)\b/i.test(asset) && !/callaway/i.test(asset) && (/\b(?:EXP\b|STRIKE|FLEX|EURO\s+PM)\b/i.test(asset) || /\b(?:CALL|PUT)\s*$/i.test(asset))) return true;
     return false;
+  }
+
+  function cleanIndexName(name) {
+    let s = String(name || "").replace(/\s+/g, " ").trim();
+    s = (s.split(/\s*>\s*/).pop() || s).trim();
+    s = s.replace(/^D:\s*/i, "");
+    if (s.indexOf(". ") >= 0) {
+      const last = s.split(". ").pop();
+      if (/\b(?:Corporation|Incorporated|Inc\.?|Company|Companies|Corp\.?|PLC)\b/i.test(last)) s = last;
+    }
+    for (let i = 0; i < 4; i++) {
+      const n = s.replace(BROKER_PREFIX_RE, "").replace(ACCOUNT_PREFIX_RE, "").replace(/^[\s:,-]+/, "");
+      if (n === s) break;
+      s = n;
+    }
+    s = s.replace(/^#\s*\d+\s+/, "");
+    s = s.replace(/^[A-Z]?\d{2,5}\s+/, "");
+    s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/, "");
+    s = s.replace(/^(?:tacs r3k)\s+/i, "");
+    s = s.replace(/^\$[\d,]+(?:\.\d+)?\s+/, "");
+    s = s.replace(/^.*\b(?:grandchildren|family)\s+\d*\s*trust\s+/i, "");
+    s = s.replace(/\s+Option Type:.*$/i, "");
+    return s.replace(/\s*-\s*$/, "").replace(/^[\s,-]+|[\s,-]+$/g, "");
   }
 
   function pickCodes(codes, hint) {
@@ -533,7 +701,7 @@
     const tickers = (file && file.tickers) || {};
     Object.keys(tickers).forEach((code) => {
       const rec = tickers[code];
-      const key = nameTokens(rec && rec.name);
+      const key = nameTokens(cleanIndexName(rec && rec.name));
       if (!key.length) return;
       const k = key.join(" ");
       if (!byKey.has(k)) byKey.set(k, []);
@@ -553,14 +721,50 @@
     const issuer = normalizeIssuer(asset);
     const key = nameTokens(issuer);
     let hit = "";
-    if (key.length) {
+    if (key.length && key[0] === "ALPHABET") {
+      hit = hint === "C" ? "GOOG" : "GOOGL";
+    }
+    if (!hit && key.length && key[0] === "ZILLOW") {
+      hit = hint === "A" ? "ZG" : "Z";
+    }
+    if (!hit && key.length) {
       const alias = NAME_ALIASES[key.join(" ")];
       if (alias && isChartTicker(alias)) hit = alias;
+      if (!hit) {
+        Object.keys(NAME_ALIASES).forEach((k) => {
+          if (hit) return;
+          const parts = k.split(" ");
+          if (parts.length >= 2 && parts.every((p) => key.indexOf(p) >= 0)) {
+            const a = NAME_ALIASES[k];
+            if (isChartTicker(a)) hit = a;
+          }
+        });
+      }
     }
     if (!hit && key.length) {
       const idx = nameIndex(file);
       const exact = idx.byKey.get(key.join(" "));
       if (exact) hit = pickCodes(exact, hint);
+      if (!hit && key[0] && !NAME_GENERIC[key[0]]) {
+        const firstRows = idx.byFirst.get(key[0]) || [];
+        const firstUniq = {};
+        firstRows.forEach((r) => { firstUniq[String(r.code).toUpperCase()] = 1; });
+        const firstCodes = Object.keys(firstUniq);
+        if (firstCodes.length === 1) hit = firstCodes[0];
+      }
+      if (!hit) {
+        key.forEach((tok) => {
+          if (hit || NAME_GENERIC[tok] || tok.length < 5) return;
+          const found = {};
+          idx.byFirst.forEach((rows) => {
+            rows.forEach((r) => {
+              if (r.key.indexOf(tok) >= 0) found[String(r.code).toUpperCase()] = 1;
+            });
+          });
+          const codes = Object.keys(found);
+          if (codes.length === 1) hit = codes[0];
+        });
+      }
       if (!hit && key.length === 1) {
         const tok = key[0];
         if (!NAME_GENERIC[tok]) {
@@ -581,6 +785,17 @@
             cropped.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
             if (Object.keys(uniq).length === 1) hit = pickCodes(cropped, hint);
           }
+          if (!hit && tok.length >= 5) {
+            const d1 = [];
+            idx.byFirst.forEach((rows, head) => {
+              if (dist1(head, tok) && !NAME_GENERIC[head]) {
+                rows.forEach((r) => { if (r.key.length === 1) d1.push(r.code); });
+              }
+            });
+            const uniq = {};
+            d1.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
+            if (Object.keys(uniq).length === 1) hit = pickCodes(d1, hint);
+          }
         }
       }
       if (!hit && key.length >= 2) {
@@ -595,11 +810,13 @@
         });
         const uniq = {};
         fuzzy.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
-        if (Object.keys(uniq).length === 1) hit = pickCodes(fuzzy, hint);
-        else if (fuzzy.length) {
-          const roots = {};
-          fuzzy.forEach((c) => { roots[String(c).toUpperCase().replace(/[.-][A-Z]$/, "")] = 1; });
-          if (Object.keys(roots).length === 1) hit = pickCodes(fuzzy, hint);
+        if (fuzzy.length) {
+          hit = pickCodes(fuzzy, hint);
+          if (!hit) {
+            const codes = Object.keys(uniq).filter((c) => isChartTicker(c));
+            codes.sort((a, b) => (a.length <= 2 && b.length > 2 ? 1 : 0) - (b.length <= 2 && a.length > 2 ? 1 : 0) || b.length - a.length);
+            if (codes.length) hit = codes[0];
+          }
         }
       }
     }

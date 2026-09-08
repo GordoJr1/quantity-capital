@@ -1,6 +1,6 @@
 /* Shared tape helpers for Quantity Capital pages. */
 (function (global) {
-  const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1 };
+  const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1, CMN: 1, COM: 1, NPV: 1, ETF: 1, FUND: 1 };
 
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, (c) => ({
@@ -406,11 +406,441 @@
     return "Industrials";
   }
 
+  const NAME_STOP = {
+    INC: 1, INCORPORATED: 1, CORP: 1, CORPORATION: 1, CO: 1, COMPANY: 1, COS: 1,
+    LTD: 1, LLC: 1, LP: 1, LLP: 1, PLC: 1, SA: 1, AG: 1, NV: 1, THE: 1, AND: 1,
+    GROUP: 1, HOLDINGS: 1, HOLDING: 1, HLDGS: 1, HLDG: 1, NEW: 1, DEL: 1, DE: 1,
+    NOTE: 1, NOTES: 1, BOND: 1, BONDS: 1, MTN: 1, NTS: 1, BDS: 1, CLASS: 1,
+    COMMON: 1, STOCK: 1, ADR: 1, SPONSORED: 1, UNSPONSORED: 1, CMN: 1, CMIN: 1,
+    CIN: 1, CMY: 1, COM: 1, NPV: 1, CL: 1, SHS: 1, SHARES: 1, VOTING: 1,
+    HYBRID: 1, PERPETUAL: 1, FUNDING: 1
+  };
+  const NAME_GENERIC = {
+    GLOBAL: 1, NATIONAL: 1, AMERICAN: 1, FIRST: 1, BANK: 1, ENERGY: 1, CAPITAL: 1,
+    FINANCIAL: 1, INTERNATIONAL: 1, UNITED: 1, STATE: 1, GENERAL: 1, POWER: 1,
+    LIGHT: 1, TRUST: 1, FUND: 1, PARTNERS: 1, FINANCE: 1, SERVICES: 1, INDUSTRIES: 1
+  };
+  const NAME_ALIASES = {
+    TESLA: "TSLA",
+    NIKE: "NKE",
+    "WELLS FARGO": "WFC",
+    "WALLS FARGO": "WFC",
+    "ELLS FARGO": "WFC",
+    EXELON: "EXC",
+    "BERKSHIRE HATHAWAY": "BRK.B",
+    "BROWN FORMAN": "BF.B",
+    APPLE: "AAPL",
+    "META PLATFORMS": "META",
+    MICROSOFT: "MSFT",
+    FISERV: "FI",
+    SOLVENTUM: "SOLV",
+    CARVANA: "CVNA",
+    APPLOVIN: "APP",
+    WORKDAY: "WDAY",
+    LENNAR: "LEN",
+    ACCENTURE: "ACN",
+    NVIDIA: "NVDA",
+    ALPHABET: "GOOGL",
+    MASTERCARD: "MA",
+    WEYERHAEUSER: "WY",
+    MCKESSON: "MCK",
+    DATADOG: "DDOG",
+    COSTAR: "CSGP",
+    CINTAS: "CTAS",
+    "EQUITY RESIDENTIAL": "EQR",
+    KLA: "KLAC",
+    PROGRESSIVE: "PGR",
+    SYSCO: "SYY",
+    STRYKER: "SYK",
+    AMETEK: "AME",
+    EQUIFAX: "EFX",
+    NASDAQ: "NDAQ",
+    TARGET: "TGT",
+    AIRBNB: "ABNB",
+    PAYCHEX: "PAYX",
+    GARTNER: "IT",
+    MOSAIC: "MOS",
+    KROGER: "KR",
+    "TIX COMPANIES": "TJX",
+    "TJX COMPANIES": "TJX",
+    INSULET: "PODD",
+    DECKERS: "DECK",
+    "DECKERS OUTDOOR": "DECK",
+    AMRIZE: "AMRZ",
+    EQUITABLE: "EQH",
+    INTERCONTINENTAL: "ICE",
+    "INTERCONTINENTAL EXCHANGE": "ICE",
+    FLUTTER: "FLUT",
+    "FLUTTER ENTERTAINMENT": "FLUT",
+    "COOPER COMPANIES": "COO",
+    KKR: "KKR",
+    SHELL: "SHEL",
+    WABTEC: "WAB",
+    ZILLOW: "Z",
+    HIVE: "HIVE",
+    PERRIGO: "PRGO",
+    BENTLEY: "BSY",
+    "BENTLEY SYSTEMS": "BSY",
+    GIBRALTAR: "ROCK",
+    "CHESAPEAKE UTILITIES": "CPK",
+    SHIFT4: "FOUR",
+    "SHIFT4 PAYMENTS": "FOUR",
+    "FRESH MONTE": "FDP",
+    MARSH: "MMC",
+    HOLOGIC: "HOLX",
+    ZOETIS: "ZTS",
+    "CROWN CASTLE": "CCI",
+    "INTERNATIONAL PAPER": "IP",
+    "KIMBERLY CLARK": "KMB",
+    HORTON: "DHI",
+    QUALCOMM: "QCOM",
+    "ANALOG DEVICES": "ADI",
+    BLACKROCK: "BLK",
+    "JPMORGAN CHASE": "JPM",
+    "UNITED AIRLINES": "UAL",
+    "ILLINOIS TOOL": "ITW",
+    "CAPITAL ONE": "COF",
+    "TEXAS INSTRUMENTS": "TXN",
+    BLOCK: "XYZ",
+    "WARNER BROS": "WBD",
+    "WARNER DISCOVERY": "WBD",
+    HARTFORD: "HIG",
+    "CARDINAL HEALTH": "CAH",
+    MONSTER: "MNST",
+    "MONSTER BEVERAGE": "MNST",
+    COSTCO: "COST",
+    "XCEL ENERGY": "XEL",
+    "BANK AMERICA": "BAC",
+    "TAKE TWO": "TTWO",
+    "TWO INTERACTIVE": "TTWO",
+    "JB HUNT": "JBHT",
+    "ELECTRONIC ARTS": "EA",
+    CROWDSTRIKE: "CRWD",
+    LINDE: "LIN"
+  };
+  const OCR_PHRASES = [
+    [/\bL[XI]ETON\b/g, "EXELON"],
+    [/\bOWN\s+FORMAN\b/g, "BROWN FORMAN"],
+    [/\b4T\s*&?\s*T\b/g, "AT T"],
+    [/\bIPMORGAN\b/g, "JPMORGAN"],
+    [/\bPMORGAN\b/g, "JPMORGAN"],
+    [/\bIRNER\s+BROS\b/g, "WARNER BROS"],
+    [/\bOISCOVERY\b/g, "DISCOVERY"],
+    [/\bRTFORP\b/g, "HARTFORD"],
+    [/\bDINAL\s+HEALTH\b/g, "CARDINAL HEALTH"],
+    [/\bINSTER\s+BEVERAGE\b/g, "MONSTER BEVERAGE"],
+    [/\bOSTCO\s+WHOLESALE\b/g, "COSTCO WHOLESALE"],
+    [/\bPAYCHE\b/g, "PAYCHEX"],
+    [/\bTWO\s+INTERACTIVE\b/g, "TAKE TWO INTERACTIVE"],
+    [/\bVK\s+OF\s+AMERICA\b/g, "BANK OF AMERICA"],
+    [/\bXCEL\s*,?\s*ENERGY\b/g, "XCEL ENERGY"],
+    [/\bOSTEO\s+WHOLESALE\b/g, "COSTCO WHOLESALE"],
+    [/\bJB\s+HUNT\b/g, "JB HUNT"],
+    [/\bTECTROWIC\s+ARTS\b/g, "ELECTRONIC ARTS"],
+    [/\bCLASS\s+8\b/g, "CLASS B"],
+    [/\bCROW\s+DSTRIKE\b/g, "CROWDSTRIKE"],
+    [/\bITED\s+AIRLINES\b/g, "UNITED AIRLINES"],
+    [/\bNOIS\s+TOOL\b/g, "ILLINOIS TOOL"],
+    [/\bCAPTRAT\s+ONE\b/g, "CAPITAL ONE"],
+    [/\bEXAS\s+INSTRUMENTS\b/g, "TEXAS INSTRUMENTS"],
+    [/^(?:WE|XE|KE|IKE)\s+CLASS[- ]B\b/i, "NIKE CLASS B"],
+    [/\bCOOPER\s+COS\b/g, "COOPER COMPANIES"],
+    [/\bTIX\s+COMPANIES\b/g, "TJX COMPANIES"],
+    [/\bENTMT\b/g, "ENTERTAINMENT"],
+    [/\bEXCHANG\b/g, "EXCHANGE"],
+    [/\bOUTDOORS\b/g, "OUTDOOR"],
+    [/\bUTILS\b/g, "UTILITIES"],
+    [/\bPMTS\b/g, "PAYMENTS"],
+    [/\bSYS\b/g, "SYSTEMS"],
+    [/\bINDS\b/g, "INDUSTRIES"],
+    [/\bINTERNTNL\b/g, "INTERNATIONAL"],
+    [/\bJALCOMM\b/g, "QUALCOMM"],
+    [/\bJALOG\b/g, "ANALOG"],
+    [/\bMBERLY\b/g, "KIMBERLY"],
+    [/\bD\s+RHORTON\b/g, "HORTON"],
+    [/\bD\s+R\s+HORTON\b/g, "HORTON"],
+    [/\bRHORTON\b/g, "HORTON"]
+  ];
+  const MUNI_NAME_RE = /\b(SCH(?:OOL)?|INDPT|CNTY|COUNTY|TWP|TOWNSHIP|CITY\s+OF|MUNI(?:CIPAL)?|TURNPIKE|AUTH(?:ORITY)?|UNIV(?:ERSITY)?|HOSP(?:ITAL)?|HOUSING|WTR|WATER|SWR|SEWER|\bGO\b|REV(?:ENUE)?|BLDG|LOC\s+BLDG)\b/i;
+  const UNLINKED_NAME_RE = /preferred stock|perpetual preferred|structured note|linked note|\betf\b|index fund|dividend appreciation index|\bbdc\b|business development company|non-cumulative|cumulative redeemable|commodities plus|fund class|class y shares/i;
+  const BROKER_PREFIX_RE = /^(?:morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\bschwab\b|bank of america|merrill lynch|\bmerrill\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\bubs\b|raymond james|edward jones|ameriprise|e\*?trade|td ameritrade|interactive brokers|\bchase\b|aperio group(?: llc)?)\b[\s,:-]*/i;
+  const ACCOUNT_PREFIX_RE = /^(?:smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\bbrokerage\b|select uma(?: account)?|unified management account|joint tbe|uma(?: account)?|account(?:\s*#\s*\d+)?)\b[\s,:-]*/i;
+
+  function dist1(a, b) {
+    if (!a || !b || a === b) return false;
+    const la = a.length;
+    const lb = b.length;
+    if (Math.abs(la - lb) > 1 || Math.min(la, lb) < 3) return false;
+    if (la === lb) {
+      let n = 0;
+      for (let i = 0; i < la; i++) if (a[i] !== b[i] && ++n > 1) return false;
+      return n === 1;
+    }
+    let short = a;
+    let long = b;
+    if (la > lb) { short = b; long = a; }
+    let i = 0;
+    let j = 0;
+    let skip = 0;
+    while (i < short.length && j < long.length) {
+      if (short[i] === long[j]) { i++; j++; continue; }
+      if (++skip > 1) return false;
+      j++;
+    }
+    return true;
+  }
+
+  function nameTokens(s) {
+    s = String(s || "").toUpperCase().replace(/&/g, " AND ").replace(/[-_.]/g, " ");
+    s = s.replace(/[^A-Z0-9 ]+/g, " ");
+    const out = [];
+    s.split(/\s+/).forEach((t) => {
+      if (!t || NAME_STOP[t] || /^\d+$/.test(t)) return;
+      if (out.length && out[out.length - 1] === t) return;
+      out.push(t);
+    });
+    if (out.length && out.every((t) => t.length === 1)) return [out.join("")];
+    while (out.length && out[out.length - 1].length === 1 && "ABC".indexOf(out[out.length - 1]) >= 0) out.pop();
+    return out;
+  }
+
+  function classHint(asset) {
+    const m = String(asset || "").toUpperCase().match(/\b(?:CLASS|CL)[- ]?([ABC])\b/);
+    return m ? m[1] : "";
+  }
+
+  function unglue(s) {
+    let prev = "";
+    while (prev !== s) {
+      prev = s;
+      s = s.replace(/([A-Z])(INCORPORATED|INTERNATIONAL|CORPORATION|COMPANY|CLASS|CMN|INC|CORP|PLC|INTL|LTD)\b/g, "$1 $2");
+      s = s.replace(/\b(INCORPORATED|INTERNATIONAL|CORPORATION|COMPANY|INTL|INC|CORP|PLC|CMN)(INCORPORATED|CORPORATION|COMPANY|CLASS|CMN|INC|CORP|PLC|INTL)\b/g, "$1 $2");
+      s = s.replace(/\bCMNCLASS\b/g, "CMN CLASS");
+      s = s.replace(/\bCLASS([ABC])\b/g, "CLASS $1");
+    }
+    return s;
+  }
+
+  function normalizeIssuer(asset) {
+    let s = String(asset || "").toUpperCase().replace(/_/g, " ").replace(/\./g, " ").replace(/,/g, " ");
+    OCR_PHRASES.forEach((pair) => { s = s.replace(pair[0], pair[1]); });
+    s = unglue(s);
+    s = s.replace(/(INC|CORP|CO|PLC|COMPANY|CORPORATION)(CMN|COM|CLASS|INC)/g, "$1 $2");
+    s = s.replace(/\b(?:CLASS|CL)[- ]?[ABC]\b/g, " ");
+    s = s.replace(/^[^A-Z]+/, "");
+    return s.replace(/\s+/g, " ").trim();
+  }
+
+  function skipNameResolve(t) {
+    if (!t) return true;
+    if (isBond(t) || isOptionLike(t)) return true;
+    const type = String(t.asset_type || "").toLowerCase();
+    if (type.indexOf("commodit") >= 0 || type.indexOf("crypto") >= 0 || type.indexOf("non-public") >= 0) return true;
+    const asset = t.asset || "";
+    if (MUNI_NAME_RE.test(asset)) return true;
+    if (UNLINKED_NAME_RE.test(asset)) return true;
+    if (/\d(?:\.\d+)?%\s/.test(asset)) return true;
+    if (/\b(hybrid|perpetual|rate\/coupon|matures:)/i.test(asset) && !/\b(cmn|common|class\s*[a-z])/i.test(asset)) return true;
+    if (/\b(?:CALL|PUT)\b/i.test(asset) && !/callaway/i.test(asset) && (/\b(?:EXP\b|STRIKE|FLEX|EURO\s+PM)\b/i.test(asset) || /\b(?:CALL|PUT)\s*$/i.test(asset))) return true;
+    return false;
+  }
+
+  function cleanIndexName(name) {
+    let s = String(name || "").replace(/\s+/g, " ").trim();
+    s = (s.split(/\s*>\s*/).pop() || s).trim();
+    s = s.replace(/^D:\s*/i, "");
+    if (s.indexOf(". ") >= 0) {
+      const last = s.split(". ").pop();
+      if (/\b(?:Corporation|Incorporated|Inc\.?|Company|Companies|Corp\.?|PLC)\b/i.test(last)) s = last;
+    }
+    for (let i = 0; i < 4; i++) {
+      const n = s.replace(BROKER_PREFIX_RE, "").replace(ACCOUNT_PREFIX_RE, "").replace(/^[\s:,-]+/, "");
+      if (n === s) break;
+      s = n;
+    }
+    s = s.replace(/^#\s*\d+\s+/, "");
+    s = s.replace(/^[A-Z]?\d{2,5}\s+/, "");
+    s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/, "");
+    s = s.replace(/^(?:tacs r3k)\s+/i, "");
+    s = s.replace(/^\$[\d,]+(?:\.\d+)?\s+/, "");
+    s = s.replace(/^.*\b(?:grandchildren|family)\s+\d*\s*trust\s+/i, "");
+    s = s.replace(/\s+Option Type:.*$/i, "");
+    return s.replace(/\s*-\s*$/, "").replace(/^[\s,-]+|[\s,-]+$/g, "");
+  }
+
+  function pickCodes(codes, hint) {
+    const uniq = [];
+    const seen = {};
+    (codes || []).forEach((c) => {
+      const u = String(c || "").toUpperCase();
+      if (!u || seen[u] || BAD_TICKERS[u]) return;
+      seen[u] = 1;
+      uniq.push(u);
+    });
+    if (!uniq.length) return "";
+    if (hint) {
+      const tagged = uniq.filter((c) => c.slice(-2) === "." + hint || c.slice(-2) === "-" + hint);
+      if (tagged.length === 1) return tagged[0];
+      if (tagged.length) return tagged.sort((a, b) => a.length - b.length)[0];
+    }
+    if (uniq.length === 1) return uniq[0];
+    const roots = {};
+    uniq.forEach((c) => { roots[c.replace(/[.-][A-Z]$/, "")] = 1; });
+    if (Object.keys(roots).length === 1 && hint) {
+      const tagged = uniq.filter((c) => c.slice(-1) === hint);
+      if (tagged.length === 1) return tagged[0];
+    }
+    return "";
+  }
+
+  let _nameIdx = null;
+  function nameIndex(file) {
+    if (_nameIdx && _nameIdx.file === file) return _nameIdx;
+    const byKey = new Map();
+    const byFirst = new Map();
+    const tickers = (file && file.tickers) || {};
+    Object.keys(tickers).forEach((code) => {
+      const rec = tickers[code];
+      const key = nameTokens(cleanIndexName(rec && rec.name));
+      if (!key.length) return;
+      const k = key.join(" ");
+      if (!byKey.has(k)) byKey.set(k, []);
+      byKey.get(k).push(code);
+      const f = key[0];
+      if (!byFirst.has(f)) byFirst.set(f, []);
+      byFirst.get(f).push({ key: key, code: code });
+    });
+    _nameIdx = { file: file, byKey: byKey, byFirst: byFirst };
+    return _nameIdx;
+  }
+
+  const _assetTicker = new Map();
+  function resolveTickerFromName(asset, file, hint) {
+    const cacheKey = String(asset || "") + "\0" + String(hint || "");
+    if (_assetTicker.has(cacheKey)) return _assetTicker.get(cacheKey);
+    const issuer = normalizeIssuer(asset);
+    const key = nameTokens(issuer);
+    let hit = "";
+    if (key.length && key[0] === "ALPHABET") {
+      hit = hint === "C" ? "GOOG" : "GOOGL";
+    }
+    if (!hit && key.length && key[0] === "ZILLOW") {
+      hit = hint === "A" ? "ZG" : "Z";
+    }
+    if (!hit && key.length) {
+      const alias = NAME_ALIASES[key.join(" ")];
+      if (alias && isChartTicker(alias)) hit = alias;
+      if (!hit) {
+        Object.keys(NAME_ALIASES).forEach((k) => {
+          if (hit) return;
+          const parts = k.split(" ");
+          if (parts.length >= 2 && parts.every((p) => key.indexOf(p) >= 0)) {
+            const a = NAME_ALIASES[k];
+            if (isChartTicker(a)) hit = a;
+          }
+        });
+      }
+    }
+    if (!hit && key.length) {
+      const idx = nameIndex(file);
+      const exact = idx.byKey.get(key.join(" "));
+      if (exact) hit = pickCodes(exact, hint);
+      if (!hit && key[0] && !NAME_GENERIC[key[0]]) {
+        const firstRows = idx.byFirst.get(key[0]) || [];
+        const firstUniq = {};
+        firstRows.forEach((r) => { firstUniq[String(r.code).toUpperCase()] = 1; });
+        const firstCodes = Object.keys(firstUniq);
+        if (firstCodes.length === 1) hit = firstCodes[0];
+      }
+      if (!hit) {
+        key.forEach((tok) => {
+          if (hit || NAME_GENERIC[tok] || tok.length < 5) return;
+          const found = {};
+          idx.byFirst.forEach((rows) => {
+            rows.forEach((r) => {
+              if (r.key.indexOf(tok) >= 0) found[String(r.code).toUpperCase()] = 1;
+            });
+          });
+          const codes = Object.keys(found);
+          if (codes.length === 1) hit = codes[0];
+        });
+      }
+      if (!hit && key.length === 1) {
+        const tok = key[0];
+        if (!NAME_GENERIC[tok]) {
+          if (isChartTicker(tok) && file && file.tickers && file.tickers[tok] && !/\b(INC|CORP|CORPORATION|COMPANY)\b/.test(issuer)) {
+            hit = tok;
+          }
+          const firsts = idx.byFirst.get(tok) || [];
+          if (!hit && firsts.length) hit = pickCodes(firsts.map((r) => r.code), hint);
+          if (!hit && tok.length >= 3) {
+            const cropped = [];
+            idx.byFirst.forEach((rows, head) => {
+              const extra = head.length - tok.length;
+              if (extra >= 1 && extra <= 2 && (head.slice(-tok.length) === tok || head.slice(0, tok.length) === tok) && !NAME_GENERIC[head]) {
+                rows.forEach((r) => { if (r.key.length === 1) cropped.push(r.code); });
+              }
+            });
+            const uniq = {};
+            cropped.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
+            if (Object.keys(uniq).length === 1) hit = pickCodes(cropped, hint);
+          }
+          if (!hit && tok.length >= 5) {
+            const d1 = [];
+            idx.byFirst.forEach((rows, head) => {
+              if (dist1(head, tok) && !NAME_GENERIC[head]) {
+                rows.forEach((r) => { if (r.key.length === 1) d1.push(r.code); });
+              }
+            });
+            const uniq = {};
+            d1.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
+            if (Object.keys(uniq).length === 1) hit = pickCodes(d1, hint);
+          }
+        }
+      }
+      if (!hit && key.length >= 2) {
+        const rest = {};
+        key.slice(1).forEach((t) => { rest[t] = 1; });
+        const fuzzy = [];
+        idx.byFirst.forEach((rows, head) => {
+          if (!dist1(head, key[0])) return;
+          rows.forEach((r) => {
+            if (r.key.slice(1).some((t) => rest[t])) fuzzy.push(r.code);
+          });
+        });
+        const uniq = {};
+        fuzzy.forEach((c) => { uniq[String(c).toUpperCase()] = 1; });
+        if (fuzzy.length) {
+          hit = pickCodes(fuzzy, hint);
+          if (!hit) {
+            const codes = Object.keys(uniq).filter((c) => isChartTicker(c));
+            codes.sort((a, b) => (a.length <= 2 && b.length > 2 ? 1 : 0) - (b.length <= 2 && a.length > 2 ? 1 : 0) || b.length - a.length);
+            if (codes.length) hit = codes[0];
+          }
+        }
+      }
+    }
+    if (hit && !isChartTicker(hit)) hit = "";
+    _assetTicker.set(cacheKey, hit);
+    return hit;
+  }
+
+  function resolvedCode(t, file) {
+    const lookup = (file && file.tickers) || {};
+    const extra = ((file && file.assets) || {})[t && t.asset] || {};
+    const opt = optionMeta(t);
+    let code = String(t && t.ticker || extra.ticker || opt.under || "").toUpperCase();
+    if (isOptionLike(t) && (code === "ING" || code === "FOR" || code === "EXP" || code === "ETF")) code = "";
+    if (isChartTicker(code)) return code;
+    if (skipNameResolve(t)) return code;
+    return resolveTickerFromName(t && t.asset, file, classHint(t && t.asset)) || code;
+  }
+
   function enrich(t, file) {
     const lookup = (file && file.tickers) || {};
     const extra = ((file && file.assets) || {})[t.asset] || {};
     const opt = optionMeta(t);
-    const code = (t.ticker || extra.ticker || opt.under || "").toUpperCase();
+    const code = resolvedCode(t, file);
     const meta = lookup[code] || {};
     const bondLike = isBond(t);
     const name = bondLike
@@ -429,7 +859,7 @@
     const lookup = (file && file.tickers) || {};
     const extra = ((file && file.assets) || {})[t.asset] || {};
     const opt = optionMeta(t);
-    const code = (t.ticker || extra.ticker || opt.under || "").toUpperCase();
+    const code = resolvedCode(t, file);
     const meta = lookup[code] || {};
     const bondLike = isBond(t);
     const name = bondLike ? (t.asset || meta.name || "—") : (issuerName(code, meta.name || cleanAsset(t.asset)) || "—");
@@ -736,6 +1166,7 @@
     sectorOf: sectorOf,
     enrich: enrich,
     tickerInfo: tickerInfo,
+    resolveTickerFromName: resolveTickerFromName,
     asOfLabel: asOfLabel,
     parseAdded: parseAdded,
     isLanded: isLanded,

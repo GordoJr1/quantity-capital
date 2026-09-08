@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 PRICES = ROOT / "prices"
-BAD_TICKERS = {"LLC", "THE", "AND", "INC", "CORP", "CLASS", "NONE", "NA"}
+BAD_TICKERS = {"LLC", "THE", "AND", "INC", "CORP", "CLASS", "NONE", "NA", "CMN", "COM", "NPV", "ETF", "FUND"}
 OPT_RE = re.compile(
     r"exercised|call option|put option|strike pric|flex euro|\bcall/|\bput/|@\s*\d",
     re.I,

@@ -562,7 +562,7 @@
     </table>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=103"></script>
+  <script src="qc.js?v=104"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
     const optionMeta = QC.optionMeta;
@@ -707,7 +707,7 @@
         .sort((a, b) => b.trade_date.localeCompare(a.trade_date));
     }
 
-    const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1 };
+    const BAD_TICKERS = QC.BAD_TICKERS;
     const SLICE = ["#e3b41a", "#3db8c4", "#1e4b8a", "#7dcf7a", "#ef7a74", "#9b7ed9", "#e08a4a", "#6b7582"];
 
 

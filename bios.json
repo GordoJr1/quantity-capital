@@ -12781,6 +12781,109 @@
       "subcommittees": [],
       "state": "",
       "state_economy": ""
+    },
+    "cory-booker": {
+      "name": "Cory A. Booker",
+      "display": "Cory Booker",
+      "chamber": "Senate",
+      "state": "NJ",
+      "party": "Democrat",
+      "class": 2,
+      "district": null,
+      "first_elected_senate": 2013,
+      "term_start": "2021",
+      "term_end": "2027",
+      "committees": [
+        {
+          "name": "Senate Committee on Agriculture, Nutrition, and Forestry",
+          "code": "SSAF",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on Foreign Relations",
+          "code": "SSFR",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on Small Business and Entrepreneurship",
+          "code": "SSSB",
+          "subcommittee": false,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on the Judiciary",
+          "code": "SSJU",
+          "subcommittee": false,
+          "title": ""
+        }
+      ],
+      "subcommittees": [
+        {
+          "name": "Senate Committee on Agriculture, Nutrition, and Forestry \u2014 Commodities, Derivatives, Risk Management, and Trade",
+          "code": "SSAF13",
+          "subcommittee": true,
+          "title": "Ranking Member"
+        },
+        {
+          "name": "Senate Committee on Agriculture, Nutrition, and Forestry \u2014 Food and Nutrition, Specialty Crops, Organics, and Research",
+          "code": "SSAF16",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on Agriculture, Nutrition, and Forestry \u2014 Livestock, Dairy, Poultry, and Food Safety",
+          "code": "SSAF17",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on Foreign Relations \u2014 Africa and Global Health Policy",
+          "code": "SSFR09",
+          "subcommittee": true,
+          "title": "Ranking Member"
+        },
+        {
+          "name": "Senate Committee on Foreign Relations \u2014 Europe and Regional Security Cooperation",
+          "code": "SSFR01",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on Foreign Relations \u2014 Near East, South Asia, Central Asia, and Counterterrorism",
+          "code": "SSFR07",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on the Judiciary \u2014 Antitrust, Competition Policy, and Consumer Rights",
+          "code": "SSJU01",
+          "subcommittee": true,
+          "title": "Ranking Member"
+        },
+        {
+          "name": "Senate Committee on the Judiciary \u2014 Crime and Counterterrorism",
+          "code": "SSJU22",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on the Judiciary \u2014 Border Security and Immigration",
+          "code": "SSJU04",
+          "subcommittee": true,
+          "title": ""
+        },
+        {
+          "name": "Senate Committee on the Judiciary \u2014 the Constitution",
+          "code": "SSJU21",
+          "subcommittee": true,
+          "title": ""
+        }
+      ],
+      "state_economy": "Pharmaceuticals, ports, finance, and logistics.",
+      "bioguide": "B001288",
+      "opensecrets": "N00035267"
     }
   },
   "unmatched": [

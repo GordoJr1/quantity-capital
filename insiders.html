@@ -539,17 +539,8 @@
     <div class="picker">
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
     </div>
-    <p class="count" id="count"></p>
     <div class="desk" id="desk">
       <div class="wire-col">
-        <div class="qc-txn-head">
-          <p class="qc-txn-legend">
-            <span class="leg-buy">Buy</span>
-            <span class="leg-sell">Sell</span>
-            <span class="leg-note"><span class="leg-info" aria-hidden="true">i</span> Transaction date is when the trade was filed</span>
-          </p>
-          <p class="kicker qc-txn-kicker">Trades</p>
-        </div>
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
       </div>
       <aside class="focus" id="focus">
@@ -633,7 +624,6 @@
         }
         return true;
       }).sort(newestFirst);
-      document.getElementById("count").textContent = vis.length + " trades in view";
       deskRows = vis.slice(0, 400);
       if (!deskRows.some((t) => t.id === activeId)) {
         activeId = deskRows[0] ? deskRows[0].id : "";

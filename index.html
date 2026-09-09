@@ -1521,6 +1521,74 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=103" />
+  <style id="qc-tape-port">
+    .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
+    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
+    .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
+    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
+    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
+    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
+    .qc-txn-hero, .qc-txn .qc-txn-hero { color: #eef2f5; }
+    .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
+    .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
+    .qc-txn-id-line .qc-txn-role { display: none; }
+    .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "sub sub"; row-gap: 3px; }
+    .qc-txn-tape .qc-txn-name { font-weight: 600; }
+    @media (min-width: 900px) {
+      .qc-txn-tape { column-gap: 10px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px; }
+      .qc-txn-tape .qc-txn-end, .qc-txn-tape .qc-txn-tbl { display: contents; }
+      .qc-txn-tape .qc-txn-chip { grid-area: chip; }
+      .qc-txn-tape .qc-txn-date { grid-area: date; }
+      .qc-txn-tape .qc-txn-hero { grid-area: hero; }
+      .qc-txn-tape .qc-txn-company,
+      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
+      .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
+      .qc-txn-tape .qc-txn-company .qc-txn-tk,
+      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.05em; color: inherit; }
+      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; }
+      .qc-txn-tape a.qc-txn-company:hover,
+      .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
+      .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: var(--teal, #36999d); }
+      .qc-txn-tape .qc-txn-id { flex-direction: column; align-items: flex-start; gap: 1px; }
+      .qc-txn-tape .qc-txn-id-line { width: 100%; }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "\2013 "; color: #5b6573; }
+
+      .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
+      .desk .qc-txn-tape {
+        grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
+        grid-template-areas: "date id co coname chip hero";
+      }
+      .desk .qc-txn-tape .qc-txn-company { display: contents; }
+      .desk .qc-txn-tape .qc-txn-company .qc-txn-tk { grid-area: co; }
+      .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+        display: block; grid-area: coname; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; font-weight: 500; color: var(--mute, #8b96a3);
+      }
+      .desk .qc-txn-cols .qc-txn-coname { grid-area: coname; display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .desk .qc-txn-cols .qc-txn-hero,
+      .desk .qc-txn-tape .qc-txn-hero,
+      .desk .qc-txn-tape .qc-txn-hero.is-empty {
+        grid-area: hero; justify-self: end; text-align: right;
+      }
+      .desk .qc-txn-tape .qc-txn-hero {
+        font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.01em; color: #eef2f5;
+      }
+      .desk .qc-txn-tape .qc-txn-hero.is-empty {
+        font-family: "IBM Plex Sans", sans-serif;
+        color: var(--mute, #8b96a3);
+      }
+      .desk .qc-txn-tape { cursor: pointer; }
+      .desk .qc-txn-tape.on { border-color: var(--caution); background: rgba(227, 180, 26, 0.1); }
+      .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
+      .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+    }
+  </style>
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
@@ -1657,7 +1725,7 @@
       <div class="desk" id="desk">
         <div class="wire-col">
           <div class="day wire-day0" id="wire-day0" hidden></div>
-          <section class="wire" id="wire" aria-label="Signal wire"></section>
+          <ol class="wire qc-txn-list qc-tape-list" id="wire" aria-label="Signal wire"></ol>
         </div>
         <aside class="focus" id="focus">
           <div id="focus-head"></div>
@@ -1913,7 +1981,7 @@
           day0.hidden = true;
           day0.innerHTML = "";
         }
-        box.innerHTML = "<p class=\"feed-empty\">No trades match these filters.</p>";
+        box.innerHTML = "<li class=\"muted\">No trades match these filters.</li>";
         return;
       }
       const groups = [];
@@ -1927,50 +1995,43 @@
         const rows = g.ids.map((i) => {
           const t = deskRows[i];
           const side = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
-          const fresh = QC.isLanded(t, 72);
           const on = t.id === activeId;
-          const lag = fileLag(t);
-          const stamp = stampBits(t.trade_date);
-          const ch = chamberClass(t.chamber);
-          const cls = [side, fresh ? "fresh" : "", on ? "on" : ""].filter(Boolean).join(" ");
-          const tickerHtml = isChartTicker(t.code)
-            ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
-            : escapeHtml(t.code);
-          return "<article class=\"print " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
-            "<div class=\"stamp\"><span class=\"mon\">" + stamp.mon + "</span><span class=\"dayn\">" + stamp.day + "</span></div>" +
-            "<div class=\"body\">" +
-              "<div class=\"who-line\">" +
-                "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
-                (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
-                (fresh ? "<span class=\"tag\">Just filed</span>" : "") +
-                (isFilingError(t) ? errBadge() : "") +
-              "</div>" +
-              "<p class=\"meta\">Traded " + escapeHtml(shortDate(t.trade_date)) +
-                (lag != null ? " · " + lag + "-day lag" : "") +
-                (t.owner ? " · " + escapeHtml(ownerLabel(t.owner)) : "") +
-              "</p>" +
+          const cls = [side, on ? "on" : ""].filter(Boolean).join(" ");
+          const co = "<span class=\"qc-txn-tk\">" + escapeHtml(t.code) + "</span>" +
+            "<span class=\"qc-txn-co-name\">" + escapeHtml(t.company) + "</span>";
+          const companyHtml = isChartTicker(t.code)
+            ? "<a class=\"qc-txn-company\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + co + "</a>"
+            : "<span class=\"qc-txn-company\">" + co + "</span>";
+          return "<li class=\"qc-txn qc-txn-tape " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
+            "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
+              "<a class=\"qc-txn-name\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+              (t.chamber ? "<span class=\"qc-txn-role\">" + escapeHtml(t.chamber) + "</span>" : "") +
+            "</div></div>" +
+            "<div class=\"qc-txn-end\">" +
+              "<span class=\"qc-txn-chip\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
+              "<span class=\"qc-txn-hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
             "</div>" +
-            "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) +
-              (t.industry ? " · " + escapeHtml(t.industry) : "") +
-              optionTag(t) +
-            "</p>" +
-            "<div class=\"pay\">" +
-              "<span class=\"pill\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
-              "<span class=\"hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
-            "</div>" +
-          "</article>";
+            "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + escapeHtml(prettyDate(t.trade_date)) + "</span></div>" +
+            companyHtml +
+          "</li>";
         }).join("");
         return {
-          head: "<h2>" + escapeHtml(filedHeading(g.key)) + "</h2>",
-          block: "<div class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2></div>" + rows,
-          rows: rows
+          block: "<li class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2></li>" + rows
         };
       });
       if (day0) {
-        day0.hidden = false;
-        day0.innerHTML = parts[0].head;
+        day0.hidden = true;
+        day0.innerHTML = "";
       }
-      box.innerHTML = parts[0].rows + parts.slice(1).map((p) => p.block).join("");
+      const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+        "<span class=\"qc-txn-date\">Date</span>" +
+        "<span class=\"qc-txn-id\">Name</span>" +
+        "<span class=\"qc-txn-company\">Ticker</span>" +
+        "<span class=\"qc-txn-coname\">Company</span>" +
+        "<span class=\"qc-txn-chip\">Trade</span>" +
+        "<span class=\"qc-txn-hero\">Value</span>" +
+      "</li>";
+      box.innerHTML = colsHtml + parts.map((p) => p.block).join("");
     }
 
     function paintFocus() {
@@ -2215,12 +2276,12 @@
         wire.dataset.bound = "1";
         wire.addEventListener("click", (e) => {
           if (e.target.closest("a")) return;
-          const row = e.target.closest(".print[data-id]");
+          const row = e.target.closest(".qc-txn-tape[data-id]");
           if (row) selectDesk(row.getAttribute("data-id"));
         });
         wire.addEventListener("keydown", (e) => {
           if (e.key !== "Enter" && e.key !== " ") return;
-          const row = e.target.closest(".print[data-id]");
+          const row = e.target.closest(".qc-txn-tape[data-id]");
           if (!row) return;
           e.preventDefault();
           selectDesk(row.getAttribute("data-id"));

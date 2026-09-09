@@ -1088,19 +1088,40 @@
       font-family: "IBM Plex Sans", sans-serif;
       letter-spacing: 0;
     }
+    .desk .wire-cols {
+      display: grid;
+      grid-template-columns: 4.4rem minmax(6rem, 1.05fr) 3.4rem minmax(5.5rem, 1.5fr) 3.9rem minmax(5.9rem, 0.85fr);
+      grid-template-areas: "date name ticker company trade value";
+      align-items: center;
+      gap: 4px 12px;
+      padding: 6px 12px;
+      margin: 0 0 6px;
+      border-bottom: 1px solid #3a4452;
+      border-left: 3px solid transparent;
+      color: var(--mute);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .desk .wire-cols .c-date { grid-area: date; }
+    .desk .wire-cols .c-name { grid-area: name; }
+    .desk .wire-cols .c-ticker { grid-area: ticker; }
+    .desk .wire-cols .c-company { grid-area: company; }
+    .desk .wire-cols .c-trade { grid-area: trade; }
+    .desk .wire-cols .c-value { grid-area: value; justify-self: end; text-align: right; }
     .desk .print {
       display: grid;
-      grid-template-columns: 58px minmax(0, 1fr) auto;
-      grid-template-areas:
-        "stamp story pay"
-        "stamp asset pay";
-      gap: 4px 12px;
+      grid-template-columns: 4.4rem minmax(6rem, 1.05fr) 3.4rem minmax(5.5rem, 1.5fr) 3.9rem minmax(5.9rem, 0.85fr);
+      grid-template-areas: "date name ticker company trade value";
+      gap: 2px 12px;
       align-items: center;
-      background: rgba(37, 45, 56, 0.92);
+      background: rgba(37, 45, 56, 0.72);
       border: 1px solid #3a4452;
       border-left: 4px solid #5b6573;
-      padding: 10px 12px;
-      margin: 0 0 8px;
+      padding: 7px 12px;
+      margin: 0 0 4px;
       color: inherit;
       width: 100%;
       text-align: left;
@@ -1248,6 +1269,82 @@
       line-height: 1.2;
     }
     .desk .print .filing-err { margin-left: 0; }
+    .desk .p-date {
+      grid-area: date;
+      font-size: 0.78rem;
+      color: var(--mute);
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .desk .p-name {
+      grid-area: name;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .desk .p-name .who {
+      font-size: 0.95rem;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .desk .p-role {
+      flex: 0 0 auto;
+      color: var(--mute);
+      font-size: 0.72rem;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .desk .p-role::before { content: "– "; color: #5b6573; }
+    .desk .p-role.sen { color: var(--teal); }
+    .desk .p-role.wh { color: var(--caution); }
+    .desk .p-name .filing-err { flex: 0 0 auto; }
+    .desk .p-ticker {
+      grid-area: ticker;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+    .desk .p-ticker a { color: var(--white); text-decoration: none; }
+    .desk .p-ticker a:hover { color: var(--teal); }
+    .desk .p-company {
+      grid-area: company;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--paper);
+      font-size: 0.82rem;
+    }
+    .desk .print .pill {
+      grid-area: trade;
+      justify-self: start;
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .desk .hero {
+      grid-area: value;
+      justify-self: end;
+      text-align: right;
+      font-family: "JetBrains Mono", monospace;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      font-size: 0.82rem;
+      color: #eef2f5;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+    }
 
     .focus {
       position: sticky;
@@ -1937,27 +2034,16 @@
             ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
             : escapeHtml(t.code);
           return "<article class=\"print " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
-            "<div class=\"stamp\"><span class=\"mon\">" + stamp.mon + "</span><span class=\"dayn\">" + stamp.day + "</span></div>" +
-            "<div class=\"body\">" +
-              "<div class=\"who-line\">" +
-                "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
-                (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
-                (fresh ? "<span class=\"tag\">Just filed</span>" : "") +
-                (isFilingError(t) ? errBadge() : "") +
-              "</div>" +
-              "<p class=\"meta\">Traded " + escapeHtml(shortDate(t.trade_date)) +
-                (lag != null ? " · " + lag + "-day lag" : "") +
-                (t.owner ? " · " + escapeHtml(ownerLabel(t.owner)) : "") +
-              "</p>" +
+            "<span class=\"p-date\">" + escapeHtml(shortDate(t.trade_date)) + "</span>" +
+            "<div class=\"p-name\">" +
+              "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+              (t.chamber ? "<span class=\"p-role " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
+              (isFilingError(t) ? errBadge() : "") +
             "</div>" +
-            "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) +
-              (t.industry ? " · " + escapeHtml(t.industry) : "") +
-              optionTag(t) +
-            "</p>" +
-            "<div class=\"pay\">" +
-              "<span class=\"pill\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
-              "<span class=\"hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
-            "</div>" +
+            "<span class=\"p-ticker\">" + tickerHtml + "</span>" +
+            "<span class=\"p-company\">" + escapeHtml(t.company) + "</span>" +
+            "<span class=\"pill\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
+            "<span class=\"hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
           "</article>";
         }).join("");
         return {
@@ -1970,7 +2056,15 @@
         day0.hidden = false;
         day0.innerHTML = parts[0].head;
       }
-      box.innerHTML = parts[0].rows + parts.slice(1).map((p) => p.block).join("");
+      const colsHtml = "<div class=\"wire-cols\" aria-hidden=\"true\">" +
+        "<span class=\"c-date\">Date</span>" +
+        "<span class=\"c-name\">Name</span>" +
+        "<span class=\"c-ticker\">Ticker</span>" +
+        "<span class=\"c-company\">Company</span>" +
+        "<span class=\"c-trade\">Trade</span>" +
+        "<span class=\"c-value\">Value</span>" +
+      "</div>";
+      box.innerHTML = colsHtml + parts[0].rows + parts.slice(1).map((p) => p.block).join("");
     }
 
     function paintFocus() {

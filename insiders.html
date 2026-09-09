@@ -173,6 +173,12 @@
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: var(--teal, #36999d); }
       .qc-txn-tape .qc-txn-id { flex-direction: column; align-items: flex-start; gap: 1px; }
       .qc-txn-tape .qc-txn-id-line { width: 100%; }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-name {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
       .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "– "; color: #5b6573; }
       .qc-txn-tape .qc-txn-id-sub { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--mute, #8b96a3); font-size: 0.68rem; }
@@ -212,7 +218,7 @@
       .desk .qc-txn-head { margin-top: 0; }
       .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(6rem, 1.05fr) 3.7rem minmax(6.5rem, 1.75fr) 4.8rem minmax(4.4rem, 0.72fr);
+        grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
         grid-template-areas: "date id co coname chip hero";
       }
       .desk .qc-txn-tape .qc-txn-sh,
@@ -233,7 +239,7 @@
         white-space: nowrap;
         font-size: 0.82rem;
         font-weight: 500;
-        color: var(--paper);
+        color: var(--mute, #8b96a3);
       }
       .desk .qc-txn-cols .qc-txn-coname {
         grid-area: coname;

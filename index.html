@@ -1851,6 +1851,7 @@
     const PAGE = 120;
     const DESK_PAGE_MAX = 300;
     const DESK_MIN_FILERS = 6;
+    const DESK_SINGLE_FILER_DAY_CAP = 16;
     let showAll = false;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
@@ -2262,7 +2263,11 @@
           group.push(sorted[i++]);
         }
         const room = DESK_PAGE_MAX - out.length;
-        const take = group.length > PAGE ? Math.min(PAGE, room) : Math.min(group.length, room);
+        const dayFilers = new Set(group.map((t) => t.filer_id)).size;
+        const cap = (dayFilers === 1 && group.length > DESK_SINGLE_FILER_DAY_CAP)
+          ? DESK_SINGLE_FILER_DAY_CAP
+          : group.length;
+        const take = Math.min(cap, room);
         out.push.apply(out, group.slice(0, take));
         const filers = new Set(out.map((t) => t.filer_id)).size;
         const days = new Set(out.map((t) => t.filed_date)).size;

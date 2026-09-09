@@ -1849,6 +1849,8 @@
     const isChartTicker = QC.isChartTicker;
 
     const PAGE = 120;
+    const DESK_PAGE_MAX = 300;
+    const DESK_MIN_FILERS = 6;
     let showAll = false;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
@@ -2249,6 +2251,27 @@
       if (DESK_MQ.matches) paintChart();
     }
 
+    function sliceDeskRows(sorted) {
+      if (showAll) return sorted;
+      const out = [];
+      let i = 0;
+      while (i < sorted.length && out.length < DESK_PAGE_MAX) {
+        const key = String(sorted[i].filed_date || "");
+        const group = [];
+        while (i < sorted.length && String(sorted[i].filed_date || "") === key) {
+          group.push(sorted[i++]);
+        }
+        const room = DESK_PAGE_MAX - out.length;
+        const take = group.length > PAGE ? Math.min(PAGE, room) : Math.min(group.length, room);
+        out.push.apply(out, group.slice(0, take));
+        const filers = new Set(out.map((t) => t.filer_id)).size;
+        const days = new Set(out.map((t) => t.filed_date)).size;
+        if (out.length >= PAGE && filers >= DESK_MIN_FILERS) break;
+        if (out.length >= PAGE && days >= 5 && filers >= 2) break;
+      }
+      return out;
+    }
+
     function renderDesk(filtered) {
       const sorted = filtered.slice().sort((a, b) => {
         const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
@@ -2257,7 +2280,7 @@
         if (td) return td;
         return String(b.id || "").localeCompare(String(a.id || ""));
       });
-      const visible = showAll ? sorted : sorted.slice(0, PAGE);
+      const visible = sliceDeskRows(sorted);
       deskRows = visible;
       if (!deskRows.some((row) => row.id === activeId)) {
         activeId = deskRows[0] ? deskRows[0].id : "";

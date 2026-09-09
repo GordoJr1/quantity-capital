@@ -1,0 +1,14 @@
+{
+  "name": "Quantity Capital",
+  "install": "python3 build-backtest.py",
+  "terminals": [
+    {
+      "name": "web",
+      "command": "python3 -m http.server 8000",
+      "description": "Static dev server for the Quantity Capital PWA. Open http://localhost:8000/index.html — the site fetches its JSON tape data over HTTP, so it must be served rather than opened from disk."
+    }
+  ],
+  "ports": [
+    { "name": "web", "port": 8000 }
+  ]
+}

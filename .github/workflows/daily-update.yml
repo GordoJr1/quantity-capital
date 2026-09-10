@@ -1,0 +1,72 @@
+# Refresh committed Yahoo daily closes and rebuild backtest.json so the
+# GitHub Pages site does not go stale when the off-repo tape collector
+# is idle. Tape JSON (Senate/House/OGE/Form 4/SEDI) is still produced
+# outside this repo — this job cannot invent new filings.
+name: daily-update
+on:
+  schedule:
+    # 19:30 ET — after the US cash close and the typical off-repo
+    # evening tape push (~18:12–18:38 ET), so this is a backstop.
+    - cron: "30 23 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Max price files to fetch (empty = all)"
+        required: false
+        default: ""
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+  deployments: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch latest Yahoo closes
+        run: |
+          set -euo pipefail
+          LIMIT="${{ github.event.inputs.limit }}"
+          if [ -n "${LIMIT}" ]; then
+            python3 fetch-prices.py --limit "${LIMIT}"
+          else
+            python3 fetch-prices.py
+          fi
+
+      - name: Rebuild backtest.json
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- prices; then
+            echo "prices unchanged; skipping backtest rebuild"
+          else
+            python3 build-backtest.py
+          fi
+
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add prices backtest.json
+          if git diff --staged --quiet; then
+            echo "no data changes"
+            exit 0
+          fi
+          git commit -m "Daily price refresh $(date -u +%F)"
+          git pull --rebase origin main
+          git push
+          # GITHUB_TOKEN commits do not always start pages-build-deployment.
+          sleep 8
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"

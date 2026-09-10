@@ -14,6 +14,12 @@ on:
         description: "Max price files to fetch (empty = all)"
         required: false
         default: ""
+  # A push that touches this file on main starts a run (used to kick
+  # off the first refresh when workflow_dispatch is not available).
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/daily-update.yml"
 
 concurrency:
   group: daily-update

@@ -1205,8 +1205,15 @@
     const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
-    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\"" +
-      (t && t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
+    const extras = [];
+    if (opts.selected) extras.push("on");
+    if (opts.preview) extras.push("preview");
+    if (opts.extraClass) extras.push(opts.extraClass);
+    const extraCls = extras.length ? " " + extras.join(" ") : "";
+    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + extraCls + "\"" +
+      (t && t.id ? " data-id=\"" + esc(t.id) + "\"" : "") +
+      (opts.holdKey ? " data-key=\"" + esc(opts.holdKey) + "\"" : "") +
+      " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (opts.selected ? "true" : "false") + "\">" +
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
@@ -1251,7 +1258,14 @@
         const tickerHref = opts.tickerSelf
           ? ""
           : (isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) + filerQs : "");
-        return politicianTapeRowHtml(t, { nameHref: nameHref, tickerHref: tickerHref });
+        const holdKey = opts.holdKeyOf ? opts.holdKeyOf(t) : "";
+        return politicianTapeRowHtml(t, {
+          nameHref: nameHref,
+          tickerHref: tickerHref,
+          holdKey: holdKey,
+          selected: !!(opts.selectedId && t.id === opts.selectedId),
+          preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId)
+        });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
     });

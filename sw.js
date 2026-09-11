@@ -23,6 +23,7 @@ const SHELL = [
   "./qc.js?v=106",
   "./qc.js?v=107",
   "./qc.js?v=108",
+  "./qc.js?v=109",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",

@@ -45,12 +45,22 @@
     return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
   }
 
+  function isEtfLike(t) {
+    const type = (t.asset_type || "").toLowerCase();
+    const asset = (t.asset || "").toLowerCase();
+    const ticker = (t.ticker || t.code || "").toUpperCase();
+    if (type.includes("etf") || type.includes("etn")) return true;
+    if (/\betf\b|\betn\b|exchange[- ]traded/.test(asset)) return true;
+    if (/\bETF$/.test(ticker)) return true;
+    return false;
+  }
+
   function assetKind(t) {
     const type = (t.asset_type || "").toLowerCase();
     const asset = (t.asset || "").toLowerCase();
     if (isOptionLike(t)) return "option";
     if (type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset)) return "bond";
-    if (type.includes("stock")) return "stock";
+    if (type.includes("stock") || isEtfLike(t)) return "stock";
     return "other";
   }
 
@@ -1235,6 +1245,95 @@
     "</li>";
   }
 
+  function compareFiledDesc(a, b) {
+    const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
+    if (fd) return fd;
+    const td = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
+    if (td) return td;
+    return String(b.id || "").localeCompare(String(a.id || ""));
+  }
+
+  function compareAddedDesc(a, b) {
+    const ad = String(b.added || "").localeCompare(String(a.added || ""));
+    if (ad) return ad;
+    return compareFiledDesc(a, b);
+  }
+
+  function takeFiledDayPage(sorted, opts) {
+    opts = opts || {};
+    const page = Number(opts.page) > 0 ? Number(opts.page) : 120;
+    const deskMax = Number(opts.deskMax) > 0 ? Number(opts.deskMax) : 300;
+    const minFilers = Number(opts.minFilers) > 0 ? Number(opts.minFilers) : 6;
+    const singleCap = Number(opts.singleFilerCap) > 0 ? Number(opts.singleFilerCap) : 16;
+    if (!opts.desktop) return sorted.slice(0, page);
+    const out = [];
+    let i = 0;
+    while (i < sorted.length && out.length < deskMax) {
+      const key = String(sorted[i].filed_date || "");
+      const group = [];
+      while (i < sorted.length && String(sorted[i].filed_date || "") === key) {
+        group.push(sorted[i++]);
+      }
+      const room = deskMax - out.length;
+      const dayFilers = new Set(group.map((t) => t.filer_id)).size;
+      const cap = (dayFilers === 1 && group.length > singleCap) ? singleCap : group.length;
+      out.push.apply(out, group.slice(0, Math.min(cap, room)));
+      const filers = new Set(out.map((t) => t.filer_id)).size;
+      const days = new Set(out.map((t) => t.filed_date)).size;
+      if (out.length >= page && filers >= minFilers) break;
+      if (out.length >= page && days >= 5 && filers >= 2) break;
+    }
+    return out;
+  }
+
+  function sliceTapeRows(rows, opts) {
+    opts = opts || {};
+    const list = rows || [];
+    const page = Number(opts.page) > 0 ? Number(opts.page) : 120;
+    const deskMax = Number(opts.deskMax) > 0 ? Number(opts.deskMax) : 300;
+    const singleCap = Number(opts.singleFilerCap) > 0 ? Number(opts.singleFilerCap) : 16;
+    const sortAdded = opts.sort === "added";
+    if (opts.showAll) {
+      const all = list.slice().sort(sortAdded ? compareAddedDesc : compareFiledDesc);
+      return { rows: all, pinCount: sortAdded ? all.length : 0 };
+    }
+    if (sortAdded) {
+      const sorted = list.slice().sort(compareAddedDesc);
+      const cap = opts.desktop ? deskMax : page;
+      const vis = sorted.slice(0, cap);
+      return { rows: vis, pinCount: vis.length };
+    }
+    let pin = [];
+    let skipIds = new Set();
+    const pinHours = opts.pinLandedHours;
+    if (pinHours) {
+      const landed = list.filter((t) => isLanded(t, pinHours)).sort(compareAddedDesc);
+      skipIds = new Set(landed.map((t) => t.id));
+      const per = {};
+      landed.forEach((t) => {
+        const id = t.filer_id || t.filer || "";
+        per[id] = (per[id] || 0) + 1;
+        if (per[id] <= singleCap) pin.push(t);
+      });
+      if (pin.length > page) pin = pin.slice(0, page);
+    }
+    const rest = list.filter((t) => !skipIds.has(t.id)).sort(compareFiledDesc);
+    if (pin.length >= page) {
+      return { rows: pin, pinCount: pin.length };
+    }
+    if (!opts.desktop) {
+      return { rows: pin.concat(rest.slice(0, page - pin.length)), pinCount: pin.length };
+    }
+    const restTake = takeFiledDayPage(rest, {
+      desktop: true,
+      page: Math.max(1, page - pin.length),
+      deskMax: Math.max(0, deskMax - pin.length),
+      minFilers: opts.minFilers,
+      singleFilerCap: singleCap
+    });
+    return { rows: pin.concat(restTake), pinCount: pin.length };
+  }
+
   function politicianTapeListHtml(rows, opts) {
     opts = opts || {};
     const empty = opts.empty || "No trades on the 3-year tape.";
@@ -1321,6 +1420,10 @@
     politicianTapeRowHtml: politicianTapeRowHtml,
     TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,
+    compareFiledDesc: compareFiledDesc,
+    compareAddedDesc: compareAddedDesc,
+    sliceTapeRows: sliceTapeRows,
+    isEtfLike: isEtfLike,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,

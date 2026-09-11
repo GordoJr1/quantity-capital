@@ -210,11 +210,10 @@
     .clear-btn:hover { background: rgba(227, 180, 26, 0.08); }
     .hint { color: var(--mute); font-size: 0.78rem; margin-left: auto; }
     .hold-stage {
-      display: grid;
-      grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
-      gap: 12px 16px;
-      align-items: stretch;
-      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
     }
     .allocator {
       border: 1px solid #4a5563;
@@ -222,30 +221,40 @@
       padding: 10px 10px 8px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      align-self: stretch;
+      flex: 0 0 auto;
       min-height: 0;
+    }
+    .alloc-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
     }
     .alloc-kicker {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--mute); font-size: 0.72rem; margin-bottom: 8px;
+      text-transform: uppercase; color: var(--mute); font-size: 0.72rem; margin: 0;
     }
     .alloc-total {
-      display: flex; align-items: baseline; justify-content: space-between; gap: 8px;
-      margin: 0 0 8px;
+      display: flex; align-items: baseline; gap: 8px;
+      margin: 0;
     }
     .alloc-total b {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.04em;
-      color: var(--caution); font-size: 1.35rem; line-height: 1;
+      color: var(--caution); font-size: 1.2rem; line-height: 1;
     }
     .alloc-total span { color: var(--mute); font-size: 0.72rem; }
     .tile-board {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
       gap: 6px;
-      flex: 0 1 auto;
       align-content: start;
-      min-height: 0;
+    }
+    .tile-board.expanded {
+      max-height: 168px;
+      overflow-y: auto;
+      padding-right: 2px;
     }
     .hold-tile {
       box-sizing: border-box;
@@ -254,7 +263,7 @@
       background: #1b2330;
       color: inherit;
       text-align: left;
-      padding: 8px 9px 7px;
+      padding: 7px 8px 6px;
       cursor: pointer;
       overflow: hidden;
       font: inherit;
@@ -262,20 +271,13 @@
       flex-direction: column;
       justify-content: space-between;
       min-width: 0;
-      min-height: 76px;
+      min-height: 72px;
     }
-    .hold-tile.wide { grid-column: 1 / -1; min-height: 84px; }
-    .hold-tile.other { min-height: 58px; }
+    .hold-tile.other { min-height: 72px; }
     .hold-tile:hover { filter: brightness(1.08); }
     .hold-tile.on {
       outline: 2px solid var(--caution);
       outline-offset: -2px;
-      z-index: 2;
-    }
-    .hold-tile.preview {
-      outline: 1px dashed rgba(125, 207, 122, 0.7);
-      outline-offset: -2px;
-      z-index: 1;
     }
     .hold-tile .tk {
       font-family: "Barlow Condensed", sans-serif;
@@ -316,8 +318,8 @@
       padding: 10px 12px 8px;
       display: flex;
       flex-direction: column;
+      flex: 0 0 auto;
       min-width: 0;
-      min-height: 0;
     }
     .focus-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
     .holdings .focus .who {
@@ -360,8 +362,8 @@
       padding: 8px 8px 6px 44px;
       overflow: hidden;
       user-select: none;
-      flex: 1 1 auto;
-      min-height: 320px;
+      flex: 0 0 auto;
+      height: 392px;
       display: flex;
       flex-direction: column;
     }
@@ -376,11 +378,10 @@
     }
     .holdings .focus #chart-svg {
       width: 100%;
-      flex: 1 1 auto;
-      height: clamp(300px, 42vh, 560px);
+      height: 348px;
+      flex: 0 0 348px;
       display: block;
       background: transparent;
-      min-height: 260px;
       cursor: crosshair;
       overflow: visible;
     }
@@ -490,11 +491,10 @@
       background: rgba(227, 180, 26, 0.1);
       box-shadow: inset 0 0 0 1px rgba(227, 180, 26, 0.35);
     }
-    .qc-pol-desk .qc-txn-tape.preview { background: rgba(255,255,255,0.04); }
     @media (max-width: 820px) {
-      .hold-stage { grid-template-columns: 1fr; min-height: 0; }
-      .tile-board { min-height: 220px; }
-      .holdings .focus #chart-svg { height: clamp(240px, 38vh, 360px); }
+      .holdings .focus .chart-wrap { height: 320px; }
+      .holdings .focus #chart-svg { height: 276px; flex-basis: 276px; }
+      .tile-board { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
       .hint { margin-left: 0; width: 100%; }
     }
     .buy { color: #7dcf7a; }
@@ -599,15 +599,9 @@
       <div class="link-bar" id="link-bar">
         <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
         <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
-        <span class="hint">Click a holding or a tape row · hover to preview</span>
+        <span class="hint">Click a holding or a tape row</span>
       </div>
       <div class="hold-stage">
-        <aside class="allocator" aria-label="Holdings allocator">
-          <p class="alloc-kicker">Allocator · click to chart</p>
-          <div class="alloc-total" id="alloc-total"></div>
-          <div class="tile-board" id="tile-board"></div>
-          <div class="hold-more" id="hold-more"></div>
-        </aside>
         <div class="focus" id="focus">
           <div class="focus-top" id="focus-head"></div>
           <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
@@ -620,6 +614,14 @@
             <div class="mark-pop" id="mark-pop" hidden></div>
           </div>
         </div>
+        <aside class="allocator" aria-label="Holdings allocator">
+          <div class="alloc-head">
+            <p class="alloc-kicker">Allocator · click to chart</p>
+            <div class="alloc-total" id="alloc-total"></div>
+          </div>
+          <div class="tile-board" id="tile-board"></div>
+          <div class="hold-more" id="hold-more"></div>
+        </aside>
       </div>
     </section>
     <div class="tape-head">
@@ -785,12 +787,9 @@
     let bookRange = "3y";
     let selectedKey = "";
     let selectedTradeId = "";
-    let hoverKey = "";
-    let hoverTradeId = "";
     let showAllTiles = false;
     let chartToken = 0;
     const priceCache = {};
-    let hoverTimer = 0;
     let deskBound = false;
 
     function formatPct(value, total) {
@@ -873,11 +872,11 @@
     }
 
     function visibleKey() {
-      return hoverKey || selectedKey;
+      return selectedKey;
     }
 
     function visibleTradeId() {
-      return hoverTradeId || selectedTradeId;
+      return selectedTradeId;
     }
 
     function positionByKey(key, book) {
@@ -992,18 +991,14 @@
         if (more) more.innerHTML = "";
         return;
       }
-      const viewKey = visibleKey();
-      const named = list.filter((p) => !p.other);
-      board.innerHTML = list.map((p, i) => {
+      board.classList.toggle("expanded", !!showAllTiles);
+      board.innerHTML = list.map((p) => {
         const pct = formatPct(p.value, book.total);
         const color = p.other ? SLICE[SLICE.length - 1] : colorForKey(p.key, book.positions);
-        const wide = p.other || (i === 0 && named.length && p === named[0]);
         const cls = [
           "hold-tile",
-          wide ? "wide" : "",
           p.other ? "other" : "",
-          !p.other && p.key === selectedKey ? "on" : "",
-          !p.other && viewKey === p.key && p.key !== selectedKey ? "preview" : ""
+          !p.other && p.key === selectedKey ? "on" : ""
         ].filter(Boolean).join(" ");
         return "<button type=\"button\" class=\"" + cls + "\" data-key=\"" + esc(p.key) + "\"" +
           (p.other ? " data-other=\"1\"" : "") +
@@ -1195,7 +1190,7 @@
           theme: "cyan",
           onMark: (rec) => {
             const mid = rec && rec.mark && rec.mark.id;
-            if (mid) selectTrade(mid, { fromChart: true });
+            if (mid) selectTrade(mid);
             showPop(rec);
           }
         });
@@ -1220,8 +1215,7 @@
         filerId: id,
         empty: key ? "No trades for this name on the 3-year tape." : "No trades on the 3-year tape.",
         holdKeyOf: (t) => holdingIdentity(t, tickerLookup).key,
-        selectedId: visibleTradeId(),
-        previewId: hoverTradeId && hoverTradeId !== selectedTradeId ? hoverTradeId : ""
+        selectedId: visibleTradeId()
       });
       if (count) {
         if (key) {
@@ -1238,33 +1232,11 @@
       const list = document.getElementById("rows");
       if (!list) return;
       const onId = visibleTradeId();
-      const prevId = hoverTradeId && hoverTradeId !== selectedTradeId ? hoverTradeId : "";
       list.querySelectorAll(".qc-txn-tape[data-id]").forEach((el) => {
         const tid = el.getAttribute("data-id");
         el.classList.toggle("on", !!(onId && tid === onId));
-        el.classList.toggle("preview", !!(prevId && tid === prevId));
         el.setAttribute("aria-pressed", onId && tid === onId ? "true" : "false");
       });
-    }
-
-    function syncTileMarks() {
-      const board = document.getElementById("tile-board");
-      if (!board) return;
-      const view = visibleKey();
-      board.querySelectorAll(".hold-tile[data-key]").forEach((el) => {
-        const key = el.getAttribute("data-key");
-        const other = el.getAttribute("data-other") === "1";
-        el.classList.toggle("on", !other && key === selectedKey);
-        el.classList.toggle("preview", !other && key === view && key !== selectedKey);
-      });
-    }
-
-    function paintPreview() {
-      const book = currentBook();
-      syncTileMarks();
-      paintFocusHead(book);
-      syncTapeMarks();
-      paintChart();
     }
 
     function paintDesk() {
@@ -1285,8 +1257,6 @@
     function clearSelection() {
       selectedKey = "";
       selectedTradeId = "";
-      hoverKey = "";
-      hoverTradeId = "";
       paintDesk();
     }
 
@@ -1294,53 +1264,25 @@
       if (!key || key === "__OTHER__") return;
       selectedKey = key;
       selectedTradeId = tradeId || (pickTradeForKey(key) || {}).id || "";
-      hoverKey = "";
-      hoverTradeId = "";
       paintDesk();
     }
 
-    function selectTrade(tid, opts) {
+    function selectTrade(tid) {
       const t = tradeById(tid);
       if (!t) return;
       const nextKey = holdingIdentity(t, tickerLookup).key;
       const sameFilter = selectedKey === nextKey;
       selectedKey = nextKey;
       selectedTradeId = tid;
-      if (!(opts && opts.fromChart)) {
-        hoverKey = "";
-        hoverTradeId = "";
-      }
       if (sameFilter) {
-        paintChip(currentBook());
-        paintPreview();
+        const book = currentBook();
+        paintChip(book);
+        paintFocusHead(book);
+        syncTapeMarks();
+        paintChart();
       } else {
         paintDesk();
       }
-    }
-
-    function previewKey(key) {
-      if (!key || key === "__OTHER__") return;
-      if (hoverKey === key && !hoverTradeId) return;
-      hoverKey = key;
-      const t = pickTradeForKey(key);
-      hoverTradeId = (t && t.id) || "";
-      paintPreview();
-    }
-
-    function previewTrade(tid) {
-      const t = tradeById(tid);
-      if (!t) return;
-      if (hoverTradeId === tid) return;
-      hoverKey = holdingIdentity(t, tickerLookup).key;
-      hoverTradeId = tid;
-      paintPreview();
-    }
-
-    function endPreview() {
-      if (!hoverKey && !hoverTradeId) return;
-      hoverKey = "";
-      hoverTradeId = "";
-      paintPreview();
     }
 
     function bindDesk() {
@@ -1370,17 +1312,6 @@
           }
           selectKey(tile.getAttribute("data-key"));
         });
-        board.addEventListener("mouseover", (e) => {
-          const tile = e.target.closest(".hold-tile");
-          if (!tile || tile.getAttribute("data-other") === "1") return;
-          const key = tile.getAttribute("data-key");
-          clearTimeout(hoverTimer);
-          hoverTimer = setTimeout(() => previewKey(key), 40);
-        });
-        board.addEventListener("mouseleave", () => {
-          clearTimeout(hoverTimer);
-          endPreview();
-        });
       }
       if (more) {
         more.addEventListener("click", (e) => {
@@ -1401,17 +1332,6 @@
           if (!row) return;
           e.preventDefault();
           selectTrade(row.getAttribute("data-id"));
-        });
-        rows.addEventListener("mouseover", (e) => {
-          const row = e.target.closest(".qc-txn-tape[data-id]");
-          if (!row) return;
-          const tid = row.getAttribute("data-id");
-          clearTimeout(hoverTimer);
-          hoverTimer = setTimeout(() => previewTrade(tid), 40);
-        });
-        rows.addEventListener("mouseleave", () => {
-          clearTimeout(hoverTimer);
-          endPreview();
         });
       }
       if (clear) clear.addEventListener("click", clearSelection);

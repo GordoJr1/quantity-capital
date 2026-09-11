@@ -989,6 +989,35 @@
       return { latest: latest, positions: positions, total: total };
     }
 
+    function buildActivity(rows, lookup) {
+      const book = new Map();
+      let latest = "";
+      rows.forEach((t) => {
+        if ((t.filed_date || "") > latest) latest = t.filed_date;
+        if (t.side === "exchange" || isOptionLike(t)) return;
+        const hi = amountHigh(t.amount) || Number(t.value) || 0;
+        const idn = holdingIdentity(t, lookup);
+        const prev = book.get(idn.key) || {
+          key: idn.key, label: idn.label, name: idn.name, kind: idn.kind,
+          value: 0, buys: 0, sells: 0, options: 0, last: ""
+        };
+        const when = t.trade_date || t.filed_date || "";
+        if (when && when > (prev.last || "")) {
+          prev.last = when;
+          if (hi) prev.value = hi;
+        }
+        if (t.side === "purchase") prev.buys += 1;
+        else if (t.side === "sale" || t.side === "sale_post") prev.sells += 1;
+        book.set(idn.key, prev);
+      });
+      const positions = Array.from(book.values()).filter((p) => p.label).sort((a, b) => {
+        const d = String(b.last || "").localeCompare(String(a.last || ""));
+        return d || (b.value - a.value);
+      });
+      const total = positions.reduce((sum, p) => sum + p.value, 0);
+      return { latest: latest, positions: positions, total: total, activity: true };
+    }
+
     function colorForKey(key, list) {
       const hit = list.findIndex((p) => p.key === key);
       if (hit >= 0) return SLICE[hit % SLICE.length];
@@ -1029,7 +1058,9 @@
     }
 
     function currentBook() {
-      return buildHoldings(rowsForRange(allRows, bookRange), tickerLookup);
+      const held = buildHoldings(rowsForRange(allRows, bookRange), tickerLookup);
+      if (held.positions.length) return held;
+      return buildActivity(rowsForRange(allRows, bookRange), tickerLookup);
     }
 
     function orderPositions(positions) {
@@ -1149,7 +1180,7 @@
       const more = document.getElementById("hold-more");
       if (totalBox) {
         totalBox.innerHTML = book.total
-          ? "<b>" + formatMoney(book.total) + "</b><span>net · " + (RANGE_LABEL[bookRange] || "") + "</span>"
+          ? "<b>" + formatMoney(book.total) + "</b><span>" + (book.activity ? "tape · " : "net · ") + (RANGE_LABEL[bookRange] || "") + "</span>"
           : "<span>No residual book in this lookback</span>";
       }
       if (!board) return;

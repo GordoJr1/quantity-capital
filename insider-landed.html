@@ -39,8 +39,15 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
-    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 16px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; font-weight: 700; }
+    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 8px; }
+    details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
+    details.how summary {
+      cursor: pointer; padding: 10px 14px; color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 14px 14px; color: var(--paper); line-height: 1.55; }
     .muted { color: var(--mute); font-size: 0.88rem; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
     a.chip, .chip { background: #151b24; border: 1px solid #4a5563; color: var(--paper); padding: 8px 14px; cursor: pointer; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
@@ -95,7 +102,7 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
+      h1 { font-size: 1.35rem; }
       .kicker { margin-top: 14px; }
       .tickets li { grid-template-columns: 88px minmax(0, 1fr); }
     }
@@ -114,7 +121,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -132,12 +139,16 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Drop log</p>
+    <div class="page-head">
+      <h1>Filed</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Filed</h1>
-    <p class="lede">Officer filings that just hit the tape, newest ingest first — not by trade date.</p>
+    <details class="how">
+      <summary>How this is scored</summary>
+      <div class="body">
+        <p>Officer filings that just hit the tape, newest ingest first — not by trade date.</p>
+      </div>
+    </details>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div id="board"></div>
@@ -145,7 +156,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     const WINDOWS = [72, 168, 336];
     const params = new URLSearchParams(location.search);

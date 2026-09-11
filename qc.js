@@ -1248,8 +1248,14 @@
       if (td) return td;
       return String(b.id || "").localeCompare(String(a.id || ""));
     });
+    const page = Number(opts.limit) > 0 ? Number(opts.limit) : 0;
+    let vis = sorted;
+    if (page && sorted.length > page) {
+      const idx = opts.selectedId ? sorted.findIndex((t) => t.id === opts.selectedId) : -1;
+      vis = (idx >= page) ? sorted : sorted.slice(0, page);
+    }
     const groups = [];
-    sorted.forEach((t) => {
+    vis.forEach((t) => {
       const key = t.filed_date || "";
       const last = groups[groups.length - 1];
       if (last && last.key === key) last.rows.push(t);
@@ -1313,6 +1319,7 @@
     filedHeading: filedHeading,
     politicianTapeColsHtml: politicianTapeColsHtml,
     politicianTapeRowHtml: politicianTapeRowHtml,
+    TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,

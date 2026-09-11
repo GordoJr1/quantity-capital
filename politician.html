@@ -55,14 +55,14 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     .back { color: var(--teal); text-decoration: none; }
-    .kicker { color: var(--caution); margin: 28px 0 8px; }
-    h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
+    .kicker { color: var(--caution); margin: 8px 0 4px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; }
     .hero {
       display: flex;
-      align-items: center;
-      gap: 14px 28px;
+      align-items: baseline;
+      gap: 10px 16px;
       flex-wrap: wrap;
-      margin: 0 0 10px;
+      margin: 0;
     }
     .hero h1 { margin: 0; flex: 0 1 auto; min-width: 0; }
     .hero-facts {
@@ -84,7 +84,7 @@
     .hero-line.soft { color: var(--mute); font-size: 0.82rem; }
     .hero-party { color: var(--caution); font-weight: 600; }
     .bio-wrap {
-      margin: 8px 0 22px;
+      margin: 4px 0 12px;
       border: 1px solid #4a5563;
       background: #151b24;
     }
@@ -163,7 +163,7 @@
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
       header { padding: 12px 0; }
-      h1 { font-size: clamp(1.8rem, 10vw, 2.6rem); }
+      h1 { font-size: 1.35rem; }
       .bio {
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -418,7 +418,7 @@
       display: flex; width: fit-content; gap: 3px;
       background: rgba(15, 23, 42, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px; padding: 3px 5px; margin: 0; flex: 0 0 auto;
+      border-radius: 999px; padding: 3px 5px; margin: 0 0 6px; flex: 0 0 auto;
     }
     .holdings .focus .range button {
       background: transparent; border: 0; color: #94a3b8;
@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -661,14 +661,11 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <a class="back" href="index.html#tape">← Tape</a>
-    </div>
-    <p class="kicker">3 year history</p>
-    <div class="hero">
+    <p class="ident-nav"><a class="back" href="index.html#tape">← Tape</a></p>
+    <div class="page-head ident">
       <h1 id="who">Member</h1>
       <p class="hero-facts" id="hero-facts" hidden></p>
+      <p class="asof" id="asof"></p>
     </div>
     <details class="bio-wrap">
       <summary>Bio</summary>
@@ -676,18 +673,15 @@
     </details>
     <div class="stats" id="stats" hidden></div>
     <section class="holdings" id="holdings" hidden>
-      <p class="kicker">Estimated book</p>
-      <h2>Holdings</h2>
       <div class="link-bar" id="link-bar">
         <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
         <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
-        <span class="hint">Click a holding or a tape row</span>
       </div>
       <div class="hold-stage">
         <div class="focus" id="focus">
+          <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
           <div class="focus-bar">
             <div class="focus-top" id="focus-head"></div>
-            <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
           </div>
           <div class="chart-wrap" id="chart-wrap">
             <div class="chart-frame">
@@ -719,9 +713,12 @@
     <div class="qc-pol-desk">
       <ol class="qc-txn-list qc-tape-list" id="rows" aria-label="Politician tape"></ol>
     </div>
+    <div class="tape-more" id="tape-more-row" hidden>
+      <button type="button" id="tape-more">Show full list</button>
+    </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script src="chart.js"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -848,9 +845,9 @@
         return;
       }
       box.hidden = false;
-      box.innerHTML =
-        (line1.length ? "<span class=\"hero-line\">" + line1.join(" · ") + "</span>" : "") +
-        (line2.length ? "<span class=\"hero-line soft\">" + line2.join(" · ") + "</span>" : "");
+      box.innerHTML = line1.length
+        ? "<span class=\"hero-line\">" + line1.join(" · ") + "</span>"
+        : "";
     }
 
     function paintBio(bio, overlaps) {
@@ -913,6 +910,7 @@
     let selectedKey = "";
     let selectedTradeId = "";
     let showAllTiles = false;
+    let showAllTape = false;
     let tileSort = "size";
     let chartToken = 0;
     const priceCache = {};
@@ -1391,26 +1389,39 @@
     function paintTape() {
       const list = document.getElementById("rows");
       const count = document.getElementById("tape-count");
+      const moreRow = document.getElementById("tape-more-row");
+      const moreBtn = document.getElementById("tape-more");
       if (!list) return;
       const key = selectedKey;
-      const shown = key ? tradesForKey(key) : tapeRows;
+      const full = key ? tradesForKey(key) : tapeRows;
+      const page = QC.TAPE_PAGE;
+      const limit = showAllTape ? 0 : page;
       list.hidden = false;
-      list.innerHTML = QC.politicianTapeListHtml(shown, {
+      list.innerHTML = QC.politicianTapeListHtml(full, {
         nameSelf: true,
         tickerSelf: true,
         filerId: id,
         empty: key ? "No trades for this name on the 3-year tape." : "No trades on the 3-year tape.",
         holdKeyOf: (t) => holdingIdentity(t, tickerLookup).key,
-        selectedId: visibleTradeId()
+        selectedId: visibleTradeId(),
+        limit: limit
       });
+      const capped = !showAllTape && full.length > page;
       if (count) {
         if (key) {
           const label = (positionByKey(key, currentBook()) || {}).label || key.replace(/^T:/, "");
-          count.textContent = "Showing " + label + " · " + shown.length + " of " + tapeRows.length +
-            " · other names hidden until Reset";
+          count.textContent = "Showing " + label + " · " + Math.min(full.length, showAllTape ? full.length : page) +
+            " of " + tapeRows.length + " · other names hidden until Reset";
+        } else if (capped) {
+          count.textContent = "Showing " + page + " of " + full.length + " trades";
         } else {
-          count.textContent = tapeRows.length ? tapeRows.length + " trades" : "";
+          count.textContent = full.length ? full.length + " trades" : "";
         }
+      }
+      if (moreRow && moreBtn) {
+        moreRow.hidden = key ? full.length <= page : full.length <= page;
+        moreBtn.textContent = showAllTape ? "Show first 120" : "Show full list";
+        if (full.length <= page) moreRow.hidden = true;
       }
     }
 
@@ -1481,6 +1492,7 @@
       const more = document.getElementById("hold-more");
       const rows = document.getElementById("rows");
       const clear = document.getElementById("clear-sel");
+      const tapeMore = document.getElementById("tape-more");
       if (rangeBox) {
         rangeBox.addEventListener("click", (e) => {
           const btn = e.target.closest("button[data-r]");
@@ -1545,6 +1557,12 @@
         });
       }
       if (clear) clear.addEventListener("click", clearSelection);
+      if (tapeMore) {
+        tapeMore.addEventListener("click", () => {
+          showAllTape = !showAllTape;
+          paintTape();
+        });
+      }
       window.addEventListener("resize", () => {
         clearTimeout(bindDesk._fit);
         bindDesk._fit = setTimeout(() => {

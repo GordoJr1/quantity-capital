@@ -40,7 +40,7 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; font-weight: 700; }
     .sub-bar {
       padding: 8px 0 2px;
       display: flex;
@@ -94,7 +94,7 @@
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
       padding: 10px 16px; min-height: 44px; cursor: pointer;
     }
-    details.how { margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24; }
+    details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
     details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
     details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
@@ -121,11 +121,10 @@
       }
       .tabbar a.on { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
-      .kicker { margin-top: 14px; }
+      h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -143,11 +142,17 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Copy book</p>
+    <div class="page-head">
+      <h1>Leaders</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Leaders</h1>
+    <details class="how">
+      <summary>How the copy book is scored</summary>
+      <div class="body">
+        <p>Performers assume you bought and sold the same share count on the insider’s trade dates, at the first close on or after each trade date from the same prices/ file used to mark leftovers. A reported Form 4/SEDI fill is only a check that the print belongs on that tape: if it is more than 50% from that close, the lot is skipped (dual-listed or ADR mismatch). Same-day fills on one name that disagree by more than 50% keep only the cluster within 20% of the close. Sales close the oldest lots first. Open leftovers are marked to the last close on file. Rank is total dollar P&amp;L. Percent is P&amp;L ÷ cash spent on buys. Filers with under $1,000 of priced buys are skipped.</p>
+        <p class="muted" style="margin-top:10px;">Active traders are ranked by print count. Active names are ranked by how many officer prints hit that ticker. Not a recommendation. Not the officer’s actual P&amp;L — they may have other lots, options, and taxes.</p>
+      </div>
+    </details>
     <div class="stats" id="stats"></div>
     <div class="board-tabs" role="tablist">
       <button type="button" data-board="leaders" class="on">Performers</button>
@@ -158,18 +163,11 @@
     <div class="more-row" id="more-row" hidden>
       <button type="button" id="more">Show all</button>
     </div>
-    <details class="how">
-      <summary>How the copy book is scored</summary>
-      <div class="body">
-        <p>Performers assume you bought and sold the same share count on the insider’s trade dates, at the first close on or after each trade date from the same prices/ file used to mark leftovers. A reported Form 4/SEDI fill is only a check that the print belongs on that tape: if it is more than 50% from that close, the lot is skipped (dual-listed or ADR mismatch). Same-day fills on one name that disagree by more than 50% keep only the cluster within 20% of the close. Sales close the oldest lots first. Open leftovers are marked to the last close on file. Rank is total dollar P&amp;L. Percent is P&amp;L ÷ cash spent on buys. Filers with under $1,000 of priced buys are skipped.</p>
-        <p class="muted" style="margin-top:10px;">Active traders are ranked by print count. Active names are ranked by how many officer prints hit that ticker. Not a recommendation. Not the officer’s actual P&amp;L — they may have other lots, options, and taxes.</p>
-      </div>
-    </details>
   </div>
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     const params = new URLSearchParams(location.search);
     let board = ["leaders", "traders", "names"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";

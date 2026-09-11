@@ -578,7 +578,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -623,12 +623,16 @@
     </div>
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>
     <p class="kicker">Trades</p>
+    <p class="count" id="tape-count"></p>
     <div class="qc-pol-desk">
       <ol class="qc-txn-list qc-tape-list" id="marks" aria-label="Company tape"></ol>
     </div>
+    <div class="tape-more" id="tape-more-row" hidden>
+      <button type="button" id="tape-more">Show full list</button>
+    </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -908,12 +912,32 @@
       }
 
       const tape = deals.map((t) => QC.enrich(t, tickerFile || {}));
-      document.getElementById("marks").innerHTML = QC.politicianTapeListHtml(tape, {
-        tickerSelf: true,
-        nameSelf: !!filerId,
-        filerId: filerId,
-        empty: "No stock trades on this ticker in the last three years."
-      });
+      let showAllTape = false;
+      function paintMarks() {
+        const page = QC.TAPE_PAGE;
+        document.getElementById("marks").innerHTML = QC.politicianTapeListHtml(tape, {
+          tickerSelf: true,
+          nameSelf: !!filerId,
+          filerId: filerId,
+          empty: "No stock trades on this ticker in the last three years.",
+          limit: showAllTape ? 0 : page
+        });
+        const count = document.getElementById("tape-count");
+        const moreRow = document.getElementById("tape-more-row");
+        const moreBtn = document.getElementById("tape-more");
+        if (count) {
+          count.textContent = (!showAllTape && tape.length > page)
+            ? "Showing " + page + " of " + tape.length + " trades"
+            : (tape.length ? tape.length + " trades" : "");
+        }
+        if (moreRow && moreBtn) {
+          moreRow.hidden = tape.length <= page;
+          moreBtn.textContent = showAllTape ? "Show first 120" : "Show full list";
+        }
+      }
+      paintMarks();
+      const tapeMore = document.getElementById("tape-more");
+      if (tapeMore) tapeMore.addEventListener("click", () => { showAllTape = !showAllTape; paintMarks(); });
 
       if (!prices || !prices.c || prices.c.length < 2) {
         const note = document.getElementById("note");

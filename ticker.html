@@ -14,7 +14,7 @@
   <title>Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430;
@@ -25,6 +25,8 @@
       --mute: #8b96a3;
       --ink: #1a1d26;
       --teal: #36999d;
+      --buy: #2f9e4a;
+      --sell: #d45a55;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
@@ -576,7 +578,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=103" />
+  <link rel="stylesheet" href="shell.css?v=104" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -621,10 +623,12 @@
     </div>
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Option purchase dates are marked; option P&amp;L is not.</p>
     <p class="kicker">Trades</p>
-    <ul class="chart-marks" id="marks"></ul>
+    <div class="qc-pol-desk">
+      <ol class="qc-txn-list qc-tape-list" id="marks" aria-label="Company tape"></ol>
+    </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=108"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -637,7 +641,6 @@
     const isBond = QC.isBond;
     const isOptionLike = QC.isOptionLike;
     const optionMeta = QC.optionMeta;
-    const optionTag = QC.optionTag;
     const formatMoney = QC.formatMoney;
     const formatQuote = QC.formatQuote;
     const signedMoney = QC.signedMoney;
@@ -904,12 +907,28 @@
         document.title = ticker + " — " + who + " — Quantity Capital";
       }
 
+      const tape = deals.map((t) => QC.enrich(t, tickerFile || {}));
+      document.getElementById("marks").innerHTML = QC.politicianTapeListHtml(tape, {
+        tickerSelf: true,
+        nameSelf: !!filerId,
+        filerId: filerId,
+        empty: "No stock trades on this ticker in the last three years."
+      });
+
       if (!prices || !prices.c || prices.c.length < 2) {
         const note = document.getElementById("note");
         note.hidden = false;
         note.textContent = prices && prices.missing
           ? "Yahoo has no daily series for " + ticker + "."
           : "No daily prices on file for " + ticker + ".";
+        const buys = stockDeals.filter((t) => t.side === "purchase").length;
+        const sells = stockDeals.filter((t) => t.side === "sale").length;
+        if (!filerId) {
+          document.getElementById("stats").innerHTML =
+            "<div class=\"stat\"><b>" + buys + "</b><span>buys</span></div>" +
+            "<div class=\"stat\"><b>" + sells + "</b><span>sells</span></div>" +
+            "<div class=\"stat\"><b>—</b><span>close</span></div>";
+        }
         return;
       }
       allPoints = prices.c;
@@ -939,18 +958,6 @@
 
       paintRange();
       paintChart();
-      document.getElementById("marks").innerHTML = deals.map((t) => {
-        const px = nearestClose(allPoints, t.trade_date);
-        const cls = t.side === "purchase" ? "buy" : "sell";
-        const name = filerId
-          ? "<span class=\"who\">" + esc(t.owner || "self") + "</span>"
-          : "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(t.filer) + "</a>";
-        return "<li>" + name +
-          "<span class=\"side " + cls + "\">" + (t.side === "purchase" ? "Buy" : t.side === "sale" ? "Sell" : esc(t.side)) + optionTag(t) + "</span>" +
-          "<span class=\"when\">" + prettyDate(t.trade_date) + "</span>" +
-          "<span class=\"amt\">" + esc(QC.formatAmountRange(t.amount)) + "</span>" +
-          "<span class=\"px\">" + (px ? formatMoney(px[1]) + " close" : "no close") + "</span></li>";
-      }).join("") || "<li class=\"muted\">No stock trades on this ticker in the last three years.</li>";
     }).catch((err) => {
       console.error("Failed to load ticker data:", err);
       const note = document.getElementById("note");

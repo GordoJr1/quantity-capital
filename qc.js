@@ -291,8 +291,9 @@
     s = s.replace(/^(?:tacs r3k)\s+/i, "");
     s = s.replace(/^\$[\d,]+(?:\.\d+)?\s+(?:F\s+S:\s*Amended\s+\S+\s+)?/i, "");
     s = s.replace(/^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+/i, "");
-    s = s.replace(/^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account|D\/B\/A)\s+/i, "");
+    s = s.replace(/^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account|D\/B\/A|Corporate bond|Municipal bond|Treasury bond)\s+/i, "");
     s = s.replace(/\b(?:D:\s*)?Portfolio Rebalance\s+/i, "");
+    s = s.replace(/^D:\s+/i, "");
     s = s.replace(/^(?:investment account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
     s = s.replace(/^financial disclosure\.\s*/i, "");
     s = s.replace(/^active assets\s*\(\d+\)\s*/i, "");
@@ -308,10 +309,34 @@
     s = s.replace(/\s*-\s*$/, "").trim();
     s = s.replace(/\s+CMN\b.*$/i, "").trim();
     s = s.replace(/\s*S\/ADR\s*$/i, "").trim();
-    if (!s || /^(common stock|class [a-z]|llc|inc|corp)$/i.test(s)) return c && c !== "—" ? c : "";
+    if (!s || /^(common stock|class [a-z]|llc|inc|corp|corporation|company|plc)$/i.test(s)) return c && c !== "—" ? c : "";
     if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return c && c !== "—" ? c : s;
     if (/\$[\d,]|\d{2}\/\d{2}\/\d{4}|\[ST\]|rate\/coupon|matures:/i.test(s)) return c && c !== "—" ? c : "";
     return s;
+  }
+
+  const WEAK_ISSUER = /^(corporation|incorporated|company|companies|plc|inc\.?|corp\.?|llc|the|common stock|class [a-z])$/i;
+
+  function isWeakIssuer(code, name) {
+    const c = String(code || "").toUpperCase();
+    const s = String(name || "").replace(/\s+/g, " ").trim();
+    if (!s || s === "—" || s === "-") return true;
+    if (c && s.toUpperCase() === c) return true;
+    if (WEAK_ISSUER.test(s)) return true;
+    if (/^D:\s*/i.test(s)) return true;
+    if (/\bTrust\s*>/i.test(s) || /\b(?:grandchildren|family)\s+\d*\s*trust\b/i.test(s)) return true;
+    if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return true;
+    return false;
+  }
+
+  function displayIssuer(code, raw, fallback) {
+    const primary = issuerName(code, raw);
+    if (!isWeakIssuer(code, primary)) return primary;
+    if (fallback != null && fallback !== raw) {
+      const second = issuerName(code, fallback);
+      if (!isWeakIssuer(code, second)) return second;
+    }
+    return primary || String(code || "").toUpperCase() || "";
   }
 
   const OVERLAP_RULES = [
@@ -845,7 +870,7 @@
     const bondLike = isBond(t);
     const name = bondLike
       ? (t.asset || meta.name || "—")
-      : (issuerName(code, meta.name || cleanAsset(t.asset)) || "—");
+      : (displayIssuer(code, meta.name, cleanAsset(t.asset)) || "—");
     return {
       ...t,
       code: code || "—",
@@ -862,7 +887,7 @@
     const code = resolvedCode(t, file);
     const meta = lookup[code] || {};
     const bondLike = isBond(t);
-    const name = bondLike ? (t.asset || meta.name || "—") : (issuerName(code, meta.name || cleanAsset(t.asset)) || "—");
+    const name = bondLike ? (t.asset || meta.name || "—") : (displayIssuer(code, meta.name, cleanAsset(t.asset)) || "—");
     const industry = meta.industry || extra.industry || "—";
     return { code: code || "—", name: name, industry: industry };
   }
@@ -1161,6 +1186,8 @@
     threeYearCutoff: threeYearCutoff,
     cleanAsset: cleanAsset,
     issuerName: issuerName,
+    isWeakIssuer: isWeakIssuer,
+    displayIssuer: displayIssuer,
     OVERLAP_RULES: OVERLAP_RULES,
     overlapHit: overlapHit,
     SECTORS: SECTORS,

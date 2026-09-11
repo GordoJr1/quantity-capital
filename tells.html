@@ -208,7 +208,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=105"></script>
+  <script src="qc.js?v=107"></script>
   <script>
     function pct(x) {
       if (x == null || isNaN(x)) return "—";
@@ -226,7 +226,7 @@
         "<div class=\"card-top\">" +
           "<div>" +
             "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(row.code) + "\">" + QC.esc(row.code) + "</a>" +
-            "<div class=\"co\">" + QC.esc(row.name || "") + "</div>" +
+            "<div class=\"co\">" + QC.esc(QC.displayIssuer(row.code, row.name) || row.name || "") + "</div>" +
             "<p class=\"muted\" style=\"margin-top:6px\">" + QC.esc(row.why || "") +
               (row.open === false ? " · already ran" : "") + "</p>" +
             "<div class=\"who-list\">" + people + "</div>" +

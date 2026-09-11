@@ -495,7 +495,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=105"></script>
+  <script src="qc.js?v=107"></script>
   <script>
     const MEGA = {
       AAPL: 1, MSFT: 1, NVDA: 1, AMZN: 1, GOOGL: 1, GOOG: 1, META: 1, TSLA: 1,
@@ -630,19 +630,42 @@
         "</div>" +
       "</article>";
     }
+    function resolveAnalysisName(row, tickerFile, trades) {
+      const meta = ((tickerFile || {}).tickers || {})[row.code] || {};
+      let name = QC.displayIssuer(row.code, row.name, meta.name);
+      if (!QC.isWeakIssuer(row.code, name)) return name;
+      const want = String(row.code || "").toUpperCase();
+      const rows = trades || [];
+      for (let i = 0; i < rows.length; i++) {
+        const t = rows[i];
+        if (String(t.ticker || "").toUpperCase() !== want) continue;
+        const fromAsset = QC.displayIssuer(row.code, t.asset, meta.name);
+        if (!QC.isWeakIssuer(row.code, fromAsset)) return fromAsset;
+      }
+      return name || row.name || row.code;
+    }
     async function paintAnalysis() {
       const box = document.getElementById("book");
       const asof = document.getElementById("asof");
       try {
-        const res = await fetch("analysis.json");
+        const [res, tickerFile, tape] = await Promise.all([
+          fetch("analysis.json"),
+          fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} })),
+          fetch("trades-lite.json").then((r) => r.json()).catch(() => ({ trades: [] }))
+        ]);
         if (!res.ok) throw new Error("no analysis");
         const data = await res.json();
         asof.textContent = asOfHeat(data.generated || data.tapeCollected);
-        box.innerHTML = (data.book || []).map(playCard).join("") ||
+        const book = (data.book || []).map((row) =>
+          Object.assign({}, row, { name: resolveAnalysisName(row, tickerFile, tape.trades) })
+        );
+        box.innerHTML = book.map(playCard).join("") ||
           "<p class=\"muted\">No book this update.</p>";
         const desk = window.matchMedia("(min-width: 821px)").matches;
         document.querySelectorAll(".play-more").forEach((el) => { el.open = desk; });
-        const avoid = data.avoid || [];
+        const avoid = (data.avoid || []).map((row) =>
+          Object.assign({}, row, { name: resolveAnalysisName(row, tickerFile, tape.trades) })
+        );
         const wrap = document.getElementById("avoid-wrap");
         wrap.hidden = avoid.length === 0;
         document.getElementById("avoid").innerHTML = avoid.map(avoidRow).join("");

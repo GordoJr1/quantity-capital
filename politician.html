@@ -150,27 +150,8 @@
 
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      margin: 0 0 16px;
-      border: 1px solid #4a5563;
-      background: var(--panel);
-    }
-    .stat {
-      padding: 8px 10px;
-      min-width: 0;
-      border-right: 1px solid #3a4452;
-    }
-    .stat:last-child { border-right: 0; }
-    .stat b {
-      display: inline;
-      font-family: "Barlow Condensed", sans-serif;
-      font-size: 1.15rem;
-      color: var(--caution);
-      margin-right: 6px;
-    }
-    .stat span { color: var(--mute); font-size: 0.75rem; }
+    .stats { margin: 0 0 16px; }
+    .stats p { margin: 0 0 8px; }
 
     .holdings {
       margin: 0 0 22px;
@@ -591,7 +572,7 @@
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>
     </details>
-    <div class="stats" id="stats"></div>
+    <div class="stats" id="stats" hidden></div>
     <section class="holdings" id="holdings" hidden>
       <p class="kicker">Estimated book</p>
       <h2>Holdings</h2>
@@ -1333,12 +1314,11 @@
       allRows = rows || [];
       tapeRows = (rows || []).map((t) => QC.enrich(t, tickerLookup));
       if (rows[0]) document.getElementById("who").textContent = rows[0].filer;
-      const buys = rows.filter((t) => t.side === "purchase").length;
-      const sells = rows.filter((t) => t.side === "sale").length;
-      document.getElementById("stats").innerHTML =
-        '<div class="stat"><b>' + rows.length + '</b><span>trades</span></div>' +
-        '<div class="stat"><b>' + buys + '</b><span>buys</span></div>' +
-        '<div class="stat"><b>' + sells + '</b><span>sells</span></div>';
+      const stats = document.getElementById("stats");
+      if (stats) {
+        stats.hidden = true;
+        stats.innerHTML = "";
+      }
       bindDesk();
       paintDesk();
     }
@@ -1408,7 +1388,11 @@
       suggestions.forEach((s) => {
         html += "<p><a class=\"did-mean\" href=\"politician.html?id=" + encodeURIComponent(s.id) + "\">Did you mean " + esc(s.name) + "?</a></p>";
       });
-      document.getElementById("stats").innerHTML = html;
+      const stats = document.getElementById("stats");
+      if (stats) {
+        stats.hidden = false;
+        stats.innerHTML = html;
+      }
       document.getElementById("rows").innerHTML = "";
     }
 

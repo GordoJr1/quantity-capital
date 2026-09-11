@@ -57,6 +57,32 @@
     .back { color: var(--teal); text-decoration: none; }
     .kicker { color: var(--caution); margin: 28px 0 8px; }
     h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 0.9; margin-bottom: 10px; }
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 14px 28px;
+      flex-wrap: wrap;
+      margin: 0 0 10px;
+    }
+    .hero h1 { margin: 0; flex: 0 1 auto; min-width: 0; }
+    .hero-facts {
+      min-width: 0;
+      flex: 1 1 200px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+    }
+    .hero-facts[hidden] { display: none; }
+    .hero-line {
+      display: block;
+      color: var(--paper);
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+    .hero-line.soft { color: var(--mute); font-size: 0.82rem; }
+    .hero-party { color: var(--caution); font-weight: 600; }
     .bio-wrap {
       margin: 8px 0 22px;
       border: 1px solid #4a5563;
@@ -640,7 +666,10 @@
       <p class="asof" id="asof"></p>
     </div>
     <p class="kicker">3 year history</p>
-    <h1 id="who">Member</h1>
+    <div class="hero">
+      <h1 id="who">Member</h1>
+      <p class="hero-facts" id="hero-facts" hidden></p>
+    </div>
     <details class="bio-wrap">
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>
@@ -785,6 +814,43 @@
         " <span class=\"why\">" + esc(o.why) + "</span></li>"
       ).join("") + "</ul>" +
         "<p class=\"muted\">Jurisdictional overlap only. Not proof of illegal trading.</p>";
+    }
+
+    function paintHeroFacts(bio) {
+      const box = document.getElementById("hero-facts");
+      if (!box) return;
+      if (!bio) {
+        box.hidden = true;
+        box.innerHTML = "";
+        return;
+      }
+      const line1 = [];
+      if (bio.party) line1.push("<span class=\"hero-party\">" + esc(bio.party) + "</span>");
+      if ((bio.chamber || "") === "White House") {
+        if (bio.title) line1.push(esc(bio.title));
+        else line1.push("White House");
+      } else {
+        const state = bio.state || "";
+        const dist = (bio.district != null && bio.district !== "")
+          ? String(bio.district).padStart(2, "0")
+          : "";
+        const seat = state && dist ? state + "-" + dist : state;
+        if (seat) line1.push("State: " + esc(seat));
+        if (bio.chamber) line1.push(esc(bio.chamber));
+      }
+      const line2 = [];
+      if (bio.first_elected_senate) line2.push("First elected " + bio.first_elected_senate);
+      else if (bio.first_elected_house) line2.push("First elected " + bio.first_elected_house);
+      if (bio.term_start && bio.term_end) line2.push("Term " + bio.term_start + "–" + bio.term_end);
+      if (!line1.length && !line2.length) {
+        box.hidden = true;
+        box.innerHTML = "";
+        return;
+      }
+      box.hidden = false;
+      box.innerHTML =
+        (line1.length ? "<span class=\"hero-line\">" + line1.join(" · ") + "</span>" : "") +
+        (line2.length ? "<span class=\"hero-line soft\">" + line2.join(" · ") + "</span>" : "");
     }
 
     function paintBio(bio, overlaps) {
@@ -1553,6 +1619,11 @@
       if (kickers[1]) kickers[1].hidden = true;
       const bioWrap = document.querySelector(".bio-wrap");
       if (bioWrap) bioWrap.hidden = true;
+      const heroFacts = document.getElementById("hero-facts");
+      if (heroFacts) {
+        heroFacts.hidden = true;
+        heroFacts.innerHTML = "";
+      }
       const holdings = document.getElementById("holdings");
       if (holdings) holdings.hidden = true;
       const tapeHead = document.querySelector(".tape-head");
@@ -1593,6 +1664,7 @@
         return;
       }
       paint(rows, tickerFile || {});
+      paintHeroFacts(bio);
       paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
       const bioPerson = (bios.people || {})[id] || {};
       const shown = (fromTrades && fromTrades.filer)

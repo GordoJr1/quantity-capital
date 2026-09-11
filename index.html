@@ -986,8 +986,11 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
 
-    /* Desktop ≥900: B wire + C chart focus. Below 900 the live table/cards stay. */
-    .desk, .desk-status { display: none; }
+    /* Mobile: insider-style card tape. Desktop ≥900: wire + chart. */
+    .desk-status { display: none; }
+    .desk { display: block; }
+    .desk .focus { display: none; }
+    #tape .table-wrap { display: none !important; }
     @media (min-width: 900px) {
       .desk-status {
         display: flex;
@@ -1053,12 +1056,12 @@
         margin: 0;
       }
       .desk .focus {
+        display: block;
         grid-column: 2;
         grid-row: 2;
         align-self: start;
         min-width: 0;
       }
-      #tape .table-wrap { display: none !important; }
       #board .board-list { max-width: 1040px; }
     }
     .desk .day {
@@ -1067,6 +1070,9 @@
       justify-content: space-between;
       gap: 10px;
       margin: 14px 0 8px;
+    }
+    @media (max-width: 899px) {
+      .desk .day { display: none; }
     }
     .desk .day:first-child,
     .desk .wire-day0 { margin-top: 0; }
@@ -1532,11 +1538,20 @@
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
     .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
     .qc-txn-id-line .qc-txn-role { display: none; }
+    .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl, .qc-txn-company { display: none; }
     .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "sub sub"; row-gap: 3px; }
+    .qc-txn-sub { grid-area: sub; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+    .qc-txn-who { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; }
+    .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
     .qc-txn-tape .qc-txn-name { font-weight: 600; }
+    @media (max-width: 560px) {
+      .qc-txn-tape .qc-txn-sub { flex-direction: column; align-items: stretch; gap: 2px; }
+      .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
+    }
     @media (min-width: 900px) {
       .qc-txn-tape { column-gap: 10px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px; }
       .qc-txn-tape .qc-txn-end, .qc-txn-tape .qc-txn-tbl { display: contents; }
+      .qc-txn-tape .qc-txn-sub { display: none; }
       .qc-txn-tape .qc-txn-chip { grid-area: chip; }
       .qc-txn-tape .qc-txn-date { grid-area: date; }
       .qc-txn-tape .qc-txn-hero { grid-area: hero; }
@@ -1853,6 +1868,7 @@
     const DESK_MIN_FILERS = 6;
     const DESK_SINGLE_FILER_DAY_CAP = 16;
     let showAll = false;
+    let lastFiltered = [];
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let deskRows = [];
@@ -1881,7 +1897,7 @@
       const count = document.getElementById("tape-count");
       const moreRow = document.getElementById("more-row");
       const moreBtn = document.getElementById("show-all");
-      const visible = showAll ? rows : rows.slice(0, PAGE);
+      const visible = deskRows;
       count.textContent = visible.length === rows.length
         ? rows.length + " trades"
         : "Showing " + visible.length + " of " + rows.length + " trades";
@@ -1997,26 +2013,12 @@
       const parts = groups.map((g) => {
         const rows = g.ids.map((i) => {
           const t = deskRows[i];
-          const side = t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "";
-          const on = t.id === activeId;
-          const cls = [side, on ? "on" : ""].filter(Boolean).join(" ");
-          const co = "<span class=\"qc-txn-tk\">" + escapeHtml(t.code) + "</span>" +
-            "<span class=\"qc-txn-co-name\">" + escapeHtml(t.company) + "</span>";
-          const companyHtml = isChartTicker(t.code)
-            ? "<a class=\"qc-txn-company\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + co + "</a>"
-            : "<span class=\"qc-txn-company\">" + co + "</span>";
-          return "<li class=\"qc-txn qc-txn-tape " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
-            "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
-              "<a class=\"qc-txn-name\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
-              (t.chamber ? "<span class=\"qc-txn-role\">" + escapeHtml(t.chamber) + "</span>" : "") +
-            "</div></div>" +
-            "<div class=\"qc-txn-end\">" +
-              "<span class=\"qc-txn-chip\">" + escapeHtml(sideLabel(t.side)) + "</span>" +
-              "<span class=\"qc-txn-hero\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</span>" +
-            "</div>" +
-            "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + escapeHtml(prettyDate(t.trade_date)) + "</span></div>" +
-            companyHtml +
-          "</li>";
+          const code = t.code || t.ticker || "";
+          return QC.politicianTapeRowHtml(t, {
+            nameHref: t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
+            tickerHref: isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) : "",
+            selected: t.id === activeId
+          });
         }).join("");
         return {
           block: "<li class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2></li>" + rows
@@ -2258,6 +2260,7 @@
 
     function sliceDeskRows(sorted) {
       if (showAll) return sorted;
+      if (!DESK_MQ.matches) return sorted.slice(0, PAGE);
       const out = [];
       let i = 0;
       while (i < sorted.length && out.length < DESK_PAGE_MAX) {
@@ -2331,7 +2334,10 @@
       if (!bindDesk._resize) {
         bindDesk._resize = true;
         DESK_MQ.addEventListener("change", () => {
-          if (DESK_MQ.matches) {
+          if (lastFiltered.length) {
+            renderDesk(lastFiltered);
+            renderTape(lastFiltered);
+          } else if (DESK_MQ.matches) {
             paintFocus();
             paintChart();
           }
@@ -2693,8 +2699,9 @@
             filtered.sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")));
           }
           writeFilters();
-          renderTape(filtered);
+          lastFiltered = filtered;
           renderDesk(filtered);
+          renderTape(filtered);
         }
 
         document.getElementById("filter-company").addEventListener("input", () => { showAll = false; apply(); });

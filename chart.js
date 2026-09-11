@@ -282,6 +282,11 @@ function drawChart(points, marks, opts) {
     t: isMobile ? 24 : 22,
     b: isMobile ? 20 : 20
   };
+  if (opts.pad) {
+    ["l", "r", "t", "b"].forEach((k) => {
+      if (opts.pad[k] != null) pad[k] = opts.pad[k];
+    });
+  }
   svg.setAttribute("viewBox", "0 0 " + w + " " + h);
 
   // Full height for price curve
@@ -297,7 +302,7 @@ function drawChart(points, marks, opts) {
   const max = scale.max;
   const span = max - min || 1;
   const labelWide = scale.ticks.some((t) => axisPrice(t).length >= 5);
-  if (!isMobile && labelWide) pad.l = 44;
+  if (!isMobile && labelWide && !(opts.pad && opts.pad.l != null)) pad.l = 44;
 
   const xAt = (i) => pad.l + (i / Math.max(1, points.length - 1)) * (w - pad.l - pad.r);
   const yAt = (px) => priceTop + (1 - (px - min) / span) * priceH;

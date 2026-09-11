@@ -1074,12 +1074,8 @@
       return head;
     }
 
-    function firstTileKey(book) {
-      const first = tileList(book).find((p) => p && !p.other);
-      return (first && first.key) || "";
-    }
-
     function ensureSelection(book) {
+      if (!selectedKey && !selectedTradeId) return;
       const still = selectedKey && (
         positionByKey(selectedKey, book) ||
         (selectedTradeId && tradeById(selectedTradeId))
@@ -1090,8 +1086,8 @@
         }
         return;
       }
-      selectedKey = firstTileKey(book);
-      selectedTradeId = selectedKey ? ((pickTradeForKey(selectedKey) || {}).id || "") : "";
+      selectedKey = "";
+      selectedTradeId = "";
     }
 
     function paintRange() {
@@ -1126,10 +1122,8 @@
       const on = !!key;
       if (chip) chip.classList.toggle("show", on);
       if (clear) {
-        const first = firstTileKey(book);
-        const offFirst = on && selectedKey !== first;
-        clear.classList.toggle("show", offFirst);
-        clear.textContent = "Reset · first tile";
+        clear.classList.toggle("show", on);
+        clear.textContent = "Clear · show all";
       }
       if (!on || !label) return;
       const pos = positionByKey(key, book);
@@ -1411,7 +1405,7 @@
         if (key) {
           const label = (positionByKey(key, currentBook()) || {}).label || key.replace(/^T:/, "");
           count.textContent = "Showing " + label + " · " + Math.min(full.length, showAllTape ? full.length : page) +
-            " of " + tapeRows.length + " · other names hidden until Reset";
+            " of " + tapeRows.length + " · other names hidden until Clear";
         } else if (capped) {
           count.textContent = "Showing " + page + " of " + full.length + " trades";
         } else {

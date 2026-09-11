@@ -939,3 +939,152 @@ summary:focus-visible,
     color: var(--teal, #36999d);
   }
 }
+
+/* Politician tape on member + company pages: same Date | Name | Ticker | Company | Trade | Value desk as the homepage wire. */
+.qc-pol-desk .day {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 14px 0 8px;
+  list-style: none;
+  background: none;
+  border: 0;
+}
+.qc-pol-desk .qc-txn-list > .day:first-child { margin-top: 0; }
+.qc-pol-desk .day h2 {
+  font-family: "Barlow Condensed", sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--caution, #e3b41a);
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin: 0;
+}
+@media (min-width: 900px) {
+  .qc-pol-desk .qc-txn-tape {
+    column-gap: 10px;
+    row-gap: 0;
+    padding: 5px 12px;
+    border-radius: 0;
+    border-left-width: 3px;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-end,
+  .qc-pol-desk .qc-txn-tape .qc-txn-tbl { display: contents; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-chip { grid-area: chip; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-date { grid-area: date; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-hero { grid-area: hero; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company,
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45em;
+    grid-area: co;
+    min-width: 0;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--white, #eef2f5);
+    font-size: 0.84rem;
+    font-weight: 600;
+    font-family: "IBM Plex Sans", sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-tk,
+  .qc-pol-desk .qc-txn-tape .qc-txn-company a.qc-txn-tk {
+    flex: 0 0 auto;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: inherit;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+    color: inherit;
+  }
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover,
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name {
+    color: var(--teal, #36999d);
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-id {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-id-line { width: 100%; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-role {
+    display: inline;
+    flex: 0 0 auto;
+    margin-left: 0.35em;
+    color: var(--mute, #8b96a3);
+    font-size: 0.72rem;
+    font-weight: 400;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "\2013 "; color: #5b6573; }
+
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
+    grid-template-areas: "date id co coname chip hero";
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk .qc-txn-tape .qc-txn-px,
+  .qc-pol-desk .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk .qc-txn-cols .qc-txn-sh,
+  .qc-pol-desk .qc-txn-cols .qc-txn-px,
+  .qc-pol-desk .qc-txn-cols .qc-txn-held { display: none; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company { display: contents; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-tk { grid-area: co; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+    display: block;
+    grid-area: coname;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--mute, #8b96a3);
+  }
+  .qc-pol-desk .qc-txn-cols .qc-txn-coname {
+    grid-area: coname;
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .qc-pol-desk .qc-txn-cols .qc-txn-hero,
+  .qc-pol-desk .qc-txn-tape .qc-txn-hero,
+  .qc-pol-desk .qc-txn-tape .qc-txn-hero.is-empty {
+    grid-area: hero;
+    justify-self: end;
+    text-align: right;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-hero {
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #eef2f5;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-hero.is-empty {
+    font-family: "IBM Plex Sans", sans-serif;
+    color: var(--mute, #8b96a3);
+  }
+  .qc-pol-desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+}

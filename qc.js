@@ -1146,6 +1146,118 @@
     "</li>";
   }
 
+  function filedHeading(iso) {
+    const d = new Date(String(iso || "") + "T00:00:00");
+    if (isNaN(d.getTime())) return "Filed";
+    const w = d.toLocaleString("en-US", { weekday: "short" });
+    const rest = d.toLocaleString("en-US", { month: "short", day: "numeric" });
+    return "Filed " + w + " " + rest;
+  }
+
+  function politicianTapeColsHtml() {
+    return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+      "<span class=\"qc-txn-date\">Date</span>" +
+      "<span class=\"qc-txn-id\">Name</span>" +
+      "<span class=\"qc-txn-company\">Ticker</span>" +
+      "<span class=\"qc-txn-coname\">Company</span>" +
+      "<span class=\"qc-txn-chip\">Trade</span>" +
+      "<span class=\"qc-txn-hero\">Value</span>" +
+    "</li>";
+  }
+
+  function politicianTapeRowHtml(t, opts) {
+    opts = opts || {};
+    const side = t && t.side;
+    const cls = side === "purchase" ? "buy" : side === "sale" ? "sell" : "";
+    const code = String((t && (t.code || t.ticker)) || "");
+    const company = String((t && t.company) || "");
+    const name = String((t && t.filer) || "");
+    const nameHref = opts.nameHref || "";
+    const tickerHref = opts.tickerHref || "";
+    const nameHtml = name
+      ? (nameHref
+          ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
+          : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
+      : "";
+    const role = String((t && t.chamber) || "");
+    const co = "<span class=\"qc-txn-tk\">" + esc(code) + "</span>" +
+      "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
+    const companyHtml = tickerHref
+      ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
+      : "<span class=\"qc-txn-company\">" + co + "</span>";
+
+    const whoParts = [];
+    if (code) {
+      whoParts.push(tickerHref
+        ? "<a class=\"qc-txn-tk\" href=\"" + esc(tickerHref) + "\">" + esc(code) + "</a>"
+        : "<span class=\"qc-txn-tk\">" + esc(code) + "</span>");
+    }
+    if (role) whoParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
+    const metaParts = [];
+    if (t && t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
+    if (company) {
+      metaParts.push(tickerHref
+        ? "<a class=\"qc-txn-co\" href=\"" + esc(tickerHref) + "\">" + esc(company) + "</a>"
+        : "<span class=\"qc-txn-co\">" + esc(company) + "</span>");
+    }
+    const who = dotted(whoParts);
+    const meta = dotted(metaParts);
+    const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
+      (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
+
+    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\"" +
+      (t && t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
+      "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
+        nameHtml +
+        (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
+      "</div></div>" +
+      "<div class=\"qc-txn-end\">" +
+        "<span class=\"qc-txn-chip\">" + esc(sideLabel(side)) + "</span>" +
+        "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount)) + "</span>" +
+      "</div>" +
+      (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
+      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span></div>" +
+      companyHtml +
+    "</li>";
+  }
+
+  function politicianTapeListHtml(rows, opts) {
+    opts = opts || {};
+    const empty = opts.empty || "No trades on the 3-year tape.";
+    if (!rows || !rows.length) {
+      return politicianTapeColsHtml() + "<li class=\"muted\">" + esc(empty) + "</li>";
+    }
+    const sorted = rows.slice().sort((a, b) => {
+      const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
+      if (fd) return fd;
+      const td = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
+      if (td) return td;
+      return String(b.id || "").localeCompare(String(a.id || ""));
+    });
+    const groups = [];
+    sorted.forEach((t) => {
+      const key = t.filed_date || "";
+      const last = groups[groups.length - 1];
+      if (last && last.key === key) last.rows.push(t);
+      else groups.push({ key: key, rows: [t] });
+    });
+    const filerQs = opts.filerId ? "&id=" + encodeURIComponent(opts.filerId) : "";
+    const blocks = groups.map((g) => {
+      const rowHtml = g.rows.map((t) => {
+        const nameHref = opts.nameSelf
+          ? ""
+          : (t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "");
+        const code = t.code || t.ticker || "";
+        const tickerHref = opts.tickerSelf
+          ? ""
+          : (isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) + filerQs : "");
+        return politicianTapeRowHtml(t, { nameHref: nameHref, tickerHref: tickerHref });
+      }).join("");
+      return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
+    });
+    return politicianTapeColsHtml() + blocks.join("");
+  }
+
   global.QC = {
     esc: esc,
     isBond: isBond,
@@ -1176,6 +1288,10 @@
     tradeRowHtml: tradeRowHtml,
     tradeColsHtml: tradeColsHtml,
     tapeRowHtml: tapeRowHtml,
+    filedHeading: filedHeading,
+    politicianTapeColsHtml: politicianTapeColsHtml,
+    politicianTapeRowHtml: politicianTapeRowHtml,
+    politicianTapeListHtml: politicianTapeListHtml,
     isChartTicker: isChartTicker,
     amountHigh: amountHigh,
     formatAmountRange: formatAmountRange,

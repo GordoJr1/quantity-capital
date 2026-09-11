@@ -14,7 +14,7 @@
   <title>Quantity Capital</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
       --steel: #1c2430;
@@ -28,6 +28,8 @@
       --ink: #1a1d26;
       --teal: #36999d;
       --navy: #1c2d4e;
+      --buy: #2f9e4a;
+      --sell: #d45a55;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
@@ -146,62 +148,6 @@
           "subs";
       }
 
-      table.tape-table thead { display: none; }
-      table.tape-table, table.tape-table tbody { display: block; width: 100%; }
-      table.tape-table tr {
-        display: grid;
-        grid-template-columns: 58px minmax(0, 1fr) 3.2em;
-        grid-template-areas:
-          "stamp ticker side"
-          "stamp amt amt"
-          "stamp meta meta";
-        gap: 3px 10px;
-        margin: 0 0 8px;
-        border: 1px solid #4a5563;
-        background: var(--panel);
-        padding: 10px 12px;
-      }
-      table.tape-table td { display: block; padding: 0; border: 0; }
-      table.tape-table td::before { content: none; }
-      table.tape-table .desk-only { display: none; }
-      table.tape-table .tix-stamp {
-        display: flex;
-        grid-area: stamp;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-right: 1px solid #3a4452;
-        padding-right: 8px;
-        text-align: center;
-        font-family: "Barlow Condensed", sans-serif;
-      }
-      table.tape-table .tix-stamp .mon {
-        color: var(--caution);
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        font-size: 0.72rem;
-      }
-      table.tape-table .tix-stamp .day { font-size: 1.55rem; line-height: 1; font-weight: 700; }
-      table.tape-table .tix-stamp .yr { color: var(--mute); font-size: 0.72rem; }
-      table.tape-table .tix-stamp .filing-err { margin: 5px 0 0; margin-left: 0; }
-      table.tape-table tr.has-err { box-shadow: inset 3px 0 0 var(--red); }
-      table.tape-table .tix-tk { grid-area: ticker; font-weight: 600; font-size: 1.05rem; }
-      table.tape-table .tix-side {
-        grid-area: side;
-        text-align: left;
-      }
-      table.tape-table .tix-amt {
-        grid-area: amt;
-        color: var(--caution);
-        font-family: "Barlow Condensed", sans-serif;
-        font-size: 1.1rem;
-      }
-      table.tape-table .tix-meta {
-        display: block;
-        grid-area: meta;
-        color: var(--mute);
-        font-size: 0.8rem;
-      }
     }
 
     .stats {
@@ -333,40 +279,8 @@
       }
       .hold-bar { display: none; }
     }
-    table { width: 100%; border-collapse: collapse; background: var(--panel); }
-    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; }
-    th { color: var(--caution); font-weight: 600; letter-spacing: 0.1em; }
-    .tix-meta, .tix-stamp { display: none; }
-    .co { display: block; color: var(--paper); font-weight: 500; }
-    .ind { display: block; color: var(--mute); font-size: 0.82rem; }
     .buy { color: #7dcf7a; }
     .sell { color: #ef7a74; }
-    .opt-tag {
-      display: inline-block;
-      margin-left: 6px;
-      padding: 1px 6px;
-      border: 1px solid #6b7582;
-      color: #c5cdd6;
-      font-family: "Barlow Condensed", sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      vertical-align: middle;
-    }
-    .filing-err {
-      display: inline-block;
-      margin-left: 6px;
-      padding: 1px 6px;
-      border: 1px solid var(--red);
-      color: var(--red);
-      font-family: "Barlow Condensed", sans-serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      vertical-align: middle;
-      white-space: nowrap;
-    }
     footer {
       border-top: 2px solid var(--caution); margin-top: 40px; padding: 18px 0 36px;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
@@ -514,7 +428,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=103" />
+  <link rel="stylesheet" href="shell.css?v=104" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -545,28 +459,14 @@
     <div class="stats" id="stats"></div>
     <section class="holdings" id="holdings" hidden></section>
     <p class="kicker">Trade tape</p>
-    <table class="tape-table">
-      <thead>
-        <tr>
-          <th>Trade date</th>
-          <th>Filed</th>
-          <th>Side</th>
-          <th>Ticker</th>
-          <th>Company</th>
-          <th>Industry</th>
-          <th>Amount range</th>
-          <th>Owner</th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
+    <div class="qc-pol-desk">
+      <ol class="qc-txn-list qc-tape-list" id="rows" aria-label="Politician tape"></ol>
+    </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=108"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
-    const optionMeta = QC.optionMeta;
-    const optionTag = QC.optionTag;
     const isBond = QC.isBond;
     const issuerName = QC.issuerName;
     const OVERLAP_RULES = QC.OVERLAP_RULES;
@@ -576,8 +476,6 @@
     const amountHigh = QC.amountHigh;
     const formatMoney = QC.formatMoney;
     const prettyDate = QC.prettyDate;
-    const sideLabel = QC.sideLabel;
-    const isChartTicker = QC.isChartTicker;
     const esc = QC.esc;
 
     let id = new URLSearchParams(location.search).get("id");
@@ -857,12 +755,6 @@
 
 
 
-    function tickerCell(code) {
-      if (!isChartTicker(code)) return esc(code);
-      return "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(code) +
-        "&id=" + encodeURIComponent(id) + "\">" + esc(code) + "</a>";
-    }
-
     function paint(rows, lookup) {
       if (rows[0]) document.getElementById("who").textContent = rows[0].filer;
       const buys = rows.filter((t) => t.side === "purchase").length;
@@ -871,29 +763,14 @@
         '<div class="stat"><b>' + rows.length + '</b><span>trades</span></div>' +
         '<div class="stat"><b>' + buys + '</b><span>buys</span></div>' +
         '<div class="stat"><b>' + sells + '</b><span>sells</span></div>';
-      document.getElementById("rows").innerHTML = rows.map((t) => {
-        const cls = t.side === "purchase" ? "buy" : "sell";
-        const info = tickerInfo(t, lookup || {});
-        const meta = [info.name, info.industry, t.owner].filter(Boolean).join(" · ");
-        const d = new Date(String(t.trade_date || "") + "T00:00:00");
-        const mon = isNaN(d.getTime()) ? "—" : d.toLocaleString("en-US", { month: "short" }).toUpperCase();
-        const day = isNaN(d.getTime()) ? "—" : String(d.getDate()).padStart(2, "0");
-        const yr = isNaN(d.getTime()) ? "" : d.getFullYear();
-        const bad = (t.trade_date || "").length >= 10 && (t.filed_date || "").length >= 10 && t.trade_date > t.filed_date;
-        const flag = bad ? "<span class=\"filing-err\" title=\"Trade date is after the filed date on the official PTR.\">Filing error</span>" : "";
-        return "<tr" + (bad ? " class=\"has-err\"" : "") + ">" +
-          "<td class=\"tix-stamp\"><span class=\"mon\">" + mon + "</span><span class=\"day\">" + day +
-          "</span><span class=\"yr\">" + yr + "</span>" + flag + "</td>" +
-          "<td class=\"desk-only\">" + t.trade_date + flag + "</td>" +
-          "<td class=\"desk-only\">" + t.filed_date + "</td>" +
-          "<td class=\"tix-side " + cls + "\">" + sideLabel(t.side) + "</td>" +
-          "<td class=\"tix-tk\">" + tickerCell(info.code) + optionTag(t) + "</td>" +
-          "<td class=\"desk-only\"><span class=\"co\">" + esc(info.name) + "</span></td>" +
-          "<td class=\"desk-only\"><span class=\"ind\">" + esc(info.industry) + "</span></td>" +
-          "<td class=\"tix-amt\">" + esc(QC.formatAmountRange(t.amount)) + "</td>" +
-          "<td class=\"desk-only\">" + t.owner + "</td>" +
-          "<td class=\"tix-meta\">" + esc(meta) + "</td></tr>";
-      }).join("");
+      const list = document.getElementById("rows");
+      if (list) list.hidden = false;
+      const tape = (rows || []).map((t) => QC.enrich(t, lookup || {}));
+      document.getElementById("rows").innerHTML = QC.politicianTapeListHtml(tape, {
+        nameSelf: true,
+        filerId: id,
+        empty: "No trades on the 3-year tape."
+      });
     }
 
 
@@ -954,8 +831,8 @@
       if (bioWrap) bioWrap.hidden = true;
       const holdings = document.getElementById("holdings");
       if (holdings) holdings.hidden = true;
-      const table = document.querySelector(".tape-table");
-      if (table) table.hidden = true;
+      const list = document.getElementById("rows");
+      if (list) list.hidden = true;
       let html = "<p class=\"muted\">No filer matches <span class=\"missing-id\">" + esc(want) + "</span> on the official tape.</p>";
       suggestions.forEach((s) => {
         html += "<p><a class=\"did-mean\" href=\"politician.html?id=" + encodeURIComponent(s.id) + "\">Did you mean " + esc(s.name) + "?</a></p>";
@@ -999,7 +876,7 @@
       }
     }).catch(() => {
       document.getElementById("rows").innerHTML =
-        "<tr><td colspan=\"9\">Could not load the official tape.</td></tr>";
+        "<li class=\"muted\">Could not load the official tape.</li>";
     });
 
     if ("serviceWorker" in navigator) {

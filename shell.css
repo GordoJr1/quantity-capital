@@ -962,9 +962,14 @@ summary:focus-visible,
   margin: 0;
 }
 @media (min-width: 900px) {
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
   .qc-pol-desk .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 5.4rem minmax(7rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
+    grid-template-areas: "date id co coname chip hero";
     column-gap: 10px;
     row-gap: 0;
+  }
+  .qc-pol-desk .qc-txn-tape {
     padding: 5px 12px;
     border-radius: 0;
     border-left-width: 3px;
@@ -974,41 +979,62 @@ summary:focus-visible,
   .qc-pol-desk .qc-txn-tape .qc-txn-chip { grid-area: chip; }
   .qc-pol-desk .qc-txn-tape .qc-txn-date { grid-area: date; }
   .qc-pol-desk .qc-txn-tape .qc-txn-hero { grid-area: hero; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk .qc-txn-tape .qc-txn-px,
+  .qc-pol-desk .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk .qc-txn-cols .qc-txn-sh,
+  .qc-pol-desk .qc-txn-cols .qc-txn-px,
+  .qc-pol-desk .qc-txn-cols .qc-txn-held { display: none; }
+
+  /* Split ticker + company into their own columns. The <a> wrapper must be
+     display:contents (not flex) or both labels stay in the ticker cell. */
   .qc-pol-desk .qc-txn-tape .qc-txn-company,
   .qc-pol-desk .qc-txn-tape a.qc-txn-company {
-    display: flex;
-    align-items: baseline;
-    gap: 0.45em;
-    grid-area: co;
+    display: contents;
+    background: none;
+    border: 0;
+    padding: 0;
     min-width: 0;
-    overflow: hidden;
+    overflow: visible;
     text-decoration: none;
-    color: var(--white, #eef2f5);
-    font-size: 0.84rem;
-    font-weight: 600;
-    font-family: "IBM Plex Sans", sans-serif;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
-  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-tk,
-  .qc-pol-desk .qc-txn-tape .qc-txn-company a.qc-txn-tk {
-    flex: 0 0 auto;
-    font-size: 0.84rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
     color: inherit;
   }
-  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
-    flex: 1 1 auto;
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company,
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-coname {
+    display: block;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-weight: 600;
-    color: inherit;
   }
-  .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover,
+  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { grid-area: co; }
+  .qc-pol-desk .qc-txn-cols .qc-txn-coname { grid-area: coname; }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-tk,
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company .qc-txn-tk {
+    display: block;
+    grid-area: co;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--white, #eef2f5);
+    text-decoration: none;
+  }
+  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-co-name,
+  .qc-pol-desk .qc-txn-tape a.qc-txn-company .qc-txn-co-name {
+    display: block;
+    grid-area: coname;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--mute, #8b96a3);
+  }
   .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
   .qc-pol-desk .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name {
     color: var(--teal, #36999d);
@@ -1034,39 +1060,6 @@ summary:focus-visible,
     font-weight: 400;
   }
   .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "\2013 "; color: #5b6573; }
-
-  .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
-  .qc-pol-desk .qc-txn-tape {
-    grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
-    grid-template-areas: "date id co coname chip hero";
-  }
-  .qc-pol-desk .qc-txn-tape .qc-txn-sh,
-  .qc-pol-desk .qc-txn-tape .qc-txn-px,
-  .qc-pol-desk .qc-txn-tape .qc-txn-held,
-  .qc-pol-desk .qc-txn-cols .qc-txn-sh,
-  .qc-pol-desk .qc-txn-cols .qc-txn-px,
-  .qc-pol-desk .qc-txn-cols .qc-txn-held { display: none; }
-  .qc-pol-desk .qc-txn-tape .qc-txn-company { display: contents; }
-  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-tk { grid-area: co; }
-  .qc-pol-desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
-    display: block;
-    grid-area: coname;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--mute, #8b96a3);
-  }
-  .qc-pol-desk .qc-txn-cols .qc-txn-coname {
-    grid-area: coname;
-    display: block;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
   .qc-pol-desk .qc-txn-cols .qc-txn-hero,
   .qc-pol-desk .qc-txn-tape .qc-txn-hero,
   .qc-pol-desk .qc-txn-tape .qc-txn-hero.is-empty {

@@ -53,7 +53,7 @@
     .asof {
       color: var(--mute);
       font-size: 0.82rem;
-      margin: 0 0 0 auto;
+      margin: 0;
       font-family: "IBM Plex Sans", sans-serif;
     }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
@@ -186,7 +186,7 @@
       .avoid-row { grid-template-columns: 40px minmax(0, 1fr); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=105" />
+  <link rel="stylesheet" href="shell.css?v=106" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -204,9 +204,9 @@
     </div>
   </header>
   <div class="wrap" id="main">
+    <p class="asof" id="asof"></p>
     <div class="sub-bar">
       <p class="kicker">Today's book</p>
-      <p class="asof" id="asof"></p>
     </div>
     <h1>Heat</h1>
     <div class="stats" id="stats"></div>
@@ -235,7 +235,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=110"></script>
   <script>
     let showAllPerf = false;
 

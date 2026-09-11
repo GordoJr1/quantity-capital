@@ -926,7 +926,15 @@
       hour: "numeric", minute: "2-digit", hour12: true,
       timeZone: "America/New_York"
     });
-    return "Data of " + date + ", " + time + " ET";
+    return "Updated " + date + ", " + time + " ET";
+  }
+
+  function tapeSymbol(t) {
+    const ticker = String((t && t.ticker) || "");
+    const code = String((t && t.code) || "");
+    if (isChartTicker(ticker)) return ticker;
+    if (isChartTicker(code)) return code;
+    return ticker || code;
   }
 
   function isFiniteNum(n) {
@@ -1167,9 +1175,8 @@
 
   function politicianTapeRowHtml(t, opts) {
     opts = opts || {};
-    const side = t && t.side;
-    const cls = side === "purchase" ? "buy" : side === "sale" ? "sell" : "";
-    const code = String((t && (t.code || t.ticker)) || "");
+    const cls = txnClass(t) || ((t && t.side) === "purchase" ? "buy" : (t && t.side) === "sale" ? "sell" : "");
+    const code = tapeSymbol(t);
     const company = String((t && t.company) || "");
     const name = String((t && t.filer) || "");
     const nameHref = opts.nameHref || "";
@@ -1179,7 +1186,7 @@
           ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
-    const role = String((t && t.chamber) || "");
+    const role = String((t && (t.chamber || t.role)) || shortRole(t) || "");
     const co = "<span class=\"qc-txn-tk\">" + esc(code) + "</span>" +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
@@ -1219,8 +1226,8 @@
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
       "</div></div>" +
       "<div class=\"qc-txn-end\">" +
-        "<span class=\"qc-txn-chip\">" + esc(sideLabel(side)) + "</span>" +
-        "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount)) + "</span>" +
+        "<span class=\"qc-txn-chip\">" + esc(txnLabel(t) || sideLabel(t && t.side)) + "</span>" +
+        "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span></div>" +
@@ -1248,16 +1255,17 @@
       if (last && last.key === key) last.rows.push(t);
       else groups.push({ key: key, rows: [t] });
     });
-    const filerQs = opts.filerId ? "&id=" + encodeURIComponent(opts.filerId) : "";
+    const namePage = opts.namePage || "politician.html";
+    const tickerPage = opts.tickerPage || "ticker.html";
     const blocks = groups.map((g) => {
       const rowHtml = g.rows.map((t) => {
         const nameHref = opts.nameSelf
           ? ""
-          : (t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "");
-        const code = t.code || t.ticker || "";
+          : (t.filer_id ? namePage + "?id=" + encodeURIComponent(t.filer_id) : "");
+        const code = tapeSymbol(t);
         const tickerHref = opts.tickerSelf
           ? ""
-          : (isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) + filerQs : "");
+          : (isChartTicker(code) ? tickerPage + "?t=" + encodeURIComponent(code) : "");
         const holdKey = opts.holdKeyOf ? opts.holdKeyOf(t) : "";
         return politicianTapeRowHtml(t, {
           nameHref: nameHref,
@@ -1313,6 +1321,7 @@
     formatQuote: formatQuote,
     signedMoney: signedMoney,
     prettyDate: prettyDate,
+    tapeSymbol: tapeSymbol,
     threeYearCutoff: threeYearCutoff,
     cleanAsset: cleanAsset,
     issuerName: issuerName,

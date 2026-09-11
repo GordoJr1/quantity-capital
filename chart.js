@@ -816,9 +816,118 @@ function attachScrubberEvents(svg, wrap, pts, w, h) {
   });
 }
 
+function sampleSplineInWrap(svg, wrap) {
+  const pts = [];
+  if (!svg || !wrap || !svg.querySelector) return pts;
+  const path = svg.querySelector(".qc-spline-main");
+  if (!path || typeof path.getTotalLength !== "function") return pts;
+  const wr = wrap.getBoundingClientRect();
+  const sr = svg.getBoundingClientRect();
+  const vb = svg.viewBox && svg.viewBox.baseVal;
+  const vw = (vb && vb.width) || 840;
+  const vh = (vb && vb.height) || 198;
+  const sx = sr.width / vw;
+  const sy = sr.height / vh;
+  const ox = sr.left - wr.left;
+  const oy = sr.top - wr.top;
+  let len = 0;
+  try { len = path.getTotalLength(); } catch (e) { return pts; }
+  if (!(len > 0)) return pts;
+  const n = 48;
+  for (let i = 0; i <= n; i++) {
+    const p = path.getPointAtLength(len * (i / n));
+    pts.push({ x: ox + p.x * sx, y: oy + p.y * sy });
+  }
+  return pts;
+}
+
+/** Flip the trade popup above/below or left/right of the pin to avoid the price path when we can. */
+function placeMarkPop(pop, wrap, svg, rec, opts) {
+  if (!pop || !wrap || !rec) return;
+  opts = opts || {};
+  const wr = wrap.getBoundingClientRect();
+  const sr = (svg && svg.getBoundingClientRect) ? svg.getBoundingClientRect() : wr;
+  const margin = 8;
+  const gap = 14;
+  const pinX = (sr.left - wr.left) + Number(rec.xPct || 0) * sr.width;
+  const pinY = (sr.top - wr.top) + Number(rec.yPct || 0) * sr.height;
+  let popW = Number(opts.width) || parseFloat(pop.style.width) || 200;
+  popW = Math.min(Math.max(140, popW), Math.max(140, wr.width - margin * 2));
+  pop.style.width = popW + "px";
+  pop.style.right = "auto";
+  pop.style.bottom = "auto";
+  pop.style.transform = "none";
+  pop.hidden = false;
+  pop.style.visibility = "hidden";
+  pop.style.left = margin + "px";
+  pop.style.top = margin + "px";
+  const popH = Math.max(pop.offsetHeight || 88, 72);
+  pop.style.visibility = "";
+
+  const maxLeft = Math.max(margin, wr.width - popW - margin);
+  const maxTop = Math.max(margin, wr.height - popH - margin);
+  function clampBox(left, top) {
+    return {
+      left: Math.max(margin, Math.min(maxLeft, left)),
+      top: Math.max(margin, Math.min(maxTop, top))
+    };
+  }
+
+  const raw = [
+    { left: pinX - popW / 2, top: pinY + gap },
+    { left: pinX - popW / 2, top: pinY - gap - popH },
+    { left: pinX + gap, top: pinY - popH / 2 },
+    { left: pinX - gap - popW, top: pinY - popH / 2 },
+    { left: pinX + gap, top: pinY + gap },
+    { left: pinX - gap - popW, top: pinY + gap },
+    { left: pinX + gap, top: pinY - gap - popH },
+    { left: pinX - gap - popW, top: pinY - gap - popH }
+  ];
+  const pathPts = sampleSplineInWrap(svg, wrap);
+  const pinR2 = 32 * 32;
+
+  function pathHits(box) {
+    let n = 0;
+    for (let i = 0; i < pathPts.length; i++) {
+      const p = pathPts[i];
+      const dx = p.x - pinX;
+      const dy = p.y - pinY;
+      if (dx * dx + dy * dy < pinR2) continue;
+      if (p.x >= box.left && p.x <= box.left + popW && p.y >= box.top && p.y <= box.top + popH) n++;
+    }
+    return n;
+  }
+
+  function overflow(left, top) {
+    let o = 0;
+    if (left < margin) o += margin - left;
+    if (top < margin) o += margin - top;
+    if (left + popW > wr.width - margin) o += left + popW - (wr.width - margin);
+    if (top + popH > wr.height - margin) o += top + popH - (wr.height - margin);
+    return o;
+  }
+
+  let best = clampBox(raw[0].left, raw[0].top);
+  let bestScore = Infinity;
+  for (let i = 0; i < raw.length; i++) {
+    const c = raw[i];
+    const box = clampBox(c.left, c.top);
+    const score = pathHits(box) * 100 + overflow(c.left, c.top) * 0.5 + i * 0.02;
+    if (score < bestScore) {
+      bestScore = score;
+      best = box;
+    }
+  }
+
+  pop.style.left = best.left + "px";
+  pop.style.top = best.top + "px";
+  pop.style.transform = "none";
+}
+
 // Export palettes globally
 if (typeof window !== "undefined") {
   window.CHART_PALETTES = CHART_PALETTES;
   window.hideChartHoverUi = hideChartHoverUi;
+  window.placeMarkPop = placeMarkPop;
 }
 

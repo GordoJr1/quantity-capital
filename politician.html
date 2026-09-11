@@ -1272,24 +1272,28 @@
         closeBtn.addEventListener("touchend", closeFn);
       }
       const svg = document.getElementById("chart-svg");
-      const wr = wrap.getBoundingClientRect();
-      const sr = svg.getBoundingClientRect();
-      const popWidth = Math.min(220, Math.max(160, wr.width - 20));
-      pop.style.width = popWidth + "px";
-      pop.style.right = "auto";
-      pop.style.transform = "none";
-      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
-      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
-      let popLeft = pinScreenX - (popWidth / 2);
-      popLeft = Math.max(8, Math.min(wr.width - popWidth - 8, popLeft));
-      pop.style.left = popLeft + "px";
-      if (pinScreenY < 120 || rec.yPct < 0.46) {
-        pop.style.top = (pinScreenY + 16) + "px";
-        pop.style.bottom = "auto";
+      const popWidth = Math.min(220, Math.max(160, wrap.getBoundingClientRect().width - 20));
+      if (typeof placeMarkPop === "function") {
+        placeMarkPop(pop, wrap, svg, rec, { width: popWidth });
       } else {
-        pop.style.top = (pinScreenY - 16) + "px";
-        pop.style.bottom = "auto";
-        pop.style.transform = "translateY(-100%)";
+        const wr = wrap.getBoundingClientRect();
+        const sr = svg.getBoundingClientRect();
+        pop.style.width = popWidth + "px";
+        pop.style.right = "auto";
+        pop.style.transform = "none";
+        const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+        const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+        let popLeft = pinScreenX - (popWidth / 2);
+        popLeft = Math.max(8, Math.min(wr.width - popWidth - 8, popLeft));
+        pop.style.left = popLeft + "px";
+        if (pinScreenY < 120 || rec.yPct < 0.46) {
+          pop.style.top = (pinScreenY + 16) + "px";
+          pop.style.bottom = "auto";
+        } else {
+          pop.style.top = (pinScreenY - 16) + "px";
+          pop.style.bottom = "auto";
+          pop.style.transform = "translateY(-100%)";
+        }
       }
       pop.hidden = false;
     }

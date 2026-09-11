@@ -40,7 +40,7 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; font-weight: 700; }
     .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 8px; }
     .sub-bar {
       padding: 8px 0 2px;
@@ -72,8 +72,8 @@
     .stat:last-child { border-right: 0; }
     .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); }
     .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
-    .blotter { display: flex; flex-direction: column; gap: 12px; margin: 0 0 28px; }
-    .play { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 16px 18px; }
+    .blotter { display: flex; flex-direction: column; gap: 8px; margin: 0 0 16px; }
+    .play { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 10px 12px 8px; }
     .play.buy-dip { border-left-color: #7dcf7a; }
     .play.watch { border-left-color: var(--caution); }
     .play.avoid { border-left-color: #ef7a74; }
@@ -133,10 +133,10 @@
       content: ""; position: absolute; left: 0; top: 0.55em; width: 6px; height: 6px;
       border-radius: 50%; background: #7dcf7a;
     }
-    .play-more { margin-top: 12px; }
+    .play-more { margin-top: 2px; }
     .play-more > summary {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--caution); min-height: 44px; display: flex; align-items: center; cursor: pointer; list-style: none;
+      color: var(--caution); min-height: 32px; display: flex; align-items: center; cursor: pointer; list-style: none;
     }
     .play-more > summary::-webkit-details-marker { display: none; }
     .play-more > summary::before { content: "▸ "; }
@@ -147,7 +147,7 @@
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
       padding: 10px 16px; min-height: 44px; cursor: pointer;
     }
-    details.how { margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24; }
+    details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
     details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
     details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
@@ -177,8 +177,7 @@
       }
       .tabbar a.on { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
-      .kicker { margin-top: 14px; }
+      h1 { font-size: 1.35rem; }
     }
     @media (max-width: 720px) {
       .card { grid-template-columns: 40px minmax(0, 1fr); }
@@ -186,7 +185,7 @@
       .avoid-row { grid-template-columns: 40px minmax(0, 1fr); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -204,25 +203,9 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Today's book</p>
-    </div>
-    <h1>Heat</h1>
-    <div class="stats" id="stats"></div>
-    <div class="blotter" id="book"><p class="muted">Reading the book…</p></div>
-    <div id="avoid-wrap" hidden>
-      <p class="subhead">Avoid the open</p>
-      <div id="avoid"></div>
-    </div>
-    <p class="subhead">Buy heat</p>
-    <p class="muted">Recency-weighted open-market buys in the last 90 days. Cluster and size lift the rank.</p>
-    <ol class="heat" id="heat"></ol>
-    <p class="subhead">Buy performance</p>
-    <p class="muted">Return since the first close after the filing. Buys under $5,000 are left out. Not a portfolio.</p>
-    <ol class="heat" id="perf"></ol>
-    <div class="more-row" id="perf-more" hidden>
-      <button type="button" id="perf-more-btn">Show more ranks</button>
+    <div class="page-head">
+      <h1>Heat</h1>
+      <p class="asof" id="asof"></p>
     </div>
     <details class="how">
       <summary>How this is scored</summary>
@@ -231,11 +214,24 @@
         <p class="muted" style="margin-top:10px;">The book favors a weekly washout (RSI 20–48) with an intact monthly, plus a fresh filing. Names that already ran more than 12% since the last buy while the weekly trend is down, or that print a weekly RSI above 72, go to Avoid the open. Copy return is the first close on or after the filing date. Not a recommendation.</p>
       </div>
     </details>
+    <p class="paper-caption" id="stats"></p>
+    <div class="blotter" id="book"><p class="muted">Reading the book…</p></div>
+    <div id="avoid-wrap" hidden>
+      <p class="subhead">Avoid the open</p>
+      <div id="avoid"></div>
+    </div>
+    <p class="subhead">Window ranks</p>
+    <ol class="heat" id="heat"></ol>
+    <p class="subhead">Buy performance</p>
+    <ol class="heat" id="perf"></ol>
+    <div class="more-row" id="perf-more" hidden>
+      <button type="button" id="perf-more-btn">Show more ranks</button>
+    </div>
   </div>
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     let showAllPerf = false;
 
@@ -313,7 +309,6 @@
           "</div>" +
           "<div class=\"action " + row.action + "\">" + actionLabel(row.action) + "</div>" +
         "</div>" +
-        (row.why ? "<p class=\"why\">" + QC.esc(row.why) + "</p>" : "") +
         "<details class=\"play-more\">" +
           "<summary>Details</summary>" +
           hitList +
@@ -391,18 +386,14 @@
       const plays = book.filter((r) => r.action === "buy-dip");
       const avoid = book.filter((r) => r.action === "avoid").slice(0, 8);
       document.getElementById("asof").textContent = QC.asOfLabel(data.generated || data.tapeCollected);
-      document.getElementById("stats").innerHTML =
-        "<div class=\"stat\"><b>" + plays.length + "</b><span>buy-dip names</span></div>" +
-        "<div class=\"stat\"><b>" + (stats.landed || 0) + "</b><span>just landed</span></div>" +
-        "<div class=\"stat\"><b>" + (stats.clusters || 0) + "</b><span>cluster buys</span></div>" +
-        "<div class=\"stat\"><b>" + (stats.names || 0) + "</b><span>names with buys</span></div>";
+      document.getElementById("stats").textContent =
+        plays.length + " buy-dip · " + (stats.landed || 0) + " just landed · " +
+        (stats.clusters || 0) + " clusters · " + (stats.names || 0) + " names with buys";
       document.getElementById("book").innerHTML = plays.map(playCard).join("") ||
         "<p class=\"muted\">No buy-dip names this update.</p>";
       const wrap = document.getElementById("avoid-wrap");
       wrap.hidden = avoid.length === 0;
       document.getElementById("avoid").innerHTML = avoid.map(avoidRow).join("");
-      const desk = window.matchMedia("(min-width: 861px)").matches;
-      document.querySelectorAll(".play-more").forEach((el) => { el.open = desk; });
       document.getElementById("heat").innerHTML = (data.heat || []).slice(0, 20).map(heatCard).join("") ||
         "<p class=\"muted\">No officer buys in the window.</p>";
       paintPerf(data);

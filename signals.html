@@ -60,8 +60,8 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .kicker { color: var(--caution); margin: 8px 0 4px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; }
     .lede { color: var(--paper); max-width: 62ch; line-height: 1.5; margin-bottom: 10px; }
     .sub-bar {
       padding: 8px 0 2px;
@@ -172,7 +172,7 @@
       max-width: 70ch;
     }
     .heat-kicker { margin-top: 8px; }
-    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
     .chip {
       background: #151b24;
       border: 1px solid #4a5563;
@@ -360,7 +360,7 @@
     .play-more > summary::before { content: "▸ "; }
     .play-more[open] > summary::before { content: "▾ "; }
     details.how {
-      margin: 28px 0 40px;
+      margin: 0 0 12px;
       border: 1px solid #4a5563;
       background: #151b24;
     }
@@ -442,11 +442,10 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
-      .kicker { margin-top: 14px; }
+      h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -464,30 +463,26 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Today's book</p>
+    <div class="page-head">
+      <h1>Heat</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Heat</h1>
-    <p class="lede">Today’s book from recency-weighted politician buy heat. Not a recommendation.</p>
-    <div class="blotter" id="book"></div>
-    <div id="avoid-wrap" hidden>
-      <p class="subhead">Avoid the open</p>
-      <div id="avoid"></div>
-    </div>
-    <p class="subhead heat-kicker">Buy heat</p>
-    <div class="windows" id="windows"></div>
-    <div class="stats" id="stats"></div>
-    <div class="desk" id="desk"></div>
-    <p class="subhead" id="rest-label" hidden>The rest of the heat</p>
-    <ol class="heat" id="heat"></ol>
     <details class="how">
-      <summary>How the heat is scored</summary>
+      <summary>How this is scored</summary>
       <div class="body">
         <p>Today’s book is rebuilt on every site update (morning and 6 PM). It mixes three tape boards — Filed ingest time, committee-overlap conflicts, and recency-weighted buy heat — with weekly and monthly technicals from the closes on file. A weekly washout (RSI 20–48) with an intact monthly (RSI ≥ 45 or price near the 10-month) is favored. Names that already ran more than 12% since the last official buy while the weekly trend is still down, or that print a weekly RSI above 72, are pushed to Avoid the open.</p>
         <p class="muted" style="margin-top:10px;">Not a recommendation. STOCK Act amounts are ranges, not share counts. Filings lag the trade. Technicals use Yahoo daily closes resampled to weeks and months.</p>
       </div>
     </details>
+    <div class="windows" id="windows"></div>
+    <p class="paper-caption" id="stats"></p>
+    <div class="blotter" id="book"></div>
+    <div id="avoid-wrap" hidden>
+      <p class="subhead">Avoid the open</p>
+      <div id="avoid"></div>
+    </div>
+    <p class="subhead" id="rest-label" hidden>The rest of the heat</p>
+    <ol class="heat" id="heat"></ol>
   </div>
   <footer>
     <div class="wrap">
@@ -495,7 +490,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     const MEGA = {
       AAPL: 1, MSFT: 1, NVDA: 1, AMZN: 1, GOOGL: 1, GOOG: 1, META: 1, TSLA: 1,
@@ -660,8 +655,6 @@
         );
         box.innerHTML = book.map(playCard).join("") ||
           "<p class=\"muted\">No book this update.</p>";
-        const desk = window.matchMedia("(min-width: 821px)").matches;
-        document.querySelectorAll(".play-more").forEach((el) => { el.open = desk; });
         const avoid = (data.avoid || []).map((row) =>
           Object.assign({}, row, { name: resolveAnalysisName(row, tickerFile, tape.trades) })
         );
@@ -910,11 +903,8 @@
       const cluster = rows.filter((r) => r.cluster).length;
       const conflict = rows.filter((r) => r.conflict).length;
       const fresh = rows.filter((r) => r.fresh).length;
-      document.getElementById("stats").innerHTML =
-        "<div class=\"stat\"><b>" + n + "</b><span>names in window</span></div>" +
-        "<div class=\"stat\"><b>" + cluster + "</b><span>clustered 3+ buyers</span></div>" +
-        "<div class=\"stat\"><b>" + conflict + "</b><span>committee overlap</span></div>" +
-        "<div class=\"stat\"><b>" + fresh + "</b><span>printed in 14 days</span></div>";
+      document.getElementById("stats").textContent =
+        n + " names in window · " + cluster + " clustered · " + conflict + " overlap · " + fresh + " printed in 14 days";
     }
 
     function tagsFor(row) {
@@ -990,10 +980,8 @@
     async function run() {
       paintWindows();
       const heat = document.getElementById("heat");
-      const desk = document.getElementById("desk");
       const restLabel = document.getElementById("rest-label");
       heat.innerHTML = "<li class=\"muted\">Reading the tape…</li>";
-      desk.innerHTML = "";
       restLabel.hidden = true;
       const [tape, tickerFile, bios] = await Promise.all([
         fetch("trades-lite.json").then((r) => r.json()),
@@ -1019,12 +1007,11 @@
           if (res.ok) prices[row.code] = await res.json();
         } catch (e) {}
       }));
-      const leads = top.slice(0, 3);
-      desk.innerHTML = leads.map((row) => leadHtml(row, now, prices[row.code], maxHeat)).join("");
-      const rest = top.slice(3);
+      const rest = top;
       restLabel.hidden = rest.length === 0;
+      restLabel.textContent = "Window ranks";
       heat.innerHTML = rest.length
-        ? rest.map((row, i) => cardHtml(row, i + 3, maxHeat, now, prices[row.code])).join("")
+        ? rest.map((row, i) => cardHtml(row, i, maxHeat, now, prices[row.code])).join("")
         : "";
     }
 

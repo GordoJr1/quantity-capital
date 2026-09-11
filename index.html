@@ -506,9 +506,27 @@
 
     footer a { color: var(--caution); }
 
-    .filter-fold > summary {
-      display: none;
+    .filter-fold {
+      border: 1px solid #4a5563;
+      background: #151b24;
+      margin: 0 0 8px;
     }
+    .filter-fold > summary {
+      display: block;
+      padding: 10px 14px;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caution);
+      cursor: pointer;
+      list-style: none;
+      min-height: 36px;
+    }
+    .filter-fold > summary::-webkit-details-marker { display: none; }
+    .filter-fold > summary::before { content: "▸ "; }
+    .filter-fold[open] > summary::before { content: "▾ "; }
+    .filter-fold[open] > summary { border-bottom: 1px solid #3a4452; }
+    .filter-fold .picker, .filter-fold .filters { padding: 10px 12px 12px; }
 
     @media (max-width: 820px), (orientation: landscape) and (max-height: 620px) {
       .tape-scroll {
@@ -516,27 +534,6 @@
         z-index: 1;
       }
       #tape { padding-top: 8px; }
-      .filter-fold {
-        border: 1px solid #4a5563;
-        background: #151b24;
-        margin: 0 0 8px;
-      }
-      .filter-fold > summary {
-        display: block;
-        padding: 12px 14px;
-        font-family: "Barlow Condensed", sans-serif;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--caution);
-        cursor: pointer;
-        list-style: none;
-        min-height: 44px;
-      }
-      .filter-fold > summary::-webkit-details-marker { display: none; }
-      .filter-fold > summary::before { content: "▸ "; }
-      .filter-fold[open] > summary::before { content: "▾ "; }
-      .filter-fold[open] > summary { border-bottom: 1px solid #3a4452; }
-      .filter-fold .picker, .filter-fold .filters { padding: 10px 12px 12px; }
     }
 
 
@@ -642,6 +639,41 @@
     }
 
     #board { padding: 16px 0 8px; }
+    .board-fold > summary { display: none; list-style: none; }
+    .board-strip-label {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--caution);
+      flex: 0 0 auto;
+    }
+    .board-peek {
+      color: var(--mute);
+      font-size: 0.82rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+    @media (max-width: 820px) {
+      #board { padding: 8px 0 4px; }
+      .board-fold {
+        border: 1px solid #4a5563;
+        background: #151b24;
+        margin: 0 0 8px;
+      }
+      .board-fold > summary.board-strip {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 40px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      .board-fold > h2 { display: none; }
+      .board-grid { min-height: 0 !important; }
+    }
     #tape .filter-fold { margin: 0 0 12px; }
     .board-tabs {
       display: flex;
@@ -1526,7 +1558,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1629,6 +1661,11 @@
   <div class="wrap">
 
     <section class="board" id="board">
+      <details class="board-fold" id="board-fold">
+        <summary class="board-strip">
+          <span class="board-strip-label">Leaderboard</span>
+          <span class="board-peek" id="board-peek"></span>
+        </summary>
       <h2>Leaderboard</h2>
       <div class="board-tabs" role="tablist">
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
@@ -1680,6 +1717,7 @@
         </section>
       </div>
       <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
+      </details>
     </section>
 
     <section id="tape">
@@ -1791,7 +1829,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script src="chart.js"></script>
   <script>
     function escapeHtml(s) {
@@ -2560,6 +2598,23 @@
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
         tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
         cols.forEach((col) => col.classList.toggle("on", col.dataset.board === state.mode));
+        const peek = document.getElementById("board-peek");
+        if (peek) {
+          const lastName = (name) => {
+            const s = String(name || "").replace(/,.*$/, "").trim();
+            const parts = s.split(/\s+/);
+            return parts[parts.length - 1] || s;
+          };
+          const labels = { conflicts: "Conflicts", activity: "Active", traders: "Traders", stocks: "Trades" };
+          const pool = (boards[state.mode] || []).slice(0, 3);
+          const bits = pool.map((r) => {
+            if (state.mode === "stocks") return (r.code || "") + " " + r.trades;
+            if (state.mode === "conflicts") return lastName(r.name) + " " + r.conflicts;
+            if (state.mode === "activity") return lastName(r.name) + " " + r.trades;
+            return lastName(r.name);
+          });
+          peek.textContent = [labels[state.mode] || "Leaderboard"].concat(bits).join(" · ");
+        }
       };
       tabs.forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -2745,9 +2800,12 @@
       };
       if (window.ResizeObserver && bar) new ResizeObserver(sync).observe(bar);
       const compact = window.matchMedia("(max-width: 820px), (orientation: landscape) and (max-height: 620px)");
-      const syncFold = () => { if (fold) fold.open = !compact.matches; };
-      compact.addEventListener("change", syncFold);
+      const boardFold = document.getElementById("board-fold");
+      const syncFold = () => { if (fold) fold.open = false; };
+      const syncBoard = () => { if (boardFold) boardFold.open = !compact.matches; };
+      compact.addEventListener("change", () => { syncFold(); syncBoard(); });
       syncFold();
+      syncBoard();
       sync();
       snapTapeHash();
       window.addEventListener("hashchange", () => {

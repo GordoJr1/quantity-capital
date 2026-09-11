@@ -58,9 +58,19 @@
     nav { display: flex; gap: 14px; font-size: 0.88rem; letter-spacing: 0.1em; flex-wrap: wrap; }
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
-    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 18px; }
+    .kicker { color: var(--caution); margin: 8px 0 4px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; }
+    .lede { color: var(--paper); max-width: 64ch; line-height: 1.5; margin-bottom: 12px; }
+    details.how {
+      margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24;
+    }
+    details.how summary {
+      cursor: pointer; padding: 10px 14px; color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 14px 14px; color: var(--paper); line-height: 1.55; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .sub-bar {
       padding: 8px 0 2px;
@@ -217,11 +227,10 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
-      .kicker { margin-top: 14px; }
+      h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -239,12 +248,16 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Drop log</p>
+    <div class="page-head">
+      <h1>Filed</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Filed</h1>
-    <p class="lede">New public filings, newest onto the tape first — not by trade date.</p>
+    <details class="how">
+      <summary>How this is scored</summary>
+      <div class="body">
+        <p>New public filings, newest onto the tape first — not by trade date.</p>
+      </div>
+    </details>
     <div class="windows" id="windows"></div>
     <div class="stats" id="stats"></div>
     <div id="board"></div>
@@ -255,7 +268,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     const WINDOWS = [72, 168, 336];
     const params = new URLSearchParams(location.search);
@@ -330,6 +343,10 @@
       const lagHtml = lag
         ? "<div class=\"lag\"><b>" + lag + "d</b><span>after the trade</span></div>"
         : "<div class=\"lag\"><b>0d</b><span>same-day print</span></div>";
+      const cap = 12;
+      const extra = g.rows.length > cap;
+      const vis = extra ? g.rows.slice(0, cap) : g.rows;
+      const rest = extra ? g.rows.slice(cap) : [];
       return "<article class=\"card\">" +
         "<div class=\"card-top\">" +
           "<div>" +
@@ -337,7 +354,11 @@
             "<div class=\"muted\">" + QC.esc(g.chamber || "") + " · " + g.rows.length + " ticket" + (g.rows.length === 1 ? "" : "s") + "</div>" +
           "</div>" + lagHtml +
         "</div>" +
-        "<ul class=\"tickets\">" + g.rows.map(ticketLine).join("") + "</ul>" +
+        "<ul class=\"tickets\">" + vis.map(ticketLine).join("") + "</ul>" +
+        (rest.length
+          ? "<details class=\"ticket-more\"><summary>Show " + rest.length + " more tickets</summary><ul class=\"tickets\">" +
+            rest.map(ticketLine).join("") + "</ul></details>"
+          : "") +
       "</article>";
     }
 

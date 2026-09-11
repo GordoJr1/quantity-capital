@@ -33,9 +33,16 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     .kicker { color: var(--caution); margin: 0; font-size: 0.9rem; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin: 4px 0 10px; font-weight: 700; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; font-weight: 700; }
     h2 { font-size: 1.35rem; margin: 22px 0 8px; color: var(--caution); }
-    .lede { color: var(--paper); max-width: 72ch; line-height: 1.5; margin-bottom: 16px; }
+    .lede { color: var(--paper); max-width: 72ch; line-height: 1.5; margin-bottom: 8px; }
+    details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
+    details.how summary {
+      cursor: pointer; padding: 10px 14px; color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; list-style: none;
+    }
+    details.how summary::-webkit-details-marker { display: none; }
+    details.how .body { padding: 0 14px 14px; color: var(--paper); line-height: 1.55; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .sub-bar { padding: 8px 0 2px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
     .asof { color: var(--mute); font-size: 0.82rem; margin: 0; }
@@ -73,7 +80,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -91,19 +98,23 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Chart hygiene</p>
+    <div class="page-head">
+      <h1>Checks</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Checks</h1>
-    <p class="lede">Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list. A one-session lag after a morning pull is listed separately from names whose last bar is older than that.</p>
+    <details class="how">
+      <summary>How this is scored</summary>
+      <div class="body">
+        <p>Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list. A one-session lag after a morning pull is listed separately from names whose last bar is older than that.</p>
+      </div>
+    </details>
     <div class="stats" id="stats"></div>
     <div id="board"><p class="muted">Reading checks…</p></div>
   </div>
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     function money(n) {
       if (n == null || isNaN(n)) return "—";

@@ -48,8 +48,8 @@
     nav a { color: var(--paper); text-decoration: none; }
     nav a:hover, nav a.on { color: var(--caution); }
     body { padding-top: env(safe-area-inset-top, 0px); }
-    .kicker { color: var(--caution); margin: 28px 0 8px; }
-    h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.88; margin-bottom: 10px; }
+    .kicker { color: var(--caution); margin: 8px 0 4px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; }
     .sub-bar {
       padding: 8px 0 2px;
       display: flex;
@@ -104,7 +104,7 @@
     .who-list a { color: inherit; text-decoration: none; }
     .who-list a:hover { color: var(--caution); }
     details.how {
-      margin: 28px 0 40px; border: 1px solid #4a5563; background: #151b24;
+      margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24;
     }
     details.how summary {
       cursor: pointer; padding: 12px 16px; color: var(--caution);
@@ -161,11 +161,10 @@
       }
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-      h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
-      .kicker { margin-top: 14px; }
+      h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=106" />
+  <link rel="stylesheet" href="shell.css?v=107" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -183,24 +182,22 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="asof" id="asof"></p>
-    <div class="sub-bar">
-      <p class="kicker">Hot hands</p>
+    <div class="page-head">
+      <h1>Patterns</h1>
+      <p class="asof" id="asof"></p>
     </div>
-    <h1>Patterns</h1>
-    <p class="lede">Filers whose official buys preceded fast spikes — and what those same hands are buying now.</p>
+    <details class="how">
+      <summary>How a tell is scored</summary>
+      <div class="body">
+        <p>Filers whose official buys preceded fast spikes — and what those same hands are buying now. A tell is an official listed-stock buy placed within 8% of the prior 20-session low that then rose at least 20% within 15 sessions. Options, bonds, and ETFs are out. Filers need a handful of scored buys and more than a one-off bounce. The board then shows recent buys by those same people that have not already run 15%.</p>
+        <p class="muted" style="margin-top:10px;">Not a recommendation. A March 2026 market bounce can mint a lot of “hits.” Past spikes do not mean the next ticket works. Regenerated on every site update.</p>
+      </div>
+    </details>
     <div class="stats" id="stats"></div>
     <p class="subhead">They're buying now</p>
     <div id="now"></div>
     <p class="subhead">The hands</p>
     <div id="hands"></div>
-    <details class="how">
-      <summary>How a tell is scored</summary>
-      <div class="body">
-        <p>A tell is an official listed-stock buy placed within 8% of the prior 20-session low that then rose at least 20% within 15 sessions. Options, bonds, and ETFs are out. Filers need a handful of scored buys and more than a one-off bounce. The board then shows recent buys by those same people that have not already run 15%.</p>
-        <p class="muted" style="margin-top:10px;">Not a recommendation. A March 2026 market bounce can mint a lot of “hits.” Past spikes do not mean the next ticket works. Regenerated on every site update.</p>
-      </div>
-    </details>
   </div>
   <footer>
     <div class="wrap">
@@ -208,7 +205,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=110"></script>
+  <script src="qc.js?v=111"></script>
   <script>
     function pct(x) {
       if (x == null || isNaN(x)) return "—";

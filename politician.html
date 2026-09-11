@@ -176,10 +176,10 @@
       margin: 0 0 22px;
       border: 1px solid #4a5563;
       background: #151b24;
-      padding: 14px 16px 10px;
+      padding: 8px 16px 10px;
     }
-    .holdings h2 { font-size: 1.15rem; margin: 0 0 6px; }
-    .holdings > .muted { margin-bottom: 10px; line-height: 1.45; }
+    .holdings > .kicker { margin: 0 0 2px; }
+    .holdings h2 { font-size: 1.15rem; margin: 0 0 8px; }
     .link-bar {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 12px;
     }
@@ -595,7 +595,6 @@
     <section class="holdings" id="holdings" hidden>
       <p class="kicker">Estimated book</p>
       <h2>Holdings</h2>
-      <p class="muted" id="hold-copy"></p>
       <div class="link-bar" id="link-bar">
         <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
         <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
@@ -938,20 +937,6 @@
       ).join("");
     }
 
-    function paintCopy(book) {
-      const copy = document.getElementById("hold-copy");
-      if (!copy) return;
-      const look = RANGE_LABEL[bookRange] || "3-year";
-      if (!book.positions.length) {
-        copy.textContent = "No residual positions after netting the " + look +
-          " tape at the high end of each official range.";
-        return;
-      }
-      copy.textContent = "High end of official ranges" +
-        (book.latest ? ", through the " + prettyDate(book.latest) + " filing" : "") +
-        ". Bonds grouped. Inferred from the " + look + " tape — not an official holdings list. One selection drives the chart, the allocator, and the tape below.";
-    }
-
     function paintChip(book) {
       const chip = document.getElementById("sel-chip");
       const label = document.getElementById("sel-label");
@@ -1243,7 +1228,6 @@
       const book = currentBook();
       const box = document.getElementById("holdings");
       if (box) box.hidden = false;
-      paintCopy(book);
       paintChip(book);
       paintRange();
       paintFocusHead(book);

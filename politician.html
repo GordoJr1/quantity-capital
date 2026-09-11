@@ -292,7 +292,7 @@
     }
     .tile-board {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
       gap: 6px;
       align-content: start;
     }
@@ -573,7 +573,7 @@
     @media (max-width: 820px) {
       .holdings .focus .chart-wrap { height: 320px; }
       .holdings .focus #chart-svg { height: 276px; flex-basis: 276px; }
-      .tile-board { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
+      .tile-board { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
       .tile-board.expanded { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
       .hint { margin-left: 0; width: 100%; }
     }
@@ -1165,7 +1165,7 @@
         return;
       }
       board.classList.toggle("expanded", !!showAllTiles);
-      if (!showAllTiles && list.length && window.innerWidth > 820) {
+      if (!showAllTiles && list.length > 1 && window.innerWidth > 820) {
         board.style.gridTemplateColumns = "repeat(" + list.length + ", minmax(0, 1fr))";
       } else {
         board.style.gridTemplateColumns = "";

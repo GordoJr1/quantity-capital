@@ -81,7 +81,8 @@
       padding: 10px 12px; font: inherit; min-height: 44px;
     }
     .picker input:focus { outline: 1px solid var(--caution); }
-    .count { color: var(--mute); font-size: 0.85rem; margin: 0 0 6px; }
+    .count { color: var(--mute); font-size: 0.85rem; margin: 0; padding: 0 0 10px; }
+    .more-row { margin: 14px 0 0; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
     footer .wrap {
       display: flex; justify-content: space-between; padding: 18px 0 36px;
@@ -586,6 +587,7 @@
     <div class="picker">
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
     </div>
+    <p class="count" id="tape-count"></p>
     <div class="desk" id="desk">
       <div class="wire-col">
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
@@ -606,6 +608,9 @@
         <div id="focus-foot"></div>
       </aside>
     </div>
+    <div class="more-row" id="more-row" hidden>
+      <button type="button" class="btn" id="show-all">Show full list</button>
+    </div>
   </div>
   <footer>
     <div class="wrap">
@@ -618,11 +623,13 @@
   <script>
     const WINDOWS = [14, 30, 90, 540];
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
+    const PAGE = 120;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const params = new URLSearchParams(location.search);
     let days = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
     let side = params.get("side") || "";
     let q = "";
+    let showAll = false;
     let all = [];
     let collected = "";
     let deskRows = [];
@@ -671,7 +678,22 @@
         }
         return true;
       }).sort(newestFirst);
-      deskRows = vis.slice(0, 400);
+      const mobile = !DESK_MQ.matches;
+      if (!mobile) deskRows = vis.slice(0, 400);
+      else deskRows = showAll ? vis : vis.slice(0, PAGE);
+      const count = document.getElementById("tape-count");
+      const moreRow = document.getElementById("more-row");
+      const moreBtn = document.getElementById("show-all");
+      if (count) {
+        count.hidden = !mobile;
+        count.textContent = !mobile ? "" : (deskRows.length === vis.length
+          ? vis.length + " trades"
+          : "Showing " + deskRows.length + " of " + vis.length + " trades");
+      }
+      if (moreRow && moreBtn) {
+        moreRow.hidden = !mobile || (vis.length <= PAGE && !showAll);
+        moreBtn.textContent = showAll ? "Show first 120" : "Show full list";
+      }
       if (!deskRows.some((t) => t.id === activeId)) {
         activeId = deskRows[0] ? deskRows[0].id : "";
         chartRange = "3m";
@@ -838,24 +860,28 @@
         closeBtn.addEventListener("touchend", closeFn);
       }
       const svg = document.getElementById("chart-svg");
-      const wr = wrap.getBoundingClientRect();
-      const sr = svg.getBoundingClientRect();
-      const popWidth = Math.min(220, Math.max(160, wr.width - 20));
-      pop.style.width = popWidth + "px";
-      pop.style.right = "auto";
-      pop.style.transform = "none";
-      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
-      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
-      let popLeft = pinScreenX - (popWidth / 2);
-      popLeft = Math.max(8, Math.min(wr.width - popWidth - 8, popLeft));
-      pop.style.left = popLeft + "px";
-      if (pinScreenY < 120 || rec.yPct < 0.46) {
-        pop.style.top = (pinScreenY + 16) + "px";
-        pop.style.bottom = "auto";
+      const popWidth = Math.min(220, Math.max(160, wrap.getBoundingClientRect().width - 20));
+      if (typeof placeMarkPop === "function") {
+        placeMarkPop(pop, wrap, svg, rec, { width: popWidth });
       } else {
-        pop.style.top = (pinScreenY - 16) + "px";
-        pop.style.bottom = "auto";
-        pop.style.transform = "translateY(-100%)";
+        const wr = wrap.getBoundingClientRect();
+        const sr = svg.getBoundingClientRect();
+        pop.style.width = popWidth + "px";
+        pop.style.right = "auto";
+        pop.style.transform = "none";
+        const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+        const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+        let popLeft = pinScreenX - (popWidth / 2);
+        popLeft = Math.max(8, Math.min(wr.width - popWidth - 8, popLeft));
+        pop.style.left = popLeft + "px";
+        if (pinScreenY < 120 || rec.yPct < 0.46) {
+          pop.style.top = (pinScreenY + 16) + "px";
+          pop.style.bottom = "auto";
+        } else {
+          pop.style.top = (pinScreenY - 16) + "px";
+          pop.style.bottom = "auto";
+          pop.style.transform = "translateY(-100%)";
+        }
       }
       pop.hidden = false;
     }
@@ -996,10 +1022,16 @@
       p.set("w", String(days));
       if (side) p.set("side", side);
       history.replaceState(null, "", location.pathname + "?" + p.toString());
+      showAll = false;
       paint(all, collected);
     });
     document.getElementById("q").addEventListener("input", (e) => {
       q = e.target.value;
+      showAll = false;
+      paint(all, collected);
+    });
+    document.getElementById("show-all").addEventListener("click", () => {
+      showAll = !showAll;
       paint(all, collected);
     });
     run().catch(() => {

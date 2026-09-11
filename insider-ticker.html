@@ -858,37 +858,37 @@
         link.addEventListener("click", () => { hidePop(); });
       });
 
-      // Responsive positioning
       const svg = document.getElementById("chart-svg") || wrap.querySelector(".chart-frame");
-      const wr = wrap.getBoundingClientRect();
-      const sr = svg.getBoundingClientRect();
-
-      const popWidth = Math.min(isMobile ? 236 : 220, wr.width - 24);
-      pop.style.width = popWidth + "px";
-      pop.style.right = "auto";
-      pop.style.transform = "none";
-
-      const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
-      const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
-      let popLeft = pinScreenX - (popWidth / 2);
-      popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, popLeft));
-      pop.style.left = popLeft + "px";
-
-      if (isMobile) {
-        if (rec.yPct < 0.48) {
-          pop.style.top = "auto";
-          pop.style.bottom = "8px";
-        } else {
-          pop.style.top = "8px";
-          pop.style.bottom = "auto";
-        }
-      } else if (pinScreenY < 140 || rec.yPct < 0.46) {
-        pop.style.top = (pinScreenY + 16) + "px";
-        pop.style.bottom = "auto";
+      const popWidth = Math.min(isMobile ? 236 : 220, wrap.getBoundingClientRect().width - 24);
+      if (typeof placeMarkPop === "function") {
+        placeMarkPop(pop, wrap, svg, rec, { width: popWidth });
       } else {
-        pop.style.top = (pinScreenY - 16) + "px";
-        pop.style.bottom = "auto";
-        pop.style.transform = "translateY(-100%)";
+        const wr = wrap.getBoundingClientRect();
+        const sr = svg.getBoundingClientRect();
+        pop.style.width = popWidth + "px";
+        pop.style.right = "auto";
+        pop.style.transform = "none";
+        const pinScreenX = (sr.left - wr.left) + rec.xPct * sr.width;
+        const pinScreenY = (sr.top - wr.top) + rec.yPct * sr.height;
+        let popLeft = pinScreenX - (popWidth / 2);
+        popLeft = Math.max(10, Math.min(wr.width - popWidth - 10, popLeft));
+        pop.style.left = popLeft + "px";
+        if (isMobile) {
+          if (rec.yPct < 0.48) {
+            pop.style.top = "auto";
+            pop.style.bottom = "8px";
+          } else {
+            pop.style.top = "8px";
+            pop.style.bottom = "auto";
+          }
+        } else if (pinScreenY < 140 || rec.yPct < 0.46) {
+          pop.style.top = (pinScreenY + 16) + "px";
+          pop.style.bottom = "auto";
+        } else {
+          pop.style.top = (pinScreenY - 16) + "px";
+          pop.style.bottom = "auto";
+          pop.style.transform = "translateY(-100%)";
+        }
       }
 
       pop.hidden = false;

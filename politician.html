@@ -226,13 +226,52 @@
       color: var(--caution); font-size: 1.2rem; line-height: 1;
     }
     .alloc-total span { color: var(--mute); font-size: 0.72rem; }
+    .alloc-sort-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 8px;
+    }
+    .alloc-sort-label {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caution);
+      font-size: 0.78rem;
+    }
+    .alloc-sort {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .alloc-sort button {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid #4a5563;
+      color: var(--paper);
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      padding: 6px 12px;
+      min-height: 34px;
+      cursor: pointer;
+    }
+    .alloc-sort button:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
+    .alloc-sort button.on {
+      color: #1a1d26;
+      background: var(--caution);
+      border-color: var(--caution);
+      font-weight: 800;
+    }
     .tile-board {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
       gap: 6px;
       align-content: start;
     }
     .tile-board.expanded {
+      grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
       max-height: 168px;
       overflow-y: auto;
       padding-right: 2px;
@@ -475,7 +514,8 @@
     @media (max-width: 820px) {
       .holdings .focus .chart-wrap { height: 320px; }
       .holdings .focus #chart-svg { height: 276px; flex-basis: 276px; }
-      .tile-board { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
+      .tile-board { grid-template-columns: repeat(auto-fit, minmax(118px, 1fr)); }
+      .tile-board.expanded { grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); }
       .hint { margin-left: 0; width: 100%; }
     }
     .buy { color: #7dcf7a; }
@@ -598,6 +638,10 @@
           <div class="alloc-head">
             <p class="alloc-kicker">Allocator · click to chart</p>
             <div class="alloc-total" id="alloc-total"></div>
+          </div>
+          <div class="alloc-sort-row">
+            <span class="alloc-sort-label">Line up</span>
+            <div class="alloc-sort" id="alloc-sort" role="tablist" aria-label="Line up holdings"></div>
           </div>
           <div class="tile-board" id="tile-board"></div>
           <div class="hold-more" id="hold-more"></div>
@@ -768,6 +812,7 @@
     let selectedKey = "";
     let selectedTradeId = "";
     let showAllTiles = false;
+    let tileSort = "size";
     let chartToken = 0;
     const priceCache = {};
     let deskBound = false;
@@ -828,8 +873,10 @@
         const idn = holdingIdentity(t, lookup);
         const prev = book.get(idn.key) || {
           key: idn.key, label: idn.label, name: idn.name, kind: idn.kind,
-          value: 0, buys: 0, sells: 0, options: 0
+          value: 0, buys: 0, sells: 0, options: 0, last: ""
         };
+        const when = t.trade_date || t.filed_date || "";
+        if (when && when > (prev.last || "")) prev.last = when;
         if (t.side === "purchase") { prev.value += hi; prev.buys += 1; }
         else if (t.side === "sale") { prev.value -= hi; prev.sells += 1; }
         book.set(idn.key, prev);
@@ -888,14 +935,32 @@
       return buildHoldings(rowsForRange(allRows, bookRange), tickerLookup);
     }
 
+    function orderPositions(positions) {
+      const list = (positions || []).slice();
+      if (tileSort === "recent") {
+        list.sort((a, b) => {
+          const d = String(b.last || "").localeCompare(String(a.last || ""));
+          return d || (b.value - a.value);
+        });
+      } else {
+        list.sort((a, b) => {
+          const v = b.value - a.value;
+          return v || String(b.last || "").localeCompare(String(a.last || ""));
+        });
+      }
+      return list;
+    }
+
     function tileList(book) {
+      const ordered = orderPositions(book.positions);
       const cap = 8;
-      if (showAllTiles || book.positions.length <= cap) return book.positions.slice(0, 40);
-      const head = book.positions.slice(0, cap - 1);
-      const rest = book.positions.slice(cap - 1);
+      if (showAllTiles || ordered.length <= cap) return ordered.slice(0, 40);
+      const head = ordered.slice(0, cap - 1);
+      const rest = ordered.slice(cap - 1);
       const value = rest.reduce((sum, p) => sum + p.value, 0);
       const buys = rest.reduce((sum, p) => sum + (p.buys || 0), 0);
       const sells = rest.reduce((sum, p) => sum + (p.sells || 0), 0);
+      const last = rest.reduce((max, p) => (p.last || "") > max ? (p.last || "") : max, "");
       head.push({
         key: "__OTHER__",
         label: "Other",
@@ -904,9 +969,30 @@
         value: value,
         buys: buys,
         sells: sells,
+        last: last,
         other: true
       });
       return head;
+    }
+
+    function firstTileKey(book) {
+      const first = tileList(book).find((p) => p && !p.other);
+      return (first && first.key) || "";
+    }
+
+    function ensureSelection(book) {
+      const still = selectedKey && (
+        positionByKey(selectedKey, book) ||
+        (selectedTradeId && tradeById(selectedTradeId))
+      );
+      if (still) {
+        if (selectedKey && !selectedTradeId) {
+          selectedTradeId = (pickTradeForKey(selectedKey) || {}).id || "";
+        }
+        return;
+      }
+      selectedKey = firstTileKey(book);
+      selectedTradeId = selectedKey ? ((pickTradeForKey(selectedKey) || {}).id || "") : "";
     }
 
     function paintRange() {
@@ -918,6 +1004,20 @@
       ).join("");
     }
 
+    function paintSort() {
+      const box = document.getElementById("alloc-sort");
+      if (!box) return;
+      const opts = [
+        { id: "size", label: "Book size" },
+        { id: "recent", label: "Most recent" }
+      ];
+      box.innerHTML = opts.map((o) =>
+        "<button type=\"button\" role=\"tab\" aria-selected=\"" + (tileSort === o.id ? "true" : "false") +
+          "\" class=\"" + (tileSort === o.id ? "on" : "") + "\" data-sort=\"" + o.id + "\">" +
+          o.label + "</button>"
+      ).join("");
+    }
+
     function paintChip(book) {
       const chip = document.getElementById("sel-chip");
       const label = document.getElementById("sel-label");
@@ -926,7 +1026,12 @@
       const key = selectedKey;
       const on = !!key;
       if (chip) chip.classList.toggle("show", on);
-      if (clear) clear.classList.toggle("show", on);
+      if (clear) {
+        const first = firstTileKey(book);
+        const offFirst = on && selectedKey !== first;
+        clear.classList.toggle("show", offFirst);
+        clear.textContent = "Reset · first tile";
+      }
       if (!on || !label) return;
       const pos = positionByKey(key, book);
       const t = tradeById(selectedTradeId);
@@ -954,10 +1059,16 @@
       const list = tileList(book);
       if (!list.length) {
         board.innerHTML = "";
+        board.style.gridTemplateColumns = "";
         if (more) more.innerHTML = "";
         return;
       }
       board.classList.toggle("expanded", !!showAllTiles);
+      if (!showAllTiles && list.length && window.innerWidth > 820) {
+        board.style.gridTemplateColumns = "repeat(" + list.length + ", minmax(0, 1fr))";
+      } else {
+        board.style.gridTemplateColumns = "";
+      }
       board.innerHTML = list.map((p) => {
         const pct = formatPct(p.value, book.total);
         const color = p.other ? SLICE[SLICE.length - 1] : colorForKey(p.key, book.positions);
@@ -966,11 +1077,14 @@
           p.other ? "other" : "",
           !p.other && p.key === selectedKey ? "on" : ""
         ].filter(Boolean).join(" ");
+        const sub = tileSort === "recent" && p.last
+          ? prettyDate(p.last)
+          : p.name;
         return "<button type=\"button\" class=\"" + cls + "\" data-key=\"" + esc(p.key) + "\"" +
           (p.other ? " data-other=\"1\"" : "") +
           " style=\"border-left-color:" + color + ";background:" + color + "14\">" +
           "<div><div class=\"tk\">" + esc(p.label) + "</div>" +
-          "<div class=\"nm\">" + esc(p.name) + "</div></div>" +
+          "<div class=\"nm\">" + esc(sub) + "</div></div>" +
           "<div class=\"meta\"><span class=\"amt\">" + formatMoney(p.value) + "</span>" +
           "<span class=\"pct\">" + pct + "</span></div></button>";
       }).join("");
@@ -1187,7 +1301,7 @@
         if (key) {
           const label = (positionByKey(key, currentBook()) || {}).label || key.replace(/^T:/, "");
           count.textContent = "Showing " + label + " · " + shown.length + " of " + tapeRows.length +
-            " · other names hidden until Clear";
+            " · other names hidden until Reset";
         } else {
           count.textContent = tapeRows.length ? tapeRows.length + " trades" : "";
         }
@@ -1209,8 +1323,10 @@
       const book = currentBook();
       const box = document.getElementById("holdings");
       if (box) box.hidden = false;
+      ensureSelection(book);
       paintChip(book);
       paintRange();
+      paintSort();
       paintFocusHead(book);
       paintTape();
       requestAnimationFrame(() => {
@@ -1254,6 +1370,7 @@
       if (deskBound) return;
       deskBound = true;
       const rangeBox = document.getElementById("range");
+      const sortBox = document.getElementById("alloc-sort");
       const board = document.getElementById("tile-board");
       const more = document.getElementById("hold-more");
       const rows = document.getElementById("rows");
@@ -1263,6 +1380,18 @@
           const btn = e.target.closest("button[data-r]");
           if (!btn) return;
           bookRange = btn.getAttribute("data-r");
+          paintDesk();
+        });
+      }
+      if (sortBox) {
+        sortBox.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-sort]");
+          if (!btn) return;
+          const next = btn.getAttribute("data-sort") || "size";
+          if (next === tileSort) return;
+          tileSort = next;
+          selectedKey = "";
+          selectedTradeId = "";
           paintDesk();
         });
       }

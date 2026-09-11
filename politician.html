@@ -335,27 +335,53 @@
     .holdings .focus {
       background: rgba(21, 27, 36, 0.94);
       border: 1px solid #4a5563;
-      padding: 10px 12px 8px;
+      padding: 8px 10px 6px;
       display: flex;
       flex-direction: column;
       flex: 0 0 auto;
       min-width: 0;
     }
-    .focus-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+    .focus-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      margin-bottom: 6px;
+    }
+    .focus-top {
+      display: flex; align-items: center; justify-content: flex-start;
+      gap: 10px; min-width: 0; flex: 1 1 auto; margin: 0;
+    }
     .holdings .focus .who {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em;
-      text-transform: uppercase; font-size: 1.42rem; line-height: 0.95;
+      text-transform: uppercase; font-size: 1.28rem; line-height: 1;
+      flex: 0 0 auto;
     }
-    .holdings .focus a.who-link {
-      display: block;
+    .holdings .focus a.who-link,
+    .holdings .focus .who-block {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      min-width: 0;
       color: inherit;
       text-decoration: none;
     }
     .holdings .focus a.who-link:hover .who,
     .holdings .focus a.who-link:hover .asset { color: var(--teal); }
-    .holdings .focus .asset { color: var(--paper); font-size: 0.92rem; margin-top: 4px; }
+    .holdings .focus .asset {
+      color: var(--paper);
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.92rem;
+      line-height: 1.15;
+      margin: 0;
+      text-transform: none;
+      letter-spacing: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .holdings .focus .quiet { color: var(--mute); font-size: 0.76rem; margin-top: 4px; }
-    .holdings .focus .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .holdings .focus .chips { display: flex; flex-wrap: wrap; gap: 6px; flex: 0 0 auto; }
     .holdings .focus .chip {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
       font-size: 0.72rem; padding: 4px 8px; border: 1px solid #4a5563; color: var(--paper);
@@ -366,7 +392,7 @@
       display: flex; width: fit-content; gap: 3px;
       background: rgba(15, 23, 42, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px; padding: 3px 5px; margin: 0 0 8px;
+      border-radius: 999px; padding: 3px 5px; margin: 0; flex: 0 0 auto;
     }
     .holdings .focus .range button {
       background: transparent; border: 0; color: #94a3b8;
@@ -386,7 +412,7 @@
       -webkit-backdrop-filter: blur(28px);
       border: 1px solid rgba(255, 255, 255, 0.09);
       border-radius: 16px;
-      padding: 8px 8px 6px 44px;
+      padding: 6px 6px 4px 10px;
       overflow: hidden;
       user-select: none;
       flex: 0 0 auto;
@@ -501,7 +527,7 @@
     }
     .holdings .focus .chart-x {
       display: flex; justify-content: space-between;
-      padding: 6px 16px 0 28px;
+      padding: 4px 8px 0 8px;
       color: #e2e8f0; font-size: 11.5px; font-weight: 700;
       font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0.05em; text-transform: uppercase;
     }
@@ -630,8 +656,10 @@
       </div>
       <div class="hold-stage">
         <div class="focus" id="focus">
-          <div class="focus-top" id="focus-head"></div>
-          <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
+          <div class="focus-bar">
+            <div class="focus-top" id="focus-head"></div>
+            <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
+          </div>
           <div class="chart-wrap" id="chart-wrap">
             <div class="chart-frame">
               <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
@@ -1123,9 +1151,9 @@
       const opts = rows.filter((r) => isOptionLike(r)).length;
       const tk = key.indexOf("T:") === 0 ? key.slice(2) : "";
       const href = tk && isChartTicker(tk) ? "ticker.html?t=" + encodeURIComponent(tk) : "";
-      const title = (href ? "<a class=\"who-link\" href=\"" + href + "\">" : "<div>") +
-        "<div class=\"who\">" + esc(label || "Holding") + "</div>" +
-        (name ? "<div class=\"asset\">" + esc(name) + "</div>" : "") +
+      const title = (href ? "<a class=\"who-link\" href=\"" + href + "\">" : "<div class=\"who-block\">") +
+        "<span class=\"who\">" + esc(label || "Holding") + "</span>" +
+        (name ? "<span class=\"asset\">" + esc(name) + "</span>" : "") +
         (href ? "</a>" : "</div>");
       head.innerHTML =
         "<div>" + title + "</div>" +
@@ -1274,6 +1302,7 @@
         const hits = drawChart(slice, marks, {
           range: bookRange,
           theme: "cyan",
+          pad: { l: 36, r: 12, t: 14, b: 14 },
           onMark: (rec) => {
             const mid = rec && rec.mark && rec.mark.id;
             if (mid) selectTrade(mid);

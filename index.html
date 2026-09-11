@@ -1105,11 +1105,26 @@
     }
     @media (max-width: 899px) {
       .desk .day { display: none; }
+      .desk .day.fresh { display: flex; margin: 8px 0 6px; }
     }
     .desk .day:first-child,
     .desk .wire-day0 { margin-top: 0; }
     .desk .wire-day0:empty,
     .desk .wire-day0[hidden] { display: none; }
+    #wire .wire-note {
+      display: block;
+      list-style: none;
+      margin: 0 0 8px;
+      padding: 8px 12px;
+      border: 1px solid #4a5563;
+      border-left: 3px solid var(--caution);
+      background: rgba(227, 180, 26, 0.08);
+      color: var(--paper);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+    #wire .wire-note a { color: var(--caution); }
+    #wire li.day.fresh h2 { color: var(--caution); }
     .desk .day h2 {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.16em;
@@ -1777,7 +1792,7 @@
       <div class="desk-status" id="desk-status"></div>
       <div class="desk" id="desk">
         <div class="wire-col">
-          <div class="day wire-day0" id="wire-day0" hidden></div>
+          <div class="wire-day0" id="wire-day0" hidden></div>
           <ol class="wire qc-txn-list qc-tape-list" id="wire" aria-label="Signal wire"></ol>
         </div>
         <aside class="focus" id="focus">
@@ -1829,7 +1844,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=111"></script>
+  <script src="qc.js?v=112"></script>
   <script src="chart.js"></script>
   <script>
     function escapeHtml(s) {
@@ -1907,6 +1922,9 @@
     const DESK_SINGLE_FILER_DAY_CAP = 16;
     let showAll = false;
     let lastFiltered = [];
+    let deskPinCount = 0;
+    let lastTapeView = { onlyLanded: false, kind: "stock" };
+    let landedOverflow = [];
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let deskRows = [];
@@ -2029,43 +2047,68 @@
         "<div><b>" + visible.length + "</b><span>Prints in view</span></div>";
     }
 
+    function tapeRowHtml(t) {
+      const code = t.code || t.ticker || "";
+      return QC.politicianTapeRowHtml(t, {
+        nameHref: t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
+        tickerHref: isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) : "",
+        selected: t.id === activeId
+      });
+    }
+
+    function filedGroupHtml(rows, heading, extraCls) {
+      const cls = extraCls ? " class=\"day " + extraCls + "\"" : " class=\"day\"";
+      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(tapeRowHtml).join("");
+    }
+
+    function overflowNoteHtml() {
+      if (!landedOverflow.length || lastTapeView.onlyLanded) return "";
+      const by = new Map();
+      landedOverflow.forEach((t) => {
+        const id = t.filer_id || t.filer;
+        const rec = by.get(id) || { name: t.filer, kinds: new Set(), n: 0 };
+        rec.kinds.add(assetKind(t));
+        rec.n += 1;
+        by.set(id, rec);
+      });
+      const bits = Array.from(by.values()).map((r) => {
+        const kinds = Array.from(r.kinds).join("/");
+        return escapeHtml(r.name) + " (" + escapeHtml(kinds) + ")";
+      });
+      const href = "index.html?kind=";
+      return "<li class=\"wire-note\">Also just filed: " + bits.join(", ") +
+        " — <a href=\"" + href + "\">Show all types</a></li>";
+    }
+
     function paintWire() {
       const box = document.getElementById("wire");
       const day0 = document.getElementById("wire-day0");
-      if (!box) return;
-      if (!deskRows.length) {
-        if (day0) {
-          day0.hidden = true;
-          day0.innerHTML = "";
-        }
-        box.innerHTML = "<li class=\"muted\">No trades match these filters.</li>";
-        return;
-      }
-      const groups = [];
-      deskRows.forEach((t, i) => {
-        const key = t.filed_date || "";
-        const last = groups[groups.length - 1];
-        if (last && last.key === key) last.ids.push(i);
-        else groups.push({ key: key, ids: [i] });
-      });
-      const parts = groups.map((g) => {
-        const rows = g.ids.map((i) => {
-          const t = deskRows[i];
-          const code = t.code || t.ticker || "";
-          return QC.politicianTapeRowHtml(t, {
-            nameHref: t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
-            tickerHref: isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) : "",
-            selected: t.id === activeId
-          });
-        }).join("");
-        return {
-          block: "<li class=\"day\"><h2>" + escapeHtml(filedHeading(g.key)) + "</h2></li>" + rows
-        };
-      });
       if (day0) {
         day0.hidden = true;
         day0.innerHTML = "";
       }
+      if (!box) return;
+      if (!deskRows.length) {
+        box.innerHTML = overflowNoteHtml() + "<li class=\"muted\">No trades match these filters.</li>";
+        return;
+      }
+      const pinN = Math.min(deskPinCount, deskRows.length);
+      const pinRows = pinN ? deskRows.slice(0, pinN) : [];
+      const restRows = pinN ? deskRows.slice(pinN) : deskRows;
+      const parts = [];
+      if (pinRows.length) {
+        parts.push(filedGroupHtml(pinRows, "Just filed", "fresh"));
+      }
+      const groups = [];
+      restRows.forEach((t) => {
+        const key = t.filed_date || "";
+        const last = groups[groups.length - 1];
+        if (last && last.key === key) last.rows.push(t);
+        else groups.push({ key: key, rows: [t] });
+      });
+      groups.forEach((g) => {
+        parts.push(filedGroupHtml(g.rows, escapeHtml(filedHeading(g.key))));
+      });
       const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">Name</span>" +
@@ -2074,7 +2117,7 @@
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
-      box.innerHTML = colsHtml + parts.map((p) => p.block).join("");
+      box.innerHTML = colsHtml + overflowNoteHtml() + parts.join("");
     }
 
     function paintFocus() {
@@ -2296,41 +2339,19 @@
       if (DESK_MQ.matches) paintChart();
     }
 
-    function sliceDeskRows(sorted) {
-      if (showAll) return sorted;
-      if (!DESK_MQ.matches) return sorted.slice(0, PAGE);
-      const out = [];
-      let i = 0;
-      while (i < sorted.length && out.length < DESK_PAGE_MAX) {
-        const key = String(sorted[i].filed_date || "");
-        const group = [];
-        while (i < sorted.length && String(sorted[i].filed_date || "") === key) {
-          group.push(sorted[i++]);
-        }
-        const room = DESK_PAGE_MAX - out.length;
-        const dayFilers = new Set(group.map((t) => t.filer_id)).size;
-        const cap = (dayFilers === 1 && group.length > DESK_SINGLE_FILER_DAY_CAP)
-          ? DESK_SINGLE_FILER_DAY_CAP
-          : group.length;
-        const take = Math.min(cap, room);
-        out.push.apply(out, group.slice(0, take));
-        const filers = new Set(out.map((t) => t.filer_id)).size;
-        const days = new Set(out.map((t) => t.filed_date)).size;
-        if (out.length >= PAGE && filers >= DESK_MIN_FILERS) break;
-        if (out.length >= PAGE && days >= 5 && filers >= 2) break;
-      }
-      return out;
-    }
-
     function renderDesk(filtered) {
-      const sorted = filtered.slice().sort((a, b) => {
-        const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
-        if (fd) return fd;
-        const td = String(b.trade_date || "").localeCompare(String(a.trade_date || ""));
-        if (td) return td;
-        return String(b.id || "").localeCompare(String(a.id || ""));
+      const sliced = QC.sliceTapeRows(filtered, {
+        showAll: showAll,
+        desktop: DESK_MQ.matches,
+        page: PAGE,
+        deskMax: DESK_PAGE_MAX,
+        minFilers: DESK_MIN_FILERS,
+        singleFilerCap: DESK_SINGLE_FILER_DAY_CAP,
+        pinLandedHours: lastTapeView.onlyLanded ? 0 : 72,
+        sort: lastTapeView.onlyLanded ? "added" : "filed"
       });
-      const visible = sliceDeskRows(sorted);
+      const visible = sliced.rows;
+      deskPinCount = sliced.pinCount || 0;
       deskRows = visible;
       if (!deskRows.some((row) => row.id === activeId)) {
         activeId = deskRows[0] ? deskRows[0].id : "";
@@ -2739,7 +2760,9 @@
           const side = document.getElementById("filter-side").value;
           const chamber = document.getElementById("filter-chamber").value;
           const onlyLanded = document.getElementById("filter-landed").checked;
-          const filtered = kindPool().filter((t) => {
+          const kind = document.getElementById("filter-kind").value;
+          const pool = kindPool();
+          const filtered = pool.filter((t) => {
             if (side && t.side !== side) return false;
             if (chamber && (t.chamber || "") !== chamber) return false;
             if (industry && sectorOf(t.industry) !== industry) return false;
@@ -2750,9 +2773,20 @@
             }
             return true;
           });
-          if (onlyLanded) {
-            filtered.sort((a, b) => String(b.added || "").localeCompare(String(a.added || "")));
-          }
+          lastTapeView = { onlyLanded: onlyLanded, kind: kind };
+          landedOverflow = kind
+            ? rows.filter((t) => {
+                if (!QC.isLanded(t, 72) || assetKind(t) === kind) return false;
+                if (side && t.side !== side) return false;
+                if (chamber && (t.chamber || "") !== chamber) return false;
+                if (industry && sectorOf(t.industry) !== industry) return false;
+                if (companyQ) {
+                  const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
+                  if (!blob.includes(companyQ)) return false;
+                }
+                return true;
+              })
+            : [];
           writeFilters();
           lastFiltered = filtered;
           renderDesk(filtered);

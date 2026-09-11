@@ -61,7 +61,7 @@
     .asof {
       color: var(--mute);
       font-size: 0.82rem;
-      margin: 0 0 0 auto;
+      margin: 0;
       font-family: "IBM Plex Sans", sans-serif;
     }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
@@ -165,7 +165,7 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=105" />
+  <link rel="stylesheet" href="shell.css?v=106" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -183,9 +183,9 @@
     </div>
   </header>
   <div class="wrap" id="main">
+    <p class="asof" id="asof"></p>
     <div class="sub-bar">
       <p class="kicker">Hot hands</p>
-      <p class="asof" id="asof"></p>
     </div>
     <h1>Patterns</h1>
     <p class="lede">Filers whose official buys preceded fast spikes — and what those same hands are buying now.</p>
@@ -208,7 +208,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=110"></script>
   <script>
     function pct(x) {
       if (x == null || isNaN(x)) return "—";

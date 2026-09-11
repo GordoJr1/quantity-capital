@@ -57,7 +57,7 @@
     .asof {
       color: var(--mute);
       font-size: 0.82rem;
-      margin: 0 0 0 auto;
+      margin: 0;
       font-family: "IBM Plex Sans", sans-serif;
     }
     .landed-chip {
@@ -110,7 +110,7 @@
       .kicker { margin-top: 14px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=105" />
+  <link rel="stylesheet" href="shell.css?v=106" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -136,7 +136,7 @@
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
     .qc-txn-tape .qc-txn-name { font-weight: 600; }
     .qc-txn-co, .qc-txn-tape a.qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: inherit; text-decoration: none; }
-    .qc-txn-tape a.qc-txn-co:hover { color: var(--teal, #36999d); }
+    .qc-txn-tape a.qc-txn-co:hover { color: inherit; }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-sub { flex-direction: column; align-items: stretch; gap: 2px; }
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
@@ -170,7 +170,7 @@
       .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; }
       .qc-txn-tape a.qc-txn-company:hover,
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
-      .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: var(--teal, #36999d); }
+      .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: inherit; }
       .qc-txn-tape .qc-txn-id { flex-direction: column; align-items: flex-start; gap: 1px; }
       .qc-txn-tape .qc-txn-id-line { width: 100%; }
       .qc-txn-tape .qc-txn-id-line .qc-txn-name {
@@ -577,9 +577,9 @@
     </div>
   </header>
   <div class="wrap" id="main">
+    <p class="asof" id="asof"></p>
     <div class="sub-bar">
       <p class="kicker">Officer tape</p>
-      <p class="asof" id="asof"></p>
     </div>
     <h1>Insiders</h1>
     <div class="windows" id="windows"></div>
@@ -613,7 +613,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=110"></script>
   <script src="chart.js"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];

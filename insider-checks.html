@@ -38,7 +38,7 @@
     .lede { color: var(--paper); max-width: 72ch; line-height: 1.5; margin-bottom: 16px; }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .sub-bar { padding: 8px 0 2px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 0 auto; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0; }
     .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
     a.chip, .chip { background: #151b24; border: 1px solid #4a5563; color: var(--paper); padding: 8px 14px; font-size: 0.9rem; text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; }
     .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
@@ -73,7 +73,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=105" />
+  <link rel="stylesheet" href="shell.css?v=106" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -91,9 +91,9 @@
     </div>
   </header>
   <div class="wrap" id="main">
+    <p class="asof" id="asof"></p>
     <div class="sub-bar">
       <p class="kicker">Chart hygiene</p>
-      <p class="asof" id="asof"></p>
     </div>
     <h1>Checks</h1>
     <p class="lede">Flags Yahoo price files that would lie on a ticker chart: short 3-year pulls, missing series, and prints that fall off the line. Dual-listed names should chart the Canadian listing when the US OTC file is a stub. USD vs CAD last-close gaps are FX, not this list. A one-session lag after a morning pull is listed separately from names whose last bar is older than that.</p>
@@ -103,7 +103,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=107"></script>
+  <script src="qc.js?v=110"></script>
   <script>
     function money(n) {
       if (n == null || isNaN(n)) return "—";

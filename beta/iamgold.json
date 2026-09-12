@@ -1,0 +1,596 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "iamgold",
+  "generated": "2026-09-11",
+  "disclaimer": "Hand-built from IAMGOLD public filings. Resources are inclusive of reserves unless a row says otherwise. Attributable ounces use the ownership in force for that period, not year-end ownership applied retroactively. Not S&P Capital IQ. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "IAMGOLD Corporation",
+    "short": "IAMGOLD",
+    "tickers": [
+      { "symbol": "IAG", "exchange": "NYSE", "chart": "ticker.html?t=IAG" },
+      { "symbol": "IMG", "exchange": "TSX", "chart": "ticker.html?t=IAG" }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.iamgold.com",
+    "ops_page": "https://www.iamgold.com/English/operations/production-summary/default.aspx"
+  },
+  "method": {
+    "production_basis": "Attributable ounces use IAMGOLD's ownership during the period. Côté is 70%. Westwood is 100%. Essakane is 90% through 19 Jun 2025 and 85% from 20 Jun 2025 (Burkina Faso mining code). Do not apply 31 Dec ownership to the full year.",
+    "resources_basis": "Measured and indicated are inclusive of proven and probable, matching NI 43-101 / company tables. Exclusive M&I = M&I minus P&P.",
+    "sp_diff": "S&P Capital IQ 2025 attributable production of 778,240 oz used 90% of Essakane for the full year (427,200 × 0.90 = 384,480). Company figure is 765,900 oz. S&P M&I of ~18.7 Moz is a different cut (closer to exclusive of reserves and/or pre-Northern Superior). Do not mix S&P totals with these rows."
+  },
+  "kpis": {
+    "attr_koz_2025": 765.9,
+    "attr_koz_2024": 666.5,
+    "attr_koz_ytd_2026": 371.7,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [720, 820],
+    "realized_price_2025": 3482,
+    "revenue_2025_usd_m": 2852.8,
+    "sales_koz_2025_100pct": 817.8,
+    "sales_koz_2025_attr": 763.7,
+    "cost_of_sales_2025": 1489,
+    "cash_cost_2025": 1484,
+    "aisc_2025": 1900,
+    "attr_pp_koz": 7502,
+    "attr_mi_incl_koz": 24622,
+    "attr_inf_koz": 11273,
+    "pp_koz_100pct": 9865,
+    "mi_incl_koz_100pct": 30987,
+    "inf_koz_100pct": 12530
+  },
+  "guidance_2026": {
+    "basis": "attributable",
+    "gold_price_assum_usd": 4000,
+    "total_koz": [720, 820],
+    "by_asset": {
+      "cote-gold": { "ownership_pct": 70, "attr_koz": [270, 310], "koz_100pct": [390, 440] },
+      "westwood": { "ownership_pct": 100, "attr_koz": [110, 130], "koz_100pct": [110, 130] },
+      "essakane": { "ownership_pct": 85, "attr_koz": [340, 380], "koz_100pct": [400, 440] }
+    }
+  },
+  "ownership_events": [
+    {
+      "date": "2024-11-30",
+      "asset_id": "cote-gold",
+      "note": "IAMGOLD completed repurchase of the 9.7% Côté interest transferred to Sumitomo during construction funding. Ownership returned to 70% IAMGOLD / 30% Sumitomo."
+    },
+    {
+      "date": "2025-05-01",
+      "asset_id": "anik",
+      "note": "Exercised first option to 75% of Anik (Chibougamau)."
+    },
+    {
+      "date": "2025-06-18",
+      "asset_id": "royalties",
+      "note": "Sold non-core royalty/stream package (Pitangui, Bomboré silver stream, Zancudo, others) to Summit Royalty."
+    },
+    {
+      "date": "2025-06-20",
+      "asset_id": "essakane",
+      "from_pct": 90,
+      "to_pct": 85,
+      "note": "Government of Burkina Faso increased its free-carried interest from 10% to 15% under the 2024 mining code."
+    },
+    {
+      "date": "2025-12-19",
+      "asset_id": "nelligan-complex",
+      "note": "Closed acquisition of Northern Superior (Philibert, Chevrier, Lac Surprise, Croteau)."
+    },
+    {
+      "date": "2025-12-22",
+      "asset_id": "nelligan-complex",
+      "note": "Closed acquisition of Orbec (Muus). Combined with Nelligan, Monster Lake, and Anik as the Nelligan Mining Complex (~134,000 ha)."
+    }
+  ],
+  "production": [
+    {
+      "period": "2024",
+      "kind": "annual",
+      "attr_koz": 666.5,
+      "by_asset": {
+        "cote-gold": { "attr_koz": 124.0, "koz_100pct": 199.1, "ownership_pct": 70 },
+        "westwood": { "attr_koz": 133.7, "koz_100pct": 133.7, "ownership_pct": 100 },
+        "essakane": { "attr_koz": 409.0, "koz_100pct": 454.0, "ownership_pct": 90 }
+      }
+    },
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 765.9,
+      "guidance_koz": [735, 820],
+      "cost_of_sales": 1489,
+      "cash_cost": 1484,
+      "aisc": 1900,
+      "realized_price": 3482,
+      "revenue_usd_m": 2852.8,
+      "by_asset": {
+        "cote-gold": {
+          "attr_koz": 279.9,
+          "koz_100pct": 399.8,
+          "ownership_pct": 70,
+          "guidance_attr_koz": [250, 280],
+          "cash_cost": 1268,
+          "aisc": 1636,
+          "mill_kt": 10889,
+          "head_grade_gt": 1.22,
+          "recovery_pct": 93
+        },
+        "westwood": {
+          "attr_koz": 113.9,
+          "koz_100pct": 113.9,
+          "ownership_pct": 100,
+          "guidance_attr_koz": [125, 140],
+          "cash_cost": 1530,
+          "aisc": 2117,
+          "note": "Missed 2025 guidance. Q4 was a record 37.9 koz."
+        },
+        "essakane": {
+          "attr_koz": 372.1,
+          "koz_100pct": 427.2,
+          "ownership_pct": "90 H1 / 85 H2",
+          "guidance_attr_koz": [360, 400],
+          "cost_of_sales": 1640,
+          "cash_cost_ex_royalties": 1300,
+          "aisc": 1888,
+          "mill_kt": 12560,
+          "head_grade_gt": 1.18,
+          "recovery_pct": 90,
+          "ore_mined_kt": 11910,
+          "strip_ratio": 2.4
+        }
+      }
+    },
+    {
+      "period": "2025-Q4",
+      "kind": "quarter",
+      "attr_koz": 242.4,
+      "by_asset": {
+        "cote-gold": { "attr_koz": 87.2, "koz_100pct": 124.6 },
+        "westwood": { "attr_koz": 37.9, "koz_100pct": 37.9 },
+        "essakane": { "attr_koz": 117.3, "koz_100pct": 138.1 }
+      }
+    },
+    {
+      "period": "2026-Q1",
+      "kind": "quarter",
+      "attr_koz": 183.6,
+      "by_asset": {
+        "cote-gold": { "attr_koz": 52.3, "koz_100pct": 74.7 },
+        "westwood": { "attr_koz": 36.2, "koz_100pct": 36.2 },
+        "essakane": { "attr_koz": 95.1, "koz_100pct": 111.9 }
+      }
+    },
+    {
+      "period": "2026-Q2",
+      "kind": "quarter",
+      "attr_koz": 188.1,
+      "by_asset": {
+        "cote-gold": { "attr_koz": 67.3, "koz_100pct": 96.2 },
+        "westwood": { "attr_koz": 32.4, "koz_100pct": 32.4 },
+        "essakane": { "attr_koz": 88.4, "koz_100pct": 104.0 }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 371.7,
+      "by_asset": {
+        "cote-gold": { "attr_koz": 119.6, "koz_100pct": 170.9 },
+        "westwood": { "attr_koz": 68.6, "koz_100pct": 68.6 },
+        "essakane": { "attr_koz": 183.5, "koz_100pct": 215.9 }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "cote-gold",
+      "name": "Côté Gold",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Gogama",
+      "location_note": "Chester and Yeo Townships, District of Sudbury. ~25 km southwest of Gogama, 125 km southwest of Timmins, 175 km northwest of Sudbury. Highway 144.",
+      "lat": 47.548,
+      "lon": -81.93,
+      "ownership_pct": 70,
+      "partners": [{ "name": "Sumitomo Metal Mining", "pct": 30 }],
+      "operator": "IAMGOLD",
+      "mine_type": "Open pit",
+      "processing": "HPGR + CIP",
+      "nameplate_tpd": 36000,
+      "first_pour": "2024-03",
+      "commercial_production": "2024-08",
+      "lom_note": "Current reserve life into the 2040s. Combined Côté + Gosselin expansion technical report expected Q4 2026.",
+      "deposits": [
+        {
+          "id": "cote",
+          "name": "Côté",
+          "in_production": true,
+          "note": "Main pit and mill."
+        },
+        {
+          "id": "gosselin",
+          "name": "Gosselin",
+          "in_production": false,
+          "stage": "development",
+          "note": "Adjacent deposit, same JV. Not a separate mine. Being folded into the expansion mine plan."
+        }
+      ]
+    },
+    {
+      "id": "westwood",
+      "name": "Westwood Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Rouyn-Noranda",
+      "location_note": "Bousquet Township / Preissac, Abitibi. ~40 km east of Rouyn-Noranda, 80 km west of Val-d'Or. Historic Doyon property.",
+      "lat": 48.2557,
+      "lon": -78.5022,
+      "ownership_pct": 100,
+      "operator": "IAMGOLD",
+      "mine_type": "Underground + open pit",
+      "processing": "Crush-grind-CIL/CIP (Doyon mill)",
+      "lom_note": "Grand Duc open pit extended into 2027 at current prices. Underground is the long-life core.",
+      "deposits": [
+        {
+          "id": "westwood-ug",
+          "name": "Westwood underground",
+          "in_production": true,
+          "lat": 48.2557,
+          "lon": -78.5022
+        },
+        {
+          "id": "grand-duc",
+          "name": "Grand Duc",
+          "in_production": true,
+          "mine_type": "Open pit",
+          "lat": 48.2586,
+          "lon": -78.541
+        },
+        {
+          "id": "fayolle",
+          "name": "Fayolle",
+          "in_production": false,
+          "stage": "exploration",
+          "location_note": "Aiguebelle / Cléricy townships, ~35 km northeast of Rouyn-Noranda, ~40 km northwest of Westwood."
+        }
+      ]
+    },
+    {
+      "id": "essakane",
+      "name": "Essakane",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Burkina Faso",
+      "region": "Sahel (Oudalan / Séno)",
+      "nearest": "Dori",
+      "location_note": "Northeastern Burkina Faso. ~330 km northeast of Ouagadougou, ~63 km northwest of Dori, near Falagountou. 100.2 km² mining permit plus ~650 km² exploration.",
+      "lat": 14.365,
+      "lon": -0.083,
+      "ownership_pct": 85,
+      "partners": [{ "name": "Government of Burkina Faso", "pct": 15 }],
+      "operator": "IAMGOLD",
+      "mine_type": "Open pit",
+      "processing": "Crush-grind-CIL",
+      "commercial_production": "2010-07",
+      "country_risk_note": "State interest rose 10% → 15% on 20 Jun 2025. Royalty rate now scales with gold price (uncapped). Security environment is elevated. Do not copy S&P numeric country scores.",
+      "deposits": [
+        {
+          "id": "essakane-pit",
+          "name": "Essakane pit",
+          "in_production": true
+        },
+        {
+          "id": "gossey",
+          "name": "Gossey",
+          "in_production": false,
+          "stage": "exploration",
+          "note": "Satellite resource. Not in the current mill feed."
+        }
+      ]
+    },
+    {
+      "id": "nelligan-complex",
+      "name": "Nelligan Mining Complex",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "region": "Quebec (Chibougamau–Chapais)",
+      "nearest": "Chibougamau",
+      "location_note": "District-scale camp ~45 km southwest of Chibougamau. Primary deposits within ~17 km. Land position ~134,000 ha. PEA targeted H1 2027. 2026 exploration budget ~$24 million.",
+      "lat": 49.7,
+      "lon": -74.55,
+      "ownership_pct": 100,
+      "operator": "IAMGOLD",
+      "next_study": "PEA H1 2027",
+      "deposits": [
+        {
+          "id": "nelligan",
+          "name": "Nelligan",
+          "in_production": false,
+          "ownership_pct": 100,
+          "mine_type": "Open pit (conceptual)",
+          "note": "Main bulk-tonnage deposit."
+        },
+        {
+          "id": "monster-lake",
+          "name": "Monster Lake",
+          "in_production": false,
+          "ownership_pct": 100,
+          "mine_type": "Underground (conceptual)",
+          "location_note": "~15 km north of Nelligan.",
+          "lat": 49.85,
+          "lon": -74.53
+        },
+        {
+          "id": "philibert",
+          "name": "Philibert",
+          "in_production": false,
+          "ownership_pct": 75,
+          "note": "S&P lists 100%. Company books 75%."
+        },
+        {
+          "id": "chevrier",
+          "name": "Chevrier",
+          "in_production": false,
+          "ownership_pct": 100
+        },
+        {
+          "id": "croteau-est",
+          "name": "Croteau Est",
+          "in_production": false,
+          "ownership_pct": 100,
+          "note": "Acquired with Northern Superior. Prior resource excluded from IAMGOLD year-end 2025 statement."
+        },
+        {
+          "id": "lac-surprise",
+          "name": "Lac Surprise",
+          "in_production": false,
+          "stage": "exploration",
+          "ownership_pct": 100
+        },
+        {
+          "id": "muus",
+          "name": "Muus",
+          "in_production": false,
+          "stage": "exploration",
+          "ownership_pct": 100,
+          "note": "Orbec acquisition, Dec 2025."
+        },
+        {
+          "id": "anik",
+          "name": "Anik",
+          "in_production": false,
+          "stage": "exploration",
+          "ownership_pct": 75,
+          "note": "Option exercised May 2025 to 75% (Auriginal Metals / formerly Kintavar)."
+        }
+      ]
+    },
+    {
+      "id": "diakha-siribaya",
+      "name": "Diakha–Siribaya",
+      "stage": "exploration",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Mali",
+      "region": "Kayes / Kéniéba",
+      "nearest": "Kéniéba",
+      "location_note": "Western Mali gold belt. No production. S&P lists 100%; company books 90%.",
+      "lat": 12.85,
+      "lon": -11.23,
+      "ownership_pct": 90,
+      "operator": "IAMGOLD",
+      "country_risk_note": "Elevated. No numeric S&P score on this page."
+    }
+  ],
+  "exited": [
+    {
+      "name": "Rosebel",
+      "country": "Suriname",
+      "note": "Sold to Zijin (2022–2023). Do not list as current."
+    },
+    {
+      "name": "Boto",
+      "country": "Senegal",
+      "note": "Sold. Do not list as current."
+    },
+    {
+      "name": "Yatela",
+      "country": "Mali",
+      "note": "Historic IAMGOLD / AngloGold Ashanti JV. Closed. Residual listing on S&P property dumps."
+    },
+    {
+      "name": "Non-core royalties",
+      "note": "Pitangui 1.5% NSR (Brazil, Jaguar), Bomboré silver stream (Orezone), Zancudo 0.5% NSR (Colombia) sold to Summit Royalty, June 2025. Douay, Golden Bear, Gilt Edge, Agisanang, Cacapava, Gemini are leftover/non-core — hide unless the user opens Exited."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "standard": "NI 43-101",
+    "inclusive_of_reserves": true,
+    "price_assumptions": {
+      "reserves_usd_oz": {
+        "cote-gold": 1700,
+        "westwood": 2000,
+        "essakane": 2000
+      },
+      "resources_usd_oz": {
+        "cote-gold": 2100,
+        "westwood": 2500,
+        "essakane": 2500,
+        "gossey": 2500,
+        "nelligan": 2500,
+        "monster-lake": 2500,
+        "chevrier": 1800,
+        "philibert": 1747
+      }
+    },
+    "totals": {
+      "pp": { "kt": 279606, "grade_gt": 1.1, "koz": 9865, "attr_koz": 7502 },
+      "mi": { "kt": 1030644, "grade_gt": 0.94, "koz": 30987, "attr_koz": 24622 },
+      "inf": { "kt": 356628, "grade_gt": 1.09, "koz": 12530, "attr_koz": 11273 }
+    },
+    "projects": [
+      {
+        "asset_id": "cote-gold",
+        "name": "Côté Gold",
+        "ownership_pct": 70,
+        "pp": { "kt": 217167, "grade_gt": 1.01, "koz": 7041, "attr_koz": 4929 },
+        "mi": { "kt": 689447, "grade_gt": 0.82, "koz": 18156, "attr_koz": 12709 },
+        "inf": { "kt": 100600, "grade_gt": 0.67, "koz": 2165, "attr_koz": 1515 },
+        "parts": [
+          {
+            "id": "cote",
+            "name": "Côté",
+            "proven": { "kt": 116055, "grade_gt": 1.05, "koz": 3902, "attr_koz": 2731 },
+            "probable": { "kt": 101112, "grade_gt": 0.97, "koz": 3139, "attr_koz": 2197 },
+            "pp": { "kt": 217167, "grade_gt": 1.01, "koz": 7041, "attr_koz": 4929 },
+            "measured": { "kt": 153873, "grade_gt": 0.93, "koz": 4598, "attr_koz": 3219 },
+            "indicated": { "kt": 268833, "grade_gt": 0.77, "koz": 6697, "attr_koz": 4688 },
+            "mi": { "kt": 422707, "grade_gt": 0.83, "koz": 11295, "attr_koz": 7907 },
+            "inf": { "kt": 62760, "grade_gt": 0.6, "koz": 1206, "attr_koz": 844 }
+          },
+          {
+            "id": "gosselin",
+            "name": "Gosselin",
+            "indicated": { "kt": 266741, "grade_gt": 0.8, "koz": 6861, "attr_koz": 4803 },
+            "inf": { "kt": 37840, "grade_gt": 0.79, "koz": 959, "attr_koz": 671 }
+          }
+        ]
+      },
+      {
+        "asset_id": "westwood",
+        "name": "Westwood",
+        "ownership_pct": 100,
+        "proven": { "kt": 1555, "grade_gt": 6.63, "koz": 331, "attr_koz": 331 },
+        "probable": { "kt": 3803, "grade_gt": 6.68, "koz": 817, "attr_koz": 817 },
+        "pp": { "kt": 5358, "grade_gt": 6.67, "koz": 1148, "attr_koz": 1148 },
+        "measured": { "kt": 1619, "grade_gt": 7.21, "koz": 375, "attr_koz": 375 },
+        "indicated": { "kt": 10324, "grade_gt": 6.09, "koz": 2022, "attr_koz": 2022 },
+        "mi": { "kt": 11943, "grade_gt": 6.24, "koz": 2397, "attr_koz": 2397 },
+        "inf": { "kt": 4507, "grade_gt": 10.46, "koz": 1515, "attr_koz": 1515 }
+      },
+      {
+        "asset_id": "essakane",
+        "name": "Essakane",
+        "ownership_pct": 85,
+        "pp": { "kt": 57081, "grade_gt": 0.91, "koz": 1676, "attr_koz": 1425 },
+        "mi": { "kt": 164790, "grade_gt": 0.9, "koz": 4767, "attr_koz": 4052 },
+        "inf": { "kt": 26883, "grade_gt": 1.07, "koz": 927, "attr_koz": 788 },
+        "parts": [
+          {
+            "id": "essakane-pit",
+            "name": "Essakane (excl. Gossey)",
+            "proven": { "kt": 22178, "grade_gt": 0.64, "koz": 457, "attr_koz": 388 },
+            "probable": { "kt": 34903, "grade_gt": 1.09, "koz": 1219, "attr_koz": 1036 },
+            "pp": { "kt": 57081, "grade_gt": 0.91, "koz": 1676, "attr_koz": 1425 },
+            "measured": { "kt": 38312, "grade_gt": 0.52, "koz": 640, "attr_koz": 544 },
+            "indicated": { "kt": 111683, "grade_gt": 1.05, "koz": 3772, "attr_koz": 3207 },
+            "mi": { "kt": 149995, "grade_gt": 0.91, "koz": 4412, "attr_koz": 3750 },
+            "inf": { "kt": 24195, "grade_gt": 1.1, "koz": 853, "attr_koz": 725 }
+          },
+          {
+            "id": "gossey",
+            "name": "Gossey",
+            "indicated": { "kt": 14795, "grade_gt": 0.75, "koz": 355, "attr_koz": 302 },
+            "inf": { "kt": 2688, "grade_gt": 0.85, "koz": 74, "attr_koz": 63 }
+          }
+        ]
+      },
+      {
+        "asset_id": "nelligan-complex",
+        "name": "Nelligan Mining Complex",
+        "ownership_pct": 100,
+        "mi": { "kt": 136527, "grade_gt": 0.99, "koz": 4341, "attr_koz": 4271 },
+        "inf": { "kt": 216171, "grade_gt": 1.08, "koz": 7507, "attr_koz": 7079 },
+        "parts": [
+          {
+            "id": "nelligan",
+            "name": "Nelligan",
+            "ownership_pct": 100,
+            "indicated": { "kt": 122000, "grade_gt": 0.95, "koz": 3700, "attr_koz": 3700 },
+            "inf": { "kt": 151000, "grade_gt": 0.96, "koz": 4647, "attr_koz": 4647 }
+          },
+          {
+            "id": "monster-lake",
+            "name": "Monster Lake",
+            "ownership_pct": 100,
+            "indicated": { "kt": 243, "grade_gt": 13.04, "koz": 102, "attr_koz": 102 },
+            "inf": { "kt": 1046, "grade_gt": 14.83, "koz": 499, "attr_koz": 499 }
+          },
+          {
+            "id": "philibert",
+            "name": "Philibert",
+            "ownership_pct": 75,
+            "indicated": { "kt": 7884, "grade_gt": 1.1, "koz": 279, "attr_koz": 209 },
+            "inf": { "kt": 48465, "grade_gt": 1.1, "koz": 1709, "attr_koz": 1282 }
+          },
+          {
+            "id": "chevrier",
+            "name": "Chevrier",
+            "ownership_pct": 100,
+            "indicated": { "kt": 6400, "grade_gt": 1.26, "koz": 260, "attr_koz": 260 },
+            "inf": { "kt": 15660, "grade_gt": 1.3, "koz": 652, "attr_koz": 652 }
+          }
+        ]
+      },
+      {
+        "asset_id": "diakha-siribaya",
+        "name": "Diakha–Siribaya",
+        "ownership_pct": 90,
+        "indicated": { "kt": 27937, "grade_gt": 1.48, "koz": 1325, "attr_koz": 1193 },
+        "inf": { "kt": 8468, "grade_gt": 1.53, "koz": 417, "attr_koz": 376 }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "IAMGOLD production summary (Q1 2026 table, 2025 annual)",
+      "url": "https://www.iamgold.com/English/operations/production-summary/default.aspx",
+      "what": "Mine-level attributable production, sales, costs"
+    },
+    {
+      "title": "IAMGOLD Reports Fourth Quarter and Year-End 2025 Results",
+      "date": "2026-02-17",
+      "url": "https://www.nasdaq.com/press-release/iamgold-reports-fourth-quarter-and-year-end-2025-results-2026-02-17",
+      "what": "2025 oz, costs, 2026 guidance, Côté / Westwood / Essakane operating stats"
+    },
+    {
+      "title": "IAMGOLD Reports Mineral Resources and Reserves for the Year Ended 2025",
+      "date": "2026-02-17",
+      "what": "NI 43-101 R&R table, inclusive M&I, attributable ounces, gold-price assumptions"
+    },
+    {
+      "title": "Annual MD&A / AIF year ended 31 Dec 2025 (Form 40-F / 6-K)",
+      "date": "2026-02-17",
+      "what": "Full R&R table, Westwood coordinates, Essakane operating table, property descriptions"
+    },
+    {
+      "title": "IAMGOLD Reports Second Quarter 2026 Results",
+      "date": "2026-08-06",
+      "what": "Q2 and YTD 2026 attributable production by mine"
+    },
+    {
+      "title": "IAMGOLD operations pages — Côté, Westwood, Essakane, Nelligan",
+      "url": "https://www.iamgold.com/English/operations/guidance/default.aspx",
+      "what": "Locations, mine type, ownership, deposit notes"
+    }
+  ]
+}

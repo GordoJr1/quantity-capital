@@ -1,0 +1,25 @@
+{
+  "schema": "qc-beta-issuers-v1",
+  "generated": "2026-09-11",
+  "disclaimer": "Beta. Hand-built issuer profiles from company filings (AIF, MD&A, NI 43-101, news releases). Not S&P Capital IQ. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au"
+  },
+  "issuers": [
+    {
+      "id": "iamgold",
+      "name": "IAMGOLD Corporation",
+      "file": "beta/iamgold.json",
+      "tickers": ["IAG", "IMG.TO"],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 3,
+      "attr_koz_2025": 765.9,
+      "attr_pp_koz": 7502,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31"
+    }
+  ]
+}

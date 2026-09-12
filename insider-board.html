@@ -98,6 +98,7 @@
     details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
     details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
     details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    [hidden], .hidden { display: none !important; }
     .rep-windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
     .rep-windows button {
       background: #151b24; border: 1px solid #4a5563; color: var(--paper);
@@ -211,7 +212,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=113"></script
+  <script src="qc.js?v=113"></script>
   <script>
     const params = new URLSearchParams(location.search);
     let board = ["leaders", "traders", "names", "repeatable"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";

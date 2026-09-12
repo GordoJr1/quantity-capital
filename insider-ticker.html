@@ -571,7 +571,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=107" />
+  <link rel="stylesheet" href="shell.css?v=108" />
   <style id="qc-txn-v98">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -665,7 +665,7 @@
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Trade dates, not filings.</p>
     <p class="kicker">Trades</p>
     <p class="count" id="tape-count"></p>
-    <div class="qc-pol-desk">
+    <div class="qc-pol-desk qc-has-last">
       <ol class="qc-txn-list qc-tape-list" id="marks" aria-label="Insider ticker tape"></ol>
     </div>
     <div class="tape-more" id="tape-more-row" hidden>
@@ -673,7 +673,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=112"></script>
+  <script src="qc.js?v=113"></script>
   <script src="chart.js"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -947,6 +947,20 @@
       const series = [prices].concat(extraPx).filter((p) => p && p.c && p.c.length >= 2 && !p.missing);
       series.sort((a, b) => b.c.length - a.c.length);
       if (series[0]) prices = series[0];
+      const lastCloseByCode = {};
+      [prices].concat(extraPx).forEach((p) => {
+        const px = QC.lastCloseFromFile(p);
+        if (px == null) return;
+        const src = String((p && (p.t || p.src)) || "").toUpperCase();
+        if (src) lastCloseByCode[src] = px;
+      });
+      const pageClose = QC.lastCloseFromFile(prices);
+      if (pageClose != null) {
+        lastCloseByCode[ticker] = pageClose;
+        aliases.forEach((a) => {
+          if (lastCloseByCode[a] == null) lastCloseByCode[a] = pageClose;
+        });
+      }
       const aliasSet = {};
       aliases.forEach((a) => { aliasSet[a] = true; });
       function tradeCode(t) {
@@ -996,7 +1010,9 @@
           namePage: "insider.html",
           tickerPage: "insider-ticker.html",
           empty: "No stock trades on this ticker in the last three years.",
-          limit: showAllTape ? 0 : page
+          limit: showAllTape ? 0 : page,
+          showLastClose: true,
+          lastCloseByCode: lastCloseByCode
         });
         const count = document.getElementById("tape-count");
         const moreRow = document.getElementById("tape-more-row");

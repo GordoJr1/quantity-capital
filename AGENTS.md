@@ -30,7 +30,7 @@ Form 4 collection talks to public `www.sec.gov` Archives. No secrets. SEC fair-a
 
 ## Daily site refresh
 
-`.github/workflows/daily-update.yml` runs weekdays at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed. Senate/House/OGE tape JSON is still produced by an off-repo collector.
+`.github/workflows/daily-update.yml` runs daily at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed. Senate/House/OGE tape JSON is still produced by an off-repo collector.
 
 ## Service worker cache — read before editing shell assets
 

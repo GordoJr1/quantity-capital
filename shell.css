@@ -106,10 +106,16 @@ html {
   border-bottom-color: var(--caution, #e3b41a);
 }
 
+.qc-modes {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+  align-items: center;
+}
 .qc-mode {
   flex: 0 0 auto;
   min-height: 44px;
-  margin-left: 4px;
+  margin-left: 0;
   padding: 0 12px;
   display: inline-flex;
   align-items: center;
@@ -125,9 +131,13 @@ html {
   white-space: nowrap;
 }
 .qc-mode:hover,
-.qc-mode:focus-visible {
+.qc-mode:focus-visible,
+.qc-mode.on {
   color: var(--caution, #e3b41a);
   border-color: var(--caution, #e3b41a);
+}
+.qc-mode.on {
+  background: rgba(227, 180, 26, 0.08);
 }
 
 .tabbar {
@@ -166,6 +176,7 @@ summary:focus-visible,
     min-height: 44px;
     padding: 4px 0;
     gap: 8px;
+    flex-wrap: nowrap;
   }
   .qc-header .mark {
     font-size: 0.88rem;
@@ -174,10 +185,14 @@ summary:focus-visible,
   }
   .qc-header .mark span { display: none; }
   .qc-nav { display: none; }
+  .qc-modes {
+    gap: 4px;
+    flex-wrap: nowrap;
+  }
   .qc-mode {
-    font-size: 0.7rem;
-    letter-spacing: 0.08em;
-    padding: 0 10px;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    padding: 0 7px;
     min-height: 44px;
   }
 
@@ -192,7 +207,6 @@ summary:focus-visible,
     border-top: 2px solid var(--teal, #36999d);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  .qc-header-inner { flex-wrap: nowrap; }
   .chip, a.chip, .board-tabs button, .windows button {
     min-height: 44px;
   }

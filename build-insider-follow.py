@@ -250,6 +250,7 @@ def pick_follow(repeatable: dict, tape_trades: list[dict] | None = None, form4: 
             row["conv"] = round(float(conv), 4)
         if after is not None:
             row["after"] = after
+            row["shares_held"] = after
         if f4.get("held") is not None:
             row["held"] = f4.get("held")
         rows.append(row)

@@ -376,6 +376,8 @@ def trade_overlay(trade: dict, filing: dict, tx: dict | None) -> dict:
     if tx is not None:
         plan = bool(tx.get("plan"))
         why = tx.get("why") or ""
+    if shares is None and tx is not None:
+        shares = parse_num(tx.get("shares"))
     vs = vs_stake(shares, after, acquired)
     hold_sum = 0.0
     hold_n = 0
@@ -387,11 +389,19 @@ def trade_overlay(trade: dict, filing: dict, tx: dict | None) -> dict:
     if tx and tx.get("after") is not None:
         hold_sum += float(tx["after"])
         hold_n += 1
+    # Table I end holdings for this security. Alias names the table agent reads.
+    shares_held = after
+    pct_held = parse_num(trade.get("pct_held"))
+    if pct_held is None:
+        pct_held = parse_num(trade.get("held_pct"))
     out = {
         "accn": filing.get("accn") or accession_from_url(filing.get("url") or ""),
         "plan": plan,
         "why": why,
+        "shares": shares,
         "after": after,
+        "shares_held": shares_held,
+        "pct_held": None if pct_held is None else round(pct_held, 6),
         "vs": None if vs is None else round(vs, 4),
         "held": None if hold_n == 0 else round(hold_sum, 4),
         "aff": bool(filing.get("aff")),
@@ -680,7 +690,8 @@ def build_payload(
 ) -> dict:
     plan_trades = sum(1 for v in overlays.values() if v.get("plan"))
     cover_trades = sum(1 for v in overlays.values() if v.get("why") == "cover")
-    with_after = sum(1 for v in overlays.values() if v.get("after") is not None)
+    with_after = sum(1 for v in overlays.values() if v.get("shares_held") is not None or v.get("after") is not None)
+    with_pct = sum(1 for v in overlays.values() if v.get("pct_held") is not None)
     return {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00",
         "tapeCollected": tape.get("collected") or "",
@@ -693,8 +704,10 @@ def build_payload(
             "a trading plan, or the filing-level aff10b5One box is set and the lot is not "
             "a sell-to-cover / tax-withholding. Table I end holdings are "
             "sharesOwnedFollowingTransaction plus nonDerivativeHolding rows. "
-            "Conviction is trade size ÷ remaining stake (sharesAfter on buys, "
-            "sharesAfter+shares on sales)."
+            "Each tape overlay carries transaction shares, shares_held (Table I end), "
+            "and pct_held when the tape already has held_pct (Form 4 XML has no "
+            "shares-outstanding field). Conviction is trade size ÷ remaining stake "
+            "(sharesAfter on buys, sharesAfter+shares on sales)."
         ),
         "disclaimer": "Not investment advice. Plan flags are parsed from public Form 4 text.",
         "stats": {
@@ -704,6 +717,7 @@ def build_payload(
             "planTrades": plan_trades,
             "coverTrades": cover_trades,
             "withAfter": with_after,
+            "withPctHeld": with_pct,
             "fetched": fetched,
             "cached": skipped,
             "failed": len(failed),

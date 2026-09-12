@@ -52,6 +52,6 @@ When testing changes, do a hard reload or clear the site's caches; a stale servi
 In-repo and stdlib-only:
 
 - `fetch-prices.py` — Yahoo daily closes into `prices/`
-- `collect/form4_enrich.py` — SEC Form 4 10b5-1 / plan footnotes + Table I `sharesOwnedFollowingTransaction` onto `insider-form4.json` (does not rewrite the off-repo tape)
+- `collect/form4_enrich.py` — SEC Form 4 10b5-1 / plan footnotes + Table I `sharesOwnedFollowingTransaction` onto `insider-form4.json` (does not rewrite the off-repo tape). Overlay fields for the tape UI: `shares` (lot), `shares_held` / `after` (end holdings), `pct_held` (copied from tape `held_pct` when present)
 
 Still off-repo: `collect/insider_collect.py`, `collect/fetch_insider_prices.py`, `collect/build_insider_analysis.py` (full tape refresh, including SEDI / CEO.CA). Senate eFD is captcha-gated — do not add a Senate collector here.

@@ -119,6 +119,7 @@ class MatchAndOverlay(unittest.TestCase):
             "code": "S",
             "shares": 10000.0,
             "shares_after": 530086.0,
+            "held_pct": 1.85,
             "trade_date": "2026-09-08",
             "source": "https://www.sec.gov/Archives/edgar/data/1548280/000154828026000014/wk.xml",
         }
@@ -128,6 +129,9 @@ class MatchAndOverlay(unittest.TestCase):
         self.assertTrue(ov["plan"])
         self.assertEqual(ov["why"], "10b5-1")
         self.assertEqual(ov["after"], 530086)
+        self.assertEqual(ov["shares"], 10000)
+        self.assertEqual(ov["shares_held"], 530086)
+        self.assertEqual(ov["pct_held"], 1.85)
         self.assertAlmostEqual(ov["vs"], 10000 / 540086, places=4)
 
     def test_cover_does_not_inherit_aff_box(self):
@@ -147,6 +151,8 @@ class MatchAndOverlay(unittest.TestCase):
         self.assertFalse(ov["plan"])
         self.assertEqual(ov["why"], "cover")
         self.assertEqual(ov["after"], 8159)
+        self.assertEqual(ov["shares"], 365)
+        self.assertEqual(ov["shares_held"], 8159)
         self.assertEqual(ov["held"], 8159 + 5000)
 
 

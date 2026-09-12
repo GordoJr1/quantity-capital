@@ -1620,6 +1620,10 @@
     return fetch("insider-form4.json").then((r) => r.ok ? r.json() : null).catch(() => null);
   }
 
+  function emptyNum(v) {
+    return v == null || v === "";
+  }
+
   function applyForm4(trades, payload) {
     const map = (payload && payload.trades) || {};
     (trades || []).forEach((t) => {
@@ -1628,9 +1632,16 @@
       if (!ov) return;
       t.plan = !!ov.plan;
       t.planWhy = ov.why || "";
-      if (ov.after != null && (t.shares_after == null || t.shares_after === "")) t.shares_after = ov.after;
+      // Fill gaps only. Do not overwrite tape shares / shares_after / held_pct.
+      if (emptyNum(t.shares) && ov.shares != null) t.shares = ov.shares;
+      if (emptyNum(t.shares_after) && (ov.shares_held != null || ov.after != null)) {
+        t.shares_after = ov.shares_held != null ? ov.shares_held : ov.after;
+      }
+      if (emptyNum(t.held_pct) && ov.pct_held != null) t.held_pct = ov.pct_held;
       if (ov.vs != null) t.vsStake = ov.vs;
       if (ov.held != null) t.heldAfter = ov.held;
+      if (emptyNum(t.shares_held)) t.shares_held = ov.shares_held != null ? ov.shares_held : t.shares_after;
+      if (emptyNum(t.pct_held)) t.pct_held = ov.pct_held != null ? ov.pct_held : t.held_pct;
     });
     return trades;
   }

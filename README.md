@@ -8,6 +8,8 @@ The live site is GitHub Pages from `main`: https://gordojr1.github.io/quantity-c
 
 `paper.html` is a filed-date copy backtest (buy when the public filing lands). Rebuild with `python3 build-backtest.py`.
 
+`insider-board.html?b=repeatable` ranks officers by equal-weight 30/90/180-day open-market copy returns from the public print date. Rebuild with `python3 build-insider-repeatable.py`.
+
 `insiders.html` tracks officer and director open-market trades on the mining watchlist (defunct names out). U.S. domestic issuers use SEC Form 4. TSX / TSX-V names use public SEDI prints via CEO.CA. Rebuild with `python collect/insider_collect.py`, then `python collect/fetch_insider_prices.py` and `python collect/build_insider_analysis.py`. Those collect scripts are **not in this repo** — an off-repo job still pushes tape JSON here. This repo keeps charts and the paper backtest current on its own:
 
 ```

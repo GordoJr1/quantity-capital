@@ -14,14 +14,15 @@ In Cloud Agents this server is started automatically (see `.cursor/environment.j
 
 ## Rebuild derived data
 
-`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. It is committed, so regenerate it after changing tape or price data:
+`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/`. Both are committed, so regenerate them after changing tape or price data:
 
 ```
-python3 fetch-prices.py          # stdlib only; appends new Yahoo daily closes into prices/
-python3 build-backtest.py        # stdlib only, ~2.4s, idempotent apart from a timestamp
+python3 fetch-prices.py                 # stdlib only; appends new Yahoo daily closes into prices/
+python3 build-backtest.py               # stdlib only, ~2.4s, idempotent apart from a timestamp
+python3 build-insider-repeatable.py     # stdlib only; 30/90/180-day open-market copy ranks
 ```
 
-`.cursor/environment.json` runs `build-backtest.py` in `install`, so a fresh Cloud Agent always has an up-to-date `backtest.json`.
+`.cursor/environment.json` runs both builders in `install`, so a fresh Cloud Agent always has up-to-date derived JSON.
 
 ## Daily site refresh
 

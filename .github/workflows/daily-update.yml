@@ -1,7 +1,8 @@
-# Refresh committed Yahoo daily closes and rebuild backtest.json so the
-# GitHub Pages site does not go stale when the off-repo tape collector
-# is idle. Tape JSON (Senate/House/OGE/Form 4/SEDI) is still produced
-# outside this repo — this job cannot invent new filings.
+# Refresh committed Yahoo daily closes and rebuild backtest.json plus
+# insider-repeatable.json so the GitHub Pages site does not go stale
+# when the off-repo tape collector is idle. Tape JSON (Senate/House/OGE/
+# Form 4/SEDI) is still produced outside this repo — this job cannot
+# invent new filings.
 name: daily-update
 on:
   schedule:
@@ -49,13 +50,14 @@ jobs:
             python3 fetch-prices.py
           fi
 
-      - name: Rebuild backtest.json
+      - name: Rebuild backtest.json and insider-repeatable.json
         run: |
           set -euo pipefail
           if git diff --quiet -- prices; then
-            echo "prices unchanged; skipping backtest rebuild"
+            echo "prices unchanged; skipping derived rebuilds"
           else
             python3 build-backtest.py
+            python3 build-insider-repeatable.py
           fi
 
       - name: Commit and publish
@@ -65,7 +67,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add prices backtest.json
+          git add prices backtest.json insider-repeatable.json
           if git diff --staged --quiet; then
             echo "no data changes"
             exit 0

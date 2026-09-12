@@ -12,8 +12,9 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="insider-analysis.json">
+  <link rel="prefetch" href="insider-repeatable.json">
   <title>Insider leaders — Quantity Capital</title>
-  <meta name="description" content="Top performing and most active officers on the Quantity Capital watchlist. Copy book: buy and sell when they did." />
+  <meta name="description" content="Top performing, most active, and most repeatable officers on the Quantity Capital watchlist. Copy book and filing-date hit rates." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -97,6 +98,34 @@
     details.how { margin: 0 0 12px; border: 1px solid #4a5563; background: #151b24; }
     details.how summary { cursor: pointer; padding: 12px 16px; color: var(--caution); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; }
     details.how .body { padding: 0 16px 16px; color: var(--paper); line-height: 1.55; }
+    [hidden], .hidden { display: none !important; }
+    .rep-windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    .rep-windows button {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 6px 12px; min-height: 36px; cursor: pointer;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.9rem;
+    }
+    .rep-windows button.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .rep-wrap { overflow-x: auto; border: 1px solid #4a5563; background: var(--panel); }
+    table.rep { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.rep th, table.rep td { padding: 8px 10px; border-bottom: 1px solid #3a4452; vertical-align: top; }
+    table.rep th {
+      color: var(--mute); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      font-family: "Barlow Condensed", sans-serif; font-weight: 600; white-space: nowrap; text-align: left;
+    }
+    table.rep th.num, table.rep td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    table.rep tbody tr:last-child td { border-bottom: 0; }
+    table.rep tbody tr:hover { background: rgba(54, 153, 157, 0.08); }
+    table.rep .who { color: var(--white); text-decoration: none; font-size: 1.05rem; }
+    table.rep .who:hover { color: var(--teal); }
+    table.rep .firm { display: block; color: var(--mute); font-size: 0.78rem; margin-top: 2px; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
+    table.rep .firm a { color: inherit; text-decoration: none; }
+    table.rep .firm a:hover { color: var(--teal); }
+    table.rep .up { color: #7dcf7a; }
+    table.rep .down { color: #ef7a74; }
+    table.rep .rank { color: var(--mute); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; }
+    table.rep tbody tr:first-child .rank { color: var(--caution); }
+    table.rep .mobile-firm { display: none; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
     footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
     footer a { color: var(--caution); }
@@ -122,9 +151,12 @@
       .tabbar a.on { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: 1.35rem; }
+      table.rep .desk-firm { display: none; }
+      table.rep .mobile-firm { display: block; }
+      table.rep th, table.rep td { padding: 7px 8px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=107" />
+  <link rel="stylesheet" href="shell.css?v=108" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -146,11 +178,18 @@
       <h1>Leaders</h1>
       <p class="asof" id="asof"></p>
     </div>
-    <details class="how">
+    <details class="how" id="how-copy">
       <summary>How the copy book is scored</summary>
       <div class="body">
         <p>Performers assume you bought and sold the same share count on the insider’s trade dates, at the first close on or after each trade date from the same prices/ file used to mark leftovers. A reported Form 4/SEDI fill is only a check that the print belongs on that tape: if it is more than 50% from that close, the lot is skipped (dual-listed or ADR mismatch). Same-day fills on one name that disagree by more than 50% keep only the cluster within 20% of the close. Sales close the oldest lots first. Open leftovers are marked to the last close on file. Rank is total dollar P&amp;L. Percent is P&amp;L ÷ cash spent on buys. Filers with under $1,000 of priced buys are skipped.</p>
         <p class="muted" style="margin-top:10px;">Active traders are ranked by print count. Active names are ranked by how many officer prints hit that ticker. Not a recommendation. Not the officer’s actual P&amp;L — they may have other lots, options, and taxes.</p>
+      </div>
+    </details>
+    <details class="how" id="how-repeat" hidden>
+      <summary>How repeatable is scored</summary>
+      <div class="body">
+        <p>Open-market buys only — Form 4 code P and SEDI nature 10. Awards, option exercises, gifts, private or prospectus prints, and sales are out. Copy the print on the public filing date at the first <code>prices/</code> close on or after that day (10-day slack). Score the 30 / 90 / 180-day close after that. Same officer, ticker, and filing date collapse to one copy so split lots do not count twice.</p>
+        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Not a recommendation.</p>
       </div>
     </details>
     <div class="stats" id="stats"></div>
@@ -158,6 +197,12 @@
       <button type="button" data-board="leaders" class="on">Performers</button>
       <button type="button" data-board="traders">Active traders</button>
       <button type="button" data-board="names">Active names</button>
+      <button type="button" data-board="repeatable">Repeatable</button>
+    </div>
+    <div class="rep-windows" id="rep-windows" hidden>
+      <button type="button" data-h="30">30 day</button>
+      <button type="button" data-h="90" class="on">90 day</button>
+      <button type="button" data-h="180">180 day</button>
     </div>
     <div id="board"></div>
     <div class="more-row" id="more-row" hidden>
@@ -167,12 +212,14 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=112"></script>
+  <script src="qc.js?v=113"></script>
   <script>
     const params = new URLSearchParams(location.search);
-    let board = ["leaders", "traders", "names"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
+    let board = ["leaders", "traders", "names", "repeatable"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
+    let horizon = [30, 90, 180].indexOf(Number(params.get("h"))) >= 0 ? Number(params.get("h")) : 90;
     let showAll = false;
     let data = null;
+    let repeatable = null;
     const TOP = 30;
 
     function signedMoney(n) {
@@ -231,13 +278,109 @@
         "</div></article>";
     }
 
+    function repeatableRows() {
+      if (!repeatable) return [];
+      const key = String(horizon);
+      const rows = (repeatable.filers || []).filter((r) => r[key]);
+      rows.sort((a, b) => {
+        const aw = a[key];
+        const bw = b[key];
+        return (bw.avg - aw.avg) || (bw.hit - aw.hit) || ((b.n18 || 0) - (a.n18 || 0)) ||
+          String(a.name || "").localeCompare(String(b.name || ""));
+      });
+      return rows;
+    }
+
+    function hitPct(x) {
+      if (x == null || isNaN(x)) return "—";
+      return Math.round(x * 100) + "%";
+    }
+
+    function repeatableTable(rows) {
+      const h = horizon + "d";
+      const head = "<thead><tr>" +
+        "<th>#</th><th>Officer</th><th class=\"desk-firm\">Firm</th>" +
+        "<th class=\"num\">Buys</th>" +
+        "<th class=\"num\">" + h + " hit</th>" +
+        "<th class=\"num\">Avg " + h + "</th>" +
+        "<th class=\"num\">vs ticker</th>" +
+        "</tr></thead>";
+      const body = rows.map((row, i) => {
+        const w = row[String(horizon)] || {};
+        const firm = row.firm || row.ticker || "";
+        const firmHtml = row.ticker
+          ? "<a href=\"insider-ticker.html?t=" + encodeURIComponent(row.ticker) + "\">" + QC.esc(firm) + "</a>"
+          : QC.esc(firm);
+        const titleBit = row.title ? QC.esc(row.title) : "";
+        return "<tr>" +
+          "<td class=\"rank\">" + String(i + 1).padStart(2, "0") + "</td>" +
+          "<td><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" +
+            QC.esc(QC.titleCaseName(row.name) || row.name) + "</a>" +
+            (titleBit ? "<span class=\"firm\">" + titleBit + "</span>" : "") +
+            (firm ? "<span class=\"firm mobile-firm\">" + firmHtml + "</span>" : "") + "</td>" +
+          "<td class=\"desk-firm\"><span class=\"firm\" style=\"margin:0\">" + firmHtml + "</span></td>" +
+          "<td class=\"num\">" + (w.n != null ? w.n : "—") + "</td>" +
+          "<td class=\"num\">" + hitPct(w.hit) + "</td>" +
+          "<td class=\"num " + cls(w.avg) + "\">" + signedPct(w.avg) + "</td>" +
+          "<td class=\"num " + cls(w.vs) + "\">" + signedPct(w.vs) + "</td>" +
+          "</tr>";
+      }).join("");
+      return "<div class=\"rep-wrap\"><table class=\"rep\">" + head + "<tbody>" + body + "</tbody></table></div>";
+    }
+
+    function setUrl() {
+      const p = new URLSearchParams(location.search);
+      p.set("b", board);
+      if (board === "repeatable") p.set("h", String(horizon));
+      else p.delete("h");
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+    }
+
     function paint() {
+      const isRep = board === "repeatable";
+      document.getElementById("how-copy").hidden = isRep;
+      document.getElementById("how-repeat").hidden = !isRep;
+      document.getElementById("rep-windows").hidden = !isRep;
+      document.querySelectorAll("#rep-windows button").forEach((b) => {
+        b.classList.toggle("on", Number(b.dataset.h) === horizon);
+      });
+      document.querySelectorAll(".board-tabs button").forEach((b) => {
+        b.classList.toggle("on", b.dataset.board === board);
+      });
+
+      if (isRep) {
+        if (!repeatable) {
+          document.getElementById("stats").innerHTML = "";
+          document.getElementById("board").innerHTML = "<p class=\"muted\">Loading repeatable ranks…</p>";
+          document.getElementById("more-row").hidden = true;
+          return;
+        }
+        const rows = repeatableRows();
+        const vis = showAll ? rows : rows.slice(0, TOP);
+        const st = repeatable.stats || {};
+        document.getElementById("asof").textContent = QC.asOfLabel(repeatable.generated || repeatable.tapeCollected);
+        document.getElementById("stats").innerHTML =
+          "<div class=\"stat\"><b>" + rows.length + "</b><span>" + horizon + "d filers</span></div>" +
+          "<div class=\"stat\"><b>" + (repeatable.minBuys || 5) + "</b><span>buy floor</span></div>" +
+          "<div class=\"stat\"><b>" + (st.priced18 || 0) + "</b><span>priced copies</span></div>" +
+          "<div class=\"stat\"><b>" + vis.length + (vis.length === rows.length ? "" : " / " + rows.length) + "</b><span>in view</span></div>";
+        document.getElementById("board").innerHTML = vis.length
+          ? repeatableTable(vis)
+          : "<p class=\"muted\">No officers clear the " + horizon + "-day floor yet.</p>";
+        const more = document.getElementById("more-row");
+        const btn = document.getElementById("more");
+        more.hidden = rows.length <= TOP;
+        btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+        return;
+      }
+
       if (!data) return;
       const leaders = data.leaders || [];
       const traders = data.activeFilers || [];
       const names = data.activeNames || [];
       const rows = board === "traders" ? traders : board === "names" ? names : leaders;
       const vis = showAll ? rows : rows.slice(0, TOP);
+      document.getElementById("asof").textContent = QC.asOfLabel(data.generated || data.tapeCollected);
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + leaders.length + "</b><span>priced filers</span></div>" +
         "<div class=\"stat\"><b>" + traders.length + "</b><span>active traders</span></div>" +
@@ -250,18 +393,32 @@
       const btn = document.getElementById("more");
       more.hidden = rows.length <= TOP;
       btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
-      document.querySelectorAll(".board-tabs button").forEach((b) => {
-        b.classList.toggle("on", b.dataset.board === board);
-      });
     }
 
     fetch("insider-analysis.json").then((r) => r.json()).then((payload) => {
       data = payload;
-      document.getElementById("asof").textContent = QC.asOfLabel(payload.generated || payload.tapeCollected);
+      if (board !== "repeatable") {
+        document.getElementById("asof").textContent = QC.asOfLabel(payload.generated || payload.tapeCollected);
+      }
       paint();
     }).catch(() => {
-      document.getElementById("asof").textContent = "";
-      document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the insider board.</p>";
+      if (board !== "repeatable") {
+        document.getElementById("asof").textContent = "";
+        document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the insider board.</p>";
+      }
+    });
+
+    fetch("insider-repeatable.json").then((r) => r.json()).then((payload) => {
+      repeatable = payload;
+      if (board === "repeatable") {
+        document.getElementById("asof").textContent = QC.asOfLabel(payload.generated || payload.tapeCollected);
+      }
+      paint();
+    }).catch(() => {
+      if (board === "repeatable") {
+        document.getElementById("asof").textContent = "";
+        document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the repeatable board.</p>";
+      }
     });
 
     document.querySelector(".board-tabs").addEventListener("click", (e) => {
@@ -269,9 +426,15 @@
       if (!btn) return;
       board = btn.dataset.board;
       showAll = false;
-      const p = new URLSearchParams(location.search);
-      p.set("b", board);
-      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      setUrl();
+      paint();
+    });
+    document.getElementById("rep-windows").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-h]");
+      if (!btn) return;
+      horizon = Number(btn.dataset.h);
+      showAll = false;
+      setUrl();
       paint();
     });
     document.getElementById("more").addEventListener("click", () => {

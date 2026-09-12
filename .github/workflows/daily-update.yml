@@ -8,7 +8,7 @@ on:
   schedule:
     # 19:30 ET — after the US cash close and the typical off-repo
     # evening tape push (~18:12–18:38 ET), so this is a backstop.
-    - cron: "30 23 * * 1-5"
+    - cron: "30 23 * * *"
   workflow_dispatch:
     inputs:
       limit:

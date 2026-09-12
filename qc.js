@@ -1120,7 +1120,6 @@
     const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
-    const nameLine = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + "</div>";
     const companyBits = [];
     if (t.ticker) companyBits.push("<span class=\"qc-txn-tk\">" + esc(t.ticker) + "</span>");
     if (company) companyBits.push("<span class=\"qc-txn-co-name\">" + esc(company) + "</span>");
@@ -1141,9 +1140,17 @@
     if (held) tblParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
 
-    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\"" +
+    const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
+    const planHtml = t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "";
+    const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + followHtml + planHtml + "</div>";
+    const when = t.trade_date
+      ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
+      : "";
+
+    return "<li class=\"qc-txn qc-txn-tape qc-txn-co-first" + (cls ? " " + cls : "") + (opts.follow ? " qc-follow" : "") + "\"" +
       (t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
-      "<div class=\"qc-txn-id\">" + nameLine + "</div>" +
+      when +
+      "<div class=\"qc-txn-id\">" + nameLineFollow + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       tbl +
@@ -1231,6 +1238,11 @@
     const last = opts.showLastClose
       ? "<span class=\"qc-txn-last\">Last</span>"
       : "";
+    const hold = opts.showHoldings
+      ? "<span class=\"qc-txn-sh\">Shares</span>" +
+        "<span class=\"qc-txn-after\">Held</span>" +
+        "<span class=\"qc-txn-held\">% Held</span>"
+      : "";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
@@ -1238,6 +1250,7 @@
       "<span class=\"qc-txn-coname\">Company</span>" +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
+      hold +
       "<span class=\"qc-txn-hero\">Value</span>" +
     "</li>";
   }
@@ -1263,6 +1276,16 @@
       : "<span class=\"qc-txn-company\">" + co + "</span>";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
+    const showHold = !!opts.showHoldings;
+    const sh = showHold ? formatSharesQuiet(t && t.shares) : "";
+    const after = showHold ? formatSharesQuiet(t && t.shares_after) : "";
+    const held = showHold ? formatHeldQuiet(t && t.held_pct) : "";
+    const delta = showHold ? positionDelta(t) : "flat";
+    const shHtml = showHold ? "<span class=\"qc-txn-sh\">" + esc(sh || "—") + "</span>" : "";
+    const afterHtml = showHold ? "<span class=\"qc-txn-after\">" + esc(after || "—") + "</span>" : "";
+    const heldHtml = showHold
+      ? "<span class=\"qc-txn-held " + delta + "\">" + esc(held || "—") + "</span>"
+      : "";
     const whoParts = [];
     if (code) {
       whoParts.push(tickerHref
@@ -1278,6 +1301,9 @@
         ? "<a class=\"qc-txn-co\" href=\"" + esc(tickerHref) + "\">" + esc(company) + "</a>"
         : "<span class=\"qc-txn-co\">" + esc(company) + "</span>");
     }
+    if (sh) metaParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
+    if (after) metaParts.push("<span class=\"qc-txn-after\"><span class=\"qc-txn-lbl\">held </span>" + esc(after) + "</span>");
+    if (held) metaParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const who = dotted(whoParts);
     const meta = dotted(metaParts);
     const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
@@ -1287,21 +1313,27 @@
     if (opts.selected) extras.push("on");
     if (opts.preview) extras.push("preview");
     if (opts.extraClass) extras.push(opts.extraClass);
+    if (opts.companyFirst) extras.push("qc-txn-co-first");
     const extraCls = extras.length ? " " + extras.join(" ") : "";
+    const when = (t && t.trade_date)
+      ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
+      : "";
     return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + extraCls + "\"" +
       (t && t.id ? " data-id=\"" + esc(t.id) + "\"" : "") +
       (opts.holdKey ? " data-key=\"" + esc(opts.holdKey) + "\"" : "") +
       " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (opts.selected ? "true" : "false") + "\">" +
+      when +
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
+        (t && t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "") +
       "</div></div>" +
       "<div class=\"qc-txn-end\">" +
         "<span class=\"qc-txn-chip\">" + esc(txnLabel(t) || sideLabel(t && t.side)) + "</span>" +
         "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
-      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + "</div>" +
+      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
     "</li>";
   }
@@ -1440,12 +1472,178 @@
           selected: !!(opts.selectedId && t.id === opts.selectedId),
           preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId),
           showLastClose: !!opts.showLastClose,
-          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null
+          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
+          showHoldings: !!opts.showHoldings,
+          companyFirst: !!opts.companyFirst
         });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
     });
     return politicianTapeColsHtml(opts) + blocks.join("");
+  }
+
+  const FOLLOW_SEEN_KEY = "qc-follow-seen";
+  const FOLLOW_NOTIFIED_KEY = "qc-follow-notified";
+
+  function followById(payload) {
+    const ids = {};
+    ((payload && payload.follow) || []).forEach((row) => {
+      if (row && row.id) ids[row.id] = row;
+    });
+    return ids;
+  }
+
+  function readIdList(key) {
+    try {
+      const raw = JSON.parse(localStorage.getItem(key) || "[]");
+      return Array.isArray(raw) ? raw.filter(Boolean) : [];
+    } catch (err) {
+      return [];
+    }
+  }
+
+  function unreadFollowAlerts(payload) {
+    const seen = {};
+    readIdList(FOLLOW_SEEN_KEY).forEach((id) => { seen[id] = 1; });
+    return ((payload && payload.alerts) || []).filter((a) => a && a.id && !seen[a.id]);
+  }
+
+  function markFollowAlertsSeen(payload) {
+    const ids = ((payload && payload.alerts) || []).map((a) => a && a.id).filter(Boolean);
+    try { localStorage.setItem(FOLLOW_SEEN_KEY, JSON.stringify(ids)); } catch (err) {}
+  }
+
+  function followAlertLine(a) {
+    const name = titleCaseName(a.filer || "");
+    const side = a.side === "sale" ? "sold" : "bought";
+    const when = prettyDate(a.filed_date || a.trade_date || "");
+    const hero = a.amount || (a.value != null ? formatMoney(a.value) : "");
+    const plan = a.plan ? "plan" : "";
+    return [name, side, a.ticker || "", when, hero, plan].filter(Boolean).join(" · ");
+  }
+
+  function followAlertsHtml(payload) {
+    const alerts = unreadFollowAlerts(payload);
+    if (!alerts.length) return "";
+    const n = alerts.length;
+    const rows = alerts.map((a) => {
+      const href = a.filer_id
+        ? "insider.html?id=" + encodeURIComponent(a.filer_id)
+        : "insider-board.html?b=follow";
+      const sideCls = a.side === "sale" ? "down" : "up";
+      const plan = a.plan ? "<span class=\"qc-plan-tag\">Plan</span>" : "";
+      return "<a class=\"hit\" href=\"" + esc(href) + "\">" +
+        "<span class=\"who\">" + esc(titleCaseName(a.filer || "")) + plan + "</span>" +
+        "<span class=\"side " + sideCls + "\">" + (a.side === "sale" ? "Sold" : "Bought") + "</span>" +
+        "<span class=\"tk\">" + esc(a.ticker || "") + "</span>" +
+        "<span class=\"when\">" + esc(prettyDate(a.filed_date || "")) + "</span></a>";
+    }).join("");
+    const notify = ("Notification" in window)
+      ? "<button type=\"button\" class=\"ghost\" data-follow-notify>Notify</button>"
+      : "";
+    return "<div class=\"qc-follow-alerts\" role=\"status\">" +
+      "<div class=\"hd\">" +
+        "<span>" + n + " follow print" + (n === 1 ? "" : "s") + "</span>" +
+        "<span class=\"acts\">" +
+          "<a href=\"insider-board.html?b=follow\">Best list</a>" +
+          notify +
+          "<button type=\"button\" class=\"ghost\" data-follow-dismiss>Dismiss</button>" +
+        "</span></div>" +
+      "<div class=\"list\">" + rows + "</div></div>";
+  }
+
+  function maybeNotifyFollow(payload) {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    const have = {};
+    readIdList(FOLLOW_NOTIFIED_KEY).forEach((id) => { have[id] = 1; });
+    const fresh = unreadFollowAlerts(payload).filter((a) => !have[a.id]);
+    if (!fresh.length) return;
+    const show = (reg) => {
+      fresh.forEach((a) => {
+        const title = titleCaseName(a.filer || "Follow print");
+        const body = followAlertLine(a);
+        const url = a.filer_id
+          ? "insider.html?id=" + encodeURIComponent(a.filer_id)
+          : "insider-board.html?b=follow";
+        const opts = { body: body, tag: a.id || a.key, data: { url: url } };
+        if (reg && reg.showNotification) reg.showNotification(title, opts);
+        else {
+          try { new Notification(title, opts); } catch (err) {}
+        }
+      });
+    };
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.ready.then(show).catch(() => show(null));
+    } else show(null);
+    const notified = readIdList(FOLLOW_NOTIFIED_KEY).concat(fresh.map((a) => a.id));
+    try { localStorage.setItem(FOLLOW_NOTIFIED_KEY, JSON.stringify(notified.slice(-80))); } catch (err) {}
+  }
+
+  function requestFollowNotify(payload) {
+    if (!("Notification" in window)) return Promise.resolve("unsupported");
+    const go = () => { maybeNotifyFollow(payload); };
+    if (Notification.permission === "granted") {
+      go();
+      return Promise.resolve("granted");
+    }
+    if (Notification.permission === "denied") return Promise.resolve("denied");
+    return Notification.requestPermission().then((perm) => {
+      if (perm === "granted") go();
+      return perm;
+    });
+  }
+
+  function mountFollowAlerts(host, payload) {
+    if (!host) return;
+    host._followPayload = payload;
+    host.innerHTML = followAlertsHtml(payload);
+    if (!host._followBound) {
+      host._followBound = true;
+      host.addEventListener("click", (e) => {
+        const data = host._followPayload;
+        if (e.target.closest("[data-follow-dismiss]")) {
+          markFollowAlertsSeen(data);
+          host.innerHTML = "";
+        } else if (e.target.closest("[data-follow-notify]")) {
+          requestFollowNotify(data);
+        }
+      });
+    }
+    maybeNotifyFollow(payload);
+  }
+
+  function loadFollow() {
+    return fetch("insider-follow.json").then((r) => r.json());
+  }
+
+  function loadForm4() {
+    return fetch("insider-form4.json").then((r) => r.ok ? r.json() : null).catch(() => null);
+  }
+
+  function emptyNum(v) {
+    return v == null || v === "";
+  }
+
+  function applyForm4(trades, payload) {
+    const map = (payload && payload.trades) || {};
+    (trades || []).forEach((t) => {
+      if (!t || !t.id) return;
+      const ov = map[t.id];
+      if (!ov) return;
+      t.plan = !!ov.plan;
+      t.planWhy = ov.why || "";
+      // Fill gaps only. Do not overwrite tape shares / shares_after / held_pct.
+      if (emptyNum(t.shares) && ov.shares != null) t.shares = ov.shares;
+      if (emptyNum(t.shares_after) && (ov.shares_held != null || ov.after != null)) {
+        t.shares_after = ov.shares_held != null ? ov.shares_held : ov.after;
+      }
+      if (emptyNum(t.held_pct) && ov.pct_held != null) t.held_pct = ov.pct_held;
+      if (ov.vs != null) t.vsStake = ov.vs;
+      if (ov.held != null) t.heldAfter = ov.held;
+      if (emptyNum(t.shares_held)) t.shares_held = ov.shares_held != null ? ov.shares_held : t.shares_after;
+      if (emptyNum(t.pct_held)) t.pct_held = ov.pct_held != null ? ov.pct_held : t.held_pct;
+    });
+    return trades;
   }
 
   global.QC = {
@@ -1516,6 +1714,15 @@
     parseAdded: parseAdded,
     isLanded: isLanded,
     lagDays: lagDays,
+    followById: followById,
+    unreadFollowAlerts: unreadFollowAlerts,
+    markFollowAlertsSeen: markFollowAlertsSeen,
+    followAlertsHtml: followAlertsHtml,
+    mountFollowAlerts: mountFollowAlerts,
+    requestFollowNotify: requestFollowNotify,
+    loadFollow: loadFollow,
+    loadForm4: loadForm4,
+    applyForm4: applyForm4,
     BAD_TICKERS: BAD_TICKERS
   };
 })(window);

@@ -13,6 +13,8 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="insider-analysis.json">
   <link rel="prefetch" href="insider-repeatable.json">
+  <link rel="prefetch" href="insider-follow.json">
+  <link rel="prefetch" href="insider-form4.json">
   <title>Insider leaders — Quantity Capital</title>
   <meta name="description" content="Top performing, most active, and most repeatable officers on the Quantity Capital watchlist. Copy book and filing-date hit rates." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -126,6 +128,9 @@
     table.rep .rank { color: var(--mute); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; }
     table.rep tbody tr:first-child .rank { color: var(--caution); }
     table.rep .mobile-firm { display: none; }
+    .card.follow-card { border-left-color: var(--caution); }
+    .card .qc-follow-tag { margin-left: 8px; vertical-align: 0.2em; }
+    table.rep .qc-follow-tag { margin-left: 8px; }
     footer { border-top: 2px solid var(--caution); margin-top: 20px; }
     footer .wrap { display: flex; justify-content: space-between; padding: 18px 0 36px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
     footer a { color: var(--caution); }
@@ -156,7 +161,7 @@
       table.rep th, table.rep td { padding: 7px 8px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=109" />
+  <link rel="stylesheet" href="shell.css?v=113" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -188,11 +193,19 @@
         <p class="muted" style="margin-top:10px;">Active traders are ranked by print count. Active names are ranked by how many officer prints hit that ticker. Not a recommendation. Not the officer’s actual P&amp;L — they may have other lots, options, and taxes.</p>
       </div>
     </details>
+    <div id="follow-alerts"></div>
     <details class="how" id="how-repeat" hidden>
       <summary>How repeatable is scored</summary>
       <div class="body">
         <p>Open-market buys only — Form 4 code P and SEDI nature 10. Awards, option exercises, gifts, private or prospectus prints, and sales are out. Copy the print on the public filing date at the first <code>prices/</code> close on or after that day (10-day slack). Score the 30 / 90 / 180-day close after that. Same officer, ticker, and filing date collapse to one copy so split lots do not count twice.</p>
-        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Not a recommendation.</p>
+        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Scheduled Form 4 10b5-1 buys are dropped before that floor. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Officers who also clear 70% 90-day hit and a positive average sit on Follow — one company is enough. Not a recommendation.</p>
+      </div>
+    </details>
+    <details class="how" id="how-follow" hidden>
+      <summary>How the follow list is chosen</summary>
+      <div class="body">
+        <p>Follow / Best is the same 90-day repeatable ranking — open-market buys only, clustered by officer / ticker / filing date, copied on the public filed date, equal-weight by name — plus two trust cutoffs: <strong>90-day hit rate ≥ 70%</strong> and <strong>average 90-day return above zero</strong>. The N=5 buy floor is already in the ranking. Officers who only print at one company still qualify. Scheduled Form 4 10b5-1 / trading-plan buys do not count toward that floor.</p>
+        <p class="muted" style="margin-top:10px;">Officers whose remaining Form 4 market prints are mostly scheduled-plan lots sort below discretionary peers. Rank then prefers size versus remaining Table I stake (conviction). Plan prints still alert, under discretionary lots on the same filed day. The daily job writes <code>insider-follow.json</code>. Browser notifications need a one-time Notify grant. Not a recommendation.</p>
       </div>
     </details>
     <div class="stats" id="stats"></div>
@@ -201,6 +214,7 @@
       <button type="button" data-board="traders">Active traders</button>
       <button type="button" data-board="names">Active names</button>
       <button type="button" data-board="repeatable">Repeatable</button>
+      <button type="button" data-board="follow">Follow</button>
     </div>
     <div class="rep-windows" id="rep-windows" hidden>
       <button type="button" data-h="30">30 day</button>
@@ -215,14 +229,15 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=113"></script>
+  <script src="qc.js?v=117"></script>
   <script>
     const params = new URLSearchParams(location.search);
-    let board = ["leaders", "traders", "names", "repeatable"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
+    let board = ["leaders", "traders", "names", "repeatable", "follow"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
     let horizon = [30, 90, 180].indexOf(Number(params.get("h"))) >= 0 ? Number(params.get("h")) : 90;
     let showAll = false;
     let data = null;
     let repeatable = null;
+    let followData = null;
     const TOP = 30;
 
     function signedMoney(n) {
@@ -299,6 +314,45 @@
       return Math.round(x * 100) + "%";
     }
 
+    function followCard(row) {
+      const planTag = row.planHeavy
+        ? "<span class=\"qc-plan-tag\">Plan-heavy</span>"
+        : (row.plan ? "<span class=\"qc-plan-tag\">Plan</span>" : "");
+      const conv = row.conv != null ? Math.round(row.conv * 100) + "% of stake" : "";
+      const after = row.after != null ? QC.formatSharesQuiet(row.after) : "";
+      return "<article class=\"card follow-card\">" +
+        "<div class=\"card-top\">" +
+          "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
+            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" +
+              QC.esc(QC.titleCaseName(row.name) || row.name) + "</a>" +
+            "<span class=\"qc-follow-tag\">Follow</span>" + planTag +
+            "<div class=\"co\">" + QC.esc(row.title || "") +
+              (row.firm ? " · " + QC.esc(row.firm) : "") +
+              " · " + (row.n != null ? row.n : "—") + " buys / " + row.names + " name" +
+              (row.names === 1 ? "" : "s") + "</div>" +
+            "<div class=\"meta\">" + hitPct(row.hit) + " 90d hit" +
+              (row.lastFiled ? " · last print " + QC.esc(QC.prettyDate(row.lastFiled)) : "") +
+              (row.vs != null ? " · vs ticker " + signedPct(row.vs) : "") +
+              (conv ? " · " + conv : "") +
+              (after ? " · " + after + " left" : "") + "</div>" +
+          "</div>" +
+          "<div class=\"rate\"><b class=\"" + cls(row.avg) + "\">" + signedPct(row.avg) + "</b>" +
+            "<span>90d copy</span></div>" +
+        "</div></article>";
+    }
+
+    function followIds() {
+      return QC.followById(followData);
+    }
+
+    function paintFollowAlerts() {
+      if (board === "follow" || board === "repeatable") {
+        QC.mountFollowAlerts(document.getElementById("follow-alerts"), followData);
+      } else {
+        document.getElementById("follow-alerts").innerHTML = "";
+      }
+    }
+
     function repeatableTable(rows) {
       const h = horizon + "d";
       const head = "<thead><tr>" +
@@ -315,10 +369,12 @@
           ? "<a href=\"insider-ticker.html?t=" + encodeURIComponent(row.ticker) + "\">" + QC.esc(firm) + "</a>"
           : QC.esc(firm);
         const titleBit = row.title ? QC.esc(row.title) : "";
+        const onFollow = !!followIds()[row.id];
         return "<tr>" +
           "<td class=\"rank\">" + String(i + 1).padStart(2, "0") + "</td>" +
           "<td><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" +
             QC.esc(QC.titleCaseName(row.name) || row.name) + "</a>" +
+            (onFollow ? "<span class=\"qc-follow-tag\">Follow</span>" : "") +
             (titleBit ? "<span class=\"firm\">" + titleBit + "</span>" : "") +
             (firm ? "<span class=\"firm mobile-firm\">" + firmHtml + "</span>" : "") + "</td>" +
           "<td class=\"desk-firm\"><span class=\"firm\" style=\"margin:0\">" + firmHtml + "</span></td>" +
@@ -341,9 +397,12 @@
 
     function paint() {
       const isRep = board === "repeatable";
-      document.getElementById("how-copy").hidden = isRep;
+      const isFollow = board === "follow";
+      document.getElementById("how-copy").hidden = isRep || isFollow;
       document.getElementById("how-repeat").hidden = !isRep;
+      document.getElementById("how-follow").hidden = !isFollow;
       document.getElementById("rep-windows").hidden = !isRep;
+      paintFollowAlerts();
       document.querySelectorAll("#rep-windows button").forEach((b) => {
         b.classList.toggle("on", Number(b.dataset.h) === horizon);
       });
@@ -370,6 +429,32 @@
         document.getElementById("board").innerHTML = vis.length
           ? repeatableTable(vis)
           : "<p class=\"muted\">No officers clear the " + horizon + "-day floor yet.</p>";
+        const more = document.getElementById("more-row");
+        const btn = document.getElementById("more");
+        more.hidden = rows.length <= TOP;
+        btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+        return;
+      }
+
+      if (isFollow) {
+        if (!followData) {
+          document.getElementById("stats").innerHTML = "";
+          document.getElementById("board").innerHTML = "<p class=\"muted\">Loading follow list…</p>";
+          document.getElementById("more-row").hidden = true;
+          return;
+        }
+        const rows = followData.follow || [];
+        const st = followData.stats || {};
+        document.getElementById("asof").textContent = QC.asOfLabel(followData.generated || followData.tapeCollected);
+        const vis = showAll ? rows : rows.slice(0, TOP);
+        document.getElementById("stats").innerHTML =
+          "<div class=\"stat\"><b>" + rows.length + "</b><span>to follow</span></div>" +
+          "<div class=\"stat\"><b>" + Math.round((followData.minHit || 0.7) * 100) + "%</b><span>90d hit floor</span></div>" +
+          "<div class=\"stat\"><b>" + (followData.minBuys || 5) + "</b><span>buy floor</span></div>" +
+          "<div class=\"stat\"><b>" + (st.alerts || 0) + "</b><span>new prints</span></div>";
+        document.getElementById("board").innerHTML = vis.length
+          ? vis.map(followCard).join("")
+          : "<p class=\"muted\">No officers clear the follow cutoffs yet.</p>";
         const more = document.getElementById("more-row");
         const btn = document.getElementById("more");
         more.hidden = rows.length <= TOP;
@@ -421,6 +506,19 @@
       if (board === "repeatable") {
         document.getElementById("asof").textContent = "";
         document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the repeatable board.</p>";
+      }
+    });
+
+    QC.loadFollow().then((payload) => {
+      followData = payload;
+      if (board === "follow") {
+        document.getElementById("asof").textContent = QC.asOfLabel(payload.generated || payload.tapeCollected);
+      }
+      paint();
+    }).catch(() => {
+      if (board === "follow") {
+        document.getElementById("asof").textContent = "";
+        document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the follow list.</p>";
       }
     });
 

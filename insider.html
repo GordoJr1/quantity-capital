@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=109" />
+  <link rel="stylesheet" href="shell.css?v=113" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -717,7 +717,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=113"></script>
+  <script src="qc.js?v=117"></script>
   <script src="chart.js"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -812,18 +812,24 @@
         "<p class=\"muted\">Jurisdictional overlap only. Not proof of illegal trading.</p>";
     }
 
+    let followRow = null;
+
     function paintHeroFacts(rows) {
       const box = document.getElementById("hero-facts");
       if (!box) return;
       const t = rows && rows[0];
-      if (!t) {
+      if (!t && !followRow) {
         box.hidden = true;
         box.innerHTML = "";
         return;
       }
-      const role = QC.shortRole(t);
-      const title = String(t.title || "").trim();
+      const role = t ? QC.shortRole(t) : "";
+      const title = String((t && t.title) || "").trim();
       const line1 = [];
+      if (followRow) {
+        line1.push("<a class=\"qc-follow-tag\" href=\"insider-board.html?b=follow\">Follow</a>");
+        if (followRow.planHeavy) line1.push("<span class=\"qc-plan-tag\">Plan-heavy</span>");
+      }
       if (role) line1.push("<span class=\"hero-party\">" + esc(role) + "</span>");
       if (title && title.toLowerCase() !== String(role || "").toLowerCase()) line1.push(esc(title));
       const tickers = [];
@@ -837,6 +843,13 @@
         line2.push(esc(companies[0]) + (tickers[0] ? " · " + esc(tickers[0]) : ""));
       } else if (tickers.length) {
         line2.push(tickers.length + (tickers.length === 1 ? " issuer" : " issuers") + " on tape");
+      }
+      if (followRow && followRow.conv != null) {
+        line2.push(Math.round(followRow.conv * 100) + "% of stake");
+      }
+      if (followRow && followRow.after != null) {
+        const held = QC.formatSharesQuiet(followRow.after);
+        if (held) line2.push(held + " remaining");
       }
       if (!line1.length && !line2.length) {
         box.hidden = true;
@@ -909,6 +922,7 @@
     let bookRange = "3y";
     let selectedKey = "";
     let selectedTradeId = "";
+    let userCleared = false;
     let showAllTiles = false;
     let showAllTape = false;
     let tileSort = "size";
@@ -1106,8 +1120,26 @@
       return head;
     }
 
+    function largestBookKey(book) {
+      const list = (book.positions || []).slice().sort((a, b) => {
+        const v = (b.value || 0) - (a.value || 0);
+        return v || String(b.last || "").localeCompare(String(a.last || ""));
+      });
+      const first = list.find((p) => p && p.key && p.key !== "__OTHER__");
+      return (first && first.key) || "";
+    }
+
+    function applyLargestHolding(book) {
+      selectedKey = largestBookKey(book);
+      selectedTradeId = selectedKey ? ((pickTradeForKey(selectedKey) || {}).id || "") : "";
+    }
+
     function ensureSelection(book) {
-      if (!selectedKey && !selectedTradeId) return;
+      if (!selectedKey && !selectedTradeId) {
+        if (userCleared) return;
+        applyLargestHolding(book);
+        return;
+      }
       const still = selectedKey && (
         positionByKey(selectedKey, book) ||
         (selectedTradeId && tradeById(selectedTradeId))
@@ -1118,8 +1150,12 @@
         }
         return;
       }
-      selectedKey = "";
-      selectedTradeId = "";
+      if (userCleared) {
+        selectedKey = "";
+        selectedTradeId = "";
+        return;
+      }
+      applyLargestHolding(book);
     }
 
     function paintRange() {
@@ -1433,7 +1469,9 @@
         selectedId: visibleTradeId(),
         limit: limit,
         showLastClose: true,
-        lastCloseByCode: lastCloseByCode
+        showHoldings: true,
+        lastCloseByCode: lastCloseByCode,
+        companyFirst: true
       });
       QC.fillLastCloseMap((full || []).map((t) => t.ticker || t.code), lastCloseByCode).then(() => {
         QC.applyLastCloses(list, lastCloseByCode);
@@ -1484,6 +1522,7 @@
     }
 
     function clearSelection() {
+      userCleared = true;
       selectedKey = "";
       selectedTradeId = "";
       paintDesk();
@@ -1491,6 +1530,7 @@
 
     function selectKey(key, tradeId) {
       if (!key || key === "__OTHER__") return;
+      userCleared = false;
       selectedKey = key;
       selectedTradeId = tradeId || (pickTradeForKey(key) || {}).id || "";
       paintDesk();
@@ -1499,6 +1539,7 @@
     function selectTrade(tid) {
       const t = tradeById(tid);
       if (!t) return;
+      userCleared = false;
       const nextKey = holdingIdentity(t, tickerLookup).key;
       const sameFilter = selectedKey === nextKey;
       selectedKey = nextKey;
@@ -1702,8 +1743,12 @@
 
     Promise.all([
       fetch("insider-trades-lite.json").then((r) => r.json()),
-      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
-    ]).then(([data, tickerFile]) => {
+      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} })),
+      QC.loadFollow().catch(() => null),
+      QC.loadForm4()
+    ]).then(([data, tickerFile, follow, form4]) => {
+      followRow = follow ? QC.followById(follow)[id] || null : null;
+      if (form4) QC.applyForm4(data.trades || [], form4);
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = threeYearRows(data);

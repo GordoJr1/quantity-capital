@@ -1,8 +1,8 @@
-# Refresh committed Yahoo daily closes and rebuild backtest.json plus
-# insider-repeatable.json so the GitHub Pages site does not go stale
-# when the off-repo tape collector is idle. Tape JSON (Senate/House/OGE/
-# Form 4/SEDI) is still produced outside this repo — this job cannot
-# invent new filings.
+# Refresh committed Yahoo daily closes, enrich SEC Form 4 plan flags /
+# Table I holdings, and rebuild backtest.json, insider-repeatable.json,
+# and insider-follow.json. Senate eFD is not fetched here (captcha).
+# New Form 4 / SEDI / STOCK Act rows still arrive from the off-repo tape
+# job; this Action only annotates Form 4s already on the tape.
 name: daily-update
 on:
   schedule:
@@ -50,15 +50,33 @@ jobs:
             python3 fetch-prices.py
           fi
 
+      - name: Enrich Form 4 10b5-1 flags and Table I holdings
+        run: |
+          set -euo pipefail
+          python3 collect/form4_enrich.py
+
       - name: Rebuild backtest.json and insider-repeatable.json
         run: |
           set -euo pipefail
-          if git diff --quiet -- prices; then
-            echo "prices unchanged; skipping derived rebuilds"
-          else
+          PRICE_CHANGED=0
+          FORM4_CHANGED=0
+          git diff --quiet -- prices || PRICE_CHANGED=1
+          git diff --quiet -- insider-form4.json || FORM4_CHANGED=1
+          if [ "$PRICE_CHANGED" = 1 ]; then
             python3 build-backtest.py
-            python3 build-insider-repeatable.py
+          else
+            echo "prices unchanged; skipping backtest"
           fi
+          if [ "$PRICE_CHANGED" = 1 ] || [ "$FORM4_CHANGED" = 1 ]; then
+            python3 build-insider-repeatable.py
+          else
+            echo "prices/form4 unchanged; skipping repeatable"
+          fi
+
+      - name: Rebuild follow list and alerts
+        run: |
+          set -euo pipefail
+          python3 build-insider-follow.py
 
       - name: Commit and publish
         env:
@@ -67,7 +85,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add prices backtest.json insider-repeatable.json
+          git add prices backtest.json insider-repeatable.json insider-follow.json insider-form4.json
           if git diff --staged --quiet; then
             echo "no data changes"
             exit 0

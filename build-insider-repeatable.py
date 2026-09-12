@@ -16,6 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 PRICES = ROOT / "prices"
 TAPE = ROOT / "insider-trades-lite.json"
+FORM4 = ROOT / "insider-form4.json"
 DEST = ROOT / "insider-repeatable.json"
 
 HORIZONS = (30, 90, 180)
@@ -50,11 +51,41 @@ def is_exercise(t: dict) -> bool:
     return code in EXERCISE_CODES or bool(EXERCISE_NATURE.match(nature))
 
 
-def is_open_market_buy(t: dict) -> bool:
-    """Form 4 code P, or SEDI public-market nature 10. No awards, exercises, gifts, sales."""
+def load_form4() -> dict:
+    if not FORM4.is_file():
+        return {}
+    try:
+        with FORM4.open() as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError, TypeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def load_form4_trades(form4: dict | None = None) -> dict:
+    data = form4 if form4 is not None else load_form4()
+    trades = data.get("trades")
+    return trades if isinstance(trades, dict) else {}
+
+
+def is_scheduled_plan(t: dict, form4_trades: dict) -> bool:
+    """True when the Form 4 sidecar marked this lot as a 10b5-1 / trading plan."""
+    if not t or not form4_trades:
+        return False
+    ov = form4_trades.get(t.get("id") or "")
+    return bool(isinstance(ov, dict) and ov.get("plan"))
+
+
+def is_open_market_buy(t: dict, form4_trades: dict | None = None) -> bool:
+    """Form 4 code P, or SEDI public-market nature 10. No awards, exercises, gifts, sales.
+
+    Scheduled 10b5-1 / plan buys are excluded so they do not mint a copy rank.
+    """
     if not t or t.get("side") != "purchase":
         return False
     if is_award(t) or is_exercise(t):
+        return False
+    if is_scheduled_plan(t, form4_trades or {}):
         return False
     code = str(t.get("code") or "").upper()
     if code in {"G", "W", "D", "J", "U"}:
@@ -211,11 +242,17 @@ def main() -> int:
     with TAPE.open() as f:
         tape = json.load(f)
     trades = tape.get("trades") or []
+    form4 = load_form4()
+    form4_trades = load_form4_trades(form4)
 
     raw_buys = 0
+    plan_skipped = 0
     clustered: dict[tuple[str, str, str], dict] = {}
     for t in trades:
-        if not is_open_market_buy(t):
+        if t.get("side") == "purchase" and is_scheduled_plan(t, form4_trades):
+            if not is_award(t) and not is_exercise(t):
+                plan_skipped += 1
+        if not is_open_market_buy(t, form4_trades):
             continue
         raw_buys += 1
         fid = t.get("filer_id") or ""
@@ -315,6 +352,7 @@ def main() -> int:
 
     method = (
         "Open-market buys only: Form 4 code P and SEDI nature 10. "
+        "Scheduled Form 4 10b5-1 / trading-plan buys (insider-form4.json) are excluded. "
         "Awards, option exercises, gifts, private/prospectus prints, and sales are excluded. "
         "One copy trade per officer / ticker / filing date (lots on the same print collapse). "
         "Entry is the first prices/ close on or after the public filing date "
@@ -342,8 +380,10 @@ def main() -> int:
             "Not investment advice. Hypothetical paper copies from the public print date, "
             "not the officer’s fill. Past hit rates do not mean the next filing works."
         ),
+        "form4Generated": form4.get("generated") or "",
         "stats": {
             "rawBuys": raw_buys,
+            "planSkipped": plan_skipped,
             "clustered18": sum(len(v) for v in by_filer.values()),
             "priced18": priced_buys,
             "filers": len(filers),
@@ -359,7 +399,7 @@ def main() -> int:
         f.write("\n")
     print(
         "wrote {path} ({kb:.0f} KB)  filers={n}  30/90/180={a}/{b}/{c}  "
-        "minBuys={m}  asof={asof}  cutoff={cut}".format(
+        "minBuys={m}  planSkip={p}  asof={asof}  cutoff={cut}".format(
             path=DEST.name,
             kb=DEST.stat().st_size / 1024,
             n=len(filers),
@@ -367,6 +407,7 @@ def main() -> int:
             b=horizon_counts[90],
             c=horizon_counts[180],
             m=MIN_BUYS,
+            p=plan_skipped,
             asof=tape_asof,
             cut=cutoff,
         )

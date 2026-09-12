@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v132";
+const CACHE = "qc-shell-v138";
 const SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,10 @@ const SHELL = [
   "./shell.css?v=107",
   "./shell.css?v=108",
   "./shell.css?v=109",
+  "./shell.css?v=110",
+  "./shell.css?v=111",
+  "./shell.css?v=112",
+  "./shell.css?v=113",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -33,6 +37,10 @@ const SHELL = [
   "./qc.js?v=111",
   "./qc.js?v=112",
   "./qc.js?v=113",
+  "./qc.js?v=114",
+  "./qc.js?v=115",
+  "./qc.js?v=116",
+  "./qc.js?v=117",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",
@@ -49,6 +57,20 @@ self.addEventListener("install", (event) => {
   );
 });
 
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const dest = (event.notification.data && event.notification.data.url) || "./insiders.html";
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (let i = 0; i < list.length; i++) {
+        const client = list[i];
+        if (client.url && client.url.indexOf(dest) >= 0 && "focus" in client) return client.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow(dest);
+    })
+  );
+});
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -62,7 +84,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|price-checks)\.json$/.test(url.pathname)
+  const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-follow|price-checks)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname)
     || /(?:^|\/)beta\/[^/]+\.json$/.test(url.pathname);
   const isDoc = event.request.mode === "navigate"

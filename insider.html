@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=110" />
+  <link rel="stylesheet" href="shell.css?v=111" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -714,7 +714,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=115"></script>
+  <script src="qc.js?v=116"></script>
   <script src="chart.js"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -1459,7 +1459,8 @@
         limit: limit,
         showLastClose: true,
         showHoldings: true,
-        lastCloseByCode: lastCloseByCode
+        lastCloseByCode: lastCloseByCode,
+        companyFirst: true
       });
       QC.fillLastCloseMap((full || []).map((t) => t.ticker || t.code), lastCloseByCode).then(() => {
         QC.applyLastCloses(list, lastCloseByCode);

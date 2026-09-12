@@ -508,7 +508,8 @@ summary:focus-visible,
 .qc-txn-cols,
 .qc-txn-id-sub,
 .qc-txn-tbl,
-.qc-txn-company { display: none; }
+.qc-txn-company,
+.qc-txn-when { display: none; }
 .qc-txn-id-line {
   display: flex;
   align-items: baseline;
@@ -548,14 +549,22 @@ summary:focus-visible,
   .qc-txn-tag { display: none; }
 }
 
-/* Tape 3-line hybrid: name | pill+$ ; ticker · role ; date · company. */
+/* Tape cards: date on top; name (or company) | pill+$ ; teal company tap. */
 .qc-txn-tape {
   grid-template-columns: minmax(0, 1fr) max-content;
   grid-template-areas:
+    "when when"
     "id end"
-    "sub sub";
-  row-gap: 3px;
+    "co co";
+  row-gap: 4px;
+  align-items: start;
   padding: 9px 10px 8px 12px;
+}
+.qc-txn-tape.qc-txn-co-first {
+  grid-template-areas:
+    "when when"
+    "co end"
+    "id id";
 }
 .qc-txn-tape .qc-txn-id {
   flex-wrap: nowrap;
@@ -563,9 +572,67 @@ summary:focus-visible,
 }
 .qc-txn-tape .qc-txn-name,
 .qc-txn-tape a.qc-txn-name {
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1.16rem;
 }
+.qc-txn-tape.qc-txn-co-first .qc-txn-name,
+.qc-txn-tape.qc-txn-co-first a.qc-txn-name {
+  font-weight: 500;
+  font-size: 0.78rem;
+  color: var(--mute, #8b96a3);
+}
+.qc-txn-when {
+  grid-area: when;
+  display: block;
+  color: var(--mute, #8b96a3);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+.qc-txn-tape .qc-txn-sub { display: none; }
+.qc-txn-tape .qc-txn-id-line .qc-txn-role { display: none; }
+.qc-txn-tape .qc-txn-company,
+.qc-txn-tape a.qc-txn-company {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  grid-area: co;
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  padding: 0 0 3px;
+  border-bottom: 2px solid var(--teal, #36999d);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--white, #eef2f5);
+  font-family: "IBM Plex Sans", sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.qc-txn-tape .qc-txn-company .qc-txn-co-name {
+  order: -1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: inherit;
+}
+.qc-txn-tape.qc-txn-co-first .qc-txn-company .qc-txn-co-name {
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+.qc-txn-tape .qc-txn-company .qc-txn-tk,
+.qc-txn-tape .qc-txn-company a.qc-txn-tk {
+  flex: 0 0 auto;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--teal, #36999d);
+}
+.qc-txn-tape a.qc-txn-company:hover,
+.qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
+.qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: inherit; }
 .qc-txn-tape .qc-txn-hero,
 .qc-txn-tape .qc-txn-hero.is-shares {
   font-size: 1.32rem;
@@ -639,18 +706,11 @@ summary:focus-visible,
     padding: 8px 10px 7px 12px;
     grid-template-columns: minmax(0, 1fr) max-content;
   }
-  .qc-txn-tape .qc-txn-name,
-  .qc-txn-tape a.qc-txn-name { font-size: 0.9rem; }
   .qc-txn-tape .qc-txn-hero,
   .qc-txn-tape .qc-txn-hero.is-shares { font-size: 1.22rem; }
 }
 
 @media (max-width: 560px) {
-  .qc-txn-tape .qc-txn-sub {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 2px;
-  }
   .qc-txn-tape .qc-txn-meta { flex: 1 1 auto; }
 }
 
@@ -665,6 +725,22 @@ summary:focus-visible,
 
 /* Desktop Trades + Tape: Barchart-style density, QC chips/hero/held tints. */
 @media (min-width: 900px) {
+  .qc-txn-when { display: none; }
+  .qc-txn-tape .qc-txn-company,
+  .qc-txn-tape a.qc-txn-company {
+    border-bottom: 0;
+    padding-bottom: 0;
+    width: auto;
+  }
+  .qc-txn-tape .qc-txn-company .qc-txn-co-name { order: 0; }
+  .qc-txn-tape .qc-txn-name,
+  .qc-txn-tape a.qc-txn-name,
+  .qc-txn-tape.qc-txn-co-first .qc-txn-name,
+  .qc-txn-tape.qc-txn-co-first a.qc-txn-name {
+    font-size: 0.94rem;
+    font-weight: 500;
+    color: var(--white, #eef2f5);
+  }
   .qc-txn-list:has(.qc-txn) {
     gap: 0;
     margin-bottom: 28px;
@@ -971,6 +1047,7 @@ summary:focus-visible,
   margin: 0;
 }
 @media (min-width: 900px) {
+  .qc-pol-desk .qc-txn-when { display: none; }
   .qc-pol-desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
   .qc-pol-desk .qc-txn-tape {
     grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 5.4rem minmax(7rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);

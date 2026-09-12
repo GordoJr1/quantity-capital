@@ -1,0 +1,284 @@
+{
+  "id": "endeavour",
+  "disclaimer": "Filing-backed from Endeavour FY2025 / H1 2026. Group tables are 100% basis; attributable ounces are ownership-adjusted in this file. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Endeavour Mining plc",
+    "short": "Endeavour",
+    "tickers": [
+      {
+        "symbol": "EDV",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=EDV"
+      }
+    ],
+    "hq": "London, United Kingdom",
+    "commodity": "gold",
+    "website": "https://www.endeavourmining.com"
+  },
+  "method": {
+    "production_basis": "Company headlines 100%. Attributable uses Houndé/Mana 85%, Ity 85%, Sabodala-Massawa 90%, Lafigué 80%."
+  },
+  "kpis": {
+    "attr_koz_2025": 1032.9,
+    "attr_koz_ytd_2026": 480.6,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      1090,
+      1265
+    ],
+    "aisc_2025": 1433,
+    "attr_pp_koz": 16600,
+    "attr_mi_incl_koz": 25000,
+    "attr_inf_koz": 6300,
+    "pp_koz_100pct": 16600,
+    "mi_incl_koz_100pct": 25000,
+    "inf_koz_100pct": 6300
+  },
+  "guidance_2026": {
+    "basis": "100% (company)",
+    "total_koz": [
+      1090,
+      1265
+    ],
+    "by_asset": {
+      "hounde": {
+        "ownership_pct": 85,
+        "koz_100pct": [
+          220,
+          255
+        ],
+        "attr_koz": [
+          187,
+          217
+        ]
+      },
+      "ity": {
+        "ownership_pct": 85,
+        "koz_100pct": [
+          285,
+          330
+        ],
+        "attr_koz": [
+          242,
+          281
+        ]
+      },
+      "mana": {
+        "ownership_pct": 85,
+        "koz_100pct": [
+          155,
+          180
+        ],
+        "attr_koz": [
+          132,
+          153
+        ]
+      },
+      "sabodala-massawa": {
+        "ownership_pct": 90,
+        "koz_100pct": [
+          260,
+          305
+        ],
+        "attr_koz": [
+          234,
+          275
+        ]
+      },
+      "lafigue": {
+        "ownership_pct": 80,
+        "koz_100pct": [
+          170,
+          195
+        ],
+        "attr_koz": [
+          136,
+          156
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 1032.9,
+      "by_asset": {
+        "hounde": {
+          "attr_koz": 218.5,
+          "ownership_pct": 85,
+          "koz_100pct": 257
+        },
+        "ity": {
+          "attr_koz": 271.2,
+          "ownership_pct": 85,
+          "koz_100pct": 319
+        },
+        "mana": {
+          "attr_koz": 147.1,
+          "ownership_pct": 85,
+          "koz_100pct": 173
+        },
+        "sabodala-massawa": {
+          "attr_koz": 246.6,
+          "ownership_pct": 90,
+          "koz_100pct": 274
+        },
+        "lafigue": {
+          "attr_koz": 149.6,
+          "ownership_pct": 80,
+          "koz_100pct": 187
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 480.6,
+      "by_asset": {
+        "hounde": {
+          "attr_koz": 93.5,
+          "ownership_pct": 85,
+          "koz_100pct": 110
+        },
+        "ity": {
+          "attr_koz": 125.8,
+          "ownership_pct": 85,
+          "koz_100pct": 148
+        },
+        "mana": {
+          "attr_koz": 57.8,
+          "ownership_pct": 85,
+          "koz_100pct": 68
+        },
+        "sabodala-massawa": {
+          "attr_koz": 117.9,
+          "ownership_pct": 90,
+          "koz_100pct": 131
+        },
+        "lafigue": {
+          "attr_koz": 85.6,
+          "ownership_pct": 80,
+          "koz_100pct": 107
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "hounde",
+      "name": "Houndé",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Burkina Faso",
+      "ownership_pct": 85,
+      "operator": "Endeavour",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Government of Burkina Faso",
+          "pct": 15
+        }
+      ]
+    },
+    {
+      "id": "ity",
+      "name": "Ity",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Côte d'Ivoire",
+      "ownership_pct": 85,
+      "operator": "Endeavour",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "mana",
+      "name": "Mana",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Burkina Faso",
+      "ownership_pct": 85,
+      "operator": "Endeavour",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "sabodala-massawa",
+      "name": "Sabodala-Massawa",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Senegal",
+      "ownership_pct": 90,
+      "operator": "Endeavour",
+      "partners": [
+        {
+          "name": "Government of Senegal",
+          "pct": 10
+        }
+      ]
+    },
+    {
+      "id": "lafigue",
+      "name": "Lafigué",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Côte d'Ivoire",
+      "ownership_pct": 80,
+      "operator": "Endeavour"
+    },
+    {
+      "id": "assafou",
+      "name": "Assafou",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Côte d'Ivoire",
+      "ownership_pct": 100,
+      "operator": "Endeavour"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 16600,
+        "attr_koz": 16600
+      },
+      "mi": {
+        "koz": 25000,
+        "attr_koz": 25000
+      },
+      "inf": {
+        "koz": 6300,
+        "attr_koz": 6300
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Endeavour FY2025",
+      "date": "2026-01-29",
+      "what": "1,209 koz 100%; mine table"
+    },
+    {
+      "title": "Endeavour H1 2026",
+      "date": "2026-07-30",
+      "what": "564 koz 100%"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

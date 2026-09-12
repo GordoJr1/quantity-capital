@@ -1,0 +1,355 @@
+{
+  "id": "anglogold",
+  "disclaimer": "Filing-backed from AngloGold Ashanti FY2025 20-F / Q2 2026 stats. Group gold uses company convention (managed consolidated + Kibali attributable). Resources exclusive of reserves. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "AngloGold Ashanti plc",
+    "short": "AngloGold Ashanti",
+    "tickers": [
+      {
+        "symbol": "AU",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=AU"
+      }
+    ],
+    "hq": "Greenwood Village, Colorado, USA",
+    "commodity": "gold",
+    "website": "https://www.anglogoldashanti.com"
+  },
+  "method": {
+    "production_basis": "Group 3,091 koz 2025. Kibali 45% attributable. Sukari 50% via Centamin, reported consolidated."
+  },
+  "kpis": {
+    "attr_koz_2025": 3091,
+    "attr_koz_ytd_2026": 1468,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      2800,
+      3170
+    ],
+    "aisc_2025": 1709,
+    "attr_pp_koz": 36470,
+    "attr_mi_incl_koz": 68010,
+    "attr_inf_koz": 49340,
+    "pp_koz_100pct": 36470,
+    "mi_incl_koz_100pct": 68010,
+    "inf_koz_100pct": 49340
+  },
+  "guidance_2026": {
+    "basis": "group",
+    "total_koz": [
+      2800,
+      3170
+    ],
+    "by_asset": {}
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 3091,
+      "by_asset": {
+        "geita": {
+          "attr_koz": 492,
+          "ownership_pct": 100,
+          "koz_100pct": 492
+        },
+        "sukari": {
+          "attr_koz": 500,
+          "ownership_pct": 50,
+          "note": "Consolidated; 50% via Centamin."
+        },
+        "obuasi": {
+          "attr_koz": 266,
+          "ownership_pct": 100,
+          "koz_100pct": 266
+        },
+        "siguiri": {
+          "attr_koz": 289,
+          "ownership_pct": 85
+        },
+        "iduapriem": {
+          "attr_koz": 199,
+          "ownership_pct": 100,
+          "koz_100pct": 199
+        },
+        "kibali": {
+          "attr_koz": 303,
+          "ownership_pct": 45
+        },
+        "tropicana": {
+          "attr_koz": 305,
+          "ownership_pct": 70
+        },
+        "sunrise-dam": {
+          "attr_koz": 232,
+          "ownership_pct": 100,
+          "koz_100pct": 232
+        },
+        "cuiaba": {
+          "attr_koz": 273,
+          "ownership_pct": 100,
+          "koz_100pct": 273
+        },
+        "cerro-vanguardia": {
+          "attr_koz": 179,
+          "ownership_pct": 92.5
+        },
+        "serra-grande": {
+          "attr_koz": 53,
+          "ownership_pct": 100,
+          "note": "Sold 1 Dec 2025."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 1468,
+      "by_asset": {
+        "geita": {
+          "attr_koz": 244,
+          "ownership_pct": 100
+        },
+        "sukari": {
+          "attr_koz": 232,
+          "ownership_pct": 50
+        },
+        "obuasi": {
+          "attr_koz": 111,
+          "ownership_pct": 100
+        },
+        "siguiri": {
+          "attr_koz": 153,
+          "ownership_pct": 85
+        },
+        "iduapriem": {
+          "attr_koz": 91,
+          "ownership_pct": 100
+        },
+        "kibali": {
+          "attr_koz": 134,
+          "ownership_pct": 45
+        },
+        "tropicana": {
+          "attr_koz": 169,
+          "ownership_pct": 70
+        },
+        "sunrise-dam": {
+          "attr_koz": 100,
+          "ownership_pct": 100
+        },
+        "cuiaba": {
+          "attr_koz": 139,
+          "ownership_pct": 100
+        },
+        "cerro-vanguardia": {
+          "attr_koz": 95,
+          "ownership_pct": 92.5
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "geita",
+      "name": "Geita",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Tanzania",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit + underground"
+    },
+    {
+      "id": "sukari",
+      "name": "Sukari",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Egypt",
+      "ownership_pct": 50,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit + underground",
+      "location_note": "Centamin 22 Nov 2024."
+    },
+    {
+      "id": "obuasi",
+      "name": "Obuasi",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Underground",
+      "region": "Ashanti"
+    },
+    {
+      "id": "siguiri",
+      "name": "Siguiri",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Guinea",
+      "ownership_pct": 85,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Government of Guinea",
+          "pct": 15
+        }
+      ]
+    },
+    {
+      "id": "iduapriem",
+      "name": "Iduapriem",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "kibali",
+      "name": "Kibali",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Democratic Republic of the Congo",
+      "ownership_pct": 45,
+      "operator": "Barrick",
+      "mine_type": "Open pit + underground",
+      "partners": [
+        {
+          "name": "Barrick",
+          "pct": 45
+        },
+        {
+          "name": "SOKIMO",
+          "pct": 10
+        }
+      ]
+    },
+    {
+      "id": "tropicana",
+      "name": "Tropicana",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 70,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit + underground",
+      "region": "Western Australia",
+      "partners": [
+        {
+          "name": "Regis Resources",
+          "pct": 30
+        }
+      ]
+    },
+    {
+      "id": "sunrise-dam",
+      "name": "Sunrise Dam",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit + underground",
+      "region": "Western Australia"
+    },
+    {
+      "id": "cuiaba",
+      "name": "AGA Mineração (Cuiabá)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Underground",
+      "region": "Minas Gerais"
+    },
+    {
+      "id": "cerro-vanguardia",
+      "name": "Cerro Vanguardia",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Argentina",
+      "ownership_pct": 92.5,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit + underground",
+      "region": "Santa Cruz",
+      "partners": [
+        {
+          "name": "Fomicruz",
+          "pct": 7.5
+        }
+      ]
+    },
+    {
+      "id": "arthur-gold",
+      "name": "Arthur Gold",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit",
+      "region": "Nevada"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 36470,
+        "attr_koz": 36470
+      },
+      "mi": {
+        "koz": 68010,
+        "attr_koz": 68010
+      },
+      "inf": {
+        "koz": 49340,
+        "attr_koz": 49340
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "AngloGold Ashanti Q4/FY2025 operating statistics",
+      "date": "2026-02-20",
+      "what": "3,091 koz group; 2026 2,800–3,170"
+    },
+    {
+      "title": "AGA 2025 Mineral Resource and Reserve Report",
+      "date": "2026-03-26",
+      "what": "P&P 36.47 Moz"
+    },
+    {
+      "title": "AGA Q2 2026 operating statistics",
+      "date": "2026-07-31",
+      "what": "H1 1,468 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

@@ -1,0 +1,499 @@
+{
+  "id": "agnico-eagle",
+  "disclaimer": "Filing-backed from Agnico Eagle FY2025 / Q2 2026. Payable gold. 100% of producing mines. Resources exclusive of reserves. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Agnico Eagle Mines Limited",
+    "short": "Agnico Eagle",
+    "tickers": [
+      {
+        "symbol": "AEM",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=AEM"
+      },
+      {
+        "symbol": "AEM",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=AEM"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.agnicoeagle.com"
+  },
+  "method": {
+    "production_basis": "Payable gold. Company owns 100% of producing mines.",
+    "resources_basis": "NI 43-101 resources exclusive of reserves."
+  },
+  "kpis": {
+    "attr_koz_2025": 3447.4,
+    "attr_koz_ytd_2026": 1680.9,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      3300,
+      3500
+    ],
+    "aisc_2025": 1339,
+    "realized_price_2025": 3453,
+    "attr_pp_koz": 55442,
+    "attr_mi_incl_koz": 47076,
+    "attr_inf_koz": 41815,
+    "pp_koz_100pct": 55442,
+    "mi_incl_koz_100pct": 47076,
+    "inf_koz_100pct": 41815
+  },
+  "guidance_2026": {
+    "basis": "attributable",
+    "total_koz": [
+      3300,
+      3500
+    ],
+    "by_asset": {
+      "laronde": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          330,
+          350
+        ],
+        "koz_100pct": [
+          330,
+          350
+        ]
+      },
+      "canadian-malartic": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          575,
+          605
+        ],
+        "koz_100pct": [
+          575,
+          605
+        ]
+      },
+      "goldex": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          115,
+          125
+        ],
+        "koz_100pct": [
+          115,
+          125
+        ]
+      },
+      "detour-lake": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          700,
+          730
+        ],
+        "koz_100pct": [
+          700,
+          730
+        ]
+      },
+      "macassa": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          305,
+          325
+        ],
+        "koz_100pct": [
+          305,
+          325
+        ]
+      },
+      "meliadine": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          380,
+          400
+        ],
+        "koz_100pct": [
+          380,
+          400
+        ]
+      },
+      "meadowbank": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          475,
+          495
+        ],
+        "koz_100pct": [
+          475,
+          495
+        ]
+      },
+      "fosterville": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          140,
+          160
+        ],
+        "koz_100pct": [
+          140,
+          160
+        ]
+      },
+      "kittila": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          210,
+          230
+        ],
+        "koz_100pct": [
+          210,
+          230
+        ]
+      },
+      "pinos-altos": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          70,
+          80
+        ],
+        "koz_100pct": [
+          70,
+          80
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 3447.4,
+      "by_asset": {
+        "laronde": {
+          "attr_koz": 344.6,
+          "ownership_pct": 100,
+          "koz_100pct": 344.6
+        },
+        "canadian-malartic": {
+          "attr_koz": 642.6,
+          "ownership_pct": 100,
+          "koz_100pct": 642.6
+        },
+        "goldex": {
+          "attr_koz": 125.5,
+          "ownership_pct": 100,
+          "koz_100pct": 125.5
+        },
+        "detour-lake": {
+          "attr_koz": 692.7,
+          "ownership_pct": 100,
+          "koz_100pct": 692.7
+        },
+        "macassa": {
+          "attr_koz": 312.7,
+          "ownership_pct": 100,
+          "koz_100pct": 312.7
+        },
+        "meliadine": {
+          "attr_koz": 376.3,
+          "ownership_pct": 100,
+          "koz_100pct": 376.3
+        },
+        "meadowbank": {
+          "attr_koz": 493.3,
+          "ownership_pct": 100,
+          "koz_100pct": 493.3
+        },
+        "fosterville": {
+          "attr_koz": 160.5,
+          "ownership_pct": 100,
+          "koz_100pct": 160.5
+        },
+        "kittila": {
+          "attr_koz": 217.4,
+          "ownership_pct": 100,
+          "koz_100pct": 217.4
+        },
+        "pinos-altos": {
+          "attr_koz": 81.7,
+          "ownership_pct": 100,
+          "koz_100pct": 81.7
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 1680.9,
+      "by_asset": {
+        "laronde": {
+          "attr_koz": 162.9,
+          "ownership_pct": 100,
+          "koz_100pct": 162.9
+        },
+        "canadian-malartic": {
+          "attr_koz": 301.5,
+          "ownership_pct": 100,
+          "koz_100pct": 301.5
+        },
+        "goldex": {
+          "attr_koz": 58.6,
+          "ownership_pct": 100,
+          "koz_100pct": 58.6
+        },
+        "detour-lake": {
+          "attr_koz": 384.3,
+          "ownership_pct": 100,
+          "koz_100pct": 384.3
+        },
+        "macassa": {
+          "attr_koz": 135.7,
+          "ownership_pct": 100,
+          "koz_100pct": 135.7
+        },
+        "meliadine": {
+          "attr_koz": 191.3,
+          "ownership_pct": 100,
+          "koz_100pct": 191.3
+        },
+        "meadowbank": {
+          "attr_koz": 214.0,
+          "ownership_pct": 100,
+          "koz_100pct": 214.0
+        },
+        "fosterville": {
+          "attr_koz": 83.5,
+          "ownership_pct": 100,
+          "koz_100pct": 83.5
+        },
+        "kittila": {
+          "attr_koz": 110.5,
+          "ownership_pct": 100,
+          "koz_100pct": 110.5
+        },
+        "pinos-altos": {
+          "attr_koz": 38.6,
+          "ownership_pct": 100,
+          "koz_100pct": 38.6
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "laronde",
+      "name": "LaRonde Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Quebec",
+      "nearest": "Cadillac"
+    },
+    {
+      "id": "canadian-malartic",
+      "name": "Canadian Malartic Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Open pit + underground",
+      "region": "Quebec",
+      "nearest": "Malartic"
+    },
+    {
+      "id": "goldex",
+      "name": "Goldex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Quebec",
+      "nearest": "Val-d'Or"
+    },
+    {
+      "id": "detour-lake",
+      "name": "Detour Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Open pit",
+      "region": "Ontario"
+    },
+    {
+      "id": "macassa",
+      "name": "Macassa",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Ontario",
+      "nearest": "Kirkland Lake"
+    },
+    {
+      "id": "meliadine",
+      "name": "Meliadine",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Open pit + underground",
+      "region": "Nunavut",
+      "nearest": "Rankin Inlet"
+    },
+    {
+      "id": "meadowbank",
+      "name": "Meadowbank Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Open pit + underground",
+      "region": "Nunavut",
+      "location_note": "Amaruq satellite."
+    },
+    {
+      "id": "fosterville",
+      "name": "Fosterville",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Victoria"
+    },
+    {
+      "id": "kittila",
+      "name": "Kittilä",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Finland",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Lapland"
+    },
+    {
+      "id": "pinos-altos",
+      "name": "Pinos Altos",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Open pit + underground",
+      "region": "Chihuahua"
+    },
+    {
+      "id": "hope-bay",
+      "name": "Hope Bay",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Nunavut"
+    },
+    {
+      "id": "upper-beaver",
+      "name": "Upper Beaver",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Agnico Eagle",
+      "mine_type": "Underground",
+      "region": "Ontario"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 55442,
+        "attr_koz": 55442
+      },
+      "mi": {
+        "koz": 47076,
+        "attr_koz": 47076
+      },
+      "inf": {
+        "koz": 41815,
+        "attr_koz": 41815
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "detour-lake",
+        "name": "Detour Lake",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 18600,
+          "attr_koz": 18600
+        }
+      },
+      {
+        "asset_id": "canadian-malartic",
+        "name": "Canadian Malartic",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 9052,
+          "attr_koz": 9052
+        }
+      },
+      {
+        "asset_id": "laronde",
+        "name": "LaRonde",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2848,
+          "attr_koz": 2848
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Agnico Eagle Q4/FY2025 results",
+      "date": "2026-02-12",
+      "what": "3,447,367 oz payable; by-mine; 2026 3.3–3.5 Moz; P&P 55.4 Moz"
+    },
+    {
+      "title": "Agnico Eagle Q2 2026 results",
+      "date": "2026-07-29",
+      "what": "H1 2026 1,680,925 oz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

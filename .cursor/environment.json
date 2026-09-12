@@ -1,6 +1,6 @@
 {
   "name": "Quantity Capital",
-  "install": "python3 build-backtest.py",
+  "install": "python3 build-backtest.py && python3 build-insider-repeatable.py",
   "terminals": [
     {
       "name": "web",

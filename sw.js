@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v130";
+const CACHE = "qc-shell-v131";
 const SHELL = [
   "./",
   "./index.html",
@@ -60,7 +60,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|price-checks)\.json$/.test(url.pathname)
+  const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|price-checks)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname);
   const isDoc = event.request.mode === "navigate"
     || url.pathname.endsWith(".html")

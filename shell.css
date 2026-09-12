@@ -1094,6 +1094,13 @@ summary:focus-visible,
 /* Last close + holdings on insider officer + company desks only. Politician tape stays 6-col. */
 .qc-txn-last { display: none; }
 @media (max-width: 899px) {
+  .qc-has-last .qc-txn-tape .qc-txn-meta {
+    flex-wrap: wrap;
+  }
+  .qc-has-last .qc-txn-meta .qc-txn-co,
+  .qc-has-last .qc-txn-meta a.qc-txn-co {
+    max-width: 9.5rem;
+  }
   .qc-has-last .qc-txn-who .qc-txn-last,
   .qc-has-last .qc-txn-meta .qc-txn-sh,
   .qc-has-last .qc-txn-meta .qc-txn-after,

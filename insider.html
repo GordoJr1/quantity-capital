@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=108" />
+  <link rel="stylesheet" href="shell.css?v=109" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -714,7 +714,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=113"></script>
+  <script src="qc.js?v=114"></script>
   <script src="chart.js"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -809,18 +809,23 @@
         "<p class=\"muted\">Jurisdictional overlap only. Not proof of illegal trading.</p>";
     }
 
+    let followRow = null;
+
     function paintHeroFacts(rows) {
       const box = document.getElementById("hero-facts");
       if (!box) return;
       const t = rows && rows[0];
-      if (!t) {
+      if (!t && !followRow) {
         box.hidden = true;
         box.innerHTML = "";
         return;
       }
-      const role = QC.shortRole(t);
-      const title = String(t.title || "").trim();
+      const role = t ? QC.shortRole(t) : "";
+      const title = String((t && t.title) || "").trim();
       const line1 = [];
+      if (followRow) {
+        line1.push("<a class=\"qc-follow-tag\" href=\"insider-board.html?b=follow\">Follow</a>");
+      }
       if (role) line1.push("<span class=\"hero-party\">" + esc(role) + "</span>");
       if (title && title.toLowerCase() !== String(role || "").toLowerCase()) line1.push(esc(title));
       const tickers = [];
@@ -1699,8 +1704,10 @@
 
     Promise.all([
       fetch("insider-trades-lite.json").then((r) => r.json()),
-      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
-    ]).then(([data, tickerFile]) => {
+      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} })),
+      QC.loadFollow().catch(() => null)
+    ]).then(([data, tickerFile, follow]) => {
+      followRow = follow ? QC.followById(follow)[id] || null : null;
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = threeYearRows(data);

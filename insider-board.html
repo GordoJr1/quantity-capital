@@ -194,13 +194,13 @@
       <summary>How repeatable is scored</summary>
       <div class="body">
         <p>Open-market buys only — Form 4 code P and SEDI nature 10. Awards, option exercises, gifts, private or prospectus prints, and sales are out. Copy the print on the public filing date at the first <code>prices/</code> close on or after that day (10-day slack). Score the 30 / 90 / 180-day close after that. Same officer, ticker, and filing date collapse to one copy so split lots do not count twice.</p>
-        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Officers who also clear 70% 90-day hit and two names sit on Follow. Not a recommendation.</p>
+        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Officers who also clear 70% 90-day hit and a positive average sit on Follow — one company is enough. Not a recommendation.</p>
       </div>
     </details>
     <details class="how" id="how-follow" hidden>
       <summary>How the follow list is chosen</summary>
       <div class="body">
-        <p>Follow / Best is the same 90-day repeatable ranking — open-market buys only, clustered by officer / ticker / filing date, copied on the public filed date, equal-weight by name — plus three trust cutoffs so the list stays short: <strong>90-day hit rate ≥ 70%</strong>, <strong>at least two tickers</strong>, and <strong>average 90-day return above zero</strong>. The N=5 buy floor is already in the ranking.</p>
+        <p>Follow / Best is the same 90-day repeatable ranking — open-market buys only, clustered by officer / ticker / filing date, copied on the public filed date, equal-weight by name — plus two trust cutoffs: <strong>90-day hit rate ≥ 70%</strong> and <strong>average 90-day return above zero</strong>. The N=5 buy floor is already in the ranking. Officers who only print at one company still qualify.</p>
         <p class="muted" style="margin-top:10px;">When one of these officers prints a new market buy or sale after the last tape update, it lands in the alert strip here and on Insiders. The daily job writes <code>insider-follow.json</code>. Browser notifications need a one-time Notify grant. Not a recommendation.</p>
       </div>
     </details>
@@ -435,15 +435,19 @@
         const rows = followData.follow || [];
         const st = followData.stats || {};
         document.getElementById("asof").textContent = QC.asOfLabel(followData.generated || followData.tapeCollected);
+        const vis = showAll ? rows : rows.slice(0, TOP);
         document.getElementById("stats").innerHTML =
           "<div class=\"stat\"><b>" + rows.length + "</b><span>to follow</span></div>" +
           "<div class=\"stat\"><b>" + Math.round((followData.minHit || 0.7) * 100) + "%</b><span>90d hit floor</span></div>" +
-          "<div class=\"stat\"><b>" + (followData.minNames || 2) + "</b><span>min names</span></div>" +
+          "<div class=\"stat\"><b>" + (followData.minBuys || 5) + "</b><span>buy floor</span></div>" +
           "<div class=\"stat\"><b>" + (st.alerts || 0) + "</b><span>new prints</span></div>";
-        document.getElementById("board").innerHTML = rows.length
-          ? rows.map(followCard).join("")
+        document.getElementById("board").innerHTML = vis.length
+          ? vis.map(followCard).join("")
           : "<p class=\"muted\">No officers clear the follow cutoffs yet.</p>";
-        document.getElementById("more-row").hidden = true;
+        const more = document.getElementById("more-row");
+        const btn = document.getElementById("more");
+        more.hidden = rows.length <= TOP;
+        btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
         return;
       }
 

@@ -4,8 +4,8 @@
 Follow list = 90-day repeatable ranking (N=5 clustered open-market buys,
 equal-weight names, copy as-of filed_date) plus cheap trust filters:
   90d hit rate >= 70%
-  >= 2 tickers
   average 90d return > 0
+One-company officers still qualify.
 
 Alerts fire when a follow-list officer has a new market buy or sale since
 the last tapeCollected stamp. First run bootstraps the last 7 filed days
@@ -29,7 +29,6 @@ DEST = ROOT / "insider-follow.json"
 
 HORIZON = 90
 MIN_HIT = 0.70
-MIN_NAMES = 2
 MIN_AVG = 0.0
 BOOTSTRAP_DAYS = 7
 
@@ -113,7 +112,7 @@ def pick_follow(repeatable: dict) -> list[dict]:
         avg = w.get("avg")
         if hit is None or names is None or avg is None:
             continue
-        if hit < MIN_HIT or names < MIN_NAMES or avg <= MIN_AVG:
+        if hit < MIN_HIT or avg <= MIN_AVG:
             continue
         rows.append({
             "id": raw.get("id") or "",
@@ -295,8 +294,8 @@ def build(args: argparse.Namespace) -> dict:
     method = (
         "Follow / Best is the 90-day repeatable ranking "
         "(N=5 clustered open-market buys, equal-weight per ticker, copy as-of filed_date) "
-        f"plus trust filters: 90d hit rate ≥ {int(MIN_HIT * 100)}%, "
-        f"at least {MIN_NAMES} names, and average 90d return > 0. "
+        f"plus trust filters: 90d hit rate ≥ {int(MIN_HIT * 100)}% "
+        "and average 90d return > 0. One-company officers still qualify. "
         "Alerts are new market buys or sales by those officers since the previous "
         f"tapeCollected stamp. First build keeps prints filed in the last {args.bootstrap_days} days."
     )
@@ -309,7 +308,7 @@ def build(args: argparse.Namespace) -> dict:
         "horizon": HORIZON,
         "minBuys": repeatable.get("minBuys") or 5,
         "minHit": MIN_HIT,
-        "minNames": MIN_NAMES,
+        "minNames": 1,
         "minAvg": MIN_AVG,
         "bootstrapDays": args.bootstrap_days,
         "method": method,
@@ -364,14 +363,13 @@ def main(argv: list[str] | None = None) -> int:
         f.write("\n")
     print(
         "wrote {path} ({kb:.1f} KB)  follow={n}  alerts={a}  seen={s}  "
-        "hit>={hit:.0%} names>={names}  asof={asof}".format(
+        "hit>={hit:.0%} avg>0  asof={asof}".format(
             path=args.dest.name,
             kb=args.dest.stat().st_size / 1024,
             n=out["stats"]["follow"],
             a=out["stats"]["alerts"],
             s=out["stats"]["seen"],
             hit=MIN_HIT,
-            names=MIN_NAMES,
             asof=out.get("asof"),
         )
     )

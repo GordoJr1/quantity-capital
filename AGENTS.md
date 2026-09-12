@@ -14,19 +14,20 @@ In Cloud Agents this server is started automatically (see `.cursor/environment.j
 
 ## Rebuild derived data
 
-`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/`. Both are committed, so regenerate them after changing tape or price data:
+`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/`. `insider-follow.json` (Follow / Best officers + new-print alerts) is derived from that ranking plus the tape. All three are committed, so regenerate them after changing tape or price data:
 
 ```
 python3 fetch-prices.py                 # stdlib only; appends new Yahoo daily closes into prices/
 python3 build-backtest.py               # stdlib only, ~2.4s, idempotent apart from a timestamp
 python3 build-insider-repeatable.py     # stdlib only; 30/90/180-day open-market copy ranks
+python3 build-insider-follow.py         # stdlib only; follow list + alerts since last tape
 ```
 
-`.cursor/environment.json` runs both builders in `install`, so a fresh Cloud Agent always has up-to-date derived JSON.
+`.cursor/environment.json` runs those builders in `install`, so a fresh Cloud Agent always has up-to-date derived JSON.
 
 ## Daily site refresh
 
-`.github/workflows/daily-update.yml` runs weekdays at 23:30 UTC: fetch Yahoo closes, rebuild `backtest.json` if prices moved, commit to `main`, then request a GitHub Pages rebuild. Tape JSON (`trades*.json`, `insider-*.json`, `analysis.json`, `tells.json`) is still produced by an off-repo collector that is not in this repository.
+`.github/workflows/daily-update.yml` runs weekdays at 23:30 UTC: fetch Yahoo closes, rebuild `backtest.json` / `insider-repeatable.json` if prices moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` rebuilds the follow list when `insider-trades-lite.json` is pushed. Tape JSON (`trades*.json`, `insider-*.json`, `analysis.json`, `tells.json`) is still produced by an off-repo collector that is not in this repository.
 
 ## Service worker cache — read before editing shell assets
 

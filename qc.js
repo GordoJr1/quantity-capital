@@ -1233,6 +1233,11 @@
     const last = opts.showLastClose
       ? "<span class=\"qc-txn-last\">Last</span>"
       : "";
+    const hold = opts.showHoldings
+      ? "<span class=\"qc-txn-sh\">Shares</span>" +
+        "<span class=\"qc-txn-after\">Held</span>" +
+        "<span class=\"qc-txn-held\">% Held</span>"
+      : "";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
@@ -1240,6 +1245,7 @@
       "<span class=\"qc-txn-coname\">Company</span>" +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
+      hold +
       "<span class=\"qc-txn-hero\">Value</span>" +
     "</li>";
   }
@@ -1265,6 +1271,16 @@
       : "<span class=\"qc-txn-company\">" + co + "</span>";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
+    const showHold = !!opts.showHoldings;
+    const sh = showHold ? formatSharesQuiet(t && t.shares) : "";
+    const after = showHold ? formatSharesQuiet(t && t.shares_after) : "";
+    const held = showHold ? formatHeldQuiet(t && t.held_pct) : "";
+    const delta = showHold ? positionDelta(t) : "flat";
+    const shHtml = showHold ? "<span class=\"qc-txn-sh\">" + esc(sh || "—") + "</span>" : "";
+    const afterHtml = showHold ? "<span class=\"qc-txn-after\">" + esc(after || "—") + "</span>" : "";
+    const heldHtml = showHold
+      ? "<span class=\"qc-txn-held " + delta + "\">" + esc(held || "—") + "</span>"
+      : "";
     const whoParts = [];
     if (code) {
       whoParts.push(tickerHref
@@ -1280,6 +1296,9 @@
         ? "<a class=\"qc-txn-co\" href=\"" + esc(tickerHref) + "\">" + esc(company) + "</a>"
         : "<span class=\"qc-txn-co\">" + esc(company) + "</span>");
     }
+    if (sh) metaParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
+    if (after) metaParts.push("<span class=\"qc-txn-after\"><span class=\"qc-txn-lbl\">held </span>" + esc(after) + "</span>");
+    if (held) metaParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const who = dotted(whoParts);
     const meta = dotted(metaParts);
     const sub = (who.length ? "<div class=\"qc-txn-who\">" + who.join("") + "</div>" : "") +
@@ -1303,7 +1322,7 @@
         "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
-      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + "</div>" +
+      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
     "</li>";
   }
@@ -1442,7 +1461,8 @@
           selected: !!(opts.selectedId && t.id === opts.selectedId),
           preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId),
           showLastClose: !!opts.showLastClose,
-          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null
+          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
+          showHoldings: !!opts.showHoldings
         });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;

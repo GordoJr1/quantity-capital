@@ -1142,9 +1142,13 @@
 
     const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
     const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + followHtml + "</div>";
+    const when = t.trade_date
+      ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
+      : "";
 
-    return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + (opts.follow ? " qc-follow" : "") + "\"" +
+    return "<li class=\"qc-txn qc-txn-tape qc-txn-co-first" + (cls ? " " + cls : "") + (opts.follow ? " qc-follow" : "") + "\"" +
       (t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
+      when +
       "<div class=\"qc-txn-id\">" + nameLineFollow + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
@@ -1308,11 +1312,16 @@
     if (opts.selected) extras.push("on");
     if (opts.preview) extras.push("preview");
     if (opts.extraClass) extras.push(opts.extraClass);
+    if (opts.companyFirst) extras.push("qc-txn-co-first");
     const extraCls = extras.length ? " " + extras.join(" ") : "";
+    const when = (t && t.trade_date)
+      ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
+      : "";
     return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + extraCls + "\"" +
       (t && t.id ? " data-id=\"" + esc(t.id) + "\"" : "") +
       (opts.holdKey ? " data-key=\"" + esc(opts.holdKey) + "\"" : "") +
       " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (opts.selected ? "true" : "false") + "\">" +
+      when +
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
@@ -1462,7 +1471,8 @@
           preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId),
           showLastClose: !!opts.showLastClose,
           lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
-          showHoldings: !!opts.showHoldings
+          showHoldings: !!opts.showHoldings,
+          companyFirst: !!opts.companyFirst
         });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;

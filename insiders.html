@@ -111,7 +111,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=109" />
+  <link rel="stylesheet" href="shell.css?v=111" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -128,21 +128,21 @@
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
-    .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl, .qc-txn-company { display: none; }
+    .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl { display: none; }
     .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
     .qc-txn-id-line .qc-txn-role { display: none; }
-    .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "sub sub"; row-gap: 3px; }
-    .qc-txn-sub { grid-area: sub; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
+    .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "when when" "id end" "co co"; row-gap: 4px; align-items: start; }
+    .qc-txn-tape.qc-txn-co-first { grid-template-areas: "when when" "co end" "id id"; }
+    .qc-txn-sub { grid-area: sub; display: none; }
     .qc-txn-who { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; }
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
-    .qc-txn-tape .qc-txn-name { font-weight: 600; }
     .qc-txn-co, .qc-txn-tape a.qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: inherit; text-decoration: none; }
     .qc-txn-tape a.qc-txn-co:hover { color: inherit; }
     @media (max-width: 560px) {
-      .qc-txn-tape .qc-txn-sub { flex-direction: column; align-items: stretch; gap: 2px; }
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
     }
     @media (min-width: 900px) {
+      .qc-txn-when { display: none; }
       .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .qc-txn-tape {
         grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.55fr) minmax(4.8rem, 0.7fr) 4.8rem;
@@ -164,11 +164,11 @@
       .qc-txn-tape .qc-txn-px { grid-area: px; }
       .qc-txn-tape .qc-txn-held { grid-area: held; }
       .qc-txn-tape .qc-txn-company,
-      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
+      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; border-bottom: 0; padding-bottom: 0; width: auto; }
       .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
       .qc-txn-tape .qc-txn-company .qc-txn-tk,
       .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.05em; color: inherit; }
-      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; }
+      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; order: 0; }
       .qc-txn-tape a.qc-txn-company:hover,
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: inherit; }
@@ -618,7 +618,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=114"></script>
+  <script src="qc.js?v=116"></script>
   <script src="chart.js"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];

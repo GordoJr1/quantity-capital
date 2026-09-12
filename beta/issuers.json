@@ -1,7 +1,8 @@
 {
   "schema": "qc-beta-issuers-v1",
-  "generated": "2026-09-11",
-  "disclaimer": "Beta. Hand-built issuer profiles from company filings (AIF, MD&A, NI 43-101, news releases). Not S&P Capital IQ. Not investment advice.",
+  "generated": "2026-09-12",
+  "disclaimer": "Beta. Filing-backed issuer profiles. Not S&P Capital IQ. Not investment advice.",
+  "universe_note": "Largest listed gold producers by 2025 attributable ounces that we can file-update in English. Navoi (unlisted) and Polyus (Russia) omitted. Zijin (HK) omitted until an English production parser exists. Evolution is #11 (just under IAMGOLD on calendar/FY mix).",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -9,17 +10,195 @@
   },
   "issuers": [
     {
+      "id": "newmont",
+      "rank": 1,
+      "name": "Newmont Corporation",
+      "file": "beta/newmont.json",
+      "tickers": [
+        "NEM"
+      ],
+      "commodity": "gold",
+      "hq": "Denver, Colorado, USA",
+      "producing_mines": 15,
+      "attr_koz_2025": 5889,
+      "attr_pp_koz": 118200,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "agnico-eagle",
+      "rank": 2,
+      "name": "Agnico Eagle Mines Limited",
+      "file": "beta/agnico-eagle.json",
+      "tickers": [
+        "AEM",
+        "AEM.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 10,
+      "attr_koz_2025": 3447.4,
+      "attr_pp_koz": 55442,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "barrick",
+      "rank": 3,
+      "name": "Barrick Mining Corporation",
+      "file": "beta/barrick.json",
+      "tickers": [
+        "B",
+        "ABX.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 11,
+      "attr_koz_2025": 3255,
+      "attr_pp_koz": 85000,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "anglogold",
+      "rank": 4,
+      "name": "AngloGold Ashanti plc",
+      "file": "beta/anglogold.json",
+      "tickers": [
+        "AU"
+      ],
+      "commodity": "gold",
+      "hq": "Greenwood Village, Colorado, USA",
+      "producing_mines": 10,
+      "attr_koz_2025": 3091,
+      "attr_pp_koz": 36470,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "gold-fields",
+      "rank": 5,
+      "name": "Gold Fields Limited",
+      "file": "beta/gold-fields.json",
+      "tickers": [
+        "GFI"
+      ],
+      "commodity": "gold",
+      "hq": "Johannesburg, South Africa",
+      "producing_mines": 8,
+      "attr_koz_2025": 2438,
+      "attr_pp_koz": 48300,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "kinross",
+      "rank": 6,
+      "name": "Kinross Gold Corporation",
+      "file": "beta/kinross.json",
+      "tickers": [
+        "KGC",
+        "K.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 7,
+      "attr_koz_2025": 2012.1,
+      "attr_pp_koz": 20900,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "northern-star",
+      "rank": 7,
+      "name": "Northern Star Resources Limited",
+      "file": "beta/northern-star.json",
+      "tickers": [
+        "NST.AX"
+      ],
+      "commodity": "gold",
+      "hq": "Subiaco, Western Australia, Australia",
+      "producing_mines": 4,
+      "attr_koz_2025": 1558.6,
+      "attr_pp_koz": 28400,
+      "as_of_production": "2026-03-31",
+      "as_of_rr": "2026-03-31",
+      "fiscal_year_end": "06-30"
+    },
+    {
+      "id": "harmony",
+      "rank": 8,
+      "name": "Harmony Gold Mining Company Limited",
+      "file": "beta/harmony.json",
+      "tickers": [
+        "HMY"
+      ],
+      "commodity": "gold",
+      "hq": "Randfontein, South Africa",
+      "producing_mines": 5,
+      "attr_koz_2025": 1479.7,
+      "attr_pp_koz": 27400,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2026-06-30",
+      "fiscal_year_end": "06-30"
+    },
+    {
+      "id": "endeavour",
+      "rank": 9,
+      "name": "Endeavour Mining plc",
+      "file": "beta/endeavour.json",
+      "tickers": [
+        "EDV.TO"
+      ],
+      "commodity": "gold",
+      "hq": "London, United Kingdom",
+      "producing_mines": 5,
+      "attr_koz_2025": 1032.9,
+      "attr_pp_koz": 16600,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
       "id": "iamgold",
+      "rank": 10,
       "name": "IAMGOLD Corporation",
       "file": "beta/iamgold.json",
-      "tickers": ["IAG", "IMG.TO"],
+      "tickers": [
+        "IAG",
+        "IMG.TO"
+      ],
       "commodity": "gold",
       "hq": "Toronto, Ontario, Canada",
       "producing_mines": 3,
       "attr_koz_2025": 765.9,
       "attr_pp_koz": 7502,
       "as_of_production": "2026-06-30",
-      "as_of_rr": "2025-12-31"
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "evolution",
+      "rank": 11,
+      "name": "Evolution Mining Limited",
+      "file": "beta/evolution.json",
+      "tickers": [
+        "EVN.AX"
+      ],
+      "commodity": "gold",
+      "hq": "Sydney, New South Wales, Australia",
+      "producing_mines": 5,
+      "attr_koz_2025": 750.5,
+      "attr_pp_koz": 12000,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "06-30"
     }
   ]
 }

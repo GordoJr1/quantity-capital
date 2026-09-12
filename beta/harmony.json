@@ -1,0 +1,212 @@
+{
+  "id": "harmony",
+  "disclaimer": "Filing-backed from Harmony FY25/FY26 results (year to 30 June). 2025 chip = FY25. 2026-YTD chip = full FY26 (year already closed 30 Jun 2026). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Harmony Gold Mining Company Limited",
+    "short": "Harmony",
+    "tickers": [
+      {
+        "symbol": "HMY",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=HMY"
+      }
+    ],
+    "hq": "Randfontein, South Africa",
+    "commodity": "gold",
+    "website": "https://www.harmony.co.za"
+  },
+  "method": {
+    "production_basis": "Group gold produced. Fiscal year ends 30 June.",
+    "fiscal_year_end": "06-30"
+  },
+  "kpis": {
+    "attr_koz_2025": 1479.7,
+    "attr_koz_ytd_2026": 1429.6,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      1400,
+      1500
+    ],
+    "aisc_2025": 1806,
+    "attr_pp_koz": 27400,
+    "attr_mi_incl_koz": 106800,
+    "pp_koz_100pct": 27400,
+    "mi_incl_koz_100pct": 106800,
+    "fiscal_year_end": "06-30"
+  },
+  "guidance_2026": {
+    "basis": "FY26 group gold (met)",
+    "total_koz": [
+      1400,
+      1500
+    ],
+    "by_asset": {}
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 1479.7,
+      "note": "FY25 to 30 Jun 2025.",
+      "by_asset": {
+        "mponeng": {
+          "attr_koz": 333.4,
+          "ownership_pct": 100,
+          "koz_100pct": 333.4
+        },
+        "moab-khotsong": {
+          "attr_koz": 198.8,
+          "ownership_pct": 100,
+          "koz_100pct": 198.8
+        },
+        "kusasalethu": {
+          "attr_koz": 116.7,
+          "ownership_pct": 100,
+          "koz_100pct": 116.7
+        },
+        "sa-surface": {
+          "attr_koz": 253.2,
+          "ownership_pct": 100,
+          "koz_100pct": 253.2
+        },
+        "hidden-valley": {
+          "attr_koz": 164.2,
+          "ownership_pct": 100,
+          "koz_100pct": 164.2
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 1429.6,
+      "note": "Full FY26.",
+      "by_asset": {
+        "sa-high-grade-underground": {
+          "attr_koz": 474.0,
+          "ownership_pct": 100
+        },
+        "sa-optimised-underground": {
+          "attr_koz": 544.5,
+          "ownership_pct": 100
+        },
+        "sa-surface": {
+          "attr_koz": 221.2,
+          "ownership_pct": 100
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "mponeng",
+      "name": "Mponeng",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "Harmony",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "moab-khotsong",
+      "name": "Moab Khotsong",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "Harmony",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "sa-underground",
+      "name": "South Africa underground",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "Harmony",
+      "mine_type": "Underground",
+      "location_note": "Includes Tshepong, Doornkop, Joel, Target, Kusasalethu, Masimong."
+    },
+    {
+      "id": "sa-surface",
+      "name": "South Africa surface",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "Harmony"
+    },
+    {
+      "id": "hidden-valley",
+      "name": "Hidden Valley",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Papua New Guinea",
+      "ownership_pct": 100,
+      "operator": "Harmony"
+    },
+    {
+      "id": "eva-copper",
+      "name": "Eva Copper",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Harmony"
+    },
+    {
+      "id": "csa",
+      "name": "CSA Copper",
+      "stage": "producing",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Harmony",
+      "location_note": "Copper, not gold — hidden from gold mine table."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-06-30",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 27400,
+        "attr_koz": 27400
+      },
+      "mi": {
+        "koz": 106800,
+        "attr_koz": 106800
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Harmony FY25 results",
+      "what": "1,479.7 koz"
+    },
+    {
+      "title": "Harmony FY26 results",
+      "date": "2026-08",
+      "what": "1,429.6 koz, met 1.40–1.50 Moz guidance"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

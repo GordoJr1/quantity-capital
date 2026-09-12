@@ -1,0 +1,338 @@
+{
+  "id": "gold-fields",
+  "disclaimer": "Filing-backed from Gold Fields FY2025 AFS / H1 2026. Attributable gold-equivalent ounces (Salares Norte and Cerro Corona are Au-eq). Tarkwa/Damang 90%. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Gold Fields Limited",
+    "short": "Gold Fields",
+    "tickers": [
+      {
+        "symbol": "GFI",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=GFI"
+      }
+    ],
+    "hq": "Johannesburg, South Africa",
+    "commodity": "gold",
+    "website": "https://www.goldfields.com"
+  },
+  "method": {
+    "production_basis": "Attributable gold-equivalent. Tarkwa 90%, South Deep 93.1%, Cerro Corona 99.5%. Gruyere 50% until Gold Road close then 100%."
+  },
+  "kpis": {
+    "attr_koz_2025": 2438,
+    "attr_koz_ytd_2026": 1267,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      2400,
+      2600
+    ],
+    "aisc_2025": 1645,
+    "attr_pp_koz": 48300,
+    "attr_mi_incl_koz": 34200,
+    "attr_inf_koz": 12800,
+    "pp_koz_100pct": 48300,
+    "mi_incl_koz_100pct": 34200,
+    "inf_koz_100pct": 12800
+  },
+  "guidance_2026": {
+    "basis": "attributable gold-equivalent",
+    "total_koz": [
+      2400,
+      2600
+    ],
+    "by_asset": {
+      "tarkwa": {
+        "ownership_pct": 90,
+        "attr_koz": [
+          423,
+          441
+        ]
+      },
+      "st-ives": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          350,
+          360
+        ],
+        "koz_100pct": [
+          350,
+          360
+        ]
+      },
+      "salares-norte": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          550,
+          600
+        ],
+        "koz_100pct": [
+          550,
+          600
+        ]
+      },
+      "south-deep": {
+        "ownership_pct": 93.1,
+        "attr_koz": [
+          279,
+          298
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 2438,
+      "by_asset": {
+        "tarkwa": {
+          "attr_koz": 427.05,
+          "ownership_pct": 90,
+          "koz_100pct": 474.5
+        },
+        "damang": {
+          "attr_koz": 87.75,
+          "ownership_pct": 90,
+          "koz_100pct": 97.5,
+          "note": "Lease ended; transferred to Ghana 18 Apr 2026."
+        },
+        "south-deep": {
+          "attr_koz": 287.5,
+          "ownership_pct": 93.1,
+          "koz_100pct": 308.8
+        },
+        "st-ives": {
+          "attr_koz": 369.6,
+          "ownership_pct": 100,
+          "koz_100pct": 369.6
+        },
+        "agnew": {
+          "attr_koz": 245.3,
+          "ownership_pct": 100,
+          "koz_100pct": 245.3
+        },
+        "granny-smith": {
+          "attr_koz": 261.7,
+          "ownership_pct": 100,
+          "koz_100pct": 261.7
+        },
+        "gruyere": {
+          "attr_koz": 186.1,
+          "ownership_pct": 100,
+          "note": "GF share; 50% until Gold Road close."
+        },
+        "salares-norte": {
+          "attr_koz": 396.5,
+          "ownership_pct": 100,
+          "koz_100pct": 396.5,
+          "note": "Au-eq. Commercial production 31 Aug 2025."
+        },
+        "cerro-corona": {
+          "attr_koz": 166.8,
+          "ownership_pct": 99.5,
+          "koz_100pct": 167.6,
+          "note": "Au-eq."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 1267,
+      "by_asset": {
+        "salares-norte": {
+          "attr_koz": 336.9,
+          "ownership_pct": 100
+        },
+        "tarkwa": {
+          "attr_koz": 172.7,
+          "ownership_pct": 90
+        },
+        "st-ives": {
+          "attr_koz": 169.8,
+          "ownership_pct": 100
+        },
+        "south-deep": {
+          "attr_koz": 140.6,
+          "ownership_pct": 93.1
+        },
+        "granny-smith": {
+          "attr_koz": 147.4,
+          "ownership_pct": 100
+        },
+        "gruyere": {
+          "attr_koz": 119.7,
+          "ownership_pct": 100
+        },
+        "agnew": {
+          "attr_koz": 102.8,
+          "ownership_pct": 100
+        },
+        "cerro-corona": {
+          "attr_koz": 56.6,
+          "ownership_pct": 99.5
+        },
+        "damang": {
+          "attr_koz": 22.1,
+          "ownership_pct": 90
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "tarkwa",
+      "name": "Tarkwa",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 90,
+      "operator": "Gold Fields",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Government of Ghana",
+          "pct": 10
+        }
+      ]
+    },
+    {
+      "id": "south-deep",
+      "name": "South Deep",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 93.1,
+      "operator": "Gold Fields",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "st-ives",
+      "name": "St Ives",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Gold Fields",
+      "mine_type": "Open pit + underground"
+    },
+    {
+      "id": "agnew",
+      "name": "Agnew",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Gold Fields",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "granny-smith",
+      "name": "Granny Smith",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Gold Fields",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "gruyere",
+      "name": "Gruyere",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Gold Fields",
+      "mine_type": "Open pit",
+      "location_note": "Now 100% after Gold Road."
+    },
+    {
+      "id": "salares-norte",
+      "name": "Salares Norte",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 100,
+      "operator": "Gold Fields",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "cerro-corona",
+      "name": "Cerro Corona",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Peru",
+      "ownership_pct": 99.5,
+      "operator": "Gold Fields",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "damang",
+      "name": "Damang",
+      "stage": "closed",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 90,
+      "location_note": "Transferred to Ghana Apr 2026."
+    },
+    {
+      "id": "windfall",
+      "name": "Windfall",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Gold Fields"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 48300,
+        "attr_koz": 48300
+      },
+      "mi": {
+        "koz": 34200,
+        "attr_koz": 34200
+      },
+      "inf": {
+        "koz": 12800,
+        "attr_koz": 12800
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Gold Fields FY2025 AFS",
+      "what": "2.438 Moz-eq attributable; Tarkwa 427 koz attr"
+    },
+    {
+      "title": "Gold Fields H1 2026 interim",
+      "date": "2026-08",
+      "what": "1.267 Moz-eq YTD"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

@@ -11,8 +11,8 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
-  <title>IAMGOLD — Quantity Capital</title>
-  <meta name="description" content="Filing-backed IAMGOLD mine profile. Intermediate gold producer. Not investment advice." />
+  <title>Mines — Quantity Capital</title>
+  <meta name="description" content="Filing-backed gold producer mine profiles. Not investment advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -81,7 +81,7 @@
     }
     .board-tabs button.on, .chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
     [hidden], .hidden { display: none !important; }
-    .picker { max-width: 280px; margin: 0 0 12px; }
+    .picker { max-width: 420px; margin: 0 0 12px; }
     .picker label {
       display: block; font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute);
@@ -191,7 +191,7 @@
     <div class="wrap qc-header-inner">
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav class="qc-nav" aria-label="Issuer mines">
-        <a href="beta.html" class="on" aria-current="page" title="IAMGOLD mine profile">IAMGOLD</a>
+        <a href="beta.html" class="on" aria-current="page" title="Issuer mine profiles">Mines</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
@@ -201,9 +201,11 @@
   </header>
   <div class="wrap" id="main">
     <p class="kicker">Beta</p>
-    <h1 id="title"><a href="ticker.html?t=IAG">IAMGOLD</a></h1>
-    <p class="lede">Intermediate gold producer. Three operating mines. Filing-backed, not a terminal dump.</p>
+    <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+    <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
     <p class="asof" id="asof"></p>
+    <p class="quiet" id="fy-note" hidden></p>
+    <p class="quiet" id="basis-note" hidden></p>
     <div class="picker">
       <label for="issuer">Issuer</label>
       <select id="issuer"></select>
@@ -235,7 +237,7 @@
         <tbody id="mines"></tbody>
       </table>
     </div>
-    <h2>Pipeline</h2>
+    <h2 id="pipeline-h">Pipeline</h2>
     <div class="pipe" id="pipeline"></div>
     <h2>Reserves &amp; resources</h2>
     <div class="table-wrap">
@@ -257,6 +259,7 @@
   <footer>
     <div class="wrap">
       <ul class="sources" id="sources"></ul>
+      <p class="muted" id="universe"></p>
       <p class="muted" id="disclaimer"></p>
       <p class="legal">Not investment advice. © Quantity Capital</p>
     </div>
@@ -374,6 +377,13 @@
       const rec = periodRec(state.period);
       return fmtKoz(kozField(rec && rec.by_asset && rec.by_asset[assetId], attr));
     }
+    function producingIds() {
+      return ((profile && profile.assets) || []).filter((a) => a.in_production).map((a) => a.id);
+    }
+    function issuerRow() {
+      const id = profile && profile.id;
+      return ((issuers && issuers.issuers) || []).find((r) => r.id === id) || null;
+    }
     function periodTotal() {
       const attr = state.basis === "attr";
       if (state.period === "2026-guide") {
@@ -394,20 +404,23 @@
       const rec = periodRec(state.period);
       if (!rec) return null;
       if (attr && num(rec.attr_koz) != null) return rec.attr_koz;
-      return sumBy(rec.by_asset, ["cote-gold", "westwood", "essakane"], attr);
+      if (!attr && num(rec.koz_100pct) != null) return rec.koz_100pct;
+      const ids = Object.keys((rec && rec.by_asset) || {});
+      return sumBy(rec.by_asset, ids.length ? ids : producingIds(), attr);
     }
     function ownershipHtml(asset) {
       if (!asset) return DASH;
-      if (asset.id === "cote-gold") {
-        const own = fmtPct(asset.ownership_pct);
-        const p = (asset.partners || [])[0];
-        const partner = p ? fmtPct(p.pct) + " Sumitomo" : DASH;
-        return esc(own + " IAMGOLD / " + partner);
-      }
-      let html = esc(fmtPct(asset.ownership_pct));
+      const own = fmtPct(asset.ownership_pct);
+      const short = ((profile && profile.issuer) || {}).short || "";
+      const partners = (asset.partners || []).map((p) => fmtPct(p.pct) + " " + (p.name || "partner"));
+      let line = own;
+      if (short && partners.length) line = own + " " + short + " / " + partners.join(" / ");
+      else if (partners.length) line = own + " / " + partners.join(" / ");
+      let html = esc(line);
       if (asset.id === "essakane") {
         html += "<div class=\"quiet\">2025 attributable used 90% H1 / 85% H2</div>";
       }
+      if (asset.note) html += "<div class=\"quiet\">" + esc(asset.note) + "</div>";
       return html;
     }
     function setOn(root, key, value) {
@@ -431,7 +444,8 @@
       let vsLabel = "Vs guidance";
       if (state.period === "2025") {
         const band = rec && rec.guidance_koz;
-        vs = band ? (attr ? fmtKoz(num(rec.attr_koz)) : fmtKoz(sumBy(rec.by_asset, ["cote-gold", "westwood", "essakane"], false))) + " vs " + fmtRange(band) : DASH;
+        const shown = attr ? num(rec && rec.attr_koz) : periodTotal();
+        vs = band ? (Array.isArray(shown) ? fmtRange(shown) : fmtKoz(shown)) + " vs " + fmtRange(band) : DASH;
         if (!attr && band) vsLabel = "Vs guidance (attr band)";
       } else if (state.period === "2026-guide") {
         vs = attr ? fmtRange(g.total_koz) : (Array.isArray(total) ? fmtRange(total) : DASH);
@@ -493,6 +507,12 @@
         (href ? "<a class=\"mine\" href=\"" + esc(href) + "\">" + esc(label) + "</a>" : esc(label)) +
         "</td></tr>";
     }
+    function projectClasses(block) {
+      if (!block) return [];
+      if (block.proven || block.probable) return CORE_CLASS;
+      if (block.indicated && !block.mi && !block.pp) return IND_CLASS;
+      return [["pp", "Proven & Probable"], ["mi", "M&I (incl.)"], ["inf", "Inferred"]].filter(([key]) => block[key]);
+    }
     function paintRr() {
       const rr = (profile && profile.reserves_resources) || {};
       const attr = state.basis === "attr";
@@ -504,72 +524,76 @@
       let html = groupRow("Totals", "", cols);
       html += childRows("", totals, 1, [["pp", "Proven & Probable"], ["mi", "M&I (incl.)"], ["inf", "Inferred"]], attr);
 
-      const cote = rrProject("cote-gold");
-      html += groupRow("Côté Gold", "#asset-cote-gold", cols);
-      html += childRows("Côté", rrPart(cote, "cote"), 1, CORE_CLASS, attr);
-      html += childRows("Gosselin", rrPart(cote, "gosselin"), 1, IND_CLASS, attr);
-
-      html += groupRow("Westwood", "#asset-westwood", cols);
-      html += childRows("Westwood", rrProject("westwood"), 1, CORE_CLASS, attr);
-
-      const ess = rrProject("essakane");
-      html += groupRow("Essakane", "#asset-essakane", cols);
-      html += childRows("Essakane pit", rrPart(ess, "essakane-pit"), 1, CORE_CLASS, attr);
-      html += childRows("Gossey", rrPart(ess, "gossey"), 1, IND_CLASS, attr);
-
-      const nel = rrProject("nelligan-complex");
-      html += groupRow("Nelligan Mining Complex", "#asset-nelligan-complex", cols);
-      html += childRows("Complex", nel, 1, [["mi", "M&I (incl.)"], ["inf", "Inferred"]], attr);
-      (nel && nel.parts || []).forEach((part) => {
-        html += childRows(part.name, part, 2, IND_CLASS, attr);
+      ((rr.projects) || []).forEach((proj) => {
+        const href = proj.asset_id ? "#asset-" + proj.asset_id : "";
+        html += groupRow(proj.name || proj.asset_id || "Project", href, cols);
+        const parts = proj.parts || [];
+        if (parts.length) {
+          const top = projectClasses(proj);
+          if (top.length && (proj.mi || proj.inf || proj.pp)) {
+            html += childRows("Complex", proj, 1, top, attr);
+          }
+          parts.forEach((part) => {
+            html += childRows(part.name, part, part.id && NELLIGAN_KIDS.indexOf(part.id) >= 0 ? 2 : 1, projectClasses(part), attr);
+          });
+        } else {
+          html += childRows(proj.name, proj, 1, projectClasses(proj), attr);
+        }
       });
-
-      html += groupRow("Diakha–Siribaya", "#asset-diakha-siribaya", cols);
-      html += childRows("Diakha–Siribaya", rrProject("diakha-siribaya"), 1, IND_CLASS, attr);
       document.getElementById("rr").innerHTML = html;
 
       const prices = rr.price_assumptions || {};
       const res = Object.values(prices.reserves_usd_oz || {}).filter((n) => num(n) != null);
       const rsc = Object.values(prices.resources_usd_oz || {}).filter((n) => num(n) != null);
       const bits = [];
-      bits.push("M&I inclusive of reserves.");
+      if (rr.inclusive_of_reserves === false) bits.push("M&I exclusive of reserves.");
+      else bits.push("M&I inclusive of reserves.");
       bits.push("as of " + (rr.as_of || DASH) + ".");
       if (res.length) bits.push("Reserves $" + Math.min.apply(null, res).toLocaleString("en-US") + "–$" + Math.max.apply(null, res).toLocaleString("en-US") + "/oz.");
       if (rsc.length) bits.push("Resources $" + Math.min.apply(null, rsc).toLocaleString("en-US") + "–$" + Math.max.apply(null, rsc).toLocaleString("en-US") + "/oz.");
       document.getElementById("rr-note").textContent = bits.join(" ");
     }
     function paintPipeline() {
-      const assets = assetMap();
-      const nelligan = assets["nelligan-complex"];
-      const diakha = assets["diakha-siribaya"];
-      const cote = assets["cote-gold"];
+      const items = ((profile && profile.assets) || []).filter((a) => !a.in_production && a.stage !== "closed");
+      const cote = assetMap()["cote-gold"];
       const gosselin = ((cote && cote.deposits) || []).find((d) => d.id === "gosselin");
-      const items = [nelligan, diakha].filter(Boolean);
       document.getElementById("pipeline").innerHTML = items.map((a) => {
         const rr = rrProject(a.id);
         const attr = state.basis === "attr";
         const mi = rr && (rr.mi || rr.indicated);
         const inf = rr && (rr.inf || null);
         let kids = "";
-        if (a.id === "nelligan-complex") {
-          const named = (a.deposits || []).filter((d) => NELLIGAN_KIDS.indexOf(d.id) >= 0);
-          const camp = (a.deposits || []).filter((d) => CAMP_IDS.indexOf(d.id) >= 0);
-          kids = "<ul class=\"kids\">" + named.map((d) => {
-            const own = num(d.ownership_pct) != null ? " · " + fmtPct(d.ownership_pct) : "";
-            return "<li>" + esc(d.name) + esc(own) + (d.note ? " <span class=\"quiet\">" + esc(d.note) + "</span>" : "") + "</li>";
-          }).join("") + "</ul>";
+        const deposits = a.deposits || [];
+        if (deposits.length) {
+          const named = a.id === "nelligan-complex"
+            ? deposits.filter((d) => NELLIGAN_KIDS.indexOf(d.id) >= 0)
+            : deposits.filter((d) => !d.in_production);
+          const camp = a.id === "nelligan-complex" ? deposits.filter((d) => CAMP_IDS.indexOf(d.id) >= 0) : [];
+          if (named.length) {
+            kids = "<ul class=\"kids\">" + named.map((d) => {
+              const own = num(d.ownership_pct) != null ? " · " + fmtPct(d.ownership_pct) : "";
+              return "<li>" + esc(d.name) + esc(own) + (d.note ? " <span class=\"quiet\">" + esc(d.note) + "</span>" : "") + "</li>";
+            }).join("") + "</ul>";
+          }
           if (camp.length) {
             kids += "<p class=\"quiet also\">Also in camp: " + esc(camp.map((d) => d.name).join(", ")) + ".</p>";
           }
         }
+        const rrLine = (mi || inf)
+          ? "<p class=\"muted\">M&amp;I " + esc(fmtKoz(classKoz(mi, attr))) + " · Inferred " + esc(fmtKoz(classKoz(inf, attr))) + "</p>"
+          : "";
         return "<article class=\"card\" id=\"asset-" + esc(a.id) + "\">" +
           "<h3>" + esc(a.name) + " <span class=\"stage\">" + esc(a.stage || DASH) + "</span></h3>" +
           "<p>" + esc(loc(a)) + " · " + esc(fmtPct(a.ownership_pct)) + "</p>" +
           (a.next_study ? "<p class=\"muted\">Next study: " + esc(a.next_study) + "</p>" : "") +
-          "<p class=\"muted\">M&amp;I " + esc(fmtKoz(classKoz(mi, attr))) + " · Inferred " + esc(fmtKoz(classKoz(inf, attr))) + "</p>" +
+          rrLine +
           kids +
         "</article>";
       }).join("") + (cote && gosselin ? "<p class=\"quiet\">Gosselin sits with Côté (same JV), not a fourth mine. Combined Côté + Gosselin technical report expected Q4 2026.</p>" : "");
+      const pipeH = document.getElementById("pipeline-h");
+      const empty = !items.length && !(cote && gosselin);
+      pipeH.hidden = empty;
+      document.getElementById("pipeline").hidden = empty && !gosselin;
     }
     function millLine(prod, key, label, fmt) {
       const v = prod && prod[key];
@@ -587,21 +611,37 @@
           millLine(prod, "recovery_pct", "recovery", fmtPct),
           millLine(prod, "aisc", "AISC", (v) => fmtUsd(v) + "/oz")
         ].filter(Boolean);
+        const chart = ((((profile && profile.issuer) || {}).tickers || [])[0] || {}).chart || "";
         return "<article class=\"card asset-card\" id=\"asset-" + esc(a.id) + "\">" +
-          "<h3><a href=\"ticker.html?t=IAG\">" + esc(a.name) + "</a></h3>" +
+          "<h3>" + (chart ? "<a href=\"" + esc(chart) + "\">" + esc(a.name) + "</a>" : esc(a.name)) + "</h3>" +
           "<p>" + esc(a.location_note || loc(a)) + "</p>" +
           "<p class=\"muted\">" + esc(a.processing || DASH) + (a.mine_type ? " · " + esc(a.mine_type) : "") + "</p>" +
           (bits.length ? "<p class=\"muted\">" + bits.join(" · ") + "</p>" : "") +
         "</article>";
       }).join("");
     }
+    function fyLabel(end) {
+      if (!end) return "";
+      if (end === "06-30") return "Fiscal year ends 30 June.";
+      if (end === "12-31") return "Fiscal year ends 31 December.";
+      return "Fiscal year ends " + end + ".";
+    }
     function paintChrome() {
       const iss = (profile && profile.issuer) || {};
-      const short = iss.short || iss.name || "IAMGOLD";
+      const row = issuerRow();
+      const short = iss.short || iss.name || (row && row.name) || "Mines";
       const ticker = ((iss.tickers || [])[0] || {});
-      const chart = ticker.chart || "ticker.html?t=IAG";
+      const chart = ticker.chart || (ticker.symbol ? "ticker.html?t=" + ticker.symbol : "index.html");
       document.title = short + " — Quantity Capital";
       document.getElementById("title").innerHTML = "<a href=\"" + esc(chart) + "\">" + esc(short) + "</a>";
+      const nMines = (row && row.producing_mines != null)
+        ? row.producing_mines
+        : ((profile && profile.assets) || []).filter((a) => a.in_production).length;
+      const comm = (iss.commodity || (row && row.commodity) || "gold");
+      document.getElementById("lede").textContent =
+        comm.charAt(0).toUpperCase() + comm.slice(1) + " producer. " +
+        (nMines ? nMines + " operating mine" + (nMines === 1 ? "" : "s") + ". " : "") +
+        "Filing-backed, not a terminal dump.";
       const rr = (profile && profile.reserves_resources) || {};
       const ytd = (profile && profile.kpis && profile.kpis.ytd_through) || "";
       document.getElementById("asof").textContent = [
@@ -609,15 +649,40 @@
         rr.as_of ? "R&R " + rr.as_of : "",
         ytd ? "YTD through " + ytd : ""
       ].filter(Boolean).join(" · ");
+      const fy = document.getElementById("fy-note");
+      const fyEnd = profile && profile.kpis && profile.kpis.fiscal_year_end;
+      if (fyEnd) {
+        fy.hidden = false;
+        fy.textContent = fyLabel(fyEnd);
+      } else {
+        fy.hidden = true;
+        fy.textContent = "";
+      }
+      const basisEl = document.getElementById("basis-note");
+      const basis = profile && profile.method && profile.method.production_basis;
+      const showBasis = basis && (profile.id === "gold-fields" || profile.id === "kinross" || /GEO|gold-equivalent|Au-eq/i.test(basis));
+      if (showBasis) {
+        basisEl.hidden = false;
+        basisEl.textContent = basis;
+      } else {
+        basisEl.hidden = true;
+        basisEl.textContent = "";
+      }
       const src = document.getElementById("sources");
       src.innerHTML = ((profile && profile.sources) || []).map((s) => {
         const title = s.title || s.url || "Source";
         if (s.url) return "<li><a href=\"" + esc(s.url) + "\" rel=\"noopener\">" + esc(title) + "</a></li>";
         return "<li>" + esc(title) + "</li>";
       }).join("");
+      document.getElementById("universe").textContent = (issuers && issuers.universe_note) || "";
       const disc = (profile && profile.disclaimer) || "";
       document.getElementById("disclaimer").textContent = disc;
-      const exited = (profile && profile.exited) || [];
+      const closed = ((profile && profile.assets) || []).filter((a) => a.stage === "closed").map((a) => ({
+        name: a.name,
+        country: a.country,
+        note: a.location_note || a.note || ""
+      }));
+      const exited = ((profile && profile.exited) || []).concat(closed);
       const wrap = document.getElementById("exited-wrap");
       if (!exited.length) {
         wrap.hidden = true;
@@ -639,8 +704,24 @@
     }
     function fillPicker() {
       const sel = document.getElementById("issuer");
-      const rows = (issuers && issuers.issuers) || [{ id: "iamgold", name: "IAMGOLD Corporation", file: "beta/iamgold.json" }];
-      sel.innerHTML = rows.map((r) => "<option value=\"" + esc(r.file) + "\">" + esc(r.name) + "</option>").join("");
+      const rows = ((issuers && issuers.issuers) || []).slice().sort((a, b) => {
+        const ra = num(a.rank);
+        const rb = num(b.rank);
+        if (ra != null && rb != null && ra !== rb) return ra - rb;
+        const ka = num(a.attr_koz_2025);
+        const kb = num(b.attr_koz_2025);
+        if (ka != null && kb != null && ka !== kb) return kb - ka;
+        return String(a.name || "").localeCompare(String(b.name || ""));
+      });
+      const fallback = [{ id: "newmont", name: "Newmont Corporation", file: "beta/newmont.json", attr_koz_2025: null }];
+      const list = rows.length ? rows : fallback;
+      sel.innerHTML = list.map((r) => {
+        const moz = num(r.attr_koz_2025);
+        const label = moz != null ? r.name + " · " + fmtMoz(moz) : r.name;
+        return "<option value=\"" + esc(r.file) + "\">" + esc(label) + "</option>";
+      }).join("");
+      const def = list.find((r) => r.id === "newmont") || list[0];
+      if (def) sel.value = def.file;
       sel.onchange = () => loadProfile(sel.value);
     }
     function loadProfile(file) {
@@ -649,6 +730,8 @@
         return r.json();
       }).then((json) => {
         profile = json;
+        const sel = document.getElementById("issuer");
+        if (sel && file) sel.value = file;
         paint();
       }).catch(() => {
         document.getElementById("asof").textContent = "Could not load issuer profile.";
@@ -672,17 +755,19 @@
     fetch("beta/issuers.json").then((r) => r.ok ? r.json() : null).then((idx) => {
       issuers = idx;
       fillPicker();
-      const first = (idx && idx.issuers && idx.issuers[0] && idx.issuers[0].file) || "beta/iamgold.json";
+      const ranked = ((idx && idx.issuers) || []).slice().sort((a, b) => (num(a.rank) || 99) - (num(b.rank) || 99));
+      const def = ranked.find((r) => r.id === "newmont") || ranked[0];
+      const first = (def && def.file) || "beta/newmont.json";
       return loadProfile(first);
     }).catch(() => {
       fillPicker();
-      return loadProfile("beta/iamgold.json");
+      return loadProfile("beta/newmont.json");
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Issuer mines">
-    <a href="beta.html" class="on" aria-current="page">IAMGOLD</a>
+    <a href="beta.html" class="on" aria-current="page">Mines</a>
   </nav>
 </body>
 </html>

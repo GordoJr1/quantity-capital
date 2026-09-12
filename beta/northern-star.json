@@ -1,0 +1,227 @@
+{
+  "id": "northern-star",
+  "disclaimer": "Filing-backed from Northern Star ASX quarterlies. Gold sold, 100%. Fiscal year ends 30 June. The 2025 chip is calendar 2025 (sum of four quarterlies). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Northern Star Resources Limited",
+    "short": "Northern Star",
+    "tickers": [
+      {
+        "symbol": "NST",
+        "exchange": "ASX",
+        "chart": "ticker.html?t=NST"
+      }
+    ],
+    "hq": "Subiaco, Western Australia, Australia",
+    "commodity": "gold",
+    "website": "https://www.nsrltd.com"
+  },
+  "method": {
+    "production_basis": "Gold sold, 100%. Calendar 2025 is summed from Mar/Jun/Sep/Dec 2025 quarterlies (company does not headline CY). 2026-YTD chip is FY26 through 31 Mar 2026.",
+    "fiscal_year_end": "06-30"
+  },
+  "kpis": {
+    "attr_koz_2025": 1558.6,
+    "attr_koz_ytd_2026": 1109.9,
+    "ytd_through": "2026-03-31",
+    "guidance_2026_koz": [
+      1500,
+      1700
+    ],
+    "aisc_2025": 2163,
+    "attr_pp_koz": 28400,
+    "attr_mi_incl_koz": 88900,
+    "pp_koz_100pct": 28400,
+    "mi_incl_koz_100pct": 88900,
+    "fiscal_year_end": "06-30"
+  },
+  "guidance_2026": {
+    "basis": "100% gold sold, FY26",
+    "total_koz": [
+      1500,
+      1700
+    ],
+    "by_asset": {
+      "kalgoorlie": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          900,
+          950
+        ],
+        "koz_100pct": [
+          900,
+          950
+        ]
+      },
+      "yandal": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          445,
+          485
+        ],
+        "koz_100pct": [
+          445,
+          485
+        ]
+      },
+      "pogo": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          255,
+          265
+        ],
+        "koz_100pct": [
+          255,
+          265
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 1558.6,
+      "note": "Calendar 2025 gold sold from four ASX quarterlies.",
+      "by_asset": {
+        "kalgoorlie": {
+          "attr_koz": 831.9,
+          "ownership_pct": 100,
+          "koz_100pct": 831.9,
+          "note": "FY25 centre total; CY split not disclosed."
+        },
+        "yandal": {
+          "attr_koz": 518.3,
+          "ownership_pct": 100,
+          "koz_100pct": 518.3,
+          "note": "FY25 centre total."
+        },
+        "pogo": {
+          "attr_koz": 283.4,
+          "ownership_pct": 100,
+          "koz_100pct": 283.4,
+          "note": "FY25."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-03-31",
+      "attr_koz": 1109.9,
+      "note": "FY26 YTD gold sold.",
+      "by_asset": {
+        "kalgoorlie": {
+          "attr_koz": 616.6,
+          "ownership_pct": 100,
+          "koz_100pct": 616.6
+        },
+        "yandal": {
+          "attr_koz": 309.8,
+          "ownership_pct": 100,
+          "koz_100pct": 309.8
+        },
+        "pogo": {
+          "attr_koz": 183.5,
+          "ownership_pct": 100,
+          "koz_100pct": 183.5
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "kalgoorlie",
+      "name": "Kalgoorlie Production Centre",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Northern Star",
+      "mine_type": "Open pit + underground",
+      "region": "Western Australia",
+      "location_note": "KCGM, Carosue Dam, Kalgoorlie Operations."
+    },
+    {
+      "id": "kcgm",
+      "name": "KCGM",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Northern Star",
+      "region": "Western Australia"
+    },
+    {
+      "id": "yandal",
+      "name": "Yandal Production Centre",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Northern Star",
+      "region": "Western Australia",
+      "location_note": "Jundee, Thunderbox."
+    },
+    {
+      "id": "pogo",
+      "name": "Pogo",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Northern Star",
+      "mine_type": "Underground",
+      "region": "Alaska"
+    },
+    {
+      "id": "hemi",
+      "name": "Hemi (De Grey)",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Northern Star",
+      "region": "Western Australia",
+      "location_note": "Acquired 5 May 2025."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-03-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 28400,
+        "attr_koz": 28400
+      },
+      "mi": {
+        "koz": 88900,
+        "attr_koz": 88900
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NST June 2025 quarterly",
+      "what": "FY25 1.634 Moz sold"
+    },
+    {
+      "title": "NST March 2026 quarterly",
+      "date": "2026-04-22",
+      "what": "FY26 YTD 1.110 Moz; R&R with Hemi"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

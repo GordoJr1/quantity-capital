@@ -1,0 +1,256 @@
+{
+  "id": "evolution",
+  "disclaimer": "Filing-backed from Evolution ASX FY25/FY26 reports (year to 30 June). 2025 chip = FY25. 2026-YTD chip = full FY26. Northparkes at 80%. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Evolution Mining Limited",
+    "short": "Evolution",
+    "tickers": [
+      {
+        "symbol": "EVN",
+        "exchange": "ASX",
+        "chart": "ticker.html?t=EVN"
+      }
+    ],
+    "hq": "Sydney, New South Wales, Australia",
+    "commodity": "gold",
+    "website": "https://evolutionmining.com.au"
+  },
+  "method": {
+    "production_basis": "Group gold. Northparkes 80% attributable. Fiscal year ends 30 June.",
+    "fiscal_year_end": "06-30"
+  },
+  "kpis": {
+    "attr_koz_2025": 750.5,
+    "attr_koz_ytd_2026": 715,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      710,
+      780
+    ],
+    "aisc_2025": 1572,
+    "attr_pp_koz": 12000,
+    "attr_mi_incl_koz": 31000,
+    "pp_koz_100pct": 12000,
+    "mi_incl_koz_100pct": 31000,
+    "fiscal_year_end": "06-30"
+  },
+  "guidance_2026": {
+    "basis": "FY26 group gold (met)",
+    "total_koz": [
+      710,
+      780
+    ],
+    "by_asset": {
+      "cowal": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          305,
+          330
+        ],
+        "koz_100pct": [
+          305,
+          330
+        ]
+      },
+      "mungari": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          175,
+          190
+        ],
+        "koz_100pct": [
+          175,
+          190
+        ]
+      },
+      "red-lake": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          130,
+          145
+        ],
+        "koz_100pct": [
+          130,
+          145
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 750.5,
+      "note": "FY25.",
+      "by_asset": {
+        "cowal": {
+          "attr_koz": 330.0,
+          "ownership_pct": 100,
+          "koz_100pct": 330.0
+        },
+        "ernest-henry": {
+          "attr_koz": 70.6,
+          "ownership_pct": 100,
+          "koz_100pct": 70.6
+        },
+        "northparkes": {
+          "attr_koz": 49.0,
+          "ownership_pct": 80,
+          "note": "80% attributable."
+        },
+        "mungari": {
+          "attr_koz": 135.0,
+          "ownership_pct": 100,
+          "koz_100pct": 135.0
+        },
+        "red-lake": {
+          "attr_koz": 127.6,
+          "ownership_pct": 100,
+          "koz_100pct": 127.6
+        },
+        "mt-rawdon": {
+          "attr_koz": 38.2,
+          "ownership_pct": 100,
+          "koz_100pct": 38.2,
+          "note": "Mining ceased FY25."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 715,
+      "note": "Full FY26.",
+      "by_asset": {
+        "cowal": {
+          "attr_koz": 297,
+          "ownership_pct": 100
+        },
+        "ernest-henry": {
+          "attr_koz": 55,
+          "ownership_pct": 100
+        },
+        "northparkes": {
+          "attr_koz": 27,
+          "ownership_pct": 80
+        },
+        "mungari": {
+          "attr_koz": 186,
+          "ownership_pct": 100
+        },
+        "red-lake": {
+          "attr_koz": 127,
+          "ownership_pct": 100
+        },
+        "mt-rawdon": {
+          "attr_koz": 22,
+          "ownership_pct": 100
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "cowal",
+      "name": "Cowal",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Evolution",
+      "mine_type": "Open pit + underground",
+      "region": "New South Wales"
+    },
+    {
+      "id": "ernest-henry",
+      "name": "Ernest Henry",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Evolution",
+      "mine_type": "Underground",
+      "region": "Queensland"
+    },
+    {
+      "id": "northparkes",
+      "name": "Northparkes",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 80,
+      "operator": "Evolution",
+      "region": "New South Wales"
+    },
+    {
+      "id": "mungari",
+      "name": "Mungari",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Evolution",
+      "region": "Western Australia"
+    },
+    {
+      "id": "red-lake",
+      "name": "Red Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Evolution",
+      "mine_type": "Underground",
+      "region": "Ontario"
+    },
+    {
+      "id": "mt-rawdon",
+      "name": "Mt Rawdon",
+      "stage": "closed",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "location_note": "Mining ceased FY25."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 12000,
+        "attr_koz": 12000
+      },
+      "mi": {
+        "koz": 31000,
+        "attr_koz": 31000
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Evolution FY25 fact sheet",
+      "what": "750.5 koz"
+    },
+    {
+      "title": "Evolution FY26 quarterly / financial report",
+      "what": "715 koz, met 710–780 guidance"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

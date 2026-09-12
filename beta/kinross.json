@@ -1,0 +1,250 @@
+{
+  "id": "kinross",
+  "disclaimer": "Filing-backed from Kinross FY2025 MD&A / Q2 2026. Attributable gold-equivalent ounces (GEO), not gold-only. Manh Choh 70%. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Kinross Gold Corporation",
+    "short": "Kinross",
+    "tickers": [
+      {
+        "symbol": "KGC",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=KGC"
+      },
+      {
+        "symbol": "K",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=KGC"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.kinross.com"
+  },
+  "method": {
+    "production_basis": "Attributable GEO. Silver converted at period ratios. Manh Choh 70% (Contango 30%), processed at Fort Knox."
+  },
+  "kpis": {
+    "attr_koz_2025": 2012.1,
+    "attr_koz_ytd_2026": 984.9,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      1900,
+      2100
+    ],
+    "aisc_2025": 1571,
+    "attr_pp_koz": 20900,
+    "attr_mi_incl_koz": 27500,
+    "attr_inf_koz": 16600,
+    "pp_koz_100pct": 20900,
+    "mi_incl_koz_100pct": 27500,
+    "inf_koz_100pct": 16600
+  },
+  "guidance_2026": {
+    "basis": "attributable GEO +/- 5% around 2.0 Moz",
+    "total_koz": [
+      1900,
+      2100
+    ],
+    "by_asset": {
+      "paracatu": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          570,
+          630
+        ]
+      },
+      "tasiast": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          480,
+          530
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 2012.1,
+      "by_asset": {
+        "paracatu": {
+          "attr_koz": 601.3,
+          "ownership_pct": 100,
+          "koz_100pct": 601.3
+        },
+        "tasiast": {
+          "attr_koz": 503.4,
+          "ownership_pct": 100,
+          "koz_100pct": 503.4
+        },
+        "fort-knox": {
+          "attr_koz": 410.8,
+          "ownership_pct": 100,
+          "note": "Segment includes Manh Choh feed."
+        },
+        "manh-choh": {
+          "attr_koz": 134.9,
+          "ownership_pct": 70,
+          "koz_100pct": 192.7
+        },
+        "la-coipa": {
+          "attr_koz": 231.8,
+          "ownership_pct": 100,
+          "koz_100pct": 231.8
+        },
+        "bald-mountain": {
+          "attr_koz": 179.2,
+          "ownership_pct": 100,
+          "koz_100pct": 179.2
+        },
+        "round-mountain": {
+          "attr_koz": 143.4,
+          "ownership_pct": 100,
+          "koz_100pct": 143.4
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 984.9,
+      "by_asset": {}
+    }
+  ],
+  "assets": [
+    {
+      "id": "paracatu",
+      "name": "Paracatu",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "Kinross",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "tasiast",
+      "name": "Tasiast",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mauritania",
+      "ownership_pct": 100,
+      "operator": "Kinross",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "fort-knox",
+      "name": "Fort Knox",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Kinross",
+      "mine_type": "Open pit",
+      "region": "Alaska"
+    },
+    {
+      "id": "manh-choh",
+      "name": "Manh Choh",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 70,
+      "operator": "Kinross",
+      "region": "Alaska",
+      "partners": [
+        {
+          "name": "Contango Ore",
+          "pct": 30
+        }
+      ]
+    },
+    {
+      "id": "bald-mountain",
+      "name": "Bald Mountain",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Kinross",
+      "region": "Nevada"
+    },
+    {
+      "id": "round-mountain",
+      "name": "Round Mountain",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Kinross",
+      "region": "Nevada"
+    },
+    {
+      "id": "la-coipa",
+      "name": "La Coipa",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 100,
+      "operator": "Kinross"
+    },
+    {
+      "id": "great-bear",
+      "name": "Great Bear",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Kinross"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 20900,
+        "attr_koz": 20900
+      },
+      "mi": {
+        "koz": 27500,
+        "attr_koz": 27500
+      },
+      "inf": {
+        "koz": 16600,
+        "attr_koz": 16600
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Kinross FY2025 results",
+      "date": "2026-02",
+      "what": "2.012 Moz attr GEO; P&P 20.9 Moz gold"
+    },
+    {
+      "title": "Kinross Q2 2026",
+      "date": "2026-07",
+      "what": "H1 984.9 koz attr GEO"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

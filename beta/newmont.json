@@ -1,0 +1,628 @@
+{
+  "id": "newmont",
+  "disclaimer": "Filing-backed from Newmont FY2025 / Q2 2026 releases. Attributable gold. M&I exclusive of reserves (SEC). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Newmont Corporation",
+    "short": "Newmont",
+    "tickers": [
+      {
+        "symbol": "NEM",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=NEM"
+      },
+      {
+        "symbol": "NGT",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=NEM"
+      }
+    ],
+    "hq": "Denver, Colorado, USA",
+    "commodity": "gold",
+    "website": "https://www.newmont.com"
+  },
+  "method": {
+    "production_basis": "Attributable gold. Nevada Gold Mines 38.5% Newmont / 61.5% Barrick (operator). Pueblo Viejo 40%. Fruta del Norte via 32% Lundin Gold (quarter lag).",
+    "resources_basis": "SEC resources exclusive of reserves."
+  },
+  "kpis": {
+    "attr_koz_2025": 5889,
+    "attr_koz_ytd_2026": 2594,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      4997,
+      5523
+    ],
+    "aisc_2025": 1358,
+    "realized_price_2025": 3498,
+    "attr_pp_koz": 118200,
+    "attr_mi_incl_koz": 88100,
+    "attr_inf_koz": 60600,
+    "pp_koz_100pct": 118200,
+    "mi_incl_koz_100pct": 88100,
+    "inf_koz_100pct": 60600
+  },
+  "guidance_2026": {
+    "basis": "attributable",
+    "total_koz": [
+      4997,
+      5523
+    ],
+    "by_asset": {
+      "lihir": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          532,
+          588
+        ],
+        "koz_100pct": [
+          532,
+          588
+        ]
+      },
+      "cadia": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          257,
+          284
+        ],
+        "koz_100pct": [
+          257,
+          284
+        ]
+      },
+      "tanami": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          347,
+          383
+        ],
+        "koz_100pct": [
+          347,
+          383
+        ]
+      },
+      "boddington": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          551,
+          609
+        ],
+        "koz_100pct": [
+          551,
+          609
+        ]
+      },
+      "ahafo-south": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          418,
+          462
+        ],
+        "koz_100pct": [
+          418,
+          462
+        ]
+      },
+      "ahafo-north": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          299,
+          331
+        ],
+        "koz_100pct": [
+          299,
+          331
+        ]
+      },
+      "merian": {
+        "ownership_pct": 75,
+        "attr_koz": [
+          214,
+          236
+        ]
+      },
+      "cerro-negro": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          209,
+          231
+        ],
+        "koz_100pct": [
+          209,
+          231
+        ]
+      },
+      "yanacocha": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          437,
+          483
+        ],
+        "koz_100pct": [
+          437,
+          483
+        ]
+      },
+      "penasquito": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          176,
+          194
+        ],
+        "koz_100pct": [
+          176,
+          194
+        ]
+      },
+      "red-chris": {
+        "ownership_pct": 70,
+        "attr_koz": [
+          33,
+          37
+        ]
+      },
+      "brucejack": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          247,
+          273
+        ],
+        "koz_100pct": [
+          247,
+          273
+        ]
+      },
+      "nevada-gold-mines": {
+        "ownership_pct": 38.5,
+        "attr_koz": [
+          888,
+          982
+        ],
+        "koz_100pct": [
+          2306,
+          2551
+        ]
+      },
+      "pueblo-viejo": {
+        "ownership_pct": 40,
+        "attr_koz": [
+          242,
+          268
+        ]
+      },
+      "fruta-del-norte": {
+        "ownership_pct": 32,
+        "attr_koz": [
+          147,
+          163
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 5889,
+      "by_asset": {
+        "lihir": {
+          "attr_koz": 585,
+          "ownership_pct": 100,
+          "koz_100pct": 585
+        },
+        "cadia": {
+          "attr_koz": 385,
+          "ownership_pct": 100,
+          "koz_100pct": 385
+        },
+        "tanami": {
+          "attr_koz": 391,
+          "ownership_pct": 100,
+          "koz_100pct": 391
+        },
+        "boddington": {
+          "attr_koz": 565,
+          "ownership_pct": 100,
+          "koz_100pct": 565
+        },
+        "ahafo-south": {
+          "attr_koz": 664,
+          "ownership_pct": 100,
+          "koz_100pct": 664
+        },
+        "ahafo-north": {
+          "attr_koz": 70,
+          "ownership_pct": 100,
+          "koz_100pct": 70,
+          "note": "Commercial production 24 Oct 2025."
+        },
+        "merian": {
+          "attr_koz": 178,
+          "ownership_pct": 75,
+          "koz_100pct": 237
+        },
+        "cerro-negro": {
+          "attr_koz": 202,
+          "ownership_pct": 100,
+          "koz_100pct": 202
+        },
+        "yanacocha": {
+          "attr_koz": 515,
+          "ownership_pct": 100,
+          "koz_100pct": 515
+        },
+        "penasquito": {
+          "attr_koz": 415,
+          "ownership_pct": 100,
+          "koz_100pct": 415
+        },
+        "red-chris": {
+          "attr_koz": 62,
+          "ownership_pct": 70,
+          "koz_100pct": 89
+        },
+        "brucejack": {
+          "attr_koz": 231,
+          "ownership_pct": 100,
+          "koz_100pct": 231
+        },
+        "nevada-gold-mines": {
+          "attr_koz": 999,
+          "ownership_pct": 38.5,
+          "koz_100pct": 2595,
+          "note": "Newmont 38.5% / Barrick 61.5% operator."
+        },
+        "pueblo-viejo": {
+          "attr_koz": 253,
+          "ownership_pct": 40,
+          "koz_100pct": 633,
+          "note": "Barrick 60% operator."
+        },
+        "fruta-del-norte": {
+          "attr_koz": 165,
+          "ownership_pct": 32,
+          "koz_100pct": 516,
+          "note": "32% Lundin Gold, quarter lag."
+        },
+        "non-core": {
+          "attr_koz": 209,
+          "note": "CC&V, Musselwhite, Éléonore, Porcupine, Akyem sold 2025."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 2594,
+      "by_asset": {
+        "lihir": {
+          "attr_koz": 270,
+          "ownership_pct": 100,
+          "koz_100pct": 270
+        },
+        "cadia": {
+          "attr_koz": 128,
+          "ownership_pct": 100,
+          "koz_100pct": 128
+        },
+        "tanami": {
+          "attr_koz": 172,
+          "ownership_pct": 100,
+          "koz_100pct": 172
+        },
+        "boddington": {
+          "attr_koz": 271,
+          "ownership_pct": 100,
+          "koz_100pct": 271
+        },
+        "ahafo-south": {
+          "attr_koz": 228,
+          "ownership_pct": 100,
+          "koz_100pct": 228
+        },
+        "ahafo-north": {
+          "attr_koz": 130,
+          "ownership_pct": 100,
+          "koz_100pct": 130
+        },
+        "merian": {
+          "attr_koz": 122,
+          "ownership_pct": 75
+        },
+        "cerro-negro": {
+          "attr_koz": 95,
+          "ownership_pct": 100,
+          "koz_100pct": 95
+        },
+        "yanacocha": {
+          "attr_koz": 272,
+          "ownership_pct": 100,
+          "koz_100pct": 272
+        },
+        "penasquito": {
+          "attr_koz": 91,
+          "ownership_pct": 100,
+          "koz_100pct": 91
+        },
+        "red-chris": {
+          "attr_koz": 23,
+          "ownership_pct": 70
+        },
+        "brucejack": {
+          "attr_koz": 112,
+          "ownership_pct": 100,
+          "koz_100pct": 112
+        },
+        "nevada-gold-mines": {
+          "attr_koz": 476,
+          "ownership_pct": 38.5
+        },
+        "pueblo-viejo": {
+          "attr_koz": 128,
+          "ownership_pct": 40
+        },
+        "fruta-del-norte": {
+          "attr_koz": 76,
+          "ownership_pct": 32
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "lihir",
+      "name": "Lihir",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Papua New Guinea",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "region": "New Ireland"
+    },
+    {
+      "id": "cadia",
+      "name": "Cadia",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Underground block cave",
+      "region": "New South Wales",
+      "nearest": "Orange"
+    },
+    {
+      "id": "tanami",
+      "name": "Tanami",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Underground",
+      "region": "Northern Territory"
+    },
+    {
+      "id": "boddington",
+      "name": "Boddington",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Australia",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "region": "Western Australia"
+    },
+    {
+      "id": "ahafo-south",
+      "name": "Ahafo South",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit + underground",
+      "region": "Brong-Ahafo"
+    },
+    {
+      "id": "ahafo-north",
+      "name": "Ahafo North",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "region": "Brong-Ahafo",
+      "location_note": "Commercial production 24 Oct 2025."
+    },
+    {
+      "id": "merian",
+      "name": "Merian",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Suriname",
+      "ownership_pct": 75,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Government of Suriname",
+          "pct": 25
+        }
+      ]
+    },
+    {
+      "id": "cerro-negro",
+      "name": "Cerro Negro",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Argentina",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Underground",
+      "region": "Santa Cruz"
+    },
+    {
+      "id": "yanacocha",
+      "name": "Yanacocha",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Peru",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit leach",
+      "region": "Cajamarca"
+    },
+    {
+      "id": "penasquito",
+      "name": "Peñasquito",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "region": "Zacatecas"
+    },
+    {
+      "id": "red-chris",
+      "name": "Red Chris",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 70,
+      "operator": "Newmont",
+      "mine_type": "Open pit",
+      "region": "British Columbia",
+      "partners": [
+        {
+          "name": "Imperial Metals",
+          "pct": 30
+        }
+      ]
+    },
+    {
+      "id": "brucejack",
+      "name": "Brucejack",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Newmont",
+      "mine_type": "Underground",
+      "region": "British Columbia"
+    },
+    {
+      "id": "nevada-gold-mines",
+      "name": "Nevada Gold Mines",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 38.5,
+      "operator": "Barrick",
+      "mine_type": "Open pit + underground",
+      "region": "Nevada",
+      "partners": [
+        {
+          "name": "Barrick",
+          "pct": 61.5
+        }
+      ]
+    },
+    {
+      "id": "pueblo-viejo",
+      "name": "Pueblo Viejo",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Dominican Republic",
+      "ownership_pct": 40,
+      "operator": "Barrick",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Barrick",
+          "pct": 60
+        }
+      ]
+    },
+    {
+      "id": "fruta-del-norte",
+      "name": "Fruta del Norte",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ecuador",
+      "ownership_pct": 32,
+      "operator": "Lundin Gold",
+      "mine_type": "Underground",
+      "partners": [
+        {
+          "name": "Lundin Gold / others",
+          "pct": 68
+        }
+      ]
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 118200,
+        "attr_koz": 118200
+      },
+      "mi": {
+        "koz": 88100,
+        "attr_koz": 88100
+      },
+      "inf": {
+        "koz": 60600,
+        "attr_koz": 60600
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Newmont Q4/FY2025 results and 2026 guidance",
+      "date": "2026-02-19",
+      "url": "https://www.newmont.com/investors/news-release/news-details/2026/Newmont-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Provides-2026-Guidance-and-Announces-Enhanced-Capital-Allocation-Framework/default.aspx",
+      "what": "5.889 Moz attr 2025; site table; 2026 5.26 Moz +/-5%"
+    },
+    {
+      "title": "Newmont 2025 mineral reserves 118.2 Moz gold",
+      "date": "2026-02-19",
+      "what": "P&P 118.2; M&I excl 88.1; inferred 60.6"
+    },
+    {
+      "title": "Newmont Q2 2026 results",
+      "date": "2026-07-23",
+      "what": "H1 2026 2.594 Moz attributable"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-12",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  }
+}

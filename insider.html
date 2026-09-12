@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=107" />
+  <link rel="stylesheet" href="shell.css?v=108" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -706,7 +706,7 @@
       <p class="kicker">Trade tape</p>
       <p class="count" id="tape-count"></p>
     </div>
-    <div class="qc-pol-desk">
+    <div class="qc-pol-desk qc-has-last">
       <ol class="qc-txn-list qc-tape-list" id="rows" aria-label="Officer tape"></ol>
     </div>
     <div class="tape-more" id="tape-more-row" hidden>
@@ -714,7 +714,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=112"></script>
+  <script src="qc.js?v=113"></script>
   <script src="chart.js"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -911,6 +911,7 @@
     let tileSort = "size";
     let chartToken = 0;
     const priceCache = {};
+    const lastCloseByCode = {};
     let deskBound = false;
 
     function formatPct(value, total) {
@@ -1427,7 +1428,12 @@
         empty: key ? "No trades for this name on the 3-year tape." : "No trades on the 3-year tape.",
         holdKeyOf: (t) => holdingIdentity(t, tickerLookup).key,
         selectedId: visibleTradeId(),
-        limit: limit
+        limit: limit,
+        showLastClose: true,
+        lastCloseByCode: lastCloseByCode
+      });
+      QC.fillLastCloseMap((full || []).map((t) => t.ticker || t.code), lastCloseByCode).then(() => {
+        QC.applyLastCloses(list, lastCloseByCode);
       });
       const capped = !showAllTape && full.length > page;
       if (count) {

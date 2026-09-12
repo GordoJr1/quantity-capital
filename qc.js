@@ -233,6 +233,60 @@
     });
   }
 
+  function lastCloseFromFile(data) {
+    if (!data || data.missing) return null;
+    const px = Number(data.px);
+    if (isFinite(px) && px > 0) return px;
+    const c = data.c;
+    if (c && c.length) {
+      const last = c[c.length - 1];
+      const n = last && Number(last[1]);
+      if (isFinite(n) && n > 0) return n;
+    }
+    return null;
+  }
+
+  function lastCloseLookup(map, t) {
+    if (!map) return null;
+    const code = String(tapeSymbol(t) || "").toUpperCase();
+    if (!code) return null;
+    if (map[code] != null) return map[code];
+    return null;
+  }
+
+  function lastCloseHtml(n, code) {
+    const text = (n != null && isFinite(Number(n))) ? formatQuote(n) : "—";
+    const tk = String(code || "").toUpperCase();
+    return "<span class=\"qc-txn-last\"" +
+      (tk ? " data-tk=\"" + esc(tk) + "\"" : "") +
+      " title=\"Last close\">" + esc(text) + "</span>";
+  }
+
+  function fillLastCloseMap(codes, map) {
+    map = map || {};
+    const want = [];
+    (codes || []).forEach((c) => {
+      const t = String(c || "").toUpperCase();
+      if (!isChartTicker(t)) return;
+      if (Object.prototype.hasOwnProperty.call(map, t)) return;
+      want.push(t);
+    });
+    return Promise.all(want.map((t) =>
+      fetch("prices/" + encodeURIComponent(t) + ".json")
+        .then((r) => r.ok ? r.json() : null)
+        .then((d) => { map[t] = lastCloseFromFile(d); })
+        .catch(() => { map[t] = null; })
+    )).then(() => map);
+  }
+
+  function applyLastCloses(root, map) {
+    if (!root || !map) return;
+    root.querySelectorAll(".qc-txn-last[data-tk]").forEach((el) => {
+      const px = map[el.getAttribute("data-tk")];
+      el.textContent = (px != null && isFinite(Number(px))) ? formatQuote(px) : "—";
+    });
+  }
+
   function signedMoney(n) {
     const abs = formatMoney(Math.abs(n));
     if (n > 0) return "+" + abs;
@@ -1172,12 +1226,17 @@
     return "Filed " + w + " " + rest;
   }
 
-  function politicianTapeColsHtml() {
+  function politicianTapeColsHtml(opts) {
+    opts = opts || {};
+    const last = opts.showLastClose
+      ? "<span class=\"qc-txn-last\">Last</span>"
+      : "";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
       "<span class=\"qc-txn-company\">Ticker</span>" +
       "<span class=\"qc-txn-coname\">Company</span>" +
+      last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
       "<span class=\"qc-txn-hero\">Value</span>" +
     "</li>";
@@ -1203,12 +1262,14 @@
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
 
+    const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
     const whoParts = [];
     if (code) {
       whoParts.push(tickerHref
         ? "<a class=\"qc-txn-tk\" href=\"" + esc(tickerHref) + "\">" + esc(code) + "</a>"
         : "<span class=\"qc-txn-tk\">" + esc(code) + "</span>");
     }
+    if (lastHtml) whoParts.push(lastHtml);
     if (role) whoParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
     const metaParts = [];
     if (t && t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
@@ -1240,7 +1301,7 @@
         "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
-      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span></div>" +
+      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + "</div>" +
       companyHtml +
     "</li>";
   }
@@ -1377,12 +1438,14 @@
           tickerHref: tickerHref,
           holdKey: holdKey,
           selected: !!(opts.selectedId && t.id === opts.selectedId),
-          preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId)
+          preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId),
+          showLastClose: !!opts.showLastClose,
+          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null
         });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
     });
-    return politicianTapeColsHtml() + blocks.join("");
+    return politicianTapeColsHtml(opts) + blocks.join("");
   }
 
   global.QC = {
@@ -1429,6 +1492,11 @@
     formatAmountRange: formatAmountRange,
     formatMoney: formatMoney,
     formatQuote: formatQuote,
+    lastCloseFromFile: lastCloseFromFile,
+    lastCloseLookup: lastCloseLookup,
+    lastCloseHtml: lastCloseHtml,
+    fillLastCloseMap: fillLastCloseMap,
+    applyLastCloses: applyLastCloses,
     signedMoney: signedMoney,
     prettyDate: prettyDate,
     tapeSymbol: tapeSymbol,

@@ -1091,6 +1091,54 @@ summary:focus-visible,
   .qc-pol-desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
 }
 
+/* Last close on insider officer + company desks only. Politician tape stays 6-col. */
+.qc-txn-last { display: none; }
+@media (max-width: 899px) {
+  .qc-has-last .qc-txn-who .qc-txn-last {
+    display: inline;
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--paper, #d8dde3);
+    white-space: nowrap;
+  }
+}
+@media (min-width: 900px) {
+  .qc-pol-desk.qc-has-last .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk.qc-has-last .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(7.4rem, 1.3fr) 5.2rem minmax(6rem, 1.45fr) 4.7rem 4.6rem minmax(3.6rem, 0.52fr);
+    grid-template-areas: "date id co coname last chip hero";
+  }
+  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-last,
+  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-last {
+    display: block;
+    grid-area: last;
+    justify-self: end;
+    text-align: right;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-last {
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #eef2f5;
+  }
+  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-last {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute, #8b96a3);
+  }
+}
+
 /* Compact page chrome: one title line next to as-of, lede in a fold. */
 .page-head {
   display: flex;

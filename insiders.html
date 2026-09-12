@@ -110,7 +110,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=107" />
+  <link rel="stylesheet" href="shell.css?v=109" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -127,7 +127,15 @@
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
-    .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl, .qc-txn-company { display: none; }
+    .qc-txn-sh, .qc-txn-after, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl, .qc-txn-company { display: none; }
+    .qc-txn-facts {
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px;
+      min-width: 0; color: var(--mute, #8b96a3); font-size: 0.78rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .qc-txn-facts .qc-txn-sh,
+    .qc-txn-facts .qc-txn-after,
+    .qc-txn-facts .qc-txn-held { display: inline; }
     .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
     .qc-txn-id-line .qc-txn-role { display: none; }
     .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "sub sub"; row-gap: 3px; }
@@ -144,8 +152,8 @@
     @media (min-width: 900px) {
       .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .qc-txn-tape {
-        grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.55fr) minmax(4.8rem, 0.7fr) 4.8rem;
-        grid-template-areas: "date id co chip sh px hero held";
+        grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.8rem, 0.65fr) 4.8rem minmax(4.8rem, 0.7fr);
+        grid-template-areas: "date id co chip sh after held hero";
       }
       .qc-txn-tape {
         column-gap: 10px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px;
@@ -153,15 +161,16 @@
       .qc-txn-tape .qc-txn-end,
       .qc-txn-tape .qc-txn-tbl { display: contents; }
       .qc-txn-tape .qc-txn-sub { display: none; }
-      .qc-txn-tape .qc-txn-after { display: none; }
+      .qc-txn-tape .qc-txn-facts { display: none; }
       .qc-txn-tape .qc-txn-chip { grid-area: chip; }
       .qc-txn-tape .qc-txn-date { grid-area: date; }
-      .qc-txn-tape .qc-txn-sh { display: block; grid-area: sh; }
+      .qc-txn-tape .qc-txn-sh { display: block; grid-area: sh; text-align: right; }
+      .qc-txn-tape .qc-txn-after { display: block; grid-area: after; text-align: right; }
       .qc-txn-tape .qc-txn-hero { grid-area: hero; font-size: 0.95rem; }
       .qc-txn-tape .qc-txn-hero.is-shares { display: none; }
       .qc-txn-tape .qc-txn-hero.is-empty { display: block; grid-area: hero; color: var(--mute, #8b96a3); font-weight: 400; font-size: 0.78rem; }
-      .qc-txn-tape .qc-txn-px { grid-area: px; }
-      .qc-txn-tape .qc-txn-held { grid-area: held; }
+      .qc-txn-tape .qc-txn-px { display: none; }
+      .qc-txn-tape .qc-txn-held { display: block; grid-area: held; text-align: right; }
       .qc-txn-tape .qc-txn-company,
       .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
       .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
@@ -218,15 +227,40 @@
       .desk .qc-txn-head { margin-top: 0; }
       .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
-        grid-template-areas: "date id co coname chip hero";
+        grid-template-columns: 4.8rem minmax(6.4rem, 1.15fr) 3.5rem minmax(5rem, 1.15fr) 4.4rem minmax(3.4rem, 0.48fr) minmax(4rem, 0.52fr) 4.2rem minmax(3.4rem, 0.48fr);
+        grid-template-areas: "date id co coname chip sh after held hero";
       }
-      .desk .qc-txn-tape .qc-txn-sh,
       .desk .qc-txn-tape .qc-txn-px,
+      .desk .qc-txn-cols .qc-txn-px { display: none; }
+      .desk .qc-txn-tape .qc-txn-facts { display: none; }
+      .desk .qc-txn-tape .qc-txn-sh,
+      .desk .qc-txn-cols .qc-txn-sh { grid-area: sh; }
+      .desk .qc-txn-tape .qc-txn-after,
+      .desk .qc-txn-cols .qc-txn-after { grid-area: after; }
+      .desk .qc-txn-tape .qc-txn-held,
+      .desk .qc-txn-cols .qc-txn-held { grid-area: held; }
+      .desk .qc-txn-tape .qc-txn-sh,
+      .desk .qc-txn-tape .qc-txn-after,
       .desk .qc-txn-tape .qc-txn-held,
       .desk .qc-txn-cols .qc-txn-sh,
-      .desk .qc-txn-cols .qc-txn-px,
-      .desk .qc-txn-cols .qc-txn-held { display: none; }
+      .desk .qc-txn-cols .qc-txn-after,
+      .desk .qc-txn-cols .qc-txn-held {
+        display: block;
+        justify-self: end;
+        text-align: right;
+      }
+      .desk .qc-txn-tape .qc-txn-sh,
+      .desk .qc-txn-tape .qc-txn-after {
+        font-variant-numeric: tabular-nums;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: #eef2f5;
+      }
+      .desk .qc-txn-tape .qc-txn-held {
+        font-variant-numeric: tabular-nums;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
       /* Split the combined ticker/company cell into its own Ticker + Company columns */
       .desk .qc-txn-tape .qc-txn-company { display: contents; }
       .desk .qc-txn-tape .qc-txn-company .qc-txn-tk { grid-area: co; }
@@ -586,7 +620,7 @@
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
     </div>
     <p class="count" id="tape-count"></p>
-    <div class="desk" id="desk">
+    <div class="desk qc-has-shares" id="desk">
       <div class="wire-col">
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
       </div>
@@ -616,7 +650,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=112"></script>
+  <script src="qc.js?v=114"></script>
   <script src="chart.js"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -709,6 +743,9 @@
         "<span class=\"qc-txn-company\">Ticker</span>" +
         "<span class=\"qc-txn-coname\">Company</span>" +
         "<span class=\"qc-txn-chip\">Trade</span>" +
+        "<span class=\"qc-txn-sh\">Shares</span>" +
+        "<span class=\"qc-txn-after\">Held</span>" +
+        "<span class=\"qc-txn-held\">% Held</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
       document.getElementById("rows").innerHTML = tradeHtml

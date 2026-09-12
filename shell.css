@@ -1091,6 +1091,29 @@ summary:focus-visible,
   .qc-pol-desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
 }
 
+/* Share / held columns on insider tapes. Politician tape stays 6-col. */
+.qc-txn-facts { display: none; }
+@media (max-width: 899px) {
+  .qc-has-shares .qc-txn-facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 2px 10px;
+    min-width: 0;
+    color: var(--mute, #8b96a3);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .qc-has-shares .qc-txn-facts .qc-txn-sh,
+  .qc-has-shares .qc-txn-facts .qc-txn-after,
+  .qc-has-shares .qc-txn-facts .qc-txn-held {
+    display: inline;
+  }
+  .qc-has-shares .qc-txn-facts .qc-txn-sh {
+    color: var(--paper, #d8dde3);
+  }
+}
+
 /* Last close on insider officer + company desks only. Politician tape stays 6-col. */
 .qc-txn-last { display: none; }
 @media (max-width: 899px) {
@@ -1136,6 +1159,52 @@ summary:focus-visible,
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--mute, #8b96a3);
+  }
+
+  .qc-pol-desk.qc-has-shares .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk.qc-has-shares .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(6.6rem, 1.2fr) 5rem minmax(5.4rem, 1.25fr) 4.6rem minmax(3.6rem, 0.48fr) minmax(4.2rem, 0.55fr) 4.4rem minmax(3.6rem, 0.5fr);
+    grid-template-areas: "date id co coname chip sh after held hero";
+  }
+  .qc-pol-desk.qc-has-last.qc-has-shares .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk.qc-has-last.qc-has-shares .qc-txn-tape {
+    grid-template-columns: 4.8rem minmax(6.2rem, 1.1fr) 4.6rem minmax(4.8rem, 1.1fr) 4.4rem 4.4rem minmax(3.4rem, 0.45fr) minmax(4rem, 0.5fr) 4.2rem minmax(3.4rem, 0.48fr);
+    grid-template-areas: "date id co coname last chip sh after held hero";
+  }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-facts { display: none; }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-after,
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-sh,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-after,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-held {
+    display: block;
+    justify-self: end;
+    text-align: right;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-sh { grid-area: sh; }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-after,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-after { grid-area: after; }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-held { grid-area: held; }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-px,
+  .qc-pol-desk.qc-has-shares .qc-txn-cols .qc-txn-px { display: none; }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-after {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #eef2f5;
+  }
+  .qc-pol-desk.qc-has-shares .qc-txn-tape .qc-txn-held {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+    font-weight: 600;
   }
 }
 

@@ -1021,6 +1021,53 @@
     return Number(n).toFixed(4) + "%";
   }
 
+  function firstNum(t, keys) {
+    if (!t) return null;
+    for (let i = 0; i < keys.length; i++) {
+      if (isFiniteNum(t[keys[i]])) return Number(t[keys[i]]);
+    }
+    return null;
+  }
+
+  function tradeShareCount(t) {
+    return firstNum(t, ["shares", "quantity", "shares_traded", "txn_shares"]);
+  }
+
+  function tradeSharesHeld(t) {
+    return firstNum(t, ["shares_after", "sharesAfter", "shares_held", "sharesHeld", "shares_owned"]);
+  }
+
+  function tradeHeldPctValue(t) {
+    return firstNum(t, ["held_pct", "pct_held", "percentOfClass", "pctHeld", "percent_of_class"]);
+  }
+
+  function formatSharesCell(n) {
+    return formatSharesQuiet(n) || "—";
+  }
+
+  function formatHeldCell(n) {
+    return formatHeldQuiet(n) || "—";
+  }
+
+  function shareColsHtml(t) {
+    const delta = positionDelta(t);
+    return "<span class=\"qc-txn-sh\" title=\"Shares in the trade\">" + esc(formatSharesCell(tradeShareCount(t))) + "</span>" +
+      "<span class=\"qc-txn-after\" title=\"Shares held after the trade\">" + esc(formatSharesCell(tradeSharesHeld(t))) + "</span>" +
+      "<span class=\"qc-txn-held " + delta + "\" title=\"Percent of class held\">" + esc(formatHeldCell(tradeHeldPctValue(t))) + "</span>";
+  }
+
+  function shareFactsHtml(t) {
+    const parts = [];
+    const sh = formatSharesQuiet(tradeShareCount(t));
+    const after = formatSharesQuiet(tradeSharesHeld(t));
+    const held = formatHeldQuiet(tradeHeldPctValue(t));
+    if (sh) parts.push("<span class=\"qc-txn-sh\">" + esc(sh) + " sh</span>");
+    if (after) parts.push("<span class=\"qc-txn-after\">" + esc(after) + " held</span>");
+    if (held) parts.push("<span class=\"qc-txn-held " + positionDelta(t) + "\">" + esc(held) + "</span>");
+    if (!parts.length) return "";
+    return "<div class=\"qc-txn-facts\">" + dotted(parts).join("") + "</div>";
+  }
+
   function txnChipLabel(t) {
     const label = txnLabel(t);
     if (label === "Sale Post-exercise") return "Post-ex";
@@ -1089,7 +1136,6 @@
   function tapeRowHtml(t, opts) {
     opts = opts || {};
     const cls = txnClass(t);
-    const delta = positionDelta(t);
     const name = titleCaseName(t.filer);
     const href = opts.nameHref || "";
     const nameHtml = name
@@ -1133,19 +1179,17 @@
 
     const tblParts = [];
     if (t.trade_date) tblParts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
-    const sh = formatSharesQuiet(t.shares);
-    if (sh) tblParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
+    tblParts.push(shareColsHtml(t));
     const px = formatPriceQuiet(t.price);
     if (px) tblParts.push("<span class=\"qc-txn-px\">" + esc(px) + "</span>");
-    const held = formatHeldQuiet(t.held_pct);
-    if (held) tblParts.push("<span class=\"qc-txn-held " + delta + "\">" + esc(held) + "</span>");
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
+    const facts = shareFactsHtml(t);
 
     return "<li class=\"qc-txn qc-txn-tape" + (cls ? " " + cls : "") + "\"" +
       (t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
       "<div class=\"qc-txn-id\">" + nameLine + "</div>" +
       txnEndHtml(t) +
-      (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
+      (sub || facts ? "<div class=\"qc-txn-sub\">" + sub + facts + "</div>" : "") +
       tbl +
       companyCol +
     "</li>";
@@ -1231,6 +1275,11 @@
     const last = opts.showLastClose
       ? "<span class=\"qc-txn-last\">Last</span>"
       : "";
+    const shares = opts.showShareCols
+      ? "<span class=\"qc-txn-sh\">Shares</span>" +
+        "<span class=\"qc-txn-after\">Held</span>" +
+        "<span class=\"qc-txn-held\">% Held</span>"
+      : "";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
@@ -1238,6 +1287,7 @@
       "<span class=\"qc-txn-coname\">Company</span>" +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
+      shares +
       "<span class=\"qc-txn-hero\">Value</span>" +
     "</li>";
   }
@@ -1263,6 +1313,8 @@
       : "<span class=\"qc-txn-company\">" + co + "</span>";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
+    const shareHtml = opts.showShareCols ? shareColsHtml(t) : "";
+    const facts = opts.showShareCols ? shareFactsHtml(t) : "";
     const whoParts = [];
     if (code) {
       whoParts.push(tickerHref
@@ -1300,8 +1352,8 @@
         "<span class=\"qc-txn-chip\">" + esc(txnLabel(t) || sideLabel(t && t.side)) + "</span>" +
         "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
-      (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
-      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + "</div>" +
+      (sub || facts ? "<div class=\"qc-txn-sub\">" + sub + facts + "</div>" : "") +
+      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shareHtml + "</div>" +
       companyHtml +
     "</li>";
   }
@@ -1399,7 +1451,7 @@
     opts = opts || {};
     const empty = opts.empty || "No trades on the 3-year tape.";
     if (!rows || !rows.length) {
-      return politicianTapeColsHtml() + "<li class=\"muted\">" + esc(empty) + "</li>";
+      return politicianTapeColsHtml(opts) + "<li class=\"muted\">" + esc(empty) + "</li>";
     }
     const sorted = rows.slice().sort((a, b) => {
       const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
@@ -1440,7 +1492,8 @@
           selected: !!(opts.selectedId && t.id === opts.selectedId),
           preview: !!(opts.previewId && t.id === opts.previewId && t.id !== opts.selectedId),
           showLastClose: !!opts.showLastClose,
-          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null
+          lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
+          showShareCols: !!opts.showShareCols
         });
       }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;

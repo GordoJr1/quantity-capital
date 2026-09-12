@@ -1,5 +1,5 @@
-# Rebuild insider-follow.json after the off-repo collector pushes a new
-# tape. Daily-update also runs the same script after the price refresh.
+# Rebuild Form 4 sidecar + follow list after the off-repo collector
+# pushes a new tape. Daily-update runs the same pair after prices.
 name: follow-alerts
 on:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - insider-trades-lite.json
       - build-insider-follow.py
+      - collect/form4_enrich.py
   workflow_dispatch:
 
 concurrency:
@@ -27,9 +28,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Rebuild follow list and alerts
+      - name: Enrich Form 4s and rebuild follow list
         run: |
           set -euo pipefail
+          python3 collect/form4_enrich.py
+          python3 build-insider-repeatable.py
           python3 build-insider-follow.py
 
       - name: Commit and publish
@@ -39,7 +42,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add insider-follow.json
+          git add insider-form4.json insider-repeatable.json insider-follow.json
           if git diff --staged --quiet; then
             echo "no follow-list changes"
             exit 0

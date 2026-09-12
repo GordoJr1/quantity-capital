@@ -1,6 +1,6 @@
 {
   "name": "Quantity Capital",
-  "install": "python3 build-backtest.py && python3 build-insider-repeatable.py && python3 build-insider-follow.py",
+  "install": "python3 collect/form4_enrich.py && python3 build-backtest.py && python3 build-insider-repeatable.py && python3 build-insider-follow.py",
   "terminals": [
     {
       "name": "web",

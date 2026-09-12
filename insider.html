@@ -825,6 +825,7 @@
       const line1 = [];
       if (followRow) {
         line1.push("<a class=\"qc-follow-tag\" href=\"insider-board.html?b=follow\">Follow</a>");
+        if (followRow.planHeavy) line1.push("<span class=\"qc-plan-tag\">Plan-heavy</span>");
       }
       if (role) line1.push("<span class=\"hero-party\">" + esc(role) + "</span>");
       if (title && title.toLowerCase() !== String(role || "").toLowerCase()) line1.push(esc(title));
@@ -839,6 +840,13 @@
         line2.push(esc(companies[0]) + (tickers[0] ? " · " + esc(tickers[0]) : ""));
       } else if (tickers.length) {
         line2.push(tickers.length + (tickers.length === 1 ? " issuer" : " issuers") + " on tape");
+      }
+      if (followRow && followRow.conv != null) {
+        line2.push(Math.round(followRow.conv * 100) + "% of stake");
+      }
+      if (followRow && followRow.after != null) {
+        const held = QC.formatSharesQuiet(followRow.after);
+        if (held) line2.push(held + " remaining");
       }
       if (!line1.length && !line2.length) {
         box.hidden = true;
@@ -1733,9 +1741,11 @@
     Promise.all([
       fetch("insider-trades-lite.json").then((r) => r.json()),
       fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} })),
-      QC.loadFollow().catch(() => null)
-    ]).then(([data, tickerFile, follow]) => {
+      QC.loadFollow().catch(() => null),
+      QC.loadForm4()
+    ]).then(([data, tickerFile, follow, form4]) => {
       followRow = follow ? QC.followById(follow)[id] || null : null;
+      if (form4) QC.applyForm4(data.trades || [], form4);
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
       const rows = threeYearRows(data);

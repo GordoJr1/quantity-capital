@@ -14,20 +14,23 @@ In Cloud Agents this server is started automatically (see `.cursor/environment.j
 
 ## Rebuild derived data
 
-`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/`. `insider-follow.json` (Follow / Best officers + new-print alerts) is derived from that ranking plus the tape. All three are committed, so regenerate them after changing tape or price data:
+`backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-form4.json` (10b5-1 / plan flags + Table I end holdings) is collected from SEC Form 4 XML already linked on the tape. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/` and skips scheduled-plan Form 4 buys. `insider-follow.json` (Follow / Best officers + new-print alerts) is derived from that ranking plus the tape, and down-ranks plan-heavy officers. All four are committed, so regenerate them after changing tape or price data:
 
 ```
 python3 fetch-prices.py                 # stdlib only; appends new Yahoo daily closes into prices/
+python3 collect/form4_enrich.py         # stdlib only; SEC Form 4 10b5-1 + Table I sidecar
 python3 build-backtest.py               # stdlib only, ~2.4s, idempotent apart from a timestamp
 python3 build-insider-repeatable.py     # stdlib only; 30/90/180-day open-market copy ranks
 python3 build-insider-follow.py         # stdlib only; follow list + alerts since last tape
 ```
 
+Form 4 collection talks to public `www.sec.gov` Archives. No secrets. SEC fair-access requires a User-Agent that is a **company name plus contact email** (Mozilla-style UAs get HTTP 403 “undeclared automated tool”). Default: `Quantity Capital gordojr@proton.me`. Stay under **10 requests/second** (the collector sleeps 0.12s, ~8/s, and backs off on 403/429). Incremental: already-fetched accessions in `insider-form4.json` are not re-downloaded. Do **not** point this job at Senate eFD (captcha).
+
 `.cursor/environment.json` runs those builders in `install`, so a fresh Cloud Agent always has up-to-date derived JSON.
 
 ## Daily site refresh
 
-`.github/workflows/daily-update.yml` runs weekdays at 23:30 UTC: fetch Yahoo closes, rebuild `backtest.json` / `insider-repeatable.json` if prices moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` rebuilds the follow list when `insider-trades-lite.json` is pushed. Tape JSON (`trades*.json`, `insider-*.json`, `analysis.json`, `tells.json`) is still produced by an off-repo collector that is not in this repository.
+`.github/workflows/daily-update.yml` runs weekdays at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed. Senate/House/OGE tape JSON is still produced by an off-repo collector.
 
 ## Service worker cache — read before editing shell assets
 
@@ -44,6 +47,11 @@ When testing changes, do a hard reload or clear the site's caches; a stale servi
 - Scripts: `qc.js` (shared app logic), `chart.js`, `refresh.js`, `sw.js`.
 - Data: `trades*.json`, `bios.json`, `tickers.json`, `traders.json`, `analysis.json`, `tells.json`, `backtest.json`, `insider-*.json`, and per-ticker `prices/<TICKER>.json`.
 
-## Data collection (not runnable in this repo yet)
+## Data collection
 
-`README.md` references a collection pipeline (`collect/insider_collect.py`, `collect/fetch_insider_prices.py`, `collect/build_insider_analysis.py`) that refreshes the insider datasets. Those scripts are **not present** in this repository. Daily Yahoo price refresh and `backtest.json` rebuild *are* in-repo (`fetch-prices.py` + `daily-update.yml`). If the collect scripts are added, they will likely need outbound network access (SEC/SEDI/CEO.CA) and possibly credentials; wire them into `.cursor/environment.json`, the egress allowlist, and `daily-update.yml` at that point.
+In-repo and stdlib-only:
+
+- `fetch-prices.py` — Yahoo daily closes into `prices/`
+- `collect/form4_enrich.py` — SEC Form 4 10b5-1 / plan footnotes + Table I `sharesOwnedFollowingTransaction` onto `insider-form4.json` (does not rewrite the off-repo tape). Overlay fields for the tape UI: `shares` (lot), `shares_held` / `after` (end holdings), `pct_held` (copied from tape `held_pct` when present)
+
+Still off-repo: `collect/insider_collect.py`, `collect/fetch_insider_prices.py`, `collect/build_insider_analysis.py` (full tape refresh, including SEDI / CEO.CA). Senate eFD is captcha-gated — do not add a Senate collector here.

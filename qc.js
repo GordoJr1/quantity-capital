@@ -1141,7 +1141,8 @@
     const tbl = tblParts.length ? "<div class=\"qc-txn-tbl\">" + tblParts.join("") + "</div>" : "";
 
     const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
-    const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + followHtml + "</div>";
+    const planHtml = t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "";
+    const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + followHtml + planHtml + "</div>";
     const when = t.trade_date
       ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
       : "";
@@ -1325,6 +1326,7 @@
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
+        (t && t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "") +
       "</div></div>" +
       "<div class=\"qc-txn-end\">" +
         "<span class=\"qc-txn-chip\">" + esc(txnLabel(t) || sideLabel(t && t.side)) + "</span>" +
@@ -1516,7 +1518,8 @@
     const side = a.side === "sale" ? "sold" : "bought";
     const when = prettyDate(a.filed_date || a.trade_date || "");
     const hero = a.amount || (a.value != null ? formatMoney(a.value) : "");
-    return [name, side, a.ticker || "", when, hero].filter(Boolean).join(" · ");
+    const plan = a.plan ? "plan" : "";
+    return [name, side, a.ticker || "", when, hero, plan].filter(Boolean).join(" · ");
   }
 
   function followAlertsHtml(payload) {
@@ -1528,8 +1531,9 @@
         ? "insider.html?id=" + encodeURIComponent(a.filer_id)
         : "insider-board.html?b=follow";
       const sideCls = a.side === "sale" ? "down" : "up";
+      const plan = a.plan ? "<span class=\"qc-plan-tag\">Plan</span>" : "";
       return "<a class=\"hit\" href=\"" + esc(href) + "\">" +
-        "<span class=\"who\">" + esc(titleCaseName(a.filer || "")) + "</span>" +
+        "<span class=\"who\">" + esc(titleCaseName(a.filer || "")) + plan + "</span>" +
         "<span class=\"side " + sideCls + "\">" + (a.side === "sale" ? "Sold" : "Bought") + "</span>" +
         "<span class=\"tk\">" + esc(a.ticker || "") + "</span>" +
         "<span class=\"when\">" + esc(prettyDate(a.filed_date || "")) + "</span></a>";
@@ -1612,6 +1616,36 @@
     return fetch("insider-follow.json").then((r) => r.json());
   }
 
+  function loadForm4() {
+    return fetch("insider-form4.json").then((r) => r.ok ? r.json() : null).catch(() => null);
+  }
+
+  function emptyNum(v) {
+    return v == null || v === "";
+  }
+
+  function applyForm4(trades, payload) {
+    const map = (payload && payload.trades) || {};
+    (trades || []).forEach((t) => {
+      if (!t || !t.id) return;
+      const ov = map[t.id];
+      if (!ov) return;
+      t.plan = !!ov.plan;
+      t.planWhy = ov.why || "";
+      // Fill gaps only. Do not overwrite tape shares / shares_after / held_pct.
+      if (emptyNum(t.shares) && ov.shares != null) t.shares = ov.shares;
+      if (emptyNum(t.shares_after) && (ov.shares_held != null || ov.after != null)) {
+        t.shares_after = ov.shares_held != null ? ov.shares_held : ov.after;
+      }
+      if (emptyNum(t.held_pct) && ov.pct_held != null) t.held_pct = ov.pct_held;
+      if (ov.vs != null) t.vsStake = ov.vs;
+      if (ov.held != null) t.heldAfter = ov.held;
+      if (emptyNum(t.shares_held)) t.shares_held = ov.shares_held != null ? ov.shares_held : t.shares_after;
+      if (emptyNum(t.pct_held)) t.pct_held = ov.pct_held != null ? ov.pct_held : t.held_pct;
+    });
+    return trades;
+  }
+
   global.QC = {
     esc: esc,
     isBond: isBond,
@@ -1687,6 +1721,8 @@
     mountFollowAlerts: mountFollowAlerts,
     requestFollowNotify: requestFollowNotify,
     loadFollow: loadFollow,
+    loadForm4: loadForm4,
+    applyForm4: applyForm4,
     BAD_TICKERS: BAD_TICKERS
   };
 })(window);

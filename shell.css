@@ -1408,7 +1408,23 @@ details.how {
 }
 a.qc-follow-tag { text-decoration: none; }
 a.qc-follow-tag:hover { background: rgba(227, 180, 26, 0.12); }
-.qc-txn-id-line .qc-follow-tag { margin-left: 8px; }
+.qc-txn-id-line .qc-follow-tag,
+.qc-txn-id-line .qc-plan-tag { margin-left: 8px; }
+.qc-plan-tag {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--teal, #36999d);
+  color: var(--teal, #36999d);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  vertical-align: middle;
+}
 .qc-follow-alerts {
   margin: 0 0 14px;
   border: 1px solid var(--caution, #e3b41a);

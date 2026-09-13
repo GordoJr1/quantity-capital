@@ -15,7 +15,8 @@
   <meta name="description" content="Filing-backed gold producer mine profiles. Not investment advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" /></noscript>
   <style>
     :root {
       --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
@@ -245,6 +246,12 @@
       border-radius: 0;
       padding: 0;
       user-select: none;
+    }
+    .chart-wrap.chart-pending::after {
+      content: "Loading price…";
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
+      font-size: 0.82rem; color: var(--mute); pointer-events: none;
     }
     .chart-frame {
       display: flex; flex-direction: column; position: relative;
@@ -487,11 +494,14 @@
     let chartRange = "3m";
     let polTrades = [];
     let insiderTrades = [];
+    let polByTicker = null;
+    let insByTicker = null;
     const priceCache = {};
     let chartTicker = "";
     let chartPoints = [];
     let chartMarks = [];
     let tapesReady = null;
+    let tapesScheduled = false;
     let chartReq = 0;
     let lastPlotH = 0;
 
@@ -1044,16 +1054,72 @@
       }
       return false;
     }
+    function fetchTape(url) {
+      const opts = { priority: "low" };
+      return fetch(url, opts).then((r) => r.ok ? r.json() : { trades: [] }).catch(() => ({ trades: [] }));
+    }
+    function indexTape(trades) {
+      const map = Object.create(null);
+      for (let i = 0; i < (trades || []).length; i++) {
+        const t = trades[i];
+        const k = tradeTicker(t);
+        if (!k) continue;
+        if (!map[k]) map[k] = [];
+        map[k].push(t);
+      }
+      return map;
+    }
+    function tradesForAliases(map, aliases) {
+      if (!map) return [];
+      const out = [];
+      const seen = new Set();
+      for (let i = 0; i < aliases.length; i++) {
+        const a = aliases[i];
+        const keys = [a, a + ".TO", a + ".AX", a + ".V"];
+        for (let k = 0; k < keys.length; k++) {
+          const rows = map[keys[k]];
+          if (!rows) continue;
+          for (let j = 0; j < rows.length; j++) {
+            const t = rows[j];
+            if (seen.has(t)) continue;
+            seen.add(t);
+            out.push(t);
+          }
+        }
+      }
+      return out;
+    }
     function ensureTapes() {
       if (tapesReady) return tapesReady;
       tapesReady = Promise.all([
-        fetch("trades-lite.json").then((r) => r.ok ? r.json() : { trades: [] }).catch(() => ({ trades: [] })),
-        fetch("insider-trades-lite.json").then((r) => r.ok ? r.json() : { trades: [] }).catch(() => ({ trades: [] }))
+        fetchTape("trades-lite.json"),
+        fetchTape("insider-trades-lite.json")
       ]).then(([pol, ins]) => {
         polTrades = pol.trades || [];
         insiderTrades = ins.trades || [];
+        polByTicker = indexTape(polTrades);
+        insByTicker = indexTape(insiderTrades);
       });
       return tapesReady;
+    }
+    function applyTapeMarks() {
+      if (!profile) return;
+      chartMarks = marksForAliases(issuerAliases());
+      drawIssuerChart();
+    }
+    function scheduleTapes() {
+      if (tapesReady || tapesScheduled) return;
+      tapesScheduled = true;
+      const start = () => {
+        ensureTapes().then(applyTapeMarks);
+      };
+      requestAnimationFrame(() => {
+        if (typeof requestIdleCallback === "function") {
+          requestIdleCallback(start, { timeout: 2500 });
+        } else {
+          setTimeout(start, 400);
+        }
+      });
     }
     function loadPriceFile(code) {
       const key = String(code || "").toUpperCase();
@@ -1067,7 +1133,9 @@
     }
     function marksForAliases(aliases) {
       const marks = [];
-      (polTrades || []).forEach((t) => {
+      const polRows = polByTicker ? tradesForAliases(polByTicker, aliases) : [];
+      const insRows = insByTicker ? tradesForAliases(insByTicker, aliases) : [];
+      polRows.forEach((t) => {
         if (!aliasHit(tradeTicker(t), aliases)) return;
         if (t.side !== "purchase" && t.side !== "sale") return;
         if (QC.isBond(t) || QC.isOptionLike(t)) return;
@@ -1081,7 +1149,7 @@
           amount: t.amount
         });
       });
-      (insiderTrades || []).forEach((t) => {
+      insRows.forEach((t) => {
         if (!aliasHit(tradeTicker(t), aliases)) return;
         if (!QC.isMarketBuy(t) && !QC.isMarketSale(t)) return;
         if (!t.trade_date) return;
@@ -1207,8 +1275,16 @@
           onMark: showChartPop
         });
       };
-      if (stacked) paintPlot();
-      else requestAnimationFrame(paintPlot);
+      paintPlot();
+      if (!stacked) {
+        requestAnimationFrame(() => {
+          if (chartPoints && chartPoints.length >= 2) paintPlot();
+        });
+      }
+    }
+    function setChartPending(on) {
+      const wrap = document.getElementById("chart-wrap");
+      if (wrap) wrap.classList.toggle("chart-pending", !!on);
     }
     function paintChart() {
       const req = ++chartReq;
@@ -1222,30 +1298,39 @@
         chartTicker = "";
         chartPoints = [];
         chartMarks = [];
+        setChartPending(false);
         drawIssuerChart();
+        scheduleTapes();
         return;
       }
       const aliases = issuerAliases();
       const same = tk === chartTicker && chartPoints.length >= 2;
       chartMarks = marksForAliases(aliases);
       if (same) {
+        setChartPending(false);
         drawIssuerChart();
+        scheduleTapes();
         return;
       }
+      setChartPending(true);
       chartTicker = tk;
       const tries = aliases.slice();
       function nextPrice(i) {
         if (req !== chartReq) return;
         if (i >= tries.length) {
           chartPoints = [];
+          setChartPending(false);
           drawIssuerChart();
+          scheduleTapes();
           return;
         }
         loadPriceFile(tries[i]).then((file) => {
           if (req !== chartReq) return;
           if (file && file.c && file.c.length >= 2) {
             chartPoints = file.c;
+            setChartPending(false);
             drawIssuerChart();
+            scheduleTapes();
           } else {
             nextPrice(i + 1);
           }
@@ -1359,12 +1444,6 @@
       chartRange = btn.getAttribute("data-r");
       paintRange();
       drawIssuerChart();
-    });
-    ensureTapes().then(() => {
-      if (profile) {
-        chartMarks = marksForAliases(issuerAliases());
-        drawIssuerChart();
-      }
     });
     document.getElementById("layer").addEventListener("click", (ev) => {
       const btn = ev.target.closest("button[data-layer]");

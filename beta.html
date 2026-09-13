@@ -60,6 +60,32 @@
     }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .quiet { color: var(--mute); font-size: 0.75rem; line-height: 1.4; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .issuer-top {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
+      gap: 12px 24px;
+      align-items: stretch;
+      margin: 0 0 22px;
+    }
+    .issuer-info { min-width: 0; }
+    .issuer-info .lede { margin-bottom: 8px; }
+    .issuer-info .picker { max-width: 100%; }
+    .issuer-info .stats {
+      margin: 0;
+      background: transparent;
+      border: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .issuer-info .stat,
+    .issuer-info .stat:nth-child(-n+3),
+    .issuer-info .stat:nth-child(3) {
+      padding: 8px 10px 8px 0;
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+    }
+    .issuer-info .stat:last-child { border-bottom: 0; }
+    .issuer-info .stat b { font-size: 1.22rem; }
     .stats {
       display: grid; grid-template-columns: repeat(5, 1fr);
       margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
@@ -185,38 +211,48 @@
       .board-tabs button, .chip { padding: 6px 10px; font-size: 0.82rem; }
       footer .wrap { padding-bottom: 28px; }
     }
-    .issuer-chart { margin: 0 0 22px; }
-    .issuer-chart-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: 12px; flex-wrap: wrap; margin: 18px 0 8px;
+    .issuer-chart {
+      margin: 0; min-width: 0;
+      display: flex; flex-direction: column;
     }
-    .issuer-chart-head h2 { margin: 0; }
+    .issuer-chart-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 8px 12px; flex-wrap: wrap; margin: 0 0 6px; flex: 0 0 auto;
+    }
+    .issuer-chart-head h2 { margin: 0; font-size: 1.05rem; }
     .issuer-chart-head a { color: var(--white); text-decoration: none; }
     .issuer-chart-head a:hover { color: var(--caution); }
     .range {
-      display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%;
-      background: rgba(15, 23, 42, 0.72); border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px; padding: 4px 6px; margin: 0 0 12px;
+      display: flex; flex-wrap: wrap; gap: 2px; width: fit-content; max-width: 100%;
+      background: transparent; border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px; padding: 2px 3px; margin: 0;
     }
     .range button {
       background: transparent; border: 0; color: #94a3b8; cursor: pointer;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em;
-      text-transform: uppercase; font-size: 0.92rem; font-weight: 700;
-      padding: 5px 14px; border-radius: 999px; min-height: 36px;
+      text-transform: uppercase; font-size: 0.8rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px; min-height: 28px;
     }
     .range button.on { color: #03140a; background: #22c55e; font-weight: 800; }
     .chart-wrap {
       position: relative;
-      background: rgba(13, 20, 31, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 20px;
-      padding: 16px 16px 14px 8px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
       user-select: none;
     }
-    .chart-frame { display: flex; flex-direction: column; position: relative; }
+    .chart-frame {
+      display: flex; flex-direction: column; position: relative;
+      flex: 1 1 auto; min-height: 0;
+    }
     #chart-svg {
-      width: 100%; height: auto; display: block; background: transparent;
-      min-height: 280px; cursor: crosshair; overflow: visible;
+      width: 100%; height: 100%; flex: 1 1 auto; display: block;
+      background: transparent; min-height: 220px; cursor: crosshair; overflow: visible;
     }
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
@@ -252,8 +288,6 @@
     }
     .mark-pop .pop-badge.buy { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.5); }
     .mark-pop .pop-badge.sell { background: rgba(248, 113, 113, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.5); }
-    .mark-pop .pop-badge.pol.buy { background: rgba(227, 180, 26, 0.22); color: #e3b41a; border: 1px solid rgba(227, 180, 26, 0.55); }
-    .mark-pop .pop-badge.pol.sell { background: rgba(251, 146, 60, 0.22); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.55); }
     .mark-pop .pop-title {
       font-family: "Barlow Condensed", sans-serif; font-size: 1.02rem; font-weight: 700;
       color: #fff; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -276,22 +310,37 @@
     .mark-pop .pop-single-detail { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 12px; }
     .chart-y { position: absolute; pointer-events: none; z-index: 4; }
     .chart-y span {
-      position: absolute; transform: translate(-100%, -50%); padding-right: 8px;
-      color: #e2e8f0; font-size: 13.5px; font-weight: 700; white-space: nowrap;
+      position: absolute; transform: translate(-100%, -50%); padding-right: 6px;
+      color: #c5ced8; font-size: 11px; font-weight: 600; white-space: nowrap;
     }
     .chart-x {
-      display: flex; justify-content: space-between; padding: 10px 28px 0 34px;
-      color: #e2e8f0; font-size: 13.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex; justify-content: space-between; padding: 4px 8px 0 36px;
+      color: #c5ced8; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      flex: 0 0 auto;
     }
-    .chart-legend { color: var(--mute); font-size: 0.8rem; margin: 10px 0 0; }
+    .chart-legend { color: var(--mute); font-size: 0.72rem; margin: 6px 0 0; flex: 0 0 auto; }
     .chart-legend .buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
     .chart-legend .sell { color: #f87171; margin-right: 12px; font-weight: 600; }
-    .chart-legend .pol-buy { color: #e3b41a; margin-right: 12px; font-weight: 600; }
-    .chart-legend .pol-sell { color: #fb923c; margin-right: 12px; font-weight: 600; }
+    .chart-legend .pol-buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
+    .chart-legend .pol-sell { color: #f87171; margin-right: 12px; font-weight: 600; }
     .chart-empty { color: var(--mute); padding: 28px 16px; text-align: center; }
+    @media (min-width: 961px) {
+      .issuer-info .stats { grid-template-columns: 1fr 1fr; }
+      .issuer-info .stat {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .issuer-info .stat:last-child { border-bottom: 0; }
+    }
+    @media (max-width: 960px) {
+      .issuer-top { grid-template-columns: 1fr; align-items: start; }
+      .issuer-chart { display: block; }
+      .chart-wrap { min-height: 200px; flex: none; }
+      #chart-svg { min-height: 200px; height: 200px; flex: none; }
+    }
     @media (max-width: 820px) {
-      .chart-wrap { padding: 14px 10px 12px; border-radius: 16px; }
-      #chart-svg { min-height: 240px; }
+      .chart-wrap { padding: 0; border-radius: 0; }
+      #chart-svg { min-height: 200px; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -311,47 +360,51 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="kicker">Beta</p>
-    <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
-    <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
-    <p class="asof" id="asof"></p>
-    <p class="quiet" id="fy-note" hidden></p>
-    <p class="quiet" id="basis-note" hidden></p>
-    <div class="picker">
-      <label for="issuer">Issuer</label>
-      <select id="issuer"></select>
-    </div>
-    <div class="board-tabs" id="basis" role="tablist" aria-label="Ounce basis">
-      <button type="button" data-basis="attr" class="on">Attributable</button>
-      <button type="button" data-basis="100">100% basis</button>
-    </div>
-    <div class="board-tabs" id="period" role="tablist" aria-label="Production period">
-      <button type="button" data-period="2025" class="on">2025</button>
-      <button type="button" data-period="2026-YTD">2026 YTD</button>
-      <button type="button" data-period="2026-guide">2026 guidance</button>
-    </div>
-    <div id="kpis"></div>
-    <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
-      <div class="issuer-chart-head">
-        <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
-      </div>
-      <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-      <div class="chart-wrap" id="chart-wrap">
-        <p class="chart-empty" id="chart-empty" hidden>No committed price file for this ticker.</p>
-        <div class="chart-frame" id="chart-frame">
-          <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
-          <div class="chart-x" id="chart-x"></div>
+    <div class="issuer-top">
+      <div class="issuer-info">
+        <p class="kicker">Beta</p>
+        <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+        <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
+        <p class="asof" id="asof"></p>
+        <p class="quiet" id="fy-note" hidden></p>
+        <p class="quiet" id="basis-note" hidden></p>
+        <div class="picker">
+          <label for="issuer">Issuer</label>
+          <select id="issuer"></select>
         </div>
-        <div class="chart-y" id="chart-y" aria-hidden="true"></div>
-        <div class="mark-pop" id="mark-pop" hidden></div>
+        <div class="board-tabs" id="basis" role="tablist" aria-label="Ounce basis">
+          <button type="button" data-basis="attr" class="on">Attributable</button>
+          <button type="button" data-basis="100">100% basis</button>
+        </div>
+        <div class="board-tabs" id="period" role="tablist" aria-label="Production period">
+          <button type="button" data-period="2025" class="on">2025</button>
+          <button type="button" data-period="2026-YTD">2026 YTD</button>
+          <button type="button" data-period="2026-guide">2026 guidance</button>
+        </div>
+        <div id="kpis"></div>
       </div>
-      <p class="chart-legend">
-        <span class="buy">● Insider buy</span>
-        <span class="sell">● Insider sell</span>
-        <span class="pol-buy">◆ Politician buy</span>
-        <span class="pol-sell">◆ Politician sell</span>
-      </p>
-    </section>
+      <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
+        <div class="issuer-chart-head">
+          <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
+          <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+        </div>
+        <div class="chart-wrap" id="chart-wrap">
+          <p class="chart-empty" id="chart-empty" hidden>No committed price file for this ticker.</p>
+          <div class="chart-frame" id="chart-frame">
+            <svg id="chart-svg" viewBox="0 0 840 150" preserveAspectRatio="none"></svg>
+            <div class="chart-x" id="chart-x"></div>
+          </div>
+          <div class="chart-y" id="chart-y" aria-hidden="true"></div>
+          <div class="mark-pop" id="mark-pop" hidden></div>
+        </div>
+        <p class="chart-legend">
+          <span class="buy">● Insider buy</span>
+          <span class="sell">● Insider sell</span>
+          <span class="pol-buy">◆ Politician buy</span>
+          <span class="pol-sell">◆ Politician sell</span>
+        </p>
+      </section>
+    </div>
     <h2>Producing mines</h2>
     <div class="table-wrap">
       <table>
@@ -397,7 +450,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
-  <script src="chart.js?v=118"></script>
+  <script src="chart.js?v=121"></script>
   <script>
     const DASH = "—";
     const CLASS_ORDER = [
@@ -426,7 +479,7 @@
     let profile = null;
     let issuers = null;
     const RANGES = ["1m", "3m", "6m", "1y", "3y"];
-    let chartRange = window.matchMedia("(max-width: 820px)").matches ? "1y" : "3y";
+    let chartRange = "3m";
     let polTrades = [];
     let insiderTrades = [];
     const priceCache = {};
@@ -435,6 +488,7 @@
     let chartMarks = [];
     let tapesReady = null;
     let chartReq = 0;
+    let lastPlotH = 0;
 
     function esc(s) { return QC.esc(s); }
     function num(v) {
@@ -1055,6 +1109,18 @@
         "<button type=\"button\" class=\"" + (r === chartRange ? "on" : "") + "\" data-r=\"" + r + "\">" + r.toUpperCase() + "</button>"
       ).join("");
     }
+    function issuerPlotHeight() {
+      const stacked = window.matchMedia("(max-width: 960px)").matches;
+      if (stacked) return 200;
+      const svg = document.getElementById("chart-svg");
+      const wrap = document.getElementById("chart-wrap");
+      const xBox = document.getElementById("chart-x");
+      const svgH = svg ? svg.clientHeight : 0;
+      const wrapH = wrap ? wrap.clientHeight : 0;
+      const xH = xBox ? xBox.offsetHeight : 18;
+      const h = svgH >= 180 ? svgH : Math.max(0, wrapH - xH);
+      return Math.max(220, Math.round(h || 260));
+    }
     function drawIssuerChart() {
       hideChartPop();
       const empty = document.getElementById("chart-empty");
@@ -1071,8 +1137,22 @@
       empty.hidden = true;
       frame.hidden = false;
       const slice = slicePriceRange(chartPoints, chartRange);
-      const h = window.matchMedia("(max-width: 820px)").matches ? 240 : 300;
-      drawChart(slice, chartMarks, { height: h, range: chartRange, theme: "cyan", onMark: showChartPop });
+      const stacked = window.matchMedia("(max-width: 960px)").matches;
+      const paintPlot = () => {
+        const h = issuerPlotHeight();
+        lastPlotH = h;
+        drawChart(slice, chartMarks, {
+          height: h,
+          pad: stacked ? { l: 70, r: 12, t: 12, b: 10 } : { l: 36, r: 8, t: 8, b: 6 },
+          lineWidth: stacked ? 2.5 : 2.9,
+          glowWidth: stacked ? 5.2 : 6.2,
+          range: chartRange,
+          theme: "cyan",
+          onMark: showChartPop
+        });
+      };
+      if (stacked) paintPlot();
+      else requestAnimationFrame(paintPlot);
     }
     function paintChart() {
       const req = ++chartReq;
@@ -1162,6 +1242,20 @@
         document.getElementById("asof").textContent = "Could not load issuer profile.";
         document.getElementById("kpis").innerHTML = "<p class=\"muted\">Missing " + esc(file) + ". Do not invent ounces.</p>";
       });
+    }
+    if (typeof ResizeObserver !== "undefined") {
+      const top = document.querySelector(".issuer-top");
+      let resizeTick = 0;
+      new ResizeObserver(() => {
+        if (!chartPoints || chartPoints.length < 2) return;
+        const h = issuerPlotHeight();
+        if (Math.abs(h - lastPlotH) < 8) return;
+        const n = ++resizeTick;
+        requestAnimationFrame(() => {
+          if (n !== resizeTick) return;
+          drawIssuerChart();
+        });
+      }).observe(top || document.getElementById("issuer-chart"));
     }
     document.getElementById("range").addEventListener("click", (ev) => {
       const btn = ev.target.closest("button[data-r]");

@@ -442,12 +442,8 @@ function drawChart(points, marks, opts) {
     // Snap dead-center onto the price line at this date
     const cy = yAt(points[mid.i][1]);
     const politician = family === "politician";
-    const color = politician
-      ? (sale ? "#fb923c" : "#e3b41a")
-      : (sale ? "#f87171" : "#22c55e");
-    const haloBg = politician
-      ? (sale ? "rgba(251, 146, 60, 0.28)" : "rgba(227, 180, 26, 0.28)")
-      : (sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)");
+    const color = sale ? "#f87171" : "#22c55e";
+    const haloBg = sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)";
     const id = hit.length;
     const x = cluster.x;
 
@@ -461,7 +457,7 @@ function drawChart(points, marks, opts) {
       : (n >= 10 ? (isMobile ? 12 : 11) : (isMobile ? 13 : 12));
     const pinTextY = pinFontPx * 0.36;
     const label = n > 1 ? String(n) : (politician ? "P" : (sale ? "S" : "B"));
-    const ink = politician ? "#1a1d26" : "#ffffff";
+    const ink = "#ffffff";
 
     hit.push({
       mark: marksList[0],
@@ -482,7 +478,7 @@ function drawChart(points, marks, opts) {
     return "<g class=\"chart-mark\" data-i=\"" + id + "\" data-family=\"" + (politician ? "politician" : "insider") + "\" style=\"cursor:pointer\">" +
       "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 26 : 20) + "\" fill=\"transparent\" />" +
       "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
-        "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
+        (politician ? "" : "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />") +
         pinShape +
         "<text x=\"0\" y=\"" + pinTextY.toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + ink + "\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
       "</g>" +
@@ -521,9 +517,9 @@ function drawChart(points, marks, opts) {
     // Area fill if explicitly enabled
     (areaPath ? "<path d=\"" + areaPath + "\" fill=\"url(#qc-sub-area)\" />" : "") +
     // Glowing underlayer (delicate, refined blur)
-    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"5.5\" opacity=\"0.55\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
+    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"" + (opts.glowWidth || 5.5) + "\" opacity=\"0.55\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
     // Crisp foreground spline (sleek, precision 2.2px line)
-    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
+    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"" + (opts.lineWidth || 2.2) + "\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
     // Terminal point dot
     "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5.2\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.7\" />" +
     // Interactive Trade Pins

@@ -60,6 +60,16 @@
     }
     .muted { color: var(--mute); font-size: 0.88rem; line-height: 1.45; }
     .quiet { color: var(--mute); font-size: 0.75rem; line-height: 1.4; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .issuer-top {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
+      gap: 16px 28px;
+      align-items: start;
+      margin: 0 0 22px;
+    }
+    .issuer-info .lede { margin-bottom: 8px; }
+    .issuer-info .picker { max-width: 100%; }
+    .issuer-info .stats { margin: 0; }
     .stats {
       display: grid; grid-template-columns: repeat(5, 1fr);
       margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
@@ -185,10 +195,10 @@
       .board-tabs button, .chip { padding: 6px 10px; font-size: 0.82rem; }
       footer .wrap { padding-bottom: 28px; }
     }
-    .issuer-chart { margin: 0 0 22px; }
+    .issuer-chart { margin: 0; min-width: 0; }
     .issuer-chart-head {
       display: flex; justify-content: space-between; align-items: baseline;
-      gap: 12px; flex-wrap: wrap; margin: 18px 0 8px;
+      gap: 12px; flex-wrap: wrap; margin: 0 0 8px;
     }
     .issuer-chart-head h2 { margin: 0; }
     .issuer-chart-head a { color: var(--white); text-decoration: none; }
@@ -216,7 +226,7 @@
     .chart-frame { display: flex; flex-direction: column; position: relative; }
     #chart-svg {
       width: 100%; height: auto; display: block; background: transparent;
-      min-height: 280px; cursor: crosshair; overflow: visible;
+      min-height: 150px; cursor: crosshair; overflow: visible;
     }
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
@@ -252,8 +262,6 @@
     }
     .mark-pop .pop-badge.buy { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.5); }
     .mark-pop .pop-badge.sell { background: rgba(248, 113, 113, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.5); }
-    .mark-pop .pop-badge.pol.buy { background: rgba(227, 180, 26, 0.22); color: #e3b41a; border: 1px solid rgba(227, 180, 26, 0.55); }
-    .mark-pop .pop-badge.pol.sell { background: rgba(251, 146, 60, 0.22); color: #fb923c; border: 1px solid rgba(251, 146, 60, 0.55); }
     .mark-pop .pop-title {
       font-family: "Barlow Condensed", sans-serif; font-size: 1.02rem; font-weight: 700;
       color: #fff; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -286,12 +294,21 @@
     .chart-legend { color: var(--mute); font-size: 0.8rem; margin: 10px 0 0; }
     .chart-legend .buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
     .chart-legend .sell { color: #f87171; margin-right: 12px; font-weight: 600; }
-    .chart-legend .pol-buy { color: #e3b41a; margin-right: 12px; font-weight: 600; }
-    .chart-legend .pol-sell { color: #fb923c; margin-right: 12px; font-weight: 600; }
+    .chart-legend .pol-buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
+    .chart-legend .pol-sell { color: #f87171; margin-right: 12px; font-weight: 600; }
     .chart-empty { color: var(--mute); padding: 28px 16px; text-align: center; }
+    @media (min-width: 961px) {
+      .issuer-info .stats { grid-template-columns: 1fr 1fr; }
+      .issuer-info .stat { border-right: 1px solid #3a4452; border-bottom: 1px solid #3a4452; }
+      .issuer-info .stat:nth-child(2n) { border-right: 0; }
+      .issuer-info .stat:last-child { border-bottom: 0; border-right: 0; }
+    }
+    @media (max-width: 960px) {
+      .issuer-top { grid-template-columns: 1fr; }
+    }
     @media (max-width: 820px) {
       .chart-wrap { padding: 14px 10px 12px; border-radius: 16px; }
-      #chart-svg { min-height: 240px; }
+      #chart-svg { min-height: 160px; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -311,47 +328,51 @@
     </div>
   </header>
   <div class="wrap" id="main">
-    <p class="kicker">Beta</p>
-    <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
-    <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
-    <p class="asof" id="asof"></p>
-    <p class="quiet" id="fy-note" hidden></p>
-    <p class="quiet" id="basis-note" hidden></p>
-    <div class="picker">
-      <label for="issuer">Issuer</label>
-      <select id="issuer"></select>
-    </div>
-    <div class="board-tabs" id="basis" role="tablist" aria-label="Ounce basis">
-      <button type="button" data-basis="attr" class="on">Attributable</button>
-      <button type="button" data-basis="100">100% basis</button>
-    </div>
-    <div class="board-tabs" id="period" role="tablist" aria-label="Production period">
-      <button type="button" data-period="2025" class="on">2025</button>
-      <button type="button" data-period="2026-YTD">2026 YTD</button>
-      <button type="button" data-period="2026-guide">2026 guidance</button>
-    </div>
-    <div id="kpis"></div>
-    <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
-      <div class="issuer-chart-head">
-        <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
-      </div>
-      <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-      <div class="chart-wrap" id="chart-wrap">
-        <p class="chart-empty" id="chart-empty" hidden>No committed price file for this ticker.</p>
-        <div class="chart-frame" id="chart-frame">
-          <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
-          <div class="chart-x" id="chart-x"></div>
+    <div class="issuer-top">
+      <div class="issuer-info">
+        <p class="kicker">Beta</p>
+        <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+        <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
+        <p class="asof" id="asof"></p>
+        <p class="quiet" id="fy-note" hidden></p>
+        <p class="quiet" id="basis-note" hidden></p>
+        <div class="picker">
+          <label for="issuer">Issuer</label>
+          <select id="issuer"></select>
         </div>
-        <div class="chart-y" id="chart-y" aria-hidden="true"></div>
-        <div class="mark-pop" id="mark-pop" hidden></div>
+        <div class="board-tabs" id="basis" role="tablist" aria-label="Ounce basis">
+          <button type="button" data-basis="attr" class="on">Attributable</button>
+          <button type="button" data-basis="100">100% basis</button>
+        </div>
+        <div class="board-tabs" id="period" role="tablist" aria-label="Production period">
+          <button type="button" data-period="2025" class="on">2025</button>
+          <button type="button" data-period="2026-YTD">2026 YTD</button>
+          <button type="button" data-period="2026-guide">2026 guidance</button>
+        </div>
+        <div id="kpis"></div>
       </div>
-      <p class="chart-legend">
-        <span class="buy">● Insider buy</span>
-        <span class="sell">● Insider sell</span>
-        <span class="pol-buy">◆ Politician buy</span>
-        <span class="pol-sell">◆ Politician sell</span>
-      </p>
-    </section>
+      <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
+        <div class="issuer-chart-head">
+          <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
+        </div>
+        <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+        <div class="chart-wrap" id="chart-wrap">
+          <p class="chart-empty" id="chart-empty" hidden>No committed price file for this ticker.</p>
+          <div class="chart-frame" id="chart-frame">
+            <svg id="chart-svg" viewBox="0 0 840 150" preserveAspectRatio="none"></svg>
+            <div class="chart-x" id="chart-x"></div>
+          </div>
+          <div class="chart-y" id="chart-y" aria-hidden="true"></div>
+          <div class="mark-pop" id="mark-pop" hidden></div>
+        </div>
+        <p class="chart-legend">
+          <span class="buy">● Insider buy</span>
+          <span class="sell">● Insider sell</span>
+          <span class="pol-buy">◆ Politician buy</span>
+          <span class="pol-sell">◆ Politician sell</span>
+        </p>
+      </section>
+    </div>
     <h2>Producing mines</h2>
     <div class="table-wrap">
       <table>
@@ -397,7 +418,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
-  <script src="chart.js?v=118"></script>
+  <script src="chart.js?v=119"></script>
   <script>
     const DASH = "—";
     const CLASS_ORDER = [
@@ -426,7 +447,7 @@
     let profile = null;
     let issuers = null;
     const RANGES = ["1m", "3m", "6m", "1y", "3y"];
-    let chartRange = window.matchMedia("(max-width: 820px)").matches ? "1y" : "3y";
+    let chartRange = "3m";
     let polTrades = [];
     let insiderTrades = [];
     const priceCache = {};
@@ -1071,7 +1092,7 @@
       empty.hidden = true;
       frame.hidden = false;
       const slice = slicePriceRange(chartPoints, chartRange);
-      const h = window.matchMedia("(max-width: 820px)").matches ? 240 : 300;
+      const h = window.matchMedia("(max-width: 820px)").matches ? 160 : 150;
       drawChart(slice, chartMarks, { height: h, range: chartRange, theme: "cyan", onMark: showChartPop });
     }
     function paintChart() {

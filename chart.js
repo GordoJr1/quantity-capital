@@ -389,26 +389,42 @@ function drawChart(points, marks, opts) {
     return out;
   }
 
-  const buyClusters = clusterByDate(visibleMarks.filter((m) => m.side !== "sale" && m.side !== "sale_post"));
-  const sellClusters = clusterByDate(visibleMarks.filter((m) => m.side === "sale" || m.side === "sale_post"));
+  function markFamily(m) {
+    return m && m.family === "politician" ? "politician" : "insider";
+  }
+  function isSaleMark(m) {
+    return !!(m && (m.side === "sale" || m.side === "sale_post"));
+  }
+  const buyClusters = clusterByDate(visibleMarks.filter((m) => markFamily(m) !== "politician" && !isSaleMark(m)));
+  const sellClusters = clusterByDate(visibleMarks.filter((m) => markFamily(m) !== "politician" && isSaleMark(m)));
+  const polBuyClusters = clusterByDate(visibleMarks.filter((m) => markFamily(m) === "politician" && !isSaleMark(m)));
+  const polSellClusters = clusterByDate(visibleMarks.filter((m) => markFamily(m) === "politician" && isSaleMark(m)));
 
-  // If a buy cluster and a sell cluster land on the exact same date/spot,
-  // separate them slightly horizontally so both remain visible and centered on the price curve.
-  buyClusters.forEach((bc) => {
-    sellClusters.forEach((sc) => {
-      const dist = sc.x - bc.x;
-      if (Math.abs(dist) < 16) {
-        const shift = (16 - Math.abs(dist)) / 2;
-        if (dist >= 0) {
-          bc.x = Math.max(pad.l + 10, bc.x - shift);
-          sc.x = Math.min(w - pad.r - 10, sc.x + shift);
-        } else {
-          bc.x = Math.min(w - pad.r - 10, bc.x + shift);
-          sc.x = Math.max(pad.l + 10, sc.x - shift);
+  // If two clusters land on the same date/spot, nudge them apart so both stay on the curve.
+  function separateClusters(aList, bList, minDist) {
+    const gap = minDist == null ? 16 : minDist;
+    aList.forEach((ac) => {
+      bList.forEach((bc) => {
+        const dist = bc.x - ac.x;
+        if (Math.abs(dist) < gap) {
+          const shift = (gap - Math.abs(dist)) / 2;
+          if (dist >= 0) {
+            ac.x = Math.max(pad.l + 10, ac.x - shift);
+            bc.x = Math.min(w - pad.r - 10, bc.x + shift);
+          } else {
+            ac.x = Math.min(w - pad.r - 10, ac.x + shift);
+            bc.x = Math.max(pad.l + 10, bc.x - shift);
+          }
         }
-      }
+      });
     });
-  });
+  }
+  separateClusters(buyClusters, sellClusters, 16);
+  separateClusters(polBuyClusters, polSellClusters, 18);
+  separateClusters(buyClusters, polBuyClusters, 18);
+  separateClusters(sellClusters, polSellClusters, 18);
+  separateClusters(buyClusters, polSellClusters, 16);
+  separateClusters(sellClusters, polBuyClusters, 16);
 
   // Counter-scale pins so they stay true circles when the SVG is stretched
   // by preserveAspectRatio="none".
@@ -419,32 +435,39 @@ function drawChart(points, marks, opts) {
   const pinSY = 1 / stretchY;
   const pinScale = "scale(" + pinSX.toFixed(4) + " " + pinSY.toFixed(4) + ")";
 
-  function drawCluster(cluster, sale) {
+  function drawCluster(cluster, sale, family) {
     const n = cluster.items.length;
     const marksList = cluster.items.map((row) => row.mark);
     const mid = cluster.items[Math.floor((n - 1) / 2)];
     // Snap dead-center onto the price line at this date
     const cy = yAt(points[mid.i][1]);
-    const color = sale ? "#f87171" : "#22c55e";
-    const haloBg = sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)";
+    const politician = family === "politician";
+    const color = politician
+      ? (sale ? "#fb923c" : "#e3b41a")
+      : (sale ? "#f87171" : "#22c55e");
+    const haloBg = politician
+      ? (sale ? "rgba(251, 146, 60, 0.28)" : "rgba(227, 180, 26, 0.28)")
+      : (sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)");
     const id = hit.length;
     const x = cluster.x;
 
-    const baseR = isMobile ? 10 : 9;
+    const baseR = politician ? (isMobile ? 13 : 12) : (isMobile ? 10 : 9);
     const pinRpx = n <= 1
       ? baseR
-      : Math.min(isMobile ? 18 : 16, baseR + 3 + Math.min(5, Math.ceil(Math.log2(n))));
+      : Math.min(isMobile ? 20 : 18, baseR + 3 + Math.min(5, Math.ceil(Math.log2(n))));
     const haloRpx = pinRpx + (isMobile ? 6 : 5);
     const pinFontPx = n <= 1
       ? (isMobile ? 12 : 11)
       : (n >= 10 ? (isMobile ? 12 : 11) : (isMobile ? 13 : 12));
     const pinTextY = pinFontPx * 0.36;
-    const label = n > 1 ? String(n) : (sale ? "S" : "B");
+    const label = n > 1 ? String(n) : (politician ? "P" : (sale ? "S" : "B"));
+    const ink = politician ? "#1a1d26" : "#ffffff";
 
     hit.push({
       mark: marksList[0],
       marks: marksList,
       side: sale ? "sale" : "purchase",
+      family: politician ? "politician" : "insider",
       x: x,
       y: cy,
       xPct: x / w,
@@ -452,18 +475,24 @@ function drawChart(points, marks, opts) {
       date: marksList[0].date
     });
 
-    return "<g class=\"chart-mark\" data-i=\"" + id + "\" style=\"cursor:pointer\">" +
-      "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 24 : 18) + "\" fill=\"transparent\" />" +
+    const pinShape = politician
+      ? "<polygon points=\"0,-" + pinRpx + " " + pinRpx + ",0 0," + pinRpx + " -" + pinRpx + ",0\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.6\" />"
+      : "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />";
+
+    return "<g class=\"chart-mark\" data-i=\"" + id + "\" data-family=\"" + (politician ? "politician" : "insider") + "\" style=\"cursor:pointer\">" +
+      "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 26 : 20) + "\" fill=\"transparent\" />" +
       "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
         "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />" +
-        "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />" +
-        "<text x=\"0\" y=\"" + pinTextY.toFixed(1) + "\" text-anchor=\"middle\" fill=\"#ffffff\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
+        pinShape +
+        "<text x=\"0\" y=\"" + pinTextY.toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + ink + "\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +
       "</g>" +
     "</g>";
   }
 
-  const tradePinsHtml = buyClusters.map((c) => drawCluster(c, false)).join("") +
-                        sellClusters.map((c) => drawCluster(c, true)).join("");
+  const tradePinsHtml = buyClusters.map((c) => drawCluster(c, false, "insider")).join("") +
+                        sellClusters.map((c) => drawCluster(c, true, "insider")).join("") +
+                        polBuyClusters.map((c) => drawCluster(c, false, "politician")).join("") +
+                        polSellClusters.map((c) => drawCluster(c, true, "politician")).join("");
 
   // Render complete SVG
   const gradStopsHtml = palette.gradStops.map((s) =>

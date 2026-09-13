@@ -1,0 +1,153 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "mayfair-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Mayfair Fenn-Gib MRE (3 Sep 2024) and PFS reserve. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Mayfair Gold Corp.",
+    "short": "Mayfair Gold",
+    "tickers": [
+      {
+        "symbol": "MFG.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=MFG"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://mayfairgold.ca"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101 inclusive. PFS reserve is a subset of indicated."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 1040,
+    "attr_mi_incl_koz": 4300,
+    "attr_inf_koz": 140
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "fenn-gib",
+      "name": "Fenn-Gib",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Mayfair Gold",
+      "mine_type": "Open pit",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Matheson",
+      "lat": 48.52,
+      "lon": -80.25,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Fenn-Gib, Abitibi, near Matheson / Timmins."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2024-09-03",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PFS; resources inclusive of reserves)",
+    "totals": {
+      "probable": {
+        "koz": 1040,
+        "attr_koz": 1040,
+        "kt": 25130,
+        "grade_gt": 1.29
+      },
+      "pp": {
+        "koz": 1040,
+        "attr_koz": 1040,
+        "kt": 25130,
+        "grade_gt": 1.29
+      },
+      "indicated": {
+        "koz": 4300,
+        "attr_koz": 4300,
+        "kt": 181300,
+        "grade_gt": 0.74
+      },
+      "mi": {
+        "koz": 4300,
+        "attr_koz": 4300,
+        "kt": 181300,
+        "grade_gt": 0.74
+      },
+      "inf": {
+        "koz": 140,
+        "attr_koz": 140,
+        "kt": 8900,
+        "grade_gt": 0.49
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "fenn-gib",
+        "name": "Fenn-Gib",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 1040,
+          "attr_koz": 1040,
+          "kt": 25130,
+          "grade_gt": 1.29
+        },
+        "pp": {
+          "koz": 1040,
+          "attr_koz": 1040,
+          "kt": 25130,
+          "grade_gt": 1.29
+        },
+        "indicated": {
+          "koz": 4300,
+          "attr_koz": 4300,
+          "kt": 181300,
+          "grade_gt": 0.74
+        },
+        "mi": {
+          "koz": 4300,
+          "attr_koz": 4300,
+          "kt": 181300,
+          "grade_gt": 0.74
+        },
+        "inf": {
+          "koz": 140,
+          "attr_koz": 140,
+          "kt": 8900,
+          "grade_gt": 0.49
+        },
+        "note": "PFS probable reserve 25.13 Mt @ 1.29 g/t / 1.04 Moz (US$1,750/oz). MRE 0.3 g/t cut-off effective 3 Sep 2024."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Mayfair Fenn-Gib PFS / MRE",
+      "date": "2026-01-08",
+      "what": "Indicated 181.3 Mt @ 0.74 g/t / 4.3 Moz; probable 1.04 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:56Z",
+    "snapshots": {
+      "https://mayfairgold.ca/news/": "a5dbb0d0f64db97e"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "seabridge-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed KSM proven+probable gold. Resource-above-reserve not in this pass. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Seabridge Gold Inc.",
+    "short": "Seabridge Gold",
+    "tickers": [
+      {
+        "symbol": "SEA.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=SEA"
+      },
+      {
+        "symbol": "SA",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=SA"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.seabridgegold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "KSM P&P gold. Copper and exclusive/inclusive M&I not restated here."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 40300,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "ksm",
+      "name": "KSM",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Seabridge Gold",
+      "mine_type": "Open pit + underground block cave",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Stewart",
+      "lat": 56.5,
+      "lon": -130.19,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "KSM (Kerr-Sulphurets-Mitchell), Golden Triangle, ~65 km NW of Stewart."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2024-12-31",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (KSM proven + probable; gold column)",
+    "totals": {
+      "pp": {
+        "koz": 40300,
+        "attr_koz": 40300,
+        "kt": 2276000,
+        "grade_gt": 0.55
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "ksm",
+        "name": "KSM",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 40300,
+          "attr_koz": 40300,
+          "kt": 2276000,
+          "grade_gt": 0.55
+        },
+        "note": "Gold in P&P ~40.3 Moz at 0.55 g/t in 2.276 Gt (also large Cu). M&I resource above reserve not copied in this pass."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Seabridge KSM mineral reserves (company reserve statement)",
+      "date": "2024-12-31",
+      "what": "P&P ~2.276 Gt @ 0.55 g/t Au / 40.3 Moz Au"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:02Z",
+    "snapshots": {
+      "https://www.seabridgegold.com/": "01fef6da97f12ee6"
+    }
+  }
+}

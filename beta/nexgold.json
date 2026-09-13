@@ -1,0 +1,112 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "nexgold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Ounces from NexGold Goliath-complex PEA-era MRE headlines. Tonnes/grade left blank on purpose. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "NexGold Mining Corp.",
+    "short": "NexGold",
+    "tickers": [
+      {
+        "symbol": "NEXG.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=NEXG"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://nexgold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "Ounces-only until the current combined 43-101 table is typed."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 2100,
+    "attr_inf_koz": 800
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "goliath",
+      "name": "Goliath-Goldlund-Miller",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "NexGold",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Dryden",
+      "lat": 49.77,
+      "lon": -92.7,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Goliath-Goldlund-Miller, west of Dryden, Ontario."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2023-03-27",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA-era combined MRE)",
+    "totals": {
+      "mi": {
+        "koz": 2100,
+        "attr_koz": 2100
+      },
+      "inf": {
+        "koz": 800,
+        "attr_koz": 800
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "goliath",
+        "name": "Goliath-Goldlund-Miller",
+        "ownership_pct": 100,
+        "mi": {
+          "koz": 2100,
+          "attr_koz": 2100
+        },
+        "inf": {
+          "koz": 800,
+          "attr_koz": 800
+        },
+        "note": "Combined Goliath complex ounces from PEA-era disclosure. kt/g/t not copied in this pass — do not invent."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "NexGold / Treasury Metals Goliath complex PEA MRE",
+      "date": "2023",
+      "what": "Combined M&I ~2.1 Moz / inferred ~0.8 Moz (ounces only until the current 43-101 is transcribed)"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "IR page changed",
+      "page mentions 43-101/MRE/PEA/FS after a change"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:03Z",
+    "snapshots": {
+      "https://nexgold.com/news/": "98eb088e8dccf883"
+    }
+  }
+}

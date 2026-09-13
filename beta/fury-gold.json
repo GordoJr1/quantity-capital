@@ -1,0 +1,120 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "fury-gold",
+  "kind": "explorer",
+  "stage": "explorer",
+  "generated": "2026-09-13",
+  "disclaimer": "Ounces from Fury Eau Claire MRE headlines. Tonnes/grade left blank on purpose. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Fury Gold Mines Limited",
+    "short": "Fury Gold",
+    "tickers": [
+      {
+        "symbol": "FURY.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=FURY"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://furygoldmines.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "Ounces-only until the current 43-101 table is typed."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 700,
+    "attr_inf_koz": 400
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "eau-claire",
+      "name": "Eau Claire",
+      "stage": "exploration",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Fury Gold",
+      "mine_type": "Underground (historic resource)",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Eeyou Istchee James Bay",
+      "lat": 52.2,
+      "lon": -75.8,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Eau Claire, Eastmain Greenstone Belt, James Bay, Quebec."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2024-05-10",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 700,
+        "attr_koz": 700
+      },
+      "mi": {
+        "koz": 700,
+        "attr_koz": 700
+      },
+      "inf": {
+        "koz": 400,
+        "attr_koz": 400
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "eau-claire",
+        "name": "Eau Claire",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 700,
+          "attr_koz": 700
+        },
+        "mi": {
+          "koz": 700,
+          "attr_koz": 700
+        },
+        "inf": {
+          "koz": 400,
+          "attr_koz": 400
+        },
+        "note": "Headline ounces from the current Eau Claire 43-101. kt/g/t not copied in this pass."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Fury Gold Eau Claire mineral resource",
+      "date": "2024",
+      "what": "Indicated ~0.7 Moz / inferred ~0.4 Moz (ounces only until the 43-101 table is transcribed)"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "IR page changed",
+      "page mentions 43-101/MRE/PEA/FS after a change"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:05Z",
+    "snapshots": {
+      "https://furygoldmines.com/news/": "0891117e25329455"
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "g2-goldfields",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from G2 Oko PEA MRE (effective 20 Nov 2025). Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "G2 Goldfields Inc.",
+    "short": "G2 Goldfields",
+    "tickers": [
+      {
+        "symbol": "GTWO.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=GTWO"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://g2goldfields.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101 PEA. No mineral reserve."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 1621,
+    "attr_inf_koz": 1910
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "oko",
+      "name": "Oko",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "G2 Goldfields",
+      "mine_type": "Open pit + underground (PEA)",
+      "country": "Guyana",
+      "region": "Cuyuni-Mazaruni",
+      "nearest": "Oko",
+      "lat": 6.54,
+      "lon": -58.73,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Oko district, Guyana Shield. 83,967-acre project."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-11-20",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA; no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 1621,
+        "attr_koz": 1621,
+        "kt": 15571,
+        "grade_gt": 3.24
+      },
+      "mi": {
+        "koz": 1621,
+        "attr_koz": 1621,
+        "kt": 15571,
+        "grade_gt": 3.24
+      },
+      "inf": {
+        "koz": 1910,
+        "attr_koz": 1910,
+        "kt": 17970,
+        "grade_gt": 3.31
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "oko",
+        "name": "Oko Project (OMZ + Ghanie + New Oko + Oko N/NW)",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 1621,
+          "attr_koz": 1621,
+          "kt": 15571,
+          "grade_gt": 3.24
+        },
+        "mi": {
+          "koz": 1621,
+          "attr_koz": 1621,
+          "kt": 15571,
+          "grade_gt": 3.24
+        },
+        "inf": {
+          "koz": 1910,
+          "attr_koz": 1910,
+          "kt": 17970,
+          "grade_gt": 3.31
+        },
+        "note": "Micon PEA MRE effective 20 Nov 2025. OMZ indicated 2.83 Mt @ 8.97 g/t / 815 koz."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "G2 Goldfields maiden PEA — Oko MRE",
+      "date": "2025-12-19",
+      "what": "Indicated 15.57 Mt @ 3.24 g/t / 1.62 Moz; inferred 17.97 Mt @ 3.31 / 1.91 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:48Z",
+    "snapshots": {
+      "https://g2goldfields.com/news/": "424edaeea8b07869"
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "omai-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed ounces from Omai 2025 PEA/MRE headlines. Tonnes/grade left blank on purpose. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Omai Gold Mines Corp.",
+    "short": "Omai Gold",
+    "tickers": [
+      {
+        "symbol": "OMG.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=OMG"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://omaigoldmines.com"
+  },
+  "method": {
+    "production_basis": "Historic producer. No current production in this file.",
+    "resources_basis": "NI 43-101. Ounces-only until the full table is typed from the PEA PDF."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 2300,
+    "attr_inf_koz": 1900
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "omai",
+      "name": "Omai (Wenot + Gilt Creek)",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Omai Gold Mines",
+      "mine_type": "Open pit + underground (PEA)",
+      "country": "Guyana",
+      "region": "Potaro-Siparuni",
+      "nearest": "Mahdia / Omai",
+      "lat": 5.432,
+      "lon": -58.746,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Past-producing Omai mine, Guyana Shield."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-10-01",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA; no mineral reserve in this file)",
+    "totals": {
+      "indicated": {
+        "koz": 2300,
+        "attr_koz": 2300
+      },
+      "mi": {
+        "koz": 2300,
+        "attr_koz": 2300
+      },
+      "inf": {
+        "koz": 1900,
+        "attr_koz": 1900
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "omai",
+        "name": "Omai",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 2300,
+          "attr_koz": 2300
+        },
+        "mi": {
+          "koz": 2300,
+          "attr_koz": 2300
+        },
+        "inf": {
+          "koz": 1900,
+          "attr_koz": 1900
+        },
+        "note": "Headline ounces from 2025 PEA/MRE disclosure. 2025 tonnes/grade not copied here — do not invent kt. Past producer 1993–2005."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Omai Gold Mines 2025 PEA / MRE news",
+      "date": "2025-10",
+      "what": "Indicated ~2.3 Moz / inferred ~1.9 Moz (ounces only until the 43-101 table is transcribed)"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:00Z",
+    "snapshots": {
+      "https://omaigoldmines.com/news/": "a6aacb01cd22f73f"
+    }
+  }
+}

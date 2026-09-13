@@ -1,0 +1,171 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "new-found-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from New Found Gold 40-F / Queensway 43-101. Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "New Found Gold Corp.",
+    "short": "New Found Gold",
+    "tickers": [
+      {
+        "symbol": "NFG.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=NFG"
+      },
+      {
+        "symbol": "NFGC",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=NFGC"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://newfoundgold.ca"
+  },
+  "method": {
+    "production_basis": "Not a calendar-2025 producer profile. Hammerdown first pour Nov 2025.",
+    "resources_basis": "NI 43-101. Queensway resources are not reserves. PEA includes inferred."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 1579,
+    "attr_inf_koz": 689
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "queensway",
+      "name": "Queensway",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "New Found Gold",
+      "mine_type": "Open pit + underground (PEA)",
+      "country": "Canada",
+      "region": "Newfoundland and Labrador",
+      "nearest": "Gander",
+      "lat": 48.95,
+      "lon": -55.05,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Appleton Fault Zone, ~15 km west of Gander. 219,175 ha Queensway."
+    },
+    {
+      "id": "hammerdown",
+      "name": "Hammerdown",
+      "stage": "ramping",
+      "in_production": true,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "New Found Gold",
+      "mine_type": "Open pit",
+      "country": "Canada",
+      "region": "Newfoundland and Labrador",
+      "nearest": "King's Point",
+      "lat": 49.58,
+      "lon": -56.18,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Hammerdown / Pine Cove mill, Baie Verte Peninsula. First pour Nov 2025.",
+      "first_pour": "2025-11",
+      "note": "Acquired 2025. Commercial production targeted H2 2026."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-03-15",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (no mineral reserve at Queensway; PEA uses inferred)",
+    "totals": {
+      "indicated": {
+        "koz": 1392,
+        "attr_koz": 1392,
+        "kt": 18038,
+        "grade_gt": 2.4
+      },
+      "mi": {
+        "koz": 1392,
+        "attr_koz": 1392,
+        "kt": 18038,
+        "grade_gt": 2.4
+      },
+      "inf": {
+        "koz": 608,
+        "attr_koz": 608,
+        "kt": 10709,
+        "grade_gt": 1.77
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "queensway",
+        "name": "Queensway (OP+UG)",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 1392,
+          "attr_koz": 1392,
+          "kt": 18038,
+          "grade_gt": 2.4
+        },
+        "mi": {
+          "koz": 1392,
+          "attr_koz": 1392,
+          "kt": 18038,
+          "grade_gt": 2.4
+        },
+        "inf": {
+          "koz": 608,
+          "attr_koz": 608,
+          "kt": 10709,
+          "grade_gt": 1.77
+        },
+        "note": "Initial MRE effective 15 Mar 2025. OP indicated 17.3 Mt @ 2.25 / 1.25 Moz; UG indicated 0.8 Mt @ 5.76 / 0.14 Moz. No P&P."
+      },
+      {
+        "asset_id": "hammerdown",
+        "name": "Hammerdown",
+        "ownership_pct": 100,
+        "mi": {
+          "koz": 187,
+          "attr_koz": 187,
+          "kt": 2094,
+          "grade_gt": 2.77
+        },
+        "inf": {
+          "koz": 81,
+          "attr_koz": 81,
+          "kt": 973,
+          "grade_gt": 2.59
+        },
+        "note": "MRE effective 22 Jan 2026 (company disclosure). Ramping; not a reserve table."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Queensway NI 43-101 technical report / 40-F — initial MRE",
+      "date": "2025-09-02",
+      "what": "18.0 Mt @ 2.40 g/t / 1.39 Moz indicated; 10.7 Mt @ 1.77 / 0.61 Moz inferred"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:47Z",
+    "snapshots": {
+      "https://newfoundgold.ca/": "f8114be14c903445"
+    }
+  }
+}

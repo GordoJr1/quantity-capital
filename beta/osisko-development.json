@@ -1,0 +1,108 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "osisko-development",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Ounces from Osisko Development Cariboo FS headline. Tonnes/grade left blank on purpose. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Osisko Development Corp.",
+    "short": "Osisko Development",
+    "tickers": [
+      {
+        "symbol": "ODV.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=ODV"
+      },
+      {
+        "symbol": "ODV",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=ODV"
+      }
+    ],
+    "hq": "Montreal, Quebec, Canada",
+    "commodity": "gold",
+    "website": "https://osiskodev.com"
+  },
+  "method": {
+    "production_basis": "Construction / commissioning. No 2025 producer chip in this file.",
+    "resources_basis": "FS P&P gold headline. Full kt/g/t on next pass."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 2200,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "cariboo",
+      "name": "Cariboo Gold",
+      "stage": "construction",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Osisko Development",
+      "mine_type": "Underground",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Wells",
+      "lat": 53.1,
+      "lon": -121.57,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Cariboo Gold, Wells / Barkerville, central BC. Permitted mill site in Wells."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-01-01",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (FS proven + probable; gold)",
+    "totals": {
+      "pp": {
+        "koz": 2200,
+        "attr_koz": 2200
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "cariboo",
+        "name": "Cariboo Gold",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2200,
+          "attr_koz": 2200
+        },
+        "note": "FS-era P&P gold ~2.2 Moz headline. kt/g/t not copied in this pass."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Osisko Development Cariboo FS mineral reserves",
+      "date": "2025",
+      "what": "P&P gold ~2.2 Moz (ounces only until the FS table is transcribed)"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "IR page changed"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:04Z",
+    "snapshots": {
+      "https://osiskodev.com/news/": "89af9e137d09e677"
+    }
+  }
+}

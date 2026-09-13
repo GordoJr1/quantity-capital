@@ -1,0 +1,129 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "banyan-gold",
+  "kind": "explorer",
+  "stage": "explorer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Banyan AurMac MRE figures as restated in 2025 technical disclosure. Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Banyan Gold Corp.",
+    "short": "Banyan Gold",
+    "tickers": [
+      {
+        "symbol": "BYN.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=BYN"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://banyangold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101. No mineral reserve."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 2274,
+    "attr_inf_koz": 5454
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "aurmac",
+      "name": "AurMac",
+      "stage": "exploration",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Banyan Gold",
+      "mine_type": "Open pit (resource pit)",
+      "country": "Canada",
+      "region": "Yukon",
+      "nearest": "Mayo",
+      "lat": 63.6,
+      "lon": -135.9,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "AurMac, Tombstone Gold Belt, near Mayo / Keno."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-01",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 2274,
+        "attr_koz": 2274,
+        "kt": 112500,
+        "grade_gt": 0.63
+      },
+      "mi": {
+        "koz": 2274,
+        "attr_koz": 2274,
+        "kt": 112500,
+        "grade_gt": 0.63
+      },
+      "inf": {
+        "koz": 5454,
+        "attr_koz": 5454,
+        "kt": 280600,
+        "grade_gt": 0.6
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "aurmac",
+        "name": "AurMac",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 2274,
+          "attr_koz": 2274,
+          "kt": 112500,
+          "grade_gt": 0.63
+        },
+        "mi": {
+          "koz": 2274,
+          "attr_koz": 2274,
+          "kt": 112500,
+          "grade_gt": 0.63
+        },
+        "inf": {
+          "koz": 5454,
+          "attr_koz": 5454,
+          "kt": 280600,
+          "grade_gt": 0.6
+        },
+        "note": "Cited from 2025 technical disclosure / peer 43-101 footnote. Pit-constrained. No reserve."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Banyan AurMac mineral resource (cited 2025)",
+      "date": "2025",
+      "what": "Indicated 112.5 Mt @ 0.63 g/t / 2.274 Moz; inferred 280.6 Mt @ 0.60 / 5.454 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:02Z",
+    "snapshots": {
+      "https://banyangold.com/": "60c3fc6c842a6dbf"
+    }
+  }
+}

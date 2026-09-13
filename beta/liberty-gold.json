@@ -1,0 +1,117 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "liberty-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Liberty Black Pine FS probable reserve. M&I not in this pass. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Liberty Gold Corp.",
+    "short": "Liberty Gold",
+    "tickers": [
+      {
+        "symbol": "LGD.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=LGD"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://libertygold.ca"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "FS probable reserve. M&I resource not restated in this file."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 4040,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "black-pine",
+      "name": "Black Pine",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Liberty Gold",
+      "mine_type": "Open pit heap leach",
+      "country": "United States",
+      "region": "Idaho",
+      "nearest": "Burley",
+      "lat": 42.15,
+      "lon": -113.18,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Black Pine oxide gold, Cassia County, southern Idaho."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-09",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 / S-K 1300 (FS probable reserve)",
+    "totals": {
+      "probable": {
+        "koz": 4040,
+        "attr_koz": 4040,
+        "kt": 433300,
+        "grade_gt": 0.29
+      },
+      "pp": {
+        "koz": 4040,
+        "attr_koz": 4040,
+        "kt": 433300,
+        "grade_gt": 0.29
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "black-pine",
+        "name": "Black Pine",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 4040,
+          "attr_koz": 4040,
+          "kt": 433300,
+          "grade_gt": 0.29
+        },
+        "pp": {
+          "koz": 4040,
+          "attr_koz": 4040,
+          "kt": 433300,
+          "grade_gt": 0.29
+        },
+        "note": "FS probable reserve 433.3 Mt @ 0.29 g/t / 4.04 Moz. Resource table above reserve not copied in this pass."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Liberty Gold Black Pine feasibility study",
+      "date": "2026-09",
+      "what": "Probable 433.3 Mt @ 0.29 g/t / 4.04 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:01Z",
+    "snapshots": {
+      "https://libertygold.ca/news/": "cea8b162585744ba"
+    }
+  }
+}

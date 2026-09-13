@@ -1113,11 +1113,13 @@
       const start = () => {
         ensureTapes().then(applyTapeMarks);
       };
-      if (typeof requestIdleCallback === "function") {
-        requestIdleCallback(start, { timeout: 2500 });
-      } else {
-        setTimeout(start, 400);
-      }
+      requestAnimationFrame(() => {
+        if (typeof requestIdleCallback === "function") {
+          requestIdleCallback(start, { timeout: 2500 });
+        } else {
+          setTimeout(start, 400);
+        }
+      });
     }
     function loadPriceFile(code) {
       const key = String(code || "").toUpperCase();
@@ -1298,6 +1300,7 @@
         chartMarks = [];
         setChartPending(false);
         drawIssuerChart();
+        scheduleTapes();
         return;
       }
       const aliases = issuerAliases();
@@ -1306,6 +1309,7 @@
       if (same) {
         setChartPending(false);
         drawIssuerChart();
+        scheduleTapes();
         return;
       }
       setChartPending(true);
@@ -1317,6 +1321,7 @@
           chartPoints = [];
           setChartPending(false);
           drawIssuerChart();
+          scheduleTapes();
           return;
         }
         loadPriceFile(tries[i]).then((file) => {
@@ -1325,6 +1330,7 @@
             chartPoints = file.c;
             setChartPending(false);
             drawIssuerChart();
+            scheduleTapes();
           } else {
             nextPrice(i + 1);
           }
@@ -1341,7 +1347,6 @@
       paintPipeline();
       paintRr();
       paintCards();
-      scheduleTapes();
     }
     function pickerRows() {
       if (state.layer === "explorers") {

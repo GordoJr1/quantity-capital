@@ -275,7 +275,12 @@ function drawChart(points, marks, opts) {
   const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 820px)").matches;
   const w = 840;
   const cssH = Math.round(svg.clientHeight || 0);
-  const h = opts.height || (cssH >= 160 ? cssH : (isMobile ? 240 : 300));
+  const cap = 520;
+  const raw = opts.height || (cssH >= 160 ? cssH : (isMobile ? 240 : 300));
+  const h = Math.min(cap, Math.max(160, Math.round(raw)));
+  svg.style.height = h + "px";
+  svg.style.maxHeight = cap + "px";
+  svg.style.minHeight = "0";
   const pad = {
     l: isMobile ? 82 : 34,
     r: isMobile ? 22 : 28,

@@ -65,7 +65,7 @@
       display: grid;
       grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
       gap: 12px 24px;
-      align-items: stretch;
+      align-items: start;
       margin: 0 0 22px;
     }
     .issuer-info { min-width: 0; }
@@ -237,10 +237,11 @@
     .range button.on { color: #03140a; background: #22c55e; font-weight: 800; }
     .chart-wrap {
       position: relative;
-      flex: 1 1 auto;
+      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
-      min-height: 240px;
+      min-height: 0;
+      max-height: 440px;
       background: transparent;
       border: 0;
       border-radius: 0;
@@ -255,11 +256,11 @@
     }
     .chart-frame {
       display: flex; flex-direction: column; position: relative;
-      flex: 1 1 auto; min-height: 0;
+      flex: 0 0 auto; min-height: 0;
     }
     #chart-svg {
-      width: 100%; height: 100%; flex: 1 1 auto; display: block;
-      background: transparent; min-height: 220px; cursor: crosshair; overflow: visible;
+      width: 100%; height: 260px; flex: 0 0 auto; display: block;
+      background: transparent; min-height: 0; max-height: 420px; cursor: crosshair; overflow: visible;
     }
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
@@ -338,16 +339,16 @@
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       }
       .issuer-info .stat:last-child { border-bottom: 0; }
+      .issuer-chart { max-height: 520px; min-height: 0; }
     }
     @media (max-width: 960px) {
       .issuer-top { grid-template-columns: 1fr; align-items: start; }
-      .issuer-chart { display: block; }
-      .chart-wrap { min-height: 200px; flex: none; }
-      #chart-svg { min-height: 200px; height: 200px; flex: none; }
+      .issuer-chart { display: block; max-height: none; }
+      .chart-wrap { min-height: 0; max-height: 230px; flex: none; }
+      #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
     }
     @media (max-width: 820px) {
       .chart-wrap { padding: 0; border-radius: 0; }
-      #chart-svg { min-height: 200px; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -461,7 +462,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
-  <script src="chart.js?v=121"></script>
+  <script src="chart.js?v=122"></script>
   <script>
     const DASH = "—";
     const CLASS_ORDER = [
@@ -1236,14 +1237,14 @@
     function issuerPlotHeight() {
       const stacked = window.matchMedia("(max-width: 960px)").matches;
       if (stacked) return 200;
-      const svg = document.getElementById("chart-svg");
-      const wrap = document.getElementById("chart-wrap");
+      const info = document.querySelector(".issuer-info");
+      const head = document.querySelector(".issuer-chart-head");
+      const legend = document.querySelector(".chart-legend");
       const xBox = document.getElementById("chart-x");
-      const svgH = svg ? svg.clientHeight : 0;
-      const wrapH = wrap ? wrap.clientHeight : 0;
-      const xH = xBox ? xBox.offsetHeight : 18;
-      const h = svgH >= 180 ? svgH : Math.max(0, wrapH - xH);
-      return Math.max(220, Math.round(h || 260));
+      const infoH = info ? info.getBoundingClientRect().height : 0;
+      const band = Math.min(520, Math.max(280, infoH || 360));
+      const chrome = (head ? head.offsetHeight : 28) + (legend ? legend.offsetHeight : 18) + (xBox ? xBox.offsetHeight : 18) + 8;
+      return Math.max(220, Math.min(420, Math.round(band - chrome)));
     }
     function drawIssuerChart() {
       hideChartPop();
@@ -1262,25 +1263,17 @@
       frame.hidden = false;
       const slice = slicePriceRange(chartPoints, chartRange);
       const stacked = window.matchMedia("(max-width: 960px)").matches;
-      const paintPlot = () => {
-        const h = issuerPlotHeight();
-        lastPlotH = h;
-        drawChart(slice, chartMarks, {
-          height: h,
-          pad: stacked ? { l: 70, r: 12, t: 12, b: 10 } : { l: 36, r: 8, t: 8, b: 6 },
-          lineWidth: stacked ? 2.5 : 2.9,
-          glowWidth: stacked ? 5.2 : 6.2,
-          range: chartRange,
-          theme: "cyan",
-          onMark: showChartPop
-        });
-      };
-      paintPlot();
-      if (!stacked) {
-        requestAnimationFrame(() => {
-          if (chartPoints && chartPoints.length >= 2) paintPlot();
-        });
-      }
+      const h = issuerPlotHeight();
+      lastPlotH = h;
+      drawChart(slice, chartMarks, {
+        height: h,
+        pad: stacked ? { l: 70, r: 12, t: 12, b: 10 } : { l: 36, r: 8, t: 8, b: 6 },
+        lineWidth: stacked ? 2.5 : 2.9,
+        glowWidth: stacked ? 5.2 : 6.2,
+        range: chartRange,
+        theme: "cyan",
+        onMark: showChartPop
+      });
     }
     function setChartPending(on) {
       const wrap = document.getElementById("chart-wrap");
@@ -1425,10 +1418,11 @@
       loadProfile(sel.value);
     }
     if (typeof ResizeObserver !== "undefined") {
-      const top = document.querySelector(".issuer-top");
+      const info = document.querySelector(".issuer-info");
       let resizeTick = 0;
-      new ResizeObserver(() => {
+      const ro = new ResizeObserver(() => {
         if (!chartPoints || chartPoints.length < 2) return;
+        if (window.matchMedia("(max-width: 960px)").matches) return;
         const h = issuerPlotHeight();
         if (Math.abs(h - lastPlotH) < 8) return;
         const n = ++resizeTick;
@@ -1436,7 +1430,8 @@
           if (n !== resizeTick) return;
           drawIssuerChart();
         });
-      }).observe(top || document.getElementById("issuer-chart"));
+      });
+      if (info) ro.observe(info);
     }
     document.getElementById("range").addEventListener("click", (ev) => {
       const btn = ev.target.closest("button[data-r]");

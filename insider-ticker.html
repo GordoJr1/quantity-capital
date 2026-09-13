@@ -198,10 +198,11 @@
     }
     #chart-svg {
       width: 100%;
-      height: auto;
+      height: 300px;
       display: block;
       background: transparent;
-      min-height: 280px;
+      min-height: 0;
+      max-height: 300px;
       cursor: crosshair;
       overflow: visible;
     }
@@ -483,7 +484,7 @@
         border-radius: 16px;
       }
       .chart-frame { grid-template-rows: auto; }
-      #chart-svg { min-height: 240px; }
+      #chart-svg { height: 240px; min-height: 0; max-height: 240px; }
       .ticker-head { align-items: center; }
       .price-pill { min-width: 7.2rem; padding: 7px 10px; }
       .mark-pop {
@@ -678,7 +679,7 @@
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
   <script src="qc.js?v=117"></script>
-  <script src="chart.js"></script>
+  <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
     const ticker = String(params.get("t") || "").toUpperCase();

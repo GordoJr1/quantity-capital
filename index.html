@@ -1384,21 +1384,18 @@
     }
     .focus #chart-svg {
       width: 100%;
-      height: clamp(220px, 30vh, 320px);
+      height: 270px;
       display: block;
       background: transparent;
-      min-height: 160px;
+      min-height: 0;
+      max-height: 270px;
       cursor: crosshair;
       overflow: visible;
     }
-    @media (min-width: 1400px) {
+    @media (max-width: 820px) {
       .focus #chart-svg {
-        height: clamp(250px, 34vh, 420px);
-      }
-    }
-    @media (min-width: 1800px) {
-      .focus #chart-svg {
-        height: clamp(280px, 38vh, 520px);
+        height: 200px;
+        max-height: 200px;
       }
     }
     .focus .qc-spline-main {
@@ -1848,7 +1845,7 @@
   </div>
 
   <script src="qc.js?v=116"></script>
-  <script src="chart.js"></script>
+  <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
       return String(s).replace(/[&<>"']/g, (c) => ({

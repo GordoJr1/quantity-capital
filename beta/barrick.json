@@ -21,7 +21,8 @@
     "website": "https://www.barrick.com"
   },
   "method": {
-    "production_basis": "Attributable gold. NGM 61.5% Barrick / 38.5% Newmont. Kibali 45%. Loulo 80% (Mali halt most of 2025)."
+    "production_basis": "Attributable gold. NGM 61.5% Barrick / 38.5% Newmont. Kibali 45%. Loulo 80% (Mali halt most of 2025).",
+    "resources_basis": "Barrick reports attributable tonnes and ounces. Mine rows: koz is 100% contained (grossed up); attr_koz is Barrick's published share. Company total is attributable (85 Moz P&P at 0.98 g/t)."
   },
   "kpis": {
     "attr_koz_2025": 3255,
@@ -455,26 +456,283 @@
       "country": "Côte d'Ivoire",
       "ownership_pct": 0,
       "location_note": "Sold Dec 2025."
+    },
+    {
+      "id": "norte-abierto",
+      "name": "Norte Abierto",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 50,
+      "operator": "JV"
+    },
+    {
+      "id": "reko-diq",
+      "name": "Reko Diq",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Pakistan",
+      "ownership_pct": 50,
+      "operator": "Barrick"
     }
   ],
   "reserves_resources": {
     "as_of": "2025-12-31",
     "inclusive_of_reserves": true,
     "totals": {
+      "proven": {
+        "koz": 17000,
+        "attr_koz": 17000,
+        "kt": 390000,
+        "grade_gt": 1.38
+      },
+      "probable": {
+        "koz": 68000,
+        "attr_koz": 68000,
+        "kt": 2300000,
+        "grade_gt": 0.91
+      },
       "pp": {
         "koz": 85000,
-        "attr_koz": 85000
+        "attr_koz": 85000,
+        "kt": 2700000,
+        "grade_gt": 0.98
       },
       "mi": {
         "koz": 150000,
-        "attr_koz": 150000
+        "attr_koz": 150000,
+        "grade_gt": 1.01
       },
       "inf": {
         "koz": 43000,
-        "attr_koz": 43000
+        "attr_koz": 43000,
+        "grade_gt": 1.0
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "bulyanhulu",
+        "name": "Bulyanhulu",
+        "ownership_pct": 84,
+        "pp": {
+          "koz": 4524,
+          "attr_koz": 3800,
+          "kt": 20238,
+          "grade_gt": 6.98
+        },
+        "mi": {
+          "koz": 8690,
+          "attr_koz": 7300,
+          "kt": 35000,
+          "grade_gt": 7.7
+        },
+        "inf": {
+          "koz": 2619,
+          "attr_koz": 2200,
+          "kt": 11190,
+          "grade_gt": 7.3
+        }
+      },
+      {
+        "asset_id": "kibali",
+        "name": "Kibali",
+        "ownership_pct": 45,
+        "pp": {
+          "koz": 10667,
+          "attr_koz": 4800,
+          "kt": 111111,
+          "grade_gt": 2.97
+        },
+        "mi": {
+          "koz": 18000,
+          "attr_koz": 8100,
+          "kt": 202222,
+          "grade_gt": 2.77
+        },
+        "inf": {
+          "koz": 3333,
+          "attr_koz": 1500,
+          "kt": 48889,
+          "grade_gt": 2.1
+        },
+        "note": "Barrick 45% operator / AngloGold 45% / SOKIMO 10%."
+      },
+      {
+        "asset_id": "loulo-gounkoto",
+        "name": "Loulo-Gounkoto",
+        "ownership_pct": 80,
+        "pp": {
+          "koz": 8625,
+          "attr_koz": 6900,
+          "kt": 63750,
+          "grade_gt": 4.16
+        },
+        "mi": {
+          "koz": 12500,
+          "attr_koz": 10000,
+          "kt": 107500,
+          "grade_gt": 3.8
+        },
+        "inf": {
+          "koz": 1250,
+          "attr_koz": 1000,
+          "kt": 18750,
+          "grade_gt": 2.1
+        }
+      },
+      {
+        "asset_id": "north-mara",
+        "name": "North Mara",
+        "ownership_pct": 84,
+        "pp": {
+          "koz": 3810,
+          "attr_koz": 3200,
+          "kt": 51190,
+          "grade_gt": 2.32
+        },
+        "mi": {
+          "koz": 6905,
+          "attr_koz": 5800,
+          "kt": 105952,
+          "grade_gt": 2.0
+        },
+        "inf": {
+          "koz": 1190,
+          "attr_koz": 1000,
+          "kt": 20238,
+          "grade_gt": 1.9
+        }
+      },
+      {
+        "asset_id": "norte-abierto",
+        "name": "Norte Abierto",
+        "ownership_pct": 50,
+        "pp": {
+          "koz": 22000,
+          "attr_koz": 11000,
+          "kt": 1040000,
+          "grade_gt": 0.65
+        },
+        "mi": {
+          "koz": 42000,
+          "attr_koz": 21000,
+          "kt": 2240000,
+          "grade_gt": 0.58
+        },
+        "inf": {
+          "koz": 10600,
+          "attr_koz": 5300,
+          "kt": 760000,
+          "grade_gt": 0.4
+        },
+        "note": "Development. 50%."
+      },
+      {
+        "asset_id": "porgera",
+        "name": "Porgera",
+        "ownership_pct": 24.5,
+        "pp": {
+          "koz": 5714,
+          "attr_koz": 1400,
+          "kt": 57143,
+          "grade_gt": 3.15
+        }
+      },
+      {
+        "asset_id": "pueblo-viejo",
+        "name": "Pueblo Viejo",
+        "ownership_pct": 60,
+        "pp": {
+          "koz": 20000,
+          "attr_koz": 12000,
+          "kt": 316667,
+          "grade_gt": 2.06
+        },
+        "note": "Barrick 60% operator / Newmont 40%."
+      },
+      {
+        "asset_id": "reko-diq",
+        "name": "Reko Diq",
+        "ownership_pct": 50,
+        "pp": {
+          "koz": 26000,
+          "attr_koz": 13000,
+          "kt": 2800000,
+          "grade_gt": 0.28
+        },
+        "note": "Development. Copper-gold. 50%."
+      },
+      {
+        "asset_id": "veladero",
+        "name": "Veladero",
+        "ownership_pct": 50,
+        "pp": {
+          "koz": 2800,
+          "attr_koz": 1400,
+          "kt": 124000,
+          "grade_gt": 0.69
+        }
+      },
+      {
+        "asset_id": "carlin",
+        "name": "Carlin",
+        "ownership_pct": 61.5,
+        "pp": {
+          "koz": 14309,
+          "attr_koz": 8800,
+          "kt": 121951,
+          "grade_gt": 3.66
+        },
+        "note": "Nevada Gold Mines. Barrick 61.5% / Newmont 38.5%."
+      },
+      {
+        "asset_id": "cortez",
+        "name": "Cortez",
+        "ownership_pct": 61.5,
+        "pp": {
+          "koz": 12846,
+          "attr_koz": 7900,
+          "kt": 146341,
+          "grade_gt": 2.75
+        },
+        "note": "Nevada Gold Mines."
+      },
+      {
+        "asset_id": "phoenix",
+        "name": "Phoenix",
+        "ownership_pct": 61.5,
+        "pp": {
+          "koz": 3252,
+          "attr_koz": 2000,
+          "kt": 178862,
+          "grade_gt": 0.58
+        },
+        "note": "Nevada Gold Mines."
+      },
+      {
+        "asset_id": "turquoise-ridge",
+        "name": "Turquoise Ridge",
+        "ownership_pct": 61.5,
+        "pp": {
+          "koz": 14472,
+          "attr_koz": 8900,
+          "kt": 74797,
+          "grade_gt": 6.07
+        },
+        "note": "Nevada Gold Mines."
+      }
+    ],
+    "standard": "NI 43-101 (Barrick attributable)",
+    "price_assumptions": {
+      "reserves_usd_oz": {
+        "gold": 1500
+      },
+      "resources_usd_oz": {
+        "gold": 2000
+      }
+    }
   },
   "sources": [
     {
@@ -486,6 +744,12 @@
       "title": "Barrick Q2 2026 Mine Stats",
       "date": "2026-08-10",
       "what": "H1 1.515 Moz; Q2 796 koz"
+    },
+    {
+      "title": "Barrick 2025 Mineral Reserves & Resources",
+      "date": "2026-02",
+      "url": "https://www.barrick.com/English/operations/mineral-reserves-and-resources",
+      "what": "Attributable P&P by mine; tonnes, grade, contained Moz"
     }
   ],
   "schema": "qc-issuer-profile-v1",

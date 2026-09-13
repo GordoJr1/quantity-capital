@@ -515,6 +515,15 @@
       if (block.indicated && !block.mi && !block.pp) return sets.ind;
       return sets.totals.filter(([key]) => block[key]);
     }
+    /* Leaf mines may carry a filled P&P total next to proven/probable.
+       Nested trees (IAMGOLD parts) stay on projectClasses — no extra P&P row. */
+    function projectLeafClasses(block) {
+      const cls = projectClasses(block);
+      if (block && block.pp && cls.every(([key]) => key !== "pp")) {
+        return cls.concat([["pp", "Proven & Probable"]]);
+      }
+      return cls;
+    }
     function rrShowCols() {
       const rr = (profile && profile.reserves_resources) || {};
       const sets = rrClassSets();
@@ -526,7 +535,7 @@
           if (proj.mi || proj.inf || proj.pp) collectRrRows(proj, projectClasses(proj), rows);
           parts.forEach((part) => collectRrRows(part, projectClasses(part), rows));
         } else {
-          collectRrRows(proj, projectClasses(proj), rows);
+          collectRrRows(proj, projectLeafClasses(proj), rows);
         }
       });
       return {
@@ -583,7 +592,7 @@
             html += childRows(part.name, part, part.id && NELLIGAN_KIDS.indexOf(part.id) >= 0 ? 2 : 1, projectClasses(part), attr, show);
           });
         } else {
-          html += childRows(proj.name, proj, 1, projectClasses(proj), attr, show);
+          html += childRows(proj.name, proj, 1, projectLeafClasses(proj), attr, show);
         }
       });
       document.getElementById("rr").innerHTML = html;

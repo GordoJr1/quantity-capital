@@ -516,13 +516,17 @@
       return sets.totals.filter(([key]) => block[key]);
     }
     /* Leaf mines may carry a filled P&P total next to proven/probable.
-       Nested trees (IAMGOLD parts) stay on projectClasses — no extra P&P row. */
+       Nested trees (IAMGOLD parts) stay on projectClasses — no extra P&P row.
+       IAMGOLD Westwood is a leaf; keep its class list unchanged. */
     function projectLeafClasses(block) {
       const cls = projectClasses(block);
       if (block && block.pp && cls.every(([key]) => key !== "pp")) {
         return cls.concat([["pp", "Proven & Probable"]]);
       }
       return cls;
+    }
+    function leafClasses(block) {
+      return (profile && profile.id === "iamgold") ? projectClasses(block) : projectLeafClasses(block);
     }
     function rrShowCols() {
       const rr = (profile && profile.reserves_resources) || {};
@@ -535,7 +539,7 @@
           if (proj.mi || proj.inf || proj.pp) collectRrRows(proj, projectClasses(proj), rows);
           parts.forEach((part) => collectRrRows(part, projectClasses(part), rows));
         } else {
-          collectRrRows(proj, projectLeafClasses(proj), rows);
+          collectRrRows(proj, leafClasses(proj), rows);
         }
       });
       return {
@@ -592,7 +596,7 @@
             html += childRows(part.name, part, part.id && NELLIGAN_KIDS.indexOf(part.id) >= 0 ? 2 : 1, projectClasses(part), attr, show);
           });
         } else {
-          html += childRows(proj.name, proj, 1, projectLeafClasses(proj), attr, show);
+          html += childRows(proj.name, proj, 1, leafClasses(proj), attr, show);
         }
       });
       document.getElementById("rr").innerHTML = html;

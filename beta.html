@@ -368,8 +368,12 @@
         <p class="asof" id="asof"></p>
         <p class="quiet" id="fy-note" hidden></p>
         <p class="quiet" id="basis-note" hidden></p>
+        <div class="board-tabs" id="layer" role="tablist" aria-label="Issuer layer">
+          <button type="button" data-layer="producers" class="on">Producers</button>
+          <button type="button" data-layer="explorers">Explorers · watchlist</button>
+        </div>
         <div class="picker">
-          <label for="issuer">Issuer</label>
+          <label for="issuer" id="issuer-label">Issuer</label>
           <select id="issuer"></select>
         </div>
         <div class="board-tabs" id="basis" role="tablist" aria-label="Ounce basis">
@@ -405,8 +409,8 @@
         </p>
       </section>
     </div>
-    <h2>Producing mines</h2>
-    <div class="table-wrap">
+    <h2 id="mines-h">Producing mines</h2>
+    <div class="table-wrap" id="mines-wrap">
       <table>
         <thead>
           <tr>
@@ -434,7 +438,7 @@
       </table>
     </div>
     <p class="quiet" id="rr-note"></p>
-    <h2>Asset cards</h2>
+    <h2 id="cards-h">Asset cards</h2>
     <div class="asset-grid" id="cards"></div>
     <details class="exited" id="exited-wrap" hidden>
       <summary>Sold / residual</summary>
@@ -475,9 +479,10 @@
     const CAMP_IDS = ["croteau-est", "lac-surprise", "muus", "anik"];
     const NELLIGAN_KIDS = ["nelligan", "monster-lake", "philibert", "chevrier"];
 
-    const state = { basis: "attr", period: "2025" };
+    const state = { basis: "attr", period: "2025", layer: "producers" };
     let profile = null;
     let issuers = null;
+    let explorers = null;
     const RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let chartRange = "3m";
     let polTrades = [];
@@ -577,9 +582,17 @@
     function producingIds() {
       return ((profile && profile.assets) || []).filter((a) => a.in_production).map((a) => a.id);
     }
+    function isExplorer() {
+      return !!(profile && (profile.kind === "explorer" || state.layer === "explorers"));
+    }
+    function layerIndex() {
+      return state.layer === "explorers" ? explorers : issuers;
+    }
     function issuerRow() {
       const id = profile && profile.id;
-      return ((issuers && issuers.issuers) || []).find((r) => r.id === id) || null;
+      const exp = ((explorers && explorers.issuers) || []).find((r) => r.id === id);
+      const prod = ((issuers && issuers.issuers) || []).find((r) => r.id === id);
+      return exp || prod || null;
     }
     function periodTotal() {
       const attr = state.basis === "attr";
@@ -625,44 +638,57 @@
         btn.classList.toggle("on", btn.getAttribute(key) === value);
       });
     }
+    function kpiCell(id, value, label) {
+      if (value == null || value === DASH) return "";
+      return "<div class=\"stat\"><b data-kpi=\"" + esc(id) + "\">" + esc(value) + "</b><span>" + esc(label) + "</span></div>";
+    }
     function paintKpis() {
       const k = (profile && profile.kpis) || {};
       const g = (profile && profile.guidance_2026) || {};
       const rec = periodRec(state.period === "2026-guide" ? "" : state.period);
       const attr = state.basis === "attr";
-      const total = periodTotal();
-      const prod = Array.isArray(total) ? fmtRange(total) : fmtKoz(total);
-      let prodLabel = attr ? "Attributable production" : "100% production";
-      if (state.period === "2025") prodLabel += " · 2025";
-      if (state.period === "2026-YTD") prodLabel += " · 2026 YTD";
-      if (state.period === "2026-guide") prodLabel += " · 2026 guidance";
-
-      let vs = DASH;
-      let vsLabel = "Vs guidance";
-      if (state.period === "2025") {
-        const band = rec && rec.guidance_koz;
-        const shown = attr ? num(rec && rec.attr_koz) : periodTotal();
-        vs = band ? (Array.isArray(shown) ? fmtRange(shown) : fmtKoz(shown)) + " vs " + fmtRange(band) : DASH;
-        if (!attr && band) vsLabel = "Vs guidance (attr band)";
-      } else if (state.period === "2026-guide") {
-        vs = attr ? fmtRange(g.total_koz) : (Array.isArray(total) ? fmtRange(total) : DASH);
-        vsLabel = "2026 guidance";
-      }
-
       const pp = attr ? k.attr_pp_koz : k.pp_koz_100pct;
       const mi = attr ? k.attr_mi_incl_koz : k.mi_incl_koz_100pct;
       const inf = attr ? k.attr_inf_koz : k.inf_koz_100pct;
-      document.getElementById("kpis").innerHTML =
-        "<div class=\"stats\" id=\"kpi-strip\">" +
-          "<div class=\"stat\"><b data-kpi=\"prod\">" + esc(prod) + "</b><span>" + esc(prodLabel) + "</span></div>" +
-          "<div class=\"stat\"><b data-kpi=\"vs\">" + esc(vs) + "</b><span>" + esc(vsLabel) + "</span></div>" +
-          "<div class=\"stat\"><b data-kpi=\"pp\">" + esc(fmtMoz(pp)) + "</b><span>" + esc(attr ? "P&P attributable" : "P&P 100%") + "</span></div>" +
-          "<div class=\"stat\"><b data-kpi=\"mi\">" + esc(fmtMoz(mi)) + "</b><span>" + esc((rrExclusive() ? "M&I excl. " : "M&I incl. ") + (attr ? "attributable" : "100%")) + "</span></div>" +
-          "<div class=\"stat\"><b data-kpi=\"inf\">" + esc(fmtMoz(inf)) + "</b><span>" + esc(attr ? "Inferred attributable" : "Inferred 100%") + "</span></div>" +
-        "</div>";
+      const cells = [];
+      if (!isExplorer()) {
+        const total = periodTotal();
+        const prod = Array.isArray(total) ? fmtRange(total) : (num(Array.isArray(total) ? null : total) != null ? fmtKoz(total) : null);
+        let prodLabel = attr ? "Attributable production" : "100% production";
+        if (state.period === "2025") prodLabel += " · 2025";
+        if (state.period === "2026-YTD") prodLabel += " · 2026 YTD";
+        if (state.period === "2026-guide") prodLabel += " · 2026 guidance";
+        if (prod) cells.push(kpiCell("prod", prod, prodLabel));
+        let vs = null;
+        let vsLabel = "Vs guidance";
+        if (state.period === "2025") {
+          const band = rec && rec.guidance_koz;
+          const shown = attr ? num(rec && rec.attr_koz) : periodTotal();
+          vs = band ? (Array.isArray(shown) ? fmtRange(shown) : fmtKoz(shown)) + " vs " + fmtRange(band) : null;
+          if (!attr && band) vsLabel = "Vs guidance (attr band)";
+        } else if (state.period === "2026-guide") {
+          vs = attr ? (g.total_koz ? fmtRange(g.total_koz) : null) : (Array.isArray(periodTotal()) ? fmtRange(periodTotal()) : null);
+          vsLabel = "2026 guidance";
+        }
+        if (vs) cells.push(kpiCell("vs", vs, vsLabel));
+      }
+      if (num(pp) != null) cells.push(kpiCell("pp", fmtMoz(pp), attr ? "P&P attributable" : "P&P 100%"));
+      if (num(mi) != null) cells.push(kpiCell("mi", fmtMoz(mi), (rrExclusive() ? "M&I excl. " : "M&I incl. ") + (attr ? "attributable" : "100%")));
+      if (num(inf) != null) cells.push(kpiCell("inf", fmtMoz(inf), attr ? "Inferred attributable" : "Inferred 100%"));
+      document.getElementById("kpis").innerHTML = cells.length
+        ? "<div class=\"stats\" id=\"kpi-strip\">" + cells.join("") + "</div>"
+        : "";
     }
     function paintMines() {
       const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
+      const head = document.getElementById("mines-h");
+      const wrap = document.getElementById("mines-wrap");
+      if (head) head.hidden = !assets.length;
+      if (wrap) wrap.hidden = !assets.length;
+      if (!assets.length) {
+        document.getElementById("mines").innerHTML = "";
+        return;
+      }
       const attr = state.basis === "attr";
       document.getElementById("koz-col").textContent =
         (state.period === "2026-guide" ? "2026 guidance" : state.period === "2026-YTD" ? "2026 YTD" : "2025") +
@@ -856,6 +882,12 @@
     function paintCards() {
       const rec = periodRec("2025");
       const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
+      const cardsH = document.getElementById("cards-h");
+      if (cardsH) cardsH.hidden = !assets.length;
+      if (!assets.length) {
+        document.getElementById("cards").innerHTML = "";
+        return;
+      }
       document.getElementById("cards").innerHTML = assets.map((a) => {
         const prod = rec && rec.by_asset && rec.by_asset[a.id];
         const bits = [
@@ -891,10 +923,21 @@
         ? row.producing_mines
         : ((profile && profile.assets) || []).filter((a) => a.in_production).length;
       const comm = (iss.commodity || (row && row.commodity) || "gold");
-      document.getElementById("lede").textContent =
-        comm.charAt(0).toUpperCase() + comm.slice(1) + " producer. " +
-        (nMines ? nMines + " operating mine" + (nMines === 1 ? "" : "s") + ". " : "") +
-        "Filing-backed, not a terminal dump.";
+      const nAssets = ((profile && profile.assets) || []).length;
+      const stage = (profile && profile.stage) || (row && row.stage) || "";
+      if (isExplorer()) {
+        const role = stage === "developer" ? "developer" : "explorer";
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " " + role +
+          ". Layer 3 watchlist. " +
+          (nAssets ? nAssets + " project" + (nAssets === 1 ? "" : "s") + ". " : "") +
+          "Filing-backed MRE, not a terminal dump.";
+      } else {
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " producer. " +
+          (nMines ? nMines + " operating mine" + (nMines === 1 ? "" : "s") + ". " : "") +
+          "Filing-backed, not a terminal dump.";
+      }
       const rr = (profile && profile.reserves_resources) || {};
       const ytd = (profile && profile.kpis && profile.kpis.ytd_through) || "";
       document.getElementById("asof").textContent = [
@@ -912,11 +955,15 @@
         fy.textContent = "";
       }
       const basisEl = document.getElementById("basis-note");
-      const basis = profile && profile.method && profile.method.production_basis;
-      const showBasis = basis && (profile.id === "gold-fields" || profile.id === "kinross" || /GEO|gold-equivalent|Au-eq/i.test(basis));
+      const method = (profile && profile.method) || {};
+      const basis = method.production_basis;
+      const resources = method.resources_basis;
+      const showBasis = isExplorer()
+        ? !!(resources || basis)
+        : !!(basis && (profile.id === "gold-fields" || profile.id === "kinross" || /GEO|gold-equivalent|Au-eq/i.test(basis)));
       if (showBasis) {
         basisEl.hidden = false;
-        basisEl.textContent = basis;
+        basisEl.textContent = isExplorer() ? (resources || basis) : basis;
       } else {
         basisEl.hidden = true;
         basisEl.textContent = "";
@@ -927,7 +974,12 @@
         if (s.url) return "<li><a href=\"" + esc(s.url) + "\" rel=\"noopener\">" + esc(title) + "</a></li>";
         return "<li>" + esc(title) + "</li>";
       }).join("");
-      document.getElementById("universe").textContent = (issuers && issuers.universe_note) || "";
+      const idx = isExplorer() ? explorers : issuers;
+      document.getElementById("universe").textContent = (idx && idx.universe_note) || "";
+      const periodBar = document.getElementById("period");
+      if (periodBar) periodBar.hidden = isExplorer();
+      const label = document.getElementById("issuer-label");
+      if (label) label.textContent = isExplorer() ? "Explorer" : "Issuer";
       const disc = (profile && profile.disclaimer) || "";
       document.getElementById("disclaimer").textContent = disc;
       const closed = ((profile && profile.assets) || []).filter((a) => a.stage === "closed").map((a) => ({
@@ -967,6 +1019,10 @@
         const href = row && row.chart ? String(row.chart) : "";
         const m = href.match(/[?&]t=([^&]+)/i);
         if (m) add(decodeURIComponent(m[1]));
+      });
+      out.slice().forEach((t) => {
+        const bare = t.replace(/\.(TO|V|AX|L|PA)$/i, "");
+        if (bare !== t) add(bare);
       });
       const id = profile && profile.id;
       if (id === "barrick" || seen.B || seen.ABX) add("GOLD");
@@ -1207,9 +1263,11 @@
       paintRr();
       paintCards();
     }
-    function fillPicker() {
-      const sel = document.getElementById("issuer");
-      const rows = ((issuers && issuers.issuers) || []).slice().sort((a, b) => {
+    function pickerRows() {
+      if (state.layer === "explorers") {
+        return ((explorers && explorers.issuers) || []).slice();
+      }
+      return ((issuers && issuers.issuers) || []).slice().sort((a, b) => {
         const ra = num(a.rank);
         const rb = num(b.rank);
         if (ra != null && rb != null && ra !== rb) return ra - rb;
@@ -1218,15 +1276,31 @@
         if (ka != null && kb != null && ka !== kb) return kb - ka;
         return String(a.name || "").localeCompare(String(b.name || ""));
       });
-      const fallback = [{ id: "newmont", name: "Newmont Corporation", file: "beta/newmont.json", attr_koz_2025: null }];
-      const list = rows.length ? rows : fallback;
+    }
+    function pickerLabel(r) {
+      if (state.layer === "explorers") {
+        const mi = num(r.attr_mi_incl_koz);
+        return mi != null ? r.name + " · " + fmtMoz(mi) : r.name;
+      }
+      const moz = num(r.attr_koz_2025);
+      return moz != null ? r.name + " · " + fmtMoz(moz) : r.name;
+    }
+    function fillPicker() {
+      const sel = document.getElementById("issuer");
+      const fallback = state.layer === "explorers"
+        ? [{ id: "new-found-gold", name: "New Found Gold Corp.", file: "beta/new-found-gold.json" }]
+        : [{ id: "newmont", name: "Newmont Corporation", file: "beta/newmont.json", attr_koz_2025: null }];
+      const list = pickerRows().length ? pickerRows() : fallback;
+      const keep = sel.value;
       sel.innerHTML = list.map((r) => {
-        const moz = num(r.attr_koz_2025);
-        const label = moz != null ? r.name + " · " + fmtMoz(moz) : r.name;
-        return "<option value=\"" + esc(r.file) + "\">" + esc(label) + "</option>";
+        return "<option value=\"" + esc(r.file) + "\">" + esc(pickerLabel(r)) + "</option>";
       }).join("");
-      const def = list.find((r) => r.id === "newmont") || list[0];
-      if (def) sel.value = def.file;
+      const still = list.some((r) => r.file === keep);
+      if (still) sel.value = keep;
+      else {
+        const def = list.find((r) => r.id === (state.layer === "explorers" ? "new-found-gold" : "newmont")) || list[0];
+        if (def) sel.value = def.file;
+      }
       sel.onchange = () => loadProfile(sel.value);
     }
     function loadProfile(file) {
@@ -1235,13 +1309,35 @@
         return r.json();
       }).then((json) => {
         profile = json;
+        state.layer = (profile && profile.kind === "explorer") ? "explorers" : "producers";
+        const layerBar = document.getElementById("layer");
+        if (layerBar) setOn(layerBar, "data-layer", state.layer);
+        fillPicker();
         const sel = document.getElementById("issuer");
         if (sel && file) sel.value = file;
         paint();
+        syncUrl();
       }).catch(() => {
         document.getElementById("asof").textContent = "Could not load issuer profile.";
         document.getElementById("kpis").innerHTML = "<p class=\"muted\">Missing " + esc(file) + ". Do not invent ounces.</p>";
       });
+    }
+    function syncUrl() {
+      const u = new URL(location.href);
+      if (state.layer === "explorers") u.searchParams.set("layer", "explorers");
+      else u.searchParams.delete("layer");
+      if (profile && profile.id) u.searchParams.set("id", profile.id);
+      else u.searchParams.delete("id");
+      history.replaceState(null, "", u.pathname + u.search + u.hash);
+    }
+    function setLayer(layer) {
+      if (state.layer === layer) return;
+      state.layer = layer === "explorers" ? "explorers" : "producers";
+      const layerBar = document.getElementById("layer");
+      if (layerBar) setOn(layerBar, "data-layer", state.layer);
+      fillPicker();
+      const sel = document.getElementById("issuer");
+      loadProfile(sel.value);
     }
     if (typeof ResizeObserver !== "undefined") {
       const top = document.querySelector(".issuer-top");
@@ -1270,6 +1366,11 @@
         drawIssuerChart();
       }
     });
+    document.getElementById("layer").addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-layer]");
+      if (!btn) return;
+      setLayer(btn.getAttribute("data-layer"));
+    });
     document.getElementById("basis").addEventListener("click", (ev) => {
       const btn = ev.target.closest("button[data-basis]");
       if (!btn) return;
@@ -1284,13 +1385,37 @@
       setOn(document.getElementById("period"), "data-period", state.period);
       paint();
     });
-    fetch("beta/issuers.json").then((r) => r.ok ? r.json() : null).then((idx) => {
-      issuers = idx;
+    Promise.all([
+      fetch("beta/issuers.json").then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch("beta/explorers.json").then((r) => r.ok ? r.json() : null).catch(() => null)
+    ]).then(([prod, exp]) => {
+      issuers = prod;
+      explorers = exp;
+      const q = new URLSearchParams(location.search);
+      if (q.get("layer") === "explorers") state.layer = "explorers";
+      const wantId = q.get("id");
+      const layerBar = document.getElementById("layer");
+      if (wantId) {
+        const inExp = ((explorers && explorers.issuers) || []).some((r) => r.id === wantId);
+        const inProd = ((issuers && issuers.issuers) || []).some((r) => r.id === wantId);
+        if (inExp && !inProd) state.layer = "explorers";
+        else if (inProd && !inExp) state.layer = "producers";
+      }
+      if (layerBar) setOn(layerBar, "data-layer", state.layer);
       fillPicker();
-      const ranked = ((idx && idx.issuers) || []).slice().sort((a, b) => (num(a.rank) || 99) - (num(b.rank) || 99));
-      const def = ranked.find((r) => r.id === "newmont") || ranked[0];
-      const first = (def && def.file) || "beta/newmont.json";
-      return loadProfile(first);
+      let file = null;
+      if (wantId) {
+        const all = ((issuers && issuers.issuers) || []).concat((explorers && explorers.issuers) || []);
+        const hit = all.find((r) => r.id === wantId);
+        if (hit) file = hit.file;
+      }
+      if (!file) {
+        const list = pickerRows();
+        const defId = state.layer === "explorers" ? "new-found-gold" : "newmont";
+        const def = list.find((r) => r.id === defId) || list[0];
+        file = (def && def.file) || (state.layer === "explorers" ? "beta/new-found-gold.json" : "beta/newmont.json");
+      }
+      return loadProfile(file);
     }).catch(() => {
       fillPicker();
       return loadProfile("beta/newmont.json");

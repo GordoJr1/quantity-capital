@@ -63,13 +63,29 @@
     .issuer-top {
       display: grid;
       grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
-      gap: 16px 28px;
-      align-items: start;
+      gap: 12px 24px;
+      align-items: stretch;
       margin: 0 0 22px;
     }
+    .issuer-info { min-width: 0; }
     .issuer-info .lede { margin-bottom: 8px; }
     .issuer-info .picker { max-width: 100%; }
-    .issuer-info .stats { margin: 0; }
+    .issuer-info .stats {
+      margin: 0;
+      background: transparent;
+      border: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    .issuer-info .stat,
+    .issuer-info .stat:nth-child(-n+3),
+    .issuer-info .stat:nth-child(3) {
+      padding: 8px 10px 8px 0;
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: transparent;
+    }
+    .issuer-info .stat:last-child { border-bottom: 0; }
+    .issuer-info .stat b { font-size: 1.22rem; }
     .stats {
       display: grid; grid-template-columns: repeat(5, 1fr);
       margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel);
@@ -195,38 +211,48 @@
       .board-tabs button, .chip { padding: 6px 10px; font-size: 0.82rem; }
       footer .wrap { padding-bottom: 28px; }
     }
-    .issuer-chart { margin: 0; min-width: 0; }
-    .issuer-chart-head {
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: 12px; flex-wrap: wrap; margin: 0 0 8px;
+    .issuer-chart {
+      margin: 0; min-width: 0;
+      display: flex; flex-direction: column;
     }
-    .issuer-chart-head h2 { margin: 0; }
+    .issuer-chart-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 8px 12px; flex-wrap: wrap; margin: 0 0 6px; flex: 0 0 auto;
+    }
+    .issuer-chart-head h2 { margin: 0; font-size: 1.05rem; }
     .issuer-chart-head a { color: var(--white); text-decoration: none; }
     .issuer-chart-head a:hover { color: var(--caution); }
     .range {
-      display: flex; flex-wrap: wrap; gap: 4px; width: fit-content; max-width: 100%;
-      background: rgba(15, 23, 42, 0.72); border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px; padding: 4px 6px; margin: 0 0 12px;
+      display: flex; flex-wrap: wrap; gap: 2px; width: fit-content; max-width: 100%;
+      background: transparent; border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px; padding: 2px 3px; margin: 0;
     }
     .range button {
       background: transparent; border: 0; color: #94a3b8; cursor: pointer;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.1em;
-      text-transform: uppercase; font-size: 0.92rem; font-weight: 700;
-      padding: 5px 14px; border-radius: 999px; min-height: 36px;
+      text-transform: uppercase; font-size: 0.8rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px; min-height: 28px;
     }
     .range button.on { color: #03140a; background: #22c55e; font-weight: 800; }
     .chart-wrap {
       position: relative;
-      background: rgba(13, 20, 31, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      border-radius: 20px;
-      padding: 16px 16px 14px 8px;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      min-height: 240px;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
       user-select: none;
     }
-    .chart-frame { display: flex; flex-direction: column; position: relative; }
+    .chart-frame {
+      display: flex; flex-direction: column; position: relative;
+      flex: 1 1 auto; min-height: 0;
+    }
     #chart-svg {
-      width: 100%; height: auto; display: block; background: transparent;
-      min-height: 150px; cursor: crosshair; overflow: visible;
+      width: 100%; height: 100%; flex: 1 1 auto; display: block;
+      background: transparent; min-height: 220px; cursor: crosshair; overflow: visible;
     }
     .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
@@ -284,14 +310,15 @@
     .mark-pop .pop-single-detail { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 12px; }
     .chart-y { position: absolute; pointer-events: none; z-index: 4; }
     .chart-y span {
-      position: absolute; transform: translate(-100%, -50%); padding-right: 8px;
-      color: #e2e8f0; font-size: 13.5px; font-weight: 700; white-space: nowrap;
+      position: absolute; transform: translate(-100%, -50%); padding-right: 6px;
+      color: #c5ced8; font-size: 11px; font-weight: 600; white-space: nowrap;
     }
     .chart-x {
-      display: flex; justify-content: space-between; padding: 10px 28px 0 34px;
-      color: #e2e8f0; font-size: 13.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex; justify-content: space-between; padding: 4px 8px 0 36px;
+      color: #c5ced8; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      flex: 0 0 auto;
     }
-    .chart-legend { color: var(--mute); font-size: 0.8rem; margin: 10px 0 0; }
+    .chart-legend { color: var(--mute); font-size: 0.72rem; margin: 6px 0 0; flex: 0 0 auto; }
     .chart-legend .buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
     .chart-legend .sell { color: #f87171; margin-right: 12px; font-weight: 600; }
     .chart-legend .pol-buy { color: #22c55e; margin-right: 12px; font-weight: 600; }
@@ -299,16 +326,21 @@
     .chart-empty { color: var(--mute); padding: 28px 16px; text-align: center; }
     @media (min-width: 961px) {
       .issuer-info .stats { grid-template-columns: 1fr 1fr; }
-      .issuer-info .stat { border-right: 1px solid #3a4452; border-bottom: 1px solid #3a4452; }
-      .issuer-info .stat:nth-child(2n) { border-right: 0; }
-      .issuer-info .stat:last-child { border-bottom: 0; border-right: 0; }
+      .issuer-info .stat {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .issuer-info .stat:last-child { border-bottom: 0; }
     }
     @media (max-width: 960px) {
-      .issuer-top { grid-template-columns: 1fr; }
+      .issuer-top { grid-template-columns: 1fr; align-items: start; }
+      .issuer-chart { display: block; }
+      .chart-wrap { min-height: 200px; flex: none; }
+      #chart-svg { min-height: 200px; height: 200px; flex: none; }
     }
     @media (max-width: 820px) {
-      .chart-wrap { padding: 14px 10px 12px; border-radius: 16px; }
-      #chart-svg { min-height: 160px; }
+      .chart-wrap { padding: 0; border-radius: 0; }
+      #chart-svg { min-height: 200px; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -354,8 +386,8 @@
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
         <div class="issuer-chart-head">
           <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
+          <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
         </div>
-        <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
         <div class="chart-wrap" id="chart-wrap">
           <p class="chart-empty" id="chart-empty" hidden>No committed price file for this ticker.</p>
           <div class="chart-frame" id="chart-frame">
@@ -418,7 +450,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
-  <script src="chart.js?v=119"></script>
+  <script src="chart.js?v=120"></script>
   <script>
     const DASH = "—";
     const CLASS_ORDER = [
@@ -456,6 +488,7 @@
     let chartMarks = [];
     let tapesReady = null;
     let chartReq = 0;
+    let lastPlotH = 0;
 
     function esc(s) { return QC.esc(s); }
     function num(v) {
@@ -1076,6 +1109,18 @@
         "<button type=\"button\" class=\"" + (r === chartRange ? "on" : "") + "\" data-r=\"" + r + "\">" + r.toUpperCase() + "</button>"
       ).join("");
     }
+    function issuerPlotHeight() {
+      const stacked = window.matchMedia("(max-width: 960px)").matches;
+      if (stacked) return 200;
+      const svg = document.getElementById("chart-svg");
+      const wrap = document.getElementById("chart-wrap");
+      const xBox = document.getElementById("chart-x");
+      const svgH = svg ? svg.clientHeight : 0;
+      const wrapH = wrap ? wrap.clientHeight : 0;
+      const xH = xBox ? xBox.offsetHeight : 18;
+      const h = svgH >= 180 ? svgH : Math.max(0, wrapH - xH);
+      return Math.max(220, Math.round(h || 260));
+    }
     function drawIssuerChart() {
       hideChartPop();
       const empty = document.getElementById("chart-empty");
@@ -1092,8 +1137,22 @@
       empty.hidden = true;
       frame.hidden = false;
       const slice = slicePriceRange(chartPoints, chartRange);
-      const h = window.matchMedia("(max-width: 820px)").matches ? 160 : 150;
-      drawChart(slice, chartMarks, { height: h, range: chartRange, theme: "cyan", onMark: showChartPop });
+      const stacked = window.matchMedia("(max-width: 960px)").matches;
+      const paintPlot = () => {
+        const h = issuerPlotHeight();
+        lastPlotH = h;
+        drawChart(slice, chartMarks, {
+          height: h,
+          pad: stacked ? { l: 70, r: 12, t: 12, b: 10 } : { l: 36, r: 8, t: 8, b: 6 },
+          lineWidth: stacked ? 2.5 : 2.9,
+          glowWidth: stacked ? 5.2 : 6.2,
+          range: chartRange,
+          theme: "cyan",
+          onMark: showChartPop
+        });
+      };
+      if (stacked) paintPlot();
+      else requestAnimationFrame(paintPlot);
     }
     function paintChart() {
       const req = ++chartReq;
@@ -1183,6 +1242,20 @@
         document.getElementById("asof").textContent = "Could not load issuer profile.";
         document.getElementById("kpis").innerHTML = "<p class=\"muted\">Missing " + esc(file) + ". Do not invent ounces.</p>";
       });
+    }
+    if (typeof ResizeObserver !== "undefined") {
+      const top = document.querySelector(".issuer-top");
+      let resizeTick = 0;
+      new ResizeObserver(() => {
+        if (!chartPoints || chartPoints.length < 2) return;
+        const h = issuerPlotHeight();
+        if (Math.abs(h - lastPlotH) < 8) return;
+        const n = ++resizeTick;
+        requestAnimationFrame(() => {
+          if (n !== resizeTick) return;
+          drawIssuerChart();
+        });
+      }).observe(top || document.getElementById("issuer-chart"));
     }
     document.getElementById("range").addEventListener("click", (ev) => {
       const btn = ev.target.closest("button[data-r]");

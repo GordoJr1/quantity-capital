@@ -517,9 +517,9 @@ function drawChart(points, marks, opts) {
     // Area fill if explicitly enabled
     (areaPath ? "<path d=\"" + areaPath + "\" fill=\"url(#qc-sub-area)\" />" : "") +
     // Glowing underlayer (delicate, refined blur)
-    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"5.5\" opacity=\"0.55\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
+    "<path d=\"" + spline + "\" fill=\"none\" stroke=\"url(#underGlow)\" stroke-width=\"" + (opts.glowWidth || 5.5) + "\" opacity=\"0.55\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />" +
     // Crisp foreground spline (sleek, precision 2.2px line)
-    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
+    "<path class=\"qc-spline-main\" d=\"" + spline + "\" fill=\"none\" stroke=\"url(#neonGradient)\" stroke-width=\"" + (opts.lineWidth || 2.2) + "\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:" + palette.glowFilter + ";\" />" +
     // Terminal point dot
     "<circle cx=\"" + lastPt.x.toFixed(1) + "\" cy=\"" + lastPt.y.toFixed(1) + "\" r=\"5.2\" fill=\"" + palette.light + "\" stroke=\"#ffffff\" stroke-width=\"1.7\" />" +
     // Interactive Trade Pins

@@ -2013,12 +2013,33 @@
       return d.toLocaleString("en-US", { month: "short", day: "numeric" });
     }
 
-    function filedHeading(iso) {
+    function filedDateLabel(iso) {
       const d = new Date(String(iso || "") + "T00:00:00");
-      if (isNaN(d.getTime())) return "Filed";
+      if (isNaN(d.getTime())) return "";
       const w = d.toLocaleString("en-US", { weekday: "short" });
       const rest = d.toLocaleString("en-US", { month: "short", day: "numeric" });
-      return "Filed " + w + " " + rest;
+      return w + " " + rest;
+    }
+
+    function filedHeading(iso) {
+      const label = filedDateLabel(iso);
+      return label ? "Filed " + label : "Filed";
+    }
+
+    function justFiledHeading(iso) {
+      const label = filedDateLabel(iso);
+      return label ? "Just filed " + label : "Just filed";
+    }
+
+    function groupRowsByFiledDate(rows) {
+      const map = new Map();
+      (rows || []).forEach((t) => {
+        const key = t.filed_date || "";
+        const list = map.get(key);
+        if (list) list.push(t);
+        else map.set(key, [t]);
+      });
+      return Array.from(map.entries()).sort((a, b) => String(b[0]).localeCompare(String(a[0])));
     }
 
     function stampBits(iso) {
@@ -2096,18 +2117,11 @@
       const pinRows = pinN ? deskRows.slice(0, pinN) : [];
       const restRows = pinN ? deskRows.slice(pinN) : deskRows;
       const parts = [];
-      if (pinRows.length) {
-        parts.push(filedGroupHtml(pinRows, "Just filed", "fresh"));
-      }
-      const groups = [];
-      restRows.forEach((t) => {
-        const key = t.filed_date || "";
-        const last = groups[groups.length - 1];
-        if (last && last.key === key) last.rows.push(t);
-        else groups.push({ key: key, rows: [t] });
+      groupRowsByFiledDate(pinRows).forEach(([key, rows]) => {
+        parts.push(filedGroupHtml(rows, escapeHtml(justFiledHeading(key)), "fresh"));
       });
-      groups.forEach((g) => {
-        parts.push(filedGroupHtml(g.rows, escapeHtml(filedHeading(g.key))));
+      groupRowsByFiledDate(restRows).forEach(([key, rows]) => {
+        parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
       });
       const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
@@ -2140,7 +2154,9 @@
         "<div class=\"chips\">" +
           (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
           (t.owner ? "<span class=\"ch\">" + escapeHtml(ownerLabel(t.owner)) + "</span>" : "") +
-          (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
+          (fresh ? "<span class=\"ch hot\">Just filed" +
+            (t.filed_date && filedDateLabel(t.filed_date) ? " · " + escapeHtml(filedDateLabel(t.filed_date)) : "") +
+            "</span>" : "") +
           (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
         "</div>" +
         "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) + "</p>" +

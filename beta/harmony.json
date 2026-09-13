@@ -17,7 +17,8 @@
   },
   "method": {
     "production_basis": "Group gold produced. Fiscal year ends 30 June.",
-    "fiscal_year_end": "06-30"
+    "fiscal_year_end": "06-30",
+    "resources_basis": "SAMREC. FY26 (30 June 2026). Attributable gold reserves 27.4 Moz / resources 106.8 Moz. SA underground 12.6 Moz @ 6.54 g/t; SA surface 8.7 Moz; Hidden Valley 0.68 Moz; Golpu 5.1 Moz is Harmony's 50% share."
   },
   "kpis": {
     "attr_koz_2025": 1479.7,
@@ -29,9 +30,9 @@
     ],
     "aisc_2025": 1806,
     "attr_pp_koz": 27400,
-    "attr_mi_incl_koz": 106800,
+    "attr_mi_incl_koz": 106834,
     "pp_koz_100pct": 27400,
-    "mi_incl_koz_100pct": 106800,
+    "mi_incl_koz_100pct": 106834,
     "fiscal_year_end": "06-30"
   },
   "guidance_2026": {
@@ -173,6 +174,22 @@
       "ownership_pct": 100,
       "operator": "Harmony",
       "location_note": "Copper, not gold — hidden from gold mine table."
+    },
+    {
+      "id": "golpu",
+      "name": "Wafi-Golpu",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Papua New Guinea",
+      "ownership_pct": 50,
+      "operator": "Wafi-Golpu JV",
+      "partners": [
+        {
+          "name": "Newmont",
+          "pct": 50
+        }
+      ]
     }
   ],
   "reserves_resources": {
@@ -184,11 +201,149 @@
         "attr_koz": 27400
       },
       "mi": {
-        "koz": 106800,
-        "attr_koz": 106800
+        "koz": 106834,
+        "attr_koz": 106834
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "sa-underground",
+        "name": "South Africa underground",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 4665,
+          "attr_koz": 4665,
+          "kt": 24800,
+          "grade_gt": 5.86
+        },
+        "probable": {
+          "koz": 7904,
+          "attr_koz": 7904,
+          "kt": 35000,
+          "grade_gt": 7.02
+        },
+        "pp": {
+          "koz": 12569,
+          "attr_koz": 12569,
+          "kt": 59800,
+          "grade_gt": 6.54
+        },
+        "mi": {
+          "koz": 49661,
+          "attr_koz": 49661,
+          "kt": 160400,
+          "grade_gt": 9.63
+        },
+        "inf": {
+          "koz": 27172,
+          "attr_koz": 27172,
+          "kt": 83100,
+          "grade_gt": 10.17
+        },
+        "note": "Mponeng, Moab Khotsong, Tshepong, Doornkop, Joel, Target, Kusasalethu, Masimong. FY26 summary is regional — mine-level split not in that table."
+      },
+      {
+        "asset_id": "sa-surface",
+        "name": "South Africa surface",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1252,
+          "attr_koz": 1252,
+          "kt": 110900,
+          "grade_gt": 0.35
+        },
+        "probable": {
+          "koz": 7407,
+          "attr_koz": 7407,
+          "kt": 907800,
+          "grade_gt": 0.25
+        },
+        "pp": {
+          "koz": 8660,
+          "attr_koz": 8660,
+          "kt": 1018700,
+          "grade_gt": 0.26
+        },
+        "mi": {
+          "koz": 11573,
+          "attr_koz": 11573,
+          "kt": 1265700,
+          "grade_gt": 0.28
+        },
+        "inf": {
+          "koz": 1591,
+          "attr_koz": 1591,
+          "kt": 248000,
+          "grade_gt": 0.2
+        }
+      },
+      {
+        "asset_id": "hidden-valley",
+        "name": "Hidden Valley",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 74,
+          "attr_koz": 74,
+          "kt": 2100,
+          "grade_gt": 1.07
+        },
+        "probable": {
+          "koz": 607,
+          "attr_koz": 607,
+          "kt": 13900,
+          "grade_gt": 1.36
+        },
+        "pp": {
+          "koz": 681,
+          "attr_koz": 681,
+          "kt": 16000,
+          "grade_gt": 1.32
+        },
+        "mi": {
+          "koz": 1802,
+          "attr_koz": 1802,
+          "kt": 40300,
+          "grade_gt": 1.39
+        },
+        "inf": {
+          "koz": 60,
+          "attr_koz": 60,
+          "kt": 1300,
+          "grade_gt": 1.44
+        }
+      },
+      {
+        "asset_id": "golpu",
+        "name": "Wafi-Golpu (Golpu)",
+        "ownership_pct": 50,
+        "probable": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 380000,
+          "grade_gt": 0.83
+        },
+        "pp": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 380000,
+          "grade_gt": 0.86
+        },
+        "mi": {
+          "koz": 21600,
+          "attr_koz": 10800,
+          "kt": 798000,
+          "grade_gt": 0.85
+        },
+        "inf": {
+          "koz": 5100,
+          "attr_koz": 2550,
+          "kt": 218000,
+          "grade_gt": 0.73
+        },
+        "note": "Harmony 50% / Newmont 50%. FY26 tables are Harmony's equity portion."
+      }
+    ],
+    "standard": "SAMREC"
   },
   "sources": [
     {
@@ -199,6 +354,12 @@
       "title": "Harmony FY26 results",
       "date": "2026-08",
       "what": "1,429.6 koz, met 1.40–1.50 Moz guidance"
+    },
+    {
+      "title": "Harmony FY26 results — mineral reserves and resources",
+      "date": "2026-08-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/1023514/000162828026059195/a6-kharmony_fy26resultsb.htm",
+      "what": "27.4 Moz gold reserves; SA UG / surface / Hidden Valley / Golpu tables"
     }
   ],
   "schema": "qc-issuer-profile-v1",

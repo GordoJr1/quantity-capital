@@ -16,7 +16,8 @@
     "website": "https://www.endeavourmining.com"
   },
   "method": {
-    "production_basis": "Company headlines 100%. Attributable uses Houndé/Mana 85%, Ity 85%, Sabodala-Massawa 90%, Lafigué 80%."
+    "production_basis": "Company headlines 100%. Attributable uses Houndé/Mana 85%, Ity 85%, Sabodala-Massawa 90%, Lafigué 80%.",
+    "resources_basis": "NI 43-101. Resources inclusive of reserves. koz is 100% contained; attr_koz is Endeavour's share (85/90/80%). Group 16.6 Moz P&P (100%) / 14.7 Moz attributable."
   },
   "kpis": {
     "attr_koz_2025": 1032.9,
@@ -27,12 +28,12 @@
       1265
     ],
     "aisc_2025": 1433,
-    "attr_pp_koz": 16600,
-    "attr_mi_incl_koz": 25000,
-    "attr_inf_koz": 6300,
-    "pp_koz_100pct": 16600,
-    "mi_incl_koz_100pct": 25000,
-    "inf_koz_100pct": 6300
+    "attr_pp_koz": 14712,
+    "attr_mi_incl_koz": 22126,
+    "attr_inf_koz": 5472,
+    "pp_koz_100pct": 16577,
+    "mi_incl_koz_100pct": 25013,
+    "inf_koz_100pct": 6295
   },
   "guidance_2026": {
     "basis": "100% (company)",
@@ -240,26 +241,292 @@
       "country": "Côte d'Ivoire",
       "ownership_pct": 100,
       "operator": "Endeavour"
+    },
+    {
+      "id": "kalana",
+      "name": "Kalana",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Mali",
+      "ownership_pct": 80,
+      "operator": "Endeavour"
     }
   ],
   "reserves_resources": {
     "as_of": "2025-12-31",
     "inclusive_of_reserves": true,
     "totals": {
+      "proven": {
+        "koz": 2988,
+        "attr_koz": 2737,
+        "kt": 66100,
+        "grade_gt": 1.41
+      },
+      "probable": {
+        "koz": 13589,
+        "attr_koz": 11975,
+        "kt": 256100,
+        "grade_gt": 1.65
+      },
       "pp": {
-        "koz": 16600,
-        "attr_koz": 16600
+        "koz": 16577,
+        "attr_koz": 14712,
+        "kt": 322200,
+        "grade_gt": 1.6
       },
       "mi": {
-        "koz": 25000,
-        "attr_koz": 25000
+        "koz": 25013,
+        "attr_koz": 22126,
+        "kt": 454900,
+        "grade_gt": 1.71
       },
       "inf": {
-        "koz": 6300,
-        "attr_koz": 6300
+        "koz": 6295,
+        "attr_koz": 5472,
+        "kt": 86200,
+        "grade_gt": 2.27
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "hounde",
+        "name": "Houndé",
+        "ownership_pct": 85,
+        "proven": {
+          "koz": 85,
+          "attr_koz": 72,
+          "kt": 2400,
+          "grade_gt": 1.1
+        },
+        "probable": {
+          "koz": 1811,
+          "attr_koz": 1539,
+          "kt": 39500,
+          "grade_gt": 1.43
+        },
+        "pp": {
+          "koz": 1896,
+          "attr_koz": 1612,
+          "kt": 41900,
+          "grade_gt": 1.41
+        },
+        "mi": {
+          "koz": 2639,
+          "attr_koz": 2243,
+          "kt": 57000,
+          "grade_gt": 1.44
+        },
+        "inf": {
+          "koz": 453,
+          "attr_koz": 385,
+          "kt": 9200,
+          "grade_gt": 1.54
+        }
+      },
+      {
+        "asset_id": "ity",
+        "name": "Ity",
+        "ownership_pct": 85,
+        "proven": {
+          "koz": 374,
+          "attr_koz": 318,
+          "kt": 12300,
+          "grade_gt": 0.95
+        },
+        "probable": {
+          "koz": 2803,
+          "attr_koz": 2383,
+          "kt": 64600,
+          "grade_gt": 1.35
+        },
+        "pp": {
+          "koz": 3177,
+          "attr_koz": 2700,
+          "kt": 76900,
+          "grade_gt": 1.28
+        },
+        "mi": {
+          "koz": 5483,
+          "attr_koz": 4661,
+          "kt": 119400,
+          "grade_gt": 1.43
+        },
+        "inf": {
+          "koz": 560,
+          "attr_koz": 476,
+          "kt": 11200,
+          "grade_gt": 1.56
+        },
+        "note": "85% except Le Plaque 90%."
+      },
+      {
+        "asset_id": "sabodala-massawa",
+        "name": "Sabodala-Massawa",
+        "ownership_pct": 90,
+        "proven": {
+          "koz": 531,
+          "attr_koz": 478,
+          "kt": 14800,
+          "grade_gt": 1.12
+        },
+        "probable": {
+          "koz": 2237,
+          "attr_koz": 2013,
+          "kt": 28000,
+          "grade_gt": 2.48
+        },
+        "pp": {
+          "koz": 2768,
+          "attr_koz": 2491,
+          "kt": 42800,
+          "grade_gt": 2.01
+        },
+        "mi": {
+          "koz": 5190,
+          "attr_koz": 4671,
+          "kt": 80000,
+          "grade_gt": 2.02
+        },
+        "inf": {
+          "koz": 1766,
+          "attr_koz": 1589,
+          "kt": 27200,
+          "grade_gt": 2.02
+        }
+      },
+      {
+        "asset_id": "mana",
+        "name": "Mana",
+        "ownership_pct": 85,
+        "proven": {
+          "koz": 224,
+          "attr_koz": 190,
+          "kt": 2600,
+          "grade_gt": 2.73
+        },
+        "probable": {
+          "koz": 378,
+          "attr_koz": 321,
+          "kt": 5000,
+          "grade_gt": 2.36
+        },
+        "pp": {
+          "koz": 603,
+          "attr_koz": 513,
+          "kt": 7500,
+          "grade_gt": 2.49
+        },
+        "mi": {
+          "koz": 1196,
+          "attr_koz": 1017,
+          "kt": 11500,
+          "grade_gt": 3.24
+        },
+        "inf": {
+          "koz": 884,
+          "attr_koz": 751,
+          "kt": 8700,
+          "grade_gt": 3.16
+        }
+      },
+      {
+        "asset_id": "lafigue",
+        "name": "Lafigué",
+        "ownership_pct": 80,
+        "proven": {
+          "koz": 479,
+          "attr_koz": 383,
+          "kt": 12600,
+          "grade_gt": 1.19
+        },
+        "probable": {
+          "koz": 1446,
+          "attr_koz": 1157,
+          "kt": 27500,
+          "grade_gt": 1.63
+        },
+        "pp": {
+          "koz": 1926,
+          "attr_koz": 1541,
+          "kt": 40100,
+          "grade_gt": 1.49
+        },
+        "mi": {
+          "koz": 2277,
+          "attr_koz": 1822,
+          "kt": 38100,
+          "grade_gt": 1.86
+        },
+        "inf": {
+          "koz": 230,
+          "attr_koz": 184,
+          "kt": 3400,
+          "grade_gt": 2.12
+        }
+      },
+      {
+        "asset_id": "assafou",
+        "name": "Assafou",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1295,
+          "attr_koz": 1295,
+          "kt": 21500,
+          "grade_gt": 1.87
+        },
+        "probable": {
+          "koz": 3085,
+          "attr_koz": 3085,
+          "kt": 55900,
+          "grade_gt": 1.72
+        },
+        "pp": {
+          "koz": 4379,
+          "attr_koz": 4379,
+          "kt": 77400,
+          "grade_gt": 1.76
+        },
+        "mi": {
+          "koz": 5203,
+          "attr_koz": 5203,
+          "kt": 84800,
+          "grade_gt": 1.91
+        },
+        "inf": {
+          "koz": 122,
+          "attr_koz": 122,
+          "kt": 1900,
+          "grade_gt": 2.0
+        },
+        "note": "Development. 100%."
+      },
+      {
+        "asset_id": "kalana",
+        "name": "Kalana",
+        "ownership_pct": 80,
+        "probable": {
+          "koz": 1829,
+          "attr_koz": 1463,
+          "kt": 35600,
+          "grade_gt": 1.6
+        },
+        "pp": {
+          "koz": 1829,
+          "attr_koz": 1463,
+          "kt": 35600,
+          "grade_gt": 1.6
+        },
+        "mi": {
+          "koz": 2318,
+          "attr_koz": 1854,
+          "kt": 46000,
+          "grade_gt": 1.57
+        },
+        "note": "Development. 80%."
+      }
+    ],
+    "standard": "NI 43-101 (resources inclusive of reserves)"
   },
   "sources": [
     {
@@ -271,6 +538,12 @@
       "title": "Endeavour H1 2026",
       "date": "2026-07-30",
       "what": "564 koz 100%"
+    },
+    {
+      "title": "Endeavour FY-2025 results Appendix A — detailed reserves and resources",
+      "date": "2026-03-05",
+      "url": "https://www.nasdaq.com/press-release/endeavour-reports-strong-fy-2025-results-2026-03-05",
+      "what": "100% and attributable P&P / M&I / inferred by mine"
     }
   ],
   "schema": "qc-issuer-profile-v1",

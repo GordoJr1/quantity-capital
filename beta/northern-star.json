@@ -17,7 +17,8 @@
   },
   "method": {
     "production_basis": "Gold sold, 100%. Calendar 2025 is summed from Mar/Jun/Sep/Dec 2025 quarterlies (company does not headline CY). 2026-YTD chip is FY26 through 31 Mar 2026.",
-    "fiscal_year_end": "06-30"
+    "fiscal_year_end": "06-30",
+    "resources_basis": "JORC. Resources inclusive of reserves. 31 March 2026. Group 28.4 Moz reserves / 88.9 Moz resources. 100% NST."
   },
   "kpis": {
     "attr_koz_2025": 1558.6,
@@ -28,11 +29,13 @@
       1700
     ],
     "aisc_2025": 2163,
-    "attr_pp_koz": 28400,
-    "attr_mi_incl_koz": 88900,
-    "pp_koz_100pct": 28400,
-    "mi_incl_koz_100pct": 88900,
-    "fiscal_year_end": "06-30"
+    "attr_pp_koz": 28419,
+    "attr_mi_incl_koz": 53189,
+    "pp_koz_100pct": 28419,
+    "mi_incl_koz_100pct": 53189,
+    "fiscal_year_end": "06-30",
+    "attr_inf_koz": 35683,
+    "inf_koz_100pct": 35683
   },
   "guidance_2026": {
     "basis": "100% gold sold, FY26",
@@ -194,16 +197,167 @@
     "as_of": "2026-03-31",
     "inclusive_of_reserves": true,
     "totals": {
+      "proven": {
+        "koz": 4280,
+        "attr_koz": 4280,
+        "kt": 160186,
+        "grade_gt": 0.8
+      },
+      "probable": {
+        "koz": 24139,
+        "attr_koz": 24139,
+        "kt": 467024,
+        "grade_gt": 1.6
+      },
       "pp": {
-        "koz": 28400,
-        "attr_koz": 28400
+        "koz": 28419,
+        "attr_koz": 28419,
+        "kt": 627210,
+        "grade_gt": 1.4
+      },
+      "measured": {
+        "koz": 5629,
+        "attr_koz": 5629,
+        "kt": 177151,
+        "grade_gt": 1.0
+      },
+      "indicated": {
+        "koz": 47560,
+        "attr_koz": 47560,
+        "kt": 854443,
+        "grade_gt": 1.7
       },
       "mi": {
-        "koz": 88900,
-        "attr_koz": 88900
+        "koz": 53189,
+        "attr_koz": 53189,
+        "kt": 1031594,
+        "grade_gt": 1.6
+      },
+      "inf": {
+        "koz": 35683,
+        "attr_koz": 35683,
+        "kt": 585877,
+        "grade_gt": 1.9
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "kcgm",
+        "name": "KCGM",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 3040,
+          "attr_koz": 3040,
+          "kt": 135347,
+          "grade_gt": 0.7
+        },
+        "probable": {
+          "koz": 11956,
+          "attr_koz": 11956,
+          "kt": 250631,
+          "grade_gt": 1.5
+        },
+        "pp": {
+          "koz": 14997,
+          "attr_koz": 14997,
+          "kt": 385979,
+          "grade_gt": 1.2
+        },
+        "mi": {
+          "koz": 23775,
+          "attr_koz": 23775,
+          "kt": 570421,
+          "grade_gt": 1.3
+        },
+        "inf": {
+          "koz": 18417,
+          "attr_koz": 18417,
+          "kt": 334773,
+          "grade_gt": 1.7
+        },
+        "note": "Fimiston open pit + underground + stockpiles. Resources inclusive of reserves."
+      },
+      {
+        "asset_id": "yandal",
+        "name": "Yandal (Jundee + Thunderbox)",
+        "ownership_pct": 100,
+        "mi": {
+          "koz": 8122,
+          "attr_koz": 8122,
+          "kt": 119858,
+          "grade_gt": 2.1
+        },
+        "inf": {
+          "koz": 2577,
+          "attr_koz": 2577,
+          "kt": 40848,
+          "grade_gt": 2.0
+        },
+        "note": "Jundee + Thunderbox resources 160.7 Mt @ 2.1 g/t / 10.7 Moz inclusive. Jundee P&P ~1.0 Moz."
+      },
+      {
+        "asset_id": "jundee",
+        "name": "Jundee",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 83,
+          "attr_koz": 83,
+          "kt": 2250,
+          "grade_gt": 1.1
+        },
+        "probable": {
+          "koz": 916,
+          "attr_koz": 916,
+          "kt": 7320,
+          "grade_gt": 3.9
+        },
+        "pp": {
+          "koz": 999,
+          "attr_koz": 999,
+          "kt": 9990,
+          "grade_gt": 3.1
+        }
+      },
+      {
+        "asset_id": "pogo",
+        "name": "Pogo",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2390,
+          "attr_koz": 2390,
+          "kt": 10960,
+          "grade_gt": 6.7
+        },
+        "mi": {
+          "koz": 4184,
+          "attr_koz": 4184,
+          "kt": 15468,
+          "grade_gt": 8.4
+        },
+        "inf": {
+          "koz": 5121,
+          "attr_koz": 5121,
+          "kt": 22432,
+          "grade_gt": 7.1
+        },
+        "note": "Reserves 10.96 Mt @ 6.7 g/t / 2.39 Moz. Resources inclusive 37.9 Mt @ 7.6 g/t / 9.3 Moz."
+      },
+      {
+        "asset_id": "hemi",
+        "name": "Hemi (De Grey)",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 5500,
+          "attr_koz": 5500
+        },
+        "mi": {
+          "koz": 13200,
+          "attr_koz": 13200
+        },
+        "note": "First-time inclusion 31 Mar 2026. 5.5 Moz reserves / 13.2 Moz resources."
+      }
+    ],
+    "standard": "JORC 2012 (resources inclusive of reserves)"
   },
   "sources": [
     {
@@ -214,6 +368,12 @@
       "title": "NST March 2026 quarterly",
       "date": "2026-04-22",
       "what": "FY26 YTD 1.110 Moz; R&R with Hemi"
+    },
+    {
+      "title": "Northern Star Resources and Reserves Update 3 June 2026",
+      "date": "2026-06-03",
+      "url": "https://www.listcorp.com/asx/nst/northern-star-resources-limited/news/resources-and-reserves-update-3360514.html",
+      "what": "KCGM 15.0 Moz reserves; Pogo 2.39; Hemi 5.5; group 28.4 / 88.9 Moz"
     }
   ],
   "schema": "qc-issuer-profile-v1",

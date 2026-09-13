@@ -1,0 +1,129 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "stllr-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from STLLR Tower Gold 2025 MRE/PEA. Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "STLLR Gold Inc.",
+    "short": "STLLR Gold",
+    "tickers": [
+      {
+        "symbol": "STLR.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=STLR"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://stllrgold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101 PEA. No mineral reserve."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 4002,
+    "attr_inf_koz": 6961
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "tower-gold",
+      "name": "Tower Gold",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "STLLR Gold",
+      "mine_type": "Open pit + underground (PEA)",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Matheson",
+      "lat": 48.53,
+      "lon": -80.0,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Tower Gold — Golden Highway + Garrison, east of Timmins / Matheson."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-05-15",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA; no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 4002,
+        "attr_koz": 4002,
+        "kt": 140424,
+        "grade_gt": 0.89
+      },
+      "mi": {
+        "koz": 4002,
+        "attr_koz": 4002,
+        "kt": 140424,
+        "grade_gt": 0.89
+      },
+      "inf": {
+        "koz": 6961,
+        "attr_koz": 6961,
+        "kt": 200293,
+        "grade_gt": 1.08
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "tower-gold",
+        "name": "Tower Gold (Golden Highway + Garrison)",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 4002,
+          "attr_koz": 4002,
+          "kt": 140424,
+          "grade_gt": 0.89
+        },
+        "mi": {
+          "koz": 4002,
+          "attr_koz": 4002,
+          "kt": 140424,
+          "grade_gt": 0.89
+        },
+        "inf": {
+          "koz": 6961,
+          "attr_koz": 6961,
+          "kt": 200293,
+          "grade_gt": 1.08
+        },
+        "note": "OP indicated 135.2 Mt @ 0.84 / 3.66 Moz; UG indicated 5.2 Mt @ 2.07 / 0.35 Moz."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "STLLR Tower Gold updated MRE and PEA",
+      "date": "2025-05-15",
+      "what": "Indicated 140.4 Mt @ 0.89 g/t / 4.00 Moz; inferred 200.3 Mt @ 1.08 / 6.96 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:56Z",
+    "snapshots": {
+      "https://stllrgold.com/news/": "bf226906256e3fff"
+    }
+  }
+}

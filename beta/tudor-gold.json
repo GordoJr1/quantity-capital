@@ -1,0 +1,136 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "tudor-gold",
+  "kind": "explorer",
+  "stage": "explorer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Tudor 2026 Goldstorm MRE higher-grade case. Not the bulk lower-cutoff total. Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Tudor Gold Corp.",
+    "short": "Tudor Gold",
+    "tickers": [
+      {
+        "symbol": "TUD.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=TUD"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://tudor-gold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101. This file uses the published higher-grade cutoff case, not the bulk unconstrained inventory."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 3480,
+    "attr_inf_koz": 1560
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "treaty-creek",
+      "name": "Treaty Creek (Goldstorm)",
+      "stage": "exploration",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 60,
+      "operator": "Tudor Gold",
+      "mine_type": "Bulk tonnage (no mine plan in this file)",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Stewart",
+      "lat": 56.62,
+      "lon": -130.01,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Treaty Creek / Goldstorm, Golden Triangle, north of KSM / south of Brucejack.",
+      "partners": [
+        {
+          "name": "American Creek / Teuton (Treaty Creek JV residual)",
+          "pct": 40
+        }
+      ],
+      "note": "Confirm current JV split on the next 43-101; Tudor is operator of Goldstorm."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-01-22",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (higher-grade NSR sensitivity; no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 5800,
+        "attr_koz": 5800,
+        "kt": 102100,
+        "grade_gt": 1.78
+      },
+      "mi": {
+        "koz": 5800,
+        "attr_koz": 5800,
+        "kt": 102100,
+        "grade_gt": 1.78
+      },
+      "inf": {
+        "koz": 2600,
+        "attr_koz": 2600,
+        "kt": 21800,
+        "grade_gt": 3.64
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "treaty-creek",
+        "name": "Goldstorm (US$175 NSR cut-off sensitivity)",
+        "ownership_pct": 60,
+        "indicated": {
+          "koz": 5800,
+          "attr_koz": 3480,
+          "kt": 102100,
+          "grade_gt": 1.78
+        },
+        "mi": {
+          "koz": 5800,
+          "attr_koz": 3480,
+          "kt": 102100,
+          "grade_gt": 1.78
+        },
+        "inf": {
+          "koz": 2600,
+          "attr_koz": 1560,
+          "kt": 21800,
+          "grade_gt": 3.64
+        },
+        "note": "2026 MRE higher-grade sensitivity (US$175 NSR). Gold only; also Ag+Cu. koz is 100%; attr_koz at 60% Tudor. Bulk lower-cutoff Goldstorm inventory is larger — not restated here."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Tudor Gold 2026 Goldstorm MRE (higher-grade sensitivities)",
+      "date": "2026-01-22",
+      "what": "Indicated 102.1 Mt @ 1.78 g/t Au / 5.8 Moz; inferred 21.8 Mt @ 3.64 / 2.6 Moz (US$175 NSR case)"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:56Z",
+    "snapshots": {
+      "https://tudor-gold.com/news/": "82c483c39bce6474"
+    }
+  }
+}

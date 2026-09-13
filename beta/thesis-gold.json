@@ -1,0 +1,141 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "thesis-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Thesis Lawyers-Ranch 2025 MRE/PFS. Gold ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Thesis Gold Inc.",
+    "short": "Thesis Gold",
+    "tickers": [
+      {
+        "symbol": "TAU.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=TAU"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.thesisgold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101 inclusive. Gold column; silver carried in the note."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 2390,
+    "attr_mi_incl_koz": 3340,
+    "attr_inf_koz": 547
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "lawyers-ranch",
+      "name": "Lawyers-Ranch",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Thesis Gold",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Toodoggone",
+      "lat": 57.33,
+      "lon": -127.17,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Lawyers-Ranch, Toodoggone Mining District, northern BC. 495 km² contiguous."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-10-16",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (resources inclusive of reserves)",
+    "totals": {
+      "pp": {
+        "koz": 2390,
+        "attr_koz": 2390,
+        "kt": 76160,
+        "grade_gt": 0.97
+      },
+      "measured": {
+        "koz": 1529,
+        "attr_koz": 1529,
+        "kt": 51049,
+        "grade_gt": 0.93
+      },
+      "indicated": {
+        "koz": 1811,
+        "attr_koz": 1811,
+        "kt": 66480,
+        "grade_gt": 0.85
+      },
+      "mi": {
+        "koz": 3340,
+        "attr_koz": 3340,
+        "kt": 117529,
+        "grade_gt": 0.88
+      },
+      "inf": {
+        "koz": 547,
+        "attr_koz": 547,
+        "kt": 16232,
+        "grade_gt": 1.05
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "lawyers-ranch",
+        "name": "Lawyers-Ranch",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2390,
+          "attr_koz": 2390,
+          "kt": 76160,
+          "grade_gt": 0.97
+        },
+        "mi": {
+          "koz": 3340,
+          "attr_koz": 3340,
+          "kt": 117529,
+          "grade_gt": 0.88
+        },
+        "inf": {
+          "koz": 547,
+          "attr_koz": 547,
+          "kt": 16232,
+          "grade_gt": 1.05
+        },
+        "note": "Gold only. Also 97.9 Moz Ag M&I. P&P 76.16 Mt @ 0.97 g/t Au / 2.39 Moz from PFS. MRE effective 16 Oct 2025."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Thesis Lawyers-Ranch PFS / MRE (APEX 2025)",
+      "date": "2025-12-01",
+      "what": "M&I 117.5 Mt @ 0.88 g/t / 3.34 Moz Au; P&P 2.39 Moz Au"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:47Z",
+    "snapshots": {
+      "https://www.thesisgold.com/": "6f4714ba0280850b"
+    }
+  }
+}

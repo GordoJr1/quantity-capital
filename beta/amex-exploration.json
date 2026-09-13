@@ -1,0 +1,144 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "amex-exploration",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Amex Perron MRE (effective 21 May 2025). Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Amex Exploration Inc.",
+    "short": "Amex Exploration",
+    "tickers": [
+      {
+        "symbol": "AMX.V",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=AMX"
+      }
+    ],
+    "hq": "Montreal, Quebec, Canada",
+    "commodity": "gold",
+    "website": "https://www.amexexploration.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101. Open-pit 0.40 g/t / UG 1.40 g/t cut-offs."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 1615,
+    "attr_inf_koz": 698
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "perron",
+      "name": "Perron",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Amex Exploration",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Normétal",
+      "lat": 48.82,
+      "lon": -79.37,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Perron, Abitibi, near Normétal. ~4 km × 1 km mineralized footprint."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-05-21",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101",
+    "totals": {
+      "measured": {
+        "koz": 154,
+        "attr_koz": 154,
+        "kt": 382,
+        "grade_gt": 12.54
+      },
+      "indicated": {
+        "koz": 1461,
+        "attr_koz": 1461,
+        "kt": 7801,
+        "grade_gt": 5.83
+      },
+      "mi": {
+        "koz": 1615,
+        "attr_koz": 1615,
+        "kt": 8183,
+        "grade_gt": 6.14
+      },
+      "inf": {
+        "koz": 698,
+        "attr_koz": 698,
+        "kt": 5044,
+        "grade_gt": 4.31
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "perron",
+        "name": "Perron (Champagne + other zones)",
+        "ownership_pct": 100,
+        "measured": {
+          "koz": 154,
+          "attr_koz": 154,
+          "kt": 382,
+          "grade_gt": 12.54
+        },
+        "indicated": {
+          "koz": 1461,
+          "attr_koz": 1461,
+          "kt": 7801,
+          "grade_gt": 5.83
+        },
+        "mi": {
+          "koz": 1615,
+          "attr_koz": 1615,
+          "kt": 8183,
+          "grade_gt": 6.14
+        },
+        "inf": {
+          "koz": 698,
+          "attr_koz": 698,
+          "kt": 5044,
+          "grade_gt": 4.31
+        },
+        "note": "Champagne zone 1.594 Mt @ 16.20 g/t / 831 koz M&I. FS mine plan uses Champagne."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Perron updated MRE technical report",
+      "date": "2025-07-07",
+      "what": "M&I 8.183 Mt @ 6.14 g/t / 1.615 Moz; inferred 5.044 Mt @ 4.31 / 698 koz"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "IR page changed",
+      "page mentions 43-101/MRE/PEA/FS after a change"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:54Z",
+    "snapshots": {
+      "https://www.amexexploration.com/news": "2344aec1a5b70acc"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "skeena",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed Eskay Creek FS P&P gold headline. M&I and 2026 restatement not in this pass. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Skeena Resources Limited",
+    "short": "Skeena",
+    "tickers": [
+      {
+        "symbol": "SKE.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=SKE"
+      },
+      {
+        "symbol": "SKE",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=SKE"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://skeenaresources.com"
+  },
+  "method": {
+    "production_basis": "Restart under construction. No 2025 attributable production chip in this file.",
+    "resources_basis": "FS P&P gold headline. M&I not restated here."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 3900,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "eskay-creek",
+      "name": "Eskay Creek",
+      "stage": "construction",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Skeena Resources",
+      "mine_type": "Open pit restart",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Stewart",
+      "lat": 56.655,
+      "lon": -130.449,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Eskay Creek, Golden Triangle."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2023-11-14",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (FS proven + probable; gold column)",
+    "totals": {
+      "pp": {
+        "koz": 3900,
+        "attr_koz": 3900,
+        "kt": 39900,
+        "grade_gt": 3.0
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "eskay-creek",
+        "name": "Eskay Creek",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3900,
+          "attr_koz": 3900,
+          "kt": 39900,
+          "grade_gt": 3.0
+        },
+        "note": "FS-era P&P gold ~3.9 Moz. Grade/tonnes rounded to the FS gold headline — silver not in this column. Construction-stage restart."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Skeena Eskay Creek feasibility study mineral reserves",
+      "date": "2023-11",
+      "what": "P&P gold ~3.9 Moz (FS). Confirm 2025/26 restatement on next pass."
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:31:03Z",
+    "snapshots": {
+      "https://skeenaresources.com/news/": "bf5f9fa0f0de8888"
+    }
+  }
+}

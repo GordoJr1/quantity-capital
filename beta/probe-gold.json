@@ -1,0 +1,141 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "probe-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Probe Novador 43-101 (effective 30 Aug 2024). Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Probe Gold Inc.",
+    "short": "Probe Gold",
+    "tickers": [
+      {
+        "symbol": "PRB.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=PRB"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://probegold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101. Inclusive. Novador table, not the wider Val-d'Or East rollup."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 5898,
+    "attr_inf_koz": 1482
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "novador",
+      "name": "Novador",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Probe Gold",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Val-d'Or",
+      "lat": 48.1809,
+      "lon": -77.5316,
+      "location_source": "Novador 43-101 project location",
+      "location_note": "48°10'51.308\"N, 77°31'53.596\"W. ~26 km east of Val-d'Or."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2024-08-30",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101",
+    "totals": {
+      "measured": {
+        "koz": 374,
+        "attr_koz": 374,
+        "kt": 4219,
+        "grade_gt": 2.76
+      },
+      "indicated": {
+        "koz": 5524,
+        "attr_koz": 5524,
+        "kt": 117775,
+        "grade_gt": 1.46
+      },
+      "mi": {
+        "koz": 5898,
+        "attr_koz": 5898,
+        "kt": 121993,
+        "grade_gt": 1.5
+      },
+      "inf": {
+        "koz": 1482,
+        "attr_koz": 1482,
+        "kt": 22738,
+        "grade_gt": 2.03
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "novador",
+        "name": "Novador (Monique + Pascalis + Courvan + Beaufor)",
+        "ownership_pct": 100,
+        "measured": {
+          "koz": 374,
+          "attr_koz": 374,
+          "kt": 4219,
+          "grade_gt": 2.76
+        },
+        "indicated": {
+          "koz": 5524,
+          "attr_koz": 5524,
+          "kt": 117775,
+          "grade_gt": 1.46
+        },
+        "mi": {
+          "koz": 5898,
+          "attr_koz": 5898,
+          "kt": 121993,
+          "grade_gt": 1.5
+        },
+        "inf": {
+          "koz": 1482,
+          "attr_koz": 1482,
+          "kt": 22738,
+          "grade_gt": 2.03
+        },
+        "note": "Table 1 Novador 100%. Company also quotes 6.405 Moz M&I / 1.550 Moz inferred including low-grade pit material between 0.19–0.40 g/t. McKenzie Break inferred 1.45 Moz sits outside this Novador row."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "NI 43-101 Technical Report and Updated MRE, Novador, Quebec",
+      "date": "2024-10-18",
+      "what": "Novador M&I 122.0 Mt @ 1.50 g/t / 5.90 Moz; inferred 22.7 Mt @ 2.03 / 1.48 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:47Z",
+    "snapshots": {
+      "https://probegold.com/": "e3b0c44298fc1c14"
+    }
+  }
+}

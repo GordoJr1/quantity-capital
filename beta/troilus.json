@@ -1,0 +1,154 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "troilus",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Troilus YE2025 reserve/resource tables. Gold only. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Troilus Gold Corp.",
+    "short": "Troilus",
+    "tickers": [
+      {
+        "symbol": "TLG.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=TLG"
+      }
+    ],
+    "hq": "Montreal, Quebec, Canada",
+    "commodity": "gold",
+    "website": "https://troilusgold.com"
+  },
+  "method": {
+    "production_basis": "Historic mine 1996–2010. Restart, not in current production.",
+    "resources_basis": "NI 43-101 inclusive of reserves. Gold column only."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": 6690,
+    "attr_mi_incl_koz": 10200,
+    "attr_inf_koz": 2000
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "troilus",
+      "name": "Troilus",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Troilus Gold",
+      "mine_type": "Open pit restart",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Chibougamau",
+      "lat": 50.99,
+      "lon": -74.51,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Former Troilus mine, northeast of the Val-d'Or district, north-central Quebec."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (resources inclusive of reserves)",
+    "totals": {
+      "proven": {
+        "koz": 710,
+        "attr_koz": 710,
+        "kt": 49000,
+        "grade_gt": 0.45
+      },
+      "probable": {
+        "koz": 5980,
+        "attr_koz": 5980,
+        "kt": 429000,
+        "grade_gt": 0.43
+      },
+      "pp": {
+        "koz": 6690,
+        "attr_koz": 6690,
+        "kt": 478000,
+        "grade_gt": 0.44
+      },
+      "mi": {
+        "koz": 10200,
+        "attr_koz": 10200,
+        "kt": 810200,
+        "grade_gt": 0.39
+      },
+      "inf": {
+        "koz": 2000,
+        "attr_koz": 2000,
+        "kt": 182500,
+        "grade_gt": 0.34
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "troilus",
+        "name": "Troilus (87, J, X22, SW)",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 710,
+          "attr_koz": 710,
+          "kt": 49000,
+          "grade_gt": 0.45
+        },
+        "probable": {
+          "koz": 5980,
+          "attr_koz": 5980,
+          "kt": 429000,
+          "grade_gt": 0.43
+        },
+        "pp": {
+          "koz": 6690,
+          "attr_koz": 6690,
+          "kt": 478000,
+          "grade_gt": 0.44
+        },
+        "mi": {
+          "koz": 10200,
+          "attr_koz": 10200,
+          "kt": 810200,
+          "grade_gt": 0.39
+        },
+        "inf": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 182500,
+          "grade_gt": 0.34
+        },
+        "note": "Gold only (also Cu/Ag). Reserves effective 31 Dec 2025. Resources inclusive."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Troilus updated technical report — reserves and resources",
+      "date": "2026-09-09",
+      "url": "https://troilusmining.com/troilus-gold-project/geology-and-mineral-resources/",
+      "what": "P&P 478 Mt @ 0.44 g/t / 6.69 Moz Au; M&I 810 Mt @ 0.39 / 10.2 Moz Au"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "fetch failed: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.troilusmining.com'. (_ssl.c:1010)>"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:47Z",
+    "snapshots": {}
+  }
+}

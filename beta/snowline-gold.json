@@ -1,0 +1,142 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "snowline-gold",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Snowline Rogue PEA (effective 1 Mar 2025). Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Snowline Gold Corp.",
+    "short": "Snowline Gold",
+    "tickers": [
+      {
+        "symbol": "SGD.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=SGD"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://snowlinegold.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101 PEA. No mineral reserve."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 7940,
+    "attr_inf_koz": 890
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "valley",
+      "name": "Valley (Rogue)",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Snowline Gold",
+      "mine_type": "Open pit (PEA)",
+      "country": "Canada",
+      "region": "Yukon",
+      "nearest": "Ross River",
+      "lat": 63.63,
+      "lon": -130.95,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Valley deposit, Rogue Project, eastern Selwyn Basin."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-03-01",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA; no mineral reserve)",
+    "totals": {
+      "measured": {
+        "koz": 3150,
+        "attr_koz": 3150,
+        "kt": 69700,
+        "grade_gt": 1.41
+      },
+      "indicated": {
+        "koz": 4790,
+        "attr_koz": 4790,
+        "kt": 134300,
+        "grade_gt": 1.11
+      },
+      "mi": {
+        "koz": 7940,
+        "attr_koz": 7940,
+        "kt": 204000,
+        "grade_gt": 1.21
+      },
+      "inf": {
+        "koz": 890,
+        "attr_koz": 890,
+        "kt": 44500,
+        "grade_gt": 0.62
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "valley",
+        "name": "Valley",
+        "ownership_pct": 100,
+        "measured": {
+          "koz": 3150,
+          "attr_koz": 3150,
+          "kt": 69700,
+          "grade_gt": 1.41
+        },
+        "indicated": {
+          "koz": 4790,
+          "attr_koz": 4790,
+          "kt": 134300,
+          "grade_gt": 1.11
+        },
+        "mi": {
+          "koz": 7940,
+          "attr_koz": 7940,
+          "kt": 204000,
+          "grade_gt": 1.21
+        },
+        "inf": {
+          "koz": 890,
+          "attr_koz": 890,
+          "kt": 44500,
+          "grade_gt": 0.62
+        },
+        "note": "0.3 g/t Au cut-off. PEA effective 1 Mar 2025."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Independent PEA for the Rogue Project, Yukon",
+      "date": "2025-08-27",
+      "url": "https://snowlinegold.com",
+      "what": "M&I 204 Mt @ 1.21 g/t / 7.94 Moz; inferred 44.5 Mt @ 0.62 / 0.89 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:47Z",
+    "snapshots": {
+      "https://snowlinegold.com/news": "9c6c2749bf0f9405"
+    }
+  }
+}

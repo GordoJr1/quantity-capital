@@ -1,0 +1,171 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "wallbridge",
+  "kind": "explorer",
+  "stage": "developer",
+  "generated": "2026-09-13",
+  "disclaimer": "Filing-backed from Wallbridge 2025 MRE (effective 20 Mar 2025). Resources are not reserves. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Wallbridge Mining Company Limited",
+    "short": "Wallbridge",
+    "tickers": [
+      {
+        "symbol": "WM.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=WM"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://wallbridgemining.com"
+  },
+  "method": {
+    "production_basis": "None.",
+    "resources_basis": "NI 43-101. No mineral reserve."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": 2100,
+    "attr_inf_koz": 2037
+  },
+  "guidance_2026": {
+    "basis": "none — not a producer profile",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "fenelon",
+      "name": "Fenelon",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Wallbridge",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Matagami",
+      "lat": 49.77,
+      "lon": -78.32,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Fenelon, ~75 km WNW of Matagami, Detour-Fenelon Gold Trend / Sunday Lake deformation zone."
+    },
+    {
+      "id": "martiniere",
+      "name": "Martiniere",
+      "stage": "exploration",
+      "in_production": false,
+      "commodity": "gold",
+      "ownership_pct": 100,
+      "operator": "Wallbridge",
+      "mine_type": "Open pit + underground",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Matagami",
+      "lat": 49.8,
+      "lon": -78.7,
+      "location_source": "NI 43-101 / company project location",
+      "location_note": "Martiniere, same Detour-Fenelon trend, Bug Lake corridor."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-03-20",
+    "inclusive_of_reserves": true,
+    "standard": "NI 43-101 (PEA at Fenelon; no mineral reserve)",
+    "totals": {
+      "indicated": {
+        "koz": 2100,
+        "attr_koz": 2100,
+        "kt": 19970,
+        "grade_gt": 3.3
+      },
+      "mi": {
+        "koz": 2100,
+        "attr_koz": 2100,
+        "kt": 19970,
+        "grade_gt": 3.3
+      },
+      "inf": {
+        "koz": 2037,
+        "attr_koz": 2037,
+        "kt": 18899,
+        "grade_gt": 3.35
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "fenelon",
+        "name": "Fenelon",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 1754,
+          "attr_koz": 1754,
+          "kt": 15087,
+          "grade_gt": 3.62
+        },
+        "mi": {
+          "koz": 1754,
+          "attr_koz": 1754,
+          "kt": 15087,
+          "grade_gt": 3.62
+        },
+        "inf": {
+          "koz": 1649,
+          "attr_koz": 1649,
+          "kt": 15028,
+          "grade_gt": 3.41
+        }
+      },
+      {
+        "asset_id": "martiniere",
+        "name": "Martiniere",
+        "ownership_pct": 100,
+        "indicated": {
+          "koz": 346,
+          "attr_koz": 346,
+          "kt": 4703,
+          "grade_gt": 2.29
+        },
+        "mi": {
+          "koz": 346,
+          "attr_koz": 346,
+          "kt": 4703,
+          "grade_gt": 2.29
+        },
+        "inf": {
+          "koz": 387,
+          "attr_koz": 387,
+          "kt": 3870,
+          "grade_gt": 3.11
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Detour-Fenelon Gold Trend 2025 MRE / Fenelon PEA",
+      "date": "2025-03-27",
+      "what": "Fenelon 1.75 Moz indicated / 1.65 Moz inferred; Martiniere 0.35 / 0.39 Moz"
+    }
+  ],
+  "meta": {
+    "alerts": [
+      "IR page changed",
+      "page mentions 43-101/MRE/PEA/FS after a change"
+    ],
+    "layer": 3,
+    "watchlist": "explorers-20",
+    "last_attempt": "2026-09-13T16:30:55Z",
+    "snapshots": {
+      "https://wallbridgemining.com/news/": "5d0256c4a7df3e0d"
+    }
+  }
+}

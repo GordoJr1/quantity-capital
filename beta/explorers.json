@@ -1,0 +1,637 @@
+{
+  "schema": "qc-beta-explorers-v1",
+  "generated": "2026-09-13",
+  "disclaimer": "Layer 3 explorer watchlist. Filing-backed MRE. Not the producer rank list. Not S&P. Not investment advice.",
+  "universe_note": "Token-free Layer 3 test: 20 TSX/TSXV gold explorers/developers with a published NI 43-101 MRE. Not the producer rank list. Deep JSON is filing-backed; the updater only hashes IR pages and flags new MRE/43-101 language. No LLM in this loop.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au"
+  },
+  "issuers": [
+    {
+      "id": "new-found-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "New Found Gold Corp.",
+      "file": "beta/new-found-gold.json",
+      "tickers": [
+        "NFG.V",
+        "NFGC"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 1579,
+      "attr_inf_koz": 689,
+      "as_of_rr": "2025-03-15",
+      "assets": [
+        {
+          "id": "queensway",
+          "name": "Queensway",
+          "country": "Canada",
+          "region": "Newfoundland and Labrador",
+          "nearest": "Gander",
+          "lat": 48.95,
+          "lon": -55.05,
+          "in_production": false
+        },
+        {
+          "id": "hammerdown",
+          "name": "Hammerdown",
+          "country": "Canada",
+          "region": "Newfoundland and Labrador",
+          "nearest": "King's Point",
+          "lat": 49.58,
+          "lon": -56.18,
+          "in_production": true
+        }
+      ]
+    },
+    {
+      "id": "snowline-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Snowline Gold Corp.",
+      "file": "beta/snowline-gold.json",
+      "tickers": [
+        "SGD.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 7940,
+      "attr_inf_koz": 890,
+      "as_of_rr": "2025-03-01",
+      "assets": [
+        {
+          "id": "valley",
+          "name": "Valley (Rogue)",
+          "country": "Canada",
+          "region": "Yukon",
+          "nearest": "Ross River",
+          "lat": 63.63,
+          "lon": -130.95,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "probe-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Probe Gold Inc.",
+      "file": "beta/probe-gold.json",
+      "tickers": [
+        "PRB.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 5898,
+      "attr_inf_koz": 1482,
+      "as_of_rr": "2024-08-30",
+      "assets": [
+        {
+          "id": "novador",
+          "name": "Novador",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Val-d'Or",
+          "lat": 48.1809,
+          "lon": -77.5316,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "troilus",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Troilus Gold Corp.",
+      "file": "beta/troilus.json",
+      "tickers": [
+        "TLG.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Montreal, Quebec, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 6690,
+      "attr_mi_incl_koz": 10200,
+      "attr_inf_koz": 2000,
+      "as_of_rr": "2025-12-31",
+      "assets": [
+        {
+          "id": "troilus",
+          "name": "Troilus",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Chibougamau",
+          "lat": 50.99,
+          "lon": -74.51,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "thesis-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Thesis Gold Inc.",
+      "file": "beta/thesis-gold.json",
+      "tickers": [
+        "TAU.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 2390,
+      "attr_mi_incl_koz": 3340,
+      "attr_inf_koz": 547,
+      "as_of_rr": "2025-10-16",
+      "assets": [
+        {
+          "id": "lawyers-ranch",
+          "name": "Lawyers-Ranch",
+          "country": "Canada",
+          "region": "British Columbia",
+          "nearest": "Toodoggone",
+          "lat": 57.33,
+          "lon": -127.17,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "g2-goldfields",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "G2 Goldfields Inc.",
+      "file": "beta/g2-goldfields.json",
+      "tickers": [
+        "GTWO.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 1621,
+      "attr_inf_koz": 1910,
+      "as_of_rr": "2025-11-20",
+      "assets": [
+        {
+          "id": "oko",
+          "name": "Oko",
+          "country": "Guyana",
+          "region": "Cuyuni-Mazaruni",
+          "nearest": "Oko",
+          "lat": 6.54,
+          "lon": -58.73,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "amex-exploration",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Amex Exploration Inc.",
+      "file": "beta/amex-exploration.json",
+      "tickers": [
+        "AMX.V"
+      ],
+      "commodity": "gold",
+      "hq": "Montreal, Quebec, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 1615,
+      "attr_inf_koz": 698,
+      "as_of_rr": "2025-05-21",
+      "assets": [
+        {
+          "id": "perron",
+          "name": "Perron",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Normétal",
+          "lat": 48.82,
+          "lon": -79.37,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "wallbridge",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Wallbridge Mining Company Limited",
+      "file": "beta/wallbridge.json",
+      "tickers": [
+        "WM.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 2100,
+      "attr_inf_koz": 2037,
+      "as_of_rr": "2025-03-20",
+      "assets": [
+        {
+          "id": "fenelon",
+          "name": "Fenelon",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Matagami",
+          "lat": 49.77,
+          "lon": -78.32,
+          "in_production": false
+        },
+        {
+          "id": "martiniere",
+          "name": "Martiniere",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Matagami",
+          "lat": 49.8,
+          "lon": -78.7,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "stllr-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "STLLR Gold Inc.",
+      "file": "beta/stllr-gold.json",
+      "tickers": [
+        "STLR.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 4002,
+      "attr_inf_koz": 6961,
+      "as_of_rr": "2025-05-15",
+      "assets": [
+        {
+          "id": "tower-gold",
+          "name": "Tower Gold",
+          "country": "Canada",
+          "region": "Ontario",
+          "nearest": "Matheson",
+          "lat": 48.53,
+          "lon": -80.0,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "mayfair-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Mayfair Gold Corp.",
+      "file": "beta/mayfair-gold.json",
+      "tickers": [
+        "MFG.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 1040,
+      "attr_mi_incl_koz": 4300,
+      "attr_inf_koz": 140,
+      "as_of_rr": "2024-09-03",
+      "assets": [
+        {
+          "id": "fenn-gib",
+          "name": "Fenn-Gib",
+          "country": "Canada",
+          "region": "Ontario",
+          "nearest": "Matheson",
+          "lat": 48.52,
+          "lon": -80.25,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "tudor-gold",
+      "kind": "explorer",
+      "stage": "explorer",
+      "name": "Tudor Gold Corp.",
+      "file": "beta/tudor-gold.json",
+      "tickers": [
+        "TUD.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 3480,
+      "attr_inf_koz": 1560,
+      "as_of_rr": "2026-01-22",
+      "assets": [
+        {
+          "id": "treaty-creek",
+          "name": "Treaty Creek (Goldstorm)",
+          "country": "Canada",
+          "region": "British Columbia",
+          "nearest": "Stewart",
+          "lat": 56.62,
+          "lon": -130.01,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "sitka-gold",
+      "kind": "explorer",
+      "stage": "explorer",
+      "name": "Sitka Gold Corp.",
+      "file": "beta/sitka-gold.json",
+      "tickers": [
+        "SIG.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 1291,
+      "attr_inf_koz": 3829,
+      "as_of_rr": "2026-02-25",
+      "assets": [
+        {
+          "id": "blackjack",
+          "name": "Blackjack",
+          "country": "Canada",
+          "region": "Yukon",
+          "nearest": "Dawson",
+          "lat": 63.76,
+          "lon": -137.22,
+          "in_production": false
+        },
+        {
+          "id": "rhosgobel",
+          "name": "Rhosgobel",
+          "country": "Canada",
+          "region": "Yukon",
+          "nearest": "Dawson",
+          "lat": 63.76,
+          "lon": -137.22,
+          "in_production": false
+        },
+        {
+          "id": "eiger",
+          "name": "Eiger",
+          "country": "Canada",
+          "region": "Yukon",
+          "nearest": "Dawson",
+          "lat": 63.76,
+          "lon": -137.22,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "omai-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Omai Gold Mines Corp.",
+      "file": "beta/omai-gold.json",
+      "tickers": [
+        "OMG.V"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 2300,
+      "attr_inf_koz": 1900,
+      "as_of_rr": "2025-10-01",
+      "assets": [
+        {
+          "id": "omai",
+          "name": "Omai (Wenot + Gilt Creek)",
+          "country": "Guyana",
+          "region": "Potaro-Siparuni",
+          "nearest": "Mahdia / Omai",
+          "lat": 5.432,
+          "lon": -58.746,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "liberty-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Liberty Gold Corp.",
+      "file": "beta/liberty-gold.json",
+      "tickers": [
+        "LGD.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 4040,
+      "attr_mi_incl_koz": null,
+      "attr_inf_koz": null,
+      "as_of_rr": "2026-09",
+      "assets": [
+        {
+          "id": "black-pine",
+          "name": "Black Pine",
+          "country": "United States",
+          "region": "Idaho",
+          "nearest": "Burley",
+          "lat": 42.15,
+          "lon": -113.18,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "banyan-gold",
+      "kind": "explorer",
+      "stage": "explorer",
+      "name": "Banyan Gold Corp.",
+      "file": "beta/banyan-gold.json",
+      "tickers": [
+        "BYN.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 2274,
+      "attr_inf_koz": 5454,
+      "as_of_rr": "2025-01",
+      "assets": [
+        {
+          "id": "aurmac",
+          "name": "AurMac",
+          "country": "Canada",
+          "region": "Yukon",
+          "nearest": "Mayo",
+          "lat": 63.6,
+          "lon": -135.9,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "seabridge-gold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Seabridge Gold Inc.",
+      "file": "beta/seabridge-gold.json",
+      "tickers": [
+        "SEA.TO",
+        "SA"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 40300,
+      "attr_mi_incl_koz": null,
+      "attr_inf_koz": null,
+      "as_of_rr": "2024-12-31",
+      "assets": [
+        {
+          "id": "ksm",
+          "name": "KSM",
+          "country": "Canada",
+          "region": "British Columbia",
+          "nearest": "Stewart",
+          "lat": 56.5,
+          "lon": -130.19,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "skeena",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Skeena Resources Limited",
+      "file": "beta/skeena.json",
+      "tickers": [
+        "SKE.TO",
+        "SKE"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 3900,
+      "attr_mi_incl_koz": null,
+      "attr_inf_koz": null,
+      "as_of_rr": "2023-11-14",
+      "assets": [
+        {
+          "id": "eskay-creek",
+          "name": "Eskay Creek",
+          "country": "Canada",
+          "region": "British Columbia",
+          "nearest": "Stewart",
+          "lat": 56.655,
+          "lon": -130.449,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "nexgold",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "NexGold Mining Corp.",
+      "file": "beta/nexgold.json",
+      "tickers": [
+        "NEXG.V"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 2100,
+      "attr_inf_koz": 800,
+      "as_of_rr": "2023-03-27",
+      "assets": [
+        {
+          "id": "goliath",
+          "name": "Goliath-Goldlund-Miller",
+          "country": "Canada",
+          "region": "Ontario",
+          "nearest": "Dryden",
+          "lat": 49.77,
+          "lon": -92.7,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "osisko-development",
+      "kind": "explorer",
+      "stage": "developer",
+      "name": "Osisko Development Corp.",
+      "file": "beta/osisko-development.json",
+      "tickers": [
+        "ODV.TO",
+        "ODV"
+      ],
+      "commodity": "gold",
+      "hq": "Montreal, Quebec, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": 2200,
+      "attr_mi_incl_koz": null,
+      "attr_inf_koz": null,
+      "as_of_rr": "2025-01-01",
+      "assets": [
+        {
+          "id": "cariboo",
+          "name": "Cariboo Gold",
+          "country": "Canada",
+          "region": "British Columbia",
+          "nearest": "Wells",
+          "lat": 53.1,
+          "lon": -121.57,
+          "in_production": false
+        }
+      ]
+    },
+    {
+      "id": "fury-gold",
+      "kind": "explorer",
+      "stage": "explorer",
+      "name": "Fury Gold Mines Limited",
+      "file": "beta/fury-gold.json",
+      "tickers": [
+        "FURY.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "attr_koz_2025": null,
+      "attr_pp_koz": null,
+      "attr_mi_incl_koz": 700,
+      "attr_inf_koz": 400,
+      "as_of_rr": "2024-05-10",
+      "assets": [
+        {
+          "id": "eau-claire",
+          "name": "Eau Claire",
+          "country": "Canada",
+          "region": "Quebec",
+          "nearest": "Eeyou Istchee James Bay",
+          "lat": 52.2,
+          "lon": -75.8,
+          "in_production": false
+        }
+      ]
+    }
+  ]
+}

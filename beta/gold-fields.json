@@ -16,7 +16,8 @@
     "website": "https://www.goldfields.com"
   },
   "method": {
-    "production_basis": "Attributable gold-equivalent. Tarkwa 90%, South Deep 93.1%, Cerro Corona 99.5%. Gruyere 50% until Gold Road close then 100%."
+    "production_basis": "Attributable gold-equivalent. Tarkwa 90%, South Deep 93.1%, Cerro Corona 99.5%. Gruyere 50% until Gold Road close then 100%.",
+    "resources_basis": "Group attributable P&P 48.3 Moz in 578.3 Mt @ 2.60 g/t (IAR 2025). Resources exclusive of reserves (M&I 34.2 Moz < P&P 48.3 Moz). Tarkwa from Q3 2025 attributable reserve table (kt/g/t). Other mines: 2025 Moz from IAR year-on-year commentary; 2025 tonnes/grade were not in that summary."
   },
   "kpis": {
     "attr_koz_2025": 2438,
@@ -301,9 +302,19 @@
     "as_of": "2025-12-31",
     "inclusive_of_reserves": false,
     "totals": {
+      "proven": {
+        "koz": 4900,
+        "attr_koz": 4900
+      },
+      "probable": {
+        "koz": 43400,
+        "attr_koz": 43400
+      },
       "pp": {
         "koz": 48300,
-        "attr_koz": 48300
+        "attr_koz": 48300,
+        "kt": 578300,
+        "grade_gt": 2.6
       },
       "mi": {
         "koz": 34200,
@@ -314,7 +325,115 @@
         "attr_koz": 12800
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "tarkwa",
+        "name": "Tarkwa",
+        "ownership_pct": 90,
+        "proven": {
+          "koz": 1889,
+          "attr_koz": 1700,
+          "kt": 50222,
+          "grade_gt": 1.2
+        },
+        "probable": {
+          "koz": 5444,
+          "attr_koz": 4900,
+          "kt": 190000,
+          "grade_gt": 0.9
+        },
+        "pp": {
+          "koz": 7333,
+          "attr_koz": 6600,
+          "kt": 240222,
+          "grade_gt": 1.0
+        },
+        "mi": {
+          "koz": 10333,
+          "attr_koz": 9300,
+          "kt": 293889,
+          "grade_gt": 1.1
+        },
+        "inf": {
+          "koz": 778,
+          "attr_koz": 700,
+          "kt": 16111,
+          "grade_gt": 1.6
+        },
+        "note": "90% Gold Fields. Q3 2025 attributable table; managed 7.4 Moz vs 6.6 Moz attr."
+      },
+      {
+        "asset_id": "south-deep",
+        "name": "South Deep",
+        "ownership_pct": 93.1,
+        "pp": {
+          "koz": 29646,
+          "attr_koz": 27600
+        },
+        "note": "IAR 2025: −0.4 Moz (−2%) vs 2024 attributable 175.2 Mt @ 4.97 g/t / 28.0 Moz. 2025 tonnes not in the IAR summary. 93.1% GF."
+      },
+      {
+        "asset_id": "salares-norte",
+        "name": "Salares Norte",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3115,
+          "attr_koz": 3115
+        },
+        "note": "IAR 2025: −0.3 Moz (−8%) vs 2024 19.8 Mt @ 5.36 g/t / 3.415 Moz. 2025 tonnes not in the IAR summary."
+      },
+      {
+        "asset_id": "cerro-corona",
+        "name": "Cerro Corona",
+        "ownership_pct": 99.5,
+        "pp": {
+          "koz": 402,
+          "attr_koz": 400
+        },
+        "note": "IAR 2025: −0.2 Moz (−31%) vs 2024 38.5 Mt @ 0.48 g/t / 0.60 Moz. 2025 tonnes not in the IAR summary."
+      },
+      {
+        "asset_id": "gruyere",
+        "name": "Gruyere",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3327,
+          "attr_koz": 3327
+        },
+        "note": "IAR 2025: +1.6 Moz (+94%) after buying Gold Road's 50% (2024 attr 41.6 Mt @ 1.29 g/t / 1.727 Moz at 50%). Now 100%. 2025 tonnes not in the IAR summary."
+      },
+      {
+        "asset_id": "st-ives",
+        "name": "St Ives",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3847,
+          "attr_koz": 3847
+        },
+        "note": "IAR 2025: +0.5 Moz (+16%) vs 2024 29.0 Mt @ 3.59 g/t / 3.347 Moz. 2025 tonnes not in the IAR summary."
+      },
+      {
+        "asset_id": "granny-smith",
+        "name": "Granny Smith",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2689,
+          "attr_koz": 2689
+        },
+        "note": "IAR 2025: +0.3 Moz (+13%) vs 2024 11.5 Mt @ 6.44 g/t / 2.389 Moz. 2025 tonnes not in the IAR summary."
+      },
+      {
+        "asset_id": "agnew",
+        "name": "Agnew",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 932,
+          "attr_koz": 932
+        },
+        "note": "IAR 2025: −0.04 Moz (−4%) vs 2024 4.6 Mt @ 6.60 g/t / 0.972 Moz. 2025 tonnes not in the IAR summary."
+      }
+    ],
+    "standard": "SAMREC / S-K 1300"
   },
   "sources": [
     {
@@ -325,6 +444,12 @@
       "title": "Gold Fields H1 2026 interim",
       "date": "2026-08",
       "what": "1.267 Moz-eq YTD"
+    },
+    {
+      "title": "Gold Fields IAR 2025 Mineral Resources and Mineral Reserves summary",
+      "date": "2026-03",
+      "url": "https://www.goldfields.com/reports/annual-report-2025/mineral-resources-and-mineral-reserves-summary.php",
+      "what": "Group 48.3 Moz P&P; Tarkwa / Gruyere / St Ives / Granny Smith / Agnew / South Deep yoy"
     }
   ],
   "schema": "qc-issuer-profile-v1",

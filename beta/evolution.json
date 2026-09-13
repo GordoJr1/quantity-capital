@@ -17,7 +17,8 @@
   },
   "method": {
     "production_basis": "Group gold. Northparkes 80% attributable. Fiscal year ends 30 June.",
-    "fiscal_year_end": "06-30"
+    "fiscal_year_end": "06-30",
+    "resources_basis": "JORC. Resources inclusive of reserves. 31 Dec 2025. Group gold reserves 12 Moz in 460 Mt @ 0.79 g/t / resources 31 Moz in 1,300 Mt @ 0.75 g/t. Northparkes table is 100%; attr_koz at 80% EVN."
   },
   "kpis": {
     "attr_koz_2025": 750.5,
@@ -29,10 +30,12 @@
     ],
     "aisc_2025": 1572,
     "attr_pp_koz": 12000,
-    "attr_mi_incl_koz": 31000,
+    "attr_mi_incl_koz": 23300,
     "pp_koz_100pct": 12000,
-    "mi_incl_koz_100pct": 31000,
-    "fiscal_year_end": "06-30"
+    "mi_incl_koz_100pct": 23300,
+    "fiscal_year_end": "06-30",
+    "attr_inf_koz": 8100,
+    "inf_koz_100pct": 8100
   },
   "guidance_2026": {
     "basis": "FY26 group gold (met)",
@@ -224,16 +227,219 @@
     "as_of": "2025-12-31",
     "inclusive_of_reserves": true,
     "totals": {
+      "proven": {
+        "koz": 1400,
+        "attr_koz": 1400,
+        "kt": 81000,
+        "grade_gt": 0.56
+      },
+      "probable": {
+        "koz": 10000,
+        "attr_koz": 10000,
+        "kt": 380000,
+        "grade_gt": 0.83
+      },
       "pp": {
         "koz": 12000,
-        "attr_koz": 12000
+        "attr_koz": 12000,
+        "kt": 460000,
+        "grade_gt": 0.79
+      },
+      "measured": {
+        "koz": 3300,
+        "attr_koz": 3300,
+        "kt": 250000,
+        "grade_gt": 0.41
+      },
+      "indicated": {
+        "koz": 20000,
+        "attr_koz": 20000,
+        "kt": 800000,
+        "grade_gt": 0.76
       },
       "mi": {
-        "koz": 31000,
-        "attr_koz": 31000
+        "koz": 23300,
+        "attr_koz": 23300,
+        "kt": 1050000,
+        "grade_gt": 0.69
+      },
+      "inf": {
+        "koz": 8100,
+        "attr_koz": 8100,
+        "kt": 230000,
+        "grade_gt": 1.1
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "cowal",
+        "name": "Cowal",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 730,
+          "attr_koz": 730,
+          "kt": 44000,
+          "grade_gt": 0.52
+        },
+        "probable": {
+          "koz": 4400,
+          "attr_koz": 4400,
+          "kt": 130000,
+          "grade_gt": 1.01
+        },
+        "pp": {
+          "koz": 5100,
+          "attr_koz": 5100,
+          "kt": 180000,
+          "grade_gt": 0.89
+        },
+        "mi": {
+          "koz": 8120,
+          "attr_koz": 8120,
+          "kt": 282000,
+          "grade_gt": 0.9
+        },
+        "inf": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 60000,
+          "grade_gt": 1.04
+        },
+        "note": "Resources 31 Dec 2025 inclusive. Reserves 180 Mt @ 0.89 g/t / 5.1 Moz."
+      },
+      {
+        "asset_id": "ernest-henry",
+        "name": "Ernest Henry",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 570,
+          "attr_koz": 570,
+          "kt": 27000,
+          "grade_gt": 0.65
+        },
+        "probable": {
+          "koz": 510,
+          "attr_koz": 510,
+          "kt": 46000,
+          "grade_gt": 0.35
+        },
+        "pp": {
+          "koz": 1100,
+          "attr_koz": 1100,
+          "kt": 73000,
+          "grade_gt": 0.46
+        },
+        "mi": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 80000,
+          "grade_gt": 0.79
+        },
+        "inf": {
+          "koz": 600,
+          "attr_koz": 600,
+          "kt": 25000,
+          "grade_gt": 0.76
+        }
+      },
+      {
+        "asset_id": "mungari",
+        "name": "Mungari",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 71,
+          "attr_koz": 71,
+          "kt": 570,
+          "grade_gt": 3.87
+        },
+        "probable": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 47000,
+          "grade_gt": 1.33
+        },
+        "pp": {
+          "koz": 2100,
+          "attr_koz": 2100,
+          "kt": 47000,
+          "grade_gt": 1.36
+        },
+        "mi": {
+          "koz": 4330,
+          "attr_koz": 4330,
+          "kt": 102000,
+          "grade_gt": 1.32
+        },
+        "inf": {
+          "koz": 2900,
+          "attr_koz": 2900,
+          "kt": 73000,
+          "grade_gt": 1.22
+        },
+        "note": "Reserves 47 Mt @ 1.36 g/t / 2.1 Moz. Resources 180 Mt @ 1.27 g/t / 7.2 Moz inclusive."
+      },
+      {
+        "asset_id": "red-lake",
+        "name": "Red Lake",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 18000,
+          "grade_gt": 3.35
+        },
+        "mi": {
+          "koz": 4700,
+          "attr_koz": 4700,
+          "kt": 40000,
+          "grade_gt": 3.67
+        },
+        "inf": {
+          "koz": 2400,
+          "attr_koz": 2400,
+          "kt": 21000,
+          "grade_gt": 3.55
+        },
+        "note": "Resources 61 Mt @ 3.63 g/t / 7.1 Moz inclusive (31 Dec 2025). Reserves 18 Mt @ 3.35 g/t / 2.0 Moz."
+      },
+      {
+        "asset_id": "northparkes",
+        "name": "Northparkes",
+        "ownership_pct": 80,
+        "proven": {
+          "koz": 67,
+          "attr_koz": 54,
+          "kt": 8700,
+          "grade_gt": 0.24
+        },
+        "probable": {
+          "koz": 630,
+          "attr_koz": 504,
+          "kt": 71000,
+          "grade_gt": 0.28
+        },
+        "pp": {
+          "koz": 690,
+          "attr_koz": 552,
+          "kt": 79000,
+          "grade_gt": 0.27
+        },
+        "mi": {
+          "koz": 2800,
+          "attr_koz": 2240,
+          "kt": 460000,
+          "grade_gt": 0.19
+        },
+        "inf": {
+          "koz": 240,
+          "attr_koz": 192,
+          "kt": 47000,
+          "grade_gt": 0.16
+        },
+        "note": "80% EVN. JORC table is 100% of the operation; attr_koz is Evolution's 80%."
+      }
+    ],
+    "standard": "JORC 2012 (resources inclusive of reserves)"
   },
   "sources": [
     {
@@ -243,6 +449,12 @@
     {
       "title": "Evolution FY26 quarterly / financial report",
       "what": "715 koz, met 710–780 guidance"
+    },
+    {
+      "title": "Evolution Annual Mineral Resources and Ore Reserves Statement (31 Dec 2025)",
+      "date": "2026-04-30",
+      "url": "https://evolutionmining.com/wp-content/uploads/annual_mineral_resources_and_ore_reserves_statement_12.pdf",
+      "what": "Cowal 5.1 Moz reserves / 10 Moz resources; group 12 / 31 Moz gold"
     }
   ],
   "schema": "qc-issuer-profile-v1",

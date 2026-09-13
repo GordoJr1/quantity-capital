@@ -22,7 +22,7 @@
   },
   "method": {
     "production_basis": "Payable gold. Company owns 100% of producing mines.",
-    "resources_basis": "NI 43-101 resources exclusive of reserves."
+    "resources_basis": "NI 43-101. Mineral resources exclusive of reserves. Producing mines are 100% Agnico Eagle."
   },
   "kpis": {
     "attr_koz_2025": 3447.4,
@@ -433,48 +433,624 @@
     "as_of": "2025-12-31",
     "inclusive_of_reserves": false,
     "totals": {
+      "proven": {
+        "koz": 6731,
+        "attr_koz": 6731,
+        "kt": 212796,
+        "grade_gt": 0.98
+      },
+      "probable": {
+        "koz": 48711,
+        "attr_koz": 48711,
+        "kt": 1116755,
+        "grade_gt": 1.36
+      },
       "pp": {
         "koz": 55442,
-        "attr_koz": 55442
+        "attr_koz": 55442,
+        "kt": 1329551,
+        "grade_gt": 1.3
+      },
+      "measured": {
+        "koz": 4656,
+        "attr_koz": 4656,
+        "kt": 113254,
+        "grade_gt": 1.28
+      },
+      "indicated": {
+        "koz": 42420,
+        "attr_koz": 42420,
+        "kt": 1086470,
+        "grade_gt": 1.21
       },
       "mi": {
         "koz": 47076,
-        "attr_koz": 47076
+        "attr_koz": 47076,
+        "kt": 1199724,
+        "grade_gt": 1.22
       },
       "inf": {
         "koz": 41815,
-        "attr_koz": 41815
+        "attr_koz": 41815,
+        "kt": 522289,
+        "grade_gt": 2.49
       }
     },
     "projects": [
       {
-        "asset_id": "detour-lake",
-        "name": "Detour Lake",
+        "asset_id": "laronde",
+        "name": "LaRonde Complex",
         "ownership_pct": 100,
+        "proven": {
+          "koz": 784,
+          "attr_koz": 784,
+          "kt": 8874,
+          "grade_gt": 2.75
+        },
+        "probable": {
+          "koz": 2064,
+          "attr_koz": 2064,
+          "kt": 14959,
+          "grade_gt": 4.29
+        },
         "pp": {
-          "koz": 18600,
-          "attr_koz": 18600
-        }
+          "koz": 2848,
+          "attr_koz": 2848,
+          "kt": 23832,
+          "grade_gt": 3.72
+        },
+        "mi": {
+          "koz": 2251,
+          "attr_koz": 2251,
+          "kt": 30664,
+          "grade_gt": 2.28
+        },
+        "inf": {
+          "koz": 1392,
+          "attr_koz": 1392,
+          "kt": 13043,
+          "grade_gt": 3.32
+        },
+        "parts": [
+          {
+            "id": "laronde-mine",
+            "name": "LaRonde mine",
+            "pp": {
+              "koz": 1959,
+              "attr_koz": 1959,
+              "kt": 10627,
+              "grade_gt": 5.73
+            },
+            "mi": {
+              "koz": 746,
+              "attr_koz": 746,
+              "kt": 6457,
+              "grade_gt": 3.59
+            },
+            "inf": {
+              "koz": 265,
+              "attr_koz": 265,
+              "kt": 1366,
+              "grade_gt": 6.03
+            }
+          },
+          {
+            "id": "laronde-z5",
+            "name": "LaRonde Zone 5",
+            "pp": {
+              "koz": 889,
+              "attr_koz": 889,
+              "kt": 13205,
+              "grade_gt": 2.09
+            },
+            "mi": {
+              "koz": 1506,
+              "attr_koz": 1506,
+              "kt": 24207,
+              "grade_gt": 1.93
+            },
+            "inf": {
+              "koz": 1127,
+              "attr_koz": 1127,
+              "kt": 11677,
+              "grade_gt": 3.0
+            }
+          }
+        ]
       },
       {
         "asset_id": "canadian-malartic",
-        "name": "Canadian Malartic",
+        "name": "Canadian Malartic Complex",
         "ownership_pct": 100,
+        "proven": {
+          "koz": 599,
+          "attr_koz": 599,
+          "kt": 36925,
+          "grade_gt": 0.5
+        },
+        "probable": {
+          "koz": 8453,
+          "attr_koz": 8453,
+          "kt": 133016,
+          "grade_gt": 1.98
+        },
         "pp": {
           "koz": 9052,
-          "attr_koz": 9052
+          "attr_koz": 9052,
+          "kt": 169941,
+          "grade_gt": 1.66
+        },
+        "mi": {
+          "koz": 4120,
+          "attr_koz": 4120,
+          "kt": 76723,
+          "grade_gt": 1.67
+        },
+        "inf": {
+          "koz": 13556,
+          "attr_koz": 13556,
+          "kt": 201694,
+          "grade_gt": 2.09
+        },
+        "parts": [
+          {
+            "id": "malartic-pit",
+            "name": "Canadian Malartic pit",
+            "pp": {
+              "koz": 1449,
+              "attr_koz": 1449,
+              "kt": 58594,
+              "grade_gt": 0.77
+            },
+            "inf": {
+              "koz": 118,
+              "attr_koz": 118,
+              "kt": 5011,
+              "grade_gt": 0.73
+            }
+          },
+          {
+            "id": "marban",
+            "name": "Marban",
+            "pp": {
+              "koz": 1577,
+              "attr_koz": 1577,
+              "kt": 51618,
+              "grade_gt": 0.95
+            },
+            "mi": {
+              "koz": 63,
+              "attr_koz": 63,
+              "kt": 3875,
+              "grade_gt": 0.51
+            }
+          },
+          {
+            "id": "odyssey",
+            "name": "Odyssey mine",
+            "pp": {
+              "koz": 6026,
+              "attr_koz": 6026,
+              "kt": 59730,
+              "grade_gt": 3.14
+            },
+            "mi": {
+              "koz": 3442,
+              "attr_koz": 3442,
+              "kt": 57757,
+              "grade_gt": 1.85
+            },
+            "inf": {
+              "koz": 12652,
+              "attr_koz": 12652,
+              "kt": 177729,
+              "grade_gt": 2.21
+            }
+          }
+        ]
+      },
+      {
+        "asset_id": "goldex",
+        "name": "Goldex",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 324,
+          "attr_koz": 324,
+          "kt": 7225,
+          "grade_gt": 1.39
+        },
+        "probable": {
+          "koz": 575,
+          "attr_koz": 575,
+          "kt": 11872,
+          "grade_gt": 1.51
+        },
+        "pp": {
+          "koz": 898,
+          "attr_koz": 898,
+          "kt": 19097,
+          "grade_gt": 1.46
+        },
+        "mi": {
+          "koz": 1728,
+          "attr_koz": 1728,
+          "kt": 33734,
+          "grade_gt": 1.59
+        },
+        "inf": {
+          "koz": 892,
+          "attr_koz": 892,
+          "kt": 18917,
+          "grade_gt": 1.47
         }
       },
       {
-        "asset_id": "laronde",
-        "name": "LaRonde",
+        "asset_id": "wasamac",
+        "name": "Wasamac",
         "ownership_pct": 100,
+        "probable": {
+          "koz": 1377,
+          "attr_koz": 1377,
+          "kt": 14757,
+          "grade_gt": 2.9
+        },
         "pp": {
-          "koz": 2848,
-          "attr_koz": 2848
+          "koz": 1377,
+          "attr_koz": 1377,
+          "kt": 14757,
+          "grade_gt": 2.9
+        },
+        "mi": {
+          "koz": 667,
+          "attr_koz": 667,
+          "kt": 9479,
+          "grade_gt": 2.19
+        },
+        "inf": {
+          "koz": 312,
+          "attr_koz": 312,
+          "kt": 3911,
+          "grade_gt": 2.48
+        },
+        "note": "Development."
+      },
+      {
+        "asset_id": "detour-lake",
+        "name": "Detour Lake",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 3035,
+          "attr_koz": 3035,
+          "kt": 120371,
+          "grade_gt": 0.78
+        },
+        "probable": {
+          "koz": 15540,
+          "attr_koz": 15540,
+          "kt": 677690,
+          "grade_gt": 0.71
+        },
+        "pp": {
+          "koz": 18575,
+          "attr_koz": 18575,
+          "kt": 798061,
+          "grade_gt": 0.72
+        },
+        "mi": {
+          "koz": 17691,
+          "attr_koz": 17691,
+          "kt": 678098,
+          "grade_gt": 0.81
+        },
+        "inf": {
+          "koz": 6304,
+          "attr_koz": 6304,
+          "kt": 111964,
+          "grade_gt": 1.75
+        }
+      },
+      {
+        "asset_id": "macassa",
+        "name": "Macassa",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 223,
+          "attr_koz": 223,
+          "kt": 742,
+          "grade_gt": 9.36
+        },
+        "probable": {
+          "koz": 1976,
+          "attr_koz": 1976,
+          "kt": 8068,
+          "grade_gt": 7.62
+        },
+        "pp": {
+          "koz": 2200,
+          "attr_koz": 2200,
+          "kt": 8810,
+          "grade_gt": 7.77
+        },
+        "mi": {
+          "koz": 681,
+          "attr_koz": 681,
+          "kt": 3469,
+          "grade_gt": 6.1
+        },
+        "inf": {
+          "koz": 1299,
+          "attr_koz": 1299,
+          "kt": 6066,
+          "grade_gt": 6.66
+        }
+      },
+      {
+        "asset_id": "upper-beaver",
+        "name": "Upper Beaver",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 2768,
+          "attr_koz": 2768,
+          "kt": 23181,
+          "grade_gt": 3.71
+        },
+        "pp": {
+          "koz": 2768,
+          "attr_koz": 2768,
+          "kt": 23181,
+          "grade_gt": 3.71
+        },
+        "mi": {
+          "koz": 495,
+          "attr_koz": 495,
+          "kt": 7564,
+          "grade_gt": 2.03
+        },
+        "inf": {
+          "koz": 391,
+          "attr_koz": 391,
+          "kt": 2953,
+          "grade_gt": 4.12
+        },
+        "note": "Development."
+      },
+      {
+        "asset_id": "hammond-reef",
+        "name": "Hammond Reef",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 3323,
+          "attr_koz": 3323,
+          "kt": 123473,
+          "grade_gt": 0.84
+        },
+        "pp": {
+          "koz": 3323,
+          "attr_koz": 3323,
+          "kt": 123473,
+          "grade_gt": 0.84
+        },
+        "mi": {
+          "koz": 2298,
+          "attr_koz": 2298,
+          "kt": 133367,
+          "grade_gt": 0.54
+        },
+        "note": "Development."
+      },
+      {
+        "asset_id": "meadowbank",
+        "name": "Meadowbank (Amaruq)",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 338,
+          "attr_koz": 338,
+          "kt": 8129,
+          "grade_gt": 1.29
+        },
+        "probable": {
+          "koz": 1116,
+          "attr_koz": 1116,
+          "kt": 9585,
+          "grade_gt": 3.62
+        },
+        "pp": {
+          "koz": 1454,
+          "attr_koz": 1454,
+          "kt": 17714,
+          "grade_gt": 2.55
+        },
+        "mi": {
+          "koz": 1336,
+          "attr_koz": 1336,
+          "kt": 11374,
+          "grade_gt": 3.65
+        },
+        "inf": {
+          "koz": 783,
+          "attr_koz": 783,
+          "kt": 5940,
+          "grade_gt": 4.1
+        }
+      },
+      {
+        "asset_id": "meliadine",
+        "name": "Meliadine",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 757,
+          "attr_koz": 757,
+          "kt": 4104,
+          "grade_gt": 5.74
+        },
+        "probable": {
+          "koz": 2864,
+          "attr_koz": 2864,
+          "kt": 17971,
+          "grade_gt": 4.96
+        },
+        "pp": {
+          "koz": 3622,
+          "attr_koz": 3622,
+          "kt": 22075,
+          "grade_gt": 5.1
+        },
+        "mi": {
+          "koz": 2244,
+          "attr_koz": 2244,
+          "kt": 20584,
+          "grade_gt": 3.39
+        },
+        "inf": {
+          "koz": 2478,
+          "attr_koz": 2478,
+          "kt": 14746,
+          "grade_gt": 5.23
+        }
+      },
+      {
+        "asset_id": "hope-bay",
+        "name": "Hope Bay",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 20,
+          "attr_koz": 20,
+          "kt": 93,
+          "grade_gt": 6.77
+        },
+        "probable": {
+          "koz": 3376,
+          "attr_koz": 3376,
+          "kt": 16086,
+          "grade_gt": 6.53
+        },
+        "pp": {
+          "koz": 3396,
+          "attr_koz": 3396,
+          "kt": 16178,
+          "grade_gt": 6.53
+        },
+        "mi": {
+          "koz": 2217,
+          "attr_koz": 2217,
+          "kt": 14946,
+          "grade_gt": 4.61
+        },
+        "inf": {
+          "koz": 3246,
+          "attr_koz": 3246,
+          "kt": 16868,
+          "grade_gt": 5.98
+        },
+        "note": "Development."
+      },
+      {
+        "asset_id": "fosterville",
+        "name": "Fosterville",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 154,
+          "attr_koz": 154,
+          "kt": 887,
+          "grade_gt": 5.41
+        },
+        "probable": {
+          "koz": 1516,
+          "attr_koz": 1516,
+          "kt": 9516,
+          "grade_gt": 4.95
+        },
+        "pp": {
+          "koz": 1670,
+          "attr_koz": 1670,
+          "kt": 10403,
+          "grade_gt": 4.99
+        },
+        "mi": {
+          "koz": 1377,
+          "attr_koz": 1377,
+          "kt": 11353,
+          "grade_gt": 3.77
+        },
+        "inf": {
+          "koz": 1795,
+          "attr_koz": 1795,
+          "kt": 13328,
+          "grade_gt": 4.19
+        }
+      },
+      {
+        "asset_id": "kittila",
+        "name": "Kittilä",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 140,
+          "attr_koz": 140,
+          "kt": 931,
+          "grade_gt": 4.66
+        },
+        "probable": {
+          "koz": 3179,
+          "attr_koz": 3179,
+          "kt": 23818,
+          "grade_gt": 4.15
+        },
+        "pp": {
+          "koz": 3319,
+          "attr_koz": 3319,
+          "kt": 24749,
+          "grade_gt": 4.17
+        },
+        "mi": {
+          "koz": 2048,
+          "attr_koz": 2048,
+          "kt": 22544,
+          "grade_gt": 2.83
+        },
+        "inf": {
+          "koz": 977,
+          "attr_koz": 977,
+          "kt": 6582,
+          "grade_gt": 4.62
+        }
+      },
+      {
+        "asset_id": "pinos-altos",
+        "name": "Pinos Altos",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 42,
+          "attr_koz": 42,
+          "kt": 659,
+          "grade_gt": 2.0
+        },
+        "probable": {
+          "koz": 227,
+          "attr_koz": 227,
+          "kt": 4003,
+          "grade_gt": 1.76
+        },
+        "pp": {
+          "koz": 269,
+          "attr_koz": 269,
+          "kt": 4662,
+          "grade_gt": 1.8
+        },
+        "mi": {
+          "koz": 916,
+          "attr_koz": 916,
+          "kt": 14189,
+          "grade_gt": 2.01
+        },
+        "inf": {
+          "koz": 93,
+          "attr_koz": 93,
+          "kt": 1533,
+          "grade_gt": 1.89
         }
       }
-    ]
+    ],
+    "standard": "NI 43-101 (resources exclusive of reserves)"
   },
   "sources": [
     {
@@ -486,6 +1062,12 @@
       "title": "Agnico Eagle Q2 2026 results",
       "date": "2026-07-29",
       "what": "H1 2026 1,680,925 oz"
+    },
+    {
+      "title": "Agnico Eagle YE2025 detailed mineral reserves and resources tables",
+      "date": "2026-02-12",
+      "url": "https://s205.q4cdn.com/243646470/files/doc_downloads/agnico_downloads/RnR-Tables/2025/AEM_YE_2025_MRMR_Tables_Detailed_Feb12_2026.pdf",
+      "what": "Mine-level P&P and exclusive M&I / inferred; tonnes, grade, ounces"
     }
   ],
   "schema": "qc-issuer-profile-v1",

@@ -22,7 +22,7 @@
   },
   "method": {
     "production_basis": "Attributable gold. Nevada Gold Mines 38.5% Newmont / 61.5% Barrick (operator). Pueblo Viejo 40%. Fruta del Norte via 32% Lundin Gold (quarter lag).",
-    "resources_basis": "SEC resources exclusive of reserves."
+    "resources_basis": "SEC S-K 1300. Resources exclusive of reserves. 10-K tonnes and ounces are Newmont's attributable share. Mine rows: koz is 100% contained (grossed up by ownership); attr_koz is the 10-K figure. Company total row is attributable as reported (118.2 Moz P&P)."
   },
   "kpis": {
     "attr_koz_2025": 5889,
@@ -578,26 +578,690 @@
           "pct": 68
         }
       ]
+    },
+    {
+      "id": "wafi-golpu",
+      "name": "Wafi-Golpu",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Papua New Guinea",
+      "ownership_pct": 50,
+      "operator": "Newmont",
+      "mine_type": "Undeveloped",
+      "note": "50% Newmont."
+    },
+    {
+      "id": "nueva-union",
+      "name": "NuevaUnión",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 50,
+      "operator": "JV"
+    },
+    {
+      "id": "norte-abierto",
+      "name": "Norte Abierto",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 50,
+      "operator": "JV"
+    },
+    {
+      "id": "conga",
+      "name": "Conga",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Peru",
+      "ownership_pct": 100,
+      "operator": "Newmont"
+    },
+    {
+      "id": "galore-creek",
+      "name": "Galore Creek",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 50,
+      "operator": "JV"
     }
   ],
   "reserves_resources": {
     "as_of": "2025-12-31",
     "inclusive_of_reserves": false,
     "totals": {
+      "proven": {
+        "koz": 16500,
+        "attr_koz": 16500,
+        "kt": 490900,
+        "grade_gt": 1.04
+      },
+      "probable": {
+        "koz": 101800,
+        "attr_koz": 101800,
+        "kt": 3416100,
+        "grade_gt": 0.93
+      },
       "pp": {
         "koz": 118200,
-        "attr_koz": 118200
+        "attr_koz": 118200,
+        "kt": 3907000,
+        "grade_gt": 0.94
       },
       "mi": {
         "koz": 88100,
-        "attr_koz": 88100
+        "attr_koz": 88100,
+        "kt": 4709300,
+        "grade_gt": 0.58
       },
       "inf": {
         "koz": 60600,
-        "attr_koz": 60600
+        "attr_koz": 60600,
+        "kt": 2182600,
+        "grade_gt": 0.9
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "lihir",
+        "name": "Lihir",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 16000,
+          "attr_koz": 16000,
+          "kt": 220200,
+          "grade_gt": 2.26
+        },
+        "pp": {
+          "koz": 16000,
+          "attr_koz": 16000,
+          "kt": 220200,
+          "grade_gt": 2.26
+        },
+        "mi": {
+          "koz": 2400,
+          "attr_koz": 2400,
+          "kt": 37500,
+          "grade_gt": 1.99
+        },
+        "inf": {
+          "koz": 18300,
+          "attr_koz": 18300,
+          "kt": 239800,
+          "grade_gt": 2.4
+        }
+      },
+      {
+        "asset_id": "wafi-golpu",
+        "name": "Wafi-Golpu",
+        "ownership_pct": 50,
+        "probable": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 389000,
+          "grade_gt": 0.82
+        },
+        "pp": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 389000,
+          "grade_gt": 0.82
+        },
+        "mi": {
+          "koz": 9800,
+          "attr_koz": 4900,
+          "kt": 389000,
+          "grade_gt": 0.78
+        },
+        "inf": {
+          "koz": 5200,
+          "attr_koz": 2600,
+          "kt": 214600,
+          "grade_gt": 0.7
+        },
+        "note": "Undeveloped. 50% Newmont share in the 10-K."
+      },
+      {
+        "asset_id": "cadia",
+        "name": "Cadia",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 13500,
+          "attr_koz": 13500,
+          "kt": 1007600,
+          "grade_gt": 0.42
+        },
+        "pp": {
+          "koz": 13500,
+          "attr_koz": 13500,
+          "kt": 1007600,
+          "grade_gt": 0.42
+        },
+        "mi": {
+          "koz": 9700,
+          "attr_koz": 9700,
+          "kt": 1037800,
+          "grade_gt": 0.29
+        },
+        "inf": {
+          "koz": 1300,
+          "attr_koz": 1300,
+          "kt": 163900,
+          "grade_gt": 0.2
+        }
+      },
+      {
+        "asset_id": "tanami",
+        "name": "Tanami",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1600,
+          "attr_koz": 1600,
+          "kt": 10100,
+          "grade_gt": 4.88
+        },
+        "probable": {
+          "koz": 3700,
+          "attr_koz": 3700,
+          "kt": 22700,
+          "grade_gt": 5.1
+        },
+        "pp": {
+          "koz": 5300,
+          "attr_koz": 5300,
+          "kt": 32800,
+          "grade_gt": 5.03
+        },
+        "mi": {
+          "koz": 2900,
+          "attr_koz": 2900,
+          "kt": 46600,
+          "grade_gt": 1.91
+        },
+        "inf": {
+          "koz": 2700,
+          "attr_koz": 2700,
+          "kt": 23100,
+          "grade_gt": 3.6
+        }
+      },
+      {
+        "asset_id": "boddington",
+        "name": "Boddington",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 5400,
+          "attr_koz": 5400,
+          "kt": 271000,
+          "grade_gt": 0.61
+        },
+        "probable": {
+          "koz": 4900,
+          "attr_koz": 4900,
+          "kt": 274100,
+          "grade_gt": 0.55
+        },
+        "pp": {
+          "koz": 10200,
+          "attr_koz": 10200,
+          "kt": 545100,
+          "grade_gt": 0.58
+        },
+        "mi": {
+          "koz": 4300,
+          "attr_koz": 4300,
+          "kt": 265500,
+          "grade_gt": 0.5
+        },
+        "inf": {
+          "koz": 100,
+          "attr_koz": 100,
+          "kt": 3800,
+          "grade_gt": 0.5
+        }
+      },
+      {
+        "asset_id": "ahafo-south",
+        "name": "Ahafo South",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1400,
+          "attr_koz": 1400,
+          "kt": 30400,
+          "grade_gt": 1.44
+        },
+        "probable": {
+          "koz": 2700,
+          "attr_koz": 2700,
+          "kt": 50900,
+          "grade_gt": 1.63
+        },
+        "pp": {
+          "koz": 4100,
+          "attr_koz": 4100,
+          "kt": 81300,
+          "grade_gt": 1.56
+        },
+        "mi": {
+          "koz": 5400,
+          "attr_koz": 5400,
+          "kt": 48600,
+          "grade_gt": 3.46
+        },
+        "inf": {
+          "koz": 2000,
+          "attr_koz": 2000,
+          "kt": 22700,
+          "grade_gt": 2.7
+        }
+      },
+      {
+        "asset_id": "ahafo-north",
+        "name": "Ahafo North",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 4700,
+          "attr_koz": 4700,
+          "kt": 65500,
+          "grade_gt": 2.23
+        },
+        "pp": {
+          "koz": 4700,
+          "attr_koz": 4700,
+          "kt": 65500,
+          "grade_gt": 2.23
+        },
+        "mi": {
+          "koz": 2300,
+          "attr_koz": 2300,
+          "kt": 42900,
+          "grade_gt": 1.69
+        },
+        "inf": {
+          "koz": 900,
+          "attr_koz": 900,
+          "kt": 18100,
+          "grade_gt": 1.6
+        }
+      },
+      {
+        "asset_id": "merian",
+        "name": "Merian",
+        "ownership_pct": 75,
+        "proven": {
+          "koz": 1333,
+          "attr_koz": 1000,
+          "kt": 33067,
+          "grade_gt": 1.21
+        },
+        "probable": {
+          "koz": 4800,
+          "attr_koz": 3600,
+          "kt": 139467,
+          "grade_gt": 1.06
+        },
+        "pp": {
+          "koz": 6000,
+          "attr_koz": 4500,
+          "kt": 172533,
+          "grade_gt": 1.09
+        },
+        "mi": {
+          "koz": 2400,
+          "attr_koz": 1800,
+          "kt": 73067,
+          "grade_gt": 1.05
+        },
+        "inf": {
+          "koz": 2800,
+          "attr_koz": 2100,
+          "kt": 106267,
+          "grade_gt": 0.8
+        }
+      },
+      {
+        "asset_id": "cerro-negro",
+        "name": "Cerro Negro",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 800,
+          "attr_koz": 800,
+          "kt": 2200,
+          "grade_gt": 11.2
+        },
+        "probable": {
+          "koz": 2300,
+          "attr_koz": 2300,
+          "kt": 6800,
+          "grade_gt": 10.38
+        },
+        "pp": {
+          "koz": 3000,
+          "attr_koz": 3000,
+          "kt": 9000,
+          "grade_gt": 10.58
+        },
+        "mi": {
+          "koz": 500,
+          "attr_koz": 500,
+          "kt": 3200,
+          "grade_gt": 4.73
+        },
+        "inf": {
+          "koz": 1200,
+          "attr_koz": 1200,
+          "kt": 7500,
+          "grade_gt": 5.1
+        }
+      },
+      {
+        "asset_id": "pueblo-viejo",
+        "name": "Pueblo Viejo",
+        "ownership_pct": 40,
+        "proven": {
+          "koz": 6500,
+          "attr_koz": 2600,
+          "kt": 89500,
+          "grade_gt": 2.22
+        },
+        "probable": {
+          "koz": 14000,
+          "attr_koz": 5600,
+          "kt": 220500,
+          "grade_gt": 1.99
+        },
+        "pp": {
+          "koz": 20500,
+          "attr_koz": 8200,
+          "kt": 309750,
+          "grade_gt": 2.06
+        },
+        "mi": {
+          "koz": 4500,
+          "attr_koz": 1800,
+          "kt": 100750,
+          "grade_gt": 1.36
+        },
+        "inf": {
+          "koz": 750,
+          "attr_koz": 300,
+          "kt": 15750,
+          "grade_gt": 1.5
+        },
+        "note": "Barrick operator. 40% Newmont. Filing tonnes/ounces are Newmont share."
+      },
+      {
+        "asset_id": "nueva-union",
+        "name": "NuevaUnión",
+        "ownership_pct": 50,
+        "probable": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 682200,
+          "grade_gt": 0.47
+        },
+        "pp": {
+          "koz": 10200,
+          "attr_koz": 5100,
+          "kt": 682200,
+          "grade_gt": 0.47
+        },
+        "mi": {
+          "koz": 4600,
+          "attr_koz": 2300,
+          "kt": 246200,
+          "grade_gt": 0.59
+        },
+        "inf": {
+          "koz": 6200,
+          "attr_koz": 3100,
+          "kt": 479600,
+          "grade_gt": 0.4
+        },
+        "note": "Undeveloped. 50%."
+      },
+      {
+        "asset_id": "norte-abierto",
+        "name": "Norte Abierto",
+        "ownership_pct": 50,
+        "probable": {
+          "koz": 21600,
+          "attr_koz": 10800,
+          "kt": 1042200,
+          "grade_gt": 0.65
+        },
+        "pp": {
+          "koz": 21600,
+          "attr_koz": 10800,
+          "kt": 1042200,
+          "grade_gt": 0.65
+        },
+        "mi": {
+          "koz": 20200,
+          "attr_koz": 10100,
+          "kt": 1206400,
+          "grade_gt": 0.52
+        },
+        "inf": {
+          "koz": 10600,
+          "attr_koz": 5300,
+          "kt": 762200,
+          "grade_gt": 0.4
+        },
+        "note": "Undeveloped. 50%."
+      },
+      {
+        "asset_id": "conga",
+        "name": "Conga",
+        "ownership_pct": 100,
+        "mi": {
+          "koz": 14600,
+          "attr_koz": 14600,
+          "kt": 693800,
+          "grade_gt": 0.65
+        },
+        "inf": {
+          "koz": 2900,
+          "attr_koz": 2900,
+          "kt": 230500,
+          "grade_gt": 0.4
+        },
+        "note": "Undeveloped. Resources only."
+      },
+      {
+        "asset_id": "yanacocha",
+        "name": "Yanacocha",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 500,
+          "attr_koz": 500,
+          "kt": 18800,
+          "grade_gt": 0.81
+        },
+        "pp": {
+          "koz": 500,
+          "attr_koz": 500,
+          "kt": 18800,
+          "grade_gt": 0.81
+        },
+        "mi": {
+          "koz": 5800,
+          "attr_koz": 5800,
+          "kt": 130900,
+          "grade_gt": 1.38
+        },
+        "inf": {
+          "koz": 6700,
+          "attr_koz": 6700,
+          "kt": 363900,
+          "grade_gt": 0.6
+        },
+        "note": "Sulfides project reclassified from reserves to resources in 2025."
+      },
+      {
+        "asset_id": "penasquito",
+        "name": "Peñasquito",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1400,
+          "attr_koz": 1400,
+          "kt": 84400,
+          "grade_gt": 0.53
+        },
+        "probable": {
+          "koz": 1800,
+          "attr_koz": 1800,
+          "kt": 136600,
+          "grade_gt": 0.4
+        },
+        "pp": {
+          "koz": 3200,
+          "attr_koz": 3200,
+          "kt": 221000,
+          "grade_gt": 0.45
+        },
+        "mi": {
+          "koz": 1600,
+          "attr_koz": 1600,
+          "kt": 224900,
+          "grade_gt": 0.23
+        },
+        "inf": {
+          "koz": 100,
+          "attr_koz": 100,
+          "kt": 9200,
+          "grade_gt": 0.2
+        }
+      },
+      {
+        "asset_id": "red-chris",
+        "name": "Red Chris",
+        "ownership_pct": 70,
+        "probable": {
+          "koz": 5143,
+          "attr_koz": 3600,
+          "kt": 259286,
+          "grade_gt": 0.62
+        },
+        "pp": {
+          "koz": 5143,
+          "attr_koz": 3600,
+          "kt": 259286,
+          "grade_gt": 0.62
+        },
+        "mi": {
+          "koz": 5286,
+          "attr_koz": 3700,
+          "kt": 478286,
+          "grade_gt": 0.34
+        },
+        "inf": {
+          "koz": 1000,
+          "attr_koz": 700,
+          "kt": 88571,
+          "grade_gt": 0.3
+        }
+      },
+      {
+        "asset_id": "brucejack",
+        "name": "Brucejack",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 2900,
+          "attr_koz": 2900,
+          "kt": 13500,
+          "grade_gt": 6.65
+        },
+        "pp": {
+          "koz": 2900,
+          "attr_koz": 2900,
+          "kt": 13500,
+          "grade_gt": 6.65
+        },
+        "mi": {
+          "koz": 600,
+          "attr_koz": 600,
+          "kt": 4300,
+          "grade_gt": 4.13
+        },
+        "inf": {
+          "koz": 2500,
+          "attr_koz": 2500,
+          "kt": 14500,
+          "grade_gt": 5.3
+        }
+      },
+      {
+        "asset_id": "nevada-gold-mines",
+        "name": "Nevada Gold Mines",
+        "ownership_pct": 38.5,
+        "proven": {
+          "koz": 4675,
+          "attr_koz": 1800,
+          "kt": 28312,
+          "grade_gt": 5.24
+        },
+        "probable": {
+          "koz": 40260,
+          "attr_koz": 15500,
+          "kt": 492987,
+          "grade_gt": 2.54
+        },
+        "pp": {
+          "koz": 45195,
+          "attr_koz": 17400,
+          "kt": 521299,
+          "grade_gt": 2.69
+        },
+        "mi": {
+          "koz": 22338,
+          "attr_koz": 8600,
+          "kt": 530649,
+          "grade_gt": 1.31
+        },
+        "inf": {
+          "koz": 18961,
+          "attr_koz": 7300,
+          "kt": 230909,
+          "grade_gt": 2.5
+        },
+        "note": "Barrick operator. 38.5% Newmont. Filing tonnes/ounces are Newmont share."
+      },
+      {
+        "asset_id": "galore-creek",
+        "name": "Galore Creek",
+        "ownership_pct": 50,
+        "mi": {
+          "koz": 9400,
+          "attr_koz": 4700,
+          "kt": 1196800,
+          "grade_gt": 0.25
+        },
+        "inf": {
+          "koz": 1400,
+          "attr_koz": 700,
+          "kt": 237800,
+          "grade_gt": 0.2
+        },
+        "note": "Undeveloped. 50%."
+      }
+    ],
+    "standard": "S-K 1300 (SEC)",
+    "price_assumptions": {
+      "reserves_usd_oz": {
+        "managed": 2000,
+        "ngm_pueblo_viejo": 1500
+      },
+      "resources_usd_oz": {
+        "managed": 2300
+      }
+    }
   },
   "sources": [
     {
@@ -615,6 +1279,12 @@
       "title": "Newmont Q2 2026 results",
       "date": "2026-07-23",
       "what": "H1 2026 2.594 Moz attributable"
+    },
+    {
+      "title": "Newmont 2025 Reserves and Resources Release (site tables)",
+      "date": "2026-02-19",
+      "url": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/supplemental-info/Newmont-2025-Reserves-Release.pdf",
+      "what": "Gold P&P and exclusive resources by deposit; tonnes, grade, attributable ounces"
     }
   ],
   "schema": "qc-issuer-profile-v1",

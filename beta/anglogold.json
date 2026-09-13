@@ -16,7 +16,8 @@
     "website": "https://www.anglogoldashanti.com"
   },
   "method": {
-    "production_basis": "Group 3,091 koz 2025. Kibali 45% attributable. Sukari 50% via Centamin, reported consolidated."
+    "production_basis": "Group 3,091 koz 2025. Kibali 45% attributable. Sukari 50% via Centamin, reported consolidated.",
+    "resources_basis": "SEC S-K 1300. Resources exclusive of reserves. Kibali, Siguiri, Sukari, Tropicana and Cerro Vanguardia 20-F rows are AGA's share; koz is 100% grossed up, attr_koz is the filing share. Arthur Gold 4.94 Moz first-time probable (87.64 Mt @ 1.75 g/t). North Bullfrog 1.08 Moz and Nevada Regional/Reward 0.37 Moz are development. Named-mine P&P is the 20-F gold reserve table; a residual sits in other projects inside the 36.47 Moz group total."
   },
   "kpis": {
     "attr_koz_2025": 3091,
@@ -306,26 +307,530 @@
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit",
       "region": "Nevada"
+    },
+    {
+      "id": "north-bullfrog",
+      "name": "North Bullfrog",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit",
+      "region": "Nevada"
+    },
+    {
+      "id": "nevada-regional",
+      "name": "Nevada Regional (Reward)",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "AngloGold Ashanti",
+      "mine_type": "Open pit",
+      "region": "Nevada"
     }
   ],
   "reserves_resources": {
     "as_of": "2025-12-31",
     "inclusive_of_reserves": false,
     "totals": {
+      "proven": {
+        "koz": 7780,
+        "attr_koz": 7780,
+        "kt": 144030,
+        "grade_gt": 1.68
+      },
+      "probable": {
+        "koz": 28680,
+        "attr_koz": 28680,
+        "kt": 572230,
+        "grade_gt": 1.56
+      },
       "pp": {
         "koz": 36470,
-        "attr_koz": 36470
+        "attr_koz": 36470,
+        "kt": 716260,
+        "grade_gt": 1.58
       },
       "mi": {
         "koz": 68010,
-        "attr_koz": 68010
+        "attr_koz": 68010,
+        "kt": 1908460,
+        "grade_gt": 1.11
       },
       "inf": {
         "koz": 49340,
-        "attr_koz": 49340
+        "attr_koz": 49340,
+        "kt": 1319340,
+        "grade_gt": 1.16
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "kibali",
+        "name": "Kibali",
+        "ownership_pct": 45,
+        "proven": {
+          "koz": 3022,
+          "attr_koz": 1360,
+          "kt": 29889,
+          "grade_gt": 3.13
+        },
+        "probable": {
+          "koz": 7689,
+          "attr_koz": 3460,
+          "kt": 81933,
+          "grade_gt": 2.92
+        },
+        "pp": {
+          "koz": 10689,
+          "attr_koz": 4810,
+          "kt": 111822,
+          "grade_gt": 2.97
+        },
+        "mi": {
+          "koz": 5667,
+          "attr_koz": 2550,
+          "kt": 73511,
+          "grade_gt": 2.4
+        },
+        "inf": {
+          "koz": 3289,
+          "attr_koz": 1480,
+          "kt": 48844,
+          "grade_gt": 2.1
+        },
+        "note": "AGA 45% / Barrick 45% / SOKIMO 10%. 20-F tonnes/ounces are AGA share. Resources exclusive of reserves."
+      },
+      {
+        "asset_id": "obuasi",
+        "name": "Obuasi",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1440,
+          "attr_koz": 1440,
+          "kt": 4230,
+          "grade_gt": 10.58
+        },
+        "probable": {
+          "koz": 5620,
+          "attr_koz": 5620,
+          "kt": 17060,
+          "grade_gt": 10.25
+        },
+        "pp": {
+          "koz": 7060,
+          "attr_koz": 7060,
+          "kt": 21300,
+          "grade_gt": 10.31
+        },
+        "mi": {
+          "koz": 8910,
+          "attr_koz": 8910,
+          "kt": 49840,
+          "grade_gt": 5.56
+        },
+        "inf": {
+          "koz": 11030,
+          "attr_koz": 11030,
+          "kt": 43930,
+          "grade_gt": 7.81
+        }
+      },
+      {
+        "asset_id": "iduapriem",
+        "name": "Iduapriem",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 120,
+          "attr_koz": 120,
+          "kt": 4220,
+          "grade_gt": 0.9
+        },
+        "probable": {
+          "koz": 2030,
+          "attr_koz": 2030,
+          "kt": 47610,
+          "grade_gt": 1.33
+        },
+        "pp": {
+          "koz": 2150,
+          "attr_koz": 2150,
+          "kt": 51830,
+          "grade_gt": 1.29
+        },
+        "mi": {
+          "koz": 3450,
+          "attr_koz": 3450,
+          "kt": 74670,
+          "grade_gt": 1.44
+        },
+        "inf": {
+          "koz": 2970,
+          "attr_koz": 2970,
+          "kt": 58640,
+          "grade_gt": 1.57
+        }
+      },
+      {
+        "asset_id": "siguiri",
+        "name": "Siguiri",
+        "ownership_pct": 85,
+        "proven": {
+          "koz": 212,
+          "attr_koz": 180,
+          "kt": 10459,
+          "grade_gt": 0.62
+        },
+        "probable": {
+          "koz": 2341,
+          "attr_koz": 1990,
+          "kt": 86741,
+          "grade_gt": 0.84
+        },
+        "pp": {
+          "koz": 2541,
+          "attr_koz": 2160,
+          "kt": 97200,
+          "grade_gt": 0.81
+        },
+        "mi": {
+          "koz": 6212,
+          "attr_koz": 5280,
+          "kt": 182129,
+          "grade_gt": 1.06
+        },
+        "inf": {
+          "koz": 4859,
+          "attr_koz": 4130,
+          "kt": 132635,
+          "grade_gt": 1.14
+        },
+        "note": "85% AGA. 20-F figures are AGA share."
+      },
+      {
+        "asset_id": "geita",
+        "name": "Geita",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 720,
+          "attr_koz": 720,
+          "kt": 21200,
+          "grade_gt": 1.06
+        },
+        "probable": {
+          "koz": 3300,
+          "attr_koz": 3300,
+          "kt": 54490,
+          "grade_gt": 1.88
+        },
+        "pp": {
+          "koz": 4020,
+          "attr_koz": 4020,
+          "kt": 75690,
+          "grade_gt": 1.65
+        },
+        "mi": {
+          "koz": 4780,
+          "attr_koz": 4780,
+          "kt": 80050,
+          "grade_gt": 1.86
+        },
+        "inf": {
+          "koz": 3440,
+          "attr_koz": 3440,
+          "kt": 53220,
+          "grade_gt": 2.01
+        }
+      },
+      {
+        "asset_id": "sukari",
+        "name": "Sukari",
+        "ownership_pct": 50,
+        "proven": {
+          "koz": 3560,
+          "attr_koz": 1780,
+          "kt": 111220,
+          "grade_gt": 1.0
+        },
+        "probable": {
+          "koz": 1160,
+          "attr_koz": 580,
+          "kt": 40880,
+          "grade_gt": 0.88
+        },
+        "pp": {
+          "koz": 4720,
+          "attr_koz": 2360,
+          "kt": 152120,
+          "grade_gt": 0.97
+        },
+        "mi": {
+          "koz": 3720,
+          "attr_koz": 1860,
+          "kt": 164160,
+          "grade_gt": 0.71
+        },
+        "inf": {
+          "koz": 1160,
+          "attr_koz": 580,
+          "kt": 60680,
+          "grade_gt": 0.59
+        },
+        "note": "50% AGA via Centamin. 20-F tonnes/ounces are AGA share."
+      },
+      {
+        "asset_id": "tropicana",
+        "name": "Tropicana",
+        "ownership_pct": 70,
+        "proven": {
+          "koz": 757,
+          "attr_koz": 530,
+          "kt": 21600,
+          "grade_gt": 1.1
+        },
+        "probable": {
+          "koz": 1157,
+          "attr_koz": 810,
+          "kt": 17157,
+          "grade_gt": 2.1
+        },
+        "pp": {
+          "koz": 1914,
+          "attr_koz": 1340,
+          "kt": 38757,
+          "grade_gt": 1.54
+        },
+        "mi": {
+          "koz": 1457,
+          "attr_koz": 1020,
+          "kt": 22843,
+          "grade_gt": 1.99
+        },
+        "inf": {
+          "koz": 1743,
+          "attr_koz": 1220,
+          "kt": 24514,
+          "grade_gt": 2.21
+        },
+        "note": "70% AGA / 30% Regis. 20-F figures are AGA share."
+      },
+      {
+        "asset_id": "sunrise-dam",
+        "name": "Sunrise Dam",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 480,
+          "attr_koz": 480,
+          "kt": 8770,
+          "grade_gt": 1.69
+        },
+        "probable": {
+          "koz": 530,
+          "attr_koz": 530,
+          "kt": 5510,
+          "grade_gt": 2.97
+        },
+        "pp": {
+          "koz": 1000,
+          "attr_koz": 1000,
+          "kt": 14270,
+          "grade_gt": 2.18
+        },
+        "mi": {
+          "koz": 3370,
+          "attr_koz": 3370,
+          "kt": 57000,
+          "grade_gt": 1.84
+        },
+        "inf": {
+          "koz": 2080,
+          "attr_koz": 2080,
+          "kt": 31770,
+          "grade_gt": 2.04
+        }
+      },
+      {
+        "asset_id": "cerro-vanguardia",
+        "name": "Cerro Vanguardia",
+        "ownership_pct": 92.5,
+        "proven": {
+          "koz": 335,
+          "attr_koz": 310,
+          "kt": 2984,
+          "grade_gt": 3.48
+        },
+        "probable": {
+          "koz": 422,
+          "attr_koz": 390,
+          "kt": 4476,
+          "grade_gt": 2.92
+        },
+        "pp": {
+          "koz": 757,
+          "attr_koz": 700,
+          "kt": 7459,
+          "grade_gt": 3.14
+        },
+        "mi": {
+          "koz": 1503,
+          "attr_koz": 1390,
+          "kt": 14800,
+          "grade_gt": 3.16
+        },
+        "inf": {
+          "koz": 368,
+          "attr_koz": 340,
+          "kt": 3405,
+          "grade_gt": 3.32
+        },
+        "note": "92.5% AGA / 7.5% Fomicruz. 20-F figures are AGA share."
+      },
+      {
+        "asset_id": "cuiaba",
+        "name": "AGA Mineração (Brazil)",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 700,
+          "attr_koz": 700,
+          "kt": 4290,
+          "grade_gt": 5.12
+        },
+        "probable": {
+          "koz": 1160,
+          "attr_koz": 1160,
+          "kt": 7540,
+          "grade_gt": 4.78
+        },
+        "pp": {
+          "koz": 1860,
+          "attr_koz": 1860,
+          "kt": 11820,
+          "grade_gt": 4.9
+        },
+        "mi": {
+          "koz": 3790,
+          "attr_koz": 3790,
+          "kt": 30500,
+          "grade_gt": 3.86
+        },
+        "inf": {
+          "koz": 4920,
+          "attr_koz": 4920,
+          "kt": 38450,
+          "grade_gt": 3.98
+        },
+        "note": "20-F Brazil gold line (Cuiabá + Córrego do Sítio). Serra Grande disposed 2025."
+      },
+      {
+        "asset_id": "arthur-gold",
+        "name": "Arthur Gold",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 4940,
+          "attr_koz": 4940,
+          "kt": 87640,
+          "grade_gt": 1.75
+        },
+        "pp": {
+          "koz": 4940,
+          "attr_koz": 4940,
+          "kt": 87640,
+          "grade_gt": 1.75
+        },
+        "mi": {
+          "koz": 4410,
+          "attr_koz": 4410,
+          "kt": 164140,
+          "grade_gt": 0.84
+        },
+        "inf": {
+          "koz": 6340,
+          "attr_koz": 6340,
+          "kt": 219790,
+          "grade_gt": 0.9
+        },
+        "note": "First-time probable reserve at YE2025 PFS (Merlin). 20-F 87.64 Mt @ 1.75 g/t / 4.94 Moz. Resources exclusive of that reserve."
+      },
+      {
+        "asset_id": "north-bullfrog",
+        "name": "North Bullfrog",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 1080,
+          "attr_koz": 1080,
+          "kt": 77010,
+          "grade_gt": 0.44
+        },
+        "pp": {
+          "koz": 1080,
+          "attr_koz": 1080,
+          "kt": 77010,
+          "grade_gt": 0.44
+        },
+        "mi": {
+          "koz": 430,
+          "attr_koz": 430,
+          "kt": 49850,
+          "grade_gt": 0.27
+        },
+        "inf": {
+          "koz": 310,
+          "attr_koz": 310,
+          "kt": 40280,
+          "grade_gt": 0.24
+        },
+        "note": "Development. Nevada. 20-F probable 77.01 Mt @ 0.44 g/t / 1.08 Moz."
+      },
+      {
+        "asset_id": "nevada-regional",
+        "name": "Nevada Regional (Reward)",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 160,
+          "attr_koz": 160,
+          "kt": 5490,
+          "grade_gt": 0.93
+        },
+        "probable": {
+          "koz": 210,
+          "attr_koz": 210,
+          "kt": 8160,
+          "grade_gt": 0.78
+        },
+        "pp": {
+          "koz": 370,
+          "attr_koz": 370,
+          "kt": 13650,
+          "grade_gt": 0.84
+        },
+        "mi": {
+          "koz": 1270,
+          "attr_koz": 1270,
+          "kt": 75200,
+          "grade_gt": 0.53
+        },
+        "inf": {
+          "koz": 2920,
+          "attr_koz": 2920,
+          "kt": 121430,
+          "grade_gt": 0.75
+        },
+        "note": "20-F gold reserve is the Reward deposit only (Augusta Gold). Other Nevada regional ounces are resources."
+      }
+    ],
+    "standard": "S-K 1300 (SEC) / SAMREC",
+    "price_assumptions": {
+      "reserves_usd_oz": {
+        "gold": 1700
+      },
+      "resources_usd_oz": {
+        "gold": 2000
+      }
+    }
   },
   "sources": [
     {
@@ -342,6 +847,18 @@
       "title": "AGA Q2 2026 operating statistics",
       "date": "2026-07-31",
       "what": "H1 1,468 koz"
+    },
+    {
+      "title": "AngloGold Ashanti 2025 Form 20-F — gold Mineral Reserve and Mineral Resource tables",
+      "date": "2026-03-26",
+      "url": "https://reports.anglogoldashanti.com/25/download/AGA-20F25.pdf",
+      "what": "Named-mine gold P&P and exclusive M&I / inferred; group 36.47 Moz P&P"
+    },
+    {
+      "title": "AngloGold Ashanti 2025 Form 20-F — gold Mineral Reserve and Mineral Resource tables",
+      "date": "2026-03-26",
+      "url": "https://reports.anglogoldashanti.com/25/download/AGA-20F25.pdf",
+      "what": "Named-mine gold P&P and exclusive M&I / inferred; group 36.47 Moz P&P"
     }
   ],
   "schema": "qc-issuer-profile-v1",

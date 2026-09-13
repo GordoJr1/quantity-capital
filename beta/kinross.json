@@ -21,7 +21,8 @@
     "website": "https://www.kinross.com"
   },
   "method": {
-    "production_basis": "Attributable GEO. Silver converted at period ratios. Manh Choh 70% (Contango 30%), processed at Fort Knox."
+    "production_basis": "Attributable GEO. Silver converted at period ratios. Manh Choh 70% (Contango 30%), processed at Fort Knox.",
+    "resources_basis": "Kinross AIF 2025. Gold P&P 20.9 Moz in 867 Mt @ 0.8 g/t. Resources exclusive of reserves. Manh Choh AIF row is Kinross 70% share."
   },
   "kpis": {
     "attr_koz_2025": 2012.1,
@@ -32,12 +33,12 @@
       2100
     ],
     "aisc_2025": 1571,
-    "attr_pp_koz": 20900,
-    "attr_mi_incl_koz": 27500,
-    "attr_inf_koz": 16600,
-    "pp_koz_100pct": 20900,
-    "mi_incl_koz_100pct": 27500,
-    "inf_koz_100pct": 16600
+    "attr_pp_koz": 20942,
+    "attr_mi_incl_koz": 27499,
+    "attr_inf_koz": 16633,
+    "pp_koz_100pct": 20942,
+    "mi_incl_koz_100pct": 27499,
+    "inf_koz_100pct": 16633
   },
   "guidance_2026": {
     "basis": "attributable GEO +/- 5% around 2.0 Moz",
@@ -206,26 +207,234 @@
       "country": "Canada",
       "ownership_pct": 100,
       "operator": "Kinross"
+    },
+    {
+      "id": "lobo-marte",
+      "name": "Lobo-Marte",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Chile",
+      "ownership_pct": 100,
+      "operator": "Kinross"
     }
   ],
   "reserves_resources": {
     "as_of": "2025-12-31",
-    "inclusive_of_reserves": true,
+    "inclusive_of_reserves": false,
     "totals": {
+      "proven": {
+        "koz": 5903,
+        "attr_koz": 5903,
+        "kt": 351618,
+        "grade_gt": 0.5
+      },
+      "probable": {
+        "koz": 15040,
+        "attr_koz": 15040,
+        "kt": 515166,
+        "grade_gt": 0.9
+      },
       "pp": {
-        "koz": 20900,
-        "attr_koz": 20900
+        "koz": 20942,
+        "attr_koz": 20942,
+        "kt": 866785,
+        "grade_gt": 0.8
       },
       "mi": {
-        "koz": 27500,
-        "attr_koz": 27500
+        "koz": 27499,
+        "attr_koz": 27499
       },
       "inf": {
-        "koz": 16600,
-        "attr_koz": 16600
+        "koz": 16633,
+        "attr_koz": 16633
       }
     },
-    "projects": []
+    "projects": [
+      {
+        "asset_id": "bald-mountain",
+        "name": "Bald Mountain",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 1225,
+          "attr_koz": 1225,
+          "kt": 66306,
+          "grade_gt": 0.6
+        },
+        "pp": {
+          "koz": 1225,
+          "attr_koz": 1225,
+          "kt": 66306,
+          "grade_gt": 0.6
+        }
+      },
+      {
+        "asset_id": "fort-knox",
+        "name": "Fort Knox",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 46,
+          "attr_koz": 46,
+          "kt": 1846,
+          "grade_gt": 0.8
+        },
+        "probable": {
+          "koz": 930,
+          "attr_koz": 930,
+          "kt": 81094,
+          "grade_gt": 0.4
+        },
+        "pp": {
+          "koz": 976,
+          "attr_koz": 976,
+          "kt": 82940,
+          "grade_gt": 0.4
+        }
+      },
+      {
+        "asset_id": "manh-choh",
+        "name": "Manh Choh",
+        "ownership_pct": 70,
+        "proven": {
+          "koz": 67,
+          "attr_koz": 47,
+          "kt": 526,
+          "grade_gt": 4.0
+        },
+        "probable": {
+          "koz": 566,
+          "attr_koz": 396,
+          "kt": 2379,
+          "grade_gt": 7.4
+        },
+        "pp": {
+          "koz": 634,
+          "attr_koz": 444,
+          "kt": 2904,
+          "grade_gt": 6.8
+        },
+        "note": "70% Kinross / 30% Contango. AIF figures are Kinross share."
+      },
+      {
+        "asset_id": "round-mountain",
+        "name": "Round Mountain",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 59,
+          "attr_koz": 59,
+          "kt": 5365,
+          "grade_gt": 0.3
+        },
+        "probable": {
+          "koz": 1829,
+          "attr_koz": 1829,
+          "kt": 39690,
+          "grade_gt": 1.4
+        },
+        "pp": {
+          "koz": 1888,
+          "attr_koz": 1888,
+          "kt": 45055,
+          "grade_gt": 1.3
+        }
+      },
+      {
+        "asset_id": "la-coipa",
+        "name": "La Coipa",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 47,
+          "attr_koz": 47,
+          "kt": 591,
+          "grade_gt": 2.5
+        },
+        "probable": {
+          "koz": 388,
+          "attr_koz": 388,
+          "kt": 6750,
+          "grade_gt": 1.8
+        },
+        "pp": {
+          "koz": 436,
+          "attr_koz": 436,
+          "kt": 7342,
+          "grade_gt": 1.8
+        }
+      },
+      {
+        "asset_id": "lobo-marte",
+        "name": "Lobo-Marte",
+        "ownership_pct": 100,
+        "probable": {
+          "koz": 6733,
+          "attr_koz": 6733,
+          "kt": 160702,
+          "grade_gt": 1.3
+        },
+        "pp": {
+          "koz": 6733,
+          "attr_koz": 6733,
+          "kt": 160702,
+          "grade_gt": 1.3
+        },
+        "note": "Development."
+      },
+      {
+        "asset_id": "paracatu",
+        "name": "Paracatu",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 3897,
+          "attr_koz": 3897,
+          "kt": 287864,
+          "grade_gt": 0.4
+        },
+        "probable": {
+          "koz": 943,
+          "attr_koz": 943,
+          "kt": 111778,
+          "grade_gt": 0.3
+        },
+        "pp": {
+          "koz": 4839,
+          "attr_koz": 4839,
+          "kt": 399642,
+          "grade_gt": 0.4
+        }
+      },
+      {
+        "asset_id": "tasiast",
+        "name": "Tasiast",
+        "ownership_pct": 100,
+        "proven": {
+          "koz": 1806,
+          "attr_koz": 1806,
+          "kt": 55584,
+          "grade_gt": 1.0
+        },
+        "probable": {
+          "koz": 2595,
+          "attr_koz": 2595,
+          "kt": 47181,
+          "grade_gt": 1.7
+        },
+        "pp": {
+          "koz": 4401,
+          "attr_koz": 4401,
+          "kt": 102765,
+          "grade_gt": 1.3
+        }
+      }
+    ],
+    "standard": "NI 43-101 (resources exclusive of reserves)",
+    "price_assumptions": {
+      "reserves_usd_oz": {
+        "gold": 2000
+      },
+      "resources_usd_oz": {
+        "gold": 2500
+      }
+    }
   },
   "sources": [
     {
@@ -237,6 +446,11 @@
       "title": "Kinross Q2 2026",
       "date": "2026-07",
       "what": "H1 984.9 koz attr GEO"
+    },
+    {
+      "title": "Kinross 2025 Annual Information Form — gold P&P by property",
+      "date": "2026-03-30",
+      "what": "Bald Mountain, Fort Knox, Manh Choh, Round Mountain, La Coipa, Lobo-Marte, Paracatu, Tasiast"
     }
   ],
   "schema": "qc-issuer-profile-v1",

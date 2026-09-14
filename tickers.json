@@ -12555,6 +12555,11 @@
       "name": "Avantis U.S. Small Cap Value ETF",
       "industry": "",
       "sic": null
+    },
+    "MPLX": {
+      "name": "MPLX LP",
+      "industry": "Pipe Lines (No Natural Gas)",
+      "sic": "4610"
     }
   },
   "assets": {
@@ -23103,6 +23108,11 @@
       "industry": "Municipal \u2014 Housing",
       "sic": null
     },
+    "MPLX LP Common Units Representing Limited": {
+      "ticker": "MPLX",
+      "industry": "Pipe Lines (No Natural Gas)",
+      "sic": "4610"
+    },
     "Santa Margarita CA WTR Muni": {
       "ticker": "",
       "industry": "Municipal \u2014 Water / utility",
@@ -23862,11 +23872,6 @@
       "ticker": "",
       "industry": "Municipal \u2014 Health",
       "sic": null
-    },
-    "EA - Electronic Arts Inc": {
-      "ticker": "EA",
-      "industry": "Services-Prepackaged Software",
-      "sic": "7372"
     }
   }
 }

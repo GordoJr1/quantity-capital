@@ -1,75 +1,224 @@
 {
-  "schema": "qc-issuer-profile-v1",
   "id": "jaguar-mining",
-  "kind": "producer",
-  "stage": "producing",
-  "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed from Jaguar Mining FY2025 MD&A / 31 Dec 2025 AIF, 31 Mar 2026 reserve update, and Q2 2026 results. 2025 is Pilar-only (Turmalina embargo). Turmalina restarted 9 Mar 2026. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Jaguar Mining Inc.",
+    "short": "Jaguar Mining",
+    "tickers": [
+      {
+        "symbol": "JAG.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=JAG"
+      },
+      {
+        "symbol": "JAGGF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=JAG"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.jaguarmining.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. 2025 Pilar only. 2026 Pilar + Turmalina ramp-up after 9 Mar restart."
+  },
+  "kpis": {
+    "attr_koz_2025": 40.3,
+    "attr_koz_ytd_2026": 22.7,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      50,
+      60
+    ],
+    "attr_pp_koz": 858,
+    "pp_koz_100pct": 858,
+    "attr_mi_incl_koz": 1797,
+    "mi_incl_koz_100pct": 1797,
+    "attr_inf_koz": 1709,
+    "inf_koz_100pct": 1709,
+    "market_cap": 328431136,
+    "market_cap_usd": 237099457,
+    "market_cap_cur": "CAD",
+    "px": 7.86,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "Pilar + Turmalina ramp-up",
+    "total_koz": [
+      50,
+      60
+    ]
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 40.3,
+      "note": "40,254 oz. Pilar-only; Turmalina embargo all year.",
+      "by_asset": {
+        "pilar": {
+          "attr_koz": 40.3,
+          "ownership_pct": 100,
+          "koz_100pct": 40.3
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 22.7,
+      "note": "H1 22,687 oz. Q1 9,630 + Q2 13,057.",
+      "by_asset": {
+        "pilar": {
+          "attr_koz": 17.8,
+          "ownership_pct": 100,
+          "koz_100pct": 17.8,
+          "note": "Q1 8,776 + Q2 9,063."
+        },
+        "turmalina": {
+          "attr_koz": 4.8,
+          "ownership_pct": 100,
+          "koz_100pct": 4.8,
+          "note": "Restarted 9 Mar 2026. Q2 3,994 oz."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "pilar",
+      "name": "Pilar (Caeté)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "Jaguar Mining",
+      "mine_type": "Underground",
+      "region": "Minas Gerais"
+    },
+    {
+      "id": "turmalina",
+      "name": "Turmalina (MTL)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "Jaguar Mining",
+      "mine_type": "Underground",
+      "region": "Minas Gerais",
+      "location_note": "Restarted 9 Mar 2026 after environmental embargo."
+    },
+    {
+      "id": "faina",
+      "name": "Faina",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "Jaguar Mining",
+      "region": "Minas Gerais",
+      "location_note": "Orebody at MTL Complex. P&P 160 koz."
+    },
+    {
+      "id": "oncas",
+      "name": "Onças de Pitangui",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Brazil",
+      "ownership_pct": 100,
+      "operator": "Jaguar Mining",
+      "region": "Minas Gerais",
+      "location_note": "P&P 284 koz. First ounces projected H2 2027."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 858,
+        "attr_koz": 858
+      },
+      "mi": {
+        "koz": 1797,
+        "attr_koz": 1797
+      },
+      "inf": {
+        "koz": 1709,
+        "attr_koz": 1709
+      }
+    },
+    "note": "P&P 6,861 kt @ 3.89 g/t. M&I inclusive of reserves.",
+    "projects": [
+      {
+        "asset_id": "pilar",
+        "name": "Pilar",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 286,
+          "attr_koz": 286
+        }
+      },
+      {
+        "asset_id": "turmalina",
+        "name": "Turmalina",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 128,
+          "attr_koz": 128
+        }
+      },
+      {
+        "asset_id": "faina",
+        "name": "Faina",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 160,
+          "attr_koz": 160
+        }
+      },
+      {
+        "asset_id": "oncas",
+        "name": "Onças de Pitangui",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 284,
+          "attr_koz": 284
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Jaguar FY2025 MD&A / operating results",
+      "what": "40,254 oz Pilar-only; FY26 50–60 koz; P&P 858 koz; M&I 1,797 koz"
+    },
+    {
+      "title": "Jaguar Pilar reserve update",
+      "date": "2026-03-31",
+      "what": "Pilar P&P 286 koz; Turmalina 128 koz; Faina 160 koz; Onças 284 koz"
+    },
+    {
+      "title": "Jaguar Q2 2026 results",
+      "what": "H1 22,687 oz; Q2 13,057 (Pilar 9,063 / Turmalina 3,994)"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
   "units": {
     "mass": "kt",
     "gold": "koz",
     "grade": "g/t Au",
     "currency": "USD"
   },
-  "issuer": {
-    "name": "Jaguar Mining",
-    "short": "Jaguar Mining",
-    "tickers": [
-      {
-        "symbol": "JAG.TO",
-        "exchange": "TSX",
-        "chart": "insider-ticker.html?t=JAG.TO"
-      },
-      {
-        "symbol": "JAGGF",
-        "exchange": "US",
-        "chart": "insider-ticker.html?t=JAGGF"
-      }
-    ],
-    "hq": "Brazil",
-    "commodity": "gold",
-    "country": "Brazil",
-    "watchlist_type": "Producer, Junior"
-  },
-  "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
-    "resources_basis": "Not gathered. Do not invent ounces."
-  },
-  "kpis": {
-    "attr_koz_2025": null,
-    "attr_pp_koz": null,
-    "attr_mi_incl_koz": null,
-    "attr_inf_koz": null,
-    "market_cap": 328431136,
-    "market_cap_usd": 237099457,
-    "market_cap_cur": "CAD",
-    "shares": null,
-    "px": 7.86,
-    "price_asof": "2026-09-14"
-  },
-  "guidance_2026": {
-    "basis": "none — mcap watchlist shell",
-    "total_koz": null
-  },
-  "production": [],
-  "assets": [],
-  "reserves_resources": {
-    "as_of": null,
-    "projects": []
-  },
-  "sources": [
-    {
-      "title": "Quantity Capital market-caps.json",
-      "date": "2026-09-14",
-      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
-    }
-  ],
   "meta": {
-    "layer": "mcap-watchlist",
-    "watchlist": "insiders-mcap",
     "mcap_rank": 260,
-    "mcap_updated": "2026-09-15",
-    "alerts": [],
-    "filing_backed": false
+    "mcap_updated": "2026-09-15"
   }
 }

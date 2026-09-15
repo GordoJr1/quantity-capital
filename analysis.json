@@ -1,15 +1,72 @@
 {
-  "generated": "2026-09-14T22:39:18.778578+00:00",
-  "tapeCollected": "2026-09-14T22:20:18.893510+00:00",
+  "generated": "2026-09-15T11:21:51.651754+00:00",
+  "tapeCollected": "2026-09-15T11:20:18.867698+00:00",
   "priceAsof": "2026-09-14",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
     {
+      "code": "MTZ",
+      "name": "Mastec Inc",
+      "action": "buy-dip",
+      "score": 9.33,
+      "why": "Just landed, weekly washed out, monthly still up",
+      "last": 227.7,
+      "pxAsof": "2026-09-14",
+      "buyPx": 266.26,
+      "chgSinceBuy": -0.1448,
+      "lastBuy": "2026-08-21",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 18,
+      "heat": 1.427,
+      "landed": true,
+      "landedAt": "2026-09-15T11:20:21.799563+00:00",
+      "lagDays": 25,
+      "conflict": true,
+      "conflictWhy": [
+        "Energy / environment"
+      ],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Thomas H. Kean",
+          "id": "thomas-h-kean"
+        }
+      ],
+      "weekly": {
+        "rsi": 27.0,
+        "sma20": 327.59,
+        "sma40": 308.24,
+        "vs20": -30.5,
+        "ret4w": -14.5,
+        "ret13w": -40.0,
+        "fromHigh": -45.1,
+        "trend": "DOWN",
+        "recentLow": 227.7
+      },
+      "monthly": {
+        "rsi": 54.0,
+        "sma10": 299.67,
+        "vs10": -24.0,
+        "trend": "DOWN"
+      },
+      "invalidation": 214.04,
+      "flags": [
+        "Landed",
+        "Conflict",
+        "Weekly washout",
+        "Deep washout",
+        "Monthly intact"
+      ],
+      "rank": 1
+    },
+    {
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
       "action": "buy-dip",
-      "score": 8.872,
+      "score": 8.847,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 146.13,
       "pxAsof": "2026-09-14",
@@ -18,8 +75,8 @@
       "lastBuy": "2026-08-17",
       "nBuyers": 4,
       "buyHigh": 780000,
-      "heatRank": 7,
-      "heat": 2.199,
+      "heatRank": 8,
+      "heat": 2.051,
       "landed": true,
       "landedAt": "2026-09-09T22:20:22.895329+00:00",
       "lagDays": 23,
@@ -70,13 +127,13 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 1
+      "rank": 2
     },
     {
       "code": "ESE",
       "name": "ESCO Technologies Inc.",
       "action": "buy-dip",
-      "score": 7.983,
+      "score": 7.958,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 263.19,
       "pxAsof": "2026-09-14",
@@ -86,7 +143,7 @@
       "nBuyers": 1,
       "buyHigh": 45000,
       "heatRank": 16,
-      "heat": 1.615,
+      "heat": 1.507,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 17,
@@ -124,13 +181,13 @@
         "Deep washout",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 3
     },
     {
       "code": "CRH",
       "name": "TLH",
       "action": "buy-dip",
-      "score": 7.569,
+      "score": 7.544,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 88.98,
       "pxAsof": "2026-09-14",
@@ -139,8 +196,8 @@
       "lastBuy": "2026-08-20",
       "nBuyers": 2,
       "buyHigh": 30000,
-      "heatRank": 34,
-      "heat": 1.113,
+      "heatRank": 35,
+      "heat": 1.038,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 19,
@@ -182,13 +239,66 @@
         "Deep washout",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 4
+    },
+    {
+      "code": "PWR",
+      "name": "Quanta Services, Inc.",
+      "action": "buy-dip",
+      "score": 7.379,
+      "why": "Just landed, weekly washed out, monthly still up",
+      "last": 622.02,
+      "pxAsof": "2026-09-14",
+      "buyPx": 621.83,
+      "chgSinceBuy": 0.0003,
+      "lastBuy": "2026-08-27",
+      "nBuyers": 1,
+      "buyHigh": 50000,
+      "heatRank": 4,
+      "heat": 2.324,
+      "landed": true,
+      "landedAt": "2026-09-11T22:20:24.565624+00:00",
+      "lagDays": 15,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Gilbert Cisneros",
+          "id": "gilbert-cisneros"
+        }
+      ],
+      "weekly": {
+        "rsi": 35.8,
+        "sma20": 674.42,
+        "sma40": 602.07,
+        "vs20": -7.8,
+        "ret4w": -2.7,
+        "ret13w": -11.4,
+        "fromHigh": -19.2,
+        "trend": "DOWN",
+        "recentLow": 602.7
+      },
+      "monthly": {
+        "rsi": 66.8,
+        "sma10": 606.48,
+        "vs10": 2.6,
+        "trend": "UP"
+      },
+      "invalidation": 602.7,
+      "flags": [
+        "Landed",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 5
     },
     {
       "code": "MRK",
       "name": "Merck & Company, Inc.",
       "action": "watch",
-      "score": 7.427,
+      "score": 7.367,
       "why": "Landed \u00b7 Cluster \u00b7 Monthly intact",
       "last": 144.85,
       "pxAsof": "2026-09-14",
@@ -196,9 +306,9 @@
       "chgSinceBuy": -0.0483,
       "lastBuy": "2026-08-19",
       "nBuyers": 3,
-      "buyHigh": 180000,
+      "buyHigh": 165000,
       "heatRank": 2,
-      "heat": 3.329,
+      "heat": 3.053,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -243,112 +353,6 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 4
-    },
-    {
-      "code": "PWR",
-      "name": "Quanta Services, Inc.",
-      "action": "buy-dip",
-      "score": 7.404,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 622.02,
-      "pxAsof": "2026-09-14",
-      "buyPx": 621.83,
-      "chgSinceBuy": 0.0003,
-      "lastBuy": "2026-08-27",
-      "nBuyers": 1,
-      "buyHigh": 50000,
-      "heatRank": 4,
-      "heat": 2.491,
-      "landed": true,
-      "landedAt": "2026-09-11T22:20:24.565624+00:00",
-      "lagDays": 15,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Gilbert Cisneros",
-          "id": "gilbert-cisneros"
-        }
-      ],
-      "weekly": {
-        "rsi": 35.8,
-        "sma20": 674.42,
-        "sma40": 602.07,
-        "vs20": -7.8,
-        "ret4w": -2.7,
-        "ret13w": -11.4,
-        "fromHigh": -19.2,
-        "trend": "DOWN",
-        "recentLow": 602.7
-      },
-      "monthly": {
-        "rsi": 66.8,
-        "sma10": 606.48,
-        "vs10": 2.6,
-        "trend": "UP"
-      },
-      "invalidation": 602.7,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 5
-    },
-    {
-      "code": "AEP",
-      "name": "D: Corporate bond American Electric Power Company, Inc.",
-      "action": "buy-dip",
-      "score": 7.091,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 122.23,
-      "pxAsof": "2026-09-14",
-      "buyPx": 123.36,
-      "chgSinceBuy": -0.0092,
-      "lastBuy": "2026-08-26",
-      "nBuyers": 1,
-      "buyHigh": 30000,
-      "heatRank": 10,
-      "heat": 2.03,
-      "landed": true,
-      "landedAt": "2026-09-08T11:22:45.026760+00:00",
-      "lagDays": 13,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        }
-      ],
-      "weekly": {
-        "rsi": 41.8,
-        "sma20": 128.62,
-        "sma40": 127.55,
-        "vs20": -5.0,
-        "ret4w": 1.1,
-        "ret13w": -4.3,
-        "fromHigh": -11.9,
-        "trend": "DOWN",
-        "recentLow": 120.94
-      },
-      "monthly": {
-        "rsi": 55.3,
-        "sma10": 127.31,
-        "vs10": -4.0,
-        "trend": "DOWN"
-      },
-      "invalidation": 120.94,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Monthly intact"
-      ],
       "rank": 6
     }
   ],
@@ -357,7 +361,7 @@
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 4.064,
+      "score": 4.042,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 505.41,
       "pxAsof": "2026-09-14",
@@ -367,7 +371,7 @@
       "nBuyers": 5,
       "buyHigh": 760000,
       "heatRank": 3,
-      "heat": 2.654,
+      "heat": 2.475,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
@@ -428,7 +432,7 @@
       "code": "SCHW",
       "name": "Charles Schwab Corporation (The)",
       "action": "avoid",
-      "score": 2.204,
+      "score": 2.394,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 107.31,
       "pxAsof": "2026-09-14",
@@ -437,8 +441,8 @@
       "lastBuy": "2026-08-18",
       "nBuyers": 1,
       "buyHigh": 280000,
-      "heatRank": 18,
-      "heat": 1.57,
+      "heatRank": 12,
+      "heat": 1.786,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 21,
@@ -481,7 +485,7 @@
       "code": "ATRC",
       "name": "- Select UMA Account # 1 AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.95,
+      "score": 1.925,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 55.79,
       "pxAsof": "2026-09-14",
@@ -490,8 +494,8 @@
       "lastBuy": "2026-08-20",
       "nBuyers": 1,
       "buyHigh": 15000,
-      "heatRank": 38,
-      "heat": 1.081,
+      "heatRank": 39,
+      "heat": 1.009,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,
@@ -534,7 +538,7 @@
       "code": "MRNA",
       "name": "TLH",
       "action": "avoid",
-      "score": 1.91,
+      "score": 1.885,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 146.69,
       "pxAsof": "2026-09-14",
@@ -543,8 +547,8 @@
       "lastBuy": "2026-08-19",
       "nBuyers": 2,
       "buyHigh": 30000,
-      "heatRank": 39,
-      "heat": 1.057,
+      "heatRank": 40,
+      "heat": 0.987,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -591,7 +595,7 @@
       "code": "KMX",
       "name": "Wells Fargo Advisors CarMax Inc",
       "action": "avoid",
-      "score": 1.879,
+      "score": 1.855,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 61.69,
       "pxAsof": "2026-09-14",
@@ -601,7 +605,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 42,
-      "heat": 1.009,
+      "heat": 0.941,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 23,

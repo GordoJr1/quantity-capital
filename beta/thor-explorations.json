@@ -1,45 +1,38 @@
 {
-  "schema": "qc-issuer-profile-v1",
   "id": "thor-explorations",
-  "kind": "producer",
-  "stage": "producing",
-  "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
-  "units": {
-    "mass": "kt",
-    "gold": "koz",
-    "grade": "g/t Au",
-    "currency": "USD"
-  },
+  "disclaimer": "Filing-backed from Thor Explorations FY2025 operating results, Q2 2026 operating update (16 Jul 2026), and H1 2026 results. Gold poured at Segilola. Douta is development. Segilola current reserve table not in the releases used. Not S&P. Not investment advice.",
   "issuer": {
     "name": "Thor Explorations Ltd.",
-    "short": "Thor Explorations Ltd.",
+    "short": "Thor Explorations",
     "tickers": [
       {
         "symbol": "THX.V",
         "exchange": "TSXV",
-        "chart": "insider-ticker.html?t=THX.V"
+        "chart": "ticker.html?t=THX"
       },
       {
         "symbol": "THXPF",
-        "exchange": "US",
-        "chart": "insider-ticker.html?t=THXPF"
+        "exchange": "OTC",
+        "chart": "ticker.html?t=THX"
       }
     ],
-    "hq": "Nigeria",
+    "hq": "Vancouver, British Columbia, Canada",
     "commodity": "gold",
-    "country": "Nigeria",
-    "watchlist_type": "Producer, Junior"
+    "website": "https://thorexpl.com"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
-    "resources_basis": "Not gathered. Do not invent ounces."
+    "production_basis": "Gold poured at Segilola, Nigeria (100%). Company headlines poured ounces."
   },
   "kpis": {
-    "attr_koz_2025": null,
-    "attr_pp_koz": null,
-    "attr_mi_incl_koz": null,
-    "attr_inf_koz": null,
+    "attr_koz_2025": 91.9,
+    "attr_koz_ytd_2026": 39.4,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      75,
+      85
+    ],
+    "attr_pp_koz": 1200,
+    "pp_koz_100pct": 1200,
     "market_cap": 846547883,
     "market_cap_usd": 611135857,
     "market_cap_cur": "CAD",
@@ -48,28 +41,129 @@
     "price_asof": "2026-09-14"
   },
   "guidance_2026": {
-    "basis": "none — mcap watchlist shell",
-    "total_koz": null
+    "basis": "Segilola 100%; AISC US$1,000–1,200/oz",
+    "total_koz": [
+      75,
+      85
+    ],
+    "by_asset": {
+      "segilola": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          75,
+          85
+        ],
+        "koz_100pct": [
+          75,
+          85
+        ]
+      }
+    }
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 91.9,
+      "note": "91,910 oz poured. Upper half of FY25 guidance.",
+      "by_asset": {
+        "segilola": {
+          "attr_koz": 91.9,
+          "ownership_pct": 100,
+          "koz_100pct": 91.9
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 39.4,
+      "note": "H1 39,409 oz poured (Q1 20,256 + Q2 19,153).",
+      "by_asset": {
+        "segilola": {
+          "attr_koz": 39.4,
+          "ownership_pct": 100,
+          "koz_100pct": 39.4
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "segilola",
+      "name": "Segilola",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Nigeria",
+      "ownership_pct": 100,
+      "operator": "Thor Explorations",
+      "mine_type": "Open pit",
+      "region": "Osun State"
+    },
+    {
+      "id": "douta",
+      "name": "Douta",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Senegal",
+      "ownership_pct": 100,
+      "operator": "Thor Explorations",
+      "mine_type": "Open pit",
+      "location_note": "PFS Jan 2026. Senegal 10% free-carry expected."
+    }
+  ],
   "reserves_resources": {
-    "as_of": null,
-    "projects": []
+    "as_of": "2026-01-26",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1200,
+        "attr_koz": 1200
+      }
+    },
+    "note": "Douta PFS probable 1.2 Moz (36.6 Mt @ 1.03 g/t). Segilola depleted reserve not in the FY2025 / H1 2026 releases used.",
+    "projects": [
+      {
+        "asset_id": "douta",
+        "name": "Douta",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1200,
+          "attr_koz": 1200
+        },
+        "note": "Probable 36.6 Mt @ 1.03 g/t."
+      }
+    ]
   },
   "sources": [
     {
-      "title": "Quantity Capital market-caps.json",
-      "date": "2026-09-14",
-      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+      "title": "Thor FY2025 financial and operating results",
+      "what": "91,910 oz poured; FY26 75–85 koz @ AISC US$1,000–1,200"
+    },
+    {
+      "title": "Thor Douta PFS",
+      "date": "2026-01-26",
+      "what": "Probable 1.2 Moz; Indicated 1.7 Moz; Inferred 273 koz"
+    },
+    {
+      "title": "Thor Q2 2026 operating update",
+      "date": "2026-07-16",
+      "what": "Q2 19,153 oz poured; H1 39,409 oz; guidance maintained"
     }
   ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
   "meta": {
-    "layer": "mcap-top200",
-    "watchlist": "insiders-mcap",
     "mcap_rank": 199,
-    "mcap_updated": "2026-09-15",
-    "alerts": [],
-    "filing_backed": false
+    "mcap_updated": "2026-09-15"
   }
 }

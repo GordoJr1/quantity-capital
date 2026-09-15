@@ -514,6 +514,78 @@
       "as_of_production": "2026-06-30",
       "as_of_rr": "2025",
       "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "mineros",
+      "rank": 30,
+      "name": "Mineros S.A.",
+      "file": "beta/mineros.json",
+      "tickers": [
+        "MSA.TO",
+        "MNSAF"
+      ],
+      "commodity": "gold",
+      "hq": "Medellín, Colombia",
+      "producing_mines": 2,
+      "attr_koz_2025": 221.6,
+      "attr_pp_koz": 2100,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "thor-explorations",
+      "rank": 31,
+      "name": "Thor Explorations Ltd.",
+      "file": "beta/thor-explorations.json",
+      "tickers": [
+        "THX.V",
+        "THXPF"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 91.9,
+      "attr_pp_koz": 1200,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2026-01-26",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "asante-gold",
+      "rank": 32,
+      "name": "Asante Gold Corporation",
+      "file": "beta/asante-gold.json",
+      "tickers": [
+        "ASE.V",
+        "ASGOF"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 2,
+      "attr_koz_2025": 146.6,
+      "attr_pp_koz": 2830,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "jaguar-mining",
+      "rank": 33,
+      "name": "Jaguar Mining Inc.",
+      "file": "beta/jaguar-mining.json",
+      "tickers": [
+        "JAG.TO",
+        "JAGGF"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 2,
+      "attr_koz_2025": 40.3,
+      "attr_pp_koz": 858,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
     }
   ]
 }

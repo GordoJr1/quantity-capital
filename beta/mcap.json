@@ -6,8 +6,8 @@
   "universe_note": "Every issuer on the insiders Excel watchlist, ranked by market-caps.json. Names with no Yahoo cap sit after the ranked list. CAD caps converted at the median dual-listed CAD/USD ratio. Not the gold producer rank list.",
   "fx_cad_per_usd": 1.3852,
   "n": 841,
-  "reused_profiles": 47,
-  "shells": 794,
+  "reused_profiles": 51,
+  "shells": 790,
   "issuers": [
     {
       "rank": 1,
@@ -2857,9 +2857,9 @@
       "cap": 2706391731,
       "cap_usd": 1953785559,
       "cur": "CAD",
-      "filing_backed": false,
-      "attr_koz_2025": null,
-      "attr_pp_koz": null
+      "filing_backed": true,
+      "attr_koz_2025": 221.6,
+      "attr_pp_koz": 2100
     },
     {
       "rank": 133,
@@ -4247,7 +4247,7 @@
       "id": "asante-gold",
       "kind": "producer",
       "stage": "producing",
-      "name": "Asante Gold Corp.",
+      "name": "Asante Gold Corporation",
       "file": "beta/asante-gold.json",
       "tickers": [
         "ASE.V",
@@ -4260,9 +4260,9 @@
       "cap": 869327211,
       "cap_usd": 627580602,
       "cur": "CAD",
-      "filing_backed": false,
-      "attr_koz_2025": null,
-      "attr_pp_koz": null
+      "filing_backed": true,
+      "attr_koz_2025": 146.6,
+      "attr_pp_koz": 2830
     },
     {
       "rank": 197,
@@ -4326,9 +4326,9 @@
       "cap": 846547883,
       "cap_usd": 611135857,
       "cur": "CAD",
-      "filing_backed": false,
-      "attr_koz_2025": null,
-      "attr_pp_koz": null
+      "filing_backed": true,
+      "attr_koz_2025": 91.9,
+      "attr_pp_koz": 1200
     },
     {
       "rank": 200,
@@ -5655,7 +5655,7 @@
       "id": "jaguar-mining",
       "kind": "producer",
       "stage": "producing",
-      "name": "Jaguar Mining",
+      "name": "Jaguar Mining Inc.",
       "file": "beta/jaguar-mining.json",
       "tickers": [
         "JAG.TO",
@@ -5668,9 +5668,9 @@
       "cap": 328431136,
       "cap_usd": 237099457,
       "cur": "CAD",
-      "filing_backed": false,
-      "attr_koz_2025": null,
-      "attr_pp_koz": null
+      "filing_backed": true,
+      "attr_koz_2025": 40.3,
+      "attr_pp_koz": 858
     },
     {
       "rank": 261,

@@ -1,45 +1,42 @@
 {
-  "schema": "qc-issuer-profile-v1",
   "id": "asante-gold",
-  "kind": "producer",
-  "stage": "producing",
-  "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
-  "units": {
-    "mass": "kt",
-    "gold": "koz",
-    "grade": "g/t Au",
-    "currency": "USD"
-  },
+  "disclaimer": "Filing-backed from Asante Gold 11-month period ended 31 Dec 2025 (year-end change from 31 Jan), Q2/H1 2026 results (17 Aug 2026), 5 Aug 2026 NI 43-101, and 7 Aug 2026 guidance. Gold equivalent produced. 2025 chip is the 11-month stub, not a full calendar year. Not S&P. Not investment advice.",
   "issuer": {
-    "name": "Asante Gold Corp.",
-    "short": "Asante Gold Corp.",
+    "name": "Asante Gold Corporation",
+    "short": "Asante Gold",
     "tickers": [
       {
         "symbol": "ASE.V",
         "exchange": "TSXV",
-        "chart": "insider-ticker.html?t=ASE.V"
+        "chart": "ticker.html?t=ASE"
       },
       {
         "symbol": "ASGOF",
-        "exchange": "US",
-        "chart": "insider-ticker.html?t=ASGOF"
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=ASE"
       }
     ],
-    "hq": "Ghana",
+    "hq": "Vancouver, British Columbia, Canada",
     "commodity": "gold",
-    "country": "Ghana",
-    "watchlist_type": "Producer, Junior"
+    "website": "https://www.asantegold.com"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
-    "resources_basis": "Not gathered. Do not invent ounces."
+    "production_basis": "Company gold-equivalent produced at Bibiani and Chirano. 2025 is the 11-month stub after the year-end change to 31 Dec."
   },
   "kpis": {
-    "attr_koz_2025": null,
-    "attr_pp_koz": null,
-    "attr_mi_incl_koz": null,
-    "attr_inf_koz": null,
+    "attr_koz_2025": 146.6,
+    "attr_koz_ytd_2026": 117.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      275,
+      300
+    ],
+    "attr_pp_koz": 2830,
+    "pp_koz_100pct": 2830,
+    "attr_mi_incl_koz": 4595,
+    "mi_incl_koz_100pct": 4595,
+    "attr_inf_koz": 1795,
+    "inf_koz_100pct": 1795,
     "market_cap": 869327211,
     "market_cap_usd": 627580602,
     "market_cap_cur": "CAD",
@@ -48,28 +45,169 @@
     "price_asof": "2026-09-14"
   },
   "guidance_2026": {
-    "basis": "none — mcap watchlist shell",
-    "total_koz": null
+    "basis": "GEO; AISC US$3,200–3,600/oz; H2 weighted to Q4 Bibiani Main Pit",
+    "total_koz": [
+      275,
+      300
+    ]
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 146.6,
+      "note": "11 months to 31 Dec 2025: 146,571 GEO. Not a 12-month year.",
+      "by_asset": {
+        "bibiani": {
+          "attr_koz": 50.5,
+          "ownership_pct": 100,
+          "koz_100pct": 50.5,
+          "note": "50,497 GEO."
+        },
+        "chirano": {
+          "attr_koz": 96.1,
+          "ownership_pct": 100,
+          "koz_100pct": 96.1,
+          "note": "96,074 GEO."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 117.1,
+      "note": "H1 117,076 GEO. Q2 57,274. AISC H1 $4,070/oz.",
+      "by_asset": {
+        "bibiani": {
+          "attr_koz": 51.7,
+          "ownership_pct": 100,
+          "koz_100pct": 51.7,
+          "note": "51,737 GEO. Q2 24,059."
+        },
+        "chirano": {
+          "attr_koz": 65.3,
+          "ownership_pct": 100,
+          "koz_100pct": 65.3,
+          "note": "65,339 GEO. Q2 33,215."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "bibiani",
+      "name": "Bibiani",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "Asante Gold",
+      "mine_type": "Open pit",
+      "region": "Western North"
+    },
+    {
+      "id": "chirano",
+      "name": "Chirano",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 100,
+      "operator": "Asante Gold",
+      "mine_type": "Open pit + underground",
+      "region": "Western North"
+    }
+  ],
   "reserves_resources": {
-    "as_of": null,
-    "projects": []
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 2830,
+        "attr_koz": 2830
+      },
+      "mi": {
+        "koz": 4595,
+        "attr_koz": 4595
+      },
+      "inf": {
+        "koz": 1795,
+        "attr_koz": 1795
+      }
+    },
+    "note": "NI 43-101 5 Aug 2026. M&I inclusive of reserves. Chirano P&P 1.30 Moz; Bibiani P&P 1.53 Moz.",
+    "projects": [
+      {
+        "asset_id": "chirano",
+        "name": "Chirano",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1303,
+          "attr_koz": 1303
+        },
+        "mi": {
+          "koz": 2531,
+          "attr_koz": 2531
+        },
+        "inf": {
+          "koz": 830,
+          "attr_koz": 830
+        }
+      },
+      {
+        "asset_id": "bibiani",
+        "name": "Bibiani",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1527,
+          "attr_koz": 1527
+        },
+        "mi": {
+          "koz": 2064,
+          "attr_koz": 2064
+        },
+        "inf": {
+          "koz": 965,
+          "attr_koz": 965
+        }
+      }
+    ]
   },
   "sources": [
     {
-      "title": "Quantity Capital market-caps.json",
-      "date": "2026-09-14",
-      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+      "title": "Asante 11-month 2025 MD&A (YE change to 31 Dec)",
+      "what": "Bibiani 50,497 GEO; Chirano 96,074 GEO"
+    },
+    {
+      "title": "Asante NI 43-101 Bibiani and Chirano",
+      "date": "2026-08-05",
+      "url": "https://www.globenewswire.com/news-release/2026/08/05/3339173/0/en/asante-updates-m-i-resource-to-4-6-million-ounces-at-bibiani-and-chirano-gold-mines.html",
+      "what": "P&P 2.83 Moz; M&I 4.60 Moz; Inf 1.80 Moz"
+    },
+    {
+      "title": "Asante 2026 guidance",
+      "date": "2026-08-07",
+      "what": "275–300 koz GEO @ AISC $3,200–3,600"
+    },
+    {
+      "title": "Asante Q2/H1 2026 results",
+      "date": "2026-08-17",
+      "url": "https://www.asantegold.com/news-releases/asante-reports-q2-h1-2026-operating-financial-results",
+      "what": "H1 117,076 GEO; Bibiani 51,737; Chirano 65,339; AISC $4,070"
     }
   ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
   "meta": {
-    "layer": "mcap-top200",
-    "watchlist": "insiders-mcap",
     "mcap_rank": 196,
-    "mcap_updated": "2026-09-15",
-    "alerts": [],
-    "filing_backed": false
+    "mcap_updated": "2026-09-15"
   }
 }

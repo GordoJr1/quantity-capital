@@ -1,45 +1,38 @@
 {
-  "schema": "qc-issuer-profile-v1",
   "id": "mineros",
-  "kind": "producer",
-  "stage": "producing",
-  "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
-  "units": {
-    "mass": "kt",
-    "gold": "koz",
-    "grade": "g/t Au",
-    "currency": "USD"
-  },
+  "disclaimer": "Filing-backed from Mineros FY2025 results (20 Feb 2026) and Q2 2026 results (6 Aug 2026). Company tables are 100% gold produced (not AuEq). Hemco includes Panama/Pioneer underground plus Bonanza Mining Partners. Nechí is alluvial plus contract mining partners. Not S&P. Not investment advice.",
   "issuer": {
     "name": "Mineros S.A.",
-    "short": "Mineros S.A.",
+    "short": "Mineros",
     "tickers": [
       {
         "symbol": "MSA.TO",
         "exchange": "TSX",
-        "chart": "insider-ticker.html?t=MSA.TO"
+        "chart": "ticker.html?t=MSA"
       },
       {
         "symbol": "MNSAF",
-        "exchange": "US",
-        "chart": "insider-ticker.html?t=MNSAF"
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=MSA"
       }
     ],
-    "hq": "Colombia",
+    "hq": "Medellín, Colombia",
     "commodity": "gold",
-    "country": "Colombia",
-    "watchlist_type": "Producer, Junior"
+    "website": "https://www.mineros.com.co"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
-    "resources_basis": "Not gathered. Do not invent ounces."
+    "production_basis": "100% gold produced at Hemco (Nicaragua) and Nechí (Colombia). Silver converted to AuEq is excluded from the koz chips."
   },
   "kpis": {
-    "attr_koz_2025": null,
-    "attr_pp_koz": null,
-    "attr_mi_incl_koz": null,
-    "attr_inf_koz": null,
+    "attr_koz_2025": 221.6,
+    "attr_koz_ytd_2026": 118.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      220,
+      240
+    ],
+    "attr_pp_koz": 2100,
+    "pp_koz_100pct": 2100,
     "market_cap": 2706391731,
     "market_cap_usd": 1953785559,
     "market_cap_cur": "CAD",
@@ -48,28 +41,162 @@
     "price_asof": "2026-09-14"
   },
   "guidance_2026": {
-    "basis": "none — mcap watchlist shell",
-    "total_koz": null
+    "basis": "100% gold; revised 7 Jul 2026 from 213–233 koz",
+    "total_koz": [
+      220,
+      240
+    ],
+    "by_asset": {
+      "hemco": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          137,
+          147
+        ],
+        "koz_100pct": [
+          137,
+          147
+        ]
+      },
+      "nechi": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          83,
+          93
+        ],
+        "koz_100pct": [
+          83,
+          93
+        ]
+      }
+    }
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 221.6,
+      "note": "221,608 oz gold (227,481 AuEq). Record year.",
+      "by_asset": {
+        "hemco": {
+          "attr_koz": 131.8,
+          "ownership_pct": 100,
+          "koz_100pct": 131.8,
+          "note": "131,831 oz. Nicaragua; Panama/Pioneer + BMP."
+        },
+        "nechi": {
+          "attr_koz": 89.8,
+          "ownership_pct": 100,
+          "koz_100pct": 89.8,
+          "note": "89,777 oz. Colombia alluvial + CMP."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 118.1,
+      "note": "118,103 oz. Q2 60,253.",
+      "by_asset": {
+        "hemco": {
+          "attr_koz": 75.5,
+          "ownership_pct": 100,
+          "koz_100pct": 75.5,
+          "note": "75,535 oz. Q2 37,594."
+        },
+        "nechi": {
+          "attr_koz": 42.6,
+          "ownership_pct": 100,
+          "koz_100pct": 42.6,
+          "note": "42,568 oz. Q2 22,659."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "hemco",
+      "name": "Hemco",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Nicaragua",
+      "ownership_pct": 100,
+      "operator": "Mineros",
+      "mine_type": "Underground + artisanal (BMP)",
+      "location_note": "Panama & Pioneer underground plus Bonanza Mining Partners."
+    },
+    {
+      "id": "nechi",
+      "name": "Nechí",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Colombia",
+      "ownership_pct": 100,
+      "operator": "Mineros",
+      "mine_type": "Alluvial",
+      "location_note": "Company dredges plus contract mining partners."
+    },
+    {
+      "id": "porvenir",
+      "name": "Porvenir",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Nicaragua",
+      "ownership_pct": 100,
+      "operator": "Mineros"
+    }
+  ],
   "reserves_resources": {
-    "as_of": null,
-    "projects": []
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 2100,
+        "attr_koz": 2100
+      }
+    },
+    "note": "Company July 2026 presentation: P&P ~2.1 Moz. Asset split not in the releases used.",
+    "projects": [
+      {
+        "asset_id": "hemco",
+        "name": "Hemco",
+        "ownership_pct": 100
+      },
+      {
+        "asset_id": "nechi",
+        "name": "Nechí",
+        "ownership_pct": 100
+      }
+    ]
   },
   "sources": [
     {
-      "title": "Quantity Capital market-caps.json",
-      "date": "2026-09-14",
-      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+      "title": "Mineros FY2025 results",
+      "date": "2026-02-20",
+      "url": "https://www.mineros.com.co/news/mineros-reports-fourth-quarter-and-full-year-2025-results---record-annual-revenue-of-800-million-net-profit-and-free-cash-flow-production-guidance-exceeded-42-million-returned-to-investors-2026-growth-strategy-announced-2026-02-20",
+      "what": "221,608 oz gold; Hemco 131,831; Nechí 89,777; original FY26 213–233 koz"
+    },
+    {
+      "title": "Mineros Q2 2026 results",
+      "date": "2026-08-06",
+      "url": "https://www.mineros.com.co/news/20260806-release",
+      "what": "H1 118,103 oz; Hemco 75,535; Nechí 42,568; FY26 raised to 220–240 koz"
     }
   ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
   "meta": {
-    "layer": "mcap-top200",
-    "watchlist": "insiders-mcap",
     "mcap_rank": 132,
-    "mcap_updated": "2026-09-15",
-    "alerts": [],
-    "filing_backed": false
+    "mcap_updated": "2026-09-15"
   }
 }

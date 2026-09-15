@@ -22,4 +22,4 @@ python3 build-insider-follow.py      # Follow / Best officers + new-print alerts
 
 `collect/form4_enrich.py` needs a SEC fair-access User-Agent: company name + email (default `Quantity Capital gordojr@proton.me`). Mozilla-style UAs get HTTP 403. Cap is 10 requests/second; the script sleeps 0.12s and reuses accessions already in `insider-form4.json`. No secrets. Do not point it at Senate eFD.
 
-GitHub Action `daily-update` runs the price fetch + Form 4 enrich daily at 23:30 UTC and commits to `main` when data changed (`follow-alerts.yml` does the Form 4 + follow rebuild when the tape is pushed). New Senate/House/OGE/SEDI filings still depend on the off-repo collector.
+GitHub Action `daily-update` runs the price fetch + Form 4 enrich daily at 23:30 UTC and commits to `main` when data changed (`follow-alerts.yml` does the Form 4 + follow rebuild when the tape is pushed). `morning-check` fails ~07:40 ET if today's off-repo politician (~07:22 ET) or insiders (~07:05 ET) tape stamp is missing. New Senate/House/OGE/SEDI filings still depend on the off-repo collector; do not mix those JSON files into feature commits.

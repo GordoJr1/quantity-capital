@@ -30,7 +30,17 @@ Form 4 collection talks to public `www.sec.gov` Archives. No secrets. SEC fair-a
 
 ## Daily site refresh
 
-`.github/workflows/daily-update.yml` runs daily at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed. Senate/House/OGE tape JSON is still produced by an off-repo collector.
+Off-repo Windows collector (not this repo; Senate eFD is captcha-gated) pushes twice daily:
+
+- ~07:05 ET — `Insiders update …` (`insider-trades*.json`)
+- ~07:22 ET — `Politician tape update …` (`trades.json`, `trades-lite.json`, `analysis.json`, `tells.json`, `traders.json`, `tickers.json`, `backtest.json`)
+- ~18:05 / ~18:22 ET — the same pair again
+
+Do **not** `git add` those collector files in a feature commit. A racing desktop commit can swallow the morning tape push so git log has no `Politician tape update` even when the stamp moved.
+
+`.github/workflows/morning-check.yml` runs ~07:40 ET and fails if `trades-lite.json` or `insider-trades-lite.json` `collected` is not today (America/New_York). It does not scrape.
+
+`.github/workflows/daily-update.yml` runs daily at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed.
 
 ## Service worker cache — read before editing shell assets
 

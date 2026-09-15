@@ -1,0 +1,32 @@
+# Confirm the off-repo ~07:05 ET insiders tape and ~07:22 ET politician
+# tape landed on main. Does not scrape Senate eFD (captcha).
+name: morning-check
+on:
+  schedule:
+    # ~07:40 America/New_York in both DST offsets. The script no-ops
+    # before 07:30 ET so the early UTC slot is harmless in winter.
+    - cron: "40 11 * * *"
+    - cron: "40 12 * * *"
+  workflow_dispatch:
+  # A push that touches this file on main starts a run (used to kick
+  # off the first check when workflow_dispatch is not available).
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/morning-check.yml"
+      - "check-morning-tapes.py"
+
+concurrency:
+  group: morning-check
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm morning tapes landed
+        run: python3 check-morning-tapes.py

@@ -1,0 +1,178 @@
+{
+  "id": "drdgold",
+  "disclaimer": "Filing-backed from DRDGOLD FY2025 integrated report and FY2026 results (19 Aug 2026). Fiscal year ends 30 June. 2025 chip is FY2025 (year ended 30 Jun 2025). YTD chip is full FY2026. Tailings retreatment, not conventional mining. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "DRDGOLD Limited",
+    "short": "DRDGOLD",
+    "tickers": [
+      {
+        "symbol": "DRD",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=DRD"
+      },
+      {
+        "symbol": "DRD",
+        "exchange": "JSE",
+        "chart": "ticker.html?t=DRD"
+      }
+    ],
+    "hq": "Johannesburg, South Africa",
+    "commodity": "gold",
+    "website": "https://www.drdgold.com"
+  },
+  "method": {
+    "production_basis": "Gold produced from surface tailings (Ergo + FWGR). Fiscal year 30 June.",
+    "fiscal_year_end": "06-30"
+  },
+  "kpis": {
+    "attr_koz_2025": 155.3,
+    "attr_koz_ytd_2026": 155.6,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      160,
+      170
+    ],
+    "aisc_2025": 1716,
+    "attr_pp_koz": 6220,
+    "pp_koz_100pct": 6220,
+    "fiscal_year_end": "06-30",
+    "market_cap": 12668292096,
+    "market_cap_usd": 12668292096,
+    "market_cap_cur": "USD",
+    "px": 25.59,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "FY2027 (year ending 30 Jun 2027)",
+    "total_koz": [
+      160,
+      170
+    ]
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 155.3,
+      "note": "FY2025 (to 30 Jun 2025) 155,288 oz.",
+      "by_asset": {
+        "ergo": {
+          "attr_koz": 111.7,
+          "ownership_pct": 100,
+          "koz_100pct": 111.7,
+          "note": "3,473 kg."
+        },
+        "fwgr": {
+          "attr_koz": 43.6,
+          "ownership_pct": 100,
+          "koz_100pct": 43.6,
+          "note": "1,357 kg."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 155.6,
+      "note": "Full FY2026 155,577 oz.",
+      "by_asset": {
+        "ergo": {
+          "attr_koz": 112.9,
+          "ownership_pct": 100,
+          "koz_100pct": 112.9,
+          "note": "~3,511 kg."
+        },
+        "fwgr": {
+          "attr_koz": 42.7,
+          "ownership_pct": 100,
+          "koz_100pct": 42.7,
+          "note": "1,328 kg."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "ergo",
+      "name": "Ergo",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "DRDGOLD",
+      "mine_type": "Tailings retreatment"
+    },
+    {
+      "id": "fwgr",
+      "name": "Far West Gold Recoveries",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "South Africa",
+      "ownership_pct": 100,
+      "operator": "DRDGOLD",
+      "mine_type": "Tailings retreatment"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-06-30",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 6220,
+        "attr_koz": 6220
+      },
+      "mi": {
+        "koz": 6580,
+        "attr_koz": 6580
+      }
+    },
+    "note": "FY2026: P&P 6.22 Moz; resources inclusive 6.58 Moz. Kloof 2 dump added.",
+    "projects": [
+      {
+        "asset_id": "ergo",
+        "name": "Ergo",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3270,
+          "attr_koz": 3270
+        }
+      },
+      {
+        "asset_id": "fwgr",
+        "name": "FWGR",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2260,
+          "attr_koz": 2260
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "DRDGOLD FY2025 integrated report",
+      "date": "2025-10-28",
+      "what": "155,288 oz; Ergo 3,473 kg; FWGR 1,357 kg; AISC $1,716/oz"
+    },
+    {
+      "title": "DRDGOLD FY2026 results",
+      "date": "2026-08-19",
+      "what": "155,577 oz; P&P 6.22 Moz; FY2027 guidance 160–170 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 62,
+    "mcap_updated": "2026-09-15"
+  }
+}

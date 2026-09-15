@@ -1,0 +1,217 @@
+{
+  "id": "aris-mining",
+  "disclaimer": "Filing-backed from Aris Mining 2025 production/guidance (21 Jan 2026), Q4 2025 MD&A, and Q2 2026 results. Gold produced, 100%. Segovia includes contract-miner feed. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Aris Mining Corporation",
+    "short": "Aris Mining",
+    "tickers": [
+      {
+        "symbol": "ARMN",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=ARMN"
+      },
+      {
+        "symbol": "ARIS",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=ARIS"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.aris-mining.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. Segovia owner-mining plus contract mining partners (CMPs)."
+  },
+  "kpis": {
+    "attr_koz_2025": 256.5,
+    "attr_koz_ytd_2026": 148.0,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      300,
+      350
+    ],
+    "attr_pp_koz": 1500,
+    "pp_koz_100pct": 1500,
+    "market_cap": 5361005097,
+    "market_cap_usd": 3870191525,
+    "market_cap_cur": "CAD",
+    "shares": 206430693,
+    "px": 25.97,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%",
+    "total_koz": [
+      300,
+      350
+    ],
+    "by_asset": {
+      "segovia": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          265,
+          300
+        ],
+        "koz_100pct": [
+          265,
+          300
+        ]
+      },
+      "marmato": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          35,
+          50
+        ],
+        "koz_100pct": [
+          35,
+          50
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 256.5,
+      "by_asset": {
+        "segovia": {
+          "attr_koz": 227.8,
+          "ownership_pct": 100,
+          "koz_100pct": 227.8,
+          "note": "Second mill commissioned Jun 2025."
+        },
+        "marmato": {
+          "attr_koz": 28.7,
+          "ownership_pct": 100,
+          "koz_100pct": 28.7
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 148.0,
+      "by_asset": {
+        "segovia": {
+          "attr_koz": 131.0,
+          "ownership_pct": 100,
+          "koz_100pct": 131.0
+        },
+        "marmato": {
+          "attr_koz": 17.1,
+          "ownership_pct": 100,
+          "koz_100pct": 17.1
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "segovia",
+      "name": "Segovia",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Colombia",
+      "ownership_pct": 100,
+      "operator": "Aris Mining",
+      "mine_type": "Underground",
+      "location_note": "Four UG mines; 3,000 tpd mill."
+    },
+    {
+      "id": "marmato",
+      "name": "Marmato",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Colombia",
+      "ownership_pct": 100,
+      "operator": "Aris Mining",
+      "mine_type": "Underground",
+      "location_note": "CIP plant first gold targeted Q4 2026."
+    },
+    {
+      "id": "soto-norte",
+      "name": "Soto Norte",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Colombia",
+      "ownership_pct": 100,
+      "operator": "Aris Mining"
+    },
+    {
+      "id": "toroparu",
+      "name": "Toroparu",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Guyana",
+      "ownership_pct": 100,
+      "operator": "Aris Mining"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-11-28",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1500,
+        "attr_koz": 1500
+      },
+      "mi": {
+        "koz": 3600,
+        "attr_koz": 3600
+      }
+    },
+    "note": "Segovia P&P 1.5 Moz @ 10.7 g/t; M&I 3.6 Moz @ 15.3 g/t (8 Jan 2026). Marmato expansion ounces not in this Segovia table.",
+    "projects": [
+      {
+        "asset_id": "segovia",
+        "name": "Segovia",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1500,
+          "attr_koz": 1500
+        },
+        "mi": {
+          "koz": 3600,
+          "attr_koz": 3600
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Aris 2025 production and 2026 guidance",
+      "date": "2026-01-21",
+      "what": "256,503 oz; Segovia 227,762 / Marmato 28,741; FY26 300–350 koz"
+    },
+    {
+      "title": "Aris Segovia R&R",
+      "date": "2026-01-08",
+      "what": "P&P 1.5 Moz @ 10.7 g/t; M&I 3.6 Moz"
+    },
+    {
+      "title": "Aris Q2 2026 results",
+      "date": "2026-07-29",
+      "what": "H1 148.0 koz; Segovia 131.0 / Marmato 17.1"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 100,
+    "mcap_updated": "2026-09-15"
+  }
+}

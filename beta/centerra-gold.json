@@ -1,0 +1,231 @@
+{
+  "id": "centerra-gold",
+  "disclaimer": "Filing-backed from Centerra FY2025 results (19 Feb 2026) and Q2 2026 MD&A. Gold produced 100%. Mount Milligan gold is subject to a 35% Royal Gold stream (production still reported 100%). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Centerra Gold Inc.",
+    "short": "Centerra Gold",
+    "tickers": [
+      {
+        "symbol": "CGAU",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=CGAU"
+      },
+      {
+        "symbol": "CG",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=CG"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.centerragold.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. Mount Milligan stream: Royal Gold 35% of gold at $435/oz."
+  },
+  "kpis": {
+    "attr_koz_2025": 275.3,
+    "attr_koz_ytd_2026": 138.7,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      260,
+      290
+    ],
+    "aisc_2025": 1614,
+    "realized_price_2025": 2994,
+    "attr_pp_koz": 5504,
+    "pp_koz_100pct": 5504,
+    "market_cap": 5924952417,
+    "market_cap_usd": 4277313716,
+    "market_cap_cur": "CAD",
+    "shares": 195607541,
+    "px": 30.29,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%; raised 28 Jul 2026 (was 250–280)",
+    "total_koz": [
+      260,
+      290
+    ],
+    "by_asset": {
+      "mount-milligan": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          140,
+          155
+        ],
+        "koz_100pct": [
+          140,
+          155
+        ]
+      },
+      "oksut": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          120,
+          135
+        ],
+        "koz_100pct": [
+          120,
+          135
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 275.3,
+      "by_asset": {
+        "mount-milligan": {
+          "attr_koz": 147.6,
+          "ownership_pct": 100,
+          "koz_100pct": 147.6,
+          "note": "Plus 50.5 Mlb Cu. 35% gold stream."
+        },
+        "oksut": {
+          "attr_koz": 127.7,
+          "ownership_pct": 100,
+          "koz_100pct": 127.7
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 138.7,
+      "by_asset": {
+        "mount-milligan": {
+          "attr_koz": 67.7,
+          "ownership_pct": 100,
+          "koz_100pct": 67.7
+        },
+        "oksut": {
+          "attr_koz": 71.0,
+          "ownership_pct": 100,
+          "koz_100pct": 71.0
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "mount-milligan",
+      "name": "Mount Milligan",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Centerra Gold",
+      "mine_type": "Open pit",
+      "region": "British Columbia",
+      "location_note": "Royal Gold 35% gold / 18.75% copper stream."
+    },
+    {
+      "id": "oksut",
+      "name": "Öksüt",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Türkiye",
+      "ownership_pct": 100,
+      "operator": "Centerra Gold",
+      "mine_type": "Open pit / heap leach"
+    },
+    {
+      "id": "goldfield",
+      "name": "Goldfield",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Centerra Gold",
+      "region": "Nevada"
+    },
+    {
+      "id": "kemess",
+      "name": "Kemess",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Centerra Gold",
+      "region": "British Columbia"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 5504,
+        "attr_koz": 5504
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "mount-milligan",
+        "name": "Mount Milligan",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 4294,
+          "attr_koz": 4294
+        },
+        "note": "100% basis; 4.3 Moz Au + 1.7 Blb Cu."
+      },
+      {
+        "asset_id": "oksut",
+        "name": "Öksüt",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 503,
+          "attr_koz": 503
+        }
+      },
+      {
+        "asset_id": "goldfield",
+        "name": "Goldfield",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 706,
+          "attr_koz": 706
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Centerra FY2025 results",
+      "date": "2026-02-19",
+      "what": "275,316 oz Au; MM 147,581 / Öksüt 127,734; AISC $1,614; P&P 5.50 Moz Au"
+    },
+    {
+      "title": "Centerra YE2025 reserves",
+      "date": "2026-02-19",
+      "what": "MM 4.29 Moz; Öksüt 0.50; Goldfield 0.71"
+    },
+    {
+      "title": "Centerra Q2 2026 MD&A",
+      "date": "2026-07-28",
+      "what": "H1 138,728 oz; guidance raised to 260–290 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 97,
+    "mcap_updated": "2026-09-15"
+  }
+}

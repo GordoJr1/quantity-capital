@@ -1,0 +1,148 @@
+{
+  "id": "caledonia-mining",
+  "disclaimer": "Filing-backed from Caledonia 14 Jan 2026 Blanket production/guidance and Q2 2026 MD&A. Gold produced 100% at Blanket. Bilboes is development. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Caledonia Mining Corporation Plc",
+    "short": "Caledonia Mining",
+    "tickers": [
+      {
+        "symbol": "CMCL",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=CMCL"
+      }
+    ],
+    "hq": "St Helier, Jersey",
+    "commodity": "gold",
+    "website": "https://www.caledoniamining.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced at Blanket, Zimbabwe."
+  },
+  "kpis": {
+    "attr_koz_2025": 76.2,
+    "attr_koz_ytd_2026": 32.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      72.0,
+      76.5
+    ],
+    "attr_pp_koz": 1750,
+    "pp_koz_100pct": 1750,
+    "market_cap": 357698962,
+    "market_cap_usd": 357698962,
+    "market_cap_cur": "GBP",
+    "shares": 19335079,
+    "px": 18.5,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "Blanket 100%",
+    "total_koz": [
+      72.0,
+      76.5
+    ]
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 76.2,
+      "by_asset": {
+        "blanket": {
+          "attr_koz": 76.2,
+          "ownership_pct": 100,
+          "koz_100pct": 76.2,
+          "note": "76,213 oz. Met revised 75.5–79.5 koz guidance."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 32.1,
+      "note": "Q1 14,767 + Q2 17,360.",
+      "by_asset": {
+        "blanket": {
+          "attr_koz": 32.1,
+          "ownership_pct": 100,
+          "koz_100pct": 32.1
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "blanket",
+      "name": "Blanket",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Zimbabwe",
+      "ownership_pct": 100,
+      "operator": "Caledonia Mining",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "bilboes",
+      "name": "Bilboes",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Zimbabwe",
+      "ownership_pct": 100,
+      "operator": "Caledonia Mining",
+      "location_note": "P&P 1.75 Moz; first production targeted late 2028."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1750,
+        "attr_koz": 1750
+      }
+    },
+    "note": "Bilboes FS P&P 1.75 Moz (24.1 Mt @ 2.26 g/t). Blanket reserve table not in the releases used.",
+    "projects": [
+      {
+        "asset_id": "bilboes",
+        "name": "Bilboes",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1750,
+          "attr_koz": 1750
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Caledonia Blanket FY2025 production and 2026 guidance",
+      "date": "2026-01-14",
+      "what": "76,213 oz; FY26 72–76.5 koz"
+    },
+    {
+      "title": "Caledonia Q2 2026 MD&A",
+      "date": "2026-08-10",
+      "what": "H1 32,127 oz (Q1 14,767 + Q2 17,360)"
+    },
+    {
+      "title": "Caledonia Bilboes FS",
+      "what": "P&P 1.75 Moz Au"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 232,
+    "mcap_updated": "2026-09-15"
+  }
+}

@@ -33,7 +33,10 @@
     "attr_mi_incl_koz": 106834,
     "pp_koz_100pct": 27400,
     "mi_incl_koz_100pct": 106834,
-    "fiscal_year_end": "06-30"
+    "fiscal_year_end": "06-30",
+    "market_cap": null,
+    "market_cap_usd": null,
+    "market_cap_cur": null
   },
   "guidance_2026": {
     "basis": "FY26 group gold (met)",
@@ -369,5 +372,9 @@
     "gold": "koz",
     "grade": "g/t Au",
     "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 710,
+    "mcap_updated": "2026-09-15"
   }
 }

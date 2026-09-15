@@ -1,6 +1,6 @@
 {
   "schema": "qc-beta-issuers-v1",
-  "generated": "2026-09-12",
+  "generated": "2026-09-15",
   "disclaimer": "Beta. Filing-backed issuer profiles. Not S&P Capital IQ. Not investment advice.",
   "universe_note": "Largest listed gold producers by 2025 attributable ounces that we can file-update in English. Navoi (unlisted) and Polyus (Russia) omitted. Zijin (HK) omitted until an English production parser exists. Evolution is #11 (just under IAMGOLD on calendar/FY mix).",
   "units": {
@@ -166,8 +166,26 @@
       "fiscal_year_end": "12-31"
     },
     {
-      "id": "iamgold",
+      "id": "b2gold",
       "rank": 10,
+      "name": "B2Gold Corp.",
+      "file": "beta/b2gold.json",
+      "tickers": [
+        "BTG",
+        "BTO.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 4,
+      "attr_koz_2025": 979.6,
+      "attr_pp_koz": 8530,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "iamgold",
+      "rank": 11,
       "name": "IAMGOLD Corporation",
       "file": "beta/iamgold.json",
       "tickers": [
@@ -185,7 +203,7 @@
     },
     {
       "id": "evolution",
-      "rank": 11,
+      "rank": 12,
       "name": "Evolution Mining Limited",
       "file": "beta/evolution.json",
       "tickers": [
@@ -199,6 +217,303 @@
       "as_of_production": "2026-06-30",
       "as_of_rr": "2025-12-31",
       "fiscal_year_end": "06-30"
+    },
+    {
+      "id": "alamos-gold",
+      "rank": 13,
+      "name": "Alamos Gold Inc.",
+      "file": "beta/alamos-gold.json",
+      "tickers": [
+        "AGI",
+        "AGI.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 3,
+      "attr_koz_2025": 545.4,
+      "attr_pp_koz": 15903,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "lundin-gold",
+      "rank": 14,
+      "name": "Lundin Gold Inc.",
+      "file": "beta/lundin-gold.json",
+      "tickers": [
+        "LUG.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 498.3,
+      "attr_pp_koz": 5850,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "oceanagold",
+      "rank": 15,
+      "name": "OceanaGold Corporation",
+      "file": "beta/oceanagold.json",
+      "tickers": [
+        "OGC.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 4,
+      "attr_koz_2025": 497.6,
+      "attr_pp_koz": 5830,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "eldorado-gold",
+      "rank": 16,
+      "name": "Eldorado Gold Corporation",
+      "file": "beta/eldorado-gold.json",
+      "tickers": [
+        "EGO",
+        "ELD.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 4,
+      "attr_koz_2025": 488.3,
+      "attr_pp_koz": 12525,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-09-30",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "ssr-mining",
+      "rank": 17,
+      "name": "SSR Mining Inc.",
+      "file": "beta/ssr-mining.json",
+      "tickers": [
+        "SSRM",
+        "SSRM.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Denver, Colorado, USA",
+      "producing_mines": 4,
+      "attr_koz_2025": 447.2,
+      "attr_pp_koz": 10582,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "torex-gold",
+      "rank": 18,
+      "name": "Torex Gold Resources Inc.",
+      "file": "beta/torex-gold.json",
+      "tickers": [
+        "TXG.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 319.1,
+      "attr_pp_koz": 3158,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "centerra-gold",
+      "rank": 19,
+      "name": "Centerra Gold Inc.",
+      "file": "beta/centerra-gold.json",
+      "tickers": [
+        "CG.TO",
+        "CGAU"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 2,
+      "attr_koz_2025": 275.3,
+      "attr_pp_koz": 5504,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "dpm-metals",
+      "rank": 20,
+      "name": "DPM Metals Inc.",
+      "file": "beta/dpm-metals.json",
+      "tickers": [
+        "DPM.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 3,
+      "attr_koz_2025": 245.0,
+      "attr_pp_koz": 1600,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2026-02",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "k92-mining",
+      "rank": 21,
+      "name": "K92 Mining Inc.",
+      "file": "beta/k92-mining.json",
+      "tickers": [
+        "KNT.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 164.5,
+      "attr_pp_koz": 1320,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2024-01",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "aris-mining",
+      "rank": 22,
+      "name": "Aris Mining Corporation",
+      "file": "beta/aris-mining.json",
+      "tickers": [
+        "ARIS.TO",
+        "ARMN"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 2,
+      "attr_koz_2025": 256.5,
+      "attr_pp_koz": 1500,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-11-28",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "fortuna-mining",
+      "rank": 23,
+      "name": "Fortuna Mining Corp.",
+      "file": "beta/fortuna-mining.json",
+      "tickers": [
+        "FSM",
+        "FVI.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 3,
+      "attr_koz_2025": 239.9,
+      "attr_pp_koz": 2640,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "artemis-gold",
+      "rank": 24,
+      "name": "Artemis Gold Inc.",
+      "file": "beta/artemis-gold.json",
+      "tickers": [
+        "ARTG.V"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 192.8,
+      "attr_pp_koz": 7500,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "wesdome-gold-mines",
+      "rank": 25,
+      "name": "Wesdome Gold Mines Ltd.",
+      "file": "beta/wesdome-gold-mines.json",
+      "tickers": [
+        "WDO.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Toronto, Ontario, Canada",
+      "producing_mines": 2,
+      "attr_koz_2025": 185.6,
+      "attr_pp_koz": 1387,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "equinox-gold",
+      "rank": 26,
+      "name": "Equinox Gold Corp.",
+      "file": "beta/equinox-gold.json",
+      "tickers": [
+        "EQX",
+        "EQX.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 6,
+      "attr_koz_2025": 856.9,
+      "attr_pp_koz": 19000,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "galiano-gold",
+      "rank": 27,
+      "name": "Galiano Gold Inc.",
+      "file": "beta/galiano-gold.json",
+      "tickers": [
+        "GAU",
+        "GAU.TO"
+      ],
+      "commodity": "gold",
+      "hq": "Vancouver, British Columbia, Canada",
+      "producing_mines": 1,
+      "attr_koz_2025": 121.2,
+      "attr_pp_koz": 1970,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025-12-31",
+      "fiscal_year_end": "12-31"
+    },
+    {
+      "id": "drdgold",
+      "rank": 28,
+      "name": "DRDGOLD Limited",
+      "file": "beta/drdgold.json",
+      "tickers": [
+        "DRD"
+      ],
+      "commodity": "gold",
+      "hq": "Johannesburg, South Africa",
+      "producing_mines": 2,
+      "attr_koz_2025": 155.3,
+      "attr_pp_koz": 6220,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2026-06-30",
+      "fiscal_year_end": "06-30"
+    },
+    {
+      "id": "caledonia-mining",
+      "rank": 29,
+      "name": "Caledonia Mining Corporation Plc",
+      "file": "beta/caledonia-mining.json",
+      "tickers": [
+        "CMCL"
+      ],
+      "commodity": "gold",
+      "hq": "St Helier, Jersey",
+      "producing_mines": 1,
+      "attr_koz_2025": 76.2,
+      "attr_pp_koz": 1750,
+      "as_of_production": "2026-06-30",
+      "as_of_rr": "2025",
+      "fiscal_year_end": "12-31"
     }
   ]
 }

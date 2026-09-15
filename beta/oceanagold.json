@@ -1,0 +1,257 @@
+{
+  "id": "oceanagold",
+  "disclaimer": "Filing-backed from OceanaGold FY2025 MD&A (18 Feb 2026) and Q2 2026 results. Gold produced on 100% basis (Didipio controlled; 80% economic from May 2024 listing). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "OceanaGold Corporation",
+    "short": "OceanaGold",
+    "tickers": [
+      {
+        "symbol": "OGC",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=OGC"
+      },
+      {
+        "symbol": "OCANF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=OGC"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://oceanagold.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. Didipio 80% economic interest from 13 May 2024; company still reports 100% as operator."
+  },
+  "kpis": {
+    "attr_koz_2025": 497.6,
+    "attr_koz_ytd_2026": 268.9,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      520,
+      590
+    ],
+    "realized_price_2025": 3509,
+    "attr_pp_koz": 5830,
+    "attr_mi_incl_koz": 8630,
+    "attr_inf_koz": 2500,
+    "pp_koz_100pct": 5830,
+    "mi_incl_koz_100pct": 8630,
+    "inf_koz_100pct": 2500,
+    "market_cap": 9071409988,
+    "market_cap_usd": 6548789531,
+    "market_cap_cur": "CAD",
+    "shares": 222447523,
+    "px": 40.78,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%",
+    "total_koz": [
+      520,
+      590
+    ],
+    "by_asset": {
+      "haile": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          235,
+          260
+        ],
+        "koz_100pct": [
+          235,
+          260
+        ]
+      },
+      "macraes": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          135,
+          155
+        ],
+        "koz_100pct": [
+          135,
+          155
+        ]
+      },
+      "waihi": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          60,
+          75
+        ],
+        "koz_100pct": [
+          60,
+          75
+        ]
+      },
+      "didipio": {
+        "ownership_pct": 80,
+        "koz_100pct": [
+          85,
+          105
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 497.6,
+      "by_asset": {
+        "haile": {
+          "attr_koz": 184.8,
+          "ownership_pct": 100,
+          "koz_100pct": 184.8
+        },
+        "macraes": {
+          "attr_koz": 147.0,
+          "ownership_pct": 100,
+          "koz_100pct": 147.0
+        },
+        "didipio": {
+          "attr_koz": 90.7,
+          "ownership_pct": 80,
+          "koz_100pct": 90.7,
+          "note": "100% reported; 80% economic."
+        },
+        "waihi": {
+          "attr_koz": 75.1,
+          "ownership_pct": 100,
+          "koz_100pct": 75.1
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 268.9,
+      "by_asset": {
+        "haile": {
+          "attr_koz": 101.1,
+          "ownership_pct": 100,
+          "koz_100pct": 101.1
+        },
+        "macraes": {
+          "attr_koz": 92.9,
+          "ownership_pct": 100,
+          "koz_100pct": 92.9
+        },
+        "didipio": {
+          "attr_koz": 41.8,
+          "ownership_pct": 80,
+          "koz_100pct": 41.8
+        },
+        "waihi": {
+          "attr_koz": 33.1,
+          "ownership_pct": 100,
+          "koz_100pct": 33.1
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "haile",
+      "name": "Haile",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "OceanaGold",
+      "mine_type": "Open pit + underground",
+      "region": "South Carolina"
+    },
+    {
+      "id": "macraes",
+      "name": "Macraes",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "New Zealand",
+      "ownership_pct": 100,
+      "operator": "OceanaGold",
+      "mine_type": "Open pit + underground"
+    },
+    {
+      "id": "didipio",
+      "name": "Didipio",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Philippines",
+      "ownership_pct": 80,
+      "operator": "OceanaGold",
+      "mine_type": "Underground",
+      "partners": [
+        {
+          "name": "Philippine public float",
+          "pct": 20
+        }
+      ]
+    },
+    {
+      "id": "waihi",
+      "name": "Waihi",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "New Zealand",
+      "ownership_pct": 100,
+      "operator": "OceanaGold",
+      "mine_type": "Underground",
+      "location_note": "Waihi North / Wharekirauponga in development."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 5830,
+        "attr_koz": 5830
+      },
+      "mi": {
+        "koz": 8630,
+        "attr_koz": 8630
+      },
+      "inf": {
+        "koz": 2500,
+        "attr_koz": 2500
+      }
+    },
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "OceanaGold FY2025 MD&A",
+      "date": "2026-02-18",
+      "what": "497.6 koz; Haile 184.8 / Macraes 147.0 / Didipio 90.7 / Waihi 75.1; P&P 5.83 Moz"
+    },
+    {
+      "title": "OceanaGold YE2025 reserves",
+      "date": "2026-02-18",
+      "what": "P&P 5.83 Moz; M&I 8.63 Moz; inferred 2.5 Moz"
+    },
+    {
+      "title": "OceanaGold Q2 2026 results",
+      "date": "2026-08-06",
+      "what": "H1 268.9 koz; FY26 guidance 520–590 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 89,
+    "mcap_updated": "2026-09-15"
+  }
+}

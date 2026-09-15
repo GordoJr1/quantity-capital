@@ -1,0 +1,276 @@
+{
+  "id": "alamos-gold",
+  "disclaimer": "Filing-backed from Alamos Gold FY2025 results (18 Feb 2026) and Q2 2026 MD&A. 100% gold produced. M&I exclusive of reserves. 2026 guidance is the July 2026 revision. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Alamos Gold Inc.",
+    "short": "Alamos Gold",
+    "tickers": [
+      {
+        "symbol": "AGI",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=AGI"
+      },
+      {
+        "symbol": "AGI.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=AGI"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.alamosgold.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. Island Gold District = Island Gold underground + Magino mill."
+  },
+  "kpis": {
+    "attr_koz_2025": 545.4,
+    "attr_koz_ytd_2026": 254.5,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      510,
+      560
+    ],
+    "aisc_2025": 1524,
+    "realized_price_2025": 3372,
+    "attr_pp_koz": 15903,
+    "attr_mi_incl_koz": 5480,
+    "attr_inf_koz": 2000,
+    "pp_koz_100pct": 15903,
+    "mi_incl_koz_100pct": 5480,
+    "inf_koz_100pct": 2000,
+    "market_cap": 14927435222,
+    "market_cap_usd": 14927435222,
+    "market_cap_cur": "USD",
+    "shares": 418604465,
+    "px": 35.66,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%; revised 3 Jul / 30 Jul 2026 (was 570–650)",
+    "total_koz": [
+      510,
+      560
+    ],
+    "by_asset": {
+      "island-gold-district": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          290,
+          310
+        ],
+        "koz_100pct": [
+          290,
+          310
+        ]
+      },
+      "young-davidson": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          100,
+          115
+        ],
+        "koz_100pct": [
+          100,
+          115
+        ]
+      },
+      "mulatos": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          120,
+          135
+        ],
+        "koz_100pct": [
+          120,
+          135
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 545.4,
+      "by_asset": {
+        "island-gold-district": {
+          "attr_koz": 250.4,
+          "ownership_pct": 100,
+          "koz_100pct": 250.4
+        },
+        "young-davidson": {
+          "attr_koz": 153.4,
+          "ownership_pct": 100,
+          "koz_100pct": 153.4
+        },
+        "mulatos": {
+          "attr_koz": 141.6,
+          "ownership_pct": 100,
+          "koz_100pct": 141.6
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 254.5,
+      "by_asset": {
+        "island-gold-district": {
+          "attr_koz": 128.7,
+          "ownership_pct": 100,
+          "koz_100pct": 128.7
+        },
+        "young-davidson": {
+          "attr_koz": 63.0,
+          "ownership_pct": 100,
+          "koz_100pct": 63.0,
+          "note": "June seismic event; H2 rates cut."
+        },
+        "mulatos": {
+          "attr_koz": 62.8,
+          "ownership_pct": 100,
+          "koz_100pct": 62.8
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "island-gold-district",
+      "name": "Island Gold District",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Alamos Gold",
+      "mine_type": "Underground + open pit",
+      "region": "Ontario",
+      "location_note": "Island Gold UG + Magino mill. Phase 3+ shaft due Q4 2026."
+    },
+    {
+      "id": "young-davidson",
+      "name": "Young-Davidson",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Alamos Gold",
+      "mine_type": "Underground",
+      "region": "Ontario"
+    },
+    {
+      "id": "mulatos",
+      "name": "Mulatos District",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Alamos Gold",
+      "mine_type": "Open pit / heap leach",
+      "location_note": "La Yaqui Grande; PDA construction toward mid-2027."
+    },
+    {
+      "id": "lynn-lake",
+      "name": "Lynn Lake",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Alamos Gold",
+      "region": "Manitoba"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 15903,
+        "attr_koz": 15903
+      },
+      "mi": {
+        "koz": 5480,
+        "attr_koz": 5480
+      },
+      "inf": {
+        "koz": 2000,
+        "attr_koz": 2000
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "island-gold-district",
+        "name": "Island Gold District",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 8282,
+          "attr_koz": 8282
+        },
+        "note": "Island Gold 5.141 Moz @ 10.61 g/t; Magino 3.141 Moz @ 0.86 g/t."
+      },
+      {
+        "asset_id": "young-davidson",
+        "name": "Young-Davidson",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2983,
+          "attr_koz": 2983
+        }
+      },
+      {
+        "asset_id": "mulatos",
+        "name": "Mulatos District",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1203,
+          "attr_koz": 1203
+        }
+      },
+      {
+        "asset_id": "lynn-lake",
+        "name": "Lynn Lake",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3436,
+          "attr_koz": 3436
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Alamos Gold FY2025 results",
+      "date": "2026-02-18",
+      "url": "https://s24.q4cdn.com/779615370/files/doc_financials/2025/q4/20250218_Alamos-Gold-Q4-2025-Earnings-Release-_Final.pdf",
+      "what": "545,400 oz; Island 250.4 / YD 153.4 / Mulatos 141.6; AISC $1,524; P&P 15.9 Moz"
+    },
+    {
+      "title": "Alamos Gold YE2025 reserves",
+      "date": "2026-02-17",
+      "what": "P&P 15.9 Moz; M&I exclusive 5.5 Moz; inferred 2.0 Moz"
+    },
+    {
+      "title": "Alamos Gold Q2 2026 MD&A",
+      "date": "2026-07-30",
+      "what": "H1 254,500 oz; FY26 guidance cut to 510–560 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 55,
+    "mcap_updated": "2026-09-15"
+  }
+}

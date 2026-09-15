@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "koryx-copper",
+  "kind": "explorer",
+  "stage": "development",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Koryx Copper",
+    "short": "Koryx Copper",
+    "tickers": [
+      {
+        "symbol": "KRY.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=KRY.V"
+      },
+      {
+        "symbol": "KRYXF",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=KRYXF"
+      }
+    ],
+    "hq": "Namibia, Zambia",
+    "commodity": "copper",
+    "country": "Namibia, Zambia",
+    "watchlist_type": "Developer"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 420590272,
+    "market_cap_usd": 303630546,
+    "market_cap_cur": "CAD",
+    "shares": 121557882,
+    "px": 3.46,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 242,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

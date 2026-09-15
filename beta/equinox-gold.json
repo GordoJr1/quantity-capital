@@ -1,0 +1,365 @@
+{
+  "id": "equinox-gold",
+  "disclaimer": "Filing-backed from Equinox FY2025 results, 14 Jan 2026 guidance, Q2 2026 MD&A, and Aug 2026 presentation. 2025 KPI is the company’s guidance-basis ounces (Calibre full year; excludes Valentine pre-commercial, Los Filos, Castle Mountain). Brazil sold Jan 2026. 2026 guidance is the post-Orla range. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Equinox Gold Corp.",
+    "short": "Equinox Gold",
+    "tickers": [
+      {
+        "symbol": "EQX",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=EQX"
+      },
+      {
+        "symbol": "EQX.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=EQX"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.equinoxgold.com"
+  },
+  "method": {
+    "production_basis": "2025 chip = 856.9 koz guidance-basis (Calibre 100% from 1 Jan 2025; excludes 65.9 koz Valentine/Los Filos/Castle Mountain). All-operations 2025 was 922.8 koz; ownership-period 779.5 koz. H1 2026 is All Operations."
+  },
+  "kpis": {
+    "attr_koz_2025": 856.9,
+    "attr_koz_ytd_2026": 374.5,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      870,
+      920
+    ],
+    "aisc_2025": 1809,
+    "attr_pp_koz": 19000,
+    "pp_koz_100pct": 19000,
+    "market_cap": 19298110858,
+    "market_cap_usd": 13931601210,
+    "market_cap_cur": "CAD",
+    "shares": 1167459822,
+    "px": 16.53,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "post-Orla (Aug 2026); original Jan 14 range was 700–800",
+    "total_koz": [
+      870,
+      920
+    ],
+    "by_asset": {
+      "greenstone": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          250,
+          275
+        ],
+        "koz_100pct": [
+          250,
+          275
+        ]
+      },
+      "valentine": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          140,
+          150
+        ],
+        "koz_100pct": [
+          140,
+          150
+        ]
+      },
+      "nicaragua": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          225,
+          250
+        ],
+        "koz_100pct": [
+          225,
+          250
+        ]
+      },
+      "mesquite": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          70,
+          80
+        ],
+        "koz_100pct": [
+          70,
+          80
+        ]
+      },
+      "musselwhite": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          100,
+          110
+        ],
+        "note": "Orla, Aug–Dec 2026."
+      },
+      "camino-rojo": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          55,
+          65
+        ],
+        "note": "Orla, Aug–Dec 2026 attributable."
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 856.9,
+      "note": "Guidance-basis 856,908 oz. All-operations 922,827 oz.",
+      "by_asset": {
+        "nicaragua": {
+          "attr_koz": 262.0,
+          "ownership_pct": 100,
+          "koz_100pct": 262.0,
+          "note": "Calibre full year in guidance-basis."
+        },
+        "brazil": {
+          "attr_koz": 258.9,
+          "ownership_pct": 100,
+          "koz_100pct": 258.9,
+          "note": "Sold Jan 2026."
+        },
+        "greenstone": {
+          "attr_koz": 223.8,
+          "ownership_pct": 100,
+          "koz_100pct": 223.8
+        },
+        "mesquite": {
+          "attr_koz": 86.0,
+          "ownership_pct": 100,
+          "koz_100pct": 86.0
+        },
+        "pan": {
+          "attr_koz": 26.1,
+          "ownership_pct": 100,
+          "koz_100pct": 26.1,
+          "note": "Sold 1 Oct 2025."
+        },
+        "los-filos": {
+          "attr_koz": 33.0,
+          "ownership_pct": 100,
+          "koz_100pct": 33.0,
+          "note": "Not in 856.9 guidance-basis."
+        },
+        "valentine": {
+          "attr_koz": 23.8,
+          "ownership_pct": 100,
+          "koz_100pct": 23.8,
+          "note": "First pour Sep 2025; commercial 18 Nov. Not in 856.9."
+        },
+        "castle-mountain": {
+          "attr_koz": 9.1,
+          "ownership_pct": 100,
+          "koz_100pct": 9.1,
+          "note": "Not in 856.9."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 374.5,
+      "note": "All Operations 374,464 oz.",
+      "by_asset": {
+        "nicaragua": {
+          "attr_koz": 140.8,
+          "ownership_pct": 100,
+          "koz_100pct": 140.8
+        },
+        "greenstone": {
+          "attr_koz": 125.0,
+          "ownership_pct": 100,
+          "koz_100pct": 125.0
+        },
+        "valentine": {
+          "attr_koz": 59.7,
+          "ownership_pct": 100,
+          "koz_100pct": 59.7
+        },
+        "mesquite": {
+          "attr_koz": 31.7,
+          "ownership_pct": 100,
+          "koz_100pct": 31.7
+        },
+        "brazil": {
+          "attr_koz": 13.5,
+          "ownership_pct": 100,
+          "koz_100pct": 13.5,
+          "note": "Period of ownership before sale."
+        },
+        "castle-mountain": {
+          "attr_koz": 3.8,
+          "ownership_pct": 100,
+          "koz_100pct": 3.8
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "greenstone",
+      "name": "Greenstone",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "mine_type": "Open pit",
+      "region": "Ontario"
+    },
+    {
+      "id": "valentine",
+      "name": "Valentine",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "mine_type": "Open pit",
+      "region": "Newfoundland and Labrador"
+    },
+    {
+      "id": "nicaragua",
+      "name": "Nicaragua Operations",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Nicaragua",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold"
+    },
+    {
+      "id": "mesquite",
+      "name": "Mesquite",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "mine_type": "Open pit / heap leach",
+      "region": "California"
+    },
+    {
+      "id": "castle-mountain",
+      "name": "Castle Mountain",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "region": "California"
+    },
+    {
+      "id": "los-filos",
+      "name": "Los Filos",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold"
+    },
+    {
+      "id": "musselwhite",
+      "name": "Musselwhite",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "region": "Ontario",
+      "location_note": "Added with Orla 2026."
+    },
+    {
+      "id": "camino-rojo",
+      "name": "Camino Rojo",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Equinox Gold",
+      "location_note": "Added with Orla 2026."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 19000,
+        "attr_koz": 19000
+      },
+      "mi": {
+        "koz": 19100,
+        "attr_koz": 19100
+      }
+    },
+    "note": "Mar 2026 MDA: 19.0 Moz P&P; 19.1 Moz M&I exclusive. Pre-Orla. Greenstone 5.33 Moz / Valentine 2.75 Moz P&P.",
+    "projects": [
+      {
+        "asset_id": "greenstone",
+        "name": "Greenstone",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 5334,
+          "attr_koz": 5334
+        }
+      },
+      {
+        "asset_id": "valentine",
+        "name": "Valentine",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2748,
+          "attr_koz": 2748
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Equinox FY2025 results / 14 Jan 2026 production",
+      "date": "2026-02-18",
+      "what": "Guidance-basis 856,908 oz; all-ops 922,827; AISC $1,809 guidance-basis; Greenstone 223,843"
+    },
+    {
+      "title": "Equinox Q2 2026 MD&A",
+      "date": "2026-08-05",
+      "what": "H1 All Operations 374,464 oz"
+    },
+    {
+      "title": "Equinox Aug 2026 presentation",
+      "date": "2026-08-11",
+      "what": "FY26 guidance 870–920 koz post-Orla; P&P ~19 Moz pre-Orla"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 58,
+    "mcap_updated": "2026-09-15"
+  }
+}

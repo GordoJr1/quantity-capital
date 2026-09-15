@@ -1,0 +1,364 @@
+{
+  "id": "eldorado-gold",
+  "disclaimer": "Filing-backed from Eldorado FY2025 results (19 Feb 2026), Q2 2026 ops table, and 30 Sep 2025 MRMR. Gold produced, 100%. Resources inclusive of reserves. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Eldorado Gold Corporation",
+    "short": "Eldorado Gold",
+    "tickers": [
+      {
+        "symbol": "EGO",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=EGO"
+      },
+      {
+        "symbol": "ELD",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=EGO"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.eldoradogold.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced. 2026 guidance includes Skouries ramp (pre-commercial) and McIlvenna Bay."
+  },
+  "kpis": {
+    "attr_koz_2025": 488.3,
+    "attr_koz_ytd_2026": 205.0,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      495,
+      600
+    ],
+    "aisc_2025": 1664,
+    "realized_price_2025": 3505,
+    "attr_pp_koz": 12525,
+    "attr_mi_incl_koz": 17400,
+    "attr_inf_koz": 8200,
+    "pp_koz_100pct": 12525,
+    "mi_incl_koz_100pct": 17400,
+    "inf_koz_100pct": 8200,
+    "market_cap": 14915742887,
+    "market_cap_usd": 10767902785,
+    "market_cap_cur": "CAD",
+    "shares": 260810332,
+    "px": 57.19,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%; company ops page Sep 2026 (includes Skouries + McIlvenna Bay)",
+    "total_koz": [
+      495,
+      600
+    ],
+    "by_asset": {
+      "lamaque": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          185,
+          200
+        ],
+        "koz_100pct": [
+          185,
+          200
+        ]
+      },
+      "kisladag": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          105,
+          130
+        ],
+        "koz_100pct": [
+          105,
+          130
+        ]
+      },
+      "efemcukuru": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          70,
+          80
+        ],
+        "koz_100pct": [
+          70,
+          80
+        ]
+      },
+      "olympias": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          70,
+          80
+        ],
+        "koz_100pct": [
+          70,
+          80
+        ]
+      },
+      "skouries": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          60,
+          100
+        ],
+        "koz_100pct": [
+          60,
+          100
+        ]
+      },
+      "mcilvenna-bay": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          5,
+          10
+        ],
+        "koz_100pct": [
+          5,
+          10
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 488.3,
+      "by_asset": {
+        "lamaque": {
+          "attr_koz": 187.2,
+          "ownership_pct": 100,
+          "koz_100pct": 187.2
+        },
+        "kisladag": {
+          "attr_koz": 168.7,
+          "ownership_pct": 100,
+          "koz_100pct": 168.7
+        },
+        "efemcukuru": {
+          "attr_koz": 72.5,
+          "ownership_pct": 100,
+          "koz_100pct": 72.5
+        },
+        "olympias": {
+          "attr_koz": 59.9,
+          "ownership_pct": 100,
+          "koz_100pct": 59.9
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 205.0,
+      "by_asset": {
+        "lamaque": {
+          "attr_koz": 94.6,
+          "ownership_pct": 100,
+          "koz_100pct": 94.6
+        },
+        "kisladag": {
+          "attr_koz": 47.4,
+          "ownership_pct": 100,
+          "koz_100pct": 47.4
+        },
+        "efemcukuru": {
+          "attr_koz": 33.4,
+          "ownership_pct": 100,
+          "koz_100pct": 33.4
+        },
+        "olympias": {
+          "attr_koz": 29.4,
+          "ownership_pct": 100,
+          "koz_100pct": 29.4
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "lamaque",
+      "name": "Lamaque Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "mine_type": "Underground",
+      "region": "Quebec"
+    },
+    {
+      "id": "kisladag",
+      "name": "Kışladağ",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Türkiye",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "mine_type": "Open pit / heap leach"
+    },
+    {
+      "id": "efemcukuru",
+      "name": "Efemçukuru",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Türkiye",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "olympias",
+      "name": "Olympias",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Greece",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "skouries",
+      "name": "Skouries",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Greece",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "location_note": "First concentrate early Q3 2026; commercial Q4 2026."
+    },
+    {
+      "id": "mcilvenna-bay",
+      "name": "McIlvenna Bay",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold",
+      "region": "Saskatchewan"
+    },
+    {
+      "id": "perama-hill",
+      "name": "Perama Hill",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Greece",
+      "ownership_pct": 100,
+      "operator": "Eldorado Gold"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-09-30",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 12525,
+        "attr_koz": 12525
+      },
+      "mi": {
+        "koz": 17400,
+        "attr_koz": 17400
+      },
+      "inf": {
+        "koz": 8200,
+        "attr_koz": 8200
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "kisladag",
+        "name": "Kışladağ",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3946,
+          "attr_koz": 3946
+        }
+      },
+      {
+        "asset_id": "skouries",
+        "name": "Skouries",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3666,
+          "attr_koz": 3666
+        }
+      },
+      {
+        "asset_id": "olympias",
+        "name": "Olympias",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1780,
+          "attr_koz": 1780
+        }
+      },
+      {
+        "asset_id": "lamaque",
+        "name": "Lamaque Complex",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1591,
+          "attr_koz": 1591
+        }
+      },
+      {
+        "asset_id": "perama-hill",
+        "name": "Perama Hill",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 912,
+          "attr_koz": 912
+        }
+      },
+      {
+        "asset_id": "efemcukuru",
+        "name": "Efemçukuru",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 630,
+          "attr_koz": 630
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Eldorado FY2025 results",
+      "date": "2026-02-19",
+      "what": "488,268 oz; Lamaque 187.2 / Kışladağ 168.7 / Efemçukuru 72.5 / Olympias 59.9; AISC $1,664"
+    },
+    {
+      "title": "Eldorado MRMR 30 Sep 2025",
+      "date": "2025-11-26",
+      "what": "P&P 12.5 Moz; M&I 17.4 Moz inclusive; inferred 8.2 Moz"
+    },
+    {
+      "title": "Eldorado ops table Q2 2026",
+      "date": "2026-09-11",
+      "url": "https://www.eldoradogold.com/assets/performance-and-guidance-at-a-glance",
+      "what": "H1 204,974 oz; FY26 guidance 495–600 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 69,
+    "mcap_updated": "2026-09-15"
+  }
+}

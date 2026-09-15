@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "western-copper-and-gold",
+  "kind": "explorer",
+  "stage": "development",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Western Copper and Gold",
+    "short": "Western Copper and Gold",
+    "tickers": [
+      {
+        "symbol": "WRN.TO",
+        "exchange": "TSX",
+        "chart": "insider-ticker.html?t=WRN.TO"
+      },
+      {
+        "symbol": "WRN",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=WRN"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "copper",
+    "country": "Canada",
+    "watchlist_type": "Developer"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 728284872,
+    "market_cap_usd": 525759981,
+    "market_cap_cur": "CAD",
+    "shares": 226175426,
+    "px": 3.22,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 208,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

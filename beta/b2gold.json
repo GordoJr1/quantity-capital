@@ -1,0 +1,296 @@
+{
+  "id": "b2gold",
+  "disclaimer": "Filing-backed from B2Gold FY2025 results (18 Feb 2026) and Q2 2026 MD&A. Company tables are 100% gold produced. Fekola 80% owned, Otjikoto 90%, Masbate and Goose 100%. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "B2Gold Corp.",
+    "short": "B2Gold",
+    "tickers": [
+      {
+        "symbol": "BTG",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=BTG"
+      },
+      {
+        "symbol": "BTO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=BTG"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.b2gold.com"
+  },
+  "method": {
+    "production_basis": "Company headlines 100% gold produced, including 14,554 oz Goose pre-commercial in 2025. Fekola 80%, Otjikoto 90%."
+  },
+  "kpis": {
+    "attr_koz_2025": 979.6,
+    "attr_koz_ytd_2026": 441.4,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      820,
+      920
+    ],
+    "attr_pp_koz": 8530,
+    "pp_koz_100pct": 8990,
+    "market_cap": 9604184440,
+    "market_cap_usd": 6933407552,
+    "market_cap_cur": "CAD",
+    "shares": 1321070762,
+    "px": 7.27,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100% (company); range narrowed 6 Aug 2026",
+    "total_koz": [
+      820,
+      920
+    ],
+    "by_asset": {
+      "fekola": {
+        "ownership_pct": 80,
+        "koz_100pct": [
+          390,
+          420
+        ]
+      },
+      "masbate": {
+        "ownership_pct": 100,
+        "koz_100pct": [
+          180,
+          200
+        ],
+        "attr_koz": [
+          180,
+          200
+        ]
+      },
+      "otjikoto": {
+        "ownership_pct": 90,
+        "koz_100pct": [
+          80,
+          100
+        ]
+      },
+      "goose": {
+        "ownership_pct": 100,
+        "koz_100pct": [
+          170,
+          200
+        ],
+        "attr_koz": [
+          170,
+          200
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 979.6,
+      "note": "Includes 14.6 koz Goose pre-commercial. Fekola+Masbate+Otjikoto 926.4 koz.",
+      "by_asset": {
+        "fekola": {
+          "attr_koz": 530.8,
+          "ownership_pct": 80,
+          "koz_100pct": 530.8,
+          "note": "Fekola Mine; Fekola Regional nil in 2025 (permit)."
+        },
+        "goose": {
+          "attr_koz": 53.2,
+          "ownership_pct": 100,
+          "koz_100pct": 53.2,
+          "note": "Includes 14.6 koz pre-commercial; commercial 2 Oct 2025."
+        },
+        "masbate-otjikoto": {
+          "attr_koz": 395.7,
+          "koz_100pct": 395.7,
+          "note": "Masbate + Otjikoto. FY release gives 926.4 koz for Fekola+Masbate+Otjikoto."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 441.4,
+      "by_asset": {
+        "fekola": {
+          "attr_koz": 233.7,
+          "ownership_pct": 80,
+          "koz_100pct": 233.7
+        },
+        "goose": {
+          "attr_koz": 55.8,
+          "ownership_pct": 100,
+          "koz_100pct": 55.8,
+          "note": "Q2 crushed by crusher-circuit fire."
+        },
+        "masbate": {
+          "attr_koz": 103.9,
+          "ownership_pct": 100,
+          "koz_100pct": 103.9
+        },
+        "otjikoto": {
+          "attr_koz": 48.0,
+          "ownership_pct": 90,
+          "koz_100pct": 48.0
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "fekola",
+      "name": "Fekola Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mali",
+      "ownership_pct": 80,
+      "operator": "B2Gold",
+      "mine_type": "Open pit + underground",
+      "partners": [
+        {
+          "name": "Government of Mali",
+          "pct": 20
+        }
+      ]
+    },
+    {
+      "id": "goose",
+      "name": "Goose (Back River)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "B2Gold",
+      "mine_type": "Open pit + underground",
+      "region": "Nunavut"
+    },
+    {
+      "id": "masbate",
+      "name": "Masbate",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Philippines",
+      "ownership_pct": 100,
+      "operator": "B2Gold",
+      "mine_type": "Open pit"
+    },
+    {
+      "id": "otjikoto",
+      "name": "Otjikoto",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Namibia",
+      "ownership_pct": 90,
+      "operator": "B2Gold",
+      "partners": [
+        {
+          "name": "EVI Mining",
+          "pct": 10
+        }
+      ]
+    },
+    {
+      "id": "gramalote",
+      "name": "Gramalote",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Colombia",
+      "ownership_pct": 100,
+      "operator": "B2Gold"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 8990,
+        "attr_koz": 8530
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "fekola",
+        "name": "Fekola Complex",
+        "ownership_pct": 80,
+        "pp": {
+          "koz": 2700,
+          "attr_koz": 2250
+        },
+        "note": "Probable, 100% / attributable."
+      },
+      {
+        "asset_id": "goose",
+        "name": "Goose",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2380,
+          "attr_koz": 2380
+        }
+      },
+      {
+        "asset_id": "masbate",
+        "name": "Masbate",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1460,
+          "attr_koz": 1460
+        }
+      },
+      {
+        "asset_id": "otjikoto",
+        "name": "Otjikoto",
+        "ownership_pct": 90,
+        "pp": {
+          "koz": 90,
+          "attr_koz": 80
+        }
+      },
+      {
+        "asset_id": "gramalote",
+        "name": "Gramalote",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 2360,
+          "attr_koz": 2360
+        }
+      }
+    ],
+    "note": "Company table is probable-only."
+  },
+  "sources": [
+    {
+      "title": "B2Gold FY2025 results & 2026 guidance",
+      "date": "2026-02-18",
+      "url": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/02-18-2026-2025-Earnings-2026-Guidance-News-Release-12-31-25-FINAL.pdf",
+      "what": "979,604 oz 100%; Fekola 530,769; Goose 53,170; cash operating cost $769/oz produced"
+    },
+    {
+      "title": "B2Gold Q2 2026 results",
+      "date": "2026-08-06",
+      "what": "H1 441,411 oz; guidance narrowed to 820–920 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 83,
+    "mcap_updated": "2026-09-15"
+  }
+}

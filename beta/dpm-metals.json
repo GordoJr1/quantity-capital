@@ -1,0 +1,201 @@
+{
+  "id": "dpm-metals",
+  "disclaimer": "Filing-backed from DPM Metals (Dundee Precious Metals) FY2025 results and Q2 2026 report. Gold contained in concentrate produced. Ada Tepe winding down 2026. Vareš from 3 Sep 2025. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "DPM Metals Inc.",
+    "short": "DPM Metals",
+    "tickers": [
+      {
+        "symbol": "DPM",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=DPM"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://dpmmetals.com"
+  },
+  "method": {
+    "production_basis": "Gold contained in concentrate produced, 100%. 2026 guidance is gold ounces (GEO reported separately)."
+  },
+  "kpis": {
+    "attr_koz_2025": 245.0,
+    "attr_koz_ytd_2026": 112.5,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      195,
+      225
+    ],
+    "aisc_2025": 1121,
+    "attr_pp_koz": 1600,
+    "pp_koz_100pct": 1600,
+    "market_cap": 12844034458,
+    "market_cap_usd": 9272304803,
+    "market_cap_cur": "CAD",
+    "shares": 219368650,
+    "px": 58.55,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "gold contained in concentrate",
+    "total_koz": [
+      195,
+      225
+    ],
+    "by_asset": {
+      "chelopech": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          150,
+          170
+        ],
+        "koz_100pct": [
+          150,
+          170
+        ]
+      },
+      "ada-tepe": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          15,
+          20
+        ],
+        "koz_100pct": [
+          15,
+          20
+        ]
+      },
+      "vares": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          30,
+          35
+        ],
+        "koz_100pct": [
+          30,
+          35
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 245.0,
+      "note": "244,979 oz gold in concentrate. Vareš from 3 Sep 2025, minimal gold.",
+      "by_asset": {
+        "chelopech": {
+          "attr_koz": 174.4,
+          "ownership_pct": 100,
+          "koz_100pct": 174.4
+        },
+        "ada-tepe": {
+          "attr_koz": 70.5,
+          "ownership_pct": 100,
+          "koz_100pct": 70.5
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 112.5,
+      "note": "112,503 oz contained; site split not in the Q2 table used."
+    }
+  ],
+  "assets": [
+    {
+      "id": "chelopech",
+      "name": "Chelopech",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Bulgaria",
+      "ownership_pct": 100,
+      "operator": "DPM Metals",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "ada-tepe",
+      "name": "Ada Tepe",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Bulgaria",
+      "ownership_pct": 100,
+      "operator": "DPM Metals",
+      "mine_type": "Open pit",
+      "location_note": "Mine life ending mid-2026."
+    },
+    {
+      "id": "vares",
+      "name": "Vareš",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Bosnia and Herzegovina",
+      "ownership_pct": 100,
+      "operator": "DPM Metals",
+      "mine_type": "Underground",
+      "location_note": "Acquired 3 Sep 2025; commercial production Aug 2026."
+    },
+    {
+      "id": "coka-rakita",
+      "name": "Čoka Rakita",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Serbia",
+      "ownership_pct": 100,
+      "operator": "DPM Metals"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2026-02",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1600,
+        "attr_koz": 1600
+      }
+    },
+    "note": "Chelopech P&P 1.6 Moz Au + 308 Mlb Cu (Feb 2026 LOM update). Ada Tepe near residual.",
+    "projects": [
+      {
+        "asset_id": "chelopech",
+        "name": "Chelopech",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1600,
+          "attr_koz": 1600
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "DPM Metals FY2025 / shareholder letter",
+      "date": "2026-04",
+      "what": "244,979 oz Au; Chelopech ~174.4 / Ada Tepe 70,545; AISC $1,121/oz; Chelopech P&P 1.6 Moz"
+    },
+    {
+      "title": "DPM Q2 2026 report",
+      "date": "2026-07-31",
+      "what": "H1 112,503 oz Au in concentrate; FY26 gold 195–225 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 74,
+    "mcap_updated": "2026-09-15"
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "id": "ssr-mining",
+  "disclaimer": "Filing-backed from SSR Mining FY2025 results (17 Feb 2026) and Q2 2026. Headlines are gold equivalent ounces (Puna silver in GEO). Çöpler suspended; not in 2026 guidance. CC&V from 28 Feb 2025 close. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "SSR Mining Inc.",
+    "short": "SSR Mining",
+    "tickers": [
+      {
+        "symbol": "SSRM",
+        "exchange": "Nasdaq",
+        "chart": "ticker.html?t=SSRM"
+      },
+      {
+        "symbol": "SSRM",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=SSRM"
+      }
+    ],
+    "hq": "Denver, Colorado, USA",
+    "commodity": "gold",
+    "website": "https://www.ssrmining.com"
+  },
+  "method": {
+    "production_basis": "Company headlines gold equivalent ounces. Gold mines: Marigold, CC&V, Seabee. Puna is silver (in GEO). CC&V ounces are SSR ownership period from 28 Feb 2025."
+  },
+  "kpis": {
+    "attr_koz_2025": 447.2,
+    "attr_koz_ytd_2026": 211.9,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      450,
+      535
+    ],
+    "aisc_2025": 2153,
+    "attr_pp_koz": 10582,
+    "attr_mi_incl_koz": 8967,
+    "attr_inf_koz": 4456,
+    "pp_koz_100pct": 10582,
+    "mi_incl_koz_100pct": 8967,
+    "inf_koz_100pct": 4456,
+    "market_cap": 9873288887,
+    "market_cap_usd": 7127678166,
+    "market_cap_cur": "CAD",
+    "shares": 203909312,
+    "px": 48.42,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "GEO 100%; gold 355–420 koz + Puna silver",
+    "total_koz": [
+      450,
+      535
+    ],
+    "by_asset": {
+      "marigold": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          170,
+          200
+        ],
+        "koz_100pct": [
+          170,
+          200
+        ]
+      },
+      "ccv": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          125,
+          150
+        ],
+        "koz_100pct": [
+          125,
+          150
+        ]
+      },
+      "seabee": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          60,
+          70
+        ],
+        "koz_100pct": [
+          60,
+          70
+        ]
+      },
+      "puna": {
+        "ownership_pct": 100,
+        "note": "95–115 koz GEO from silver"
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 447.2,
+      "note": "447,207 GEO. Gold: Marigold 153.5 + CC&V 124.6 (from 28 Feb) + Seabee 55.0.",
+      "by_asset": {
+        "marigold": {
+          "attr_koz": 153.5,
+          "ownership_pct": 100,
+          "koz_100pct": 153.5
+        },
+        "ccv": {
+          "attr_koz": 124.6,
+          "ownership_pct": 100,
+          "koz_100pct": 124.6,
+          "note": "SSR period from 28 Feb 2025. Full-year site 152.6 koz including prior owner."
+        },
+        "seabee": {
+          "attr_koz": 55.0,
+          "ownership_pct": 100,
+          "koz_100pct": 55.0,
+          "note": "Below guidance; Q2 forest-fire halt + development priority."
+        },
+        "puna": {
+          "attr_koz": 114.1,
+          "ownership_pct": 100,
+          "koz_100pct": 114.1,
+          "note": "GEO remainder after gold mines; silver operation."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 211.9,
+      "note": "211,873 GEO.",
+      "by_asset": {
+        "seabee": {
+          "attr_koz": 23.1,
+          "ownership_pct": 100,
+          "koz_100pct": 23.1
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "marigold",
+      "name": "Marigold",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "SSR Mining",
+      "mine_type": "Open pit / heap leach",
+      "region": "Nevada"
+    },
+    {
+      "id": "ccv",
+      "name": "Cripple Creek & Victor",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "USA",
+      "ownership_pct": 100,
+      "operator": "SSR Mining",
+      "mine_type": "Open pit / heap leach",
+      "region": "Colorado"
+    },
+    {
+      "id": "seabee",
+      "name": "Seabee",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "SSR Mining",
+      "mine_type": "Underground",
+      "region": "Saskatchewan"
+    },
+    {
+      "id": "puna",
+      "name": "Puna",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Argentina",
+      "ownership_pct": 100,
+      "operator": "SSR Mining",
+      "mine_type": "Open pit",
+      "location_note": "Silver-lead-zinc; in GEO."
+    },
+    {
+      "id": "copler",
+      "name": "Çöpler",
+      "stage": "suspended",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Türkiye",
+      "ownership_pct": 80,
+      "operator": "SSR Mining",
+      "location_note": "Suspended since Feb 2024."
+    },
+    {
+      "id": "hod-maden",
+      "name": "Hod Maden",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Türkiye",
+      "ownership_pct": 100,
+      "operator": "SSR Mining"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": false,
+    "totals": {
+      "pp": {
+        "koz": 10582,
+        "attr_koz": 10582
+      },
+      "mi": {
+        "koz": 8967,
+        "attr_koz": 8967
+      },
+      "inf": {
+        "koz": 4456,
+        "attr_koz": 4456
+      }
+    },
+    "note": "Gold ounces, attributable. GEO P&P 11.0 Moz / M&I 9.5 / inf 5.1.",
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "SSR Mining FY2025 results",
+      "date": "2026-02-17",
+      "what": "447,207 GEO; AISC $2,153; Marigold 153,535 oz; Seabee 54,986 oz; CC&V 124,557 oz from close; P&P 10.6 Moz gold"
+    },
+    {
+      "title": "SSR Mining Q2 2026 results",
+      "date": "2026-08-04",
+      "what": "H1 211,873 GEO; Seabee H1 23,103 oz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 82,
+    "mcap_updated": "2026-09-15"
+  }
+}

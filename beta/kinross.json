@@ -38,7 +38,13 @@
     "attr_inf_koz": 16633,
     "pp_koz_100pct": 20942,
     "mi_incl_koz_100pct": 27499,
-    "inf_koz_100pct": 16633
+    "inf_koz_100pct": 16633,
+    "market_cap": 46512501337,
+    "market_cap_usd": 33578085682,
+    "market_cap_cur": "CAD",
+    "shares": 1186240789,
+    "px": 39.21,
+    "price_asof": "2026-09-14"
   },
   "guidance_2026": {
     "basis": "attributable GEO +/- 5% around 2.0 Moz",
@@ -460,5 +466,9 @@
     "gold": "koz",
     "grade": "g/t Au",
     "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 41,
+    "mcap_updated": "2026-09-15"
   }
 }

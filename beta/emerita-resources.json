@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "emerita-resources",
+  "kind": "explorer",
+  "stage": "exploration",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Emerita Resources",
+    "short": "Emerita Resources",
+    "tickers": [
+      {
+        "symbol": "EMO.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=EMO.V"
+      },
+      {
+        "symbol": "EMOTF",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=EMOTF"
+      }
+    ],
+    "hq": "Spain",
+    "commodity": "zinc",
+    "country": "Spain",
+    "watchlist_type": "Explorer"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 100852149,
+    "market_cap_usd": 72806708,
+    "market_cap_cur": "CAD",
+    "shares": 296623968,
+    "px": 0.34,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 385,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

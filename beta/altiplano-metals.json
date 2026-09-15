@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "altiplano-metals",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Altiplano Metals",
+    "short": "Altiplano Metals",
+    "tickers": [
+      {
+        "symbol": "APN.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=APN.V"
+      },
+      {
+        "symbol": "ALTPF",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=ALTPF"
+      }
+    ],
+    "hq": "Chile",
+    "commodity": "copper",
+    "country": "Chile",
+    "watchlist_type": "Producer, Junior"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 3551237,
+    "market_cap_usd": 2563692,
+    "market_cap_cur": "CAD",
+    "shares": 177561844,
+    "px": 0.02,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 613,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

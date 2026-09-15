@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "minnova",
+  "kind": "other",
+  "stage": "other",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Minnova Corp.",
+    "short": "Minnova Corp.",
+    "tickers": [
+      {
+        "symbol": "MCI.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=MCI.V"
+      },
+      {
+        "symbol": "AGRDF",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=AGRDF"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "other",
+    "country": "Canada",
+    "watchlist_type": "Other"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 21190295,
+    "market_cap_usd": 15297598,
+    "market_cap_cur": "CAD",
+    "shares": 124648795,
+    "px": 0.17,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 528,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

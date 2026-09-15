@@ -1,0 +1,192 @@
+{
+  "id": "torex-gold",
+  "disclaimer": "Filing-backed from Torex FY2025 results, YE2025 R&R, and Q2 2026 production. Gold produced at Morelos (ELG + Media Luna). AuEq uses company metal prices. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Torex Gold Resources Inc.",
+    "short": "Torex Gold",
+    "tickers": [
+      {
+        "symbol": "TXG",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=TXG"
+      },
+      {
+        "symbol": "TORXF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=TXG"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://torexgold.com"
+  },
+  "method": {
+    "production_basis": "Gold produced at Morelos Complex (100%). KPI chip is gold ounces, not AuEq."
+  },
+  "kpis": {
+    "attr_koz_2025": 319.1,
+    "attr_koz_ytd_2026": 142.9,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      320,
+      365
+    ],
+    "aisc_2025": 1783,
+    "attr_pp_koz": 3158,
+    "attr_mi_incl_koz": 6163,
+    "attr_inf_koz": 2269,
+    "pp_koz_100pct": 3158,
+    "mi_incl_koz_100pct": 6163,
+    "inf_koz_100pct": 2269,
+    "market_cap": 6258468473,
+    "market_cap_usd": 4518084055,
+    "market_cap_cur": "CAD",
+    "shares": 92594592,
+    "px": 67.59,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "gold produced (AuEq 420–470 koz)",
+    "total_koz": [
+      320,
+      365
+    ],
+    "by_asset": {
+      "morelos": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          320,
+          365
+        ],
+        "koz_100pct": [
+          320,
+          365
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 319.1,
+      "note": "319,149 oz gold; 383,178 oz AuEq; payable 315,678 oz gold.",
+      "by_asset": {
+        "morelos": {
+          "attr_koz": 319.1,
+          "ownership_pct": 100,
+          "koz_100pct": 319.1,
+          "note": "ELG UG + Media Luna UG into one plant."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 142.9,
+      "note": "142,925 oz gold; 197,171 oz AuEq.",
+      "by_asset": {
+        "morelos": {
+          "attr_koz": 142.9,
+          "ownership_pct": 100,
+          "koz_100pct": 142.9
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "morelos",
+      "name": "Morelos Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Torex Gold",
+      "mine_type": "Underground",
+      "location_note": "ELG UG + Media Luna UG, one plant."
+    },
+    {
+      "id": "media-luna-north",
+      "name": "Media Luna North",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Torex Gold",
+      "location_note": "First production targeted late 2026."
+    },
+    {
+      "id": "los-reyes",
+      "name": "Los Reyes",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Mexico",
+      "ownership_pct": 100,
+      "operator": "Torex Gold"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 3158,
+        "attr_koz": 3158
+      },
+      "mi": {
+        "koz": 6163,
+        "attr_koz": 6163
+      },
+      "inf": {
+        "koz": 2269,
+        "attr_koz": 2269
+      }
+    },
+    "note": "Gold ounces. Morelos P&P also 4.84 Moz AuEq.",
+    "projects": [
+      {
+        "asset_id": "morelos",
+        "name": "Morelos",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 3158,
+          "attr_koz": 3158
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Torex FY2025 results",
+      "date": "2026-02-18",
+      "what": "319,149 oz Au / 383,178 oz AuEq; AISC $1,783/oz AuEq; payable 315,678 oz Au"
+    },
+    {
+      "title": "Torex YE2025 reserves",
+      "date": "2026-03",
+      "what": "P&P 3.16 Moz Au / 4.84 Moz AuEq; M&I 6.16 Moz Au"
+    },
+    {
+      "title": "Torex Q2 2026 production/results",
+      "date": "2026-07-07",
+      "what": "H1 142,925 oz Au / 197,171 oz AuEq; FY26 gold 320–365 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 96,
+    "mcap_updated": "2026-09-15"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "cameco",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Cameco",
+    "short": "Cameco",
+    "tickers": [
+      {
+        "symbol": "CCO.TO",
+        "exchange": "TSX",
+        "chart": "insider-ticker.html?t=CCO.TO"
+      },
+      {
+        "symbol": "CCJ",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=CCJ"
+      }
+    ],
+    "hq": "Canada, Kazakhstan",
+    "commodity": "uranium",
+    "country": "Canada, Kazakhstan",
+    "watchlist_type": "Producer, Major"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 56501693236,
+    "market_cap_usd": 40789436004,
+    "market_cap_cur": "CAD",
+    "shares": 435532978,
+    "px": 129.73,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-top200",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 37,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

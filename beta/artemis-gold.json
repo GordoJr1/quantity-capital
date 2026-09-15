@@ -1,0 +1,154 @@
+{
+  "id": "artemis-gold",
+  "disclaimer": "Filing-backed from Artemis Gold 14 Jan 2026 production/guidance, Q4 2025 MD&A, and Q2 2026. 100% Blackwater. First full operating year 2025. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Artemis Gold Inc.",
+    "short": "Artemis Gold",
+    "tickers": [
+      {
+        "symbol": "ARTG",
+        "exchange": "TSXV",
+        "chart": "ticker.html?t=ARTG"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.artemisgoldinc.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced at Blackwater."
+  },
+  "kpis": {
+    "attr_koz_2025": 192.8,
+    "attr_koz_ytd_2026": 136.0,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      265,
+      290
+    ],
+    "aisc_2025": 869,
+    "attr_pp_koz": 7500,
+    "pp_koz_100pct": 7500,
+    "market_cap": 9225027178,
+    "market_cap_usd": 6659688129,
+    "market_cap_cur": "CAD",
+    "shares": 233190778,
+    "px": 39.56,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100% Blackwater",
+    "total_koz": [
+      265,
+      290
+    ],
+    "by_asset": {
+      "blackwater": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          265,
+          290
+        ],
+        "koz_100pct": [
+          265,
+          290
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 192.8,
+      "by_asset": {
+        "blackwater": {
+          "attr_koz": 192.8,
+          "ownership_pct": 100,
+          "koz_100pct": 192.8,
+          "note": "Inaugural operating year. Q4 68,480 oz."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 136.0,
+      "by_asset": {
+        "blackwater": {
+          "attr_koz": 136.0,
+          "ownership_pct": 100,
+          "koz_100pct": 136.0,
+          "note": "Q1 61,923 + Q2 74,063."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "blackwater",
+      "name": "Blackwater",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Artemis Gold",
+      "mine_type": "Open pit",
+      "region": "British Columbia",
+      "location_note": "Phase 1A to 8 Mtpa; EP2 to 21 Mtpa targeted end-2028."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 7500,
+        "attr_koz": 7500
+      }
+    },
+    "note": "Depleted for 2025 production. Proven 7.3 Moz + probable 0.2 Moz (Q1 2026 MD&A).",
+    "projects": [
+      {
+        "asset_id": "blackwater",
+        "name": "Blackwater",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 7500,
+          "attr_koz": 7500
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Artemis Q4 2025 production and 2026 guidance",
+      "date": "2026-01-14",
+      "what": "192,808 oz; AISC US$869/oz; FY26 265–290 koz @ US$925–1,025 AISC"
+    },
+    {
+      "title": "Artemis Q1 2026 MD&A reserves",
+      "date": "2026-04",
+      "what": "P&P ~7.5 Moz after 2025 depletion"
+    },
+    {
+      "title": "Artemis Q2 2026 results",
+      "date": "2026-08-06",
+      "what": "H1 135,986 oz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 88,
+    "mcap_updated": "2026-09-15"
+  }
+}

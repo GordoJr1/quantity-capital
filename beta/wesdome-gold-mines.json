@@ -1,0 +1,199 @@
+{
+  "id": "wesdome-gold-mines",
+  "disclaimer": "Filing-backed from Wesdome FY2025 MD&A, 20 Jan 2026 production/guidance, Q2 2026 results, and June 2026 technical reports. 100% gold produced. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Wesdome Gold Mines Ltd.",
+    "short": "Wesdome",
+    "tickers": [
+      {
+        "symbol": "WDO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=WDO"
+      },
+      {
+        "symbol": "WDOFF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=WDO"
+      }
+    ],
+    "hq": "Toronto, Ontario, Canada",
+    "commodity": "gold",
+    "website": "https://www.wesdome.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced at Eagle River and Kiena."
+  },
+  "kpis": {
+    "attr_koz_2025": 185.6,
+    "attr_koz_ytd_2026": 89.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      180,
+      205
+    ],
+    "attr_pp_koz": 1387,
+    "pp_koz_100pct": 1387,
+    "market_cap": 4880428000,
+    "market_cap_usd": 3523255573,
+    "market_cap_cur": "CAD",
+    "shares": 143542000,
+    "px": 34.0,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100%",
+    "total_koz": [
+      180,
+      205
+    ],
+    "by_asset": {
+      "eagle-river": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          105,
+          115
+        ],
+        "koz_100pct": [
+          105,
+          115
+        ]
+      },
+      "kiena": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          75,
+          90
+        ],
+        "koz_100pct": [
+          75,
+          90
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 185.6,
+      "by_asset": {
+        "eagle-river": {
+          "attr_koz": 112.8,
+          "ownership_pct": 100,
+          "koz_100pct": 112.8
+        },
+        "kiena": {
+          "attr_koz": 72.8,
+          "ownership_pct": 100,
+          "koz_100pct": 72.8
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 89.1,
+      "note": "H1 89,127 oz.",
+      "by_asset": {
+        "eagle-river": {
+          "attr_koz": 49.6,
+          "ownership_pct": 100,
+          "koz_100pct": 49.6
+        },
+        "kiena": {
+          "attr_koz": 39.5,
+          "ownership_pct": 100,
+          "koz_100pct": 39.5,
+          "note": "Q2 22,026 oz."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "eagle-river",
+      "name": "Eagle River",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Wesdome",
+      "mine_type": "Underground",
+      "region": "Ontario"
+    },
+    {
+      "id": "kiena",
+      "name": "Kiena",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "operator": "Wesdome",
+      "mine_type": "Underground",
+      "region": "Quebec"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1387,
+        "attr_koz": 1387
+      }
+    },
+    "note": "P&P 1.39 Moz (Eagle River 676 koz + Kiena 711 koz). June 2026 technical reports.",
+    "projects": [
+      {
+        "asset_id": "eagle-river",
+        "name": "Eagle River",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 676,
+          "attr_koz": 676
+        }
+      },
+      {
+        "asset_id": "kiena",
+        "name": "Kiena",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 711,
+          "attr_koz": 711
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Wesdome FY2025 MD&A / 2026 guidance",
+      "date": "2026-03-11",
+      "what": "185,576 oz; Eagle River 112,768 / Kiena 72,808; FY26 180–205 koz"
+    },
+    {
+      "title": "Wesdome June 2026 technical reports",
+      "date": "2026-06-24",
+      "what": "P&P 1.4 Moz; Eagle 676 koz / Kiena 711 koz"
+    },
+    {
+      "title": "Wesdome Q2 2026 results",
+      "date": "2026-08-13",
+      "what": "H1 89,127 oz; Q2 43,824 oz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 106,
+    "mcap_updated": "2026-09-15"
+  }
+}

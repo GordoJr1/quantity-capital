@@ -1,0 +1,221 @@
+{
+  "id": "fortuna-mining",
+  "disclaimer": "Filing-backed from Fortuna 15 Jan 2026 production/outlook, Q4 2025 MD&A, and Q2 2026. KPI chip is gold ounces from Séguéla+Lindero. Company also headlines GEO (includes Caylloma silver and 2025 Yaramoko). San Jose and Yaramoko sold H1 2025. Séguéla 90% Fortuna / 10% Côte d’Ivoire. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Fortuna Mining Corp.",
+    "short": "Fortuna Mining",
+    "tickers": [
+      {
+        "symbol": "FSM",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=FSM"
+      },
+      {
+        "symbol": "FVI",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=FVI"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://fortunamining.com"
+  },
+  "method": {
+    "production_basis": "Gold produced at Séguéla and Lindero (100% reported; Séguéla 90% owned). GEO 317 koz in 2025 includes Caylloma and divested Yaramoko."
+  },
+  "kpis": {
+    "attr_koz_2025": 239.9,
+    "attr_koz_ytd_2026": 126.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      252,
+      272
+    ],
+    "aisc_2025": 1933,
+    "attr_pp_koz": 2640,
+    "pp_koz_100pct": 2640,
+    "market_cap": 4779711800,
+    "market_cap_usd": 3450547009,
+    "market_cap_cur": "CAD",
+    "shares": 295957387,
+    "px": 16.15,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "gold (Séguéla+Lindero); GEO 281–305",
+    "total_koz": [
+      252,
+      272
+    ],
+    "by_asset": {
+      "seguela": {
+        "ownership_pct": 90,
+        "koz_100pct": [
+          160,
+          170
+        ]
+      },
+      "lindero": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          92,
+          102
+        ],
+        "koz_100pct": [
+          92,
+          102
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 239.9,
+      "note": "Gold 239,915 oz (Séguéla 152.4 + Lindero 87.5). GEO 317,001 including Yaramoko 37.8 and Caylloma.",
+      "by_asset": {
+        "seguela": {
+          "attr_koz": 152.4,
+          "ownership_pct": 90,
+          "koz_100pct": 152.4
+        },
+        "lindero": {
+          "attr_koz": 87.5,
+          "ownership_pct": 100,
+          "koz_100pct": 87.5
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 126.1,
+      "note": "Gold 126,073 oz. GEO 145,089.",
+      "by_asset": {
+        "seguela": {
+          "attr_koz": 83.7,
+          "ownership_pct": 90,
+          "koz_100pct": 83.7
+        },
+        "lindero": {
+          "attr_koz": 42.4,
+          "ownership_pct": 100,
+          "koz_100pct": 42.4
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "seguela",
+      "name": "Séguéla",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Côte d'Ivoire",
+      "ownership_pct": 90,
+      "operator": "Fortuna Mining",
+      "mine_type": "Open pit",
+      "partners": [
+        {
+          "name": "Government of Côte d'Ivoire",
+          "pct": 10
+        }
+      ]
+    },
+    {
+      "id": "lindero",
+      "name": "Lindero",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Argentina",
+      "ownership_pct": 100,
+      "operator": "Fortuna Mining",
+      "mine_type": "Open pit / heap leach"
+    },
+    {
+      "id": "caylloma",
+      "name": "Caylloma",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Peru",
+      "ownership_pct": 100,
+      "operator": "Fortuna Mining",
+      "location_note": "Silver-lead-zinc; in GEO."
+    },
+    {
+      "id": "diamba-sud",
+      "name": "Diamba Sud",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Senegal",
+      "ownership_pct": 100,
+      "operator": "Fortuna Mining"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 2640,
+        "attr_koz": 2640
+      }
+    },
+    "note": "Séguéla 1.54 Moz + Lindero ~1.1 Moz gold. Company also reports 3.0 Moz GEO consolidated P&P.",
+    "projects": [
+      {
+        "asset_id": "seguela",
+        "name": "Séguéla",
+        "ownership_pct": 90,
+        "pp": {
+          "koz": 1540,
+          "attr_koz": 1540
+        }
+      },
+      {
+        "asset_id": "lindero",
+        "name": "Lindero",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1100,
+          "attr_koz": 1100
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Fortuna 2025 production and 2026 outlook",
+      "date": "2026-01-15",
+      "what": "GEO 317,001; Séguéla 152,426 oz; Lindero 87,489 oz; gold ~239.9 koz; FY26 gold 252–272 / GEO 281–305"
+    },
+    {
+      "title": "Fortuna Q2 2026 production",
+      "date": "2026-07-09",
+      "what": "H1 gold 126,073 oz; Séguéla 83,699 / Lindero 42,374"
+    },
+    {
+      "title": "Fortuna Séguéla reserves",
+      "date": "2026-01-20",
+      "what": "P&P 1.54 Moz Au at Séguéla"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 111,
+    "mcap_updated": "2026-09-15"
+  }
+}

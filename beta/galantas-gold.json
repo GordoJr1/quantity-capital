@@ -1,0 +1,80 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "galantas-gold",
+  "kind": "explorer",
+  "stage": "development",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Galantas Gold",
+    "short": "Galantas Gold",
+    "tickers": [
+      {
+        "symbol": "GAL.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=GAL.V"
+      },
+      {
+        "symbol": "GALKF",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=GALKF"
+      },
+      {
+        "symbol": "GAL.L",
+        "exchange": "LSE",
+        "chart": "insider-ticker.html?t=GAL.L"
+      }
+    ],
+    "hq": "Northern Ireland",
+    "commodity": "gold",
+    "country": "Northern Ireland",
+    "watchlist_type": "Developer"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 482693587,
+    "market_cap_usd": 482693587,
+    "market_cap_cur": "USD",
+    "shares": 832230323,
+    "px": 0.58,
+    "price_asof": "2026-09-11"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-11",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 215,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

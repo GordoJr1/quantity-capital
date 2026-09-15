@@ -1,0 +1,70 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "sociedad-qu-mica-y-minera-de-chile",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-14",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Sociedad Química y Minera de Chile S.A.",
+    "short": "Sociedad Química y Minera de Chile S.A.",
+    "tickers": [
+      {
+        "symbol": "SQM",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=SQM"
+      }
+    ],
+    "hq": "Chile",
+    "commodity": "lithium",
+    "country": "Chile",
+    "watchlist_type": "Producer, Major"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 9958762176,
+    "market_cap_usd": 9958762176,
+    "market_cap_cur": "USD",
+    "shares": 142818904,
+    "px": 69.73,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-14",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-top200",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 71,
+    "mcap_updated": "2026-09-15",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

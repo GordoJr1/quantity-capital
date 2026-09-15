@@ -1,0 +1,153 @@
+{
+  "id": "galiano-gold",
+  "disclaimer": "Filing-backed from Galiano FY2025 results (13 Feb 2026) and Q2 2026. Asanko Gold Mine reported 100%; Galiano owns 90%. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Galiano Gold Inc.",
+    "short": "Galiano Gold",
+    "tickers": [
+      {
+        "symbol": "GAU",
+        "exchange": "NYSE American",
+        "chart": "ticker.html?t=GAU"
+      },
+      {
+        "symbol": "GAU",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=GAU"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.galianogold.com"
+  },
+  "method": {
+    "production_basis": "Company reports Asanko 100%. Galiano 90% / Government of Ghana 10%."
+  },
+  "kpis": {
+    "attr_koz_2025": 121.2,
+    "attr_koz_ytd_2026": 69.1,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      140,
+      160
+    ],
+    "attr_pp_koz": 1970,
+    "pp_koz_100pct": 1970,
+    "market_cap": 745536527,
+    "market_cap_usd": 538214215,
+    "market_cap_cur": "CAD",
+    "shares": 261591764,
+    "px": 2.85,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100% Asanko",
+    "total_koz": [
+      140,
+      160
+    ],
+    "by_asset": {
+      "asanko": {
+        "ownership_pct": 90,
+        "koz_100pct": [
+          140,
+          160
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 121.2,
+      "by_asset": {
+        "asanko": {
+          "attr_koz": 121.2,
+          "ownership_pct": 90,
+          "koz_100pct": 121.2,
+          "note": "121,191 oz. Revised guidance 120–125 koz."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 69.1,
+      "by_asset": {
+        "asanko": {
+          "attr_koz": 69.1,
+          "ownership_pct": 90,
+          "koz_100pct": 69.1
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "asanko",
+      "name": "Asanko Gold Mine",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ghana",
+      "ownership_pct": 90,
+      "operator": "Galiano Gold",
+      "mine_type": "Open pit",
+      "location_note": "Abore, Nkran, Esaase, Miradani North.",
+      "partners": [
+        {
+          "name": "Government of Ghana",
+          "pct": 10
+        }
+      ]
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1970,
+        "attr_koz": 1970
+      }
+    },
+    "note": "47.5 Mt @ 1.29 g/t, 1.97 Moz (100%).",
+    "projects": [
+      {
+        "asset_id": "asanko",
+        "name": "Asanko",
+        "ownership_pct": 90,
+        "pp": {
+          "koz": 1970,
+          "attr_koz": 1970
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Galiano FY2025 results",
+      "date": "2026-02-13",
+      "what": "121,191 oz; P&P 1.97 Moz; FY26 140–160 koz"
+    },
+    {
+      "title": "Galiano Q2 2026 results",
+      "date": "2026-08-06",
+      "what": "H1 69,138 oz; AISC H1 $2,418/oz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 206,
+    "mcap_updated": "2026-09-15"
+  }
+}

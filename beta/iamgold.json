@@ -13,8 +13,16 @@
     "name": "IAMGOLD Corporation",
     "short": "IAMGOLD",
     "tickers": [
-      { "symbol": "IAG", "exchange": "NYSE", "chart": "ticker.html?t=IAG" },
-      { "symbol": "IMG", "exchange": "TSX", "chart": "ticker.html?t=IAG" }
+      {
+        "symbol": "IAG",
+        "exchange": "NYSE",
+        "chart": "ticker.html?t=IAG"
+      },
+      {
+        "symbol": "IMG",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=IAG"
+      }
     ],
     "hq": "Toronto, Ontario, Canada",
     "commodity": "gold",
@@ -31,7 +39,10 @@
     "attr_koz_2024": 666.5,
     "attr_koz_ytd_2026": 371.7,
     "ytd_through": "2026-06-30",
-    "guidance_2026_koz": [720, 820],
+    "guidance_2026_koz": [
+      720,
+      820
+    ],
     "realized_price_2025": 3482,
     "revenue_2025_usd_m": 2852.8,
     "sales_koz_2025_100pct": 817.8,
@@ -44,16 +55,55 @@
     "attr_inf_koz": 11273,
     "pp_koz_100pct": 9865,
     "mi_incl_koz_100pct": 30987,
-    "inf_koz_100pct": 12530
+    "inf_koz_100pct": 12530,
+    "market_cap": 15696790000,
+    "market_cap_usd": 11331752634,
+    "market_cap_cur": "CAD",
+    "shares": 571000000,
+    "px": 27.49,
+    "price_asof": "2026-09-14"
   },
   "guidance_2026": {
     "basis": "attributable",
     "gold_price_assum_usd": 4000,
-    "total_koz": [720, 820],
+    "total_koz": [
+      720,
+      820
+    ],
     "by_asset": {
-      "cote-gold": { "ownership_pct": 70, "attr_koz": [270, 310], "koz_100pct": [390, 440] },
-      "westwood": { "ownership_pct": 100, "attr_koz": [110, 130], "koz_100pct": [110, 130] },
-      "essakane": { "ownership_pct": 85, "attr_koz": [340, 380], "koz_100pct": [400, 440] }
+      "cote-gold": {
+        "ownership_pct": 70,
+        "attr_koz": [
+          270,
+          310
+        ],
+        "koz_100pct": [
+          390,
+          440
+        ]
+      },
+      "westwood": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          110,
+          130
+        ],
+        "koz_100pct": [
+          110,
+          130
+        ]
+      },
+      "essakane": {
+        "ownership_pct": 85,
+        "attr_koz": [
+          340,
+          380
+        ],
+        "koz_100pct": [
+          400,
+          440
+        ]
+      }
     }
   },
   "ownership_events": [
@@ -96,16 +146,31 @@
       "kind": "annual",
       "attr_koz": 666.5,
       "by_asset": {
-        "cote-gold": { "attr_koz": 124.0, "koz_100pct": 199.1, "ownership_pct": 70 },
-        "westwood": { "attr_koz": 133.7, "koz_100pct": 133.7, "ownership_pct": 100 },
-        "essakane": { "attr_koz": 409.0, "koz_100pct": 454.0, "ownership_pct": 90 }
+        "cote-gold": {
+          "attr_koz": 124.0,
+          "koz_100pct": 199.1,
+          "ownership_pct": 70
+        },
+        "westwood": {
+          "attr_koz": 133.7,
+          "koz_100pct": 133.7,
+          "ownership_pct": 100
+        },
+        "essakane": {
+          "attr_koz": 409.0,
+          "koz_100pct": 454.0,
+          "ownership_pct": 90
+        }
       }
     },
     {
       "period": "2025",
       "kind": "annual",
       "attr_koz": 765.9,
-      "guidance_koz": [735, 820],
+      "guidance_koz": [
+        735,
+        820
+      ],
       "cost_of_sales": 1489,
       "cash_cost": 1484,
       "aisc": 1900,
@@ -116,7 +181,10 @@
           "attr_koz": 279.9,
           "koz_100pct": 399.8,
           "ownership_pct": 70,
-          "guidance_attr_koz": [250, 280],
+          "guidance_attr_koz": [
+            250,
+            280
+          ],
           "cash_cost": 1268,
           "aisc": 1636,
           "mill_kt": 10889,
@@ -127,7 +195,10 @@
           "attr_koz": 113.9,
           "koz_100pct": 113.9,
           "ownership_pct": 100,
-          "guidance_attr_koz": [125, 140],
+          "guidance_attr_koz": [
+            125,
+            140
+          ],
           "cash_cost": 1530,
           "aisc": 2117,
           "note": "Missed 2025 guidance. Q4 was a record 37.9 koz."
@@ -136,7 +207,10 @@
           "attr_koz": 372.1,
           "koz_100pct": 427.2,
           "ownership_pct": "90 H1 / 85 H2",
-          "guidance_attr_koz": [360, 400],
+          "guidance_attr_koz": [
+            360,
+            400
+          ],
           "cost_of_sales": 1640,
           "cash_cost_ex_royalties": 1300,
           "aisc": 1888,
@@ -153,9 +227,18 @@
       "kind": "quarter",
       "attr_koz": 242.4,
       "by_asset": {
-        "cote-gold": { "attr_koz": 87.2, "koz_100pct": 124.6 },
-        "westwood": { "attr_koz": 37.9, "koz_100pct": 37.9 },
-        "essakane": { "attr_koz": 117.3, "koz_100pct": 138.1 }
+        "cote-gold": {
+          "attr_koz": 87.2,
+          "koz_100pct": 124.6
+        },
+        "westwood": {
+          "attr_koz": 37.9,
+          "koz_100pct": 37.9
+        },
+        "essakane": {
+          "attr_koz": 117.3,
+          "koz_100pct": 138.1
+        }
       }
     },
     {
@@ -163,9 +246,18 @@
       "kind": "quarter",
       "attr_koz": 183.6,
       "by_asset": {
-        "cote-gold": { "attr_koz": 52.3, "koz_100pct": 74.7 },
-        "westwood": { "attr_koz": 36.2, "koz_100pct": 36.2 },
-        "essakane": { "attr_koz": 95.1, "koz_100pct": 111.9 }
+        "cote-gold": {
+          "attr_koz": 52.3,
+          "koz_100pct": 74.7
+        },
+        "westwood": {
+          "attr_koz": 36.2,
+          "koz_100pct": 36.2
+        },
+        "essakane": {
+          "attr_koz": 95.1,
+          "koz_100pct": 111.9
+        }
       }
     },
     {
@@ -173,9 +265,18 @@
       "kind": "quarter",
       "attr_koz": 188.1,
       "by_asset": {
-        "cote-gold": { "attr_koz": 67.3, "koz_100pct": 96.2 },
-        "westwood": { "attr_koz": 32.4, "koz_100pct": 32.4 },
-        "essakane": { "attr_koz": 88.4, "koz_100pct": 104.0 }
+        "cote-gold": {
+          "attr_koz": 67.3,
+          "koz_100pct": 96.2
+        },
+        "westwood": {
+          "attr_koz": 32.4,
+          "koz_100pct": 32.4
+        },
+        "essakane": {
+          "attr_koz": 88.4,
+          "koz_100pct": 104.0
+        }
       }
     },
     {
@@ -184,9 +285,18 @@
       "through": "2026-06-30",
       "attr_koz": 371.7,
       "by_asset": {
-        "cote-gold": { "attr_koz": 119.6, "koz_100pct": 170.9 },
-        "westwood": { "attr_koz": 68.6, "koz_100pct": 68.6 },
-        "essakane": { "attr_koz": 183.5, "koz_100pct": 215.9 }
+        "cote-gold": {
+          "attr_koz": 119.6,
+          "koz_100pct": 170.9
+        },
+        "westwood": {
+          "attr_koz": 68.6,
+          "koz_100pct": 68.6
+        },
+        "essakane": {
+          "attr_koz": 183.5,
+          "koz_100pct": 215.9
+        }
       }
     }
   ],
@@ -204,7 +314,12 @@
       "lat": 47.548,
       "lon": -81.93,
       "ownership_pct": 70,
-      "partners": [{ "name": "Sumitomo Metal Mining", "pct": 30 }],
+      "partners": [
+        {
+          "name": "Sumitomo Metal Mining",
+          "pct": 30
+        }
+      ],
       "operator": "IAMGOLD",
       "mine_type": "Open pit",
       "processing": "HPGR + CIP",
@@ -283,7 +398,12 @@
       "lat": 14.365,
       "lon": -0.083,
       "ownership_pct": 85,
-      "partners": [{ "name": "Government of Burkina Faso", "pct": 15 }],
+      "partners": [
+        {
+          "name": "Government of Burkina Faso",
+          "pct": 15
+        }
+      ],
       "operator": "IAMGOLD",
       "mine_type": "Open pit",
       "processing": "Crush-grind-CIL",
@@ -443,35 +563,110 @@
       }
     },
     "totals": {
-      "pp": { "kt": 279606, "grade_gt": 1.1, "koz": 9865, "attr_koz": 7502 },
-      "mi": { "kt": 1030644, "grade_gt": 0.94, "koz": 30987, "attr_koz": 24622 },
-      "inf": { "kt": 356628, "grade_gt": 1.09, "koz": 12530, "attr_koz": 11273 }
+      "pp": {
+        "kt": 279606,
+        "grade_gt": 1.1,
+        "koz": 9865,
+        "attr_koz": 7502
+      },
+      "mi": {
+        "kt": 1030644,
+        "grade_gt": 0.94,
+        "koz": 30987,
+        "attr_koz": 24622
+      },
+      "inf": {
+        "kt": 356628,
+        "grade_gt": 1.09,
+        "koz": 12530,
+        "attr_koz": 11273
+      }
     },
     "projects": [
       {
         "asset_id": "cote-gold",
         "name": "Côté Gold",
         "ownership_pct": 70,
-        "pp": { "kt": 217167, "grade_gt": 1.01, "koz": 7041, "attr_koz": 4929 },
-        "mi": { "kt": 689447, "grade_gt": 0.82, "koz": 18156, "attr_koz": 12709 },
-        "inf": { "kt": 100600, "grade_gt": 0.67, "koz": 2165, "attr_koz": 1515 },
+        "pp": {
+          "kt": 217167,
+          "grade_gt": 1.01,
+          "koz": 7041,
+          "attr_koz": 4929
+        },
+        "mi": {
+          "kt": 689447,
+          "grade_gt": 0.82,
+          "koz": 18156,
+          "attr_koz": 12709
+        },
+        "inf": {
+          "kt": 100600,
+          "grade_gt": 0.67,
+          "koz": 2165,
+          "attr_koz": 1515
+        },
         "parts": [
           {
             "id": "cote",
             "name": "Côté",
-            "proven": { "kt": 116055, "grade_gt": 1.05, "koz": 3902, "attr_koz": 2731 },
-            "probable": { "kt": 101112, "grade_gt": 0.97, "koz": 3139, "attr_koz": 2197 },
-            "pp": { "kt": 217167, "grade_gt": 1.01, "koz": 7041, "attr_koz": 4929 },
-            "measured": { "kt": 153873, "grade_gt": 0.93, "koz": 4598, "attr_koz": 3219 },
-            "indicated": { "kt": 268833, "grade_gt": 0.77, "koz": 6697, "attr_koz": 4688 },
-            "mi": { "kt": 422707, "grade_gt": 0.83, "koz": 11295, "attr_koz": 7907 },
-            "inf": { "kt": 62760, "grade_gt": 0.6, "koz": 1206, "attr_koz": 844 }
+            "proven": {
+              "kt": 116055,
+              "grade_gt": 1.05,
+              "koz": 3902,
+              "attr_koz": 2731
+            },
+            "probable": {
+              "kt": 101112,
+              "grade_gt": 0.97,
+              "koz": 3139,
+              "attr_koz": 2197
+            },
+            "pp": {
+              "kt": 217167,
+              "grade_gt": 1.01,
+              "koz": 7041,
+              "attr_koz": 4929
+            },
+            "measured": {
+              "kt": 153873,
+              "grade_gt": 0.93,
+              "koz": 4598,
+              "attr_koz": 3219
+            },
+            "indicated": {
+              "kt": 268833,
+              "grade_gt": 0.77,
+              "koz": 6697,
+              "attr_koz": 4688
+            },
+            "mi": {
+              "kt": 422707,
+              "grade_gt": 0.83,
+              "koz": 11295,
+              "attr_koz": 7907
+            },
+            "inf": {
+              "kt": 62760,
+              "grade_gt": 0.6,
+              "koz": 1206,
+              "attr_koz": 844
+            }
           },
           {
             "id": "gosselin",
             "name": "Gosselin",
-            "indicated": { "kt": 266741, "grade_gt": 0.8, "koz": 6861, "attr_koz": 4803 },
-            "inf": { "kt": 37840, "grade_gt": 0.79, "koz": 959, "attr_koz": 671 }
+            "indicated": {
+              "kt": 266741,
+              "grade_gt": 0.8,
+              "koz": 6861,
+              "attr_koz": 4803
+            },
+            "inf": {
+              "kt": 37840,
+              "grade_gt": 0.79,
+              "koz": 959,
+              "attr_koz": 671
+            }
           }
         ]
       },
@@ -479,38 +674,133 @@
         "asset_id": "westwood",
         "name": "Westwood",
         "ownership_pct": 100,
-        "proven": { "kt": 1555, "grade_gt": 6.63, "koz": 331, "attr_koz": 331 },
-        "probable": { "kt": 3803, "grade_gt": 6.68, "koz": 817, "attr_koz": 817 },
-        "pp": { "kt": 5358, "grade_gt": 6.67, "koz": 1148, "attr_koz": 1148 },
-        "measured": { "kt": 1619, "grade_gt": 7.21, "koz": 375, "attr_koz": 375 },
-        "indicated": { "kt": 10324, "grade_gt": 6.09, "koz": 2022, "attr_koz": 2022 },
-        "mi": { "kt": 11943, "grade_gt": 6.24, "koz": 2397, "attr_koz": 2397 },
-        "inf": { "kt": 4507, "grade_gt": 10.46, "koz": 1515, "attr_koz": 1515 }
+        "proven": {
+          "kt": 1555,
+          "grade_gt": 6.63,
+          "koz": 331,
+          "attr_koz": 331
+        },
+        "probable": {
+          "kt": 3803,
+          "grade_gt": 6.68,
+          "koz": 817,
+          "attr_koz": 817
+        },
+        "pp": {
+          "kt": 5358,
+          "grade_gt": 6.67,
+          "koz": 1148,
+          "attr_koz": 1148
+        },
+        "measured": {
+          "kt": 1619,
+          "grade_gt": 7.21,
+          "koz": 375,
+          "attr_koz": 375
+        },
+        "indicated": {
+          "kt": 10324,
+          "grade_gt": 6.09,
+          "koz": 2022,
+          "attr_koz": 2022
+        },
+        "mi": {
+          "kt": 11943,
+          "grade_gt": 6.24,
+          "koz": 2397,
+          "attr_koz": 2397
+        },
+        "inf": {
+          "kt": 4507,
+          "grade_gt": 10.46,
+          "koz": 1515,
+          "attr_koz": 1515
+        }
       },
       {
         "asset_id": "essakane",
         "name": "Essakane",
         "ownership_pct": 85,
-        "pp": { "kt": 57081, "grade_gt": 0.91, "koz": 1676, "attr_koz": 1425 },
-        "mi": { "kt": 164790, "grade_gt": 0.9, "koz": 4767, "attr_koz": 4052 },
-        "inf": { "kt": 26883, "grade_gt": 1.07, "koz": 927, "attr_koz": 788 },
+        "pp": {
+          "kt": 57081,
+          "grade_gt": 0.91,
+          "koz": 1676,
+          "attr_koz": 1425
+        },
+        "mi": {
+          "kt": 164790,
+          "grade_gt": 0.9,
+          "koz": 4767,
+          "attr_koz": 4052
+        },
+        "inf": {
+          "kt": 26883,
+          "grade_gt": 1.07,
+          "koz": 927,
+          "attr_koz": 788
+        },
         "parts": [
           {
             "id": "essakane-pit",
             "name": "Essakane (excl. Gossey)",
-            "proven": { "kt": 22178, "grade_gt": 0.64, "koz": 457, "attr_koz": 388 },
-            "probable": { "kt": 34903, "grade_gt": 1.09, "koz": 1219, "attr_koz": 1036 },
-            "pp": { "kt": 57081, "grade_gt": 0.91, "koz": 1676, "attr_koz": 1425 },
-            "measured": { "kt": 38312, "grade_gt": 0.52, "koz": 640, "attr_koz": 544 },
-            "indicated": { "kt": 111683, "grade_gt": 1.05, "koz": 3772, "attr_koz": 3207 },
-            "mi": { "kt": 149995, "grade_gt": 0.91, "koz": 4412, "attr_koz": 3750 },
-            "inf": { "kt": 24195, "grade_gt": 1.1, "koz": 853, "attr_koz": 725 }
+            "proven": {
+              "kt": 22178,
+              "grade_gt": 0.64,
+              "koz": 457,
+              "attr_koz": 388
+            },
+            "probable": {
+              "kt": 34903,
+              "grade_gt": 1.09,
+              "koz": 1219,
+              "attr_koz": 1036
+            },
+            "pp": {
+              "kt": 57081,
+              "grade_gt": 0.91,
+              "koz": 1676,
+              "attr_koz": 1425
+            },
+            "measured": {
+              "kt": 38312,
+              "grade_gt": 0.52,
+              "koz": 640,
+              "attr_koz": 544
+            },
+            "indicated": {
+              "kt": 111683,
+              "grade_gt": 1.05,
+              "koz": 3772,
+              "attr_koz": 3207
+            },
+            "mi": {
+              "kt": 149995,
+              "grade_gt": 0.91,
+              "koz": 4412,
+              "attr_koz": 3750
+            },
+            "inf": {
+              "kt": 24195,
+              "grade_gt": 1.1,
+              "koz": 853,
+              "attr_koz": 725
+            }
           },
           {
             "id": "gossey",
             "name": "Gossey",
-            "indicated": { "kt": 14795, "grade_gt": 0.75, "koz": 355, "attr_koz": 302 },
-            "inf": { "kt": 2688, "grade_gt": 0.85, "koz": 74, "attr_koz": 63 }
+            "indicated": {
+              "kt": 14795,
+              "grade_gt": 0.75,
+              "koz": 355,
+              "attr_koz": 302
+            },
+            "inf": {
+              "kt": 2688,
+              "grade_gt": 0.85,
+              "koz": 74,
+              "attr_koz": 63
+            }
           }
         ]
       },
@@ -518,36 +808,86 @@
         "asset_id": "nelligan-complex",
         "name": "Nelligan Mining Complex",
         "ownership_pct": 100,
-        "mi": { "kt": 136527, "grade_gt": 0.99, "koz": 4341, "attr_koz": 4271 },
-        "inf": { "kt": 216171, "grade_gt": 1.08, "koz": 7507, "attr_koz": 7079 },
+        "mi": {
+          "kt": 136527,
+          "grade_gt": 0.99,
+          "koz": 4341,
+          "attr_koz": 4271
+        },
+        "inf": {
+          "kt": 216171,
+          "grade_gt": 1.08,
+          "koz": 7507,
+          "attr_koz": 7079
+        },
         "parts": [
           {
             "id": "nelligan",
             "name": "Nelligan",
             "ownership_pct": 100,
-            "indicated": { "kt": 122000, "grade_gt": 0.95, "koz": 3700, "attr_koz": 3700 },
-            "inf": { "kt": 151000, "grade_gt": 0.96, "koz": 4647, "attr_koz": 4647 }
+            "indicated": {
+              "kt": 122000,
+              "grade_gt": 0.95,
+              "koz": 3700,
+              "attr_koz": 3700
+            },
+            "inf": {
+              "kt": 151000,
+              "grade_gt": 0.96,
+              "koz": 4647,
+              "attr_koz": 4647
+            }
           },
           {
             "id": "monster-lake",
             "name": "Monster Lake",
             "ownership_pct": 100,
-            "indicated": { "kt": 243, "grade_gt": 13.04, "koz": 102, "attr_koz": 102 },
-            "inf": { "kt": 1046, "grade_gt": 14.83, "koz": 499, "attr_koz": 499 }
+            "indicated": {
+              "kt": 243,
+              "grade_gt": 13.04,
+              "koz": 102,
+              "attr_koz": 102
+            },
+            "inf": {
+              "kt": 1046,
+              "grade_gt": 14.83,
+              "koz": 499,
+              "attr_koz": 499
+            }
           },
           {
             "id": "philibert",
             "name": "Philibert",
             "ownership_pct": 75,
-            "indicated": { "kt": 7884, "grade_gt": 1.1, "koz": 279, "attr_koz": 209 },
-            "inf": { "kt": 48465, "grade_gt": 1.1, "koz": 1709, "attr_koz": 1282 }
+            "indicated": {
+              "kt": 7884,
+              "grade_gt": 1.1,
+              "koz": 279,
+              "attr_koz": 209
+            },
+            "inf": {
+              "kt": 48465,
+              "grade_gt": 1.1,
+              "koz": 1709,
+              "attr_koz": 1282
+            }
           },
           {
             "id": "chevrier",
             "name": "Chevrier",
             "ownership_pct": 100,
-            "indicated": { "kt": 6400, "grade_gt": 1.26, "koz": 260, "attr_koz": 260 },
-            "inf": { "kt": 15660, "grade_gt": 1.3, "koz": 652, "attr_koz": 652 }
+            "indicated": {
+              "kt": 6400,
+              "grade_gt": 1.26,
+              "koz": 260,
+              "attr_koz": 260
+            },
+            "inf": {
+              "kt": 15660,
+              "grade_gt": 1.3,
+              "koz": 652,
+              "attr_koz": 652
+            }
           }
         ]
       },
@@ -555,8 +895,18 @@
         "asset_id": "diakha-siribaya",
         "name": "Diakha–Siribaya",
         "ownership_pct": 90,
-        "indicated": { "kt": 27937, "grade_gt": 1.48, "koz": 1325, "attr_koz": 1193 },
-        "inf": { "kt": 8468, "grade_gt": 1.53, "koz": 417, "attr_koz": 376 }
+        "indicated": {
+          "kt": 27937,
+          "grade_gt": 1.48,
+          "koz": 1325,
+          "attr_koz": 1193
+        },
+        "inf": {
+          "kt": 8468,
+          "grade_gt": 1.53,
+          "koz": 417,
+          "attr_koz": 376
+        }
       }
     ]
   },
@@ -592,5 +942,9 @@
       "url": "https://www.iamgold.com/English/operations/guidance/default.aspx",
       "what": "Locations, mine type, ownership, deposit notes"
     }
-  ]
+  ],
+  "meta": {
+    "mcap_rank": 68,
+    "mcap_updated": "2026-09-15"
+  }
 }

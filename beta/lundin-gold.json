@@ -1,0 +1,181 @@
+{
+  "id": "lundin-gold",
+  "disclaimer": "Filing-backed from Lundin Gold FY2025 results (12 Jan / 20 Feb 2026) and Q2 2026 production. 100% Fruta del Norte. Reserves inclusive in M&I. Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "Lundin Gold Inc.",
+    "short": "Lundin Gold",
+    "tickers": [
+      {
+        "symbol": "LUG",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=LUG"
+      },
+      {
+        "symbol": "LUGDF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=LUG"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://lundingold.com"
+  },
+  "method": {
+    "production_basis": "100% gold produced at Fruta del Norte, Ecuador."
+  },
+  "kpis": {
+    "attr_koz_2025": 498.3,
+    "attr_koz_ytd_2026": 238.7,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      475,
+      525
+    ],
+    "aisc_2025": 1015,
+    "realized_price_2025": 3594,
+    "attr_pp_koz": 5850,
+    "attr_mi_incl_koz": 7480,
+    "attr_inf_koz": 2030,
+    "pp_koz_100pct": 5850,
+    "mi_incl_koz_100pct": 7480,
+    "inf_koz_100pct": 2030,
+    "market_cap": 22261178658,
+    "market_cap_usd": 16070685147,
+    "market_cap_cur": "CAD",
+    "shares": 241811630,
+    "px": 92.06,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "100% FDN",
+    "total_koz": [
+      475,
+      525
+    ],
+    "by_asset": {
+      "fruta-del-norte": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          475,
+          525
+        ],
+        "koz_100pct": [
+          475,
+          525
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 498.3,
+      "by_asset": {
+        "fruta-del-norte": {
+          "attr_koz": 498.3,
+          "ownership_pct": 100,
+          "koz_100pct": 498.3,
+          "note": "1.83 Mt milled @ 9.5 g/t, 89.0% recovery."
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 238.7,
+      "by_asset": {
+        "fruta-del-norte": {
+          "attr_koz": 238.7,
+          "ownership_pct": 100,
+          "koz_100pct": 238.7,
+          "note": "Q1 119,742 + Q2 118,994."
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "fruta-del-norte",
+      "name": "Fruta del Norte",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Ecuador",
+      "ownership_pct": 100,
+      "operator": "Lundin Gold",
+      "mine_type": "Underground"
+    },
+    {
+      "id": "fdns",
+      "name": "Fruta del Norte South",
+      "stage": "development",
+      "in_production": false,
+      "commodity": "gold",
+      "country": "Ecuador",
+      "ownership_pct": 100,
+      "operator": "Lundin Gold",
+      "location_note": "Inaugural reserve 0.54 Moz in YE2025 update."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2025-12-31",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 5850,
+        "attr_koz": 5850
+      },
+      "mi": {
+        "koz": 7480,
+        "attr_koz": 7480
+      },
+      "inf": {
+        "koz": 2030,
+        "attr_koz": 2030
+      }
+    },
+    "projects": [
+      {
+        "asset_id": "fruta-del-norte",
+        "name": "Fruta del Norte",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 5850,
+          "attr_koz": 5850
+        },
+        "note": "25.66 Mt @ 7.09 g/t; includes FDNS 0.54 Moz."
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "Lundin Gold 2025 production",
+      "date": "2026-01-12",
+      "what": "498,315 oz; sales 503,330 oz @ $3,594; cash cost $838; AISC $1,015"
+    },
+    {
+      "title": "Lundin Gold YE2025 reserves",
+      "date": "2026-02-17",
+      "what": "P&P 5.85 Moz; M&I 7.48 Moz inclusive; inferred 2.03 Moz"
+    },
+    {
+      "title": "Lundin Gold Q2 2026 production",
+      "date": "2026-07-08",
+      "what": "Q2 118,994 oz; 2026 guidance 475–525 koz"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 53,
+    "mcap_updated": "2026-09-15"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "id": "k92-mining",
+  "disclaimer": "Filing-backed from K92 FY2025 MD&A (2 Mar 2026), Q2 2026 MD&A, and Jan 2024 Kora/Judd reserve statement in the 2025 AIF. KPI chip is gold ounces; guidance is AuEq. Reserves are Jan 2024 (not depleted for 2024–25). Not S&P. Not investment advice.",
+  "issuer": {
+    "name": "K92 Mining Inc.",
+    "short": "K92 Mining",
+    "tickers": [
+      {
+        "symbol": "KNT",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=KNT"
+      },
+      {
+        "symbol": "KNTNF",
+        "exchange": "OTCQX",
+        "chart": "ticker.html?t=KNT"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "gold",
+    "website": "https://www.k92mining.com"
+  },
+  "method": {
+    "production_basis": "Gold in concentrate at Kainantu, 100%. Company also reports AuEq (Cu+Ag). 2026 guidance is AuEq."
+  },
+  "kpis": {
+    "attr_koz_2025": 164.5,
+    "attr_koz_ytd_2026": 87.0,
+    "ytd_through": "2026-06-30",
+    "guidance_2026_koz": [
+      190,
+      225
+    ],
+    "aisc_2025": 1308,
+    "attr_pp_koz": 1320,
+    "attr_mi_incl_koz": 2000,
+    "attr_inf_koz": 3000,
+    "pp_koz_100pct": 1320,
+    "mi_incl_koz_100pct": 2000,
+    "inf_koz_100pct": 3000,
+    "market_cap": 6961001639,
+    "market_cap_usd": 5025253486,
+    "market_cap_cur": "CAD",
+    "shares": 245711318,
+    "px": 28.33,
+    "price_asof": "2026-09-14"
+  },
+  "guidance_2026": {
+    "basis": "AuEq (company); gold will be lower",
+    "total_koz": [
+      190,
+      225
+    ],
+    "by_asset": {
+      "kainantu": {
+        "ownership_pct": 100,
+        "attr_koz": [
+          190,
+          225
+        ],
+        "koz_100pct": [
+          190,
+          225
+        ]
+      }
+    }
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "attr_koz": 164.5,
+      "note": "164,484 oz Au / 174,134 oz AuEq.",
+      "by_asset": {
+        "kainantu": {
+          "attr_koz": 164.5,
+          "ownership_pct": 100,
+          "koz_100pct": 164.5
+        }
+      }
+    },
+    {
+      "period": "2026-YTD",
+      "kind": "ytd",
+      "through": "2026-06-30",
+      "attr_koz": 87.0,
+      "note": "86,953 oz Au / 92,836 oz AuEq.",
+      "by_asset": {
+        "kainantu": {
+          "attr_koz": 87.0,
+          "ownership_pct": 100,
+          "koz_100pct": 87.0
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "kainantu",
+      "name": "Kainantu",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Papua New Guinea",
+      "ownership_pct": 100,
+      "operator": "K92 Mining",
+      "mine_type": "Underground",
+      "location_note": "Kora + Judd. Stage 3 plant 1.2 Mtpa commissioned Dec 2025."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": "2024-01",
+    "inclusive_of_reserves": true,
+    "totals": {
+      "pp": {
+        "koz": 1320,
+        "attr_koz": 1320
+      },
+      "mi": {
+        "koz": 2000,
+        "attr_koz": 2000
+      },
+      "inf": {
+        "koz": 3000,
+        "attr_koz": 3000
+      }
+    },
+    "note": "Kora+Judd P&P 1.32 Moz Au / 1.69 Moz AuEq (Jan 2024). M&I 2.0 Moz Au / 2.6 AuEq; inferred 3.0 / 4.5 (Sep 2023).",
+    "projects": [
+      {
+        "asset_id": "kainantu",
+        "name": "Kora + Judd",
+        "ownership_pct": 100,
+        "pp": {
+          "koz": 1320,
+          "attr_koz": 1320
+        }
+      }
+    ]
+  },
+  "sources": [
+    {
+      "title": "K92 FY2025 MD&A",
+      "date": "2026-03-02",
+      "what": "164,484 oz Au / 174,134 oz AuEq; AISC US$1,308/oz Au (info circular)"
+    },
+    {
+      "title": "K92 Q2 2026 MD&A",
+      "date": "2026-08-10",
+      "what": "H1 86,953 oz Au / 92,836 oz AuEq; FY26 190–225 koz AuEq"
+    },
+    {
+      "title": "K92 2025 AIF reserve table",
+      "date": "2026-03-10",
+      "what": "Kora+Judd P&P 1.32 Moz Au (Jan 2024)"
+    }
+  ],
+  "schema": "qc-issuer-profile-v1",
+  "generated": "2026-09-15",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "meta": {
+    "mcap_rank": 94,
+    "mcap_updated": "2026-09-15"
+  }
+}

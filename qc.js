@@ -1,6 +1,11 @@
 /* Shared tape helpers for Quantity Capital pages. */
 (function (global) {
   const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1, CMN: 1, COM: 1, NPV: 1, ETF: 1, FUND: 1 };
+  const OPTION_FALSE_TICKERS = { EXP: 1, FOR: 1, ING: 1, ETF: 1, CALL: 1, PUT: 1, STRIKE: 1, TYPE: 1, FLEX: 1, EURO: 1, PM: 1 };
+
+  function isOptionFalseTicker(code) {
+    return !!OPTION_FALSE_TICKERS[String(code || "").toUpperCase()];
+  }
 
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, (c) => ({
@@ -77,9 +82,11 @@
   }
 
   function optionKind(a) {
-    if (/\bputs?\b|\bput\/|>ut\//i.test(a)) return "Put";
-    if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(a)) return "Call";
-    if (/\bcalls?\b/i.test(a) && /strike|expir|flex euro|option type/i.test(a)) return "Call";
+    const s = String(a || "");
+    if (/\bputs?\b|\bput\/|>ut\/|purix|purnse|\bpuri/i.test(s)) return "Put";
+    if (/ICALL|TALLV|\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(s)) return "Call";
+    if (/\bcalls?\b/i.test(s) && /strike|expir|flex euro|option type/i.test(s)) return "Call";
+    if (/FLEX\s+EURO/i.test(s)) return "Call";
     return "";
   }
 
@@ -102,11 +109,14 @@
     }
     expRaw = String(expRaw || "").replace(/[.,;:\s]+$/, "");
     let under = String(t.ticker || "").toUpperCase();
-    const um = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
+    const um = a.match(/(?:^|[^A-Z])(?:call|put|sall|tall|=all|>ut|ICALL)\s*\/\s*([A-Z0-9]{1,5})\b/i)
+      || a.match(/TALLV([A-Z]{2,5})/i);
     if (um) {
       under = um[1].toUpperCase();
       if (under === "INJ") under = "JNJ";
+      if (under === "X5P") under = "XSP";
     }
+    if (isOptionFalseTicker(under)) under = "";
     return {
       kind: kind,
       strike: formatOptionStrike(strikeHit && strikeHit[1]),
@@ -126,9 +136,10 @@
     if (!isOptionLike(t)) return "";
     const o = optionMeta(t);
     const kind = o.kind || "Option";
+    const cls = kind === "Call" ? " opt-call" : kind === "Put" ? " opt-put" : "";
     const detail = optionDetailText(o);
     const extra = detail ? "<span class=\"opt-detail\"> " + esc(detail) + "</span>" : "";
-    return "<span class=\"opt-tag\">" + esc(kind) + extra + "</span>";
+    return "<span class=\"opt-tag" + cls + "\">" + esc(kind) + extra + "</span>";
   }
 
   function isEtfLike(t) {
@@ -1005,7 +1016,7 @@
     const extra = ((file && file.assets) || {})[t && t.asset] || {};
     const opt = optionMeta(t);
     let code = String(t && t.ticker || extra.ticker || opt.under || "").toUpperCase();
-    if (isOptionLike(t) && (code === "ING" || code === "FOR" || code === "EXP" || code === "ETF")) code = "";
+    if (isOptionLike(t) && isOptionFalseTicker(code)) code = "";
     if (isChartTicker(code)) return code;
     if (skipNameResolve(t)) return code;
     return resolveTickerFromName(t && t.asset, file, classHint(t && t.asset)) || code;
@@ -1082,6 +1093,15 @@
   function tapeSymbol(t) {
     const ticker = String((t && t.ticker) || "");
     const code = String((t && t.code) || "");
+    if (isOptionLike(t)) {
+      const under = optionMeta(t).under;
+      const picks = [code, ticker, under];
+      for (let i = 0; i < picks.length; i++) {
+        const c = String(picks[i] || "").toUpperCase();
+        if (c && c !== "—" && isChartTicker(c) && !isOptionFalseTicker(c)) return c;
+      }
+      return "—";
+    }
     if (isChartTicker(ticker)) return ticker;
     if (isChartTicker(code)) return code;
     return ticker || code;

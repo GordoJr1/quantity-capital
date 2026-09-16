@@ -182,6 +182,8 @@
       text-transform: uppercase;
       white-space: nowrap;
     }
+    .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
+    .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
     .buy { color: #22c55e; }
     .sell { color: #f87171; }
     .chart-wrap {
@@ -579,7 +581,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=159" />
+  <link rel="stylesheet" href="shell.css?v=160" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -636,7 +638,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=119"></script>
+  <script src="qc.js?v=120"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);

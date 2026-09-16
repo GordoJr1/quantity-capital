@@ -421,6 +421,8 @@
       white-space: nowrap;
       vertical-align: middle;
     }
+    .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
+    .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
     .co { display: block; color: var(--paper); }
     .ind { color: var(--mute); font-size: 0.88rem; }
     .filing-err {
@@ -1608,17 +1610,19 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=159" />
+  <link rel="stylesheet" href="shell.css?v=160" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
-    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
+    .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; width: 100%; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
     .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
     .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
     .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
     .qc-txn-hero, .qc-txn .qc-txn-hero { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
-    .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
+    .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; width: 100%; }
+    .qc-txn-id-line .qc-txn-name,
+    .qc-txn-id-line a.qc-txn-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .qc-txn-id-line .qc-txn-role { display: none; }
     .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl { display: none; }
     .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "when when" "id end" "co co"; row-gap: 4px; align-items: start; }
@@ -1700,10 +1704,25 @@
       .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
 
       body.tape-opt .qc-txn-optline { display: none; }
+      body.tape-opt .desk {
+        grid-template-columns: minmax(0, 1.9fr) minmax(200px, 0.4fr);
+      }
+      @media (min-width: 1200px) {
+        body.tape-opt .desk {
+          grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.62fr);
+        }
+      }
       body.tape-opt .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       body.tape-opt .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(6.8rem, 1.2fr) minmax(6.4rem, 0.8fr) 4.2rem minmax(6.6rem, 0.85fr) 4.4rem minmax(3.4rem, 0.5fr);
+        column-gap: 6px;
+        grid-template-columns: 4.4rem minmax(4.8rem, 1fr) minmax(4.6rem, 0.55fr) 3.4rem 4.8rem 3.6rem minmax(8.6rem, max-content);
         grid-template-areas: "date id co strike exp chip hero";
+      }
+      body.tape-opt .desk .qc-txn-tape .qc-txn-hero,
+      body.tape-opt .desk .qc-txn-cols .qc-txn-hero {
+        white-space: nowrap;
+        overflow: visible;
+        min-width: 8.6rem;
       }
       body.tape-opt .desk .qc-txn-cols .qc-txn-coname,
       body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
@@ -1924,7 +1943,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=119"></script>
+  <script src="qc.js?v=120"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {

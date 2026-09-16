@@ -394,8 +394,10 @@
       .issuer-chart { display: block; max-height: none; }
       .chart-wrap { min-height: 0; max-height: 260px; flex: none; padding: 10px 8px 10px 12px; }
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
-      #mines-inset-map { height: 220px; min-height: 220px; }
-      .pipe-row.split { grid-template-columns: 1fr; }
+      .mines-inset { display: none !important; }
+      .pipe-row.split { display: block; }
+      .qc-nav a[href="claims.html"],
+      .tabbar a[href="claims.html"] { display: none !important; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -1417,11 +1419,14 @@
         a.stage !== "closed" && Number.isFinite(a.lat) && Number.isFinite(a.lon)
       );
     }
+    function desktopMinesMap() {
+      return window.matchMedia("(min-width: 961px)").matches;
+    }
     function paintMinesInset() {
       const box = document.getElementById("mines-inset");
       const row = document.getElementById("pipe-row");
       if (!box) return;
-      const show = profile && profile.id === "iamgold";
+      const show = profile && profile.id === "iamgold" && desktopMinesMap();
       box.hidden = !show;
       if (row) row.classList.toggle("split", show);
       if (!show) return;
@@ -1660,6 +1665,9 @@
       return loadProfile("beta/newmont.json");
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+    window.matchMedia("(min-width: 961px)").addEventListener("change", () => {
+      if (profile) paintMinesInset();
+    });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Issuer mines">

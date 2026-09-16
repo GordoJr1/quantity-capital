@@ -12,6 +12,10 @@ python3 -m http.server 8000   # then open http://localhost:8000/index.html
 
 In Cloud Agents this server is started automatically (see `.cursor/environment.json`), and port 8000 is exposed.
 
+## Cursor Cloud specific instructions
+
+Do **not** record or compile walkthrough videos. Screenshots, browser checks, and logs are enough to prove a change. Skip `RecordScreen` / demo MP4s unless Gordo explicitly asks for a video.
+
 ## Rebuild derived data
 
 `backtest.json` (the `paper.html` filed-date copy backtest) is generated from `trades-lite.json` + `prices/`. `insider-form4.json` (10b5-1 / plan flags + Table I end holdings) is collected from SEC Form 4 XML already linked on the tape. `insider-repeatable.json` (the Leaders → Repeatable filing-date hit-rate board) is generated from `insider-trades-lite.json` + `prices/` and skips scheduled-plan Form 4 buys. `insider-follow.json` (Follow / Best officers + new-print alerts) is derived from that ranking plus the tape, and down-ranks plan-heavy officers. All four are committed, so regenerate them after changing tape or price data:

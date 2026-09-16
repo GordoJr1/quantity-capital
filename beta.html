@@ -494,7 +494,6 @@
       <section class="mines-inset" id="mines-inset" hidden>
         <h2>Mines</h2>
         <div id="mines-inset-map"></div>
-        <p class="quiet" id="mines-inset-note">Click a Canadian mine for Quebec GESTIM claims. West Africa is on the map for scale.</p>
       </section>
     </div>
     <h2>Reserves &amp; resources</h2>
@@ -1431,8 +1430,8 @@
       if (row) row.classList.toggle("split", show);
       if (!show) return;
       loadMapLibre().then(drawMinesInset).catch(() => {
-        const note = document.getElementById("mines-inset-note");
-        if (note) note.textContent = "Map library failed to load.";
+        const host = document.getElementById("mines-inset-map");
+        if (host) host.textContent = "Map library failed to load.";
       });
     }
     function drawMinesInset() {

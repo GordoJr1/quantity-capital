@@ -574,7 +574,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
-  <style id="qc-txn-v98">
+  <style id="qc-txn-v99">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -591,7 +591,14 @@
     .qc-txn-meta { color: var(--mute, #8b96a3); }
     .qc-txn-held.up { color: #7dcf7a; }
     .qc-txn-held.down { color: #ef7a74; }
-    .qc-txn-sh, .qc-txn-cols { display: none; }
+    .qc-txn-sh, .qc-txn-cols, .qc-txn-id-sub, .qc-txn-tbl { display: none; }
+    /* Tape cards still paint when/co children; restore named areas so they
+       do not auto-place into implicit 0-width columns (name missing, date
+       overlapping company). Same mobile grid as /insiders.html. */
+    @media (max-width: 899px) {
+      .qc-txn-tape { grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "when when" "id end" "co co"; row-gap: 4px; align-items: start; }
+      .qc-txn-tape.qc-txn-co-first { grid-template-areas: "when when" "co end" "id id"; }
+    }
     @media (min-width: 900px) {
       .qc-txn-list > .qc-txn-cols,
       .qc-txn:not(.qc-txn-tape) {

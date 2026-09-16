@@ -120,7 +120,9 @@
       "ownership_pct": 100,
       "operator": "Aris Mining",
       "mine_type": "Underground",
-      "location_note": "Four UG mines; 3,000 tpd mill."
+      "location_note": "Four UG mines; 3,000 tpd mill.",
+      "lat": 7.08,
+      "lon": -74.7
     },
     {
       "id": "marmato",
@@ -132,7 +134,9 @@
       "ownership_pct": 100,
       "operator": "Aris Mining",
       "mine_type": "Underground",
-      "location_note": "CIP plant first gold targeted Q4 2026."
+      "location_note": "CIP plant first gold targeted Q4 2026.",
+      "lat": 5.47,
+      "lon": -75.6
     },
     {
       "id": "soto-norte",
@@ -142,7 +146,9 @@
       "commodity": "gold",
       "country": "Colombia",
       "ownership_pct": 100,
-      "operator": "Aris Mining"
+      "operator": "Aris Mining",
+      "lat": 7.12,
+      "lon": -73.0
     },
     {
       "id": "toroparu",
@@ -152,7 +158,9 @@
       "commodity": "gold",
       "country": "Guyana",
       "ownership_pct": 100,
-      "operator": "Aris Mining"
+      "operator": "Aris Mining",
+      "lat": 6.55,
+      "lon": -60.5
     }
   ],
   "reserves_resources": {

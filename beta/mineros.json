@@ -125,7 +125,9 @@
       "ownership_pct": 100,
       "operator": "Mineros",
       "mine_type": "Underground + artisanal (BMP)",
-      "location_note": "Panama & Pioneer underground plus Bonanza Mining Partners."
+      "location_note": "Panama & Pioneer underground plus Bonanza Mining Partners.",
+      "lat": 14.03,
+      "lon": -83.38
     },
     {
       "id": "nechi",
@@ -137,7 +139,9 @@
       "ownership_pct": 100,
       "operator": "Mineros",
       "mine_type": "Alluvial",
-      "location_note": "Company dredges plus contract mining partners."
+      "location_note": "Company dredges plus contract mining partners.",
+      "lat": 8.09,
+      "lon": -74.78
     },
     {
       "id": "porvenir",
@@ -147,7 +151,9 @@
       "commodity": "gold",
       "country": "Nicaragua",
       "ownership_pct": 100,
-      "operator": "Mineros"
+      "operator": "Mineros",
+      "lat": 13.7,
+      "lon": -84.45
     }
   ],
   "reserves_resources": {

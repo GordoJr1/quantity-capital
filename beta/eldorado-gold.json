@@ -189,7 +189,9 @@
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
       "mine_type": "Underground",
-      "region": "Quebec"
+      "region": "Quebec",
+      "lat": 48.1,
+      "lon": -77.77
     },
     {
       "id": "kisladag",
@@ -200,7 +202,9 @@
       "country": "Türkiye",
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
-      "mine_type": "Open pit / heap leach"
+      "mine_type": "Open pit / heap leach",
+      "lat": 38.48,
+      "lon": 29.15
     },
     {
       "id": "efemcukuru",
@@ -211,7 +215,9 @@
       "country": "Türkiye",
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
-      "mine_type": "Underground"
+      "mine_type": "Underground",
+      "lat": 38.28,
+      "lon": 27.02
     },
     {
       "id": "olympias",
@@ -222,7 +228,9 @@
       "country": "Greece",
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
-      "mine_type": "Underground"
+      "mine_type": "Underground",
+      "lat": 40.6,
+      "lon": 23.83
     },
     {
       "id": "skouries",
@@ -233,7 +241,9 @@
       "country": "Greece",
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
-      "location_note": "First concentrate early Q3 2026; commercial Q4 2026."
+      "location_note": "First concentrate early Q3 2026; commercial Q4 2026.",
+      "lat": 40.48,
+      "lon": 23.7
     },
     {
       "id": "mcilvenna-bay",
@@ -244,7 +254,9 @@
       "country": "Canada",
       "ownership_pct": 100,
       "operator": "Eldorado Gold",
-      "region": "Saskatchewan"
+      "region": "Saskatchewan",
+      "lat": 54.64,
+      "lon": -102.2
     },
     {
       "id": "perama-hill",
@@ -254,7 +266,9 @@
       "commodity": "gold",
       "country": "Greece",
       "ownership_pct": 100,
-      "operator": "Eldorado Gold"
+      "operator": "Eldorado Gold",
+      "lat": 40.97,
+      "lon": 26.0
     }
   ],
   "reserves_resources": {

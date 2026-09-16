@@ -217,7 +217,9 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit",
-      "region": "Ontario"
+      "region": "Ontario",
+      "lat": 49.7,
+      "lon": -86.95
     },
     {
       "id": "valentine",
@@ -229,7 +231,9 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit",
-      "region": "Newfoundland and Labrador"
+      "region": "Newfoundland and Labrador",
+      "lat": 48.45,
+      "lon": -56.85
     },
     {
       "id": "nicaragua",
@@ -239,7 +243,9 @@
       "commodity": "gold",
       "country": "Nicaragua",
       "ownership_pct": 100,
-      "operator": "Equinox Gold"
+      "operator": "Equinox Gold",
+      "lat": 12.75,
+      "lon": -86.05
     },
     {
       "id": "mesquite",
@@ -251,7 +257,9 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit / heap leach",
-      "region": "California"
+      "region": "California",
+      "lat": 33.05,
+      "lon": -114.98
     },
     {
       "id": "castle-mountain",
@@ -262,7 +270,9 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Equinox Gold",
-      "region": "California"
+      "region": "California",
+      "lat": 35.28,
+      "lon": -115.08
     },
     {
       "id": "los-filos",
@@ -272,7 +282,9 @@
       "commodity": "gold",
       "country": "Mexico",
       "ownership_pct": 100,
-      "operator": "Equinox Gold"
+      "operator": "Equinox Gold",
+      "lat": 17.88,
+      "lon": -99.6
     },
     {
       "id": "musselwhite",
@@ -284,7 +296,9 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "region": "Ontario",
-      "location_note": "Added with Orla 2026."
+      "location_note": "Added with Orla 2026.",
+      "lat": 52.61,
+      "lon": -90.36
     },
     {
       "id": "camino-rojo",
@@ -295,7 +309,9 @@
       "country": "Mexico",
       "ownership_pct": 100,
       "operator": "Equinox Gold",
-      "location_note": "Added with Orla 2026."
+      "location_note": "Added with Orla 2026.",
+      "lat": 24.34,
+      "lon": -101.17
     }
   ],
   "reserves_resources": {

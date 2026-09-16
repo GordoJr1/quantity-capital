@@ -148,7 +148,9 @@
       "operator": "Alamos Gold",
       "mine_type": "Underground + open pit",
       "region": "Ontario",
-      "location_note": "Island Gold UG + Magino mill. Phase 3+ shaft due Q4 2026."
+      "location_note": "Island Gold UG + Magino mill. Phase 3+ shaft due Q4 2026.",
+      "lat": 48.02,
+      "lon": -84.77
     },
     {
       "id": "young-davidson",
@@ -160,7 +162,9 @@
       "ownership_pct": 100,
       "operator": "Alamos Gold",
       "mine_type": "Underground",
-      "region": "Ontario"
+      "region": "Ontario",
+      "lat": 47.93,
+      "lon": -80.38
     },
     {
       "id": "mulatos",
@@ -172,7 +176,9 @@
       "ownership_pct": 100,
       "operator": "Alamos Gold",
       "mine_type": "Open pit / heap leach",
-      "location_note": "La Yaqui Grande; PDA construction toward mid-2027."
+      "location_note": "La Yaqui Grande; PDA construction toward mid-2027.",
+      "lat": 28.65,
+      "lon": -108.74
     },
     {
       "id": "lynn-lake",
@@ -183,7 +189,9 @@
       "country": "Canada",
       "ownership_pct": 100,
       "operator": "Alamos Gold",
-      "region": "Manitoba"
+      "region": "Manitoba",
+      "lat": 56.85,
+      "lon": -101.05
     }
   ],
   "reserves_resources": {

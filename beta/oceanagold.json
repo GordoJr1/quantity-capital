@@ -163,7 +163,9 @@
       "ownership_pct": 100,
       "operator": "OceanaGold",
       "mine_type": "Open pit + underground",
-      "region": "South Carolina"
+      "region": "South Carolina",
+      "lat": 34.58,
+      "lon": -80.54
     },
     {
       "id": "macraes",
@@ -174,7 +176,9 @@
       "country": "New Zealand",
       "ownership_pct": 100,
       "operator": "OceanaGold",
-      "mine_type": "Open pit + underground"
+      "mine_type": "Open pit + underground",
+      "lat": -45.39,
+      "lon": 170.47
     },
     {
       "id": "didipio",
@@ -191,7 +195,9 @@
           "name": "Philippine public float",
           "pct": 20
         }
-      ]
+      ],
+      "lat": 16.33,
+      "lon": 121.45
     },
     {
       "id": "waihi",
@@ -203,7 +209,9 @@
       "ownership_pct": 100,
       "operator": "OceanaGold",
       "mine_type": "Underground",
-      "location_note": "Waihi North / Wharekirauponga in development."
+      "location_note": "Waihi North / Wharekirauponga in development.",
+      "lat": -37.39,
+      "lon": 175.84
     }
   ],
   "reserves_resources": {

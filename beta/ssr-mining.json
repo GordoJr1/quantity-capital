@@ -149,7 +149,9 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit / heap leach",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 40.42,
+      "lon": -117.05
     },
     {
       "id": "ccv",
@@ -161,7 +163,9 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit / heap leach",
-      "region": "Colorado"
+      "region": "Colorado",
+      "lat": 38.75,
+      "lon": -105.18
     },
     {
       "id": "seabee",
@@ -173,7 +177,9 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Underground",
-      "region": "Saskatchewan"
+      "region": "Saskatchewan",
+      "lat": 55.7,
+      "lon": -103.55
     },
     {
       "id": "puna",
@@ -185,7 +191,9 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit",
-      "location_note": "Silver-lead-zinc; in GEO."
+      "location_note": "Silver-lead-zinc; in GEO.",
+      "lat": -22.32,
+      "lon": -66.6
     },
     {
       "id": "copler",
@@ -196,7 +204,9 @@
       "country": "Türkiye",
       "ownership_pct": 80,
       "operator": "SSR Mining",
-      "location_note": "Suspended since Feb 2024."
+      "location_note": "Suspended since Feb 2024.",
+      "lat": 39.42,
+      "lon": 38.48
     },
     {
       "id": "hod-maden",
@@ -206,7 +216,9 @@
       "commodity": "gold",
       "country": "Türkiye",
       "ownership_pct": 100,
-      "operator": "SSR Mining"
+      "operator": "SSR Mining",
+      "lat": 40.45,
+      "lon": 41.18
     }
   ],
   "reserves_resources": {

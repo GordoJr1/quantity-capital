@@ -1,4 +1,4 @@
-const CATALOG_URL = "claims/iamgold-meta.json";
+const CATALOG_URL = "claims/companies.json";
 const QUEBEC_CENTER = [-72.5, 51.5];
 
 const map = new maplibregl.Map({
@@ -105,7 +105,9 @@ function renderHits(hits) {
   box.innerHTML = hits.map((c, i) =>
     "<button type=\"button\" class=\"hit" + (i === 0 ? " active" : "") + "\" data-id=\"" + c.id + "\">" +
       "<div class=\"who\">" + (c.holder || c.names[0]) + "</div>" +
-      "<div class=\"meta\">" + (c.claim_count || 0).toLocaleString("en-CA") + " Quebec titles · whole company</div>" +
+      "<div class=\"meta\">" + ((c.claim_count || 0)
+        ? (c.claim_count || 0).toLocaleString("en-CA") + " Quebec titles · whole company"
+        : "0 Quebec titles · no GESTIM cells") + "</div>" +
     "</button>"
   ).join("");
   box.querySelectorAll("button.hit").forEach((btn) => {
@@ -129,6 +131,13 @@ function paintLegend(company) {
   if (!company) {
     box.hidden = true;
     hint.hidden = false;
+    hint.textContent = "No claims drawn until you select a producer.";
+    return;
+  }
+  if (!(company.claim_count > 0)) {
+    box.hidden = true;
+    hint.hidden = false;
+    hint.textContent = "No Quebec GESTIM cells for this company.";
     return;
   }
   hint.hidden = true;
@@ -207,7 +216,7 @@ function fitCompany(company, asset) {
     );
     return;
   }
-  const b = company.bbox;
+  const b = company && company.bbox;
   if (!b || b.length !== 4) return;
   map.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 56, duration: 1100, maxZoom: 9 });
 }
@@ -235,15 +244,27 @@ function selectCompany(id, assetId) {
   hiddenHolders = new Set();
   paintLegend(company);
   const gen = ++selectGen;
+  const asset = (company.mines || []).find((m) => m.id === assetId);
   whenMapReady(() => {
     if (gen !== selectGen) return;
     ensureCompanyLayers();
+    if (!(company.claim_count > 0) || !company.extract) {
+      map.resize();
+      map.getSource("company").setData({ type: "FeatureCollection", features: [] });
+      fitCompany(company, asset);
+      let extra = "<strong>" + (company.holder || company.names[0]) + "</strong> · no Quebec GESTIM titles";
+      if (asset) {
+        extra += " · around " + asset.name;
+        extra += " · " + (asset.note || "Outside Quebec GESTIM");
+      }
+      setStatus(extra);
+      return;
+    }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then((data) => {
       if (gen !== selectGen) return;
       map.resize();
       map.getSource("company").setData(data);
-      const asset = (company.mines || []).find((m) => m.id === assetId);
       fitCompany(company, asset);
       const n = (company.claim_count || 0).toLocaleString("en-CA");
       const nb = (company.neighbor_count || 0).toLocaleString("en-CA");
@@ -286,13 +307,13 @@ map.on("click", () => {
 
 fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
   catalog = json;
-  setStatus("Search <strong>IAMGOLD</strong> to draw the company footprint. No polygons until then.");
+  setStatus("Search a <strong>producer</strong> to draw the company footprint. No polygons until then.");
   const params = new URLSearchParams(location.search);
   const companyId = params.get("company");
   const assetId = params.get("asset") || params.get("mine");
   if (companyId) selectCompany(companyId, assetId);
 }).catch(() => {
-  setStatus("Could not load claims/iamgold-meta.json");
+  setStatus("Could not load claims/companies.json");
 });
 
 window.qcSelectCompany = selectCompany;

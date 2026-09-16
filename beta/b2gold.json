@@ -157,7 +157,9 @@
           "name": "Government of Mali",
           "pct": 20
         }
-      ]
+      ],
+      "lat": 12.02,
+      "lon": -11.32
     },
     {
       "id": "goose",
@@ -169,7 +171,9 @@
       "ownership_pct": 100,
       "operator": "B2Gold",
       "mine_type": "Open pit + underground",
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "lat": 66.02,
+      "lon": -107.43
     },
     {
       "id": "masbate",
@@ -180,7 +184,9 @@
       "country": "Philippines",
       "ownership_pct": 100,
       "operator": "B2Gold",
-      "mine_type": "Open pit"
+      "mine_type": "Open pit",
+      "lat": 12.31,
+      "lon": 123.39
     },
     {
       "id": "otjikoto",
@@ -196,7 +202,9 @@
           "name": "EVI Mining",
           "pct": 10
         }
-      ]
+      ],
+      "lat": -19.17,
+      "lon": 17.62
     },
     {
       "id": "gramalote",
@@ -206,7 +214,9 @@
       "commodity": "gold",
       "country": "Colombia",
       "ownership_pct": 100,
-      "operator": "B2Gold"
+      "operator": "B2Gold",
+      "lat": 7.3,
+      "lon": -75.2
     }
   ],
   "reserves_resources": {

@@ -123,7 +123,9 @@
       "operator": "Centerra Gold",
       "mine_type": "Open pit",
       "region": "British Columbia",
-      "location_note": "Royal Gold 35% gold / 18.75% copper stream."
+      "location_note": "Royal Gold 35% gold / 18.75% copper stream.",
+      "lat": 55.12,
+      "lon": -124.01
     },
     {
       "id": "oksut",
@@ -134,7 +136,9 @@
       "country": "Türkiye",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "mine_type": "Open pit / heap leach"
+      "mine_type": "Open pit / heap leach",
+      "lat": 38.3,
+      "lon": 36.2
     },
     {
       "id": "goldfield",
@@ -145,7 +149,9 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 37.71,
+      "lon": -117.24
     },
     {
       "id": "kemess",
@@ -156,7 +162,9 @@
       "country": "Canada",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "lat": 57.0,
+      "lon": -126.75
     }
   ],
   "reserves_resources": {

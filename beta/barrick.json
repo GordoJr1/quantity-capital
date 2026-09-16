@@ -248,7 +248,9 @@
           "name": "Newmont",
           "pct": 38.5
         }
-      ]
+      ],
+      "lat": 40.92,
+      "lon": -116.32
     },
     {
       "id": "cortez",
@@ -266,7 +268,9 @@
           "name": "Newmont",
           "pct": 38.5
         }
-      ]
+      ],
+      "lat": 40.24,
+      "lon": -116.71
     },
     {
       "id": "turquoise-ridge",
@@ -284,7 +288,9 @@
           "name": "Newmont",
           "pct": 38.5
         }
-      ]
+      ],
+      "lat": 41.18,
+      "lon": -117.26
     },
     {
       "id": "phoenix",
@@ -302,7 +308,9 @@
           "name": "Newmont",
           "pct": 38.5
         }
-      ]
+      ],
+      "lat": 40.53,
+      "lon": -117.15
     },
     {
       "id": "pueblo-viejo",
@@ -319,7 +327,9 @@
           "name": "Newmont",
           "pct": 40
         }
-      ]
+      ],
+      "lat": 18.94,
+      "lon": -70.17
     },
     {
       "id": "loulo-gounkoto",
@@ -337,7 +347,9 @@
           "name": "Republic of Mali",
           "pct": 20
         }
-      ]
+      ],
+      "lat": 13.05,
+      "lon": -11.37
     },
     {
       "id": "kibali",
@@ -359,7 +371,9 @@
           "name": "SOKIMO",
           "pct": 10
         }
-      ]
+      ],
+      "lat": 3.12,
+      "lon": 29.58
     },
     {
       "id": "north-mara",
@@ -376,7 +390,9 @@
           "name": "Government of Tanzania",
           "pct": 16
         }
-      ]
+      ],
+      "lat": -1.39,
+      "lon": 34.48
     },
     {
       "id": "bulyanhulu",
@@ -393,7 +409,9 @@
           "name": "Government of Tanzania",
           "pct": 16
         }
-      ]
+      ],
+      "lat": -3.22,
+      "lon": 32.38
     },
     {
       "id": "veladero",
@@ -411,7 +429,9 @@
           "name": "Shandong Gold",
           "pct": 50
         }
-      ]
+      ],
+      "lat": -29.37,
+      "lon": -69.95
     },
     {
       "id": "porgera",
@@ -428,7 +448,9 @@
           "name": "Zijin Mining",
           "pct": 24.5
         }
-      ]
+      ],
+      "lat": -5.47,
+      "lon": 143.08
     },
     {
       "id": "fourmile",
@@ -440,7 +462,9 @@
       "ownership_pct": 100,
       "operator": "Barrick",
       "mine_type": "Underground",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 40.26,
+      "lon": -116.7
     },
     {
       "id": "hemlo",
@@ -461,7 +485,9 @@
       "commodity": "gold",
       "country": "Côte d'Ivoire",
       "ownership_pct": 0,
-      "location_note": "Sold Dec 2025."
+      "location_note": "Sold Dec 2025.",
+      "lat": 9.55,
+      "lon": -5.7
     },
     {
       "id": "norte-abierto",
@@ -471,7 +497,9 @@
       "commodity": "gold",
       "country": "Chile",
       "ownership_pct": 50,
-      "operator": "JV"
+      "operator": "JV",
+      "lat": -26.99,
+      "lon": -69.27
     },
     {
       "id": "reko-diq",
@@ -481,7 +509,9 @@
       "commodity": "gold",
       "country": "Pakistan",
       "ownership_pct": 50,
-      "operator": "Barrick"
+      "operator": "Barrick",
+      "lat": 29.05,
+      "lon": 62.07
     }
   ],
   "reserves_resources": {

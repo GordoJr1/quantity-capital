@@ -6,6 +6,8 @@ Amounts are ranges, not share counts. Not investment advice.
 
 The live site is GitHub Pages from `main`: https://gordojr1.github.io/quantity-capital/
 
+`claims.html` is the IAMGOLD Quebec GESTIM company view (empty until you search IAMGOLD). `beta.html?id=iamgold` has a small Canadian-mines inset (Côté, Westwood). The extract in `claims/` is a few MB of IAMGOLD + neighbors only — do not commit nationwide PMTiles or shapefiles.
+
 `paper.html` is a filed-date copy backtest (buy when the public filing lands). Rebuild with `python3 build-backtest.py`.
 
 `insider-board.html?b=repeatable` ranks officers by equal-weight 30/90/180-day open-market copy returns from the public print date. Rebuild with `python3 build-insider-repeatable.py`.

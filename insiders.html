@@ -88,29 +88,17 @@
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute);
     }
     footer a { color: var(--caution); }
-    .tabbar { display: none; }
     @media (display-mode: standalone) {
       body { padding-top: env(safe-area-inset-top, 0px); }
     }
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 24px); }
-      header nav { display: none; }
-      .tabbar {
-        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
-        background: var(--ink); border-top: 2px solid var(--teal); padding-bottom: env(safe-area-inset-bottom, 0px);
-      }
-      .tabbar a {
-        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
-        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
-        font-size: 0.78rem; color: var(--paper); text-decoration: none; text-align: center; padding: 0 2px;
-      }
-      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
-      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: clamp(1.75rem, 8vw, 2.35rem); }
       .kicker { margin-top: 14px; }
+      #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=103" />
+  <link rel="stylesheet" href="shell.css?v=116" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -144,17 +132,23 @@
     @media (min-width: 900px) {
       .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .qc-txn-tape {
-        grid-template-columns: 6.7rem minmax(9.2rem, 1.2fr) minmax(9.5rem, 1.7fr) 5.6rem minmax(4.2rem, 0.55fr) minmax(4.4rem, 0.55fr) minmax(4.8rem, 0.7fr) 4.8rem;
+        grid-template-columns: 6.7rem minmax(10.5rem, 1.7fr) minmax(8.2rem, 1.2fr) 4.5rem minmax(4.2rem, 0.5fr) minmax(4.2rem, 0.5fr) 4.5rem 4.6rem;
         grid-template-areas: "date id co chip sh px hero held";
+        column-gap: 8px;
       }
       .qc-txn-tape {
-        column-gap: 10px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px;
+        column-gap: 8px; row-gap: 0; padding: 5px 12px; border-radius: 0; border-left-width: 3px;
       }
       .qc-txn-tape .qc-txn-end,
       .qc-txn-tape .qc-txn-tbl { display: contents; }
       .qc-txn-tape .qc-txn-sub { display: none; }
       .qc-txn-tape .qc-txn-after { display: none; }
-      .qc-txn-tape .qc-txn-chip { grid-area: chip; }
+      .qc-txn-tape .qc-txn-chip { grid-area: chip; padding: 2px 6px; }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-name,
+      .qc-txn-tape .qc-txn-id-line a.qc-txn-name { flex: 1 1 auto; min-width: 0; }
+      .qc-txn-tape .qc-txn-hero,
+      .qc-txn-tape .qc-txn-hero.is-shares,
+      .qc-txn-tape .qc-txn-hero.is-empty { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
       .qc-txn-tape .qc-txn-date { grid-area: date; }
       .qc-txn-tape .qc-txn-sh { display: block; grid-area: sh; }
       .qc-txn-tape .qc-txn-hero { grid-area: hero; font-size: 0.95rem; }
@@ -163,11 +157,11 @@
       .qc-txn-tape .qc-txn-px { grid-area: px; }
       .qc-txn-tape .qc-txn-held { grid-area: held; }
       .qc-txn-tape .qc-txn-company,
-      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--white, #eef2f5); font-size: 0.84rem; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
+      .qc-txn-tape a.qc-txn-company { display: flex; align-items: baseline; gap: 0.45em; grid-area: co; min-width: 0; overflow: hidden; text-decoration: none; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; }
       .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-company { display: block; grid-area: co; }
       .qc-txn-tape .qc-txn-company .qc-txn-tk,
-      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.05em; color: inherit; }
-      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: inherit; }
+      .qc-txn-tape .qc-txn-company a.qc-txn-tk { flex: 0 0 auto; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.05em; color: var(--white, #eef2f5); }
+      .qc-txn-tape .qc-txn-company .qc-txn-co-name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 400; font-size: 0.72rem; color: var(--mute, #8b96a3); }
       .qc-txn-tape a.qc-txn-company:hover,
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-tk,
       .qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { color: var(--teal, #36999d); }
@@ -212,8 +206,9 @@
       .desk .qc-txn-head { margin-top: 0; }
       .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .desk .qc-txn-tape {
-        grid-template-columns: 5.6rem minmax(7.2rem, 1.35fr) minmax(3.8rem, 0.55fr) 5.2rem minmax(4.2rem, 0.7fr);
+        grid-template-columns: 5.5rem minmax(10rem, 2.1fr) minmax(6.8rem, 1.05fr) 4.3rem 4.3rem;
         grid-template-areas: "date id co chip hero";
+        column-gap: 8px;
       }
       .desk .qc-txn-tape .qc-txn-sh,
       .desk .qc-txn-tape .qc-txn-px,
@@ -221,7 +216,6 @@
       .desk .qc-txn-cols .qc-txn-sh,
       .desk .qc-txn-cols .qc-txn-px,
       .desk .qc-txn-cols .qc-txn-held { display: none; }
-      .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name { display: none; }
       .desk .qc-txn-tape {
         cursor: pointer;
       }
@@ -553,7 +547,7 @@
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
       </div>
       <aside class="focus" id="focus">
-        <div id="focus-head"></div>
+        <div id="focus-head"><p class="quiet">Loading chart…</p></div>
         <div class="focus-chart" id="focus-chart">
           <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
           <div class="chart-wrap" id="chart-wrap">
@@ -563,6 +557,7 @@
             </div>
             <div class="chart-y" id="chart-y" aria-hidden="true"></div>
             <div class="mark-pop" id="mark-pop" hidden></div>
+            <p class="chart-note">Loading chart…</p>
           </div>
         </div>
         <div id="focus-foot"></div>
@@ -613,6 +608,32 @@
     }
     function esc(s) { return QC.esc(s); }
 
+    function garbageCompany(s) {
+      const t = String(s || "");
+      if (!t) return false;
+      if (/[\uFFFD]|Ã.|Â.|â€.|ï¿½|ðŸ/.test(t)) return true;
+      let weird = 0;
+      let letters = 0;
+      for (let i = 0; i < t.length; i++) {
+        const c = t.charCodeAt(i);
+        if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) letters++;
+        else if (c < 32 || c === 127 || c > 255) weird++;
+        else if (c > 127 && c < 160) weird++;
+      }
+      if (t.length >= 4 && letters === 0) return true;
+      if (t.length >= 8 && weird / t.length > 0.18) return true;
+      if (!/\s/.test(t) && t.length > 18 && (t.match(/[a-z][A-Z]/g) || []).length > 4) return true;
+      return false;
+    }
+
+    function displayCompany(name, ticker) {
+      const s = String(name || "").replace(/\s+/g, " ").trim();
+      const tk = String(ticker || "").trim();
+      if (!s || s === "—") return "";
+      if (garbageCompany(s)) return tk && tk !== "—" ? tk : "";
+      return s;
+    }
+
     function paint(rows, collectedAt) {
       document.getElementById("asof").textContent = QC.asOfLabel(collectedAt);
       document.getElementById("windows").innerHTML =
@@ -640,12 +661,15 @@
         chartRange = "3m";
       }
       const slim = DESK_MQ.matches;
-      const tradeHtml = deskRows.map((t) =>
-        QC.tradeRowHtml(t, {
+      const tradeHtml = deskRows.map((t) => {
+        const co = displayCompany(t.company, t.ticker);
+        const tk = String(t.ticker || "").toUpperCase();
+        const coShow = co && co.toUpperCase() !== tk ? co : "";
+        return QC.tradeRowHtml(Object.assign({}, t, { company: coShow }), {
           variant: "tape",
           nameHref: t.filer_id ? "insider.html?id=" + encodeURIComponent(t.filer_id) : ""
-        })
-      ).join("");
+        });
+      }).join("");
       document.getElementById("rows").innerHTML = tradeHtml
         ? QC.tradeColsHtml({ nameLabel: "Name", tape: true, companyLabel: slim ? "Ticker" : "Company" }) + tradeHtml
         : "<li class=\"muted\">No insider prints in this window.</li>";
@@ -682,8 +706,11 @@
         : esc(code);
       const name = QC.titleCaseName(t.filer);
       const who = t.filer_id
-        ? "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">" + esc(name) + "</a>"
-        : "<span class=\"who\">" + esc(name) + "</span>";
+        ? "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + esc(name) + "\">" + esc(name) + "</a>"
+        : "<span class=\"who\" title=\"" + esc(name) + "\">" + esc(name) + "</span>";
+      const co = displayCompany(t.company, code);
+      const coShow = co && co.toUpperCase() !== code ? co : "";
+      const assetTitle = [code, coShow].filter(Boolean).join(" ");
       head.innerHTML =
         who +
         "<div class=\"chips\">" +
@@ -691,7 +718,8 @@
           (owner === "indirect" ? "<span class=\"ch\">Indirect</span>" : "") +
           (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
         "</div>" +
-        "<p class=\"asset\">" + tickerHtml + " " + esc(t.company || "") + "</p>" +
+        "<p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
+          (coShow ? " " + esc(coShow) : "") + "</p>" +
         "<p class=\"quiet\">" + esc(t.commodity || t.title || "") + "</p>";
       const tickerBtn = chartable
         ? "<a class=\"btn\" href=\"insider-ticker.html?t=" + encodeURIComponent(code) + "\">Open ticker</a>"
@@ -852,6 +880,7 @@
         clearChart(code && code !== "—" ? "No daily prices on file for " + code + "." : "This print has no charted ticker.");
         return;
       }
+      clearChart("Loading chart…");
       loadPrices(code).then((points) => {
         if (token !== chartToken) return;
         if (!points || points.length < 2) {

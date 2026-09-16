@@ -284,6 +284,7 @@
       position: relative;
       max-width: 420px;
       margin: 0 0 18px;
+      min-width: 0;
     }
 
     .picker label {
@@ -342,6 +343,7 @@
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
       margin: 0 0 16px;
+      min-width: 0;
     }
     .filters label {
       display: block;
@@ -506,22 +508,63 @@
 
     footer a { color: var(--caution); }
 
-    .filter-fold > summary {
+    .filter-fold > summary,
+    .board-fold > summary {
       display: none;
+    }
+    .board-teaser,
+    .fold-teaser {
+      display: block;
+      margin-top: 4px;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--mute);
+      font-size: 0.82rem;
+      font-weight: 400;
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .fold-teaser {
+      display: inline;
+      margin: 0 0 0 0.4em;
+    }
+
+    @media (min-width: 821px) {
+      .filter-row {
+        display: grid;
+        grid-template-columns: minmax(200px, 260px) minmax(0, 1fr);
+        gap: 12px 16px;
+        align-items: end;
+      }
+      .filter-fold .picker {
+        max-width: none;
+        margin: 0;
+      }
+      .filter-fold .filters {
+        margin: 0;
+        gap: 10px 12px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
     }
 
     @media (max-width: 820px), (orientation: landscape) and (max-height: 620px) {
       .tape-scroll {
         position: relative;
         z-index: 1;
+        padding-bottom: 12px;
       }
       #tape { padding-top: 8px; }
-      .filter-fold {
+      .filter-fold,
+      .board-fold {
         border: 1px solid #4a5563;
         background: #151b24;
         margin: 0 0 8px;
       }
-      .filter-fold > summary {
+      .filter-fold > summary,
+      .board-fold > summary {
         display: block;
         padding: 12px 14px;
         font-family: "Barlow Condensed", sans-serif;
@@ -532,11 +575,18 @@
         list-style: none;
         min-height: 44px;
       }
-      .filter-fold > summary::-webkit-details-marker { display: none; }
-      .filter-fold > summary::before { content: "▸ "; }
-      .filter-fold[open] > summary::before { content: "▾ "; }
-      .filter-fold[open] > summary { border-bottom: 1px solid #3a4452; }
+      .filter-fold > summary::-webkit-details-marker,
+      .board-fold > summary::-webkit-details-marker { display: none; }
+      .filter-fold > summary::before,
+      .board-fold > summary::before { content: "▸ "; }
+      .filter-fold[open] > summary::before,
+      .board-fold[open] > summary::before { content: "▾ "; }
+      .filter-fold[open] > summary,
+      .board-fold[open] > summary { border-bottom: 1px solid #3a4452; }
       .filter-fold .picker, .filter-fold .filters { padding: 10px 12px 12px; }
+      .board-fold[open] .board-teaser { display: none; }
+      .board-fold > h2 { display: none; }
+      #board { padding: 8px 0; }
     }
 
 
@@ -681,7 +731,7 @@
       #board .board-list, #tape .table-wrap { max-width: 1040px; }
     }
     footer[hidden], .stripe[hidden] { display: none !important; }
-    .board-grid { min-height: 70vh; }
+    .board-grid { min-height: 12rem; }
     body.is-ready .board-grid { min-height: 0; }
     @media (min-width: 1100px) {
       /* 4-up board panel: title + columns + Show Top 30 inside one frame. */
@@ -690,7 +740,7 @@
         background: rgba(21, 27, 36, 0.78);
         padding: 14px 16px 16px;
       }
-      #board > h2 { margin-bottom: 12px; }
+      #board h2 { margin-bottom: 12px; }
       #board-more { margin-top: 14px; }
       .board-tabs, #board-note { display: none; }
       .board-grid {
@@ -712,16 +762,17 @@
       }
       #board .board-list { max-width: none; }
       #board .board-list li {
-        padding: 6px 8px;
-        gap: 4px 6px;
-        grid-template-columns: 1.7em minmax(0, 1fr) auto;
+        padding: 4px 8px;
+        gap: 2px 6px;
+        grid-template-columns: 1.5em minmax(0, 1fr) auto;
       }
       #board .board-list a {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size: 0.92rem;
+        font-size: 0.86rem;
+        line-height: 1.2;
       }
       #board .board-stock a {
         display: inline;
@@ -729,7 +780,7 @@
         font-weight: 700;
       }
       #board .board-who { min-width: 0; }
-      #board .board-val { font-size: 0.88rem; }
+      #board .board-val { font-size: 0.82rem; }
       #board .board-why {
         white-space: nowrap;
         overflow: hidden;
@@ -741,7 +792,7 @@
       #board .board-sectors li { padding-left: 1.7em; }
     }
     .board-list li.skel {
-      min-height: 52px;
+      min-height: 36px;
       pointer-events: none;
     }
     .board-list li.skel::before,
@@ -763,9 +814,9 @@
     .board-list li {
       display: grid;
       grid-template-columns: 2.2em minmax(0, 1fr) auto;
-      gap: 8px 12px;
+      gap: 6px 10px;
       align-items: baseline;
-      padding: 9px 12px;
+      padding: 7px 10px;
       border-bottom: 1px solid #3a4452;
     }
     .board-list li:last-child { border-bottom: 0; }
@@ -953,38 +1004,7 @@
       .chart-panel { top: 2vh; max-height: 96vh; }
     }
 
-    .tabbar { display: none; }
-    @media (max-width: 820px) {
-      header nav { display: none; }
-      .tabbar {
-        display: flex;
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 80;
-        background: var(--ink);
-        border-top: 2px solid var(--teal);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-      }
-      .tabbar a {
-        flex: 1 1 0;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Barlow Condensed", sans-serif;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        font-size: 0.78rem;
-        color: var(--paper);
-        text-decoration: none;
-        padding: 0 2px;
-        text-align: center;
-      }
-      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
-      body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
-    }
+    /* Tab bar + body padding: shell.css is source of truth. */
 
     /* Desktop ≥900: B wire + C chart focus. Below 900 the live table/cards stay. */
     .desk, .desk-status { display: none; }
@@ -1018,7 +1038,7 @@
       .desk {
         display: grid;
         grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr);
-        grid-template-rows: auto 1fr;
+        grid-template-rows: auto auto 1fr;
         column-gap: 16px;
         row-gap: 0;
         align-items: start;
@@ -1041,20 +1061,28 @@
         }
       }
       .desk .wire-col { display: contents; }
-      .desk .wire-day0 {
+      .desk .wire-kicker {
         grid-column: 1;
         grid-row: 1;
+        margin: 0 0 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+      }
+      .desk .wire-day0 {
+        grid-column: 1;
+        grid-row: 2;
       }
       .desk .wire {
         grid-column: 1;
-        grid-row: 2;
+        grid-row: 3;
         min-width: 0;
         padding: 0;
         margin: 0;
       }
       .desk .focus {
         grid-column: 2;
-        grid-row: 2;
+        grid-row: 1 / -1;
         align-self: start;
         min-width: 0;
       }
@@ -1157,7 +1185,11 @@
       line-height: 1.05;
       text-decoration: none;
       color: var(--white);
+      flex: 1 1 auto;
       min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .desk .who:hover { color: var(--teal); }
     .desk .ch {
@@ -1180,9 +1212,12 @@
       color: var(--paper);
       font-size: 0.84rem;
       min-width: 0;
-      white-space: nowrap;
+      white-space: normal;
       overflow: hidden;
-      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
     }
     .desk .asset a {
       font-family: "Barlow Condensed", sans-serif;
@@ -1520,7 +1555,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=103" />
+  <link rel="stylesheet" href="shell.css?v=116" />
 </head>
 <body>
   <div class="bay-left" aria-hidden="true"></div>
@@ -1546,6 +1581,8 @@
   <div class="wrap">
 
     <section class="board" id="board">
+      <details class="board-fold" open>
+      <summary>Leaderboard <span class="board-teaser" id="board-teaser"></span></summary>
       <h2>Leaderboard</h2>
       <div class="board-tabs" role="tablist">
         <button type="button" data-board="conflicts" class="on">Conflicts</button>
@@ -1597,11 +1634,13 @@
         </section>
       </div>
       <button type="button" class="btn" id="board-more" hidden>Show top 30</button>
+      </details>
     </section>
 
     <section id="tape">
-      <details class="filter-fold">
-        <summary>Search &amp; filters</summary>
+      <details class="filter-fold" open>
+        <summary>Search &amp; filters <span class="fold-teaser" id="filter-teaser"></span></summary>
+        <div class="filter-row">
         <div class="picker">
           <label for="who-search">Look up a politician</label>
           <input id="who-search" type="search" placeholder="Type a name…" autocomplete="off" />
@@ -1651,11 +1690,13 @@
             </label>
           </div>
         </div>
+        </div>
       </details>
       <p class="count" id="tape-count"></p>
       <div class="desk-status" id="desk-status"></div>
       <div class="desk" id="desk">
         <div class="wire-col">
+          <h2 class="kicker wire-kicker">Wire</h2>
           <div class="day wire-day0" id="wire-day0" hidden></div>
           <section class="wire" id="wire" aria-label="Signal wire"></section>
         </div>
@@ -1715,6 +1756,64 @@
       return String(s).replace(/[&<>"']/g, (c) => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       }[c]));
+    }
+
+    function garbageCompany(s) {
+      const t = String(s || "");
+      if (!t) return false;
+      if (/[\uFFFD]|Ã.|Â.|â€.|ï¿½|ðŸ/.test(t)) return true;
+      let weird = 0;
+      let letters = 0;
+      for (let i = 0; i < t.length; i++) {
+        const c = t.charCodeAt(i);
+        if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) letters++;
+        else if (c < 32 || c === 127 || c > 255) weird++;
+        else if (c > 127 && c < 160) weird++;
+      }
+      if (t.length >= 4 && letters === 0) return true;
+      if (t.length >= 8 && weird / t.length > 0.18) return true;
+      if (!/\s/.test(t) && t.length > 18 && (t.match(/[a-z][A-Z]/g) || []).length > 4) return true;
+      return false;
+    }
+
+    function displayCompany(name, ticker) {
+      const s = String(name || "").replace(/\s+/g, " ").trim();
+      const tk = String(ticker || "").trim();
+      if (!s || s === "—") return tk && tk !== "—" ? tk : "";
+      if (garbageCompany(s)) return tk && tk !== "—" ? tk : "";
+      return s;
+    }
+
+    function filterActiveCount() {
+      const company = document.getElementById("filter-company");
+      const industry = document.getElementById("filter-industry");
+      const kind = document.getElementById("filter-kind");
+      const side = document.getElementById("filter-side");
+      const chamber = document.getElementById("filter-chamber");
+      const landed = document.getElementById("filter-landed");
+      if (!company) return 0;
+      let n = 0;
+      if (company.value.trim()) n++;
+      if (industry && industry.value) n++;
+      if (kind && kind.value && kind.value !== "stock") n++;
+      if (side && side.value) n++;
+      if (chamber && chamber.value) n++;
+      if (landed && landed.checked) n++;
+      return n;
+    }
+
+    function paintTeasers(boards) {
+      const teaser = document.getElementById("board-teaser");
+      const ft = document.getElementById("filter-teaser");
+      const n = filterActiveCount();
+      if (teaser) {
+        const top = boards && boards.conflicts && boards.conflicts[0];
+        const bits = [];
+        if (top) bits.push(top.name);
+        if (n) bits.push("Filters · " + n + " active");
+        teaser.textContent = bits.join(" · ");
+      }
+      if (ft) ft.textContent = n ? ("· " + n + " active") : "";
     }
 
     function canonFilerId(fid, bios) {
@@ -1782,6 +1881,7 @@
 
     const PAGE = 120;
     let showAll = false;
+    let lastBoards = null;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let deskRows = [];
@@ -1824,7 +1924,8 @@
         const fresh = QC.isLanded(t, 72);
         const flag = (bad ? errBadge() : "") +
           (fresh ? "<span class=\"landed-tag\" title=\"This print was added to Quantity Capital recently — the trade itself may be older.\">New</span>" : "");
-        const meta = [t.company, t.industry || "—", t.owner].join(" · ");
+        const co = displayCompany(t.company, t.code);
+        const meta = [co || t.code, t.industry || "—", t.owner].join(" · ");
         const trCls = (bad ? " has-err" : "") + (fresh ? " just-in" : "");
         return "<tr" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
           stampHtml(t.trade_date).replace("</td>", flag + "</td>") +
@@ -1836,7 +1937,7 @@
           "<td class=\"tix-tk\">" + (isChartTicker(t.code)
             ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
             : escapeHtml(t.code)) + optionTag(t) + "</td>" +
-          "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(t.company) + "</span></td>" +
+          "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(co || t.code || "—") + "</span></td>" +
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
           "<td class=\"tix-amt\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.owner) + "</td>" +
@@ -1936,11 +2037,14 @@
           const tickerHtml = isChartTicker(t.code)
             ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
             : escapeHtml(t.code);
+          const co = displayCompany(t.company, t.code);
+          const coShow = co && co.toUpperCase() !== String(t.code || "").toUpperCase() ? co : "";
+          const assetTitle = [t.code, coShow, t.industry].filter(Boolean).join(" · ");
           return "<article class=\"print " + cls + "\" data-id=\"" + escapeHtml(t.id) + "\" tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
             "<div class=\"stamp\"><span class=\"mon\">" + stamp.mon + "</span><span class=\"dayn\">" + stamp.day + "</span></div>" +
             "<div class=\"body\">" +
               "<div class=\"who-line\">" +
-                "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+                "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + escapeHtml(t.filer) + "\">" + escapeHtml(t.filer) + "</a>" +
                 (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
                 (fresh ? "<span class=\"tag\">Just filed</span>" : "") +
                 (isFilingError(t) ? errBadge() : "") +
@@ -1950,7 +2054,8 @@
                 (t.owner ? " · " + escapeHtml(ownerLabel(t.owner)) : "") +
               "</p>" +
             "</div>" +
-            "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) +
+            "<p class=\"asset\" title=\"" + escapeHtml(assetTitle) + "\">" + tickerHtml +
+              (coShow ? " " + escapeHtml(coShow) : "") +
               (t.industry ? " · " + escapeHtml(t.industry) : "") +
               optionTag(t) +
             "</p>" +
@@ -1988,15 +2093,18 @@
       const tickerHtml = isChartTicker(t.code)
         ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
         : escapeHtml(t.code);
+      const co = displayCompany(t.company, t.code);
+      const coShow = co && co.toUpperCase() !== String(t.code || "").toUpperCase() ? co : "";
       head.innerHTML =
-        "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(t.filer) + "</a>" +
+        "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + escapeHtml(t.filer) + "\">" + escapeHtml(t.filer) + "</a>" +
         "<div class=\"chips\">" +
           (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
           (t.owner ? "<span class=\"ch\">" + escapeHtml(ownerLabel(t.owner)) + "</span>" : "") +
           (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
           (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
         "</div>" +
-        "<p class=\"asset\">" + tickerHtml + " " + escapeHtml(t.company) + "</p>" +
+        "<p class=\"asset\" title=\"" + escapeHtml([t.code, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
+          (coShow ? " " + escapeHtml(coShow) : "") + "</p>" +
         "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
       const tickerBtn = isChartTicker(t.code)
         ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">Open ticker</a>"
@@ -2375,7 +2483,10 @@
         if (t.side === "purchase") prev.buys += 1;
         else prev.sells += 1;
         prev.people.add(fid);
-        if (t.company && t.company !== "—") prev.name = String(t.company).replace(/\s+-\s*$/, "");
+        if (t.company && t.company !== "—") {
+          const cleaned = displayCompany(String(t.company).replace(/\s+-\s*$/, ""), code);
+          if (cleaned) prev.name = cleaned;
+        }
         byTicker.set(code, prev);
       });
       const stocks = Array.from(byTicker.values()).map((s) => ({
@@ -2395,6 +2506,7 @@
     }
 
     function bindBoard(boards) {
+      lastBoards = boards;
       const grid = document.getElementById("board-grid");
       const note = document.getElementById("board-note");
       const more = document.getElementById("board-more");
@@ -2412,11 +2524,13 @@
       function rowHtml(mode, r, i) {
         if (mode === "stocks") {
           const tone = r.buys > r.sells ? "up" : r.sells > r.buys ? "down" : "flat";
-          const co = r.name && r.name !== r.code
-            ? "<span class=\"board-co\">" + escapeHtml(r.name) + "</span>"
+          const coName = displayCompany(r.name, r.code);
+          const co = coName && coName !== r.code
+            ? "<span class=\"board-co\" title=\"" + escapeHtml(coName) + "\">" + escapeHtml(coName) + "</span>"
             : "";
+          const stockTitle = [r.code, coName && coName !== r.code ? coName : ""].filter(Boolean).join(" · ");
           return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-            "<span class=\"board-stock\"><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\">" +
+            "<span class=\"board-stock\"><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\" title=\"" + escapeHtml(stockTitle) + "\">" +
             escapeHtml(r.code) + "</a>" + co + "</span>" +
             "<span class=\"board-val " + tone + "\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
         }
@@ -2432,7 +2546,7 @@
           }).join("");
           return "<li class=\"board-trader\" data-id=\"" + escapeHtml(r.id) + "\">" +
             "<span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-            "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+            "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(r.name) + "\">" +
             escapeHtml(r.name) + "</a></span>" +
             "<span class=\"board-val " + cls + "\">" + signedMoney(r.pnl) + "</span>" +
             "<ul class=\"board-sectors\">" + (secs || "<li class=\"sec-name\">No priced stock trades.</li>") + "</ul></li>";
@@ -2441,7 +2555,7 @@
           ? r.trades + (r.trades === 1 ? " trade" : " trades")
           : r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
         return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-          "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\">" +
+          "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(r.name) + "\">" +
           escapeHtml(r.name) + "</a></span>" +
           "<span class=\"board-val\">" + escapeHtml(val) + "</span></li>";
       }
@@ -2461,6 +2575,7 @@
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
         tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
         cols.forEach((col) => col.classList.toggle("on", col.dataset.board === state.mode));
+        paintTeasers(boards);
       };
       tabs.forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -2602,6 +2717,7 @@
           writeFilters();
           renderTape(filtered);
           renderDesk(filtered);
+          paintTeasers(lastBoards);
         }
 
         document.getElementById("filter-company").addEventListener("input", () => { showAll = false; apply(); });
@@ -2635,6 +2751,7 @@
     (function pinTapeChrome() {
       const tape = document.getElementById("tape");
       const fold = document.querySelector(".filter-fold");
+      const boardFold = document.querySelector(".board-fold");
       const bar = document.querySelector("header");
       if (!tape) return;
       const sync = () => {
@@ -2645,7 +2762,10 @@
       };
       if (window.ResizeObserver && bar) new ResizeObserver(sync).observe(bar);
       const compact = window.matchMedia("(max-width: 820px), (orientation: landscape) and (max-height: 620px)");
-      const syncFold = () => { if (fold) fold.open = !compact.matches; };
+      const syncFold = () => {
+        if (fold) fold.open = !compact.matches;
+        if (boardFold) boardFold.open = !compact.matches;
+      };
       compact.addEventListener("change", syncFold);
       syncFold();
       sync();

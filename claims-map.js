@@ -233,6 +233,7 @@ function selectCompany(id, assetId) {
   document.getElementById("search-results").hidden = true;
   document.getElementById("search").value = company.names[0] || company.holder;
   hiddenHolders = new Set();
+  paintLegend(company);
   const gen = ++selectGen;
   whenMapReady(() => {
     if (gen !== selectGen) return;
@@ -240,11 +241,10 @@ function selectCompany(id, assetId) {
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then((data) => {
       if (gen !== selectGen) return;
-  map.resize();
-  map.getSource("company").setData(data);
+      map.resize();
+      map.getSource("company").setData(data);
       const asset = (company.mines || []).find((m) => m.id === assetId);
       fitCompany(company, asset);
-      paintLegend(company);
       const n = (company.claim_count || 0).toLocaleString("en-CA");
       const nb = (company.neighbor_count || 0).toLocaleString("en-CA");
       let extra = "<strong>" + company.holder + "</strong> · " + n + " titles · " + nb + " neighbors";

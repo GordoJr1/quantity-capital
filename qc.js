@@ -20,29 +20,115 @@
     return type.includes("option") || /exercised|call option|put option|strike pric|flex euro|\bcall\/|\bput\/|@\s*\d/.test(asset);
   }
 
+  function formatOptionStrike(raw) {
+    const s = String(raw || "").replace(/,/g, "").trim();
+    if (!s) return "";
+    const n = Number(s);
+    if (!isFinite(n) || n <= 0 || n > 100000) return "";
+    if (n >= 1900 && n <= 2100 && s.indexOf(".") < 0) return "";
+    if (Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+    return String(n);
+  }
+
+  function prettyOptionDate(isoOrDate) {
+    const d = isoOrDate instanceof Date ? isoOrDate : new Date(String(isoOrDate) + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString("en-US", { month: "short", day: "numeric" }) +
+      " '" + String(d.getFullYear()).slice(2);
+  }
+
+  function formatOptionExp(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) {
+      const iso = m[1] + "-" + String(m[2]).padStart(2, "0") + "-" + String(m[3]).padStart(2, "0");
+      return prettyOptionDate(iso) || s;
+    }
+    m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
+    if (m) {
+      let y = m[3];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      const mo = Number(m[1]);
+      const day = Number(m[2]);
+      if (mo >= 1 && mo <= 12 && day >= 1 && day <= 31) {
+        const iso = y + "-" + String(mo).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+        const d = new Date(iso + "T00:00:00");
+        if (!isNaN(d.getTime()) && d.getMonth() === mo - 1 && d.getDate() === day) return prettyOptionDate(iso);
+      }
+      return s;
+    }
+    m = s.match(/^(\d{1,2})[./-](\d{4})$/);
+    if (m) {
+      const mo = Number(m[1]);
+      const y = Number(m[2]);
+      if (mo >= 1 && mo <= 12 && y >= 1990 && y <= 2100) {
+        return new Date(y, mo - 1, 1).toLocaleString("en-US", { month: "short", year: "2-digit" });
+      }
+    }
+    m = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2,4})$/i);
+    if (m) {
+      let y = m[2];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      const d = new Date(m[1] + " 1, " + y);
+      if (!isNaN(d.getTime())) return d.toLocaleString("en-US", { month: "short", year: "2-digit" });
+    }
+    return s;
+  }
+
+  function optionKind(a) {
+    if (/\bputs?\b|\bput\/|>ut\//i.test(a)) return "Put";
+    if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(a)) return "Call";
+    if (/\bcalls?\b/i.test(a) && /strike|expir|flex euro|option type/i.test(a)) return "Call";
+    return "";
+  }
+
   function optionMeta(t) {
     const a = String(t.asset || "");
-    let kind = "";
-    if (/\bput\b|\bput\/|>ut\//i.test(a)) kind = "Put";
-    else if (/\bcall\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
-    const strike = (a.match(/strike\s*price:\s*\$?([\d,.]+)/i) || a.match(/@\s*\$?([\d,.]+)/) || [])[1];
-    const exp = (a.match(/expires?:\s*([\d./-]+)/i) || a.match(/exp(?:ires)?\s*([\d./-]+)/i) || [])[1];
-    let under = (t.ticker || "").toUpperCase();
-    const m = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
-    if (m) {
-      under = m[1].toUpperCase();
+    const kind = optionKind(a);
+    const strikeHit = a.match(/strike\s*price(?:\s+of)?\s*[:;,]?\s*\$?\s*([\d,.]+)/i)
+      || a.match(/@\s*\$?\s*([\d,.]+)/)
+      || a.match(/FLEX\s+EURO(?:\s+P[IM]+)?[^\d]{0,12}(\d{1,4}(?:\.\d+)?)\s+EXP/i)
+      || a.match(/\b[A-Z]{1,5}\s+(\d{2,4}(?:\.\d+)?)\s+(?:calls?|puts?)\b/);
+    const expHit = a.match(/expires?\s*[:;,]?\s*([\d./-]+)/i)
+      || a.match(/exp(?:iration)?(?:\s+date)?\s+(?:of\s+)?([\d./-]+)/i)
+      || a.match(/\bEXP\b[^\d]{0,10}(\d{1,2}[./-]\d{1,2}[./-]\d{2,4}|\d{4}-\d{1,2}-\d{1,2}|\d{1,2}[./-]\d{4})/i)
+      || a.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2})\s+[A-Z]{1,5}\s+[\d.]+\s+(?:call|put)/i);
+    let expRaw = "";
+    if (expHit) {
+      expRaw = (expHit[2] && /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i.test(expHit[1]))
+        ? expHit[1] + " " + expHit[2]
+        : expHit[1];
+    }
+    expRaw = String(expRaw || "").replace(/[.,;:\s]+$/, "");
+    let under = String(t.ticker || "").toUpperCase();
+    const um = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
+    if (um) {
+      under = um[1].toUpperCase();
       if (under === "INJ") under = "JNJ";
     }
-    return { kind: kind, strike: strike || "", exp: exp || "", under: under };
+    return {
+      kind: kind,
+      strike: formatOptionStrike(strikeHit && strikeHit[1]),
+      exp: formatOptionExp(expRaw),
+      under: under
+    };
+  }
+
+  function optionDetailText(o) {
+    const bits = [];
+    if (o && o.strike) bits.push("$" + o.strike);
+    if (o && o.exp) bits.push(o.exp);
+    return bits.join(" · ");
   }
 
   function optionTag(t) {
     if (!isOptionLike(t)) return "";
     const o = optionMeta(t);
-    const bits = [o.kind || "Option"];
-    if (o.strike) bits.push("$" + o.strike.replace(/\.00$/, ""));
-    if (o.exp) bits.push(o.exp);
-    return "<span class=\"opt-tag\">" + bits.join(" ") + "</span>";
+    const kind = o.kind || "Option";
+    const detail = optionDetailText(o);
+    const extra = detail ? "<span class=\"opt-detail\"> " + esc(detail) + "</span>" : "";
+    return "<span class=\"opt-tag\">" + esc(kind) + extra + "</span>";
   }
 
   function isEtfLike(t) {
@@ -1243,11 +1329,14 @@
         "<span class=\"qc-txn-after\">Held</span>" +
         "<span class=\"qc-txn-held\">% Held</span>"
       : "";
+    const opt = opts.showOptionCols
+      ? "<span class=\"qc-txn-strike\">Strike</span><span class=\"qc-txn-exp\">Exp</span>"
+      : "<span class=\"qc-txn-coname\">Company</span>";
     return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
       "<span class=\"qc-txn-company\">Ticker</span>" +
-      "<span class=\"qc-txn-coname\">Company</span>" +
+      opt +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
       hold +
@@ -1269,11 +1358,23 @@
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
     const role = String((t && (t.chamber || t.role)) || shortRole(t) || "");
-    const co = "<span class=\"qc-txn-tk\">" + esc(code) + "</span>" +
+    const opt = isOptionLike(t) ? optionMeta(t) : null;
+    const optTag = optionTag(t);
+    const optDetail = optionDetailText(opt);
+    const co = "<span class=\"qc-txn-tk\">" + esc(code) + optTag + "</span>" +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
+    const strikeHtml = opt
+      ? "<span class=\"qc-txn-strike\">" + esc(opt.strike ? "$" + opt.strike : "—") + "</span>"
+      : "";
+    const expHtml = opt
+      ? "<span class=\"qc-txn-exp\">" + esc(opt.exp || "—") + "</span>"
+      : "";
+    const optLineHtml = optDetail
+      ? "<span class=\"qc-txn-optline\">" + esc(optDetail) + "</span>"
+      : "";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
     const showHold = !!opts.showHoldings;
@@ -1335,6 +1436,7 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
+      strikeHtml + expHtml + optLineHtml +
     "</li>";
   }
 

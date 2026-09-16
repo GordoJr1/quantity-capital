@@ -179,11 +179,16 @@ summary:focus-visible,
     flex-wrap: nowrap;
   }
   .qc-header .mark {
-    font-size: 0.88rem;
-    letter-spacing: 0.14em;
+    font-size: clamp(0.78rem, 3.5vw, 0.85rem);
+    letter-spacing: 0.08em;
     min-height: 44px;
+    min-width: 0;
+    flex: 1 1 auto;
+    max-width: calc(100% - 7.25rem);
+    white-space: normal;
+    line-height: 1.08;
   }
-  .qc-header .mark span { display: none; }
+  .qc-header .mark span { display: inline; }
   .qc-nav { display: none; }
   .qc-modes {
     gap: 4px;
@@ -238,10 +243,13 @@ summary:focus-visible,
   }
   .tabbar a.on {
     border-top-color: var(--caution, #e3b41a);
+    border-top-width: 3px;
+    font-weight: 700;
+    background: rgba(227, 180, 26, 0.12);
   }
 
   body {
-    padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 8px);
+    padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 16px);
   }
 
   h1 {

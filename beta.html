@@ -409,7 +409,7 @@
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav class="qc-nav" aria-label="Issuer mines">
         <a href="beta.html" class="on" aria-current="page" title="Issuer mine profiles">Mines</a>
-        <a href="claims.html" title="IAMGOLD Quebec claims">Claims</a>
+        <a href="claims.html" title="Quebec GESTIM claims">Claims</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
@@ -1425,7 +1425,7 @@
       const box = document.getElementById("mines-inset");
       const row = document.getElementById("pipe-row");
       if (!box) return;
-      const show = profile && profile.id === "iamgold" && desktopMinesMap();
+      const show = profile && profile.kind !== "explorer" && desktopMinesMap() && mappedAssets().length > 0;
       box.hidden = !show;
       if (row) row.classList.toggle("split", show);
       if (!show) return;
@@ -1477,14 +1477,14 @@
         el.title = a.name;
         if (canada) {
           el.addEventListener("click", () => {
-            location.href = "claims.html?company=iamgold&asset=" + encodeURIComponent(a.id);
+            location.href = "claims.html?company=" + encodeURIComponent(profile.id) + "&asset=" + encodeURIComponent(a.id);
           });
         }
         const marker = new maplibregl.Marker({ element: el }).setLngLat([a.lon, a.lat]).addTo(insetMap);
         let html = "<div class=\"mine-pop\"><strong>" + esc(a.name) + "</strong><br>" +
           esc(a.region || a.country || "");
         if (canada) {
-          html += "<br><a href=\"claims.html?company=iamgold&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a>";
+          html += "<br><a href=\"claims.html?company=" + encodeURIComponent(profile.id) + "&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a>";
         } else {
           html += "<br><span class=\"quiet\">Not Quebec GESTIM</span>";
         }

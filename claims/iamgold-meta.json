@@ -1,9 +1,9 @@
 {
   "as_of": "2026-09-16 00:00:00",
-  "built_at": "2026-09-16T01:21:41Z",
+  "built_at": "2026-09-16T12:47:17Z",
   "jurisdiction": "Quebec",
   "source": "GESTIM active titles",
-  "disclaimer": "Not legal title. Quebec GESTIM only. Neighbors are titles whose geometry intersects a ~2 km buffer of IAMGOLD cells.",
+  "disclaimer": "Not legal title. Quebec GESTIM only. Neighbors are titles whose geometry intersects a ~2 km buffer of the selected company's cells. Producers with no DET_NOM titles are listed with 0 claims.",
   "companies": [
     {
       "id": "iamgold",
@@ -11,7 +11,7 @@
         "IAMGOLD",
         "IAMGold Corporation",
         "IAMGOLD Corporation",
-        "IAMGold Corporation"
+        "iamgold"
       ],
       "holder": "IAMGold Corporation",
       "claim_count": 2626,
@@ -43,17 +43,37 @@
           "region": "Quebec",
           "country": "Canada",
           "gestim": true,
-          "note": "Abitibi, Quebec. GESTIM claims in this extract."
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "essakane",
+          "name": "Essakane",
+          "lat": 14.365,
+          "lon": -0.083,
+          "region": "Sahel (Oudalan / S\u00e9no)",
+          "country": "Burkina Faso",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
         },
         {
           "id": "nelligan-complex",
           "name": "Nelligan Mining Complex",
           "lat": 49.7,
           "lon": -74.55,
-          "region": "Quebec",
+          "region": "Quebec (Chibougamau\u2013Chapais)",
           "country": "Canada",
           "gestim": true,
-          "note": "Chibougamau, Quebec. GESTIM claims in this extract."
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "diakha-siribaya",
+          "name": "Diakha\u2013Siribaya",
+          "lat": 12.85,
+          "lon": -11.23,
+          "region": "Kayes / K\u00e9ni\u00e9ba",
+          "country": "Mali",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
         }
       ],
       "neighbors": [

@@ -115,7 +115,9 @@
       "country": "Bulgaria",
       "ownership_pct": 100,
       "operator": "DPM Metals",
-      "mine_type": "Underground"
+      "mine_type": "Underground",
+      "lat": 42.7,
+      "lon": 24.08
     },
     {
       "id": "ada-tepe",
@@ -127,7 +129,9 @@
       "ownership_pct": 100,
       "operator": "DPM Metals",
       "mine_type": "Open pit",
-      "location_note": "Mine life ending mid-2026."
+      "location_note": "Mine life ending mid-2026.",
+      "lat": 41.48,
+      "lon": 25.52
     },
     {
       "id": "vares",
@@ -139,7 +143,9 @@
       "ownership_pct": 100,
       "operator": "DPM Metals",
       "mine_type": "Underground",
-      "location_note": "Acquired 3 Sep 2025; commercial production Aug 2026."
+      "location_note": "Acquired 3 Sep 2025; commercial production Aug 2026.",
+      "lat": 44.16,
+      "lon": 18.33
     },
     {
       "id": "coka-rakita",
@@ -149,7 +155,9 @@
       "commodity": "gold",
       "country": "Serbia",
       "ownership_pct": 100,
-      "operator": "DPM Metals"
+      "operator": "DPM Metals",
+      "lat": 44.23,
+      "lon": 21.95
     }
   ],
   "reserves_resources": {

@@ -1,0 +1,4309 @@
+{
+  "as_of": "2026-09-16 00:00:00",
+  "built_at": "2026-09-16T12:47:17Z",
+  "jurisdiction": "Quebec",
+  "source": "GESTIM active titles",
+  "disclaimer": "Not legal title. Quebec GESTIM only. Neighbors are titles whose geometry intersects a ~2 km buffer of the selected company's cells. Producers with no DET_NOM titles are listed with 0 claims.",
+  "companies": [
+    {
+      "id": "newmont",
+      "names": [
+        "Newmont Corporation",
+        "newmont"
+      ],
+      "holder": "Newmont Corporation",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "lihir",
+          "name": "Lihir",
+          "lat": -3.13,
+          "lon": 152.64,
+          "region": "New Ireland",
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cadia",
+          "name": "Cadia",
+          "lat": -33.46,
+          "lon": 148.99,
+          "region": "New South Wales",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "tanami",
+          "name": "Tanami",
+          "lat": -20.53,
+          "lon": 129.72,
+          "region": "Northern Territory",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "boddington",
+          "name": "Boddington",
+          "lat": -32.75,
+          "lon": 116.36,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ahafo-south",
+          "name": "Ahafo South",
+          "lat": 7.02,
+          "lon": -2.35,
+          "region": "Brong-Ahafo",
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ahafo-north",
+          "name": "Ahafo North",
+          "lat": 7.15,
+          "lon": -2.38,
+          "region": "Brong-Ahafo",
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "merian",
+          "name": "Merian",
+          "lat": 5.12,
+          "lon": -54.55,
+          "region": null,
+          "country": "Suriname",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cerro-negro",
+          "name": "Cerro Negro",
+          "lat": -46.85,
+          "lon": -70.35,
+          "region": "Santa Cruz",
+          "country": "Argentina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "yanacocha",
+          "name": "Yanacocha",
+          "lat": -6.98,
+          "lon": -78.51,
+          "region": "Cajamarca",
+          "country": "Peru",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "penasquito",
+          "name": "Pe\u00f1asquito",
+          "lat": 24.65,
+          "lon": -101.68,
+          "region": "Zacatecas",
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "red-chris",
+          "name": "Red Chris",
+          "lat": 57.7,
+          "lon": -129.8,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "brucejack",
+          "name": "Brucejack",
+          "lat": 56.47,
+          "lon": -130.19,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "nevada-gold-mines",
+          "name": "Nevada Gold Mines",
+          "lat": 40.92,
+          "lon": -116.32,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "pueblo-viejo",
+          "name": "Pueblo Viejo",
+          "lat": 18.94,
+          "lon": -70.17,
+          "region": null,
+          "country": "Dominican Republic",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "fruta-del-norte",
+          "name": "Fruta del Norte",
+          "lat": -3.82,
+          "lon": -78.5,
+          "region": null,
+          "country": "Ecuador",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "wafi-golpu",
+          "name": "Wafi-Golpu",
+          "lat": -6.85,
+          "lon": 146.45,
+          "region": null,
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "nueva-union",
+          "name": "NuevaUni\u00f3n",
+          "lat": -28.45,
+          "lon": -70.25,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "norte-abierto",
+          "name": "Norte Abierto",
+          "lat": -26.99,
+          "lon": -69.27,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "conga",
+          "name": "Conga",
+          "lat": -6.9,
+          "lon": -78.37,
+          "region": null,
+          "country": "Peru",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "galore-creek",
+          "name": "Galore Creek",
+          "lat": 57.13,
+          "lon": -131.44,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "agnico-eagle",
+      "names": [
+        "Agnico Eagle",
+        "Agnico Eagle Mines",
+        "Agnico Eagle Abitibi Acquisition Corp.",
+        "Mines Agnico-Eagle Limit\u00e9e",
+        "Agnico Eagle Mines Limited",
+        "agnico eagle"
+      ],
+      "holder": "Agnico Eagle Abitibi Acquisition Corp.",
+      "claim_count": 4654,
+      "neighbor_count": 6782,
+      "bbox": [
+        -79.51777,
+        47.99167,
+        -75.825,
+        50.04167
+      ],
+      "color": "#e8b040",
+      "extract": "claims/agnico-eagle.geojson",
+      "mines": [
+        {
+          "id": "laronde",
+          "name": "LaRonde Complex",
+          "lat": 48.25,
+          "lon": -78.48,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "canadian-malartic",
+          "name": "Canadian Malartic Complex",
+          "lat": 48.13,
+          "lon": -78.13,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "goldex",
+          "name": "Goldex",
+          "lat": 48.11,
+          "lon": -77.84,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "detour-lake",
+          "name": "Detour Lake",
+          "lat": 50.01,
+          "lon": -79.68,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "macassa",
+          "name": "Macassa",
+          "lat": 48.15,
+          "lon": -80.03,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "meliadine",
+          "name": "Meliadine",
+          "lat": 63.03,
+          "lon": -92.17,
+          "region": "Nunavut",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Nunavut. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "meadowbank",
+          "name": "Meadowbank Complex",
+          "lat": 65.02,
+          "lon": -96.07,
+          "region": "Nunavut",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Nunavut. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "fosterville",
+          "name": "Fosterville",
+          "lat": -36.72,
+          "lon": 144.5,
+          "region": "Victoria",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kittila",
+          "name": "Kittil\u00e4",
+          "lat": 67.91,
+          "lon": 24.84,
+          "region": "Lapland",
+          "country": "Finland",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "pinos-altos",
+          "name": "Pinos Altos",
+          "lat": 28.27,
+          "lon": -108.3,
+          "region": "Chihuahua",
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "hope-bay",
+          "name": "Hope Bay",
+          "lat": 68.13,
+          "lon": -106.62,
+          "region": "Nunavut",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Nunavut. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "upper-beaver",
+          "name": "Upper Beaver",
+          "lat": 48.23,
+          "lon": -79.83,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "Probe Gold inc.",
+          "count": 785,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Corporation Aurif\u00e8re Vior Inc.",
+          "count": 513,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Eldorado Gold (Quebec) inc.",
+          "count": 398,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Mines Abcourt Inc.",
+          "count": 362,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 331,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Falco Resources ltd.",
+          "count": 286,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Bonterra Resources inc.",
+          "count": 205,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "Wesdome Gold Mines Ltd",
+          "count": 192,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Corporation Mini\u00e8re Fokus",
+          "count": 190,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 174,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 172,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 170,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 165,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Groupe Minier Windfall Inc.",
+          "count": 133,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Mini\u00e8res Radisson Inc.",
+          "count": 125,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kenorland Minerals North America ltd",
+          "count": 120,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Renforth Resources Inc.",
+          "count": 119,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "IAMGold Corporation",
+          "count": 117,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "DPM Metals Inc.",
+          "count": 96,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 88,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Cartier inc.",
+          "count": 87,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Orezone Quebec Inc.",
+          "count": 85,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Wallbridge Mining Company Limited",
+          "count": 77,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Canadian Royalties Inc.",
+          "count": 72,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bullion Gold Resources Corp.",
+          "count": 71,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 65,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 60,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jody Dahrouge",
+          "count": 55,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Amex Exploration inc",
+          "count": 54,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Alexandr Beloborodov G\u00e9ologue inc.(ABG Exploration)",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9jean Raymond",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Glencore Canada Corporation",
+          "count": 49,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Opawica Exploration Inc",
+          "count": 48,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Victory Battery Metals Corp.",
+          "count": 46,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "MGM Douay Gold Project Ltd.",
+          "count": 42,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Infinico Metals Corp.",
+          "count": 40,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Patricia Lafontaine",
+          "count": 38,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 37,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Alexandr Beloborodov",
+          "count": 36,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tania Poehlman",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Westmount Minerals Corp.",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Breakwater",
+          "count": 33,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Launay Gold Corp.",
+          "count": 33,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Eagle Ridge Mining Ltd.",
+          "count": 30,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mathieu Audet",
+          "count": 27,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "SOQUEM inc.",
+          "count": 27,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Apollo Exploration inc.",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Gestion Jadmine inc.",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Quebec Aur ltd.",
+          "count": 25,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Robina Berdusco",
+          "count": 24,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Madex inc.",
+          "count": 22,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Junita Tedy Asihto",
+          "count": 22,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "La Croix Mineral Exploration Ltd.",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Melkior Inc.",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Petrolympic Ltd.",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Muzhu Mining Ltd.",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ga\u00e9tan Roby",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tellford Management Ltd.",
+          "count": 18,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Roger Ouellet",
+          "count": 18,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Steven Scott",
+          "count": 17,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Guy Gammon",
+          "count": 17,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jacques Viau",
+          "count": 17,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Lac Gold (Rouyn) Inc.",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Sementiou inc.",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mark Fekete",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Rafael Moncayo",
+          "count": 14,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Emperor Metals Inc.",
+          "count": 14,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Visible Gold Mines inc.",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Michel Roby",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Future Mineral Resources inc.",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "H\u00e9l\u00e8ne Niquay",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Julie Gadoury",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "163142 Canada inc.",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bromell Mining Corp inc.",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation mini\u00e8re Troilus (Troilus Mining Corp.)",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dean Boudrias",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stoch Martin",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Abitibi Royalties Inc.",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Glenn Griesbach",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marshall Minerals Corp.",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Genevi\u00e8ve Gauthier",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tarku Resources Ltd",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Linear Minerals corp.",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Alamos Gold inc.",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Teck Limit\u00e9e",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Nextair Inc.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Seahawk Gold corp.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9264-7890 Qu\u00e9bec inc.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Murray Jones",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Lise Daigle",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Construction Norascon inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stuart Deveau",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "L.Fournier et Fils inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mines Dynacor inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Les Mines d'Or et de Cuivre Newbaska Limit\u00e9e",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Les Mines et Redevances de la Vall\u00e9e de l'Or Lt\u00e9e",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre-Andr\u00e9 Bigu\u00e9",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "CENTRAL ASIA GOLDFIELDS CORPORATION",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dave Gauthier",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Auriginal Mining Corp.",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports et de la Mobilit\u00e9 Durable",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Nuvau Minerals Corp.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Hugo-Alexandre Gauvin",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Phillip Terrence Coyle",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9511-2090 Qu\u00e9bec inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Valley Mining Corp",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kirkland Lake Gold inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "B\u00e9ton Barrette inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Agr\u00e9gat R-N inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "8967202 Canada inc,",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Daniel St-Pierre",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dub\u00e9 Concassage inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "REV Exploration Corp.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "B\u00e9ton Fortin Inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stacey Funk",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9154-4312 Qu\u00e9bec inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Aurif\u00e8re Opus One",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ville de Val-d'or",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ville de Malartic",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Municipalit\u00e9 de Rivi\u00e8re-H\u00e9va",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Direction r\u00e9gionale de la gestion de la faune Abitibi-T\u00e9miscamingue",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des transports et de la Mobilit\u00e9 durable",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "barrick",
+      "names": [
+        "Barrick",
+        "Barrick Gold",
+        "Barrick Mining",
+        "Barrick Gold inc.",
+        "Barrick Mining Corporation",
+        "barrick"
+      ],
+      "holder": "Barrick Gold inc.",
+      "claim_count": 45,
+      "neighbor_count": 179,
+      "bbox": [
+        -75.79167,
+        49.6,
+        -75.68333,
+        49.63333
+      ],
+      "color": "#e8b040",
+      "extract": "claims/barrick.geojson",
+      "mines": [
+        {
+          "id": "carlin",
+          "name": "Carlin",
+          "lat": 40.92,
+          "lon": -116.32,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cortez",
+          "name": "Cortez",
+          "lat": 40.24,
+          "lon": -116.71,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "turquoise-ridge",
+          "name": "Turquoise Ridge",
+          "lat": 41.18,
+          "lon": -117.26,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "phoenix",
+          "name": "Phoenix",
+          "lat": 40.53,
+          "lon": -117.15,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "pueblo-viejo",
+          "name": "Pueblo Viejo",
+          "lat": 18.94,
+          "lon": -70.17,
+          "region": null,
+          "country": "Dominican Republic",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "loulo-gounkoto",
+          "name": "Loulo-Gounkoto",
+          "lat": 13.05,
+          "lon": -11.37,
+          "region": null,
+          "country": "Mali",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kibali",
+          "name": "Kibali",
+          "lat": 3.12,
+          "lon": 29.58,
+          "region": "Haut-Uele",
+          "country": "Democratic Republic of the Congo",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "north-mara",
+          "name": "North Mara",
+          "lat": -1.39,
+          "lon": 34.48,
+          "region": null,
+          "country": "Tanzania",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "bulyanhulu",
+          "name": "Bulyanhulu",
+          "lat": -3.22,
+          "lon": 32.38,
+          "region": null,
+          "country": "Tanzania",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "veladero",
+          "name": "Veladero",
+          "lat": -29.37,
+          "lon": -69.95,
+          "region": "San Juan",
+          "country": "Argentina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "porgera",
+          "name": "Porgera",
+          "lat": -5.47,
+          "lon": 143.08,
+          "region": null,
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "fourmile",
+          "name": "Fourmile",
+          "lat": 40.26,
+          "lon": -116.7,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "norte-abierto",
+          "name": "Norte Abierto",
+          "lat": -26.99,
+          "lon": -69.27,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "reko-diq",
+          "name": "Reko Diq",
+          "lat": 29.05,
+          "lon": 62.07,
+          "region": null,
+          "country": "Pakistan",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 78,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 29,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Michael Ferreira",
+          "count": 24,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 13,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 13,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 13,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 3,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "Cindy Roy",
+          "count": 2,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 2,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Eagle Ridge Mining Ltd.",
+          "count": 2,
+          "color": "#8d6e63"
+        }
+      ]
+    },
+    {
+      "id": "anglogold",
+      "names": [
+        "AngloGold Ashanti plc",
+        "anglogold"
+      ],
+      "holder": "AngloGold Ashanti plc",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "geita",
+          "name": "Geita",
+          "lat": -2.87,
+          "lon": 32.23,
+          "region": null,
+          "country": "Tanzania",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "sukari",
+          "name": "Sukari",
+          "lat": 24.94,
+          "lon": 34.71,
+          "region": null,
+          "country": "Egypt",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "obuasi",
+          "name": "Obuasi",
+          "lat": 6.2,
+          "lon": -1.66,
+          "region": "Ashanti",
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "siguiri",
+          "name": "Siguiri",
+          "lat": 11.43,
+          "lon": -9.17,
+          "region": null,
+          "country": "Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "iduapriem",
+          "name": "Iduapriem",
+          "lat": 5.32,
+          "lon": -2.0,
+          "region": null,
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kibali",
+          "name": "Kibali",
+          "lat": 3.12,
+          "lon": 29.58,
+          "region": null,
+          "country": "Democratic Republic of the Congo",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "tropicana",
+          "name": "Tropicana",
+          "lat": -29.25,
+          "lon": 124.55,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "sunrise-dam",
+          "name": "Sunrise Dam",
+          "lat": -29.07,
+          "lon": 122.42,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cuiaba",
+          "name": "AGA Minera\u00e7\u00e3o (Cuiab\u00e1)",
+          "lat": -19.87,
+          "lon": -43.67,
+          "region": "Minas Gerais",
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cerro-vanguardia",
+          "name": "Cerro Vanguardia",
+          "lat": -48.39,
+          "lon": -68.31,
+          "region": "Santa Cruz",
+          "country": "Argentina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "arthur-gold",
+          "name": "Arthur Gold",
+          "lat": 37.35,
+          "lon": -117.05,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "north-bullfrog",
+          "name": "North Bullfrog",
+          "lat": 36.89,
+          "lon": -116.88,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "nevada-regional",
+          "name": "Nevada Regional (Reward)",
+          "lat": 36.92,
+          "lon": -116.98,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "gold-fields",
+      "names": [
+        "Gold Fields",
+        "Windfall",
+        "Groupe Minier Windfall Inc.",
+        "Gold Fields Limited",
+        "gold fields"
+      ],
+      "holder": "Groupe Minier Windfall Inc.",
+      "claim_count": 4425,
+      "neighbor_count": 3217,
+      "bbox": [
+        -78.8,
+        47.35833,
+        -75.0,
+        49.45
+      ],
+      "color": "#e8b040",
+      "extract": "claims/gold-fields.geojson",
+      "mines": [
+        {
+          "id": "tarkwa",
+          "name": "Tarkwa",
+          "lat": 5.3,
+          "lon": -2.0,
+          "region": null,
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "south-deep",
+          "name": "South Deep",
+          "lat": -26.42,
+          "lon": 27.67,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "st-ives",
+          "name": "St Ives",
+          "lat": -31.24,
+          "lon": 121.8,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "agnew",
+          "name": "Agnew",
+          "lat": -27.92,
+          "lon": 120.7,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "granny-smith",
+          "name": "Granny Smith",
+          "lat": -28.99,
+          "lon": 122.42,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "gruyere",
+          "name": "Gruyere",
+          "lat": -27.99,
+          "lon": 123.85,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "salares-norte",
+          "name": "Salares Norte",
+          "lat": -25.51,
+          "lon": -69.17,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "cerro-corona",
+          "name": "Cerro Corona",
+          "lat": -6.76,
+          "lon": -78.62,
+          "region": null,
+          "country": "Peru",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "windfall",
+          "name": "Windfall",
+          "lat": 49.0,
+          "lon": -75.65,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "UB Phoenix Corp.",
+          "count": 487,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Corporation Aurif\u00e8re Vior Inc.",
+          "count": 259,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Ressources Breakwater",
+          "count": 227,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Mines Abcourt Inc.",
+          "count": 190,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 190,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Ressources Cartier inc.",
+          "count": 89,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Clarity Metals corp.",
+          "count": 89,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 88,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Agnico Eagle Abitibi Acquisition Corp.",
+          "count": 85,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Abitibi Metals Corp.",
+          "count": 85,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Probe Gold inc.",
+          "count": 82,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Raymond B\u00e9dard",
+          "count": 79,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stuart Deveau",
+          "count": 73,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 64,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 60,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "EGR Exploration ltd.",
+          "count": 59,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Quantum Critical Metals Corp.",
+          "count": 54,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 53,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Urbana Corporation",
+          "count": 44,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "SOQUEM inc.",
+          "count": 42,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Christian Letendre",
+          "count": 39,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Robert Gagnon",
+          "count": 39,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Quebec Nickel Corp.",
+          "count": 38,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kenorland Minerals North America ltd",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "North American Exploration Ltd",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Les Mines et Redevances de la Vall\u00e9e de l'Or Lt\u00e9e",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Les Mines J.A.G. Lt\u00e9e",
+          "count": 35,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Nextair Inc.",
+          "count": 34,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 34,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mosaic minerals corp.",
+          "count": 33,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marty Huber",
+          "count": 28,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Amex Exploration inc",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Seahawk Gold corp.",
+          "count": 24,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "La Croix Mineral Exploration Ltd.",
+          "count": 23,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+          "count": 23,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tellford Management Ltd.",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Reza Mohammed",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Doctors Investment Group Ltd",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Neil Perk",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mathieu Audet",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources White Stag lt\u00e9e",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Travis Steinke",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "3421856 Canada inc.",
+          "count": 14,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Diane Audet",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Phillip Terrence Coyle",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9jean Raymond",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Frank Guillemette",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kode Mineral Exploration Ltd.",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marilyne Robert",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Melkior Inc.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "NeoTerrex Minerals inc.",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ladouelle inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bonterra Resources inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Steven Scott",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Tectonic inc. (Les)",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Larry Desgagn\u00e9",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Glencore Canada Corporation",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Genevi\u00e8ve Gauthier",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fancamp Exploration Ltd",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tourbi\u00e8res Berger Lt\u00e9e (Les)",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Canadian Silver Hunter inc.",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Denis Ouellet",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Patricia Lafontaine",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Sementiou inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Auriginal Mining Corp.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kimberly Holzman",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Roger Ouellet",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Eagle Ridge Mining Ltd.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Antimony Mines International inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fr\u00e9d\u00e9ric Bergeron",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stacey Funk",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9154-4312 Qu\u00e9bec inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "B\u00e9ton Fortin Inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "STIRLING HYDROGEN INC",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des transports et de la Mobilit\u00e9 durable",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "kinross",
+      "names": [
+        "Kinross Gold Corporation",
+        "kinross"
+      ],
+      "holder": "Kinross Gold Corporation",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "paracatu",
+          "name": "Paracatu",
+          "lat": -17.22,
+          "lon": -46.87,
+          "region": null,
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "tasiast",
+          "name": "Tasiast",
+          "lat": 20.93,
+          "lon": -16.18,
+          "region": null,
+          "country": "Mauritania",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "fort-knox",
+          "name": "Fort Knox",
+          "lat": 64.99,
+          "lon": -147.36,
+          "region": "Alaska",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "manh-choh",
+          "name": "Manh Choh",
+          "lat": 63.28,
+          "lon": -143.8,
+          "region": "Alaska",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "bald-mountain",
+          "name": "Bald Mountain",
+          "lat": 39.95,
+          "lon": -115.58,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "round-mountain",
+          "name": "Round Mountain",
+          "lat": 38.7,
+          "lon": -117.12,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "la-coipa",
+          "name": "La Coipa",
+          "lat": -26.92,
+          "lon": -69.28,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "great-bear",
+          "name": "Great Bear",
+          "lat": 50.95,
+          "lon": -93.72,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "lobo-marte",
+          "name": "Lobo-Marte",
+          "lat": -27.05,
+          "lon": -69.25,
+          "region": null,
+          "country": "Chile",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "northern-star",
+      "names": [
+        "Northern Star Resources Limited",
+        "northern star"
+      ],
+      "holder": "Northern Star Resources Limited",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "kalgoorlie",
+          "name": "Kalgoorlie Production Centre",
+          "lat": -30.75,
+          "lon": 121.5,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kcgm",
+          "name": "KCGM",
+          "lat": -30.78,
+          "lon": 121.51,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "yandal",
+          "name": "Yandal Production Centre",
+          "lat": -27.35,
+          "lon": 121.02,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "pogo",
+          "name": "Pogo",
+          "lat": 64.45,
+          "lon": -144.94,
+          "region": "Alaska",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "hemi",
+          "name": "Hemi (De Grey)",
+          "lat": -20.62,
+          "lon": 118.62,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "harmony",
+      "names": [
+        "Harmony Gold Mining Company Limited",
+        "harmony"
+      ],
+      "holder": "Harmony Gold Mining Company Limited",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "mponeng",
+          "name": "Mponeng",
+          "lat": -26.44,
+          "lon": 27.43,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "moab-khotsong",
+          "name": "Moab Khotsong",
+          "lat": -26.98,
+          "lon": 26.8,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "sa-underground",
+          "name": "South Africa underground",
+          "lat": -26.8,
+          "lon": 27.15,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "sa-surface",
+          "name": "South Africa surface",
+          "lat": -26.2,
+          "lon": 28.35,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "hidden-valley",
+          "name": "Hidden Valley",
+          "lat": -7.2,
+          "lon": 146.15,
+          "region": null,
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "eva-copper",
+          "name": "Eva Copper",
+          "lat": -19.98,
+          "lon": 140.3,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "csa",
+          "name": "CSA Copper",
+          "lat": -31.42,
+          "lon": 145.8,
+          "region": null,
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "golpu",
+          "name": "Wafi-Golpu",
+          "lat": -6.85,
+          "lon": 146.45,
+          "region": null,
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "endeavour",
+      "names": [
+        "Endeavour Mining plc",
+        "endeavour"
+      ],
+      "holder": "Endeavour Mining plc",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "hounde",
+          "name": "Hound\u00e9",
+          "lat": 11.48,
+          "lon": -3.52,
+          "region": null,
+          "country": "Burkina Faso",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ity",
+          "name": "Ity",
+          "lat": 6.52,
+          "lon": -8.03,
+          "region": null,
+          "country": "C\u00f4te d'Ivoire",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "mana",
+          "name": "Mana",
+          "lat": 12.18,
+          "lon": -3.35,
+          "region": null,
+          "country": "Burkina Faso",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "sabodala-massawa",
+          "name": "Sabodala-Massawa",
+          "lat": 13.18,
+          "lon": -12.1,
+          "region": null,
+          "country": "Senegal",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "lafigue",
+          "name": "Lafigu\u00e9",
+          "lat": 8.62,
+          "lon": -5.15,
+          "region": null,
+          "country": "C\u00f4te d'Ivoire",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "assafou",
+          "name": "Assafou",
+          "lat": 8.35,
+          "lon": -6.05,
+          "region": null,
+          "country": "C\u00f4te d'Ivoire",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kalana",
+          "name": "Kalana",
+          "lat": 10.83,
+          "lon": -8.2,
+          "region": null,
+          "country": "Mali",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "b2gold",
+      "names": [
+        "B2Gold Corp.",
+        "b2gold"
+      ],
+      "holder": "B2Gold Corp.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "fekola",
+          "name": "Fekola Complex",
+          "lat": 12.02,
+          "lon": -11.32,
+          "region": null,
+          "country": "Mali",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "goose",
+          "name": "Goose (Back River)",
+          "lat": 66.02,
+          "lon": -107.43,
+          "region": "Nunavut",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Nunavut. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "masbate",
+          "name": "Masbate",
+          "lat": 12.31,
+          "lon": 123.39,
+          "region": null,
+          "country": "Philippines",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "otjikoto",
+          "name": "Otjikoto",
+          "lat": -19.17,
+          "lon": 17.62,
+          "region": null,
+          "country": "Namibia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "gramalote",
+          "name": "Gramalote",
+          "lat": 7.3,
+          "lon": -75.2,
+          "region": null,
+          "country": "Colombia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "iamgold",
+      "names": [
+        "IAMGOLD",
+        "IAMGold Corporation",
+        "IAMGOLD Corporation",
+        "iamgold"
+      ],
+      "holder": "IAMGold Corporation",
+      "claim_count": 2626,
+      "neighbor_count": 4865,
+      "bbox": [
+        -79.35269,
+        45.79718,
+        -71.2773,
+        53.34167
+      ],
+      "color": "#e8b040",
+      "extract": "claims/iamgold.geojson",
+      "mines": [
+        {
+          "id": "cote-gold",
+          "name": "C\u00f4t\u00e9 Gold",
+          "lat": 47.548,
+          "lon": -81.93,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "westwood",
+          "name": "Westwood Complex",
+          "lat": 48.2557,
+          "lon": -78.5022,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "essakane",
+          "name": "Essakane",
+          "lat": 14.365,
+          "lon": -0.083,
+          "region": "Sahel (Oudalan / S\u00e9no)",
+          "country": "Burkina Faso",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "nelligan-complex",
+          "name": "Nelligan Mining Complex",
+          "lat": 49.7,
+          "lon": -74.55,
+          "region": "Quebec (Chibougamau\u2013Chapais)",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "diakha-siribaya",
+          "name": "Diakha\u2013Siribaya",
+          "lat": 12.85,
+          "lon": -11.23,
+          "region": "Kayes / K\u00e9ni\u00e9ba",
+          "country": "Mali",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "BTM Corporation",
+          "count": 455,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Northern Superior Resources Inc.",
+          "count": 442,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Visible Gold Mines inc.",
+          "count": 273,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 239,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Ressources Yorbeau Inc. (Les)",
+          "count": 189,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Chevrier Metals Corp.",
+          "count": 182,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Falco Resources ltd.",
+          "count": 165,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "REV Exploration Corp.",
+          "count": 148,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Mines Agnico-Eagle Limit\u00e9e",
+          "count": 136,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Vale Canada Limit\u00e9e",
+          "count": 128,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Corporation de min\u00e9raux strat\u00e9giques du Maroc",
+          "count": 126,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 121,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9220-5392 Qu\u00e9bec inc.",
+          "count": 116,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 116,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Min\u00e9raux CBay inc.",
+          "count": 111,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 104,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Auriginal Mining Corp.",
+          "count": 97,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stuart Deveau",
+          "count": 83,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Route 109 Resources Inc.",
+          "count": 69,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Reid Stanger",
+          "count": 67,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 66,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Tomagold",
+          "count": 64,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Emergent Metals Corp.",
+          "count": 63,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Breakwater",
+          "count": 62,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Epsilon inc.",
+          "count": 59,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Glenn Griesbach",
+          "count": 58,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bullion Gold Resources Corp.",
+          "count": 53,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Michael Ferreira",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mines d'Or Duparquet inc.",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "G.L. Geoservice inc.",
+          "count": 51,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Major Gold Corporation",
+          "count": 50,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marc Bouchard",
+          "count": 50,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "SOQUEM inc.",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Abdul Razique",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Tectonic inc. (Les)",
+          "count": 41,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation M\u00e9taux Pr\u00e9cieux du Qu\u00e9bec",
+          "count": 38,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 37,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "6078559 Canada inc.",
+          "count": 37,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jason LeBlanc",
+          "count": 32,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Hartmann Exploration Corp",
+          "count": 31,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "International Explorers & Prospectors inc.",
+          "count": 31,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jenna Sim",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Goldflare inc.",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Orezone Quebec Inc.",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Teck Limit\u00e9e",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kevin Brouwer",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Black Tusk Resources inc.",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Goliath Resources Ltd",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Cindy Roy",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean-Philippe Desrochers",
+          "count": 18,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Quebec Aur ltd.",
+          "count": 17,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9jean Raymond",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Com\u00e8te Lithium",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Generic Gold corp.",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources White Stag lt\u00e9e",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Harfang Exploration inc.",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "nicole robert",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "1254704 B.C. LTD.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Steven Scott",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fancamp Exploration Ltd",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marty Huber",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fayz Yacoub",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Aurif\u00e8re Vior Inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dave Gauthier",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation mini\u00e8re Troilus (Troilus Mining Corp.)",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Junita Tedy Asihto",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "H\u00e9l\u00e8ne Niquay",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9al Gauthier",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val\u00e9rie Dallaire",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Janice Bonhomme",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mathieu Audet",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "G\u00e9oconseils Jack Stoch Limit\u00e9e",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "First Quantum Minerals Ltd.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Andr\u00e9 Drouin",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Michel Chapdelaine",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Riopel",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Murray Jones",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports et de la Mobilit\u00e9 Durable",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "evolution",
+      "names": [
+        "Evolution Mining Limited",
+        "evolution"
+      ],
+      "holder": "Evolution Mining Limited",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "cowal",
+          "name": "Cowal",
+          "lat": -33.64,
+          "lon": 147.41,
+          "region": "New South Wales",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ernest-henry",
+          "name": "Ernest Henry",
+          "lat": -20.46,
+          "lon": 140.75,
+          "region": "Queensland",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "northparkes",
+          "name": "Northparkes",
+          "lat": -32.94,
+          "lon": 148.04,
+          "region": "New South Wales",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "mungari",
+          "name": "Mungari",
+          "lat": -30.72,
+          "lon": 121.22,
+          "region": "Western Australia",
+          "country": "Australia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "red-lake",
+          "name": "Red Lake",
+          "lat": 51.05,
+          "lon": -93.82,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "alamos-gold",
+      "names": [
+        "Alamos Gold",
+        "Alamos Gold inc.",
+        "Alamos Gold Inc.",
+        "alamos gold"
+      ],
+      "holder": "Alamos Gold inc.",
+      "claim_count": 4604,
+      "neighbor_count": 2362,
+      "bbox": [
+        -78.45,
+        49.15833,
+        -74.36667,
+        62.09167
+      ],
+      "color": "#e8b040",
+      "extract": "claims/alamos-gold.geojson",
+      "mines": [
+        {
+          "id": "island-gold-district",
+          "name": "Island Gold District",
+          "lat": 48.02,
+          "lon": -84.77,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "young-davidson",
+          "name": "Young-Davidson",
+          "lat": 47.93,
+          "lon": -80.38,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "mulatos",
+          "name": "Mulatos District",
+          "lat": 28.65,
+          "lon": -108.74,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "lynn-lake",
+          "name": "Lynn Lake",
+          "lat": 56.85,
+          "lon": -101.05,
+          "region": "Manitoba",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Manitoba. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "Wyloo West Raglan Limited Partnership",
+          "count": 1512,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "9414-5349 Qu\u00e9bec inc.",
+          "count": 248,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "NQC Lithium Corp.",
+          "count": 214,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "MGM Douay Gold Project Ltd.",
+          "count": 80,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Agnico Eagle Abitibi Acquisition Corp.",
+          "count": 66,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Ressources Yorbeau Inc. (Les)",
+          "count": 65,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Explo-Zinc inc.",
+          "count": 35,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "Canadian Royalties Inc.",
+          "count": 24,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 20,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 20,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Kattherine Diaz",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Nunavik Lt\u00e9e",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Wayne E Holmstead",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Trent Potts",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "lundin-gold",
+      "names": [
+        "Lundin Gold Inc.",
+        "lundin gold"
+      ],
+      "holder": "Lundin Gold Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "fruta-del-norte",
+          "name": "Fruta del Norte",
+          "lat": -3.82,
+          "lon": -78.5,
+          "region": null,
+          "country": "Ecuador",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "fdns",
+          "name": "Fruta del Norte South",
+          "lat": -3.85,
+          "lon": -78.48,
+          "region": null,
+          "country": "Ecuador",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "oceanagold",
+      "names": [
+        "OceanaGold Corporation",
+        "oceanagold"
+      ],
+      "holder": "OceanaGold Corporation",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "haile",
+          "name": "Haile",
+          "lat": 34.58,
+          "lon": -80.54,
+          "region": "South Carolina",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "macraes",
+          "name": "Macraes",
+          "lat": -45.39,
+          "lon": 170.47,
+          "region": null,
+          "country": "New Zealand",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "didipio",
+          "name": "Didipio",
+          "lat": 16.33,
+          "lon": 121.45,
+          "region": null,
+          "country": "Philippines",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "waihi",
+          "name": "Waihi",
+          "lat": -37.39,
+          "lon": 175.84,
+          "region": null,
+          "country": "New Zealand",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "eldorado-gold",
+      "names": [
+        "Eldorado Gold",
+        "Eldorado Gold (Quebec) inc.",
+        "Eldorado Gold Corporation",
+        "eldorado gold"
+      ],
+      "holder": "Eldorado Gold (Quebec) inc.",
+      "claim_count": 940,
+      "neighbor_count": 1813,
+      "bbox": [
+        -78.525,
+        48.05521,
+        -77.19167,
+        49.76667
+      ],
+      "color": "#e8b040",
+      "extract": "claims/eldorado-gold.geojson",
+      "mines": [
+        {
+          "id": "lamaque",
+          "name": "Lamaque Complex",
+          "lat": 48.1,
+          "lon": -77.77,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        },
+        {
+          "id": "kisladag",
+          "name": "K\u0131\u015flada\u011f",
+          "lat": 38.48,
+          "lon": 29.15,
+          "region": null,
+          "country": "T\u00fcrkiye",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "efemcukuru",
+          "name": "Efem\u00e7ukuru",
+          "lat": 38.28,
+          "lon": 27.02,
+          "region": null,
+          "country": "T\u00fcrkiye",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "olympias",
+          "name": "Olympias",
+          "lat": 40.6,
+          "lon": 23.83,
+          "region": null,
+          "country": "Greece",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "skouries",
+          "name": "Skouries",
+          "lat": 40.48,
+          "lon": 23.7,
+          "region": null,
+          "country": "Greece",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "mcilvenna-bay",
+          "name": "McIlvenna Bay",
+          "lat": 54.64,
+          "lon": -102.2,
+          "region": "Saskatchewan",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Saskatchewan. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "perama-hill",
+          "name": "Perama Hill",
+          "lat": 40.97,
+          "lon": 26.0,
+          "region": null,
+          "country": "Greece",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "Agnico Eagle Abitibi Acquisition Corp.",
+          "count": 566,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Probe Gold inc.",
+          "count": 518,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Nuvau Minerals Corp.",
+          "count": 90,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Mine Barlow Inc.",
+          "count": 65,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Glencore Canada Corporation",
+          "count": 61,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Petrolympic Ltd.",
+          "count": 51,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 41,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "Ressources Melkior Inc.",
+          "count": 40,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 40,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Glenn Griesbach",
+          "count": 40,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 34,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Gestion Jadmine inc.",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Qu\u00e9bec Pegmatite S.A. (Qu\u00e8bec Pegmatite Corp.)",
+          "count": 25,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mines Abcourt Inc.",
+          "count": 24,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Alexandr Beloborodov",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9511-2090 Qu\u00e9bec inc.",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Future Mineral Resources inc.",
+          "count": 13,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Robina Berdusco",
+          "count": 12,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 10,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Canadian Royalties Inc.",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Teck Limit\u00e9e",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mines Agnico-Eagle Limit\u00e9e",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Patricia Lafontaine",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mathieu Audet",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Les Mines et Redevances de la Vall\u00e9e de l'Or Lt\u00e9e",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "SOQUEM inc.",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Sukhdeep Sekhon",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Tarku Resources Ltd",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "L.Fournier et Fils inc.",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bonterra Resources inc.",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Cartier inc.",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Steven Scott",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dave Gauthier",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "B\u00e9ton Barrette inc.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "8967202 Canada inc,",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre-Andr\u00e9 Bigu\u00e9",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Genevi\u00e8ve Gauthier",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ville de Val-d'or",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Xander Resources Inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Riopel",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Gestion Kinipi",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Golda Resources inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Construction Norascon inc.",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "ssr-mining",
+      "names": [
+        "SSR Mining Inc.",
+        "ssr mining"
+      ],
+      "holder": "SSR Mining Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "marigold",
+          "name": "Marigold",
+          "lat": 40.42,
+          "lon": -117.05,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ccv",
+          "name": "Cripple Creek & Victor",
+          "lat": 38.75,
+          "lon": -105.18,
+          "region": "Colorado",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "seabee",
+          "name": "Seabee",
+          "lat": 55.7,
+          "lon": -103.55,
+          "region": "Saskatchewan",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Saskatchewan. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "puna",
+          "name": "Puna",
+          "lat": -22.32,
+          "lon": -66.6,
+          "region": null,
+          "country": "Argentina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "copler",
+          "name": "\u00c7\u00f6pler",
+          "lat": 39.42,
+          "lon": 38.48,
+          "region": null,
+          "country": "T\u00fcrkiye",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "hod-maden",
+          "name": "Hod Maden",
+          "lat": 40.45,
+          "lon": 41.18,
+          "region": null,
+          "country": "T\u00fcrkiye",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "torex-gold",
+      "names": [
+        "Torex Gold Resources Inc.",
+        "torex gold"
+      ],
+      "holder": "Torex Gold Resources Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "morelos",
+          "name": "Morelos Complex",
+          "lat": 18.02,
+          "lon": -99.62,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "media-luna-north",
+          "name": "Media Luna North",
+          "lat": 18.0,
+          "lon": -99.61,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "los-reyes",
+          "name": "Los Reyes",
+          "lat": 23.15,
+          "lon": -105.85,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "centerra-gold",
+      "names": [
+        "Centerra Gold Inc.",
+        "centerra gold"
+      ],
+      "holder": "Centerra Gold Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "mount-milligan",
+          "name": "Mount Milligan",
+          "lat": 55.12,
+          "lon": -124.01,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "oksut",
+          "name": "\u00d6ks\u00fct",
+          "lat": 38.3,
+          "lon": 36.2,
+          "region": null,
+          "country": "T\u00fcrkiye",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "goldfield",
+          "name": "Goldfield",
+          "lat": 37.71,
+          "lon": -117.24,
+          "region": "Nevada",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "kemess",
+          "name": "Kemess",
+          "lat": 57.0,
+          "lon": -126.75,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "dpm-metals",
+      "names": [
+        "DPM Metals Inc.",
+        "dpm metals"
+      ],
+      "holder": "DPM Metals Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "chelopech",
+          "name": "Chelopech",
+          "lat": 42.7,
+          "lon": 24.08,
+          "region": null,
+          "country": "Bulgaria",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "ada-tepe",
+          "name": "Ada Tepe",
+          "lat": 41.48,
+          "lon": 25.52,
+          "region": null,
+          "country": "Bulgaria",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "vares",
+          "name": "Vare\u0161",
+          "lat": 44.16,
+          "lon": 18.33,
+          "region": null,
+          "country": "Bosnia and Herzegovina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "coka-rakita",
+          "name": "\u010coka Rakita",
+          "lat": 44.23,
+          "lon": 21.95,
+          "region": null,
+          "country": "Serbia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "k92-mining",
+      "names": [
+        "K92 Mining Inc.",
+        "k92 mining"
+      ],
+      "holder": "K92 Mining Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "kainantu",
+          "name": "Kainantu",
+          "lat": -6.28,
+          "lon": 145.9,
+          "region": null,
+          "country": "Papua New Guinea",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "aris-mining",
+      "names": [
+        "Aris Mining Corporation",
+        "aris mining"
+      ],
+      "holder": "Aris Mining Corporation",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "segovia",
+          "name": "Segovia",
+          "lat": 7.08,
+          "lon": -74.7,
+          "region": null,
+          "country": "Colombia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "marmato",
+          "name": "Marmato",
+          "lat": 5.47,
+          "lon": -75.6,
+          "region": null,
+          "country": "Colombia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "soto-norte",
+          "name": "Soto Norte",
+          "lat": 7.12,
+          "lon": -73.0,
+          "region": null,
+          "country": "Colombia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "toroparu",
+          "name": "Toroparu",
+          "lat": 6.55,
+          "lon": -60.5,
+          "region": null,
+          "country": "Guyana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "fortuna-mining",
+      "names": [
+        "Fortuna Mining Corp.",
+        "fortuna mining"
+      ],
+      "holder": "Fortuna Mining Corp.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "seguela",
+          "name": "S\u00e9gu\u00e9la",
+          "lat": 7.95,
+          "lon": -6.67,
+          "region": null,
+          "country": "C\u00f4te d'Ivoire",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "lindero",
+          "name": "Lindero",
+          "lat": -25.08,
+          "lon": -67.7,
+          "region": null,
+          "country": "Argentina",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "caylloma",
+          "name": "Caylloma",
+          "lat": -15.18,
+          "lon": -71.82,
+          "region": null,
+          "country": "Peru",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "diamba-sud",
+          "name": "Diamba Sud",
+          "lat": 12.8,
+          "lon": -11.4,
+          "region": null,
+          "country": "Senegal",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "artemis-gold",
+      "names": [
+        "Artemis Gold Inc.",
+        "artemis gold"
+      ],
+      "holder": "Artemis Gold Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "blackwater",
+          "name": "Blackwater",
+          "lat": 53.18,
+          "lon": -124.87,
+          "region": "British Columbia",
+          "country": "Canada",
+          "gestim": false,
+          "note": "British Columbia. Quebec GESTIM titles are not mapped here."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "wesdome-gold-mines",
+      "names": [
+        "Wesdome",
+        "Wesdome Gold Mines",
+        "Wesdome Gold Mines Ltd",
+        "Wesdome Gold Mines Ltd.",
+        "wesdome gold mines"
+      ],
+      "holder": "Wesdome Gold Mines Ltd",
+      "claim_count": 192,
+      "neighbor_count": 423,
+      "bbox": [
+        -77.99611,
+        48.08302,
+        -77.82788,
+        48.19167
+      ],
+      "color": "#e8b040",
+      "extract": "claims/wesdome-gold-mines.geojson",
+      "mines": [
+        {
+          "id": "eagle-river",
+          "name": "Eagle River",
+          "lat": 48.5,
+          "lon": -85.9,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "kiena",
+          "name": "Kiena",
+          "lat": 48.15,
+          "lon": -77.77,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Quebec. GESTIM claims in this extract."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "Mines Agnico-Eagle Limit\u00e9e",
+          "count": 169,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Agnico Eagle Abitibi Acquisition Corp.",
+          "count": 117,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Probe Gold inc.",
+          "count": 31,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Tania Poehlman",
+          "count": 24,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Bonterra Resources inc.",
+          "count": 21,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Rafael Moncayo",
+          "count": 18,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 16,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "9264-7890 Qu\u00e9bec inc.",
+          "count": 8,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Alexandr Beloborodov",
+          "count": 6,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Mines Dynacor inc.",
+          "count": 6,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Lise Daigle",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ville de Malartic",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    },
+    {
+      "id": "equinox-gold",
+      "names": [
+        "Equinox Gold Corp.",
+        "equinox gold"
+      ],
+      "holder": "Equinox Gold Corp.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "greenstone",
+          "name": "Greenstone",
+          "lat": 49.7,
+          "lon": -86.95,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "valentine",
+          "name": "Valentine",
+          "lat": 48.45,
+          "lon": -56.85,
+          "region": "Newfoundland and Labrador",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Newfoundland and Labrador. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "nicaragua",
+          "name": "Nicaragua Operations",
+          "lat": 12.75,
+          "lon": -86.05,
+          "region": null,
+          "country": "Nicaragua",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "mesquite",
+          "name": "Mesquite",
+          "lat": 33.05,
+          "lon": -114.98,
+          "region": "California",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "castle-mountain",
+          "name": "Castle Mountain",
+          "lat": 35.28,
+          "lon": -115.08,
+          "region": "California",
+          "country": "USA",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "los-filos",
+          "name": "Los Filos",
+          "lat": 17.88,
+          "lon": -99.6,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "musselwhite",
+          "name": "Musselwhite",
+          "lat": 52.61,
+          "lon": -90.36,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "camino-rojo",
+          "name": "Camino Rojo",
+          "lat": 24.34,
+          "lon": -101.17,
+          "region": null,
+          "country": "Mexico",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "galiano-gold",
+      "names": [
+        "Galiano Gold Inc.",
+        "galiano gold"
+      ],
+      "holder": "Galiano Gold Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "asanko",
+          "name": "Asanko Gold Mine",
+          "lat": 6.35,
+          "lon": -2.0,
+          "region": null,
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "drdgold",
+      "names": [
+        "DRDGOLD Limited",
+        "drdgold"
+      ],
+      "holder": "DRDGOLD Limited",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "ergo",
+          "name": "Ergo",
+          "lat": -26.22,
+          "lon": 28.4,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "fwgr",
+          "name": "Far West Gold Recoveries",
+          "lat": -26.22,
+          "lon": 27.67,
+          "region": null,
+          "country": "South Africa",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "caledonia-mining",
+      "names": [
+        "Caledonia Mining Corporation Plc",
+        "caledonia mining"
+      ],
+      "holder": "Caledonia Mining Corporation Plc",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "blanket",
+          "name": "Blanket",
+          "lat": -20.7,
+          "lon": 29.0,
+          "region": null,
+          "country": "Zimbabwe",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "bilboes",
+          "name": "Bilboes",
+          "lat": -19.85,
+          "lon": 28.85,
+          "region": null,
+          "country": "Zimbabwe",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "mineros",
+      "names": [
+        "Mineros S.A.",
+        "mineros"
+      ],
+      "holder": "Mineros S.A.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "hemco",
+          "name": "Hemco",
+          "lat": 14.03,
+          "lon": -83.38,
+          "region": null,
+          "country": "Nicaragua",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "nechi",
+          "name": "Nech\u00ed",
+          "lat": 8.09,
+          "lon": -74.78,
+          "region": null,
+          "country": "Colombia",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "porvenir",
+          "name": "Porvenir",
+          "lat": 13.7,
+          "lon": -84.45,
+          "region": null,
+          "country": "Nicaragua",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "thor-explorations",
+      "names": [
+        "Thor Explorations Ltd.",
+        "thor explorations"
+      ],
+      "holder": "Thor Explorations Ltd.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "segilola",
+          "name": "Segilola",
+          "lat": 7.35,
+          "lon": 4.62,
+          "region": "Osun State",
+          "country": "Nigeria",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "douta",
+          "name": "Douta",
+          "lat": 12.85,
+          "lon": -12.35,
+          "region": null,
+          "country": "Senegal",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "asante-gold",
+      "names": [
+        "Asante Gold Corporation",
+        "asante gold"
+      ],
+      "holder": "Asante Gold Corporation",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "bibiani",
+          "name": "Bibiani",
+          "lat": 6.47,
+          "lon": -2.32,
+          "region": "Western North",
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "chirano",
+          "name": "Chirano",
+          "lat": 6.33,
+          "lon": -2.38,
+          "region": "Western North",
+          "country": "Ghana",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    },
+    {
+      "id": "jaguar-mining",
+      "names": [
+        "Jaguar Mining Inc.",
+        "jaguar mining"
+      ],
+      "holder": "Jaguar Mining Inc.",
+      "claim_count": 0,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [
+        {
+          "id": "pilar",
+          "name": "Pilar (Caet\u00e9)",
+          "lat": -19.88,
+          "lon": -43.67,
+          "region": "Minas Gerais",
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "turmalina",
+          "name": "Turmalina (MTL)",
+          "lat": -19.2,
+          "lon": -44.42,
+          "region": "Minas Gerais",
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "faina",
+          "name": "Faina",
+          "lat": -19.17,
+          "lon": -44.4,
+          "region": "Minas Gerais",
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        },
+        {
+          "id": "oncas",
+          "name": "On\u00e7as de Pitangui",
+          "lat": -19.68,
+          "lon": -44.62,
+          "region": "Minas Gerais",
+          "country": "Brazil",
+          "gestim": false,
+          "note": "Not Quebec GESTIM."
+        }
+      ],
+      "neighbors": []
+    }
+  ]
+}

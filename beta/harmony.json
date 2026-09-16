@@ -112,7 +112,9 @@
       "country": "South Africa",
       "ownership_pct": 100,
       "operator": "Harmony",
-      "mine_type": "Underground"
+      "mine_type": "Underground",
+      "lat": -26.44,
+      "lon": 27.43
     },
     {
       "id": "moab-khotsong",
@@ -123,7 +125,9 @@
       "country": "South Africa",
       "ownership_pct": 100,
       "operator": "Harmony",
-      "mine_type": "Underground"
+      "mine_type": "Underground",
+      "lat": -26.98,
+      "lon": 26.8
     },
     {
       "id": "sa-underground",
@@ -135,7 +139,9 @@
       "ownership_pct": 100,
       "operator": "Harmony",
       "mine_type": "Underground",
-      "location_note": "Includes Tshepong, Doornkop, Joel, Target, Kusasalethu, Masimong."
+      "location_note": "Includes Tshepong, Doornkop, Joel, Target, Kusasalethu, Masimong.",
+      "lat": -26.8,
+      "lon": 27.15
     },
     {
       "id": "sa-surface",
@@ -145,7 +151,9 @@
       "commodity": "gold",
       "country": "South Africa",
       "ownership_pct": 100,
-      "operator": "Harmony"
+      "operator": "Harmony",
+      "lat": -26.2,
+      "lon": 28.35
     },
     {
       "id": "hidden-valley",
@@ -155,7 +163,9 @@
       "commodity": "gold",
       "country": "Papua New Guinea",
       "ownership_pct": 100,
-      "operator": "Harmony"
+      "operator": "Harmony",
+      "lat": -7.2,
+      "lon": 146.15
     },
     {
       "id": "eva-copper",
@@ -165,7 +175,9 @@
       "commodity": "gold",
       "country": "Australia",
       "ownership_pct": 100,
-      "operator": "Harmony"
+      "operator": "Harmony",
+      "lat": -19.98,
+      "lon": 140.3
     },
     {
       "id": "csa",
@@ -176,7 +188,9 @@
       "country": "Australia",
       "ownership_pct": 100,
       "operator": "Harmony",
-      "location_note": "Copper, not gold — hidden from gold mine table."
+      "location_note": "Copper, not gold — hidden from gold mine table.",
+      "lat": -31.42,
+      "lon": 145.8
     },
     {
       "id": "golpu",
@@ -192,7 +206,9 @@
           "name": "Newmont",
           "pct": 50
         }
-      ]
+      ],
+      "lat": -6.85,
+      "lon": 146.45
     }
   ],
   "reserves_resources": {

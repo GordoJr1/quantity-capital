@@ -167,7 +167,9 @@
       "country": "Tanzania",
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
-      "mine_type": "Open pit + underground"
+      "mine_type": "Open pit + underground",
+      "lat": -2.87,
+      "lon": 32.23
     },
     {
       "id": "sukari",
@@ -179,7 +181,9 @@
       "ownership_pct": 50,
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit + underground",
-      "location_note": "Centamin 22 Nov 2024."
+      "location_note": "Centamin 22 Nov 2024.",
+      "lat": 24.94,
+      "lon": 34.71
     },
     {
       "id": "obuasi",
@@ -191,7 +195,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Underground",
-      "region": "Ashanti"
+      "region": "Ashanti",
+      "lat": 6.2,
+      "lon": -1.66
     },
     {
       "id": "siguiri",
@@ -208,7 +214,9 @@
           "name": "Government of Guinea",
           "pct": 15
         }
-      ]
+      ],
+      "lat": 11.43,
+      "lon": -9.17
     },
     {
       "id": "iduapriem",
@@ -219,7 +227,9 @@
       "country": "Ghana",
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
-      "mine_type": "Open pit"
+      "mine_type": "Open pit",
+      "lat": 5.32,
+      "lon": -2.0
     },
     {
       "id": "kibali",
@@ -240,7 +250,9 @@
           "name": "SOKIMO",
           "pct": 10
         }
-      ]
+      ],
+      "lat": 3.12,
+      "lon": 29.58
     },
     {
       "id": "tropicana",
@@ -258,7 +270,9 @@
           "name": "Regis Resources",
           "pct": 30
         }
-      ]
+      ],
+      "lat": -29.25,
+      "lon": 124.55
     },
     {
       "id": "sunrise-dam",
@@ -270,7 +284,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit + underground",
-      "region": "Western Australia"
+      "region": "Western Australia",
+      "lat": -29.07,
+      "lon": 122.42
     },
     {
       "id": "cuiaba",
@@ -282,7 +298,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Underground",
-      "region": "Minas Gerais"
+      "region": "Minas Gerais",
+      "lat": -19.87,
+      "lon": -43.67
     },
     {
       "id": "cerro-vanguardia",
@@ -300,7 +318,9 @@
           "name": "Fomicruz",
           "pct": 7.5
         }
-      ]
+      ],
+      "lat": -48.39,
+      "lon": -68.31
     },
     {
       "id": "arthur-gold",
@@ -312,7 +332,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 37.35,
+      "lon": -117.05
     },
     {
       "id": "north-bullfrog",
@@ -324,7 +346,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 36.89,
+      "lon": -116.88
     },
     {
       "id": "nevada-regional",
@@ -336,7 +360,9 @@
       "ownership_pct": 100,
       "operator": "AngloGold Ashanti",
       "mine_type": "Open pit",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 36.92,
+      "lon": -116.98
     }
   ],
   "reserves_resources": {

@@ -106,7 +106,9 @@
       "ownership_pct": 100,
       "operator": "Torex Gold",
       "mine_type": "Underground",
-      "location_note": "ELG UG + Media Luna UG, one plant."
+      "location_note": "ELG UG + Media Luna UG, one plant.",
+      "lat": 18.02,
+      "lon": -99.62
     },
     {
       "id": "media-luna-north",
@@ -117,7 +119,9 @@
       "country": "Mexico",
       "ownership_pct": 100,
       "operator": "Torex Gold",
-      "location_note": "First production targeted late 2026."
+      "location_note": "First production targeted late 2026.",
+      "lat": 18.0,
+      "lon": -99.61
     },
     {
       "id": "los-reyes",
@@ -127,7 +131,9 @@
       "commodity": "gold",
       "country": "Mexico",
       "ownership_pct": 100,
-      "operator": "Torex Gold"
+      "operator": "Torex Gold",
+      "lat": 23.15,
+      "lon": -105.85
     }
   ],
   "reserves_resources": {

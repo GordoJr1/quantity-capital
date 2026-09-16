@@ -130,7 +130,9 @@
       "country": "Brazil",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "mine_type": "Open pit"
+      "mine_type": "Open pit",
+      "lat": -17.22,
+      "lon": -46.87
     },
     {
       "id": "tasiast",
@@ -141,7 +143,9 @@
       "country": "Mauritania",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "mine_type": "Open pit"
+      "mine_type": "Open pit",
+      "lat": 20.93,
+      "lon": -16.18
     },
     {
       "id": "fort-knox",
@@ -153,7 +157,9 @@
       "ownership_pct": 100,
       "operator": "Kinross",
       "mine_type": "Open pit",
-      "region": "Alaska"
+      "region": "Alaska",
+      "lat": 64.99,
+      "lon": -147.36
     },
     {
       "id": "manh-choh",
@@ -170,7 +176,9 @@
           "name": "Contango Ore",
           "pct": 30
         }
-      ]
+      ],
+      "lat": 63.28,
+      "lon": -143.8
     },
     {
       "id": "bald-mountain",
@@ -181,7 +189,9 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 39.95,
+      "lon": -115.58
     },
     {
       "id": "round-mountain",
@@ -192,7 +202,9 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "region": "Nevada"
+      "region": "Nevada",
+      "lat": 38.7,
+      "lon": -117.12
     },
     {
       "id": "la-coipa",
@@ -202,7 +214,9 @@
       "commodity": "gold",
       "country": "Chile",
       "ownership_pct": 100,
-      "operator": "Kinross"
+      "operator": "Kinross",
+      "lat": -26.92,
+      "lon": -69.28
     },
     {
       "id": "great-bear",
@@ -212,7 +226,10 @@
       "commodity": "gold",
       "country": "Canada",
       "ownership_pct": 100,
-      "operator": "Kinross"
+      "operator": "Kinross",
+      "region": "Ontario",
+      "lat": 50.95,
+      "lon": -93.72
     },
     {
       "id": "lobo-marte",
@@ -222,7 +239,9 @@
       "commodity": "gold",
       "country": "Chile",
       "ownership_pct": 100,
-      "operator": "Kinross"
+      "operator": "Kinross",
+      "lat": -27.05,
+      "lon": -69.25
     }
   ],
   "reserves_resources": {

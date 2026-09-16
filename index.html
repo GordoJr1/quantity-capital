@@ -1704,10 +1704,25 @@
       .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
 
       body.tape-opt .qc-txn-optline { display: none; }
+      body.tape-opt .desk {
+        grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.55fr);
+      }
+      @media (min-width: 1200px) {
+        body.tape-opt .desk {
+          grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.7fr);
+        }
+      }
       body.tape-opt .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       body.tape-opt .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(6.8rem, 1.2fr) minmax(6.4rem, 0.8fr) 4.2rem minmax(6.6rem, 0.85fr) 4.4rem minmax(3.4rem, 0.5fr);
+        column-gap: 8px;
+        grid-template-columns: 4.8rem minmax(5.6rem, 1fr) minmax(5.2rem, 0.62fr) 3.7rem 5.4rem 4rem minmax(8.6rem, max-content);
         grid-template-areas: "date id co strike exp chip hero";
+      }
+      body.tape-opt .desk .qc-txn-tape .qc-txn-hero,
+      body.tape-opt .desk .qc-txn-cols .qc-txn-hero {
+        white-space: nowrap;
+        overflow: visible;
+        min-width: 8.6rem;
       }
       body.tape-opt .desk .qc-txn-cols .qc-txn-coname,
       body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {

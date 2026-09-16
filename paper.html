@@ -252,9 +252,9 @@
       </div>
     </details>
     <div class="paper-controls">
-      <div class="board-tabs" role="tablist">
-        <button type="button" data-board="filers" class="on">Filers</button>
-        <button type="button" data-board="tickers">Tickers</button>
+      <div class="board-tabs" role="tablist" aria-label="Paper board">
+        <button type="button" role="tab" id="paper-tab-filers" aria-selected="true" aria-controls="board" data-board="filers" class="on">Filers</button>
+        <button type="button" role="tab" id="paper-tab-tickers" aria-selected="false" aria-controls="board" data-board="tickers">Tickers</button>
       </div>
       <div class="picker">
         <input id="q" type="search" placeholder="Name or ticker…" autocomplete="off" />
@@ -268,7 +268,7 @@
     </details>
     <p class="paper-caption" id="stats"></p>
     <p class="count" id="count"></p>
-    <div id="board"></div>
+    <div id="board" role="tabpanel" aria-labelledby="paper-tab-filers"></div>
     <div class="more-row" id="more-row" hidden>
       <button type="button" class="btn" id="more">Show all</button>
     </div>
@@ -455,8 +455,13 @@
         ? visible.map((row, i) => state.board === "tickers" ? tickerCard(row, i) : filerCard(row, i)).join("")
         : "<p class=\"muted\">Nothing cleared the bar. Drop the minimum legs or clear the search.</p>";
       document.querySelectorAll(".board-tabs button").forEach((btn) => {
-        btn.classList.toggle("on", btn.dataset.board === state.board);
+        const on = btn.dataset.board === state.board;
+        btn.classList.toggle("on", on);
+        btn.setAttribute("aria-selected", on ? "true" : "false");
       });
+      const panel = document.getElementById("board");
+      const selected = document.querySelector(".board-tabs button.on");
+      if (panel && selected && selected.id) panel.setAttribute("aria-labelledby", selected.id);
       if (state.needDeepScroll && state.open) {
         const top = document.querySelector(".card.open .card-top") || document.querySelector(".card.open");
         if (top) top.scrollIntoView({ block: "start" });

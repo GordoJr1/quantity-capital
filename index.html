@@ -1759,15 +1759,15 @@
           <span class="board-peek" id="board-peek"></span>
         </summary>
       <h2>Leaderboard</h2>
-      <div class="board-tabs" role="tablist">
-        <button type="button" data-board="conflicts" class="on">Conflicts</button>
-        <button type="button" data-board="activity">Active</button>
-        <button type="button" data-board="traders">Traders</button>
-        <button type="button" data-board="stocks">Trades</button>
+      <div class="board-tabs" role="tablist" aria-label="Leaderboard">
+        <button type="button" role="tab" id="board-tab-conflicts" aria-selected="true" aria-controls="board-panel-conflicts" data-board="conflicts" class="on">Conflicts</button>
+        <button type="button" role="tab" id="board-tab-activity" aria-selected="false" aria-controls="board-panel-activity" data-board="activity">Active</button>
+        <button type="button" role="tab" id="board-tab-traders" aria-selected="false" aria-controls="board-panel-traders" data-board="traders">Traders</button>
+        <button type="button" role="tab" id="board-tab-stocks" aria-selected="false" aria-controls="board-panel-stocks" data-board="stocks">Trades</button>
       </div>
       <p class="board-note" id="board-note"></p>
       <div class="board-grid" id="board-grid">
-        <section class="board-col on" data-board="conflicts">
+        <section class="board-col on" id="board-panel-conflicts" role="tabpanel" aria-labelledby="board-tab-conflicts" data-board="conflicts">
           <h3 class="board-col-title">Conflicts</h3>
           <ol class="board-list" id="board-list-conflicts">
             <li class="skel" aria-hidden="true"></li>
@@ -1777,7 +1777,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" data-board="activity">
+        <section class="board-col" id="board-panel-activity" role="tabpanel" aria-labelledby="board-tab-activity" data-board="activity">
           <h3 class="board-col-title">Active</h3>
           <ol class="board-list" id="board-list-activity">
             <li class="skel" aria-hidden="true"></li>
@@ -1787,7 +1787,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" data-board="traders">
+        <section class="board-col" id="board-panel-traders" role="tabpanel" aria-labelledby="board-tab-traders" data-board="traders">
           <h3 class="board-col-title">Traders</h3>
           <ol class="board-list" id="board-list-traders">
             <li class="skel" aria-hidden="true"></li>
@@ -1797,7 +1797,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" data-board="stocks">
+        <section class="board-col" id="board-panel-stocks" role="tabpanel" aria-labelledby="board-tab-stocks" data-board="stocks">
           <h3 class="board-col-title">Trades</h3>
           <ol class="board-list" id="board-list-stocks">
             <li class="skel" aria-hidden="true"></li>
@@ -1879,7 +1879,7 @@
           <div id="focus-head"></div>
           <div class="focus-chart" id="focus-chart">
             <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-            <div class="chart-wrap" id="chart-wrap">
+            <div class="chart-wrap" id="chart-wrap" role="tabpanel">
               <div class="chart-frame">
                 <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
                 <div class="chart-x" id="chart-x"></div>
@@ -2332,10 +2332,12 @@
     function paintRange() {
       const box = document.getElementById("range");
       if (!box) return;
-      box.innerHTML = CHART_RANGES.map((r) =>
-        "<button type=\"button\" class=\"" + (r === chartRange ? "on" : "") + "\" data-r=\"" + r + "\">" +
-          r.toUpperCase() + "</button>"
-      ).join("");
+      box.innerHTML = CHART_RANGES.map((r) => {
+        const on = r === chartRange;
+        return "<button type=\"button\" role=\"tab\" aria-selected=\"" + (on ? "true" : "false") +
+          "\" aria-controls=\"chart-wrap\" class=\"" + (on ? "on" : "") + "\" data-r=\"" + r + "\">" +
+          r.toUpperCase() + "</button>";
+      }).join("");
     }
 
     function pickRangeForTrade(points, tradeIso, preferred) {
@@ -2785,7 +2787,11 @@
         const anyMore = modes.some((mode) => (boards[mode] || []).length > 10);
         more.hidden = !anyMore;
         more.textContent = state.limit > 10 ? "Show top 10" : "Show top 30";
-        tabs.forEach((btn) => btn.classList.toggle("on", btn.dataset.board === state.mode));
+        tabs.forEach((btn) => {
+          const on = btn.dataset.board === state.mode;
+          btn.classList.toggle("on", on);
+          btn.setAttribute("aria-selected", on ? "true" : "false");
+        });
         cols.forEach((col) => col.classList.toggle("on", col.dataset.board === state.mode));
         const peek = document.getElementById("board-peek");
         if (peek) {

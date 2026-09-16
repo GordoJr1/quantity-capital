@@ -486,6 +486,16 @@ summary:focus-visible,
   white-space: nowrap;
   vertical-align: middle;
 }
+.qc-txn .opt-tag.opt-call,
+.opt-tag.opt-call {
+  border-color: #36999d;
+  color: #8fd4d6;
+}
+.qc-txn .opt-tag.opt-put,
+.opt-tag.opt-put {
+  border-color: #8b96a3;
+  color: #b8c0c8;
+}
 .qc-txn-strike,
 .qc-txn-exp,
 .qc-txn-optline { display: none; }
@@ -553,7 +563,8 @@ summary:focus-visible,
 }
 .qc-txn-id-line .qc-txn-name,
 .qc-txn-id-line a.qc-txn-name {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 .qc-txn-id-line .qc-txn-role { display: none; }
 

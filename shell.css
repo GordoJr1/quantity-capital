@@ -483,7 +483,19 @@ summary:focus-visible,
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-left: 0;
+  white-space: nowrap;
+  vertical-align: middle;
 }
+.qc-txn-strike,
+.qc-txn-exp,
+.qc-txn-optline { display: none; }
+.qc-txn-tape .qc-txn-company .qc-txn-tk {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.qc-txn-tape .qc-txn-tk .opt-tag { margin-left: 0; }
 .qc-txn-tag.hot { border-color: var(--caution, #e3b41a); color: var(--caution, #e3b41a); }
 .qc-txn-tag.ceo { border-color: #7dcf7a; color: #7dcf7a; }
 .qc-txn-hero,

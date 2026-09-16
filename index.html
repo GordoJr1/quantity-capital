@@ -1608,7 +1608,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=158" />
+  <link rel="stylesheet" href="shell.css?v=159" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1626,8 +1626,22 @@
     .qc-txn-sub { grid-area: sub; display: none; }
     .qc-txn-who { display: flex; flex-wrap: nowrap; align-items: center; min-width: 0; }
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
+    body.tape-opt .qc-txn-tape {
+      grid-template-areas: "when when" "id end" "co co" "opt opt";
+    }
+    body.tape-opt .qc-txn-optline {
+      display: block;
+      grid-area: opt;
+      color: var(--paper, #d8dde3);
+      font-size: 0.82rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.01em;
+    }
+    body.tape-opt .opt-detail { display: none; }
+    body.tape-opt .qc-txn-tape .qc-txn-company .qc-txn-co-name { display: none; }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
+      body.tape-opt .qc-txn-optline { font-size: 0.78rem; }
     }
     @media (min-width: 900px) {
       .qc-txn-when { display: none; }
@@ -1684,6 +1698,29 @@
       .desk .qc-txn-tape.on { border-color: var(--caution); background: rgba(227, 180, 26, 0.1); }
       .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
       .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+
+      body.tape-opt .qc-txn-optline { display: none; }
+      body.tape-opt .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
+      body.tape-opt .desk .qc-txn-tape {
+        grid-template-columns: 5.1rem minmax(7.2rem, 1.3fr) minmax(6.8rem, 0.9fr) 4.3rem 6rem 4.4rem minmax(3.4rem, 0.5fr);
+        grid-template-areas: "date id co strike exp chip hero";
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-coname,
+      body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name { display: none; }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-strike,
+      body.tape-opt .desk .qc-txn-strike {
+        display: block; grid-area: strike; min-width: 0; white-space: nowrap;
+        font-variant-numeric: tabular-nums; color: var(--paper, #d8dde3);
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-exp,
+      body.tape-opt .desk .qc-txn-exp {
+        display: block; grid-area: exp; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        color: var(--paper, #d8dde3);
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-strike,
+      body.tape-opt .desk .qc-txn-cols .qc-txn-exp {
+        color: inherit; font-variant-numeric: normal;
+      }
     }
   </style>
 </head>
@@ -1885,7 +1922,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=116"></script>
+  <script src="qc.js?v=118"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2224,11 +2261,14 @@
       groupRowsByFiledDate(restRows).forEach(([key, rows]) => {
         parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
       });
+      const optCols = document.body.classList.contains("tape-opt");
       const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">Name</span>" +
         "<span class=\"qc-txn-company\">Ticker</span>" +
-        "<span class=\"qc-txn-coname\">Company</span>" +
+        (optCols
+          ? "<span class=\"qc-txn-strike\">Strike</span><span class=\"qc-txn-exp\">Exp</span>"
+          : "<span class=\"qc-txn-coname\">Company</span>") +
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
@@ -2901,6 +2941,7 @@
             return true;
           });
           lastTapeView = { onlyLanded: onlyLanded, kind: kind };
+          document.body.classList.toggle("tape-opt", kind === "option");
           landedOverflow = kind
             ? rows.filter((t) => {
                 if (!QC.isLanded(t, 72) || assetKind(t) === kind) return false;

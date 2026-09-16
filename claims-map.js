@@ -26,8 +26,10 @@ const map = new maplibregl.Map({
   attributionControl: true,
 });
 
+window.qcClaimsMap = map;
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "bottom-right");
 map.addControl(new maplibregl.ScaleControl({ maxWidth: 140, unit: "metric" }), "bottom-right");
+map.on("load", () => map.resize());
 
 let popup = null;
 let catalog = null;
@@ -238,7 +240,8 @@ function selectCompany(id, assetId) {
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then((data) => {
       if (gen !== selectGen) return;
-      map.getSource("company").setData(data);
+  map.resize();
+  map.getSource("company").setData(data);
       const asset = (company.mines || []).find((m) => m.id === assetId);
       fitCompany(company, asset);
       paintLegend(company);
@@ -291,3 +294,5 @@ fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
 }).catch(() => {
   setStatus("Could not load claims/iamgold-meta.json");
 });
+
+window.qcSelectCompany = selectCompany;

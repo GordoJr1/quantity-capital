@@ -139,20 +139,30 @@
       padding: 2px 8px; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
       font-family: "Barlow Condensed", sans-serif;
     }
-    .pipe { display: grid; gap: 10px; margin: 0 0 16px; }
+    .pipe { display: grid; gap: 6px; margin: 0 0 16px; }
     .card {
       background: var(--panel); border: 1px solid #4a5563;
       border-left: 6px solid var(--teal); padding: 14px 16px;
+    }
+    .pipe .card {
+      padding: 8px 12px;
+      border-left-width: 4px;
     }
     .card h3 {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em;
       text-transform: uppercase; font-size: 1.15rem; margin: 0 0 6px;
     }
+    .pipe .card h3 { font-size: 0.98rem; margin: 0 0 2px; }
+    .pipe .card p { margin: 0; font-size: 0.86rem; line-height: 1.35; }
+    .pipe .card .muted { font-size: 0.8rem; }
     .card h3 a { color: inherit; text-decoration: none; }
     .card h3 a:hover { color: var(--caution); }
     .kids { margin: 8px 0 0; padding-left: 18px; color: var(--paper); }
     .kids li { margin: 4px 0; }
+    .pipe .kids { margin: 4px 0 0; padding-left: 16px; font-size: 0.84rem; }
+    .pipe .kids li { margin: 1px 0; }
     .also { margin-top: 8px; }
+    .pipe .also { margin-top: 4px; }
     .rr-name { white-space: nowrap; }
     .rr-name.d1 { padding-left: 22px; }
     .rr-name.d2 { padding-left: 40px; color: var(--paper); }
@@ -212,7 +222,7 @@
       .board-tabs button, .chip { padding: 6px 10px; font-size: 0.82rem; }
       footer .wrap { padding-bottom: 28px; }
     }
-    .issuer-aside { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+    .issuer-aside { min-width: 0; }
     .issuer-chart {
       margin: 0; min-width: 0;
       display: flex; flex-direction: column;
@@ -221,15 +231,29 @@
       padding: 12px 12px 10px;
       box-sizing: border-box;
     }
+    .pipe-row { margin: 22px 0 16px; }
+    .pipe-row.split {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
+      gap: 12px 28px;
+      align-items: stretch;
+    }
+    .pipe-col { min-width: 0; }
+    .pipe-col > h2 { margin: 0 0 8px; }
+    .pipe-row.split .pipe { margin: 0; }
     .mines-inset {
       background: rgba(21, 27, 36, 0.94);
       border: 1px solid #4a5563;
       padding: 10px 12px 12px;
-      max-width: 520px;
       width: 100%;
+      max-width: none;
+      min-width: 0;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
     }
-    .mines-inset h2 { margin: 0 0 8px; font-size: 1.05rem; }
-    #mines-inset-map { height: 220px; width: 100%; border-radius: 4px; background: #0b1016; }
+    .mines-inset h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    #mines-inset-map { height: 280px; width: 100%; border-radius: 4px; background: #0b1016; flex: 1; min-height: 260px; }
     .mine-pop { font-size: 13px; }
     .mine-pop a { color: #e3b41a; }
     .issuer-chart-head {
@@ -370,7 +394,10 @@
       .issuer-chart { display: block; max-height: none; }
       .chart-wrap { min-height: 0; max-height: 260px; flex: none; padding: 10px 8px 10px 12px; }
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
-      #mines-inset-map { height: 200px; }
+      .mines-inset { display: none !important; }
+      .pipe-row.split { display: block; }
+      .qc-nav a[href="claims.html"],
+      .tabbar a[href="claims.html"] { display: none !important; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -440,11 +467,6 @@
           <span class="pol-sell">◆ Politician sell</span>
         </p>
       </section>
-      <section class="mines-inset" id="mines-inset" hidden>
-        <h2>Canadian mines</h2>
-        <div id="mines-inset-map"></div>
-        <p class="quiet" id="mines-inset-note">Côté Gold (Ontario) and Westwood (Quebec). Essakane is Burkina Faso — not on this map. Click a Canadian mine for Quebec GESTIM claims.</p>
-      </section>
       </div>
     </div>
     <h2 id="mines-h">Producing mines</h2>
@@ -464,8 +486,17 @@
         <tbody id="mines"></tbody>
       </table>
     </div>
-    <h2 id="pipeline-h">Pipeline</h2>
-    <div class="pipe" id="pipeline"></div>
+    <div class="pipe-row" id="pipe-row">
+      <div class="pipe-col">
+        <h2 id="pipeline-h">Pipeline</h2>
+        <div class="pipe" id="pipeline"></div>
+      </div>
+      <section class="mines-inset" id="mines-inset" hidden>
+        <h2>Mines</h2>
+        <div id="mines-inset-map"></div>
+        <p class="quiet" id="mines-inset-note">Click a Canadian mine for Quebec GESTIM claims. West Africa is on the map for scale.</p>
+      </section>
+    </div>
     <h2>Reserves &amp; resources</h2>
     <div class="table-wrap">
       <table>
@@ -911,9 +942,11 @@
         "</article>";
       }).join("") + (cote && gosselin ? "<p class=\"quiet\">Gosselin sits with Côté (same JV), not a fourth mine. Combined Côté + Gosselin technical report expected Q4 2026.</p>" : "");
       const pipeH = document.getElementById("pipeline-h");
+      const pipeCol = document.querySelector(".pipe-col");
       const empty = !items.length && !(cote && gosselin);
       pipeH.hidden = empty;
       document.getElementById("pipeline").hidden = empty && !gosselin;
+      if (pipeCol) pipeCol.hidden = empty && !gosselin;
     }
     function millLine(prod, key, label, fmt) {
       const v = prod && prod[key];
@@ -1381,16 +1414,21 @@
         document.head.appendChild(s);
       });
     }
-    function canadianMines() {
+    function mappedAssets() {
       return ((profile && profile.assets) || []).filter((a) =>
-        a.in_production && a.country === "Canada" && Number.isFinite(a.lat) && Number.isFinite(a.lon)
+        a.stage !== "closed" && Number.isFinite(a.lat) && Number.isFinite(a.lon)
       );
+    }
+    function desktopMinesMap() {
+      return window.matchMedia("(min-width: 961px)").matches;
     }
     function paintMinesInset() {
       const box = document.getElementById("mines-inset");
+      const row = document.getElementById("pipe-row");
       if (!box) return;
-      const show = profile && profile.id === "iamgold";
+      const show = profile && profile.id === "iamgold" && desktopMinesMap();
       box.hidden = !show;
+      if (row) row.classList.toggle("split", show);
       if (!show) return;
       loadMapLibre().then(drawMinesInset).catch(() => {
         const note = document.getElementById("mines-inset-note");
@@ -1400,7 +1438,7 @@
     function drawMinesInset() {
       const host = document.getElementById("mines-inset-map");
       if (!host || !window.maplibregl) return;
-      const mines = canadianMines();
+      const mines = mappedAssets();
       if (!insetMap) {
         insetMap = new maplibregl.Map({
           container: host,
@@ -1420,8 +1458,8 @@
               { id: "basemap", type: "raster", source: "esri" }
             ]
           },
-          center: [-80.2, 47.9],
-          zoom: 4.2,
+          center: [-40, 30],
+          zoom: 2.2,
           interactive: true,
           attributionControl: false
         });
@@ -1430,25 +1468,35 @@
       insetMarks.forEach((m) => m.remove());
       insetMarks = [];
       mines.forEach((a) => {
+        const canada = a.country === "Canada";
+        const producing = !!a.in_production;
         const el = document.createElement("button");
         el.type = "button";
         el.className = "mine-dot";
-        el.style.cssText = "width:14px;height:14px;border-radius:50%;border:2px solid #1a1306;background:#e3b41a;cursor:pointer;padding:0;";
+        const fill = producing ? "#e3b41a" : "#36999d";
+        el.style.cssText = "width:12px;height:12px;border-radius:50%;border:2px solid #1a1306;background:" + fill + ";padding:0;" + (canada ? "cursor:pointer;" : "cursor:default;");
         el.title = a.name;
-        el.addEventListener("click", () => {
-          location.href = "claims.html?company=iamgold&asset=" + encodeURIComponent(a.id);
-        });
+        if (canada) {
+          el.addEventListener("click", () => {
+            location.href = "claims.html?company=iamgold&asset=" + encodeURIComponent(a.id);
+          });
+        }
         const marker = new maplibregl.Marker({ element: el }).setLngLat([a.lon, a.lat]).addTo(insetMap);
-        const html = "<div class=\"mine-pop\"><strong>" + esc(a.name) + "</strong><br>" +
-          esc(a.region || a.country || "") +
-          "<br><a href=\"claims.html?company=iamgold&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a></div>";
+        let html = "<div class=\"mine-pop\"><strong>" + esc(a.name) + "</strong><br>" +
+          esc(a.region || a.country || "");
+        if (canada) {
+          html += "<br><a href=\"claims.html?company=iamgold&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a>";
+        } else {
+          html += "<br><span class=\"quiet\">Not Quebec GESTIM</span>";
+        }
+        html += "</div>";
         marker.setPopup(new maplibregl.Popup({ closeButton: false, offset: 12 }).setHTML(html));
         insetMarks.push(marker);
       });
       if (mines.length) {
         const b = new maplibregl.LngLatBounds();
         mines.forEach((a) => b.extend([a.lon, a.lat]));
-        insetMap.fitBounds(b, { padding: 36, maxZoom: 5.5, duration: 0 });
+        insetMap.fitBounds(b, { padding: 28, maxZoom: 3.1, duration: 0 });
       }
       requestAnimationFrame(() => { if (insetMap) insetMap.resize(); });
     }
@@ -1617,6 +1665,9 @@
       return loadProfile("beta/newmont.json");
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+    window.matchMedia("(min-width: 961px)").addEventListener("change", () => {
+      if (profile) paintMinesInset();
+    });
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Issuer mines">

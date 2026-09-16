@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <title>Claims — Quantity Capital</title>
+  <meta name="description" content="IAMGOLD Quebec GESTIM claims. Not legal title. Not investment advice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <link rel="stylesheet" href="shell.css?v=113" />
+  <style>
+    html { height: 100%; overflow: hidden; scrollbar-gutter: auto; }
+    body {
+      display: flex; flex-direction: column; height: 100%; min-height: 100vh;
+      overflow: hidden; background: #0b1016;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    .map-stage { position: relative; flex: 1; min-height: 0; }
+    #map { position: absolute; inset: 0; width: 100%; height: 100%; background: #0b1016; }
+    .hud, .layers, .status {
+      position: absolute; z-index: 2;
+      background: rgba(12, 16, 22, 0.88);
+      border: 1px solid #2a3340;
+      backdrop-filter: blur(8px);
+    }
+    .hud {
+      top: 12px; left: 12px; right: 12px;
+      display: flex; gap: 16px; align-items: center;
+      padding: 10px 14px; border-radius: 10px; max-width: 1100px; margin: 0 auto;
+    }
+    .hud h1 { font-size: 15px; margin: 0; }
+    .hud p { margin: 0; color: #9aa8b8; font-size: 12px; letter-spacing: 0; text-transform: none; }
+    #search-form { position: relative; flex: 1; display: flex; gap: 8px; }
+    #search {
+      flex: 1; background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
+      border-radius: 6px; padding: 8px 10px; font: inherit;
+    }
+    #search-form button {
+      background: #e3b41a; color: #1a1306; border: 0; border-radius: 6px;
+      padding: 8px 12px; font-weight: 650; cursor: pointer;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    #search-results {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 64px;
+      background: #121820; border: 1px solid #2a3340; border-radius: 8px;
+      max-height: 280px; overflow: auto;
+    }
+    #search-results button.hit {
+      display: block; width: 100%; text-align: left; background: transparent;
+      color: #e8eef6; padding: 8px 10px; border: 0; border-bottom: 1px solid #2a3340; cursor: pointer;
+    }
+    #search-results button.hit:hover, #search-results button.hit.active { background: #1c2733; }
+    .hit .who { color: #e3b41a; font-weight: 650; }
+    .hit .meta { color: #9aa8b8; font-size: 12px; }
+    .layers {
+      top: 84px; left: 12px; padding: 12px 14px; border-radius: 10px; min-width: 220px; color: #e8eef6;
+    }
+    .layers label { display: flex; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; }
+    .layers h2 { font-size: 11px; letter-spacing: 0.08em; color: #9aa8b8; margin: 8px 0 6px; }
+    .layers h2:first-child { margin-top: 0; }
+    .layers .hint { color: #9aa8b8; font-size: 12px; max-width: 220px; line-height: 1.4; }
+    .layers label.disabled { color: #66707c; }
+    #legend { max-height: 42vh; overflow: auto; }
+    .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; }
+    .swatch .chip { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; }
+    .swatch .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .swatch .n { color: #9aa8b8; }
+    .status {
+      left: 12px; right: 12px; bottom: 12px; padding: 8px 12px; border-radius: 8px;
+      font-size: 12px; color: #9aa8b8; max-width: 1100px; margin: 0 auto;
+    }
+    .status strong { color: #eef2f5; }
+    .maplibregl-popup-content {
+      background: #121820; color: #e8eef6; border: 1px solid #2a3340; border-radius: 8px;
+      padding: 12px 14px; min-width: 240px;
+    }
+    .pop .holder { color: #e3b41a; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .pop dl { margin: 0; display: grid; grid-template-columns: 92px 1fr; gap: 4px 8px; font-size: 12px; }
+    .pop dt { color: #9aa8b8; } .pop dd { margin: 0; }
+    @media (max-width: 720px) {
+      .hud { flex-direction: column; align-items: stretch; }
+      .layers { top: auto; bottom: 56px; max-height: 36vh; overflow: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="qc-skip" href="#map">Skip to map</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Issuer mines">
+        <a href="beta.html" title="Issuer mine profiles">Mines</a>
+        <a href="claims.html" class="on" aria-current="page" title="IAMGOLD Quebec claims">Claims</a>
+      </nav>
+      <div class="qc-modes">
+        <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+        <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+      </div>
+    </div>
+  </header>
+  <div class="map-stage">
+    <div id="map"></div>
+    <header class="hud">
+      <div>
+        <h1>Quebec claims</h1>
+        <p>IAMGOLD company view · GESTIM</p>
+      </div>
+      <form id="search-form" autocomplete="off">
+        <input id="search" type="search" placeholder="Search IAMGOLD" aria-label="Search company">
+        <button type="submit">Search</button>
+        <div id="search-results" hidden></div>
+      </form>
+    </header>
+    <aside class="layers">
+      <h2>Provinces</h2>
+      <label><input type="checkbox" checked disabled> Quebec</label>
+      <label class="disabled"><input type="checkbox" disabled> Ontario</label>
+      <label class="disabled"><input type="checkbox" disabled> British Columbia</label>
+      <h2>Company</h2>
+      <p class="hint" id="company-hint">No claims drawn until you select IAMGOLD.</p>
+      <div id="legend" hidden></div>
+    </aside>
+    <footer class="status" id="status">Quebec GESTIM · search IAMGOLD to load company claims · Not legal title.</footer>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="claims-map.js?v=3"></script>
+  <script>
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+  </script>
+  <nav class="tabbar" aria-label="Issuer mines">
+    <a href="beta.html">Mines</a>
+    <a href="claims.html" class="on" aria-current="page">Claims</a>
+  </nav>
+</body>
+</html>

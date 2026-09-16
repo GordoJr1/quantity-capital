@@ -1,0 +1,473 @@
+{
+  "as_of": "2026-09-16 00:00:00",
+  "built_at": "2026-09-16T01:21:41Z",
+  "jurisdiction": "Quebec",
+  "source": "GESTIM active titles",
+  "disclaimer": "Not legal title. Quebec GESTIM only. Neighbors are titles whose geometry intersects a ~2 km buffer of IAMGOLD cells.",
+  "companies": [
+    {
+      "id": "iamgold",
+      "names": [
+        "IAMGOLD",
+        "IAMGold Corporation",
+        "IAMGOLD Corporation",
+        "IAMGold Corporation"
+      ],
+      "holder": "IAMGold Corporation",
+      "claim_count": 2626,
+      "neighbor_count": 4865,
+      "bbox": [
+        -79.35269,
+        45.79718,
+        -71.2773,
+        53.34167
+      ],
+      "color": "#e8b040",
+      "extract": "claims/iamgold.geojson",
+      "mines": [
+        {
+          "id": "cote-gold",
+          "name": "C\u00f4t\u00e9 Gold",
+          "lat": 47.548,
+          "lon": -81.93,
+          "region": "Ontario",
+          "country": "Canada",
+          "gestim": false,
+          "note": "Ontario. Quebec GESTIM titles are not mapped here."
+        },
+        {
+          "id": "westwood",
+          "name": "Westwood Complex",
+          "lat": 48.2557,
+          "lon": -78.5022,
+          "region": "Quebec",
+          "country": "Canada",
+          "gestim": true,
+          "note": "Abitibi, Quebec. GESTIM claims in this extract."
+        }
+      ],
+      "neighbors": [
+        {
+          "holder": "BTM Corporation",
+          "count": 455,
+          "color": "#5ec8c5"
+        },
+        {
+          "holder": "Northern Superior Resources Inc.",
+          "count": 442,
+          "color": "#c27ae0"
+        },
+        {
+          "holder": "Visible Gold Mines inc.",
+          "count": 273,
+          "color": "#7cb342"
+        },
+        {
+          "holder": "Explorations Carat inc. (Les)",
+          "count": 239,
+          "color": "#ef6c00"
+        },
+        {
+          "holder": "Ressources Yorbeau Inc. (Les)",
+          "count": 189,
+          "color": "#42a5f5"
+        },
+        {
+          "holder": "Chevrier Metals Corp.",
+          "count": 182,
+          "color": "#ec407a"
+        },
+        {
+          "holder": "Falco Resources ltd.",
+          "count": 165,
+          "color": "#9ccc65"
+        },
+        {
+          "holder": "REV Exploration Corp.",
+          "count": 148,
+          "color": "#26a69a"
+        },
+        {
+          "holder": "Mines Agnico-Eagle Limit\u00e9e",
+          "count": 136,
+          "color": "#ffca28"
+        },
+        {
+          "holder": "Vale Canada Limit\u00e9e",
+          "count": 128,
+          "color": "#8d6e63"
+        },
+        {
+          "holder": "Corporation de min\u00e9raux strat\u00e9giques du Maroc",
+          "count": 126,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Robert",
+          "count": 121,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9220-5392 Qu\u00e9bec inc.",
+          "count": 116,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9495-6976 Qu\u00e9bec inc.",
+          "count": 116,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Min\u00e9raux CBay inc.",
+          "count": 111,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Midland inc.",
+          "count": 104,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Auriginal Mining Corp.",
+          "count": 97,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Stuart Deveau",
+          "count": 83,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Route 109 Resources Inc.",
+          "count": 69,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Reid Stanger",
+          "count": 67,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Entreprises Mini\u00e8res Globex Inc",
+          "count": 66,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Tomagold",
+          "count": 64,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Emergent Metals Corp.",
+          "count": 63,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Breakwater",
+          "count": 62,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Epsilon inc.",
+          "count": 59,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Glenn Griesbach",
+          "count": 58,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Bullion Gold Resources Corp.",
+          "count": 53,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Michael Ferreira",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mines d'Or Duparquet inc.",
+          "count": 52,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "G.L. Geoservice inc.",
+          "count": 51,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Major Gold Corporation",
+          "count": 50,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marc Bouchard",
+          "count": 50,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "SOQUEM inc.",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Redevances Noranda Inc.",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Abdul Razique",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9219-8845 Qu\u00e9bec inc. (Canadian Mining House)",
+          "count": 47,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Tectonic inc. (Les)",
+          "count": 41,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation M\u00e9taux Pr\u00e9cieux du Qu\u00e9bec",
+          "count": 38,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Parent",
+          "count": 37,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "6078559 Canada inc.",
+          "count": 37,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jason LeBlanc",
+          "count": 32,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Hartmann Exploration Corp",
+          "count": 31,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "International Explorers & Prospectors inc.",
+          "count": 31,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+          "count": 26,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jenna Sim",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Exploration Goldflare inc.",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Orezone Quebec Inc.",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources Teck Limit\u00e9e",
+          "count": 21,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Kevin Brouwer",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Black Tusk Resources inc.",
+          "count": 20,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Goliath Resources Ltd",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Cindy Roy",
+          "count": 19,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean-Philippe Desrochers",
+          "count": 18,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Quebec Aur ltd.",
+          "count": 17,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9jean Raymond",
+          "count": 16,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Com\u00e8te Lithium",
+          "count": 15,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Generic Gold corp.",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Ressources White Stag lt\u00e9e",
+          "count": 11,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Harfang Exploration inc.",
+          "count": 9,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "nicole robert",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "1254704 B.C. LTD.",
+          "count": 8,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Steven Scott",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fancamp Exploration Ltd",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Marty Huber",
+          "count": 7,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Fayz Yacoub",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation Aurif\u00e8re Vior Inc.",
+          "count": 6,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Jean Audet",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Dave Gauthier",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val-d'Or Mining Corporation",
+          "count": 5,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Corporation mini\u00e8re Troilus (Troilus Mining Corp.)",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Junita Tedy Asihto",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "H\u00e9l\u00e8ne Niquay",
+          "count": 4,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "R\u00e9al Gauthier",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Val\u00e9rie Dallaire",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Janice Bonhomme",
+          "count": 3,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Mathieu Audet",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "G\u00e9oconseils Jack Stoch Limit\u00e9e",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "First Quantum Minerals Ltd.",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Andr\u00e9 Drouin",
+          "count": 2,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Michel Chapdelaine",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Pierre Riopel",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Murray Jones",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports et de la Mobilit\u00e9 Durable",
+          "count": 1,
+          "color": "#90a4ae"
+        },
+        {
+          "holder": "Minist\u00e8re des Transports",
+          "count": 1,
+          "color": "#90a4ae"
+        }
+      ]
+    }
+  ]
+}

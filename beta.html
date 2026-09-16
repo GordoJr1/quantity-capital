@@ -212,6 +212,7 @@
       .board-tabs button, .chip { padding: 6px 10px; font-size: 0.82rem; }
       footer .wrap { padding-bottom: 28px; }
     }
+    .issuer-aside { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
     .issuer-chart {
       margin: 0; min-width: 0;
       display: flex; flex-direction: column;
@@ -220,6 +221,17 @@
       padding: 12px 12px 10px;
       box-sizing: border-box;
     }
+    .mines-inset {
+      background: rgba(21, 27, 36, 0.94);
+      border: 1px solid #4a5563;
+      padding: 10px 12px 12px;
+      max-width: 520px;
+      width: 100%;
+    }
+    .mines-inset h2 { margin: 0 0 8px; font-size: 1.05rem; }
+    #mines-inset-map { height: 220px; width: 100%; border-radius: 4px; background: #0b1016; }
+    .mine-pop { font-size: 13px; }
+    .mine-pop a { color: #e3b41a; }
     .issuer-chart-head {
       display: flex; justify-content: space-between; align-items: center;
       gap: 8px 12px; flex-wrap: wrap; margin: 0 0 10px; flex: 0 0 auto;
@@ -358,6 +370,7 @@
       .issuer-chart { display: block; max-height: none; }
       .chart-wrap { min-height: 0; max-height: 260px; flex: none; padding: 10px 8px 10px 12px; }
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
+      #mines-inset-map { height: 200px; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
@@ -369,6 +382,7 @@
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav class="qc-nav" aria-label="Issuer mines">
         <a href="beta.html" class="on" aria-current="page" title="Issuer mine profiles">Mines</a>
+        <a href="claims.html" title="IAMGOLD Quebec claims">Claims</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
@@ -404,6 +418,7 @@
         </div>
         <div id="kpis"></div>
       </div>
+      <div class="issuer-aside">
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
         <div class="issuer-chart-head">
           <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
@@ -425,6 +440,12 @@
           <span class="pol-sell">◆ Politician sell</span>
         </p>
       </section>
+      <section class="mines-inset" id="mines-inset" hidden>
+        <h2>Canadian mines</h2>
+        <div id="mines-inset-map"></div>
+        <p class="quiet" id="mines-inset-note">Côté Gold (Ontario) and Westwood (Quebec). Essakane is Burkina Faso — not on this map. Click a Canadian mine for Quebec GESTIM claims.</p>
+      </section>
+      </div>
     </div>
     <h2 id="mines-h">Producing mines</h2>
     <div class="table-wrap" id="mines-wrap">
@@ -1344,6 +1365,93 @@
       }
       nextPrice(0);
     }
+    let insetMap = null;
+    let insetMarks = [];
+    function loadMapLibre() {
+      if (window.maplibregl) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        const css = document.createElement("link");
+        css.rel = "stylesheet";
+        css.href = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css";
+        document.head.appendChild(css);
+        const s = document.createElement("script");
+        s.src = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+    function canadianMines() {
+      return ((profile && profile.assets) || []).filter((a) =>
+        a.in_production && a.country === "Canada" && Number.isFinite(a.lat) && Number.isFinite(a.lon)
+      );
+    }
+    function paintMinesInset() {
+      const box = document.getElementById("mines-inset");
+      if (!box) return;
+      const show = profile && profile.id === "iamgold";
+      box.hidden = !show;
+      if (!show) return;
+      loadMapLibre().then(drawMinesInset).catch(() => {
+        const note = document.getElementById("mines-inset-note");
+        if (note) note.textContent = "Map library failed to load.";
+      });
+    }
+    function drawMinesInset() {
+      const host = document.getElementById("mines-inset-map");
+      if (!host || !window.maplibregl) return;
+      const mines = canadianMines();
+      if (!insetMap) {
+        insetMap = new maplibregl.Map({
+          container: host,
+          style: {
+            version: 8,
+            sources: {
+              esri: {
+                type: "raster",
+                tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
+                tileSize: 256,
+                attribution: "Tiles © Esri",
+                maxzoom: 16
+              }
+            },
+            layers: [
+              { id: "bg", type: "background", paint: { "background-color": "#0b1016" } },
+              { id: "basemap", type: "raster", source: "esri" }
+            ]
+          },
+          center: [-80.2, 47.9],
+          zoom: 4.2,
+          interactive: true,
+          attributionControl: false
+        });
+        insetMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+      }
+      insetMarks.forEach((m) => m.remove());
+      insetMarks = [];
+      mines.forEach((a) => {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = "mine-dot";
+        el.style.cssText = "width:14px;height:14px;border-radius:50%;border:2px solid #1a1306;background:#e3b41a;cursor:pointer;padding:0;";
+        el.title = a.name;
+        el.addEventListener("click", () => {
+          location.href = "claims.html?company=iamgold&asset=" + encodeURIComponent(a.id);
+        });
+        const marker = new maplibregl.Marker({ element: el }).setLngLat([a.lon, a.lat]).addTo(insetMap);
+        const html = "<div class=\"mine-pop\"><strong>" + esc(a.name) + "</strong><br>" +
+          esc(a.region || a.country || "") +
+          "<br><a href=\"claims.html?company=iamgold&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a></div>";
+        marker.setPopup(new maplibregl.Popup({ closeButton: false, offset: 12 }).setHTML(html));
+        insetMarks.push(marker);
+      });
+      if (mines.length) {
+        const b = new maplibregl.LngLatBounds();
+        mines.forEach((a) => b.extend([a.lon, a.lat]));
+        insetMap.fitBounds(b, { padding: 36, maxZoom: 5.5, duration: 0 });
+      }
+      requestAnimationFrame(() => { if (insetMap) insetMap.resize(); });
+    }
     function paint() {
       if (!profile) return;
       paintChrome();
@@ -1353,6 +1461,7 @@
       paintPipeline();
       paintRr();
       paintCards();
+      paintMinesInset();
     }
     function pickerRows() {
       if (state.layer === "explorers") {
@@ -1512,6 +1621,7 @@
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Issuer mines">
     <a href="beta.html" class="on" aria-current="page">Mines</a>
+    <a href="claims.html">Claims</a>
   </nav>
 </body>
 </html>

@@ -39,12 +39,12 @@
     "pp_koz_100pct": 20942,
     "mi_incl_koz_100pct": 27499,
     "inf_koz_100pct": 16633,
-    "market_cap": 46298977995,
-    "market_cap_usd": 33070699852,
+    "market_cap": 46144766692,
+    "market_cap_usd": 33049630196,
     "market_cap_cur": "CAD",
     "shares": 1186240789,
-    "px": 39.03,
-    "price_asof": "2026-09-15"
+    "px": 38.9,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "attributable GEO +/- 5% around 2.0 Moz",
@@ -130,9 +130,7 @@
       "country": "Brazil",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "mine_type": "Open pit",
-      "lat": -17.22,
-      "lon": -46.87
+      "mine_type": "Open pit"
     },
     {
       "id": "tasiast",
@@ -143,9 +141,7 @@
       "country": "Mauritania",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "mine_type": "Open pit",
-      "lat": 20.93,
-      "lon": -16.18
+      "mine_type": "Open pit"
     },
     {
       "id": "fort-knox",
@@ -157,9 +153,7 @@
       "ownership_pct": 100,
       "operator": "Kinross",
       "mine_type": "Open pit",
-      "region": "Alaska",
-      "lat": 64.99,
-      "lon": -147.36
+      "region": "Alaska"
     },
     {
       "id": "manh-choh",
@@ -176,9 +170,7 @@
           "name": "Contango Ore",
           "pct": 30
         }
-      ],
-      "lat": 63.28,
-      "lon": -143.8
+      ]
     },
     {
       "id": "bald-mountain",
@@ -189,9 +181,7 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "region": "Nevada",
-      "lat": 39.95,
-      "lon": -115.58
+      "region": "Nevada"
     },
     {
       "id": "round-mountain",
@@ -202,9 +192,7 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Kinross",
-      "region": "Nevada",
-      "lat": 38.7,
-      "lon": -117.12
+      "region": "Nevada"
     },
     {
       "id": "la-coipa",
@@ -214,9 +202,7 @@
       "commodity": "gold",
       "country": "Chile",
       "ownership_pct": 100,
-      "operator": "Kinross",
-      "lat": -26.92,
-      "lon": -69.28
+      "operator": "Kinross"
     },
     {
       "id": "great-bear",
@@ -226,10 +212,7 @@
       "commodity": "gold",
       "country": "Canada",
       "ownership_pct": 100,
-      "operator": "Kinross",
-      "region": "Ontario",
-      "lat": 50.95,
-      "lon": -93.72
+      "operator": "Kinross"
     },
     {
       "id": "lobo-marte",
@@ -239,9 +222,7 @@
       "commodity": "gold",
       "country": "Chile",
       "ownership_pct": 100,
-      "operator": "Kinross",
-      "lat": -27.05,
-      "lon": -69.25
+      "operator": "Kinross"
     }
   ],
   "reserves_resources": {
@@ -487,7 +468,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 42,
+    "mcap_rank": 41,
     "mcap_updated": "2026-09-16"
   }
 }

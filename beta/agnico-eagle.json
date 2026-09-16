@@ -40,12 +40,12 @@
     "pp_koz_100pct": 55442,
     "mi_incl_koz_100pct": 47076,
     "inf_koz_100pct": 41815,
-    "market_cap": 138622445169,
-    "market_cap_usd": 99016036107,
+    "market_cap": 138419899223,
+    "market_cap_usd": 99138576462,
     "market_cap_cur": "CAD",
     "shares": 506364864,
-    "px": 273.76,
-    "price_asof": "2026-09-15"
+    "px": 273.36,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "attributable",
@@ -295,9 +295,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
       "region": "Quebec",
-      "nearest": "Cadillac",
-      "lat": 48.25,
-      "lon": -78.48
+      "nearest": "Cadillac"
     },
     {
       "id": "canadian-malartic",
@@ -310,9 +308,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Open pit + underground",
       "region": "Quebec",
-      "nearest": "Malartic",
-      "lat": 48.13,
-      "lon": -78.13
+      "nearest": "Malartic"
     },
     {
       "id": "goldex",
@@ -325,9 +321,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
       "region": "Quebec",
-      "nearest": "Val-d'Or",
-      "lat": 48.11,
-      "lon": -77.84
+      "nearest": "Val-d'Or"
     },
     {
       "id": "detour-lake",
@@ -339,9 +333,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Open pit",
-      "region": "Ontario",
-      "lat": 50.01,
-      "lon": -79.68
+      "region": "Ontario"
     },
     {
       "id": "macassa",
@@ -354,9 +346,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
       "region": "Ontario",
-      "nearest": "Kirkland Lake",
-      "lat": 48.15,
-      "lon": -80.03
+      "nearest": "Kirkland Lake"
     },
     {
       "id": "meliadine",
@@ -369,9 +359,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Open pit + underground",
       "region": "Nunavut",
-      "nearest": "Rankin Inlet",
-      "lat": 63.03,
-      "lon": -92.17
+      "nearest": "Rankin Inlet"
     },
     {
       "id": "meadowbank",
@@ -384,9 +372,7 @@
       "operator": "Agnico Eagle",
       "mine_type": "Open pit + underground",
       "region": "Nunavut",
-      "location_note": "Amaruq satellite.",
-      "lat": 65.02,
-      "lon": -96.07
+      "location_note": "Amaruq satellite."
     },
     {
       "id": "fosterville",
@@ -398,9 +384,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
-      "region": "Victoria",
-      "lat": -36.72,
-      "lon": 144.5
+      "region": "Victoria"
     },
     {
       "id": "kittila",
@@ -412,9 +396,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
-      "region": "Lapland",
-      "lat": 67.91,
-      "lon": 24.84
+      "region": "Lapland"
     },
     {
       "id": "pinos-altos",
@@ -426,9 +408,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Open pit + underground",
-      "region": "Chihuahua",
-      "lat": 28.27,
-      "lon": -108.3
+      "region": "Chihuahua"
     },
     {
       "id": "hope-bay",
@@ -440,9 +420,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
-      "region": "Nunavut",
-      "lat": 68.13,
-      "lon": -106.62
+      "region": "Nunavut"
     },
     {
       "id": "upper-beaver",
@@ -454,9 +432,7 @@
       "ownership_pct": 100,
       "operator": "Agnico Eagle",
       "mine_type": "Underground",
-      "region": "Ontario",
-      "lat": 48.23,
-      "lon": -79.83
+      "region": "Ontario"
     }
   ],
   "reserves_resources": {

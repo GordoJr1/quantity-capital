@@ -34,12 +34,12 @@
     "aisc_2025": 1933,
     "attr_pp_koz": 2640,
     "pp_koz_100pct": 2640,
-    "market_cap": 4785630948,
-    "market_cap_usd": 3418307953,
+    "market_cap": 4756035209,
+    "market_cap_usd": 3406349541,
     "market_cap_cur": "CAD",
     "shares": 295957387,
-    "px": 16.17,
-    "price_asof": "2026-09-15"
+    "px": 16.07,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "gold (Séguéla+Lindero); GEO 281–305",
@@ -123,9 +123,7 @@
           "name": "Government of Côte d'Ivoire",
           "pct": 10
         }
-      ],
-      "lat": 7.95,
-      "lon": -6.67
+      ]
     },
     {
       "id": "lindero",
@@ -136,9 +134,7 @@
       "country": "Argentina",
       "ownership_pct": 100,
       "operator": "Fortuna Mining",
-      "mine_type": "Open pit / heap leach",
-      "lat": -25.08,
-      "lon": -67.7
+      "mine_type": "Open pit / heap leach"
     },
     {
       "id": "caylloma",
@@ -149,9 +145,7 @@
       "country": "Peru",
       "ownership_pct": 100,
       "operator": "Fortuna Mining",
-      "location_note": "Silver-lead-zinc; in GEO.",
-      "lat": -15.18,
-      "lon": -71.82
+      "location_note": "Silver-lead-zinc; in GEO."
     },
     {
       "id": "diamba-sud",
@@ -161,9 +155,7 @@
       "commodity": "gold",
       "country": "Senegal",
       "ownership_pct": 100,
-      "operator": "Fortuna Mining",
-      "lat": 12.8,
-      "lon": -11.4
+      "operator": "Fortuna Mining"
     }
   ],
   "reserves_resources": {
@@ -223,7 +215,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 110,
+    "mcap_rank": 107,
     "mcap_updated": "2026-09-16"
   }
 }

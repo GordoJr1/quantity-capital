@@ -33,12 +33,12 @@
     ],
     "attr_pp_koz": 1500,
     "pp_koz_100pct": 1500,
-    "market_cap": 5321783266,
-    "market_cap_usd": 3801273909,
+    "market_cap": 5255725444,
+    "market_cap_usd": 3764235791,
     "market_cap_cur": "CAD",
     "shares": 206430693,
-    "px": 25.78,
-    "price_asof": "2026-09-15"
+    "px": 25.46,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "100%",
@@ -120,9 +120,7 @@
       "ownership_pct": 100,
       "operator": "Aris Mining",
       "mine_type": "Underground",
-      "location_note": "Four UG mines; 3,000 tpd mill.",
-      "lat": 7.08,
-      "lon": -74.7
+      "location_note": "Four UG mines; 3,000 tpd mill."
     },
     {
       "id": "marmato",
@@ -134,9 +132,7 @@
       "ownership_pct": 100,
       "operator": "Aris Mining",
       "mine_type": "Underground",
-      "location_note": "CIP plant first gold targeted Q4 2026.",
-      "lat": 5.47,
-      "lon": -75.6
+      "location_note": "CIP plant first gold targeted Q4 2026."
     },
     {
       "id": "soto-norte",
@@ -146,9 +142,7 @@
       "commodity": "gold",
       "country": "Colombia",
       "ownership_pct": 100,
-      "operator": "Aris Mining",
-      "lat": 7.12,
-      "lon": -73.0
+      "operator": "Aris Mining"
     },
     {
       "id": "toroparu",
@@ -158,9 +152,7 @@
       "commodity": "gold",
       "country": "Guyana",
       "ownership_pct": 100,
-      "operator": "Aris Mining",
-      "lat": 6.55,
-      "lon": -60.5
+      "operator": "Aris Mining"
     }
   ],
   "reserves_resources": {
@@ -219,7 +211,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 102,
+    "mcap_rank": 99,
     "mcap_updated": "2026-09-16"
   }
 }

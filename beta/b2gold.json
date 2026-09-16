@@ -33,12 +33,12 @@
     ],
     "attr_pp_koz": 8530,
     "pp_koz_100pct": 8990,
-    "market_cap": 9564552317,
-    "market_cap_usd": 6831823349,
+    "market_cap": 9511709486,
+    "market_cap_usd": 6812440577,
     "market_cap_cur": "CAD",
     "shares": 1321070762,
-    "px": 7.24,
-    "price_asof": "2026-09-15"
+    "px": 7.2,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "100% (company); range narrowed 6 Aug 2026",
@@ -157,9 +157,7 @@
           "name": "Government of Mali",
           "pct": 20
         }
-      ],
-      "lat": 12.02,
-      "lon": -11.32
+      ]
     },
     {
       "id": "goose",
@@ -171,9 +169,7 @@
       "ownership_pct": 100,
       "operator": "B2Gold",
       "mine_type": "Open pit + underground",
-      "region": "Nunavut",
-      "lat": 66.02,
-      "lon": -107.43
+      "region": "Nunavut"
     },
     {
       "id": "masbate",
@@ -184,9 +180,7 @@
       "country": "Philippines",
       "ownership_pct": 100,
       "operator": "B2Gold",
-      "mine_type": "Open pit",
-      "lat": 12.31,
-      "lon": 123.39
+      "mine_type": "Open pit"
     },
     {
       "id": "otjikoto",
@@ -202,9 +196,7 @@
           "name": "EVI Mining",
           "pct": 10
         }
-      ],
-      "lat": -19.17,
-      "lon": 17.62
+      ]
     },
     {
       "id": "gramalote",
@@ -214,9 +206,7 @@
       "commodity": "gold",
       "country": "Colombia",
       "ownership_pct": 100,
-      "operator": "B2Gold",
-      "lat": 7.3,
-      "lon": -75.2
+      "operator": "B2Gold"
     }
   ],
   "reserves_resources": {
@@ -300,7 +290,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 83,
+    "mcap_rank": 82,
     "mcap_updated": "2026-09-16"
   }
 }

@@ -38,12 +38,12 @@
     "pp_koz_100pct": 5830,
     "mi_incl_koz_100pct": 8630,
     "inf_koz_100pct": 2500,
-    "market_cap": 8926819098,
-    "market_cap_usd": 6376299603,
+    "market_cap": 8817819812,
+    "market_cap_usd": 6315465540,
     "market_cap_cur": "CAD",
     "shares": 222447523,
-    "px": 40.13,
-    "price_asof": "2026-09-15"
+    "px": 39.64,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "100%",
@@ -163,9 +163,7 @@
       "ownership_pct": 100,
       "operator": "OceanaGold",
       "mine_type": "Open pit + underground",
-      "region": "South Carolina",
-      "lat": 34.58,
-      "lon": -80.54
+      "region": "South Carolina"
     },
     {
       "id": "macraes",
@@ -176,9 +174,7 @@
       "country": "New Zealand",
       "ownership_pct": 100,
       "operator": "OceanaGold",
-      "mine_type": "Open pit + underground",
-      "lat": -45.39,
-      "lon": 170.47
+      "mine_type": "Open pit + underground"
     },
     {
       "id": "didipio",
@@ -195,9 +191,7 @@
           "name": "Philippine public float",
           "pct": 20
         }
-      ],
-      "lat": 16.33,
-      "lon": 121.45
+      ]
     },
     {
       "id": "waihi",
@@ -209,9 +203,7 @@
       "ownership_pct": 100,
       "operator": "OceanaGold",
       "mine_type": "Underground",
-      "location_note": "Waihi North / Wharekirauponga in development.",
-      "lat": -37.39,
-      "lon": 175.84
+      "location_note": "Waihi North / Wharekirauponga in development."
     }
   ],
   "reserves_resources": {
@@ -259,7 +251,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 89,
+    "mcap_rank": 88,
     "mcap_updated": "2026-09-16"
   }
 }

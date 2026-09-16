@@ -38,12 +38,12 @@
     "pp_koz_100pct": 10582,
     "mi_incl_koz_100pct": 8967,
     "inf_koz_100pct": 4456,
-    "market_cap": 9987478102,
-    "market_cap_usd": 7133913207,
+    "market_cap": 10038455430,
+    "market_cap_usd": 7189704564,
     "market_cap_cur": "CAD",
     "shares": 203909312,
-    "px": 48.98,
-    "price_asof": "2026-09-15"
+    "px": 49.23,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "GEO 100%; gold 355–420 koz + Puna silver",
@@ -149,9 +149,7 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit / heap leach",
-      "region": "Nevada",
-      "lat": 40.42,
-      "lon": -117.05
+      "region": "Nevada"
     },
     {
       "id": "ccv",
@@ -163,9 +161,7 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit / heap leach",
-      "region": "Colorado",
-      "lat": 38.75,
-      "lon": -105.18
+      "region": "Colorado"
     },
     {
       "id": "seabee",
@@ -177,9 +173,7 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Underground",
-      "region": "Saskatchewan",
-      "lat": 55.7,
-      "lon": -103.55
+      "region": "Saskatchewan"
     },
     {
       "id": "puna",
@@ -191,9 +185,7 @@
       "ownership_pct": 100,
       "operator": "SSR Mining",
       "mine_type": "Open pit",
-      "location_note": "Silver-lead-zinc; in GEO.",
-      "lat": -22.32,
-      "lon": -66.6
+      "location_note": "Silver-lead-zinc; in GEO."
     },
     {
       "id": "copler",
@@ -204,9 +196,7 @@
       "country": "Türkiye",
       "ownership_pct": 80,
       "operator": "SSR Mining",
-      "location_note": "Suspended since Feb 2024.",
-      "lat": 39.42,
-      "lon": 38.48
+      "location_note": "Suspended since Feb 2024."
     },
     {
       "id": "hod-maden",
@@ -216,9 +206,7 @@
       "commodity": "gold",
       "country": "Türkiye",
       "ownership_pct": 100,
-      "operator": "SSR Mining",
-      "lat": 40.45,
-      "lon": 41.18
+      "operator": "SSR Mining"
     }
   ],
   "reserves_resources": {
@@ -262,7 +250,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 82,
+    "mcap_rank": 81,
     "mcap_updated": "2026-09-16"
   }
 }

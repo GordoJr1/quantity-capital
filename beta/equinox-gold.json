@@ -34,12 +34,12 @@
     "aisc_2025": 1809,
     "attr_pp_koz": 19000,
     "pp_koz_100pct": 19000,
-    "market_cap": 19239737867,
-    "market_cap_usd": 13742670438,
+    "market_cap": 18877825322,
+    "market_cap_usd": 13520604621,
     "market_cap_cur": "CAD",
     "shares": 1167459822,
-    "px": 16.48,
-    "price_asof": "2026-09-15"
+    "px": 16.17,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "post-Orla (Aug 2026); original Jan 14 range was 700–800",
@@ -217,9 +217,7 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit",
-      "region": "Ontario",
-      "lat": 49.7,
-      "lon": -86.95
+      "region": "Ontario"
     },
     {
       "id": "valentine",
@@ -231,9 +229,7 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit",
-      "region": "Newfoundland and Labrador",
-      "lat": 48.45,
-      "lon": -56.85
+      "region": "Newfoundland and Labrador"
     },
     {
       "id": "nicaragua",
@@ -243,9 +239,7 @@
       "commodity": "gold",
       "country": "Nicaragua",
       "ownership_pct": 100,
-      "operator": "Equinox Gold",
-      "lat": 12.75,
-      "lon": -86.05
+      "operator": "Equinox Gold"
     },
     {
       "id": "mesquite",
@@ -257,9 +251,7 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "mine_type": "Open pit / heap leach",
-      "region": "California",
-      "lat": 33.05,
-      "lon": -114.98
+      "region": "California"
     },
     {
       "id": "castle-mountain",
@@ -270,9 +262,7 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Equinox Gold",
-      "region": "California",
-      "lat": 35.28,
-      "lon": -115.08
+      "region": "California"
     },
     {
       "id": "los-filos",
@@ -282,9 +272,7 @@
       "commodity": "gold",
       "country": "Mexico",
       "ownership_pct": 100,
-      "operator": "Equinox Gold",
-      "lat": 17.88,
-      "lon": -99.6
+      "operator": "Equinox Gold"
     },
     {
       "id": "musselwhite",
@@ -296,9 +284,7 @@
       "ownership_pct": 100,
       "operator": "Equinox Gold",
       "region": "Ontario",
-      "location_note": "Added with Orla 2026.",
-      "lat": 52.61,
-      "lon": -90.36
+      "location_note": "Added with Orla 2026."
     },
     {
       "id": "camino-rojo",
@@ -309,9 +295,7 @@
       "country": "Mexico",
       "ownership_pct": 100,
       "operator": "Equinox Gold",
-      "location_note": "Added with Orla 2026.",
-      "lat": 24.34,
-      "lon": -101.17
+      "location_note": "Added with Orla 2026."
     }
   ],
   "reserves_resources": {
@@ -375,7 +359,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 58,
+    "mcap_rank": 59,
     "mcap_updated": "2026-09-16"
   }
 }

@@ -35,12 +35,12 @@
     "realized_price_2025": 2994,
     "attr_pp_koz": 5504,
     "pp_koz_100pct": 5504,
-    "market_cap": 6014931886,
-    "market_cap_usd": 4296380085,
+    "market_cap": 5991458981,
+    "market_cap_usd": 4291180081,
     "market_cap_cur": "CAD",
     "shares": 195607541,
-    "px": 30.75,
-    "price_asof": "2026-09-15"
+    "px": 30.63,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "100%; raised 28 Jul 2026 (was 250–280)",
@@ -123,9 +123,7 @@
       "operator": "Centerra Gold",
       "mine_type": "Open pit",
       "region": "British Columbia",
-      "location_note": "Royal Gold 35% gold / 18.75% copper stream.",
-      "lat": 55.12,
-      "lon": -124.01
+      "location_note": "Royal Gold 35% gold / 18.75% copper stream."
     },
     {
       "id": "oksut",
@@ -136,9 +134,7 @@
       "country": "Türkiye",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "mine_type": "Open pit / heap leach",
-      "lat": 38.3,
-      "lon": 36.2
+      "mine_type": "Open pit / heap leach"
     },
     {
       "id": "goldfield",
@@ -149,9 +145,7 @@
       "country": "USA",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "region": "Nevada",
-      "lat": 37.71,
-      "lon": -117.24
+      "region": "Nevada"
     },
     {
       "id": "kemess",
@@ -162,9 +156,7 @@
       "country": "Canada",
       "ownership_pct": 100,
       "operator": "Centerra Gold",
-      "region": "British Columbia",
-      "lat": 57.0,
-      "lon": -126.75
+      "region": "British Columbia"
     }
   ],
   "reserves_resources": {
@@ -233,7 +225,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 97,
+    "mcap_rank": 96,
     "mcap_updated": "2026-09-16"
   }
 }

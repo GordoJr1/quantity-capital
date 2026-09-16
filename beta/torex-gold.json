@@ -38,12 +38,12 @@
     "pp_koz_100pct": 3158,
     "mi_incl_koz_100pct": 6163,
     "inf_koz_100pct": 2269,
-    "market_cap": 6185318746,
-    "market_cap_usd": 4418084990,
+    "market_cap": 6104761451,
+    "market_cap_usd": 4372329147,
     "market_cap_cur": "CAD",
     "shares": 92594592,
-    "px": 66.8,
-    "price_asof": "2026-09-15"
+    "px": 65.93,
+    "price_asof": "2026-09-16"
   },
   "guidance_2026": {
     "basis": "gold produced (AuEq 420–470 koz)",
@@ -106,9 +106,7 @@
       "ownership_pct": 100,
       "operator": "Torex Gold",
       "mine_type": "Underground",
-      "location_note": "ELG UG + Media Luna UG, one plant.",
-      "lat": 18.02,
-      "lon": -99.62
+      "location_note": "ELG UG + Media Luna UG, one plant."
     },
     {
       "id": "media-luna-north",
@@ -119,9 +117,7 @@
       "country": "Mexico",
       "ownership_pct": 100,
       "operator": "Torex Gold",
-      "location_note": "First production targeted late 2026.",
-      "lat": 18.0,
-      "lon": -99.61
+      "location_note": "First production targeted late 2026."
     },
     {
       "id": "los-reyes",
@@ -131,9 +127,7 @@
       "commodity": "gold",
       "country": "Mexico",
       "ownership_pct": 100,
-      "operator": "Torex Gold",
-      "lat": 23.15,
-      "lon": -105.85
+      "operator": "Torex Gold"
     }
   ],
   "reserves_resources": {
@@ -192,7 +186,7 @@
     "currency": "USD"
   },
   "meta": {
-    "mcap_rank": 96,
+    "mcap_rank": 95,
     "mcap_updated": "2026-09-16"
   }
 }

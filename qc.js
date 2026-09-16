@@ -30,14 +30,20 @@
     return String(n);
   }
 
+  function prettyOptionDate(isoOrDate) {
+    const d = isoOrDate instanceof Date ? isoOrDate : new Date(String(isoOrDate) + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString("en-US", { month: "short", day: "numeric" }) +
+      " '" + String(d.getFullYear()).slice(2);
+  }
+
   function formatOptionExp(raw) {
     const s = String(raw || "").trim();
     if (!s) return "";
     let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
     if (m) {
       const iso = m[1] + "-" + String(m[2]).padStart(2, "0") + "-" + String(m[3]).padStart(2, "0");
-      const d = new Date(iso + "T00:00:00");
-      return isNaN(d.getTime()) ? s : prettyDate(iso);
+      return prettyOptionDate(iso) || s;
     }
     m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
     if (m) {
@@ -48,7 +54,7 @@
       if (mo >= 1 && mo <= 12 && day >= 1 && day <= 31) {
         const iso = y + "-" + String(mo).padStart(2, "0") + "-" + String(day).padStart(2, "0");
         const d = new Date(iso + "T00:00:00");
-        if (!isNaN(d.getTime()) && d.getMonth() === mo - 1 && d.getDate() === day) return prettyDate(iso);
+        if (!isNaN(d.getTime()) && d.getMonth() === mo - 1 && d.getDate() === day) return prettyOptionDate(iso);
       }
       return s;
     }
@@ -57,7 +63,7 @@
       const mo = Number(m[1]);
       const y = Number(m[2]);
       if (mo >= 1 && mo <= 12 && y >= 1990 && y <= 2100) {
-        return new Date(y, mo - 1, 1).toLocaleString("en-US", { month: "short", year: "numeric" });
+        return new Date(y, mo - 1, 1).toLocaleString("en-US", { month: "short", year: "2-digit" });
       }
     }
     m = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2,4})$/i);
@@ -65,16 +71,21 @@
       let y = m[2];
       if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
       const d = new Date(m[1] + " 1, " + y);
-      if (!isNaN(d.getTime())) return d.toLocaleString("en-US", { month: "short", year: "numeric" });
+      if (!isNaN(d.getTime())) return d.toLocaleString("en-US", { month: "short", year: "2-digit" });
     }
     return s;
   }
 
+  function optionKind(a) {
+    if (/\bputs?\b|\bput\/|>ut\//i.test(a)) return "Put";
+    if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(a)) return "Call";
+    if (/\bcalls?\b/i.test(a) && /strike|expir|flex euro|option type/i.test(a)) return "Call";
+    return "";
+  }
+
   function optionMeta(t) {
     const a = String(t.asset || "");
-    let kind = "";
-    if (/\bputs?\b|\bput\/|>ut\//i.test(a)) kind = "Put";
-    else if (/\bcalls?\b|\bcall\/|sall\/|tall\/|=all\//i.test(a)) kind = "Call";
+    const kind = optionKind(a);
     const strikeHit = a.match(/strike\s*price(?:\s+of)?\s*[:;,]?\s*\$?\s*([\d,.]+)/i)
       || a.match(/@\s*\$?\s*([\d,.]+)/)
       || a.match(/FLEX\s+EURO(?:\s+P[IM]+)?[^\d]{0,12}(\d{1,4}(?:\.\d+)?)\s+EXP/i)

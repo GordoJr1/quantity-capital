@@ -1706,7 +1706,9 @@
         grid-template-areas: "date id co strike exp chip hero";
       }
       body.tape-opt .desk .qc-txn-cols .qc-txn-coname,
-      body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name { display: none; }
+      body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+        display: none !important;
+      }
       body.tape-opt .desk .qc-txn-cols .qc-txn-strike,
       body.tape-opt .desk .qc-txn-strike {
         display: block; grid-area: strike; min-width: 0; white-space: nowrap;
@@ -1922,7 +1924,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=118"></script>
+  <script src="qc.js?v=119"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {

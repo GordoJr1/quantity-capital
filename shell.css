@@ -77,7 +77,15 @@ html {
   min-height: 44px;
   display: inline-flex;
   align-items: center;
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: var(--white, #eef2f5);
+  text-decoration: none;
 }
+.qc-header .mark span { color: var(--teal, #36999d); }
 .qc-nav {
   display: flex;
   flex: 1 1 auto;

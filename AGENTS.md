@@ -14,7 +14,9 @@ In Cloud Agents this server is started automatically (see `.cursor/environment.j
 
 ## Cursor Cloud specific instructions
 
-Do **not** record or compile walkthrough videos. Screenshots, browser checks, and logs are enough to prove a change. Skip `RecordScreen` / demo MP4s unless Gordo explicitly asks for a video.
+Do **not** record or compile walkthrough videos. Skip `RecordScreen` / demo MP4s unless Gordo explicitly asks for a video.
+
+For small edits (copy, captions, one-line CSS/HTML, cache bumps), do **not** attach preview screenshots, demo recordings, or walkthrough artifacts to the reply or the PR. Confirm in a sentence. Browser-check only when the change could actually break layout or behavior.
 
 ## Rebuild derived data
 

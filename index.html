@@ -768,7 +768,7 @@
     footer[hidden], .stripe[hidden] { display: none !important; }
     .board-grid { min-height: 12rem; }
     body.is-ready .board-grid { min-height: 0; }
-    @media (min-width: 1100px) {
+    @media (min-width: 1000px) {
       /* 4-up board panel: title + columns + Show Top 30 inside one frame. */
       #board {
         border: 1px solid #4a5563;
@@ -1767,7 +1767,7 @@
       </div>
       <p class="board-note" id="board-note"></p>
       <div class="board-grid" id="board-grid">
-        <section class="board-col on" id="board-panel-conflicts" role="tabpanel" aria-labelledby="board-tab-conflicts" data-board="conflicts">
+        <section class="board-col on" id="board-panel-conflicts" data-board="conflicts">
           <h3 class="board-col-title">Conflicts</h3>
           <ol class="board-list" id="board-list-conflicts">
             <li class="skel" aria-hidden="true"></li>
@@ -1777,7 +1777,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" id="board-panel-activity" role="tabpanel" aria-labelledby="board-tab-activity" data-board="activity">
+        <section class="board-col" id="board-panel-activity" data-board="activity">
           <h3 class="board-col-title">Active</h3>
           <ol class="board-list" id="board-list-activity">
             <li class="skel" aria-hidden="true"></li>
@@ -1787,7 +1787,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" id="board-panel-traders" role="tabpanel" aria-labelledby="board-tab-traders" data-board="traders">
+        <section class="board-col" id="board-panel-traders" data-board="traders">
           <h3 class="board-col-title">Traders</h3>
           <ol class="board-list" id="board-list-traders">
             <li class="skel" aria-hidden="true"></li>
@@ -1797,7 +1797,7 @@
             <li class="skel" aria-hidden="true"></li>
           </ol>
         </section>
-        <section class="board-col" id="board-panel-stocks" role="tabpanel" aria-labelledby="board-tab-stocks" data-board="stocks">
+        <section class="board-col" id="board-panel-stocks" data-board="stocks">
           <h3 class="board-col-title">Trades</h3>
           <ol class="board-list" id="board-list-stocks">
             <li class="skel" aria-hidden="true"></li>

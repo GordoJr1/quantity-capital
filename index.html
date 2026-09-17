@@ -1142,19 +1142,6 @@
     .desk .wire-day0 { margin-top: 0; }
     .desk .wire-day0:empty,
     .desk .wire-day0[hidden] { display: none; }
-    #wire .wire-note {
-      display: block;
-      list-style: none;
-      margin: 0 0 8px;
-      padding: 8px 12px;
-      border: 1px solid #4a5563;
-      border-left: 3px solid var(--caution);
-      background: rgba(227, 180, 26, 0.08);
-      color: var(--paper);
-      font-size: 0.86rem;
-      line-height: 1.45;
-    }
-    #wire .wire-note a { color: var(--caution); }
     #wire li.day.fresh h2 { color: var(--caution); }
     .desk .day h2 {
       font-family: "Barlow Condensed", sans-serif;
@@ -2062,7 +2049,30 @@
     let lastFiltered = [];
     let deskPinCount = 0;
     let lastTapeView = { onlyLanded: false, kind: "stock" };
-    let landedOverflow = [];
+    const KIND_STORE = "qc-tape-kind-v2";
+    const KIND_DEFAULT = "stock"; // stocks + options; v2 drops leftover stocks-only defaults
+    const KIND_VALUES = { stock: 1, option: 1, bond: 1, "": 1 };
+
+    function kindAllows(kind, t) {
+      const k = assetKind(t);
+      if (kind === "stock") return k === "stock" || k === "option";
+      if (kind === "option") return k === "option";
+      if (kind === "bond") return k === "bond";
+      if (kind === "") return true;
+      return k === kind;
+    }
+
+    function readKindStore() {
+      try {
+        const v = localStorage.getItem(KIND_STORE);
+        if (v != null && KIND_VALUES[v]) return v;
+      } catch (err) {}
+      return KIND_DEFAULT;
+    }
+
+    function writeKindStore(kind) {
+      try { localStorage.setItem(KIND_STORE, kind); } catch (err) {}
+    }
     let lastBoards = null;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
@@ -2222,25 +2232,6 @@
       return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(tapeRowHtml).join("");
     }
 
-    function overflowNoteHtml() {
-      if (!landedOverflow.length || lastTapeView.onlyLanded) return "";
-      const by = new Map();
-      landedOverflow.forEach((t) => {
-        const id = t.filer_id || t.filer;
-        const rec = by.get(id) || { name: t.filer, kinds: new Set(), n: 0 };
-        rec.kinds.add(assetKind(t));
-        rec.n += 1;
-        by.set(id, rec);
-      });
-      const bits = Array.from(by.values()).map((r) => {
-        const kinds = Array.from(r.kinds).join("/");
-        return escapeHtml(r.name) + " (" + escapeHtml(kinds) + ")";
-      });
-      const href = "index.html?kind=";
-      return "<li class=\"wire-note\">Also just filed: " + bits.join(", ") +
-        " — <a href=\"" + href + "\">Show all types</a></li>";
-    }
-
     function paintWire() {
       const box = document.getElementById("wire");
       const day0 = document.getElementById("wire-day0");
@@ -2250,7 +2241,7 @@
       }
       if (!box) return;
       if (!deskRows.length) {
-        box.innerHTML = overflowNoteHtml() + "<li class=\"muted\">No trades match these filters.</li>";
+        box.innerHTML = "<li class=\"muted\">No trades match these filters.</li>";
         return;
       }
       const pinN = Math.min(deskPinCount, deskRows.length);
@@ -2274,7 +2265,7 @@
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
-      box.innerHTML = colsHtml + overflowNoteHtml() + parts.join("");
+      box.innerHTML = colsHtml + parts.join("");
     }
 
     function paintFocus() {
@@ -2883,10 +2874,8 @@
 
         function kindPool() {
           const kind = document.getElementById("filter-kind").value;
-          if (kind === "stock") return rows.filter((t) => assetKind(t) === "stock");
-          if (kind === "option") return rows.filter((t) => assetKind(t) === "option");
-          if (kind === "bond") return rows.filter((t) => assetKind(t) === "bond");
-          return rows;
+          if (kind === "") return rows;
+          return rows.filter((t) => kindAllows(kind, t));
         }
 
         function fillIndustries() {
@@ -2909,7 +2898,8 @@
           const chamber = document.getElementById("filter-chamber").value;
           const industry = document.getElementById("filter-industry").value;
           const company = document.getElementById("filter-company").value.trim();
-          if (kind !== "stock") p.set("kind", kind);
+          if (kind !== KIND_DEFAULT) p.set("kind", kind);
+          writeKindStore(kind);
           if (side) p.set("side", side);
           if (chamber) p.set("chamber", chamber);
           if (industry) p.set("industry", industry);
@@ -2921,7 +2911,13 @@
 
         function readFilters() {
           const p = new URLSearchParams(location.search);
-          if (p.has("kind")) document.getElementById("filter-kind").value = p.get("kind");
+          const kindSel = document.getElementById("filter-kind");
+          if (p.has("kind")) {
+            const fromUrl = p.get("kind") || "";
+            kindSel.value = KIND_VALUES[fromUrl] ? fromUrl : KIND_DEFAULT;
+          } else {
+            kindSel.value = readKindStore();
+          }
           if (p.get("side")) document.getElementById("filter-side").value = p.get("side");
           if (p.get("chamber")) document.getElementById("filter-chamber").value = p.get("chamber");
           if (p.get("q")) document.getElementById("filter-company").value = p.get("q");
@@ -2950,19 +2946,6 @@
           });
           lastTapeView = { onlyLanded: onlyLanded, kind: kind };
           document.body.classList.toggle("tape-opt", kind === "option");
-          landedOverflow = kind
-            ? rows.filter((t) => {
-                if (!QC.isLanded(t, 72) || assetKind(t) === kind) return false;
-                if (side && t.side !== side) return false;
-                if (chamber && (t.chamber || "") !== chamber) return false;
-                if (industry && sectorOf(t.industry) !== industry) return false;
-                if (companyQ) {
-                  const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
-                  if (!blob.includes(companyQ)) return false;
-                }
-                return true;
-              })
-            : [];
           writeFilters();
           lastFiltered = filtered;
           renderDesk(filtered);

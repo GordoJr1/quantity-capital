@@ -162,10 +162,10 @@
     .co { color: var(--paper); font-size: 0.86rem; }
     .amt { color: var(--white); font-weight: 600; white-space: nowrap; }
     .opt-tag {
-      display: inline-block; margin-left: 6px; padding: 1px 6px;
-      border: 1px solid #6b7582; color: #c5cdd6;
+      display: inline-block; margin-left: 6px; padding: 0 5px;
+      border: 1px solid var(--caution); color: var(--caution);
       font-family: "Barlow Condensed", sans-serif; font-size: 0.68rem;
-      letter-spacing: 0.06em; text-transform: uppercase;
+      letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
     }
     footer {
       border-top: 2px solid var(--caution);
@@ -230,7 +230,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=161" />
+  <link rel="stylesheet" href="shell.css?v=162" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -271,7 +271,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=121"></script>
+  <script src="qc.js?v=122"></script>
   <script>
     const WINDOWS = [72, 168, 336];
     const params = new URLSearchParams(location.search);

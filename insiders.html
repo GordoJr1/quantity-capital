@@ -101,7 +101,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=160" />
+  <link rel="stylesheet" href="shell.css?v=161" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -132,6 +132,12 @@
       .qc-txn-list.qc-tape-list > .qc-txn-tape,
       .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
         grid-template-areas: "date co strike exp chip hero";
+      }
+      .qc-txn-list.qc-tape-list > .qc-txn-tape:has(.qc-txn-who-line),
+      .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-who-line) {
+        grid-template-areas:
+          "who who who who who who"
+          "date co strike exp chip hero";
       }
     }
     @media (max-width: 560px) {
@@ -281,7 +287,8 @@
       }
       .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
       .desk .qc-txn-list.qc-tape-list > .day,
-      .desk .qc-who-head { display: none !important; }
+      .desk .qc-who-head,
+      .desk .qc-txn-who-line { display: none !important; }
       .focus {
         display: block;
         position: sticky;
@@ -627,7 +634,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=120"></script>
+  <script src="qc.js?v=121"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -764,14 +771,12 @@
       });
       const bodyHtml = groups.map((g) => {
         const fresh = (g.rows || []).some((t) => QC.isLanded(t, 72));
-        const heading = fresh ? ("Just filed " + QC.filedHeading(g.key).replace(/^Filed\s+/, "")) : QC.filedHeading(g.key);
+        const heading = DESK_MQ.matches
+          ? (fresh ? ("Just filed " + QC.filedHeading(g.key).replace(/^Filed\s+/, "")) : QC.filedHeading(g.key))
+          : QC.tapeSectionHeading(g.key, fresh);
         const cls = fresh ? " class=\"day fresh\"" : " class=\"day\"";
         return "<li" + cls + "><h2>" + QC.esc(heading) + "</h2></li>" +
-          QC.tapeRowsWithWhoHeads(g.rows, rowOf, {
-            nameHrefOf: nameHrefOf,
-            roleOf: (t) => QC.shortRole(t),
-            followOf: (t) => !!(t.filer_id && followIds[t.filer_id])
-          });
+          g.rows.map(rowOf).join("");
       }).join("");
       const colsHtml = QC.tapePhoneColsHtml() + "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +

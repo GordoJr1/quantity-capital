@@ -404,8 +404,8 @@
 
   function tapeStrikeExpHtml(t) {
     const opt = isOptionLike(t) ? optionMeta(t) : null;
-    const strike = opt ? (opt.strike ? "$" + opt.strike : "—") : "";
-    const exp = opt ? (opt.exp || "—") : "";
+    const strike = opt && opt.strike ? "$" + opt.strike : "—";
+    const exp = opt && opt.exp ? opt.exp : "—";
     return "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>" +
       "<span class=\"qc-txn-exp\">" + esc(exp) + "</span>";
   }
@@ -421,44 +421,37 @@
     "</li>";
   }
 
-  function tapeWhoHeadHtml(t, opts) {
+  function tapeMonthDay(iso) {
+    const d = new Date(String(iso || "") + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString("en-US", { month: "short", day: "numeric" });
+  }
+
+  function tapeSectionHeading(iso, fresh) {
+    const md = tapeMonthDay(iso);
+    if (fresh) return md ? "Just filed – " + md : "Just filed";
+    return md || "Filed";
+  }
+
+  function tapeWhoLineHtml(t, opts) {
     opts = opts || {};
+    if (opts.hideWhoLine) return "";
     const name = titleCaseName((t && t.filer) || "") || String((t && t.filer) || "");
     if (!name) return "";
-    const role = opts.role != null
+    const roleRaw = opts.role != null
       ? String(opts.role || "")
-      : String((t && (t.chamber || t.role)) || (opts.withRole ? shortRole(t) : "") || "");
+      : String((t && (t.chamber || t.role)) || shortRole(t) || "");
+    const role = roleRaw.replace(/\s+/g, " ").trim().toUpperCase();
+    const label = role ? name + " - " + role : name;
     const href = opts.nameHref || "";
     const nameHtml = href
-      ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(name) + "</a>"
-      : "<span class=\"qc-txn-name\">" + esc(name) + "</span>";
+      ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(label) + "</a>"
+      : "<span class=\"qc-txn-name\">" + esc(label) + "</span>";
     const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
     const planHtml = t && t.plan
       ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>"
       : "";
-    return "<li class=\"qc-who-head\">" +
-      nameHtml +
-      (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
-      followHtml + planHtml +
-    "</li>";
-  }
-
-  function tapeRowsWithWhoHeads(rows, rowHtmlFn, opts) {
-    opts = opts || {};
-    if (opts.skipWhoHead) return (rows || []).map(rowHtmlFn).join("");
-    let last = "";
-    return (rows || []).map((t) => {
-      const key = String((t && (t.filer_id || t.filer)) || "");
-      const href = opts.nameHrefOf ? opts.nameHrefOf(t) : "";
-      const role = opts.roleOf ? opts.roleOf(t) : undefined;
-      const follow = opts.followOf ? opts.followOf(t) : false;
-      let head = "";
-      if (key && key !== last) {
-        head = tapeWhoHeadHtml(t, { nameHref: href, role: role, follow: follow, withRole: opts.withRole });
-        last = key;
-      }
-      return head + rowHtmlFn(t);
-    }).join("");
+    return "<div class=\"qc-txn-who-line\">" + nameHtml + followHtml + planHtml + "</div>";
   }
 
   function threeYearCutoff() {
@@ -1311,6 +1304,7 @@
     return "<li class=\"qc-txn qc-txn-tape qc-txn-co-first" + (cls ? " " + cls : "") + (opts.follow ? " qc-follow" : "") + "\"" +
       (t.id ? " data-id=\"" + esc(t.id) + "\"" : "") + ">" +
       when +
+      tapeWhoLineHtml(t, { nameHref: href, follow: !!opts.follow, hideWhoLine: !!opts.hideWhoLine }) +
       "<div class=\"qc-txn-id\">" + nameLineFollow + "</div>" +
       txnEndHtml(t) +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
@@ -1444,9 +1438,9 @@
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
     const strikeHtml = "<span class=\"qc-txn-strike\">" +
-      esc(opt ? (opt.strike ? "$" + opt.strike : "—") : "") + "</span>";
+      esc(opt && opt.strike ? "$" + opt.strike : "—") + "</span>";
     const expHtml = "<span class=\"qc-txn-exp\">" +
-      esc(opt ? (opt.exp || "—") : "") + "</span>";
+      esc(opt && opt.exp ? opt.exp : "—") + "</span>";
     const optLineHtml = optDetail
       ? "<span class=\"qc-txn-optline\">" + esc(optDetail) + "</span>"
       : "";
@@ -1499,6 +1493,7 @@
       (opts.holdKey ? " data-key=\"" + esc(opts.holdKey) + "\"" : "") +
       " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (opts.selected ? "true" : "false") + "\">" +
       when +
+      tapeWhoLineHtml(t, { nameHref: nameHref, hideWhoLine: !!opts.hideWhoLine, role: role }) +
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
         (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
@@ -1633,7 +1628,7 @@
     const namePage = opts.namePage || "politician.html";
     const tickerPage = opts.tickerPage || "ticker.html";
     const blocks = groups.map((g) => {
-      const rowHtml = tapeRowsWithWhoHeads(g.rows, (t) => {
+      const rowHtml = g.rows.map((t) => {
         const nameHref = opts.nameSelf
           ? ""
           : (t.filer_id ? namePage + "?id=" + encodeURIComponent(t.filer_id) : "");
@@ -1651,15 +1646,10 @@
           showLastClose: !!opts.showLastClose,
           lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
           showHoldings: !!opts.showHoldings,
-          companyFirst: !!opts.companyFirst
+          companyFirst: !!opts.companyFirst,
+          hideWhoLine: !!opts.nameSelf
         });
-      }, {
-        skipWhoHead: !!opts.nameSelf,
-        nameHrefOf: (t) => opts.nameSelf
-          ? ""
-          : (t.filer_id ? namePage + "?id=" + encodeURIComponent(t.filer_id) : ""),
-        roleOf: (t) => String((t && (t.chamber || t.role)) || shortRole(t) || "")
-      });
+      }).join("");
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
     });
     return politicianTapeColsHtml(opts) + blocks.join("");
@@ -1863,8 +1853,7 @@
     politicianTapeColsHtml: politicianTapeColsHtml,
     politicianTapeRowHtml: politicianTapeRowHtml,
     tapePhoneColsHtml: tapePhoneColsHtml,
-    tapeWhoHeadHtml: tapeWhoHeadHtml,
-    tapeRowsWithWhoHeads: tapeRowsWithWhoHeads,
+    tapeSectionHeading: tapeSectionHeading,
     TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,
     compareFiledDesc: compareFiledDesc,

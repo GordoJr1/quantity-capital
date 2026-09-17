@@ -34,11 +34,125 @@ map.on("load", () => map.resize());
 
 let popup = null;
 let catalog = null;
+let searchIndex = [];
 let hiddenHolders = new Set();
 let extractCache = {};
 let selectGen = 0;
 let currentCompany = null;
 let currentAssetId = null;
+
+// Same-holder needles as the first producer extract batch (GESTIM / MLAS / MTA).
+const FEATURED_NEEDLES = {
+  iamgold: ["iamgold"],
+  "agnico-eagle": ["agnico"],
+  barrick: ["barrick"],
+  "gold-fields": ["groupe minier windfall"],
+  "alamos-gold": ["alamos gold"],
+  "eldorado-gold": ["eldorado gold"],
+  "wesdome-gold-mines": ["wesdome"],
+  newmont: ["newmont", "pretium"],
+  "centerra-gold": ["thompson creek", "centerra"],
+  "artemis-gold": ["bw gold", "artemis"],
+  evolution: ["evolution"],
+  "equinox-gold": ["greenstone", "musselwhite", "equinox"],
+};
+
+const NAME_DROPS = {
+  inc: 1, ltd: 1, ltee: 1, limited: 1, limitee: 1, corp: 1, corporation: 1,
+  co: 1, company: 1, the: 1, llc: 1, ulc: 1, plc: 1, lp: 1, llp: 1,
+};
+
+function normName(s) {
+  let t = String(s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  t = t.replace(/\(\s*[\d.]+\s*\)/g, " ");
+  t = t.replace(/&/g, " and ");
+  t = t.replace(/[^a-z0-9]+/g, " ").trim();
+  return t.split(/\s+/).filter((p) => p && !NAME_DROPS[p]).join(" ");
+}
+
+function featuredIdForHolder(name) {
+  const n = String(name || "").toLowerCase();
+  if (!n) return null;
+  const keys = Object.keys(FEATURED_NEEDLES);
+  for (let i = 0; i < keys.length; i++) {
+    const id = keys[i];
+    const needles = FEATURED_NEEDLES[id];
+    for (let j = 0; j < needles.length; j++) {
+      if (n.indexOf(needles[j]) !== -1) return id;
+    }
+  }
+  return null;
+}
+
+function slugName(s) {
+  const n = normName(s) || "holder";
+  return n.replace(/\s+/g, "-").slice(0, 80);
+}
+
+function findIndexed(id) {
+  return searchIndex.find((c) => c.id === id) || (catalog.companies || []).find((c) => c.id === id);
+}
+
+function buildSearchIndex() {
+  const featured = catalog.companies || [];
+  const entries = featured.map((c) => {
+    const extra = FEATURED_NEEDLES[c.id] || [];
+    const names = (c.names || []).slice();
+    extra.forEach((n) => {
+      if (names.indexOf(n) === -1) names.push(n);
+    });
+    return Object.assign({}, c, { kind: "featured", names: names });
+  });
+  const usedIds = {};
+  entries.forEach((c) => { usedIds[c.id] = 1; });
+  const lumps = {};
+  featured.forEach((c) => {
+    (c.neighbors || []).forEach((row) => {
+      const holder = row.holder;
+      if (!holder || featuredIdForHolder(holder)) return;
+      const key = normName(holder);
+      if (!key) return;
+      let e = lumps[key];
+      if (!e) {
+        let id = slugName(holder);
+        if (usedIds[id]) id = id + "-holder";
+        usedIds[id] = 1;
+        e = {
+          id: id,
+          kind: "holder",
+          holder: holder,
+          names: [holder],
+          color: "#e8b040",
+          sources: [],
+          quebec_count: 0,
+          ontario_count: 0,
+          bc_count: 0,
+          claim_count: 0,
+          neighbor_count: 0,
+          extract: null,
+          mines: [],
+          neighbors: [],
+        };
+        lumps[key] = e;
+      } else if (e.names.indexOf(holder) === -1) {
+        e.names.push(holder);
+      }
+      e.sources.push({ companyId: c.id, count: row.count || 0 });
+    });
+  });
+  Object.keys(lumps).forEach((key) => {
+    const e = lumps[key];
+    e.sources.sort((a, b) => (b.count || 0) - (a.count || 0));
+    const primary = featured.find((c) => c.id === e.sources[0].companyId);
+    if (primary && primary.extract) {
+      e.extract = primary.extract;
+      e.quebec_count = e.sources[0].count || 0;
+      e.claim_count = e.quebec_count;
+    }
+    entries.push(e);
+  });
+  searchIndex = entries;
+}
 
 function assetUrl(name) {
   return new URL(name, window.location.href).href;
@@ -93,14 +207,33 @@ function setStatus(extra) {
   el.innerHTML = extra ? extra + " · " + base : base;
 }
 
+function companyMatches(c, needle) {
+  if ((c.names || []).some((n) => String(n).toLowerCase().includes(needle))) return true;
+  if (String(c.holder || "").toLowerCase().includes(needle)) return true;
+  if (String(c.id || "").toLowerCase().includes(needle)) return true;
+  const nds = FEATURED_NEEDLES[c.id];
+  if (nds && nds.some((n) => n.includes(needle) || needle.includes(n))) return true;
+  return false;
+}
+
+function hitScore(c, needle) {
+  const names = (c.names || []).concat([c.holder, c.id]).map((s) => String(s || "").toLowerCase());
+  let s = 0;
+  if (names.some((n) => n === needle)) s += 100;
+  if (names.some((n) => n.startsWith(needle))) s += 40;
+  if (c.kind !== "holder") s += 25;
+  if (hasAnyExtract(c)) s += 8;
+  s += Math.min(15, Math.log10((c.claim_count || 0) + 1) * 8);
+  return s;
+}
+
 function matchCompanies(q) {
   const needle = q.trim().toLowerCase();
-  if (!needle || !catalog) return [];
-  return (catalog.companies || []).filter((c) =>
-    (c.names || []).some((n) => String(n).toLowerCase().includes(needle)) ||
-    String(c.holder || "").toLowerCase().includes(needle) ||
-    String(c.id || "").toLowerCase().includes(needle)
-  );
+  if (!needle || !searchIndex.length) return [];
+  return searchIndex
+    .filter((c) => companyMatches(c, needle))
+    .sort((a, b) => hitScore(b, needle) - hitScore(a, needle))
+    .slice(0, 40);
 }
 
 function titleBits(c) {
@@ -109,6 +242,7 @@ function titleBits(c) {
   if ((c.ontario_count || 0) > 0) bits.push((c.ontario_count || 0).toLocaleString("en-CA") + " ON");
   if ((c.bc_count || 0) > 0) bits.push((c.bc_count || 0).toLocaleString("en-CA") + " BC");
   if (!bits.length) return "0 titles in QC/ON/BC extracts";
+  if (c.kind === "holder") return bits.join(" · ") + " · in committed extracts";
   return bits.join(" · ") + " · whole company";
 }
 
@@ -147,7 +281,7 @@ function paintLegend(company) {
   if (!company) {
     box.hidden = true;
     hint.hidden = false;
-    hint.textContent = "No claims drawn until you select a producer.";
+    hint.textContent = "No claims drawn until you search a company.";
     return;
   }
   const vis = visibleCounts(company);
@@ -283,8 +417,72 @@ async function loadOne(url) {
   return res.json();
 }
 
+function walkCoords(geom, fn) {
+  if (!geom || !geom.coordinates) return;
+  const t = geom.type;
+  const c = geom.coordinates;
+  if (t === "Polygon") c.forEach((ring) => ring.forEach(fn));
+  else if (t === "MultiPolygon") c.forEach((poly) => poly.forEach((ring) => ring.forEach(fn)));
+  else if (t === "Point") fn(c);
+  else if (t === "MultiPoint" || t === "LineString") c.forEach(fn);
+  else if (t === "MultiLineString") c.forEach((line) => line.forEach(fn));
+}
+
+function bboxFromFc(fc) {
+  let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity, n = 0;
+  (fc.features || []).forEach((f) => {
+    walkCoords(f.geometry, (xy) => {
+      if (!xy || xy.length < 2) return;
+      n += 1;
+      minx = Math.min(minx, xy[0]);
+      miny = Math.min(miny, xy[1]);
+      maxx = Math.max(maxx, xy[0]);
+      maxy = Math.max(maxy, xy[1]);
+    });
+  });
+  return n ? [minx, miny, maxx, maxy] : null;
+}
+
+function filterToHolders(fc, company) {
+  const exact = {};
+  const norms = {};
+  (company.names || []).forEach((n) => {
+    exact[String(n).toLowerCase()] = 1;
+    const k = normName(n);
+    if (k) norms[k] = 1;
+  });
+  const features = [];
+  (fc.features || []).forEach((f) => {
+    const h = (f.properties && f.properties.holder) || "";
+    if (!exact[h.toLowerCase()] && !norms[normName(h)]) return;
+    const props = Object.assign({}, f.properties, { role: "focus", color: company.color || "#e8b040" });
+    features.push(Object.assign({}, f, { properties: props }));
+  });
+  return { type: "FeatureCollection", features: features };
+}
+
 async function loadExtract(company) {
   if (extractCache[company.id]) return extractCache[company.id];
+  if (company.kind === "holder") {
+    if (!company.extract) {
+      extractCache[company.id] = { type: "FeatureCollection", features: [] };
+      return extractCache[company.id];
+    }
+    const raw = await loadOne(company.extract);
+    const filtered = filterToHolders(raw, company);
+    const byJ = { Quebec: 0, Ontario: 0, "British Columbia": 0 };
+    filtered.features.forEach((f) => {
+      const j = (f.properties && f.properties.jurisdiction) || "Quebec";
+      if (byJ[j] != null) byJ[j] += 1;
+    });
+    company.quebec_count = byJ.Quebec;
+    company.ontario_count = byJ.Ontario;
+    company.bc_count = byJ["British Columbia"];
+    company.claim_count = filtered.features.length;
+    company.bbox = bboxFromFc(filtered);
+    extractCache[company.id] = filtered;
+    return filtered;
+  }
   const jobs = [];
   if (company.extract) jobs.push(loadOne(company.extract));
   if (company.ontario_extract) jobs.push(loadOne(company.ontario_extract));
@@ -330,7 +528,7 @@ function paintCompanyData(company, asset) {
 }
 
 function selectCompany(id, assetId) {
-  const company = (catalog.companies || []).find((c) => c.id === id);
+  const company = findIndexed(id);
   if (!company) return;
   currentCompany = company;
   currentAssetId = assetId || null;
@@ -397,7 +595,8 @@ map.on("click", () => {
 
 fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
   catalog = json;
-  setStatus("Search a <strong>producer</strong> to draw the company footprint. No polygons until then.");
+  buildSearchIndex();
+  setStatus("Search a <strong>company</strong> to draw claims from the committed extracts. No polygons until then.");
   const params = new URLSearchParams(location.search);
   const companyId = params.get("company");
   const assetId = params.get("asset") || params.get("mine");

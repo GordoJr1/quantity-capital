@@ -7,7 +7,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <title>Claims — Quantity Capital</title>
-  <meta name="description" content="Quebec GESTIM, Ontario MLAS, and BC MTA claims for Beta gold producers. Not legal title. Not investment advice." />
+  <meta name="description" content="Quebec GESTIM, Ontario MLAS, and BC MTA claims by company. Not legal title. Not investment advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
@@ -108,10 +108,10 @@
     <header class="hud">
       <div>
         <h1>Canadian claims</h1>
-        <p>Producer company view · QC / ON / BC</p>
+        <p>Company view · QC / ON / BC</p>
       </div>
       <form id="search-form" autocomplete="off">
-        <input id="search" type="search" placeholder="Search a producer" aria-label="Search company">
+        <input id="search" type="search" placeholder="Search a company" aria-label="Search company">
         <button type="submit">Search</button>
         <div id="search-results" hidden></div>
       </form>
@@ -122,13 +122,13 @@
       <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
       <h2>Company</h2>
-      <p class="hint" id="company-hint">No claims drawn until you select a producer.</p>
+      <p class="hint" id="company-hint">No claims drawn until you search a company.</p>
       <div id="legend" hidden></div>
     </aside>
-    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · search a producer · Not legal title.</footer>
+    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · search a company · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=5"></script>
+  <script src="claims-map.js?v=6"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

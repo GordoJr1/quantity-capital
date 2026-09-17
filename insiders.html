@@ -635,6 +635,7 @@
     let collected = "";
     let deskRows = [];
     let activeId = "";
+    let userPicked = false;
     let chartRange = "3m";
     let chartToken = 0;
     let followIds = {};
@@ -656,7 +657,18 @@
       return String(b.id || "").localeCompare(String(a.id || ""));
     }
     function activeTrade() {
-      return deskRows.find((t) => t.id === activeId) || null;
+      return deskRows.find((t) => t.id === activeId) || deskRows[0] || null;
+    }
+    function firstVisibleId() {
+      return deskRows[0] ? deskRows[0].id : "";
+    }
+    function syncDeskSelection(keepPick) {
+      const still = keepPick && userPicked && deskRows.some((t) => t.id === activeId);
+      if (still) return;
+      userPicked = false;
+      const next = firstVisibleId();
+      if (activeId !== next) chartRange = "3m";
+      activeId = next;
     }
     function esc(s) { return QC.esc(s); }
 
@@ -686,7 +698,7 @@
       return s;
     }
 
-    function paint(rows, collectedAt) {
+    function paint(rows, collectedAt, keepPick) {
       document.getElementById("asof").textContent = QC.asOfLabel(collectedAt);
       document.getElementById("windows").innerHTML =
         WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
@@ -722,10 +734,7 @@
         moreRow.hidden = !mobile || (vis.length <= PAGE && !showAll);
         moreBtn.textContent = showAll ? "Show first 120" : "Show full list";
       }
-      if (!deskRows.some((t) => t.id === activeId)) {
-        activeId = deskRows[0] ? deskRows[0].id : "";
-        chartRange = "3m";
-      }
+      syncDeskSelection(keepPick);
       const slim = DESK_MQ.matches;
       const tradeHtml = deskRows.map((t) => {
         const co = displayCompany(t.company, t.ticker);
@@ -1004,6 +1013,7 @@
       if (!next) return;
       const prev = activeTrade();
       const tickerChanged = prev && prev.ticker !== next.ticker;
+      userPicked = true;
       activeId = id;
       if (tickerChanged) chartRange = "3m";
       markActiveRow();
@@ -1035,7 +1045,7 @@
       if (!bindDesk._resize) {
         bindDesk._resize = true;
         DESK_MQ.addEventListener("change", () => {
-          paint(all, collected);
+          paint(all, collected, true);
         });
         window.addEventListener("resize", () => {
           if (!DESK_MQ.matches || !activeTrade()) return;
@@ -1086,6 +1096,11 @@
     });
     run().catch(() => {
       document.getElementById("rows").innerHTML = "<li class=\"muted\">Could not load insider tape.</li>";
+    });
+    window.addEventListener("pageshow", (e) => {
+      if (!e.persisted || !all.length) return;
+      userPicked = false;
+      paint(all, collected);
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

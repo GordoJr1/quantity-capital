@@ -8,10 +8,26 @@
     }[c]));
   }
 
+  const MUNI_NAME_RE = /\b(SCH(?:OOL)?|INDPT|INDEPT|CNTY|COUNTY|TWP|TOWNSHIP|CITY\s+OF|MUNI(?:CIPAL|CINAL|RCINAL)?|TURNPIKE|AUTH(?:ORITY)?|UNIV(?:ERSITY)?|HOSP(?:ITAL)?|HOUSING|WTR|WATER|SWR|SEWER|\bGO\b|GOS?\b|REV(?:ENUE)?S?|BLDG|LOC\s+BLDG)\b/i;
+  const MUNI_ISSUER_RE = /\b(?:sch(?:ool)?(?:\s+dist)?|indpt|indept|cnty|county|twp|township|city\s+of|muni(?:cipal|cinal|rcinal)?|turnpike|auth(?:ority)?|univ(?:ersity)?|hosp(?:ital)?|housing|wtr|swr|sewer|bldg|loc\s+bldg|st\s+go|gos?\b|rev(?:enue)?s?|gen(?:eral)?\s+obl|bds\b|cops?\b|b\/e|be\/r)\b/i;
+  const BOND_COUPON_RE = /rate\/coupon|matures:|\d(?:\.\d+)?\s*%|gos?%|\b(?:due|duo|dus|cue|bue)\s+/i;
+  const BOND_DATE_RE = /\d{1,2}[./-]\d{1,2}[./-]\d{2,4}/;
+  const EQUITY_NAME_RE = /\b(?:common stock|class [a-z](?:\s+common)?|ordinary shares?|american depositary)\b/i;
+  const CORP_NAME_RE = /\b(?:inc|corp(?:oration)?|plc|llc|l\.?p\.?|partners)\.?\b/i;
+
   function isBond(t) {
     const type = (t.asset_type || "").toLowerCase();
-    const asset = (t.asset || "").toLowerCase();
-    return type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset);
+    const asset = String(t.asset || "");
+    if (type.includes("bond") || type.includes("municipal") || /rate\/coupon/i.test(asset)) return true;
+    if (EQUITY_NAME_RE.test(asset)) return false;
+    if (/municipal|minicinal|minircinal/i.test(asset)) return true;
+    const muni = MUNI_NAME_RE.test(asset) || MUNI_ISSUER_RE.test(asset);
+    const coupon = BOND_COUPON_RE.test(asset);
+    const dated = BOND_DATE_RE.test(asset);
+    if (muni && (coupon || dated)) return true;
+    if (muni && MUNI_ISSUER_RE.test(asset) && !CORP_NAME_RE.test(asset)) return true;
+    if (coupon && dated) return true;
+    return false;
   }
 
   function isOptionLike(t) {
@@ -142,9 +158,8 @@
 
   function assetKind(t) {
     const type = (t.asset_type || "").toLowerCase();
-    const asset = (t.asset || "").toLowerCase();
+    if (isBond(t)) return "bond";
     if (isOptionLike(t)) return "option";
-    if (type.includes("bond") || type.includes("municipal") || /rate\/coupon/.test(asset)) return "bond";
     if (type.includes("stock") || isEtfLike(t)) return "stock";
     return "other";
   }
@@ -788,7 +803,6 @@
     [/\bD\s+R\s+HORTON\b/g, "HORTON"],
     [/\bRHORTON\b/g, "HORTON"]
   ];
-  const MUNI_NAME_RE = /\b(SCH(?:OOL)?|INDPT|CNTY|COUNTY|TWP|TOWNSHIP|CITY\s+OF|MUNI(?:CIPAL)?|TURNPIKE|AUTH(?:ORITY)?|UNIV(?:ERSITY)?|HOSP(?:ITAL)?|HOUSING|WTR|WATER|SWR|SEWER|\bGO\b|REV(?:ENUE)?|BLDG|LOC\s+BLDG)\b/i;
   const UNLINKED_NAME_RE = /preferred stock|perpetual preferred|structured note|linked note|\betf\b|index fund|dividend appreciation index|\bbdc\b|business development company|non-cumulative|cumulative redeemable|commodities plus|fund class|class y shares/i;
   const BROKER_PREFIX_RE = /^(?:morgan stanley|goldman sachs|fidelity(?: investments)?|vanguard|charles schwab|\bschwab\b|bank of america|merrill lynch|\bmerrill\b|jpmorgan(?: chase)?|jp ?morgan|wells fargo|\bubs\b|raymond james|edward jones|ameriprise|e\*?trade|td ameritrade|interactive brokers|\bchase\b|aperio group(?: llc)?)\b[\s,:-]*/i;
   const ACCOUNT_PREFIX_RE = /^(?:smith barney(?: llc)?|ira|roth ira|trust account|brokerage account|\bbrokerage\b|select uma(?: account)?|unified management account|joint tbe|uma(?: account)?|account(?:\s*#\s*\d+)?)\b[\s,:-]*/i;

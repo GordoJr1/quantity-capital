@@ -488,7 +488,11 @@ summary:focus-visible,
 }
 .qc-txn-strike,
 .qc-txn-exp,
-.qc-txn-optline { display: none; }
+.qc-txn-optline,
+.qc-txn-wdate,
+.qc-txn-wstr,
+.qc-txn-wexp,
+.qc-txn-wire-cols { display: none; }
 .qc-txn-tape .qc-txn-company .qc-txn-tk {
   display: inline-flex;
   align-items: baseline;

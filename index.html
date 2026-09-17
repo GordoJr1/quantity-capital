@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a1d26" />
+  <meta name="theme-color" content="#1c1917" media="(max-width: 899px)" />
+  <meta name="theme-color" content="#1a1d26" media="(min-width: 900px)" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -1595,7 +1596,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=159" />
+  <link rel="stylesheet" href="shell.css?v=160" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1685,6 +1686,9 @@
       .desk .qc-txn-tape.on { border-color: var(--caution); background: rgba(227, 180, 26, 0.1); }
       .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
       .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+      .desk .day .day-wire { display: none; }
+      .desk .day .day-desk { display: inline; }
+      .qc-txn-wire-cols { display: none !important; }
 
       body.tape-opt .qc-txn-optline { display: none; }
       body.tape-opt .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
@@ -1711,9 +1715,286 @@
         color: inherit; font-variant-numeric: normal;
       }
     }
+
+    /* Layout B + Sand: mobile/tablet Tape only. Desktop ≥900 stays the dense desk table. */
+    @media (max-width: 899px) {
+      body.qc-tape-page {
+        --sand-bg: #1c1917;
+        --sand-panel: #292524;
+        --sand-border: #44403c;
+        --sand-accent: #d6a756;
+        --sand-ticker: #fde68a;
+        --sand-text: #fafaf9;
+        --sand-mute: #a8a29e;
+        --sand-buy: #84cc16;
+        --sand-sell: #f97316;
+        background: #1c1917;
+        color: #fafaf9;
+      }
+      body.qc-tape-page .qc-header {
+        background: #1c1917;
+        border-bottom: 1px solid #44403c;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      body.qc-tape-page .qc-header .mark,
+      body.qc-tape-page .qc-header .mark span { color: #d6a756; }
+      body.qc-tape-page .qc-nav a { color: #a8a29e; }
+      body.qc-tape-page .qc-nav a:hover,
+      body.qc-tape-page .qc-nav a.on {
+        color: #d6a756;
+        border-bottom-color: #d6a756;
+      }
+      body.qc-tape-page .qc-mode {
+        border-color: #44403c;
+        color: #a8a29e;
+        border-radius: 2px;
+      }
+      body.qc-tape-page .qc-mode:hover,
+      body.qc-tape-page .qc-mode:focus-visible,
+      body.qc-tape-page .qc-mode.on {
+        color: #d6a756;
+        border-color: #d6a756;
+        background: rgba(214, 167, 86, 0.08);
+      }
+      body.qc-tape-page .asof,
+      body.qc-tape-page .count,
+      body.qc-tape-page #tape-count { color: #a8a29e; }
+      body.qc-tape-page .tabbar {
+        background: #1c1917;
+        border-top: 1px solid #44403c;
+      }
+      body.qc-tape-page .tabbar a { color: #a8a29e; }
+      body.qc-tape-page .tabbar a.on,
+      body.qc-tape-page .tabbar a:hover { color: #d6a756; }
+      body.qc-tape-page .tabbar a.on {
+        border-top-color: #d6a756;
+        border-top-width: 2px;
+        background: transparent;
+        font-weight: 700;
+      }
+      body.qc-tape-page .filter-fold,
+      body.qc-tape-page .board-fold {
+        border-color: #44403c;
+        background: #292524;
+      }
+      body.qc-tape-page .filter-fold > summary,
+      body.qc-tape-page .board-fold > summary { color: #d6a756; }
+      body.qc-tape-page .filter-fold[open] > summary,
+      body.qc-tape-page .board-fold[open] > summary { border-bottom-color: #44403c; }
+
+      #tape .wire-kicker { display: none; }
+      #tape .qc-txn-list.qc-tape-list { gap: 0; margin-bottom: 12px; }
+      #tape .qc-txn-wire-cols {
+        display: grid;
+        grid-template-columns: 2.25rem 2.75rem 3rem 2.5rem 2.35rem minmax(3.2rem, 1fr);
+        column-gap: 2px;
+        align-items: center;
+        padding: 5px 10px;
+        margin: 0;
+        list-style: none;
+        background: #44403c;
+        border: 0;
+        border-bottom: 1px solid rgba(214, 167, 86, 0.33);
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: #d6a756;
+        text-transform: uppercase;
+        position: sticky;
+        top: var(--tape-lock-h, 48px);
+        z-index: 6;
+      }
+      #tape .qc-txn-wire-cols span:last-child { text-align: right; }
+
+      #tape .desk .day,
+      #tape .desk .day.fresh {
+        display: block;
+        margin: 0;
+        padding: 4px 10px;
+        background: #292524;
+        border: 0;
+        border-top: 1px solid #44403c;
+        border-bottom: 1px solid #44403c;
+        list-style: none;
+      }
+      #tape .desk .day h2,
+      #tape #wire li.day.fresh h2 {
+        color: #d6a756;
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        font-family: "Barlow Condensed", sans-serif;
+      }
+      #tape .desk .day .day-desk { display: none; }
+      #tape .desk .day .day-wire { display: inline; }
+      #tape .desk .day em { display: none; }
+
+      #tape .qc-txn.qc-txn-tape,
+      #tape .qc-txn-tape.qc-txn-co-first {
+        display: grid;
+        grid-template-columns: 2.25rem 2.75rem 3rem 2.5rem 2.35rem minmax(3.2rem, 1fr);
+        grid-template-areas:
+          "name name name name name name"
+          "date tkr str exp side val";
+        column-gap: 2px;
+        row-gap: 3px;
+        align-items: center;
+        padding: 5px 10px 6px;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        border-bottom: 1px solid #44403c;
+        border-left-width: 0;
+        background: #1f1c19;
+        overflow: hidden;
+      }
+      #tape .qc-txn-tape.buy,
+      #tape .qc-txn-tape.sell,
+      #tape .qc-txn-tape.postex,
+      #tape .qc-txn-tape.exercise,
+      #tape .qc-txn-tape.award { border-left-width: 0; }
+      #tape .qc-txn-tape.on {
+        background: rgba(214, 167, 86, 0.12);
+        border-color: #44403c;
+      }
+      #tape .qc-txn-tape:hover { background: #262220; }
+      #tape .qc-txn-tape:focus-visible {
+        outline: 2px solid #d6a756;
+        outline-offset: -2px;
+      }
+
+      #tape .qc-txn-tape .qc-txn-when,
+      #tape .qc-txn-tape .qc-txn-sub,
+      #tape .qc-txn-tape .qc-txn-tbl,
+      #tape .qc-txn-tape .qc-txn-optline,
+      #tape .qc-txn-tape .opt-tag,
+      #tape .qc-txn-tape .qc-txn-co-name,
+      #tape .qc-txn-tape .qc-txn-strike,
+      #tape .qc-txn-tape .qc-txn-exp { display: none !important; }
+
+      #tape .qc-txn-tape .qc-txn-id {
+        grid-area: name;
+        display: block;
+        min-width: 0;
+        overflow: hidden;
+      }
+      #tape .qc-txn-tape .qc-txn-id-line {
+        display: flex;
+        align-items: baseline;
+        min-width: 0;
+        max-width: 100%;
+        overflow: hidden;
+      }
+      #tape .qc-txn-tape .qc-txn-name,
+      #tape .qc-txn-tape a.qc-txn-name {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+        color: #fafaf9;
+        text-decoration: none;
+      }
+      #tape .qc-txn-tape .qc-txn-id-line .qc-txn-role {
+        display: inline;
+        flex: 0 0 auto;
+        margin-left: 0;
+        color: #a8a29e;
+        font-family: "IBM Plex Sans", sans-serif;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      #tape .qc-txn-tape .qc-txn-id-line .qc-txn-role::before {
+        content: " \00b7 ";
+        color: #a8a29e;
+        font-weight: 500;
+      }
+
+      #tape .qc-txn-tape .qc-txn-company,
+      #tape .qc-txn-tape a.qc-txn-company {
+        display: contents;
+        border: 0;
+        padding: 0;
+        width: auto;
+        max-width: none;
+      }
+      #tape .qc-txn-tape .qc-txn-wdate,
+      #tape .qc-txn-tape .qc-txn-wstr,
+      #tape .qc-txn-tape .qc-txn-wexp,
+      #tape .qc-txn-tape .qc-txn-company .qc-txn-tk,
+      #tape .qc-txn-tape .qc-txn-chip,
+      #tape .qc-txn-tape .qc-txn-hero {
+        display: block;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+        font-size: 11px;
+        line-height: 1.2;
+        font-variant-numeric: tabular-nums;
+      }
+      #tape .qc-txn-tape .qc-txn-wdate { grid-area: date; color: #a8a29e; }
+      #tape .qc-txn-tape .qc-txn-company .qc-txn-tk,
+      #tape .qc-txn-tape a.qc-txn-company .qc-txn-tk {
+        grid-area: tkr;
+        color: #fde68a;
+        font-weight: 700;
+        letter-spacing: 0;
+        flex: none;
+        font-size: 11px;
+      }
+      #tape .qc-txn-tape .qc-txn-wstr { grid-area: str; color: #fafaf9; }
+      #tape .qc-txn-tape .qc-txn-wexp { grid-area: exp; color: #a8a29e; }
+      #tape .qc-txn-tape .qc-txn-end { display: contents; }
+      #tape .qc-txn-tape .qc-txn-chip {
+        grid-area: side;
+        justify-self: start;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: none;
+        color: #fafaf9;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-family: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+        font-size: 11px;
+      }
+      #tape .qc-txn.buy .qc-txn-chip,
+      #tape .qc-txn-tape.buy .qc-txn-chip { background: none; color: #84cc16; }
+      #tape .qc-txn.sell .qc-txn-chip,
+      #tape .qc-txn-tape.sell .qc-txn-chip { background: none; color: #f97316; }
+      #tape .qc-txn-tape .qc-txn-hero,
+      #tape .qc-txn-tape .qc-txn-hero.is-empty {
+        grid-area: val;
+        justify-self: end;
+        text-align: right;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0;
+        color: #fafaf9;
+        opacity: 0.95;
+      }
+      body.tape-opt .qc-txn-tape {
+        grid-template-areas:
+          "name name name name name name"
+          "date tkr str exp side val";
+      }
+      body.tape-opt .qc-txn-optline { display: none !important; }
+    }
   </style>
 </head>
-<body>
+<body class="qc-tape-page">
   <div class="bay-left" aria-hidden="true"></div>
   <div class="bay-right" aria-hidden="true"></div>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -1911,7 +2192,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=119"></script>
+  <script src="qc.js?v=120"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2256,9 +2537,23 @@
       });
     }
 
-    function filedGroupHtml(rows, heading, extraCls) {
+    function wireDayHeading(iso) {
+      const d = new Date(String(iso || "") + "T00:00:00");
+      if (isNaN(d.getTime())) return "FILED";
+      const mon = d.toLocaleString("en-US", { month: "short" }).toUpperCase();
+      const today = new Date();
+      const isoToday = today.getFullYear() + "-" +
+        String(today.getMonth() + 1).padStart(2, "0") + "-" +
+        String(today.getDate()).padStart(2, "0");
+      return mon + " " + d.getDate() + (iso === isoToday ? " · TODAY" : "");
+    }
+
+    function filedGroupHtml(rows, heading, extraCls, wireHeading) {
       const cls = extraCls ? " class=\"day " + extraCls + "\"" : " class=\"day\"";
-      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(tapeRowHtml).join("");
+      const wire = wireHeading || heading;
+      return "<li" + cls + "><h2><span class=\"day-desk\">" + heading +
+        "</span><span class=\"day-wire\">" + wire + "</span></h2></li>" +
+        rows.map(tapeRowHtml).join("");
     }
 
     function paintWire() {
@@ -2278,10 +2573,10 @@
       const restRows = pinN ? deskRows.slice(pinN) : deskRows;
       const parts = [];
       groupRowsByFiledDate(pinRows).forEach(([key, rows]) => {
-        parts.push(filedGroupHtml(rows, escapeHtml(justFiledHeading(key)), "fresh"));
+        parts.push(filedGroupHtml(rows, escapeHtml(justFiledHeading(key)), "fresh", "JUST FILED"));
       });
       groupRowsByFiledDate(restRows).forEach(([key, rows]) => {
-        parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
+        parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key)), "", escapeHtml(wireDayHeading(key))));
       });
       const optCols = document.body.classList.contains("tape-opt");
       const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
@@ -2294,7 +2589,10 @@
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
-      box.innerHTML = colsHtml + parts.join("");
+      const wireColsHtml = "<li class=\"qc-txn-wire-cols\" aria-hidden=\"true\">" +
+        "<span>Date</span><span>Tkr</span><span>Strike</span><span>Exp</span><span>Side</span><span>Value</span>" +
+      "</li>";
+      box.innerHTML = colsHtml + wireColsHtml + parts.join("");
     }
 
     function paintFocus() {

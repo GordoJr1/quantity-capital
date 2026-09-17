@@ -1883,13 +1883,14 @@
       #tape .qc-txn-tape .qc-txn-id-line {
         display: flex;
         align-items: baseline;
+        flex-wrap: nowrap;
         min-width: 0;
         max-width: 100%;
         overflow: hidden;
       }
       #tape .qc-txn-tape .qc-txn-name,
       #tape .qc-txn-tape a.qc-txn-name {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -1914,7 +1915,7 @@
         text-transform: uppercase;
       }
       #tape .qc-txn-tape .qc-txn-id-line .qc-txn-role::before {
-        content: " \00b7 ";
+        content: "\00a0\00b7\00a0";
         color: #a8a29e;
         font-weight: 500;
       }
@@ -2573,7 +2574,7 @@
       const restRows = pinN ? deskRows.slice(pinN) : deskRows;
       const parts = [];
       groupRowsByFiledDate(pinRows).forEach(([key, rows]) => {
-        parts.push(filedGroupHtml(rows, escapeHtml(justFiledHeading(key)), "fresh", "JUST FILED"));
+        parts.push(filedGroupHtml(rows, escapeHtml(justFiledHeading(key)), "fresh", escapeHtml("JUST FILED · " + wireDayHeading(key).replace(" · TODAY", ""))));
       });
       groupRowsByFiledDate(restRows).forEach(([key, rows]) => {
         parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key)), "", escapeHtml(wireDayHeading(key))));

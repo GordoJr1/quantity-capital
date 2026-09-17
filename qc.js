@@ -149,6 +149,13 @@
     return "other";
   }
 
+  function kindAllows(kind, t) {
+    const k = assetKind(t);
+    if (!kind) return true;
+    if (kind === "stock-option" || kind === "equity") return k === "stock" || k === "option";
+    return k === kind;
+  }
+
   function isFilingError(t) {
     const td = t.trade_date || "";
     const fd = t.filed_date || "";
@@ -1790,6 +1797,7 @@
     optionMeta: optionMeta,
     optionTag: optionTag,
     assetKind: assetKind,
+    kindAllows: kindAllows,
     isFilingError: isFilingError,
     sideLabel: sideLabel,
     isAward: isAward,

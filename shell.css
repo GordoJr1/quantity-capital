@@ -492,9 +492,9 @@ summary:focus-visible,
   color: var(--caution, #e3b41a);
   min-width: 1.05em;
   text-align: center;
-  padding: 0 5px;
+  padding: 1px 6px;
   font-size: 0.66rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   font-weight: 600;
 }
 .qc-txn-strike,

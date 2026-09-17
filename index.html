@@ -1785,6 +1785,7 @@
             <label for="filter-kind">Stocks / bonds</label>
             <select id="filter-kind">
               <option value="stock" selected>Stocks</option>
+              <option value="stock-option">Stocks and options</option>
               <option value="option">Options</option>
               <option value="bond">Bonds</option>
               <option value="">All</option>
@@ -1873,7 +1874,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=122"></script>
+  <script src="qc.js?v=123"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -1919,7 +1920,7 @@
       let n = 0;
       if (company.value.trim()) n++;
       if (industry && industry.value) n++;
-      if (kind && kind.value && kind.value !== "stock") n++;
+      if (kind && kind.value !== defaultKind()) n++;
       if (side && side.value) n++;
       if (chamber && chamber.value) n++;
       if (landed && landed.checked) n++;
@@ -1988,6 +1989,7 @@
     const optionMeta = QC.optionMeta;
     const optionTag = QC.optionTag;
     const assetKind = QC.assetKind;
+    const kindAllows = QC.kindAllows;
     const enrich = QC.enrich;
     const isFilingError = QC.isFilingError;
     const OVERLAP_RULES = QC.OVERLAP_RULES;
@@ -2011,30 +2013,34 @@
     let lastFiltered = [];
     let deskPinCount = 0;
     let lastTapeView = { onlyLanded: false, kind: "stock" };
-    const KIND_STORE = "qc-tape-kind-v2";
-    const KIND_DEFAULT = "stock"; // stocks + options; v2 drops leftover stocks-only defaults
-    const KIND_VALUES = { stock: 1, option: 1, bond: 1, "": 1 };
+    const KIND_STORE = "qc-tape-kind-v3";
+    const KIND_PHONE = "(max-width: 899px)";
+    const KIND_VALUES = { stock: 1, "stock-option": 1, option: 1, bond: 1, "": 1 };
 
-    function kindAllows(kind, t) {
-      const k = assetKind(t);
-      if (kind === "stock") return k === "stock" || k === "option";
-      if (kind === "option") return k === "option";
-      if (kind === "bond") return k === "bond";
-      if (kind === "") return true;
-      return k === kind;
+    function defaultKind() {
+      return window.matchMedia(KIND_PHONE).matches ? "stock-option" : "stock";
     }
 
-    function readKindStore() {
-      try {
-        const v = localStorage.getItem(KIND_STORE);
-        if (v != null && KIND_VALUES[v]) return v;
-      } catch (err) {}
-      return KIND_DEFAULT;
+    function normalizeKind(v) {
+      if (v === "equity") return "stock-option";
+      if (Object.prototype.hasOwnProperty.call(KIND_VALUES, v)) return v;
+      return null;
     }
 
     function writeKindStore(kind) {
       try { localStorage.setItem(KIND_STORE, kind); } catch (err) {}
     }
+    (function initKindSelect() {
+      const sel = document.getElementById("filter-kind");
+      if (!sel) return;
+      const p = new URLSearchParams(location.search);
+      if (p.has("kind")) {
+        const mapped = normalizeKind(p.get("kind") || "");
+        if (mapped != null) sel.value = mapped;
+      } else {
+        sel.value = defaultKind();
+      }
+    })();
     let lastBoards = null;
     const DESK_MQ = window.matchMedia("(min-width: 900px)");
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
@@ -2886,7 +2892,7 @@
           const chamber = document.getElementById("filter-chamber").value;
           const industry = document.getElementById("filter-industry").value;
           const company = document.getElementById("filter-company").value.trim();
-          if (kind !== KIND_DEFAULT) p.set("kind", kind);
+          if (kind !== defaultKind()) p.set("kind", kind);
           writeKindStore(kind);
           if (side) p.set("side", side);
           if (chamber) p.set("chamber", chamber);
@@ -2902,9 +2908,10 @@
           const kindSel = document.getElementById("filter-kind");
           if (p.has("kind")) {
             const fromUrl = p.get("kind") || "";
-            kindSel.value = KIND_VALUES[fromUrl] ? fromUrl : KIND_DEFAULT;
+            const mapped = normalizeKind(fromUrl);
+            kindSel.value = mapped != null ? mapped : defaultKind();
           } else {
-            kindSel.value = readKindStore();
+            kindSel.value = defaultKind();
           }
           if (p.get("side")) document.getElementById("filter-side").value = p.get("side");
           if (p.get("chamber")) document.getElementById("filter-chamber").value = p.get("chamber");

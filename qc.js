@@ -76,6 +76,69 @@
     return s;
   }
 
+  function compactMmYy(d) {
+    if (!d || isNaN(d.getTime())) return "";
+    return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getFullYear()).slice(2);
+  }
+
+  function compactMdDate(iso) {
+    const d = new Date(String(iso || "") + "T00:00:00");
+    if (isNaN(d.getTime())) return "—";
+    return String(d.getMonth() + 1).padStart(2, "0") + "/" + String(d.getDate()).padStart(2, "0");
+  }
+
+  function compactExpFromPretty(pretty) {
+    const months = {
+      jan: "01", feb: "02", mar: "03", apr: "04", may: "05", jun: "06",
+      jul: "07", aug: "08", sep: "09", oct: "10", nov: "11", dec: "12"
+    };
+    const s = String(pretty || "").trim();
+    const m = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(?:(\d{1,2})(?:st|nd|rd|th)?[, ]+)?'?(\d{2,4})/i);
+    if (!m) return "";
+    const mo = months[m[1].slice(0, 3).toLowerCase()];
+    let y = m[3];
+    if (y.length === 4) y = y.slice(2);
+    return mo ? mo + "/" + y : "";
+  }
+
+  function compactOptionExp(raw) {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) {
+      const iso = m[1] + "-" + String(m[2]).padStart(2, "0") + "-" + String(m[3]).padStart(2, "0");
+      return compactMmYy(new Date(iso + "T00:00:00"));
+    }
+    m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
+    if (m) {
+      let y = m[3];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      const mo = Number(m[1]);
+      const day = Number(m[2]);
+      if (mo >= 1 && mo <= 12 && day >= 1 && day <= 31) {
+        const iso = y + "-" + String(mo).padStart(2, "0") + "-" + String(day).padStart(2, "0");
+        const d = new Date(iso + "T00:00:00");
+        if (!isNaN(d.getTime()) && d.getMonth() === mo - 1 && d.getDate() === day) return compactMmYy(d);
+      }
+    }
+    m = s.match(/^(\d{1,2})[./-](\d{4})$/);
+    if (m) {
+      const mo = Number(m[1]);
+      const y = Number(m[2]);
+      if (mo >= 1 && mo <= 12 && y >= 1990 && y <= 2100) {
+        return String(mo).padStart(2, "0") + "/" + String(y).slice(2);
+      }
+    }
+    m = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2,4})$/i);
+    if (m) {
+      let y = m[2];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      const d = new Date(m[1] + " 1, " + y);
+      if (!isNaN(d.getTime())) return compactMmYy(d);
+    }
+    return compactExpFromPretty(s);
+  }
+
   function optionKind(a) {
     if (/\bputs?\b|\bput\/|>ut\//i.test(a)) return "Put";
     if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(a)) return "Call";
@@ -107,12 +170,28 @@
       under = um[1].toUpperCase();
       if (under === "INJ") under = "JNJ";
     }
+    const expPretty = formatOptionExp(expRaw);
     return {
       kind: kind,
       strike: formatOptionStrike(strikeHit && strikeHit[1]),
-      exp: formatOptionExp(expRaw),
+      exp: expPretty,
+      expCompact: compactOptionExp(expRaw) || compactExpFromPretty(expPretty),
       under: under
     };
+  }
+
+  function wireStrikeLabel(t) {
+    if (!isOptionLike(t)) return "—";
+    const o = optionMeta(t);
+    if (o.kind === "Call" && o.strike) return "C" + o.strike;
+    if (o.kind === "Put" && o.strike) return "P" + o.strike;
+    return "OPT";
+  }
+
+  function wireExpLabel(t) {
+    if (!isOptionLike(t)) return "—";
+    const o = optionMeta(t);
+    return o.expCompact || compactExpFromPretty(o.exp) || "—";
   }
 
   function optionDetailText(o) {
@@ -1375,6 +1454,9 @@
     const optLineHtml = optDetail
       ? "<span class=\"qc-txn-optline\">" + esc(optDetail) + "</span>"
       : "";
+    const wireDateHtml = "<span class=\"qc-txn-wdate\">" + esc(compactMdDate(t && t.trade_date)) + "</span>";
+    const wireStrikeHtml = "<span class=\"qc-txn-wstr\">" + esc(wireStrikeLabel(t)) + "</span>";
+    const wireExpHtml = "<span class=\"qc-txn-wexp\">" + esc(wireExpLabel(t)) + "</span>";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
     const showHold = !!opts.showHoldings;
@@ -1437,6 +1519,7 @@
       "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
       strikeHtml + expHtml + optLineHtml +
+      wireDateHtml + wireStrikeHtml + wireExpHtml +
     "</li>";
   }
 

@@ -485,6 +485,17 @@ summary:focus-visible,
   margin-left: 0;
   white-space: nowrap;
   vertical-align: middle;
+  line-height: 1.2;
+}
+.qc-txn .opt-tag {
+  border-color: var(--caution, #e3b41a);
+  color: var(--caution, #e3b41a);
+  min-width: 1.05em;
+  text-align: center;
+  padding: 0 5px;
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 .qc-txn-strike,
 .qc-txn-exp,
@@ -495,9 +506,9 @@ summary:focus-visible,
 .qc-txn-cols-phone { display: none; }
 .qc-txn-tape .qc-txn-company .qc-txn-tk {
   display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: nowrap;
 }
 .qc-txn-tape .qc-txn-tk .opt-tag { margin-left: 0; }
 .qc-txn-tag.hot { border-color: var(--caution, #e3b41a); color: var(--caution, #e3b41a); }
@@ -761,7 +772,7 @@ summary:focus-visible,
   .qc-txn-tape .qc-txn-end { gap: 6px; }
 }
 
-/* Phone tape: compact Date | Tkr | Strike | Exp | Side | Value table. Desk ≥900 unchanged. */
+/* Phone tape: compact Date | Tkr | Side | Value table. Desk ≥900 unchanged. */
 @media (max-width: 899px) {
   .qc-txn-list.qc-tape-list {
     gap: 0;
@@ -781,8 +792,8 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-cols-phone,
   .qc-txn-list.qc-tape-list > .qc-txn-tape {
     display: grid;
-    grid-template-columns: 3.6rem minmax(2.6rem, 0.7fr) 3rem minmax(3.4rem, 0.95fr) 3.2rem minmax(3.6rem, 1fr);
-    grid-template-areas: "date co strike exp chip hero";
+    grid-template-columns: 3.6rem minmax(3.4rem, 1.35fr) 3.2rem minmax(3.6rem, 1fr);
+    grid-template-areas: "date co chip hero";
     column-gap: 6px;
     row-gap: 0;
     align-items: center;
@@ -806,8 +817,6 @@ summary:focus-visible,
   }
   .qc-txn-cols-phone .qc-txn-date,
   .qc-txn-cols-phone .qc-txn-company,
-  .qc-txn-cols-phone .qc-txn-strike,
-  .qc-txn-cols-phone .qc-txn-exp,
   .qc-txn-cols-phone .qc-txn-chip,
   .qc-txn-cols-phone .qc-txn-hero {
     display: block;
@@ -827,8 +836,6 @@ summary:focus-visible,
   }
   .qc-txn-cols-phone .qc-txn-date { grid-area: date; }
   .qc-txn-cols-phone .qc-txn-company { grid-area: co; }
-  .qc-txn-cols-phone .qc-txn-strike { grid-area: strike; }
-  .qc-txn-cols-phone .qc-txn-exp { grid-area: exp; }
   .qc-txn-cols-phone .qc-txn-chip { grid-area: chip; }
   .qc-txn-cols-phone .qc-txn-hero { grid-area: hero; text-align: right; }
   .qc-txn-list.qc-tape-list > .qc-txn-tape {
@@ -840,13 +847,13 @@ summary:focus-visible,
     overflow: hidden;
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
-    grid-template-areas: "date co strike exp chip hero";
+    grid-template-areas: "date co chip hero";
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape:has(.qc-txn-who-line),
   .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-who-line) {
     grid-template-areas:
-      "who who who who who who"
-      "date co strike exp chip hero";
+      "who who who who"
+      "date co chip hero";
     row-gap: 2px;
     align-items: start;
   }
@@ -855,7 +862,8 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-sub,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-optline,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-co-name,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag {
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-strike,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp {
     display: none !important;
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-end,
@@ -882,12 +890,13 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tk,
   .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     grid-area: co;
     min-width: 0;
+    max-width: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -896,19 +905,11 @@ summary:focus-visible,
     border: 0;
     padding: 0;
   }
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-strike,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp {
-    display: block;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.7rem;
-    font-variant-numeric: tabular-nums;
-    color: var(--paper, #d8dde3);
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag {
+    display: inline-block;
+    flex: 0 0 auto;
+    margin-left: 0;
   }
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-strike { grid-area: strike; }
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp { grid-area: exp; }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-chip {
     grid-area: chip;
     justify-self: start;
@@ -1235,19 +1236,7 @@ summary:focus-visible,
     width: 100%;
   }
   .qc-txn-tape .qc-txn-id-line .qc-txn-role {
-    display: inline;
-    flex: 0 0 auto;
-    margin-left: 0.35em;
-    color: var(--mute, #8b96a3);
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0;
-    text-transform: none;
-    font-family: "IBM Plex Sans", sans-serif;
-  }
-  .qc-txn-tape .qc-txn-id-line .qc-txn-role::before {
-    content: "– ";
-    color: #5b6573;
+    display: none;
   }
   .qc-txn-tape .qc-txn-id-sub {
     display: block;
@@ -1422,14 +1411,8 @@ summary:focus-visible,
     white-space: nowrap;
   }
   .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-role {
-    display: inline;
-    flex: 0 0 auto;
-    margin-left: 0.35em;
-    color: var(--mute, #8b96a3);
-    font-size: 0.72rem;
-    font-weight: 400;
+    display: none;
   }
-  .qc-pol-desk .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "\2013 "; color: #5b6573; }
   .qc-pol-desk .qc-txn-cols .qc-txn-hero,
   .qc-pol-desk .qc-txn-tape .qc-txn-hero,
   .qc-pol-desk .qc-txn-tape .qc-txn-hero.is-empty {

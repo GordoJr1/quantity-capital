@@ -125,10 +125,9 @@
   function optionTag(t) {
     if (!isOptionLike(t)) return "";
     const o = optionMeta(t);
-    const kind = o.kind || "Option";
-    const detail = optionDetailText(o);
-    const extra = detail ? "<span class=\"opt-detail\"> " + esc(detail) + "</span>" : "";
-    return "<span class=\"opt-tag\">" + esc(kind) + extra + "</span>";
+    if (o.kind !== "Call" && o.kind !== "Put") return "";
+    const letter = o.kind === "Put" ? "P" : "C";
+    return "<span class=\"opt-tag\" title=\"" + esc(o.kind) + "\">" + esc(letter) + "</span>";
   }
 
   function isEtfLike(t) {
@@ -402,20 +401,10 @@
     "</span>";
   }
 
-  function tapeStrikeExpHtml(t) {
-    const opt = isOptionLike(t) ? optionMeta(t) : null;
-    const strike = opt && opt.strike ? "$" + opt.strike : "—";
-    const exp = opt && opt.exp ? opt.exp : "—";
-    return "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>" +
-      "<span class=\"qc-txn-exp\">" + esc(exp) + "</span>";
-  }
-
   function tapePhoneColsHtml() {
     return "<li class=\"qc-txn-cols qc-txn-cols-phone\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-company\">Tkr</span>" +
-      "<span class=\"qc-txn-strike\">Strike</span>" +
-      "<span class=\"qc-txn-exp\">Exp</span>" +
       "<span class=\"qc-txn-chip\">Side</span>" +
       "<span class=\"qc-txn-hero\">Value</span>" +
     "</li>";
@@ -438,15 +427,10 @@
     if (opts.hideWhoLine) return "";
     const name = titleCaseName((t && t.filer) || "") || String((t && t.filer) || "");
     if (!name) return "";
-    const roleRaw = opts.role != null
-      ? String(opts.role || "")
-      : String((t && (t.chamber || t.role)) || shortRole(t) || "");
-    const role = roleRaw.replace(/\s+/g, " ").trim().toUpperCase();
-    const label = role ? name + " - " + role : name;
     const href = opts.nameHref || "";
     const nameHtml = href
-      ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(label) + "</a>"
-      : "<span class=\"qc-txn-name\">" + esc(label) + "</span>";
+      ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(name) + "</a>"
+      : "<span class=\"qc-txn-name\">" + esc(name) + "</span>";
     const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
     const planHtml = t && t.plan
       ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>"
@@ -1252,14 +1236,11 @@
           : (opts.nameHtml || "<span class=\"qc-txn-name\">" + esc(name) + "</span>"))
       : (opts.nameHtml || "");
     const tickerHtml = opts.tickerHtml || tapeTickerHtml(t);
-    const role = shortRole(t);
-    const roleHtml = role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "";
     const company = String(t.company || "").trim();
     const coHref = tickerHref(t);
 
     const whoParts = [];
     if (tickerHtml) whoParts.push(tickerHtml);
-    if (roleHtml) whoParts.push(roleHtml);
 
     const metaParts = [];
     if (t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
@@ -1275,7 +1256,7 @@
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
     const companyBits = [];
-    if (t.ticker) companyBits.push("<span class=\"qc-txn-tk\">" + esc(t.ticker) + "</span>");
+    if (t.ticker) companyBits.push("<span class=\"qc-txn-tk\">" + esc(t.ticker) + optionTag(t) + "</span>");
     if (company) companyBits.push("<span class=\"qc-txn-co-name\">" + esc(company) + "</span>");
     const companyInner = companyBits.join("");
     const companyCol = companyInner
@@ -1296,7 +1277,7 @@
 
     const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
     const planHtml = t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "";
-    const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + roleHtml + followHtml + planHtml + "</div>";
+    const nameLineFollow = "<div class=\"qc-txn-id-line\">" + nameHtml + followHtml + planHtml + "</div>";
     const when = t.trade_date
       ? "<span class=\"qc-txn-when\">" + esc(prettyDate(t.trade_date)) + "</span>"
       : "";
@@ -1310,7 +1291,6 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       tbl +
       companyCol +
-      tapeStrikeExpHtml(t) +
     "</li>";
   }
 
@@ -1399,15 +1379,12 @@
         "<span class=\"qc-txn-after\">Held</span>" +
         "<span class=\"qc-txn-held\">% Held</span>"
       : "";
-    const opt = opts.showOptionCols
-      ? "<span class=\"qc-txn-strike\">Strike</span><span class=\"qc-txn-exp\">Exp</span>"
-      : "<span class=\"qc-txn-coname\">Company</span>";
     return tapePhoneColsHtml() +
       "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
       "<span class=\"qc-txn-company\">Ticker</span>" +
-      opt +
+      "<span class=\"qc-txn-coname\">Company</span>" +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
       hold +
@@ -1428,22 +1405,12 @@
           ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
-    const role = String((t && (t.chamber || t.role)) || shortRole(t) || "");
-    const opt = isOptionLike(t) ? optionMeta(t) : null;
     const optTag = optionTag(t);
-    const optDetail = optionDetailText(opt);
     const co = "<span class=\"qc-txn-tk\">" + esc(code) + optTag + "</span>" +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
-    const strikeHtml = "<span class=\"qc-txn-strike\">" +
-      esc(opt && opt.strike ? "$" + opt.strike : "—") + "</span>";
-    const expHtml = "<span class=\"qc-txn-exp\">" +
-      esc(opt && opt.exp ? opt.exp : "—") + "</span>";
-    const optLineHtml = optDetail
-      ? "<span class=\"qc-txn-optline\">" + esc(optDetail) + "</span>"
-      : "";
 
     const lastHtml = opts.showLastClose ? lastCloseHtml(opts.lastClose, code) : "";
     const showHold = !!opts.showHoldings;
@@ -1463,7 +1430,6 @@
         : "<span class=\"qc-txn-tk\">" + esc(code) + "</span>");
     }
     if (lastHtml) whoParts.push(lastHtml);
-    if (role) whoParts.push("<span class=\"qc-txn-role\">" + esc(role) + "</span>");
     const metaParts = [];
     if (t && t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
     if (company) {
@@ -1493,10 +1459,9 @@
       (opts.holdKey ? " data-key=\"" + esc(opts.holdKey) + "\"" : "") +
       " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (opts.selected ? "true" : "false") + "\">" +
       when +
-      tapeWhoLineHtml(t, { nameHref: nameHref, hideWhoLine: !!opts.hideWhoLine, role: role }) +
+      tapeWhoLineHtml(t, { nameHref: nameHref, hideWhoLine: !!opts.hideWhoLine }) +
       "<div class=\"qc-txn-id\"><div class=\"qc-txn-id-line\">" +
         nameHtml +
-        (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
         (t && t.plan ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>" : "") +
       "</div></div>" +
       "<div class=\"qc-txn-end\">" +
@@ -1506,7 +1471,6 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\">" + tapeDateHtml(t && t.trade_date) + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
-      strikeHtml + expHtml + optLineHtml +
     "</li>";
   }
 

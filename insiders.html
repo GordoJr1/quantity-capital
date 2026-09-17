@@ -101,7 +101,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=161" />
+  <link rel="stylesheet" href="shell.css?v=162" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -128,18 +128,6 @@
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
     .qc-txn-co, .qc-txn-tape a.qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: inherit; text-decoration: none; }
     .qc-txn-tape a.qc-txn-co:hover { color: inherit; }
-    @media (max-width: 899px) {
-      .qc-txn-list.qc-tape-list > .qc-txn-tape,
-      .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
-        grid-template-areas: "date co strike exp chip hero";
-      }
-      .qc-txn-list.qc-tape-list > .qc-txn-tape:has(.qc-txn-who-line),
-      .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-who-line) {
-        grid-template-areas:
-          "who who who who who who"
-          "date co strike exp chip hero";
-      }
-    }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
     }
@@ -188,8 +176,7 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: inline; flex: 0 0 auto; margin-left: 0.35em; color: var(--mute, #8b96a3); font-size: 0.72rem; font-weight: 400; }
-      .qc-txn-tape .qc-txn-id-line .qc-txn-role::before { content: "– "; color: #5b6573; }
+      .qc-txn-tape .qc-txn-id-line .qc-txn-role { display: none; }
       .qc-txn-tape .qc-txn-id-sub { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--mute, #8b96a3); font-size: 0.68rem; }
       .qc-txn-tape .qc-txn-id-sub .qc-txn-dot { display: inline; }
     }
@@ -634,7 +621,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=121"></script>
+  <script src="qc.js?v=122"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];

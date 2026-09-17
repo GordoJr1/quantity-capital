@@ -1797,6 +1797,197 @@
     return trades;
   }
 
+  const RETURN_KEY = "qc:return";
+  let replaceWrapped = false;
+  const PAGE_LABELS = {
+    "index.html": "Tape",
+    "landed.html": "Filed",
+    "filed.html": "Filed",
+    "tells.html": "Patterns",
+    "signals.html": "Heat",
+    "paper.html": "Paper",
+    "insiders.html": "Insiders",
+    "insider-landed.html": "Filed",
+    "insider-signals.html": "Heat",
+    "insider-board.html": "Leaders",
+    "insider-checks.html": "Checks",
+    "politician.html": "Politician",
+    "ticker.html": "Ticker",
+    "insider.html": "Insider",
+    "insider-ticker.html": "Ticker",
+    "claims.html": "Claims",
+    "beta.html": "Beta"
+  };
+  const LIST_FILES = {
+    "index.html": 1,
+    "landed.html": 1,
+    "filed.html": 1,
+    "tells.html": 1,
+    "signals.html": 1,
+    "paper.html": 1,
+    "insiders.html": 1,
+    "insider-landed.html": 1,
+    "insider-signals.html": 1,
+    "insider-board.html": 1,
+    "insider-checks.html": 1,
+    "claims.html": 1,
+    "beta.html": 1
+  };
+  const DRILL_FILES = {
+    "politician.html": 1,
+    "ticker.html": 1,
+    "insider.html": 1,
+    "insider-ticker.html": 1
+  };
+
+  function pageFile(pathname) {
+    const base = String(pathname || "").split("/").pop() || "index.html";
+    return (base || "index.html").toLowerCase();
+  }
+
+  function siteRoot() {
+    const path = location.pathname;
+    const i = path.lastIndexOf("/");
+    return path.slice(0, i + 1);
+  }
+
+  function isQcHref(href) {
+    if (!href) return false;
+    try {
+      const u = new URL(href, location.href);
+      if (u.origin !== location.origin) return false;
+      if (u.protocol !== "http:" && u.protocol !== "https:") return false;
+      const root = siteRoot();
+      if (root && u.pathname.indexOf(root) !== 0) return false;
+      const file = pageFile(u.pathname);
+      return file === "index.html" || /\.html$/.test(file);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function toLocal(href) {
+    const u = new URL(href, location.href);
+    return u.pathname + u.search + u.hash;
+  }
+
+  function hereUrl() {
+    return location.pathname + location.search + location.hash;
+  }
+
+  function rememberReturn() {
+    if (!LIST_FILES[pageFile(location.pathname)]) return;
+    try {
+      sessionStorage.setItem(RETURN_KEY, hereUrl());
+    } catch (e) {}
+  }
+
+  function storedReturn() {
+    try {
+      const v = sessionStorage.getItem(RETURN_KEY);
+      if (!v || !isQcHref(v)) return "";
+      const u = new URL(v, location.href);
+      if (pageFile(u.pathname) === pageFile(location.pathname)) return "";
+      return u.pathname + u.search + u.hash;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function labelFor(href, fallback) {
+    try {
+      const file = pageFile(new URL(href, location.href).pathname);
+      if (PAGE_LABELS[file]) return "← " + PAGE_LABELS[file];
+    } catch (e) {}
+    return fallback || "← Back";
+  }
+
+  function isPersonPage(href) {
+    try {
+      const file = pageFile(new URL(href, location.href).pathname);
+      return file === "politician.html" || file === "insider.html";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function canHistoryBack(ref) {
+    if (history.length < 2) return false;
+    if (!ref || !isQcHref(ref)) return false;
+    try {
+      if (pageFile(new URL(ref, location.href).pathname) === pageFile(location.pathname)) return false;
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  function bindBack(el) {
+    if (!el || el.dataset.qcBack === "1") return;
+    el.dataset.qcBack = "1";
+    const fallbackHref = el.getAttribute("href") || "index.html";
+    const fallbackLabel = String(el.textContent || "← Back").replace(/\s+/g, " ").trim();
+    const stored = storedReturn();
+    const ref = document.referrer;
+    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
+    const dest = stored || fromRef || fallbackHref;
+    if (!isPersonPage(fallbackHref)) {
+      el.href = dest;
+      el.textContent = labelFor(dest, fallbackLabel);
+    }
+    el.addEventListener("click", function (e) {
+      if (e.defaultPrevented) return;
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (canHistoryBack(document.referrer)) {
+        e.preventDefault();
+        history.back();
+      }
+    });
+  }
+
+  function watchListReturn() {
+    rememberReturn();
+    window.addEventListener("pagehide", rememberReturn);
+    window.addEventListener("pageshow", rememberReturn);
+    document.addEventListener("click", function (e) {
+      const a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      try {
+        const u = new URL(a.getAttribute("href"), location.href);
+        if (u.origin !== location.origin) return;
+        if (pageFile(u.pathname) === pageFile(location.pathname) &&
+            u.search === location.search && u.hash === location.hash) return;
+        rememberReturn();
+      } catch (err) {}
+    }, true);
+    if (!replaceWrapped) {
+      replaceWrapped = true;
+      const orig = history.replaceState;
+      history.replaceState = function () {
+        const ret = orig.apply(this, arguments);
+        rememberReturn();
+        return ret;
+      };
+    }
+  }
+
+  function bootNav() {
+    const file = pageFile(location.pathname);
+    if (LIST_FILES[file]) {
+      watchListReturn();
+      return;
+    }
+    if (DRILL_FILES[file]) {
+      setTimeout(function () {
+        const el = document.querySelector("a.back");
+        if (el) bindBack(el);
+      }, 0);
+    }
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootNav);
+  else bootNav();
+
   global.QC = {
     esc: esc,
     isBond: isBond,
@@ -1876,6 +2067,8 @@
     loadFollow: loadFollow,
     loadForm4: loadForm4,
     applyForm4: applyForm4,
+    rememberReturn: rememberReturn,
+    bindBack: bindBack,
     BAD_TICKERS: BAD_TICKERS
   };
 })(window);

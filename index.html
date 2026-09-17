@@ -1595,7 +1595,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=160" />
+  <link rel="stylesheet" href="shell.css?v=161" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1630,6 +1630,12 @@
       body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape,
       body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
         grid-template-areas: "date co strike exp chip hero";
+      }
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape:has(.qc-txn-who-line),
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-who-line) {
+        grid-template-areas:
+          "who who who who who who"
+          "date co strike exp chip hero";
       }
       body.tape-opt .qc-txn-optline { display: none; }
     }
@@ -1918,7 +1924,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=120"></script>
+  <script src="qc.js?v=121"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2180,11 +2186,13 @@
     }
 
     function filedHeading(iso) {
+      if (!DESK_MQ.matches) return QC.tapeSectionHeading(iso, false);
       const label = filedDateLabel(iso);
       return label ? "Filed " + label : "Filed";
     }
 
     function justFiledHeading(iso) {
+      if (!DESK_MQ.matches) return QC.tapeSectionHeading(iso, true);
       const label = filedDateLabel(iso);
       return label ? "Just filed " + label : "Just filed";
     }
@@ -2265,11 +2273,7 @@
 
     function filedGroupHtml(rows, heading, extraCls) {
       const cls = extraCls ? " class=\"day " + extraCls + "\"" : " class=\"day\"";
-      const rowHtml = QC.tapeRowsWithWhoHeads(rows, tapeRowHtml, {
-        nameHrefOf: (t) => t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
-        roleOf: (t) => t.chamber || ""
-      });
-      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rowHtml;
+      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(tapeRowHtml).join("");
     }
 
     function paintWire() {

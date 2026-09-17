@@ -101,7 +101,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=159" />
+  <link rel="stylesheet" href="shell.css?v=160" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -128,6 +128,12 @@
     .qc-txn-tape .qc-txn-hero { font-size: 1.32rem; color: #eef2f5; font-weight: 700; }
     .qc-txn-co, .qc-txn-tape a.qc-txn-co { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; color: inherit; text-decoration: none; }
     .qc-txn-tape a.qc-txn-co:hover { color: inherit; }
+    @media (max-width: 899px) {
+      .qc-txn-list.qc-tape-list > .qc-txn-tape,
+      .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
+        grid-template-areas: "date co strike exp chip hero";
+      }
+    }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
     }
@@ -274,6 +280,8 @@
         background: rgba(227, 180, 26, 0.1);
       }
       .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
+      .desk .qc-txn-list.qc-tape-list > .day,
+      .desk .qc-who-head { display: none !important; }
       .focus {
         display: block;
         position: sticky;
@@ -619,7 +627,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=119"></script>
+  <script src="qc.js?v=120"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -736,17 +744,36 @@
       }
       syncDeskSelection(keepPick);
       const slim = DESK_MQ.matches;
-      const tradeHtml = deskRows.map((t) => {
+      const nameHrefOf = (t) => t.filer_id ? "insider.html?id=" + encodeURIComponent(t.filer_id) : "";
+      const rowOf = (t) => {
         const co = displayCompany(t.company, t.ticker);
         const tk = String(t.ticker || "").toUpperCase();
         const coShow = co && co.toUpperCase() !== tk ? co : "";
         return QC.tradeRowHtml(Object.assign({}, t, { company: coShow }), {
           variant: "tape",
           follow: !!(t.filer_id && followIds[t.filer_id]),
-          nameHref: t.filer_id ? "insider.html?id=" + encodeURIComponent(t.filer_id) : ""
+          nameHref: nameHrefOf(t)
         });
+      };
+      const groups = [];
+      deskRows.forEach((t) => {
+        const key = t.filed_date || t.trade_date || "";
+        const last = groups[groups.length - 1];
+        if (last && last.key === key) last.rows.push(t);
+        else groups.push({ key: key, rows: [t] });
+      });
+      const bodyHtml = groups.map((g) => {
+        const fresh = (g.rows || []).some((t) => QC.isLanded(t, 72));
+        const heading = fresh ? ("Just filed " + QC.filedHeading(g.key).replace(/^Filed\s+/, "")) : QC.filedHeading(g.key);
+        const cls = fresh ? " class=\"day fresh\"" : " class=\"day\"";
+        return "<li" + cls + "><h2>" + QC.esc(heading) + "</h2></li>" +
+          QC.tapeRowsWithWhoHeads(g.rows, rowOf, {
+            nameHrefOf: nameHrefOf,
+            roleOf: (t) => QC.shortRole(t),
+            followOf: (t) => !!(t.filer_id && followIds[t.filer_id])
+          });
       }).join("");
-      const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+      const colsHtml = QC.tapePhoneColsHtml() + "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">Name</span>" +
         "<span class=\"qc-txn-company\">Ticker</span>" +
@@ -754,8 +781,8 @@
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
-      document.getElementById("rows").innerHTML = tradeHtml
-        ? colsHtml + tradeHtml
+      document.getElementById("rows").innerHTML = deskRows.length
+        ? colsHtml + bodyHtml
         : "<li class=\"muted\">No insider prints in this window.</li>";
       markActiveRow();
       paintFocus();

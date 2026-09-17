@@ -1135,8 +1135,8 @@
       margin: 14px 0 8px;
     }
     @media (max-width: 899px) {
-      .desk .day { display: none; }
-      .desk .day.fresh { display: flex; margin: 8px 0 6px; }
+      .desk .day,
+      .desk .day.fresh { display: flex; margin: 0; }
     }
     .desk .day:first-child,
     .desk .wire-day0 { margin-top: 0; }
@@ -1595,7 +1595,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=159" />
+  <link rel="stylesheet" href="shell.css?v=160" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1626,6 +1626,13 @@
     }
     body.tape-opt .opt-detail { display: none; }
     body.tape-opt .qc-txn-tape .qc-txn-company .qc-txn-co-name { display: none; }
+    @media (max-width: 899px) {
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape,
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
+        grid-template-areas: "date co strike exp chip hero";
+      }
+      body.tape-opt .qc-txn-optline { display: none; }
+    }
     @media (max-width: 560px) {
       .qc-txn-tape .qc-txn-hero { font-size: 1.22rem; }
       body.tape-opt .qc-txn-optline { font-size: 0.78rem; }
@@ -1911,7 +1918,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=119"></script>
+  <script src="qc.js?v=120"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2258,7 +2265,11 @@
 
     function filedGroupHtml(rows, heading, extraCls) {
       const cls = extraCls ? " class=\"day " + extraCls + "\"" : " class=\"day\"";
-      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(tapeRowHtml).join("");
+      const rowHtml = QC.tapeRowsWithWhoHeads(rows, tapeRowHtml, {
+        nameHrefOf: (t) => t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
+        roleOf: (t) => t.chamber || ""
+      });
+      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rowHtml;
     }
 
     function paintWire() {
@@ -2284,7 +2295,7 @@
         parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
       });
       const optCols = document.body.classList.contains("tape-opt");
-      const colsHtml = "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+      const colsHtml = QC.tapePhoneColsHtml() + "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">Name</span>" +
         "<span class=\"qc-txn-company\">Ticker</span>" +

@@ -489,6 +489,9 @@ summary:focus-visible,
 .qc-txn-strike,
 .qc-txn-exp,
 .qc-txn-optline { display: none; }
+.qc-date-short { display: none; }
+.qc-who-head,
+.qc-txn-cols-phone { display: none; }
 .qc-txn-tape .qc-txn-company .qc-txn-tk {
   display: inline-flex;
   align-items: baseline;
@@ -757,8 +760,242 @@ summary:focus-visible,
   .qc-txn-tape .qc-txn-end { gap: 6px; }
 }
 
+/* Phone tape: compact Date | Tkr | Strike | Exp | Side | Value table. Desk ≥900 unchanged. */
+@media (max-width: 899px) {
+  .qc-txn-list.qc-tape-list {
+    gap: 0;
+    margin-bottom: 22px;
+    border: 1px solid #3a4452;
+    border-radius: 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    background: rgba(30, 37, 48, 0.94);
+  }
+  .qc-txn-list.qc-tape-list > .muted {
+    padding: 12px 10px;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-cols:not(.qc-txn-cols-phone) {
+    display: none !important;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-cols-phone,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape {
+    display: grid;
+    grid-template-columns: 3.6rem minmax(2.6rem, 0.7fr) 3rem minmax(3.4rem, 0.95fr) 3.2rem minmax(3.6rem, 1fr);
+    grid-template-areas: "date co strike exp chip hero";
+    column-gap: 6px;
+    row-gap: 0;
+    align-items: center;
+    min-width: 20.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-cols-phone {
+    padding: 7px 10px 6px;
+    background: rgba(15, 18, 24, 0.7);
+    border: 0;
+    border-bottom: 1px solid #3a4452;
+    border-radius: 0;
+    color: var(--mute, #8b96a3);
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+  .qc-txn-cols-phone .qc-txn-date,
+  .qc-txn-cols-phone .qc-txn-company,
+  .qc-txn-cols-phone .qc-txn-strike,
+  .qc-txn-cols-phone .qc-txn-exp,
+  .qc-txn-cols-phone .qc-txn-chip,
+  .qc-txn-cols-phone .qc-txn-hero {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: inherit;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    font-weight: inherit;
+  }
+  .qc-txn-cols-phone .qc-txn-date { grid-area: date; }
+  .qc-txn-cols-phone .qc-txn-company { grid-area: co; }
+  .qc-txn-cols-phone .qc-txn-strike { grid-area: strike; }
+  .qc-txn-cols-phone .qc-txn-exp { grid-area: exp; }
+  .qc-txn-cols-phone .qc-txn-chip { grid-area: chip; }
+  .qc-txn-cols-phone .qc-txn-hero { grid-area: hero; text-align: right; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape {
+    padding: 5px 10px;
+    border-radius: 0;
+    border-width: 0 0 1px 3px;
+    border-bottom-color: rgba(58, 68, 82, 0.55);
+    background: transparent;
+    overflow: hidden;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape.qc-txn-co-first {
+    grid-template-areas: "date co strike exp chip hero";
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-when,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-id,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-sub,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-optline,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-co-name,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag {
+    display: none !important;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-end,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tbl,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-company {
+    display: contents;
+    border: 0;
+    padding: 0;
+    background: none;
+    width: auto;
+    min-width: 0;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-date {
+    display: block;
+    grid-area: date;
+    color: var(--mute, #8b96a3);
+    font-size: 0.68rem;
+    white-space: nowrap;
+    min-width: 0;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-date-full { display: none; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-date-short { display: inline; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tk,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk {
+    display: block;
+    grid-area: co;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--white, #eef2f5);
+    text-decoration: none;
+    border: 0;
+    padding: 0;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-strike,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.7rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--paper, #d8dde3);
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-strike { grid-area: strike; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp { grid-area: exp; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-chip {
+    grid-area: chip;
+    justify-self: start;
+    padding: 2px 7px;
+    font-size: 0.62rem;
+    font-weight: 600;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero.is-shares,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero.is-empty {
+    display: block;
+    grid-area: hero;
+    justify-self: end;
+    text-align: right;
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #eef2f5;
+    white-space: nowrap;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero.is-shares { display: none; }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero.is-empty {
+    color: var(--mute, #8b96a3);
+    font-weight: 400;
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-sh,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-px,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-held,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-after,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-last {
+    display: none;
+  }
+  .qc-who-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding: 8px 10px 4px;
+    margin: 0;
+    list-style: none;
+    background: rgba(15, 18, 24, 0.55);
+    border: 0;
+    border-bottom: 1px solid rgba(58, 68, 82, 0.55);
+    min-width: 20.5rem;
+  }
+  .qc-who-head .qc-txn-name,
+  .qc-who-head a.qc-txn-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--white, #eef2f5);
+    text-decoration: none;
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+  .qc-who-head a.qc-txn-name:hover { color: var(--teal, #36999d); }
+  .qc-who-head .qc-txn-role {
+    display: inline;
+    color: var(--mute, #8b96a3);
+    font-size: 0.7rem;
+    font-weight: 400;
+  }
+  .qc-txn-list.qc-tape-list > .day {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 10px 4px;
+    list-style: none;
+    background: none;
+    border: 0;
+    min-width: 20.5rem;
+  }
+  .qc-txn-list.qc-tape-list > .day:first-child { padding-top: 8px; }
+  .qc-txn-list.qc-tape-list > .day h2 {
+    font-family: "Barlow Condensed", sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--caution, #e3b41a);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin: 0;
+  }
+}
+
 /* Desktop Trades + Tape: Barchart-style density, QC chips/hero/held tints. */
 @media (min-width: 900px) {
+  .qc-who-head,
+  .qc-txn-cols-phone { display: none !important; }
   .qc-txn-when { display: none; }
   .qc-txn-tape .qc-txn-company,
   .qc-txn-tape a.qc-txn-company {

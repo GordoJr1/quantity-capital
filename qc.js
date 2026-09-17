@@ -386,6 +386,81 @@
     return d.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
+  function tapeDateShort(iso) {
+    const d = new Date(String(iso || "") + "T00:00:00");
+    if (isNaN(d.getTime())) return iso || "—";
+    return d.toLocaleString("en-US", { month: "short", day: "numeric" });
+  }
+
+  function tapeDateHtml(iso) {
+    if (!iso) return "";
+    const full = prettyDate(iso);
+    const short = tapeDateShort(iso);
+    return "<span class=\"qc-txn-date\">" +
+      "<span class=\"qc-date-full\">" + esc(full) + "</span>" +
+      "<span class=\"qc-date-short\">" + esc(short) + "</span>" +
+    "</span>";
+  }
+
+  function tapeStrikeExpHtml(t) {
+    const opt = isOptionLike(t) ? optionMeta(t) : null;
+    const strike = opt ? (opt.strike ? "$" + opt.strike : "—") : "";
+    const exp = opt ? (opt.exp || "—") : "";
+    return "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>" +
+      "<span class=\"qc-txn-exp\">" + esc(exp) + "</span>";
+  }
+
+  function tapePhoneColsHtml() {
+    return "<li class=\"qc-txn-cols qc-txn-cols-phone\" aria-hidden=\"true\">" +
+      "<span class=\"qc-txn-date\">Date</span>" +
+      "<span class=\"qc-txn-company\">Tkr</span>" +
+      "<span class=\"qc-txn-strike\">Strike</span>" +
+      "<span class=\"qc-txn-exp\">Exp</span>" +
+      "<span class=\"qc-txn-chip\">Side</span>" +
+      "<span class=\"qc-txn-hero\">Value</span>" +
+    "</li>";
+  }
+
+  function tapeWhoHeadHtml(t, opts) {
+    opts = opts || {};
+    const name = titleCaseName((t && t.filer) || "") || String((t && t.filer) || "");
+    if (!name) return "";
+    const role = opts.role != null
+      ? String(opts.role || "")
+      : String((t && (t.chamber || t.role)) || (opts.withRole ? shortRole(t) : "") || "");
+    const href = opts.nameHref || "";
+    const nameHtml = href
+      ? "<a class=\"qc-txn-name\" href=\"" + esc(href) + "\">" + esc(name) + "</a>"
+      : "<span class=\"qc-txn-name\">" + esc(name) + "</span>";
+    const followHtml = opts.follow ? "<span class=\"qc-follow-tag\">Follow</span>" : "";
+    const planHtml = t && t.plan
+      ? "<span class=\"qc-plan-tag\" title=\"" + esc(t.planWhy || "Rule 10b5-1 / trading plan") + "\">Plan</span>"
+      : "";
+    return "<li class=\"qc-who-head\">" +
+      nameHtml +
+      (role ? "<span class=\"qc-txn-role\">" + esc(role) + "</span>" : "") +
+      followHtml + planHtml +
+    "</li>";
+  }
+
+  function tapeRowsWithWhoHeads(rows, rowHtmlFn, opts) {
+    opts = opts || {};
+    if (opts.skipWhoHead) return (rows || []).map(rowHtmlFn).join("");
+    let last = "";
+    return (rows || []).map((t) => {
+      const key = String((t && (t.filer_id || t.filer)) || "");
+      const href = opts.nameHrefOf ? opts.nameHrefOf(t) : "";
+      const role = opts.roleOf ? opts.roleOf(t) : undefined;
+      const follow = opts.followOf ? opts.followOf(t) : false;
+      let head = "";
+      if (key && key !== last) {
+        head = tapeWhoHeadHtml(t, { nameHref: href, role: role, follow: follow, withRole: opts.withRole });
+        last = key;
+      }
+      return head + rowHtmlFn(t);
+    }).join("");
+  }
+
   function threeYearCutoff() {
     const d = new Date();
     d.setFullYear(d.getFullYear() - 3);
@@ -1217,7 +1292,7 @@
       : "<span class=\"qc-txn-company\"></span>";
 
     const tblParts = [];
-    if (t.trade_date) tblParts.push("<span class=\"qc-txn-date\">" + esc(prettyDate(t.trade_date)) + "</span>");
+    tblParts.push(tapeDateHtml(t.trade_date) || "<span class=\"qc-txn-date\"></span>");
     const sh = formatSharesQuiet(t.shares);
     if (sh) tblParts.push("<span class=\"qc-txn-sh\">" + esc(sh) + "</span>");
     const px = formatPriceQuiet(t.price);
@@ -1241,6 +1316,7 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       tbl +
       companyCol +
+      tapeStrikeExpHtml(t) +
     "</li>";
   }
 
@@ -1332,7 +1408,8 @@
     const opt = opts.showOptionCols
       ? "<span class=\"qc-txn-strike\">Strike</span><span class=\"qc-txn-exp\">Exp</span>"
       : "<span class=\"qc-txn-coname\">Company</span>";
-    return "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
+    return tapePhoneColsHtml() +
+      "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
       "<span class=\"qc-txn-company\">Ticker</span>" +
@@ -1366,12 +1443,10 @@
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
-    const strikeHtml = opt
-      ? "<span class=\"qc-txn-strike\">" + esc(opt.strike ? "$" + opt.strike : "—") + "</span>"
-      : "";
-    const expHtml = opt
-      ? "<span class=\"qc-txn-exp\">" + esc(opt.exp || "—") + "</span>"
-      : "";
+    const strikeHtml = "<span class=\"qc-txn-strike\">" +
+      esc(opt ? (opt.strike ? "$" + opt.strike : "—") : "") + "</span>";
+    const expHtml = "<span class=\"qc-txn-exp\">" +
+      esc(opt ? (opt.exp || "—") : "") + "</span>";
     const optLineHtml = optDetail
       ? "<span class=\"qc-txn-optline\">" + esc(optDetail) + "</span>"
       : "";
@@ -1434,7 +1509,7 @@
         "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
-      "<div class=\"qc-txn-tbl\"><span class=\"qc-txn-date\">" + esc(prettyDate(t && t.trade_date)) + "</span>" + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
+      "<div class=\"qc-txn-tbl\">" + tapeDateHtml(t && t.trade_date) + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
       strikeHtml + expHtml + optLineHtml +
     "</li>";
@@ -1558,7 +1633,7 @@
     const namePage = opts.namePage || "politician.html";
     const tickerPage = opts.tickerPage || "ticker.html";
     const blocks = groups.map((g) => {
-      const rowHtml = g.rows.map((t) => {
+      const rowHtml = tapeRowsWithWhoHeads(g.rows, (t) => {
         const nameHref = opts.nameSelf
           ? ""
           : (t.filer_id ? namePage + "?id=" + encodeURIComponent(t.filer_id) : "");
@@ -1578,7 +1653,13 @@
           showHoldings: !!opts.showHoldings,
           companyFirst: !!opts.companyFirst
         });
-      }).join("");
+      }, {
+        skipWhoHead: !!opts.nameSelf,
+        nameHrefOf: (t) => opts.nameSelf
+          ? ""
+          : (t.filer_id ? namePage + "?id=" + encodeURIComponent(t.filer_id) : ""),
+        roleOf: (t) => String((t && (t.chamber || t.role)) || shortRole(t) || "")
+      });
       return "<li class=\"day\"><h2>" + esc(filedHeading(g.key)) + "</h2></li>" + rowHtml;
     });
     return politicianTapeColsHtml(opts) + blocks.join("");
@@ -1781,6 +1862,9 @@
     filedHeading: filedHeading,
     politicianTapeColsHtml: politicianTapeColsHtml,
     politicianTapeRowHtml: politicianTapeRowHtml,
+    tapePhoneColsHtml: tapePhoneColsHtml,
+    tapeWhoHeadHtml: tapeWhoHeadHtml,
+    tapeRowsWithWhoHeads: tapeRowsWithWhoHeads,
     TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,
     compareFiledDesc: compareFiledDesc,

@@ -2193,6 +2193,21 @@
       return Array.from(map.entries()).sort((a, b) => String(b[0]).localeCompare(String(a[0])));
     }
 
+    function flattenFiledGroups(rows) {
+      const out = [];
+      groupRowsByFiledDate(rows).forEach((pair) => {
+        const list = pair[1];
+        for (let i = 0; i < list.length; i++) out.push(list[i]);
+      });
+      return out;
+    }
+
+    function visualDeskRows(rows, pinCount) {
+      const pinN = Math.min(pinCount, rows.length);
+      if (!pinN) return flattenFiledGroups(rows);
+      return flattenFiledGroups(rows.slice(0, pinN)).concat(flattenFiledGroups(rows.slice(pinN)));
+    }
+
     function stampBits(iso) {
       const d = new Date(String(iso || "") + "T00:00:00");
       if (isNaN(d.getTime())) return { mon: "—", day: "" };
@@ -2522,7 +2537,7 @@
       });
       const visible = sliced.rows;
       deskPinCount = sliced.pinCount || 0;
-      deskRows = visible;
+      deskRows = visualDeskRows(visible, deskPinCount);
       syncDeskSelection(keepPick);
       renderDeskStatus(filtered, visible);
       paintWire();

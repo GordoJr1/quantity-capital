@@ -209,19 +209,19 @@
       </div>
     </details>
     <div class="stats" id="stats"></div>
-    <div class="board-tabs" role="tablist">
-      <button type="button" data-board="leaders" class="on">Performers</button>
-      <button type="button" data-board="traders">Active traders</button>
-      <button type="button" data-board="names">Active names</button>
-      <button type="button" data-board="repeatable">Repeatable</button>
-      <button type="button" data-board="follow">Follow</button>
+    <div class="board-tabs" role="tablist" aria-label="Leaderboard">
+      <button type="button" role="tab" id="board-tab-leaders" aria-selected="true" aria-controls="board" data-board="leaders" class="on">Performers</button>
+      <button type="button" role="tab" id="board-tab-traders" aria-selected="false" aria-controls="board" data-board="traders">Active traders</button>
+      <button type="button" role="tab" id="board-tab-names" aria-selected="false" aria-controls="board" data-board="names">Active names</button>
+      <button type="button" role="tab" id="board-tab-repeatable" aria-selected="false" aria-controls="board" data-board="repeatable">Repeatable</button>
+      <button type="button" role="tab" id="board-tab-follow" aria-selected="false" aria-controls="board" data-board="follow">Follow</button>
     </div>
     <div class="rep-windows" id="rep-windows" hidden>
       <button type="button" data-h="30">30 day</button>
       <button type="button" data-h="90" class="on">90 day</button>
       <button type="button" data-h="180">180 day</button>
     </div>
-    <div id="board"></div>
+    <div id="board" role="tabpanel" aria-labelledby="board-tab-leaders"></div>
     <div class="more-row" id="more-row" hidden>
       <button type="button" id="more">Show all</button>
     </div>
@@ -407,8 +407,13 @@
         b.classList.toggle("on", Number(b.dataset.h) === horizon);
       });
       document.querySelectorAll(".board-tabs button").forEach((b) => {
-        b.classList.toggle("on", b.dataset.board === board);
+        const on = b.dataset.board === board;
+        b.classList.toggle("on", on);
+        b.setAttribute("aria-selected", on ? "true" : "false");
       });
+      const panel = document.getElementById("board");
+      const selected = document.querySelector(".board-tabs button.on");
+      if (panel && selected && selected.id) panel.setAttribute("aria-labelledby", selected.id);
 
       if (isRep) {
         if (!repeatable) {

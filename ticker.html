@@ -617,7 +617,7 @@
     <p class="muted" id="note" hidden></p>
     <div class="stats" id="stats"></div>
     <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-    <div class="chart-wrap" id="chart-wrap">
+    <div class="chart-wrap" id="chart-wrap" role="tabpanel">
       <div class="chart-frame">
         <svg id="chart-svg" viewBox="0 0 840 300" preserveAspectRatio="none"></svg>
         <div class="chart-x" id="chart-x"></div>
@@ -861,10 +861,12 @@
       pop.hidden = false;
     }
     function paintRange() {
-      document.getElementById("range").innerHTML = RANGES.map((r) =>
-        "<button type=\"button\" class=\"" + (r === range ? "on" : "") + "\" data-r=\"" + r + "\">" +
-          r.toUpperCase() + "</button>"
-      ).join("");
+      document.getElementById("range").innerHTML = RANGES.map((r) => {
+        const on = r === range;
+        return "<button type=\"button\" role=\"tab\" aria-selected=\"" + (on ? "true" : "false") +
+          "\" aria-controls=\"chart-wrap\" class=\"" + (on ? "on" : "") + "\" data-r=\"" + r + "\">" +
+          r.toUpperCase() + "</button>";
+      }).join("");
     }
     function paintChart() {
       hidePop();

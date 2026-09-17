@@ -2078,6 +2078,7 @@
     const CHART_RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let deskRows = [];
     let activeId = "";
+    let userPicked = false;
     let chartRange = "3m";
     let chartToken = 0;
     const priceCache = {};
@@ -2201,8 +2202,21 @@
       };
     }
 
+    function firstVisibleId() {
+      return deskRows[0] ? deskRows[0].id : "";
+    }
+
     function activeTrade() {
       return deskRows.find((t) => t.id === activeId) || deskRows[0] || null;
+    }
+
+    function syncDeskSelection(keepPick) {
+      const still = keepPick && userPicked && deskRows.some((row) => row.id === activeId);
+      if (still) return;
+      userPicked = false;
+      const next = firstVisibleId();
+      if (activeId !== next) chartRange = "3m";
+      activeId = next;
     }
 
     function renderDeskStatus(allFiltered, visible) {
@@ -2487,6 +2501,7 @@
       if (!next) return;
       const prev = activeTrade();
       const tickerChanged = prev && prev.code !== next.code;
+      userPicked = true;
       activeId = id;
       if (tickerChanged) chartRange = "3m";
       paintWire();
@@ -2494,7 +2509,7 @@
       if (DESK_MQ.matches) paintChart();
     }
 
-    function renderDesk(filtered) {
+    function renderDesk(filtered, keepPick) {
       const sliced = QC.sliceTapeRows(filtered, {
         showAll: showAll,
         desktop: DESK_MQ.matches,
@@ -2508,10 +2523,7 @@
       const visible = sliced.rows;
       deskPinCount = sliced.pinCount || 0;
       deskRows = visible;
-      if (!deskRows.some((row) => row.id === activeId)) {
-        activeId = deskRows[0] ? deskRows[0].id : "";
-        chartRange = "3m";
-      }
+      syncDeskSelection(keepPick);
       renderDeskStatus(filtered, visible);
       paintWire();
       paintFocus();
@@ -2549,7 +2561,7 @@
         bindDesk._resize = true;
         DESK_MQ.addEventListener("change", () => {
           if (lastFiltered.length) {
-            renderDesk(lastFiltered);
+            renderDesk(lastFiltered, true);
             renderTape(lastFiltered);
           } else if (DESK_MQ.matches) {
             paintFocus();
@@ -2980,6 +2992,12 @@
       }
     }
     loadTape();
+    window.addEventListener("pageshow", (e) => {
+      if (!e.persisted || !lastFiltered.length) return;
+      userPicked = false;
+      renderDesk(lastFiltered);
+      renderTape(lastFiltered);
+    });
 
     (function pinTapeChrome() {
       const tape = document.getElementById("tape");

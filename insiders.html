@@ -101,7 +101,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=162" />
+  <link rel="stylesheet" href="shell.css?v=163" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -621,7 +621,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=125"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -727,10 +727,8 @@
       const moreRow = document.getElementById("more-row");
       const moreBtn = document.getElementById("show-all");
       if (count) {
-        count.hidden = !mobile;
-        count.textContent = !mobile ? "" : (deskRows.length === vis.length
-          ? vis.length + " trades"
-          : "Showing " + deskRows.length + " of " + vis.length + " trades");
+        count.hidden = true;
+        count.textContent = "";
       }
       if (moreRow && moreBtn) {
         moreRow.hidden = !mobile || (vis.length <= PAGE && !showAll);

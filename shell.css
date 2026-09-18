@@ -504,6 +504,7 @@ summary:focus-visible,
 .qc-who-head,
 .qc-txn-who-line,
 .qc-txn-cols-phone { display: none; }
+.qc-txn-kind { display: none; }
 .qc-txn-tape .qc-txn-company .qc-txn-tk {
   display: inline-flex;
   align-items: center;
@@ -792,7 +793,7 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-cols-phone,
   .qc-txn-list.qc-tape-list > .qc-txn-tape {
     display: grid;
-    grid-template-columns: 3.6rem minmax(3.4rem, 1.35fr) 3.2rem minmax(3.6rem, 1fr);
+    grid-template-columns: 3.2rem minmax(4.6rem, 1.5fr) 3.4rem minmax(4.2rem, 1fr);
     grid-template-areas: "date co chip hero";
     column-gap: 6px;
     row-gap: 0;
@@ -802,8 +803,11 @@ summary:focus-visible,
     box-sizing: border-box;
   }
   .qc-txn-list.qc-tape-list > .qc-txn-cols-phone {
+    position: sticky;
+    top: var(--site-header-h, 62px);
+    z-index: 6;
     padding: 7px 10px 6px;
-    background: rgba(15, 18, 24, 0.7);
+    background: rgba(15, 18, 24, 0.94);
     border: 0;
     border-bottom: 1px solid #3a4452;
     border-radius: 0;
@@ -891,12 +895,13 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk {
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
     gap: 5px;
     grid-area: co;
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
+    white-space: nowrap;
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -906,9 +911,18 @@ summary:focus-visible,
     padding: 0;
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag {
-    display: inline-block;
+    display: none !important;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-kind {
+    display: inline;
     flex: 0 0 auto;
     margin-left: 0;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--mute, #8b96a3);
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-chip {
     grid-area: chip;
@@ -916,6 +930,8 @@ summary:focus-visible,
     padding: 2px 7px;
     font-size: 0.62rem;
     font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero.is-shares,
@@ -978,10 +994,12 @@ summary:focus-visible,
   }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-who-line .qc-follow-tag,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-who-line .qc-plan-tag {
-    display: inline;
-    flex: 0 0 auto;
-    font-size: 0.62rem;
+    display: none;
   }
+  .desk .qc-txn-head { display: none; }
+  #tape > .count,
+  #main > .count { display: none !important; }
+  .qc-txn-list.qc-tape-list .ch { display: none !important; }
   .qc-txn-list.qc-tape-list > .day {
     display: flex;
     align-items: baseline;
@@ -1009,7 +1027,8 @@ summary:focus-visible,
 @media (min-width: 900px) {
   .qc-who-head,
   .qc-txn-who-line,
-  .qc-txn-cols-phone { display: none !important; }
+  .qc-txn-cols-phone,
+  .qc-txn-kind { display: none !important; }
   .qc-txn-when { display: none; }
   .qc-txn-tape .qc-txn-company,
   .qc-txn-tape a.qc-txn-company {

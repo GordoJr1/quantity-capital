@@ -1597,7 +1597,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=162" />
+  <link rel="stylesheet" href="shell.css?v=163" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1873,7 +1873,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=125"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2066,9 +2066,14 @@
       const moreRow = document.getElementById("more-row");
       const moreBtn = document.getElementById("show-all");
       const visible = deskRows;
-      count.textContent = visible.length === rows.length
-        ? rows.length + " trades"
-        : "Showing " + visible.length + " of " + rows.length + " trades";
+      if (count) {
+        count.hidden = !DESK_MQ.matches;
+        count.textContent = DESK_MQ.matches
+          ? (visible.length === rows.length
+            ? rows.length + " trades"
+            : "Showing " + visible.length + " of " + rows.length + " trades")
+          : "";
+      }
       if (moreRow && moreBtn) {
         moreRow.hidden = rows.length <= PAGE;
         moreBtn.textContent = showAll ? "Show first 120" : "Show full list";

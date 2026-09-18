@@ -401,9 +401,13 @@
   }
 
   function tapeDateShort(iso) {
+    const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return m[2] + "/" + m[3];
     const d = new Date(String(iso || "") + "T00:00:00");
     if (isNaN(d.getTime())) return iso || "—";
-    return d.toLocaleString("en-US", { month: "short", day: "numeric" });
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return mm + "/" + dd;
   }
 
   function tapeDateHtml(iso) {
@@ -425,6 +429,22 @@
     "</li>";
   }
 
+  function tapeKindLabel(t) {
+    if (isOptionLike(t)) {
+      const o = optionMeta(t);
+      if (o.kind === "Put") return "Put";
+      if (o.kind === "Call") return "Call";
+      return "Option";
+    }
+    if (isBond(t)) return "Bond";
+    return "";
+  }
+
+  function tapeKindHtml(t) {
+    const k = tapeKindLabel(t);
+    return k ? "<span class=\"qc-txn-kind\">" + esc(k) + "</span>" : "";
+  }
+
   function tapeMonthDay(iso) {
     const d = new Date(String(iso || "") + "T00:00:00");
     if (isNaN(d.getTime())) return "";
@@ -433,7 +453,7 @@
 
   function tapeSectionHeading(iso, fresh) {
     const md = tapeMonthDay(iso);
-    if (fresh) return md ? "Just filed – " + md : "Just filed";
+    if (fresh) return md ? "Just filed · " + md : "Just filed";
     return md || "Filed";
   }
 
@@ -1270,7 +1290,9 @@
       (meta.length ? "<div class=\"qc-txn-meta\">" + meta.join("") + "</div>" : "");
 
     const companyBits = [];
-    if (t.ticker) companyBits.push("<span class=\"qc-txn-tk\">" + esc(t.ticker) + optionTag(t) + "</span>");
+    const kindHtml = tapeKindHtml(t);
+    if (t.ticker) companyBits.push("<span class=\"qc-txn-tk\">" + esc(t.ticker) + optionTag(t) + kindHtml + "</span>");
+    else if (kindHtml) companyBits.push("<span class=\"qc-txn-tk\">" + kindHtml + "</span>");
     if (company) companyBits.push("<span class=\"qc-txn-co-name\">" + esc(company) + "</span>");
     const companyInner = companyBits.join("");
     const companyCol = companyInner
@@ -1420,7 +1442,8 @@
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
     const optTag = optionTag(t);
-    const co = "<span class=\"qc-txn-tk\">" + esc(code) + optTag + "</span>" +
+    const showCode = code && code !== "—" ? code : "";
+    const co = "<span class=\"qc-txn-tk\">" + esc(showCode) + optTag + tapeKindHtml(t) + "</span>" +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
@@ -2022,6 +2045,7 @@
     politicianTapeColsHtml: politicianTapeColsHtml,
     politicianTapeRowHtml: politicianTapeRowHtml,
     tapePhoneColsHtml: tapePhoneColsHtml,
+    tapeKindLabel: tapeKindLabel,
     tapeSectionHeading: tapeSectionHeading,
     TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,

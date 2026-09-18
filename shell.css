@@ -781,8 +781,9 @@ summary:focus-visible,
     border: 1px solid #3a4452;
     border-radius: 8px;
     max-width: 100%;
-    overflow-x: hidden;
-    background: rgba(30, 37, 48, 0.94);
+    overflow-x: clip;
+    overflow-y: visible;
+    background: #1e2530;
   }
   .qc-txn-list.qc-tape-list > .muted {
     padding: 12px 10px;
@@ -805,12 +806,14 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-cols-phone {
     position: sticky;
     top: var(--site-header-h, 62px);
-    z-index: 6;
+    z-index: 12;
+    isolation: isolate;
     padding: 7px 10px 6px;
-    background: rgba(15, 18, 24, 0.94);
+    background: #0f1218;
     border: 0;
     border-bottom: 1px solid #3a4452;
     border-radius: 0;
+    box-shadow: 0 -1px 0 #0f1218, 0 1px 0 #3a4452;
     color: var(--mute, #8b96a3);
     font-family: "Barlow Condensed", sans-serif;
     font-size: 0.62rem;
@@ -843,6 +846,8 @@ summary:focus-visible,
   .qc-txn-cols-phone .qc-txn-chip { grid-area: chip; }
   .qc-txn-cols-phone .qc-txn-hero { grid-area: hero; text-align: right; }
   .qc-txn-list.qc-tape-list > .qc-txn-tape {
+    position: relative;
+    z-index: 0;
     padding: 7px 10px 6px;
     border-radius: 0;
     border-width: 0 0 1px 3px;

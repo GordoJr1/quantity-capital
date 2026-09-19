@@ -1925,16 +1925,36 @@
     return fallback || "← Back";
   }
 
-  function isPersonPage(href) {
+  function parseHere(href) {
     try {
-      const file = pageFile(new URL(href, location.href).pathname);
-      return file === "politician.html" || file === "insider.html";
+      const u = new URL(href, location.href);
+      return { file: pageFile(u.pathname), search: u.search, hash: u.hash };
     } catch (e) {
-      return false;
+      return null;
     }
   }
 
-  function canHistoryBack(ref) {
+  function resolveDest(fallbackHref) {
+    const stored = storedReturn();
+    const ref = document.referrer;
+    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
+    if (fromRef) {
+      const r = parseHere(fromRef);
+      const s = stored ? parseHere(stored) : null;
+      if (r && s && LIST_FILES[r.file] && r.file === s.file) return stored;
+      return fromRef;
+    }
+    if (stored) return stored;
+    return fallbackHref;
+  }
+
+  function samePage(a, b) {
+    const pa = parseHere(a);
+    const pb = parseHere(b);
+    return !!(pa && pb && pa.file === pb.file);
+  }
+
+  function canHistoryBack(ref, dest) {
     if (history.length < 2) return false;
     if (!ref || !isQcHref(ref)) return false;
     try {
@@ -1942,29 +1962,32 @@
     } catch (e) {
       return false;
     }
+    if (dest && !samePage(ref, dest)) return false;
     return true;
   }
 
   function bindBack(el) {
-    if (!el || el.dataset.qcBack === "1") return;
-    el.dataset.qcBack = "1";
+    if (!el) return;
     const fallbackHref = el.getAttribute("href") || "index.html";
     const fallbackLabel = String(el.textContent || "← Back").replace(/\s+/g, " ").trim();
-    const stored = storedReturn();
-    const ref = document.referrer;
-    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
-    const dest = stored || fromRef || fallbackHref;
-    if (!isPersonPage(fallbackHref)) {
+    const dest = resolveDest(fallbackHref);
+    if (isQcHref(dest) || dest === fallbackHref) {
       el.href = dest;
       el.textContent = labelFor(dest, fallbackLabel);
     }
+    if (el.dataset.qcBack === "1") return;
+    el.dataset.qcBack = "1";
     el.addEventListener("click", function (e) {
       if (e.defaultPrevented) return;
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (canHistoryBack(document.referrer)) {
-        e.preventDefault();
-        history.back();
-      }
+      const href = el.getAttribute("href") || dest;
+      const ref = document.referrer;
+      if (!canHistoryBack(ref, href)) return;
+      const r = parseHere(ref);
+      const d = parseHere(href);
+      if (d && d.search && r && r.search !== d.search) return;
+      e.preventDefault();
+      history.back();
     });
   }
 

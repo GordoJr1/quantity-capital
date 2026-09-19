@@ -19,6 +19,8 @@ INSIDER_TRADES = QC_ROOT / "insider-trades.json"
 INSIDER_COMPANIES = QC_ROOT / "insider-companies.json"
 MARKET_CAPS = QC_ROOT / "market-caps.json"
 
+CLAIMS_DIR = QC_ROOT / "claims"
+
 DB_PATH = QC_ROOT / "qc.sqlite"
 DB_MIRROR = GROKS / "qc.sqlite"
 SCHEMA_SQL = HERE / "schema.sql"

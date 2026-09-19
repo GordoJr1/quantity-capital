@@ -27,6 +27,7 @@ import jev
 from paths import (
     BIOS,
     CLAIMS_COMPANIES,
+    CLAIMS_DIR,
     DB_MIRROR,
     DB_PATH,
     EXPORT_DIR,
@@ -75,6 +76,20 @@ CORP_HINT_RE = re.compile(
 )
 PERSON_LIKE_RE = re.compile(r"^[A-Za-zÀ-ÿ' .\-]{3,60}$")
 AMOUNT_RE = re.compile(r"[\d,]+")
+PCT_HOLDER_RE = re.compile(r"\((\d+(?:\.\d+)?)\)\s*([^,]+?)(?=\s*,\s*\(|$)")
+
+# Needles used by build_on_bc_extracts.py to pull each producer's layer.
+EXTRACT_NEEDLES = {
+    "iamgold": ["iamgold"],
+    "agnico-eagle": ["agnico"],
+    "alamos-gold": ["alamos"],
+    "wesdome-gold-mines": ["wesdome"],
+    "evolution": ["evolution"],
+    "equinox-gold": ["equinox", "greenstone gold", "musselwhite"],
+    "newmont": ["newmont", "pretium"],
+    "centerra-gold": ["centerra", "thompson creek"],
+    "artemis-gold": ["artemis", "bw gold"],
+}
 
 
 def log(msg: str) -> None:
@@ -110,6 +125,70 @@ def looks_like_person(holder: str) -> bool:
         return False
     parts = re.findall(r"[A-Za-zÀ-ÿ']+", holder)
     return 2 <= len(parts) <= 4
+
+
+def parse_holder_parties(raw: str | None) -> list[tuple[str, float | None]]:
+    if not raw or not str(raw).strip():
+        return []
+    text = str(raw).strip()
+    parts = PCT_HOLDER_RE.findall(text)
+    if parts:
+        return [(name.strip(), float(pct)) for pct, name in parts if name.strip()]
+    return [(text, None)]
+
+
+def clean_date(value: Any) -> str | None:
+    if value is None or value == "":
+        return None
+    text = str(value).strip()
+    if re.match(r"^\d{4}-\d{2}-\d{2}", text):
+        year = int(text[:4])
+        return text[:10] if 1900 <= year <= 2100 else None
+    try:
+        n = int(float(text))
+        if abs(n) > 10**12:
+            n //= 1000
+        if abs(n) < 10**8:
+            return None
+        dt = datetime.fromtimestamp(n, tz=timezone.utc)
+        if 1900 <= dt.year <= 2100:
+            return dt.strftime("%Y-%m-%d")
+    except (TypeError, ValueError, OSError, OverflowError):
+        return None
+    return None
+
+
+def name_index_for(book: CompanyBook) -> dict[str, list[str]]:
+    index: dict[str, list[str]] = defaultdict(list)
+    for cid, row in book.rows.items():
+        for n in [row.get("name"), row.get("holder"), *(row.get("names") or [])]:
+            nn = norm_name(n or "")
+            if nn:
+                index[nn].append(cid)
+    return {k: list(dict.fromkeys(v)) for k, v in index.items()}
+
+
+def fuzzy_company_ids(nn: str, name_index: dict[str, list[str]]) -> list[str]:
+    tokens = set(nn.split())
+    if not tokens:
+        return []
+    hits: list[str] = []
+    for other_n, cids in name_index.items():
+        ot = set(other_n.split())
+        if not ot:
+            continue
+        inter = tokens & ot
+        if len(inter) >= 2 and (len(inter) / max(len(tokens), len(ot))) >= 0.6:
+            hits.extend(cids)
+    return list(dict.fromkeys(hits))
+
+
+def extract_alias_hit(holder_name: str, extract_cid: str) -> bool:
+    nn = norm_name(holder_name)
+    for needle in EXTRACT_NEEDLES.get(extract_cid, []):
+        if needle in nn:
+            return True
+    return False
 
 
 def parse_amount_band(raw: str | None) -> tuple[float | None, float | None, float | None]:
@@ -513,12 +592,7 @@ def ingest_claim_packs(con: sqlite3.Connection, claims: dict[str, Any], book: Co
     as_of = claims.get("as_of")
     source = claims.get("source")
     jurisdiction = claims.get("jurisdiction")
-    name_index: dict[str, list[str]] = defaultdict(list)
-    for cid, row in book.rows.items():
-        for n in [row.get("name"), row.get("holder"), *(row.get("names") or [])]:
-            nn = norm_name(n or "")
-            if nn:
-                name_index[nn].append(cid)
+    name_index = name_index_for(book)
 
     packs = []
     auto_links = []
@@ -594,18 +668,7 @@ def ingest_claim_packs(con: sqlite3.Connection, claims: dict[str, Any], book: Co
                     (pack_n, holder_cid, "neighbor_holder", "name_match", None, None, "same_entity", None, None)
                 )
             elif not looks_like_person(holder) and nn:
-                # unique fuzzy candidate: token overlap with exactly one company
-                fuzzy: list[str] = []
-                tokens = set(nn.split())
-                if tokens:
-                    for other_n, cids in name_index.items():
-                        ot = set(other_n.split())
-                        if not ot:
-                            continue
-                        inter = tokens & ot
-                        if len(inter) >= 2 and (len(inter) / max(len(tokens), len(ot))) >= 0.6:
-                            fuzzy.extend(cids)
-                fuzzy = list(dict.fromkeys(fuzzy))
+                fuzzy = fuzzy_company_ids(nn, name_index)
                 if len(fuzzy) == 1:
                     pending_jev.append(
                         {
@@ -644,6 +707,256 @@ def ingest_claim_packs(con: sqlite3.Connection, claims: dict[str, Any], book: Co
         auto_links,
     )
     return pending_jev
+
+
+def discover_on_bc_extracts() -> list[tuple[str, str, Path]]:
+    found: list[tuple[str, str, Path]] = []
+    if not CLAIMS_DIR.exists():
+        return found
+    for p in sorted(CLAIMS_DIR.glob("*-ontario.geojson")):
+        found.append((p.name[: -len("-ontario.geojson")], "Ontario", p))
+    for p in sorted(CLAIMS_DIR.glob("*-bc.geojson")):
+        found.append((p.name[: -len("-bc.geojson")], "British Columbia", p))
+    return found
+
+
+def ingest_on_bc_titles(
+    con: sqlite3.Connection, book: CompanyBook
+) -> list[dict[str, Any]]:
+    """Per-title attributes from ON/BC GeoJSON. Geometry is read and dropped."""
+    extracts = discover_on_bc_extracts()
+    if not extracts:
+        log("No ON/BC extracts in claims/; skip claim_titles.")
+        return []
+
+    con.execute(
+        """
+        UPDATE companies
+        SET quebec_count = COALESCE(quebec_count, claim_count, 0)
+        WHERE quebec_count IS NULL
+        """
+    )
+
+    name_index = name_index_for(book)
+    pending: list[dict[str, Any]] = []
+    seen_jev: set[tuple[str, str, str]] = set()
+    pack_rows = []
+    title_rows = []
+    party_rows = []
+    owner_links = []
+    holder_links: dict[tuple[str, str], tuple] = {}
+    counts: dict[str, dict[str, int]] = defaultdict(lambda: {"Ontario": 0, "British Columbia": 0})
+
+    for cid, jurisdiction, path in extracts:
+        if cid not in book.rows:
+            log(f"  skip {path.name}: company {cid} not in catalog")
+            continue
+        rel = f"claims/{path.name}"
+        pack_key = "ontario" if jurisdiction == "Ontario" else "bc"
+        pack_id = f"{cid}:{pack_key}"
+        fc = load_json(path)
+        features = fc.get("features") or []
+        n_titles = 0
+        unique_holders: dict[str, int] = defaultdict(int)
+        as_of = None
+        source = None
+        for feat in features:
+            props = feat.get("properties") or {}
+            feat["geometry"] = None
+            claim_id = props.get("claim_id")
+            if claim_id is None or claim_id == "":
+                continue
+            holder_raw = (props.get("holder") or "").strip() or None
+            title_pk = f"{pack_id}:{claim_id}"
+            parties = parse_holder_parties(holder_raw)
+            majority_cid = None
+            majority_pct = -1.0
+            for holder_name, pct in parties:
+                unique_holders[holder_name] += 1
+                resolved = None
+                src = None
+                nn = norm_name(holder_name)
+                exact = name_index.get(nn) or []
+                if len(exact) == 1:
+                    resolved, src = exact[0], "name_match"
+                elif extract_alias_hit(holder_name, cid):
+                    resolved, src = cid, "extract_alias"
+                party_rows.append(
+                    (title_pk, pack_id, holder_name, pct, resolved, src, None, None, None, None, None)
+                )
+                if resolved:
+                    link_role = "title_vehicle" if resolved == cid else "jv_holder"
+                    holder_links[(pack_id, resolved)] = (
+                        pack_id,
+                        resolved,
+                        link_role,
+                        src,
+                        None,
+                        None,
+                        "same_entity",
+                        None,
+                        None,
+                    )
+                if pct is not None and pct > majority_pct and resolved:
+                    majority_pct = pct
+                    majority_cid = resolved
+                elif pct is None and resolved and majority_cid is None:
+                    majority_cid = resolved
+            title_rows.append(
+                (
+                    title_pk,
+                    pack_id,
+                    cid,
+                    majority_cid,
+                    jurisdiction,
+                    str(claim_id),
+                    props.get("claim_name"),
+                    holder_raw,
+                    props.get("status"),
+                    clean_date(props.get("recorded_date")),
+                    clean_date(props.get("anniversary_or_expiry")),
+                    props.get("area_ha"),
+                    props.get("tenure_type"),
+                    props.get("source"),
+                    props.get("as_of"),
+                    props.get("role") or "focus",
+                    rel,
+                )
+            )
+            as_of = as_of or props.get("as_of")
+            source = source or props.get("source")
+            n_titles += 1
+        counts[cid][jurisdiction] = n_titles
+        pack_rows.append(
+            (
+                pack_id,
+                cid,
+                "focus",
+                book.rows.get(cid, {}).get("holder") or book.rows.get(cid, {}).get("name"),
+                cid,
+                n_titles,
+                jurisdiction,
+                source,
+                as_of,
+                rel,
+                None,
+                book.rows.get(cid, {}).get("color"),
+            )
+        )
+        owner_links.append(
+            (pack_id, cid, "owner", "catalog", None, None, "same_entity", None, None)
+        )
+        log(f"  {path.name}: {n_titles} titles, {len(unique_holders)} holders")
+
+        for holder_name, n in unique_holders.items():
+            nn = norm_name(holder_name)
+            exact = name_index.get(nn) or []
+            if len(exact) == 1 or extract_alias_hit(holder_name, cid):
+                continue
+            if looks_like_person(holder_name):
+                continue
+            fuzzy = fuzzy_company_ids(nn, name_index)
+            candidate = fuzzy[0] if len(fuzzy) == 1 else None
+            if candidate is None:
+                generic = {"gold", "mines", "mining", "resources", "minerals", "metals", "exploration"}
+                extract_tokens = set(norm_name(book.rows.get(cid, {}).get("name") or cid).split()) - generic
+                holder_tokens = set(nn.split()) - generic
+                if holder_tokens & extract_tokens:
+                    candidate = cid
+                else:
+                    continue
+            key = (pack_id, holder_name, candidate)
+            if key in seen_jev:
+                continue
+            seen_jev.add(key)
+            pending.append(
+                {
+                    "kind": "title_holder",
+                    "pack_id": pack_id,
+                    "company_id": candidate,
+                    "holder_name": holder_name,
+                    "link_role": "title_vehicle" if candidate == cid else "jv_holder",
+                    "claims_entity": {
+                        "holder": holder_name,
+                        "jurisdiction": jurisdiction,
+                        "extract_company_id": cid,
+                        "extract_company": book.rows.get(cid, {}).get("name"),
+                        "title_count": n,
+                    },
+                    "catalog_issuer": {
+                        "id": candidate,
+                        "name": book.rows.get(candidate, {}).get("name"),
+                        "tickers": [t for t, _, _ in book.tickers.get(candidate, [])][:6],
+                    },
+                }
+            )
+
+        col = "ontario_count" if jurisdiction == "Ontario" else "bc_count"
+        extract_col = "ontario_extract" if jurisdiction == "Ontario" else "bc_extract"
+        con.execute(
+            f"UPDATE companies SET {col}=?, {extract_col}=? WHERE company_id=?",
+            (n_titles, rel, cid),
+        )
+        con.execute(
+            """
+            UPDATE companies SET claim_count =
+              COALESCE(quebec_count, 0) + COALESCE(ontario_count, 0) + COALESCE(bc_count, 0)
+            WHERE company_id=?
+            """,
+            (cid,),
+        )
+
+    if pack_rows:
+        con.executemany(
+            """
+            INSERT OR REPLACE INTO claim_packs(
+              pack_id, company_id, role, holder, holder_company_id, claim_count,
+              jurisdiction, source, as_of, extract_path, bbox_json, color
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            pack_rows,
+        )
+    if owner_links:
+        con.executemany(
+            """
+            INSERT INTO claim_company_links(
+              pack_id, company_id, link_role, source, jev_score, jev_confidence,
+              jev_outcome, same_name_noul, holder_is_vehicle_noul
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            owner_links + list(holder_links.values()),
+        )
+    if title_rows:
+        con.executemany(
+            """
+            INSERT OR REPLACE INTO claim_titles(
+              title_pk, pack_id, company_id, holder_company_id, jurisdiction, claim_id,
+              claim_name, holder_raw, status, recorded_date, anniversary_or_expiry,
+              area_ha, tenure_type, source, as_of, role, extract_path
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            title_rows,
+        )
+    if party_rows:
+        con.executemany(
+            """
+            INSERT INTO claim_title_parties(
+              title_pk, pack_id, holder_name, interest_pct, holder_company_id, source,
+              jev_score, jev_confidence, jev_outcome, same_name_noul, holder_is_vehicle_noul
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            party_rows,
+        )
+
+    meta_set(
+        con,
+        "on_bc_titles",
+        {
+            "files": [str(p.name) for _, _, p in extracts],
+            "counts": {cid: dict(v) for cid, v in counts.items()},
+        },
+    )
+    return pending
 
 
 def ingest_politician_trades(con: sqlite3.Connection) -> None:
@@ -849,18 +1162,60 @@ def run_link_jev(con: sqlite3.Connection, pending: list[dict[str, Any]], skip: b
                 ),
             )
         else:
+            if item["kind"] == "title_holder":
+                con.execute(
+                    """
+                    UPDATE claim_title_parties
+                    SET holder_company_id=?, source='jev', jev_score=?, jev_confidence=?,
+                        jev_outcome=?, same_name_noul=?, holder_is_vehicle_noul=?
+                    WHERE pack_id=? AND holder_name=? AND holder_company_id IS NULL
+                    """,
+                    (
+                        item["company_id"] if r["outcome"] == "same_entity" else None,
+                        r["score"],
+                        r["confidence"],
+                        r["outcome"],
+                        r["same_name"],
+                        r["holder_is_vehicle"],
+                        item["pack_id"],
+                        item["holder_name"],
+                    ),
+                )
+                if r["outcome"] == "same_entity":
+                    con.execute(
+                        """
+                        UPDATE claim_titles
+                        SET holder_company_id=?
+                        WHERE pack_id=? AND holder_company_id IS NULL
+                          AND title_pk IN (
+                            SELECT title_pk FROM claim_title_parties
+                            WHERE pack_id=? AND holder_name=? AND holder_company_id=?
+                          )
+                        """,
+                        (
+                            item["company_id"],
+                            item["pack_id"],
+                            item["pack_id"],
+                            item["holder_name"],
+                            item["company_id"],
+                        ),
+                    )
             if r["outcome"] == "leave_unlinked":
                 continue
+            link_role = item.get("link_role") or (
+                "jv_holder" if item["kind"] == "title_holder" else "neighbor_holder"
+            )
             con.execute(
                 """
                 INSERT INTO claim_company_links(
                   pack_id, company_id, link_role, source, jev_score, jev_confidence,
                   jev_outcome, same_name_noul, holder_is_vehicle_noul
-                ) VALUES (?, ?, 'neighbor_holder', 'jev', ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, 'jev', ?, ?, ?, ?, ?)
                 """,
                 (
                     item["pack_id"],
                     item["company_id"],
+                    link_role,
                     r["score"],
                     r["confidence"],
                     r["outcome"],
@@ -1004,6 +1359,20 @@ def export_stubs(con: sqlite3.Connection) -> None:
     (EXPORT_DIR / "claim_company_links.json").write_text(
         json.dumps({"n": len(links), "links": links}, indent=2), encoding="utf-8"
     )
+    titles = [
+        dict(r)
+        for r in con.execute(
+            """
+            SELECT jurisdiction, company_id, COUNT(*) AS n
+            FROM claim_titles
+            GROUP BY jurisdiction, company_id
+            ORDER BY jurisdiction, n DESC
+            """
+        )
+    ]
+    (EXPORT_DIR / "claim_titles_summary.json").write_text(
+        json.dumps({"by_company": titles}, indent=2), encoding="utf-8"
+    )
     (EXPORT_DIR / "trade_size_vs_cap_top.json").write_text(
         json.dumps(
             {
@@ -1029,6 +1398,8 @@ def print_report(con: sqlite3.Connection) -> None:
         "company_tickers",
         "claim_packs",
         "claim_company_links",
+        "claim_titles",
+        "claim_title_parties",
         "mines",
         "people",
         "politician_trades",
@@ -1040,6 +1411,17 @@ def print_report(con: sqlite3.Connection) -> None:
     focus_n = n("SELECT COUNT(*) FROM claim_packs WHERE role='focus'")
     neigh_n = n("SELECT COUNT(*) FROM claim_packs WHERE role='neighbor'")
     log(f"  claim packs focus/neighbor {focus_n} / {neigh_n}")
+    for r in con.execute(
+        "SELECT jurisdiction, COUNT(*) FROM claim_titles GROUP BY jurisdiction ORDER BY 1"
+    ):
+        log(f"  claim titles {r[0]}: {r[1]}")
+    for r in con.execute(
+        """
+        SELECT source, jev_outcome, COUNT(*) FROM claim_company_links
+        GROUP BY 1, 2 ORDER BY 3 DESC
+        """
+    ):
+        log(f"  links {r[0]}/{r[1]}: {r[2]}")
     log(
         "  calc rows with bps "
         f"{n('SELECT COUNT(*) FROM trade_size_vs_cap WHERE size_bps IS NOT NULL')}"
@@ -1070,7 +1452,7 @@ def rebuild(skip_jev: bool) -> None:
     con = connect(tmp)
     try:
         apply_schema(con)
-        meta_set(con, "schema_version", "qc-sqlite-pilot-v1")
+        meta_set(con, "schema_version", "qc-sqlite-pilot-v2")
         meta_set(con, "built_at", now_iso())
         meta_set(con, "pilot_calc", "size_vs_cap")
         meta_set(
@@ -1099,6 +1481,8 @@ def rebuild(skip_jev: bool) -> None:
         ingest_mines(con, claims)
         log("Claim packs + catalog links…")
         pending = ingest_claim_packs(con, claims, book)
+        log("Ontario + BC claim titles…")
+        pending.extend(ingest_on_bc_titles(con, book))
         log("Politician trades…")
         ingest_politician_trades(con)
         log("Insider trades…")

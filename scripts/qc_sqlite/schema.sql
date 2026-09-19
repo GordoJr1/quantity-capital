@@ -112,6 +112,43 @@ CREATE TABLE IF NOT EXISTS claim_company_links (
   holder_is_vehicle_noul REAL
 );
 
+-- Per-title attributes from Ontario MLAS / BC MTA GeoJSON. No geometry.
+CREATE TABLE IF NOT EXISTS claim_titles (
+  title_pk TEXT PRIMARY KEY,
+  pack_id TEXT NOT NULL REFERENCES claim_packs(pack_id),
+  company_id TEXT NOT NULL REFERENCES companies(company_id),
+  holder_company_id TEXT REFERENCES companies(company_id),
+  jurisdiction TEXT NOT NULL,
+  claim_id TEXT,
+  claim_name TEXT,
+  holder_raw TEXT,
+  status TEXT,
+  recorded_date TEXT,
+  anniversary_or_expiry TEXT,
+  area_ha REAL,
+  tenure_type TEXT,
+  source TEXT,
+  as_of TEXT,
+  role TEXT,
+  extract_path TEXT
+);
+
+-- Parsed (pct, holder) parties on a title. Ontario MLAS uses "(70) A, (30) B".
+CREATE TABLE IF NOT EXISTS claim_title_parties (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title_pk TEXT NOT NULL REFERENCES claim_titles(title_pk),
+  pack_id TEXT NOT NULL REFERENCES claim_packs(pack_id),
+  holder_name TEXT NOT NULL,
+  interest_pct REAL,
+  holder_company_id TEXT REFERENCES companies(company_id),
+  source TEXT,
+  jev_score REAL,
+  jev_confidence REAL,
+  jev_outcome TEXT,
+  same_name_noul REAL,
+  holder_is_vehicle_noul REAL
+);
+
 CREATE TABLE IF NOT EXISTS mines (
   mine_id TEXT NOT NULL,
   company_id TEXT NOT NULL REFERENCES companies(company_id),
@@ -205,6 +242,12 @@ CREATE INDEX IF NOT EXISTS idx_ct_ticker ON company_tickers(ticker);
 CREATE INDEX IF NOT EXISTS idx_packs_company ON claim_packs(company_id);
 CREATE INDEX IF NOT EXISTS idx_packs_holder ON claim_packs(holder_company_id);
 CREATE INDEX IF NOT EXISTS idx_links_company ON claim_company_links(company_id);
+CREATE INDEX IF NOT EXISTS idx_titles_company ON claim_titles(company_id);
+CREATE INDEX IF NOT EXISTS idx_titles_jurisdiction ON claim_titles(jurisdiction);
+CREATE INDEX IF NOT EXISTS idx_titles_pack ON claim_titles(pack_id);
+CREATE INDEX IF NOT EXISTS idx_title_parties_holder ON claim_title_parties(holder_name);
+CREATE INDEX IF NOT EXISTS idx_title_parties_company ON claim_title_parties(holder_company_id);
+CREATE INDEX IF NOT EXISTS idx_title_parties_pack ON claim_title_parties(pack_id);
 CREATE INDEX IF NOT EXISTS idx_calc_bps ON trade_size_vs_cap(size_bps);
 CREATE INDEX IF NOT EXISTS idx_mines_company ON mines(company_id);
 

@@ -1293,11 +1293,6 @@
       return { realized: realized, remainShares: remainShares, remainCost: remainCost };
     }
 
-    function markedTotal(state, markPx) {
-      if (!state || !markPx) return 0;
-      return state.realized + (state.remainShares * markPx - state.remainCost);
-    }
-
     function hideChartPnl() {
       const el = document.getElementById("chart-pnl");
       if (!el) return;
@@ -1320,28 +1315,25 @@
       );
       const startDate = slice[0][0];
       const endDate = slice[slice.length - 1][0];
-      const startPx = slice[0][1];
       const endPx = slice[slice.length - 1][1];
-      if (!startPx || !endPx) {
+      if (!endPx) {
         hideChartPnl();
         return;
       }
       const start = fifoThrough(trades, points, startDate, false);
       const end = fifoThrough(trades, points, endDate, true);
-      const inWindow = trades.some((t) => {
-        const when = t.trade_date || "";
-        return when >= startDate && when <= endDate;
-      });
-      if (!inWindow && start.remainShares <= 0.0001 && end.remainShares <= 0.0001) {
+      const realized = end.realized - start.realized;
+      const unrealized = end.remainShares * endPx - end.remainCost;
+      if (end.remainShares <= 0.0001 && Math.abs(realized) < 0.5) {
         hideChartPnl();
         return;
       }
-      const pnl = markedTotal(end, endPx) - markedTotal(start, startPx);
+      const pnl = realized + unrealized;
       const cls = pnl > 0 ? "up" : pnl < 0 ? "down" : "";
       el.classList.remove("up", "down");
       if (cls) el.classList.add(cls);
       el.innerHTML = "<span class=\"pnl-amt\">" + signedMoney(pnl) + "</span><span class=\"pnl-lbl\">P/L</span>";
-      el.title = "Theoretical FIFO from official high-end amounts and daily closes in this chart range.";
+      el.title = "Theoretical FIFO: leftover shares marked to the latest close in this range, plus realized sells in the window. Lots opened earlier still count if held.";
       el.hidden = false;
     }
 

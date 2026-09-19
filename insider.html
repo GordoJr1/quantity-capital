@@ -644,7 +644,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=162" />
+  <link rel="stylesheet" href="shell.css?v=165" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -710,7 +710,7 @@
       <p class="kicker">Trade tape</p>
       <p class="count" id="tape-count"></p>
     </div>
-    <div class="qc-pol-desk qc-has-last">
+    <div class="qc-pol-desk qc-has-hold">
       <ol class="qc-txn-list qc-tape-list" id="rows" aria-label="Officer tape"></ol>
     </div>
     <div class="tape-more" id="tape-more-row" hidden>
@@ -929,7 +929,6 @@
     let tileSort = "size";
     let chartToken = 0;
     const priceCache = {};
-    const lastCloseByCode = {};
     let deskBound = false;
 
     function formatPct(value, total) {
@@ -1476,13 +1475,8 @@
         holdKeyOf: (t) => holdingIdentity(t, tickerLookup).key,
         selectedId: visibleTradeId(),
         limit: limit,
-        showLastClose: true,
         showHoldings: true,
-        lastCloseByCode: lastCloseByCode,
         companyFirst: true
-      });
-      QC.fillLastCloseMap((full || []).map((t) => t.ticker || t.code), lastCloseByCode).then(() => {
-        QC.applyLastCloses(list, lastCloseByCode);
       });
       const capped = !showAllTape && full.length > page;
       if (count) {

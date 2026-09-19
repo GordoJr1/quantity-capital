@@ -2209,10 +2209,7 @@
       const fresh = allFiltered.filter((t) => QC.isLanded(t, 72)).length;
       const buys = allFiltered.filter((t) => t.side === "purchase").length;
       const sells = allFiltered.filter((t) => t.side === "sale").length;
-      box.innerHTML =
-        "<div class=\"hot\"><b>" + fresh + "</b><span>Just filed</span></div>" +
-        "<div class=\"up\"><b>" + buys + "</b><span>Buys</span></div>" +
-        "<div class=\"down\"><b>" + sells + "</b><span>Sells</span></div>";
+      
     }
 
     function tapeRowHtml(t) {

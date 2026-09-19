@@ -637,7 +637,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=126"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -703,10 +703,8 @@
     if (filerId) {
       back.href = "politician.html?id=" + encodeURIComponent(filerId);
       back.textContent = "← Politician";
-    } else {
-      back.href = "index.html";
-      back.textContent = "← Tape";
     }
+    QC.bindBack(back);
 
     const cutoff = new Date();
     cutoff.setFullYear(cutoff.getFullYear() - 3);

@@ -621,7 +621,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=125"></script>
+  <script src="qc.js?v=126"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -631,7 +631,7 @@
     const params = new URLSearchParams(location.search);
     let days = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
     let side = params.get("side") || "";
-    let q = "";
+    let q = params.get("q") || "";
     let showAll = false;
     let all = [];
     let collected = "";
@@ -1090,20 +1090,27 @@
       } catch (err) {}
       paint(all, collected);
     }
+    function writeInsiderFilters() {
+      const p = new URLSearchParams();
+      p.set("w", String(days));
+      if (side) p.set("side", side);
+      if (q) p.set("q", q);
+      history.replaceState(null, "", location.pathname + "?" + p.toString());
+    }
+    const qInput = document.getElementById("q");
+    if (qInput && q) qInput.value = q;
     document.getElementById("windows").addEventListener("click", (e) => {
       const w = e.target.closest("button[data-w]");
       const s = e.target.closest("button[data-side]");
       if (w) days = Number(w.dataset.w);
       if (s) side = side === s.dataset.side ? "" : s.dataset.side;
-      const p = new URLSearchParams();
-      p.set("w", String(days));
-      if (side) p.set("side", side);
-      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      writeInsiderFilters();
       showAll = false;
       paint(all, collected);
     });
-    document.getElementById("q").addEventListener("input", (e) => {
+    if (qInput) qInput.addEventListener("input", (e) => {
       q = e.target.value;
+      writeInsiderFilters();
       showAll = false;
       paint(all, collected);
     });

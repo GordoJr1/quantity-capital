@@ -2066,13 +2066,7 @@
       const moreRow = document.getElementById("more-row");
       const moreBtn = document.getElementById("show-all");
       const visible = deskRows;
-      if (count) {
-        count.hidden = !DESK_MQ.matches;
-        count.textContent = DESK_MQ.matches
-          ? (visible.length === rows.length
-            ? rows.length + " trades"
-            : "Showing " + visible.length + " of " + rows.length + " trades")
-          : "";
+      
       }
       if (moreRow && moreBtn) {
         moreRow.hidden = rows.length <= PAGE;

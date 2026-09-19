@@ -11,6 +11,8 @@ From `C:\Users\gordo\Desktop\quantity-capital`:
 ```
 python scripts/qc_sqlite/rebuild.py
 python scripts/qc_sqlite/rebuild.py --skip-jev
+python scripts/qc_sqlite/rebuild.py --skip-tells
+python scripts/qc_sqlite/tells.py
 ```
 
 Needs `pip install typesafe-sdk` for Jev calls. `TYPESAFE_API_KEY` is read from the process env, or from `%USERPROFILE%\.grok\typesafe.env`. The key is never written to the repo.
@@ -24,7 +26,7 @@ Outputs:
 
 Excel export is not in this pilot.
 
-## Schema (v3)
+## Schema (v4)
 
 | Table | What |
 | --- | --- |
@@ -40,8 +42,12 @@ Excel export is not in this pilot.
 | `politician_trades` | PTR rows with parsed amount band low/high/mid |
 | `insider_trades` | Form 4 / SEDI rows |
 | `trade_size_vs_cap` | **Pilot calc** (see below) |
+| `tell_events` | Raw timed-spike hits (official stock buy near 20-session low, +20% within 15 sessions) |
+| `tell_hands` / `tell_hand_tells` | Ranked filers (top 16) and their best tells per ticker |
+| `tell_now` / `tell_now_hands` | Recent buys from those hands (top 12) |
 | `jev_decisions` | Raw Choice/Noul/Score answers |
 | `v_trade_size_vs_cap` | The calc as a view; the table is the materialized copy plus Jev flags |
+| `v_tell_hands` / `v_tell_now` | Ranked Tells export views |
 
 ## Pilot calc: `size_vs_cap`
 
@@ -52,6 +58,17 @@ size_bps = 10000 * amount_mid / market_cap
 `amount_mid` is the midpoint of the STOCK Act band (e.g. `$1,001–$15,000` → `8000.5`). Join is `politician_trades.ticker → tickers → company_tickers (primary) → companies`. Jev reviews the 20 largest `size_bps` prints and stores `jev_flag` / `jev_anomaly_noul`.
 
 This is an estimate: PTR amounts are bands, not fills.
+
+## Tells board (`tells.json`)
+
+Same rules as `collect/build_tells.py` (deterministic — no Jev on this path):
+
+- Official **stock purchases** only (`chart()` ticker, skip options/bonds/ETFs in the SKIP set)
+- SPIKE=20%, FWD=21 sessions, NEAR=1.08 (within 8% of prior 20-session low), spike within 15 sessions
+- Hand bar: MIN_SCORED=4, MIN_HITS=2 (or a whale ≥ $500k), rate ≥ 8% unless whale
+- `now`: last 90 days of buys from the hot hands; OPEN_CAP=15%
+
+Rebuild writes `tells.json` at the site root (and `scripts/qc_sqlite/export/tells.json`) when `prices/` exists. `python scripts/qc_sqlite/tells.py` refreshes Tells without a full claims rebuild. Do not change `tells.html`; it still fetches `tells.json`.
 
 ## What Jev decides
 

@@ -251,6 +251,90 @@ CREATE INDEX IF NOT EXISTS idx_title_parties_pack ON claim_title_parties(pack_id
 CREATE INDEX IF NOT EXISTS idx_calc_bps ON trade_size_vs_cap(size_bps);
 CREATE INDEX IF NOT EXISTS idx_mines_company ON mines(company_id);
 
+-- Tells board (build_tells.py rules). Official stock buys near a 20-session low
+-- that then rose 20% within 15 sessions. Export reconstructs tells.json.
+CREATE TABLE IF NOT EXISTS tell_events (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  filer_id TEXT NOT NULL,
+  ticker TEXT NOT NULL,
+  name TEXT,
+  day TEXT,
+  buy REAL,
+  high REAL,
+  ret REAL,
+  days INTEGER,
+  amount_raw TEXT,
+  high_end INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS tell_hands (
+  filer_id TEXT PRIMARY KEY,
+  name TEXT,
+  chamber TEXT,
+  scored INTEGER,
+  hits INTEGER,
+  rate REAL,
+  median REAL,
+  score REAL,
+  whale INTEGER,
+  rank INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS tell_hand_tells (
+  filer_id TEXT NOT NULL REFERENCES tell_hands(filer_id),
+  seq INTEGER NOT NULL,
+  ticker TEXT,
+  name TEXT,
+  day TEXT,
+  buy REAL,
+  high REAL,
+  ret REAL,
+  days INTEGER,
+  amount_raw TEXT,
+  high_end INTEGER,
+  PRIMARY KEY (filer_id, seq)
+);
+
+CREATE TABLE IF NOT EXISTS tell_now (
+  ticker TEXT PRIMARY KEY,
+  name TEXT,
+  last REAL,
+  px_asof TEXT,
+  last_buy TEXT,
+  buy_px REAL,
+  chg REAL,
+  near_low INTEGER,
+  open INTEGER,
+  high_end INTEGER,
+  score REAL,
+  why TEXT,
+  rank INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS tell_now_hands (
+  ticker TEXT NOT NULL REFERENCES tell_now(ticker),
+  filer_id TEXT NOT NULL,
+  name TEXT,
+  rate REAL,
+  hits INTEGER,
+  PRIMARY KEY (ticker, filer_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_tell_events_filer ON tell_events(filer_id);
+CREATE INDEX IF NOT EXISTS idx_tell_events_ticker ON tell_events(ticker);
+CREATE INDEX IF NOT EXISTS idx_tell_hands_rank ON tell_hands(rank);
+CREATE INDEX IF NOT EXISTS idx_tell_now_rank ON tell_now(rank);
+
+CREATE VIEW IF NOT EXISTS v_tell_hands AS
+SELECT filer_id, name, chamber, scored, hits, rate, median, score, whale, rank
+FROM tell_hands
+ORDER BY rank;
+
+CREATE VIEW IF NOT EXISTS v_tell_now AS
+SELECT ticker, name, last, px_asof, last_buy, buy_px, chg, near_low, open, high_end, score, why, rank
+FROM tell_now
+ORDER BY rank;
+
 CREATE VIEW IF NOT EXISTS v_trade_size_vs_cap AS
 SELECT
   t.trade_id,

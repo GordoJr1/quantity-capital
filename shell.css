@@ -1459,49 +1459,40 @@ summary:focus-visible,
   .qc-pol-desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
 }
 
-/* Last close + holdings on insider officer + company desks only. Politician tape stays 6-col. */
+/* Holdings on insider officer + company desks only. Politician tape stays 6-col. */
 .qc-txn-last { display: none; }
 @media (max-width: 899px) {
-  .qc-has-last .qc-txn-tape .qc-txn-meta {
+  .qc-has-hold .qc-txn-tape .qc-txn-meta {
     flex-wrap: wrap;
   }
-  .qc-has-last .qc-txn-meta .qc-txn-co,
-  .qc-has-last .qc-txn-meta a.qc-txn-co {
+  .qc-has-hold .qc-txn-meta .qc-txn-co,
+  .qc-has-hold .qc-txn-meta a.qc-txn-co {
     max-width: 9.5rem;
   }
-  .qc-has-last .qc-txn-who .qc-txn-last,
-  .qc-has-last .qc-txn-meta .qc-txn-sh,
-  .qc-has-last .qc-txn-meta .qc-txn-after,
-  .qc-has-last .qc-txn-meta .qc-txn-held {
+  .qc-has-hold .qc-txn-meta .qc-txn-sh,
+  .qc-has-hold .qc-txn-meta .qc-txn-after,
+  .qc-has-hold .qc-txn-meta .qc-txn-held {
     display: inline;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .qc-has-last .qc-txn-who .qc-txn-last {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--paper, #d8dde3);
-  }
-  .qc-has-last .qc-txn-meta .qc-txn-sh,
-  .qc-has-last .qc-txn-meta .qc-txn-after {
+  .qc-has-hold .qc-txn-meta .qc-txn-sh,
+  .qc-has-hold .qc-txn-meta .qc-txn-after {
     color: var(--paper, #d8dde3);
   }
 }
 @media (min-width: 900px) {
-  .qc-pol-desk.qc-has-last .qc-txn-list.qc-tape-list > .qc-txn-cols,
-  .qc-pol-desk.qc-has-last .qc-txn-tape {
-    grid-template-columns: 5.1rem minmax(6.4rem, 1.1fr) 4.4rem minmax(5rem, 1.15fr) 4.4rem 4.4rem minmax(3.4rem, 0.48fr) minmax(3.8rem, 0.55fr) 4.2rem minmax(3.4rem, 0.48fr);
-    grid-template-areas: "date id co coname last chip sh after held hero";
+  .qc-pol-desk.qc-has-hold .qc-txn-list.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk.qc-has-hold .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(6.4rem, 1.1fr) 4.4rem minmax(5rem, 1.15fr) 4.4rem minmax(3.4rem, 0.48fr) minmax(3.8rem, 0.55fr) 4.2rem minmax(3.4rem, 0.48fr);
+    grid-template-areas: "date id co coname chip sh after held hero";
   }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-last,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-last,
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-sh,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-sh,
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-after,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-after,
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-held,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-held {
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-sh,
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-after,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-after,
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-held {
     display: block;
     justify-self: end;
     text-align: right;
@@ -1510,17 +1501,14 @@ summary:focus-visible,
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-last,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-last { grid-area: last; }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-sh,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-sh { grid-area: sh; }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-after,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-after { grid-area: after; }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-held,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-held { grid-area: held; }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-last,
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-sh,
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-after {
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-sh { grid-area: sh; }
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-after,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-after { grid-area: after; }
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-held,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-held { grid-area: held; }
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-sh,
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-after {
     font-family: "JetBrains Mono", monospace;
     font-variant-numeric: tabular-nums;
     font-size: 0.76rem;
@@ -1528,17 +1516,16 @@ summary:focus-visible,
     letter-spacing: 0.01em;
     color: #eef2f5;
   }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-held {
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-held {
     font-family: "JetBrains Mono", monospace;
     font-variant-numeric: tabular-nums;
     font-size: 0.72rem;
     font-weight: 600;
   }
-  .qc-pol-desk.qc-has-last .qc-txn-tape .qc-txn-lbl { display: none; }
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-last,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-sh,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-after,
-  .qc-pol-desk.qc-has-last .qc-txn-cols .qc-txn-held {
+  .qc-pol-desk.qc-has-hold .qc-txn-tape .qc-txn-lbl { display: none; }
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-sh,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-after,
+  .qc-pol-desk.qc-has-hold .qc-txn-cols .qc-txn-held {
     font-family: "Barlow Condensed", sans-serif;
     font-size: 0.68rem;
     font-weight: 600;

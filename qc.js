@@ -1467,7 +1467,6 @@
       expHtml = "<span class=\"qc-txn-exp\">" + esc(exp) + "</span>";
     }
     const co = "<span class=\"qc-txn-tk\">" + esc(showCode) + optTag + tapeKindHtml(t) + "</span>" +
-      strikeHtml + expHtml +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
@@ -1532,6 +1531,8 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\">" + tapeDateHtml(t && t.trade_date) + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
+      strikeHtml +
+      expHtml +
       optLineHtml +
     "</li>";
   }

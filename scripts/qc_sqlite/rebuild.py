@@ -89,6 +89,9 @@ EXTRACT_NEEDLES = {
     "newmont": ["newmont", "pretium"],
     "centerra-gold": ["centerra", "thompson creek"],
     "artemis-gold": ["artemis", "bw gold"],
+    "gold-fields": ["gold fields", "windfall"],
+    "barrick": ["barrick"],
+    "eldorado-gold": ["eldorado"],
 }
 
 
@@ -709,24 +712,41 @@ def ingest_claim_packs(con: sqlite3.Connection, claims: dict[str, Any], book: Co
     return pending_jev
 
 
-def discover_on_bc_extracts() -> list[tuple[str, str, Path]]:
-    found: list[tuple[str, str, Path]] = []
+def discover_title_extracts() -> list[tuple[str, str, str, str, str, Path]]:
+    """(company_id, jurisdiction, pack_key, count_col, extract_col, path)."""
+    found: list[tuple[str, str, str, str, str, Path]] = []
     if not CLAIMS_DIR.exists():
         return found
     for p in sorted(CLAIMS_DIR.glob("*-ontario.geojson")):
-        found.append((p.name[: -len("-ontario.geojson")], "Ontario", p))
+        found.append(
+            (p.name[: -len("-ontario.geojson")], "Ontario", "ontario", "ontario_count", "ontario_extract", p)
+        )
     for p in sorted(CLAIMS_DIR.glob("*-bc.geojson")):
-        found.append((p.name[: -len("-bc.geojson")], "British Columbia", p))
+        found.append(
+            (p.name[: -len("-bc.geojson")], "British Columbia", "bc", "bc_count", "bc_extract", p)
+        )
+    for p in sorted(CLAIMS_DIR.glob("*.geojson")):
+        if p.name.endswith("-ontario.geojson") or p.name.endswith("-bc.geojson"):
+            continue
+        found.append((p.stem, "Quebec", "quebec", "quebec_count", "extract_path", p))
     return found
 
 
-def ingest_on_bc_titles(
+def _title_link_role(resolved: str, extract_cid: str, title_role: str) -> str:
+    if resolved == extract_cid:
+        return "title_vehicle"
+    if title_role == "neighbor":
+        return "neighbor_holder"
+    return "jv_holder"
+
+
+def ingest_claim_titles(
     con: sqlite3.Connection, book: CompanyBook
 ) -> list[dict[str, Any]]:
-    """Per-title attributes from ON/BC GeoJSON. Geometry is read and dropped."""
-    extracts = discover_on_bc_extracts()
+    """Per-title attributes from ON/BC/Quebec GeoJSON. Geometry is read and dropped."""
+    extracts = discover_title_extracts()
     if not extracts:
-        log("No ON/BC extracts in claims/; skip claim_titles.")
+        log("No claim extracts in claims/; skip claim_titles.")
         return []
 
     con.execute(
@@ -745,19 +765,21 @@ def ingest_on_bc_titles(
     party_rows = []
     owner_links = []
     holder_links: dict[tuple[str, str], tuple] = {}
-    counts: dict[str, dict[str, int]] = defaultdict(lambda: {"Ontario": 0, "British Columbia": 0})
+    counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    role_counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
 
-    for cid, jurisdiction, path in extracts:
+    for cid, jurisdiction, pack_key, count_col, extract_col, path in extracts:
         if cid not in book.rows:
             log(f"  skip {path.name}: company {cid} not in catalog")
             continue
         rel = f"claims/{path.name}"
-        pack_key = "ontario" if jurisdiction == "Ontario" else "bc"
         pack_id = f"{cid}:{pack_key}"
         fc = load_json(path)
         features = fc.get("features") or []
         n_titles = 0
-        unique_holders: dict[str, int] = defaultdict(int)
+        n_focus = 0
+        n_neighbor = 0
+        unique_holders: dict[str, dict[str, Any]] = {}
         as_of = None
         source = None
         for feat in features:
@@ -767,25 +789,28 @@ def ingest_on_bc_titles(
             if claim_id is None or claim_id == "":
                 continue
             holder_raw = (props.get("holder") or "").strip() or None
-            title_pk = f"{pack_id}:{claim_id}"
+            title_role = (props.get("role") or "focus").strip() or "focus"
+            title_pk = f"{pack_id}:{title_role}:{claim_id}"
             parties = parse_holder_parties(holder_raw)
             majority_cid = None
             majority_pct = -1.0
             for holder_name, pct in parties:
-                unique_holders[holder_name] += 1
+                rec = unique_holders.setdefault(holder_name, {"n": 0, "roles": set()})
+                rec["n"] += 1
+                rec["roles"].add(title_role)
                 resolved = None
                 src = None
                 nn = norm_name(holder_name)
                 exact = name_index.get(nn) or []
                 if len(exact) == 1:
                     resolved, src = exact[0], "name_match"
-                elif extract_alias_hit(holder_name, cid):
+                elif title_role != "neighbor" and extract_alias_hit(holder_name, cid):
                     resolved, src = cid, "extract_alias"
                 party_rows.append(
                     (title_pk, pack_id, holder_name, pct, resolved, src, None, None, None, None, None)
                 )
                 if resolved:
-                    link_role = "title_vehicle" if resolved == cid else "jv_holder"
+                    link_role = _title_link_role(resolved, cid, title_role)
                     holder_links[(pack_id, resolved)] = (
                         pack_id,
                         resolved,
@@ -819,14 +844,20 @@ def ingest_on_bc_titles(
                     props.get("tenure_type"),
                     props.get("source"),
                     props.get("as_of"),
-                    props.get("role") or "focus",
+                    title_role,
                     rel,
                 )
             )
             as_of = as_of or props.get("as_of")
             source = source or props.get("source")
             n_titles += 1
+            if title_role == "neighbor":
+                n_neighbor += 1
+            else:
+                n_focus += 1
         counts[cid][jurisdiction] = n_titles
+        role_counts[jurisdiction]["focus"] += n_focus
+        role_counts[jurisdiction]["neighbor"] += n_neighbor
         pack_rows.append(
             (
                 pack_id,
@@ -846,18 +877,25 @@ def ingest_on_bc_titles(
         owner_links.append(
             (pack_id, cid, "owner", "catalog", None, None, "same_entity", None, None)
         )
-        log(f"  {path.name}: {n_titles} titles, {len(unique_holders)} holders")
+        log(
+            f"  {path.name}: {n_titles} titles ({n_focus} focus / {n_neighbor} neighbor), "
+            f"{len(unique_holders)} holders"
+        )
 
-        for holder_name, n in unique_holders.items():
+        for holder_name, rec in unique_holders.items():
             nn = norm_name(holder_name)
             exact = name_index.get(nn) or []
-            if len(exact) == 1 or extract_alias_hit(holder_name, cid):
+            if len(exact) == 1:
+                continue
+            if extract_alias_hit(holder_name, cid) and "neighbor" not in rec["roles"]:
                 continue
             if looks_like_person(holder_name):
                 continue
             fuzzy = fuzzy_company_ids(nn, name_index)
             candidate = fuzzy[0] if len(fuzzy) == 1 else None
             if candidate is None:
+                if "neighbor" in rec["roles"]:
+                    continue
                 generic = {"gold", "mines", "mining", "resources", "minerals", "metals", "exploration"}
                 extract_tokens = set(norm_name(book.rows.get(cid, {}).get("name") or cid).split()) - generic
                 holder_tokens = set(nn.split()) - generic
@@ -869,19 +907,27 @@ def ingest_on_bc_titles(
             if key in seen_jev:
                 continue
             seen_jev.add(key)
+            roles = rec["roles"]
+            if candidate == cid:
+                link_role = "title_vehicle"
+            elif "neighbor" in roles and "focus" not in roles:
+                link_role = "neighbor_holder"
+            else:
+                link_role = "jv_holder"
             pending.append(
                 {
                     "kind": "title_holder",
                     "pack_id": pack_id,
                     "company_id": candidate,
                     "holder_name": holder_name,
-                    "link_role": "title_vehicle" if candidate == cid else "jv_holder",
+                    "link_role": link_role,
                     "claims_entity": {
                         "holder": holder_name,
                         "jurisdiction": jurisdiction,
                         "extract_company_id": cid,
                         "extract_company": book.rows.get(cid, {}).get("name"),
-                        "title_count": n,
+                        "title_count": rec["n"],
+                        "roles": sorted(roles),
                     },
                     "catalog_issuer": {
                         "id": candidate,
@@ -891,12 +937,16 @@ def ingest_on_bc_titles(
                 }
             )
 
-        col = "ontario_count" if jurisdiction == "Ontario" else "bc_count"
-        extract_col = "ontario_extract" if jurisdiction == "Ontario" else "bc_extract"
+        overlay_n = n_focus if jurisdiction == "Quebec" else n_titles
         con.execute(
-            f"UPDATE companies SET {col}=?, {extract_col}=? WHERE company_id=?",
-            (n_titles, rel, cid),
+            f"UPDATE companies SET {count_col}=?, {extract_col}=? WHERE company_id=?",
+            (overlay_n, rel, cid),
         )
+        if jurisdiction == "Quebec":
+            con.execute(
+                "UPDATE companies SET neighbor_count=? WHERE company_id=?",
+                (n_neighbor, cid),
+            )
         con.execute(
             """
             UPDATE companies SET claim_count =
@@ -950,10 +1000,11 @@ def ingest_on_bc_titles(
 
     meta_set(
         con,
-        "on_bc_titles",
+        "claim_titles",
         {
-            "files": [str(p.name) for _, _, p in extracts],
+            "files": [str(p.name) for *_, p in extracts],
             "counts": {cid: dict(v) for cid, v in counts.items()},
+            "roles": {j: dict(v) for j, v in role_counts.items()},
         },
     )
     return pending
@@ -1363,10 +1414,10 @@ def export_stubs(con: sqlite3.Connection) -> None:
         dict(r)
         for r in con.execute(
             """
-            SELECT jurisdiction, company_id, COUNT(*) AS n
+            SELECT jurisdiction, COALESCE(role,'focus') AS role, company_id, COUNT(*) AS n
             FROM claim_titles
-            GROUP BY jurisdiction, company_id
-            ORDER BY jurisdiction, n DESC
+            GROUP BY jurisdiction, role, company_id
+            ORDER BY jurisdiction, role, n DESC
             """
         )
     ]
@@ -1412,9 +1463,12 @@ def print_report(con: sqlite3.Connection) -> None:
     neigh_n = n("SELECT COUNT(*) FROM claim_packs WHERE role='neighbor'")
     log(f"  claim packs focus/neighbor {focus_n} / {neigh_n}")
     for r in con.execute(
-        "SELECT jurisdiction, COUNT(*) FROM claim_titles GROUP BY jurisdiction ORDER BY 1"
+        """
+        SELECT jurisdiction, COALESCE(role,''), COUNT(*)
+        FROM claim_titles GROUP BY 1, 2 ORDER BY 1, 2
+        """
     ):
-        log(f"  claim titles {r[0]}: {r[1]}")
+        log(f"  claim titles {r[0]} {r[1] or 'focus'}: {r[2]}")
     for r in con.execute(
         """
         SELECT source, jev_outcome, COUNT(*) FROM claim_company_links
@@ -1452,7 +1506,7 @@ def rebuild(skip_jev: bool) -> None:
     con = connect(tmp)
     try:
         apply_schema(con)
-        meta_set(con, "schema_version", "qc-sqlite-pilot-v2")
+        meta_set(con, "schema_version", "qc-sqlite-pilot-v3")
         meta_set(con, "built_at", now_iso())
         meta_set(con, "pilot_calc", "size_vs_cap")
         meta_set(
@@ -1481,8 +1535,8 @@ def rebuild(skip_jev: bool) -> None:
         ingest_mines(con, claims)
         log("Claim packs + catalog links…")
         pending = ingest_claim_packs(con, claims, book)
-        log("Ontario + BC claim titles…")
-        pending.extend(ingest_on_bc_titles(con, book))
+        log("Claim titles (Quebec / Ontario / BC)…")
+        pending.extend(ingest_claim_titles(con, book))
         log("Politician trades…")
         ingest_politician_trades(con)
         log("Insider trades…")

@@ -1,4 +1,4 @@
--- Quantity Capital SQLite brain (pilot v1)
+-- Quantity Capital SQLite brain (pilot v3)
 -- Claims attributes + company/ticker links + one politician trade calc.
 -- Polygons stay on disk/CDN as GeoJSON extracts; this DB stores attributes/links only.
 
@@ -112,9 +112,9 @@ CREATE TABLE IF NOT EXISTS claim_company_links (
   holder_is_vehicle_noul REAL
 );
 
--- Per-title attributes from Ontario MLAS / BC MTA GeoJSON. No geometry.
+-- Per-title attributes from Quebec GESTIM / Ontario MLAS / BC MTA GeoJSON. No geometry.
 CREATE TABLE IF NOT EXISTS claim_titles (
-  title_pk TEXT PRIMARY KEY,
+  title_pk TEXT PRIMARY KEY, -- {pack_id}:{role}:{claim_id}; geometry duplicates collapse
   pack_id TEXT NOT NULL REFERENCES claim_packs(pack_id),
   company_id TEXT NOT NULL REFERENCES companies(company_id),
   holder_company_id TEXT REFERENCES companies(company_id),

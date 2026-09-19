@@ -1,8 +1,8 @@
 # Quantity Capital SQLite brain (pilot)
 
-SQLite sits between the collectors’ JSON and the static PWA. This pilot wires **claims ↔ companies ↔ tickers**, then one politician trade calc on top. Ontario and BC **per-title** rows are ingested from local GeoJSON (properties only). Polygons stay in those files. Collectors are not rewritten.
+SQLite sits between the collectors’ JSON and the static PWA. This pilot wires **claims ↔ companies ↔ tickers**, then one politician trade calc on top. Quebec GESTIM, Ontario MLAS, and BC MTA **per-title** rows are ingested from local GeoJSON (properties only). Polygons stay in those files. Collectors are not rewritten.
 
-Last local rebuild (2026-09-19): **26,720** title rows — Ontario 26,567 / British Columbia 153 — plus 31,434 title parties.
+Last local rebuild (2026-09-19): **61,797** title rows — Quebec 35,077 (17,451 focus / 17,626 neighbor), Ontario 26,567, British Columbia 153 — plus 68,561 title parties.
 
 ## Rebuild
 
@@ -24,16 +24,16 @@ Outputs:
 
 Excel export is not in this pilot.
 
-## Schema (v2)
+## Schema (v3)
 
 | Table | What |
 | --- | --- |
 | `companies` | Union of mines registry / explorers / mcap / claims-map / insider-companies, keyed by slug |
 | `tickers` | `tickers.json` + `market-caps.json` |
 | `company_tickers` | company ↔ ticker (first ticker per source is `is_primary`) |
-| `claim_packs` | Focus/neighbor packs from the claims-map catalog, plus `{id}:ontario` / `{id}:bc` packs when extracts exist |
+| `claim_packs` | Focus/neighbor packs from the claims-map catalog, plus `{id}:quebec` / `{id}:ontario` / `{id}:bc` packs when extracts exist |
 | `claim_company_links` | pack ↔ company with `source` (`catalog`, `name_match`, `extract_alias`, `jev`) and Jev score/outcome |
-| `claim_titles` | One row per Ontario MLAS / BC MTA title (properties only — no polygons) |
+| `claim_titles` | One row per Quebec GESTIM / Ontario MLAS / BC MTA title (properties only — no polygons). Quebec extracts include `role=neighbor` titles. PK is `{pack}:{role}:{claim_id}` so extra polygons for the same title collapse. |
 | `claim_title_parties` | Parsed `(pct, holder)` parties on a title |
 | `mines` | Pin lat/lon from the claims-map catalog |
 | `people` | `bios.json` |
@@ -59,7 +59,7 @@ This is an estimate: PTR amounts are bands, not fills.
 | --- | --- | --- |
 | Schema once per rebuild | Choice ×3 | claims grain, company key, which calc |
 | Each catalog producer + fuzzy neighbor holders | Score (same / related / different) + Noul `same_name`, `holder_is_vehicle` | claim ↔ company link confidence; round Score to `leave_unlinked` / `curator` / `same_entity` |
-| Unique ON/BC title holders that fuzzy-match one catalog issuer or share distinctive tokens with the extract issuer | same Score + Nouls | JV co-holders and title vehicles (`jv_holder` / `title_vehicle`). Unmatched JV names (e.g. SMM Gold Côté) stay unlinked on purpose. |
+| Unique title holders that fuzzy-match one catalog issuer or share distinctive tokens with the extract issuer | same Score + Nouls | JV co-holders, Quebec neighbor holders, and title vehicles. Unmatched names (SMM Gold Côté, numbered Quebec inc., persons) stay unlinked. Extract-alias is **not** applied to `role=neighbor` titles. |
 | Top 20 `size_bps` trades | Choice flag + Noul `is_anomaly` | calc flags |
 
 Code still owns exact slug matches, amount-band parsing, and the bps formula. `--skip-jev` ingests everything and leaves Jev columns null.
@@ -72,21 +72,27 @@ If Jev prefers a different calc than `size_vs_cap`, the rebuild still ships `siz
 - Groks `collect/mines/registry.json`, `registry_explorers.json`, `registry_mcap.json`
 - Site JSON: `trades.json`, `tickers.json`, `bios.json`, `insider-trades.json`, `insider-companies.json`, `market-caps.json`
 
-Ontario/BC title rows come from local `claims/*-ontario.geojson` and `claims/*-bc.geojson`. Geometry is discarded on ingest. If those files are missing, rebuild still succeeds (packs + Quebec catalog only).
+Title rows come from local extracts (geometry discarded). If a file is missing, rebuild still succeeds for the others.
 
-Refresh extracts from a checkout that has `claims/companies.json` (origin/main):
+| Jurisdiction | Files |
+| --- | --- |
+| Quebec GESTIM | `claims/<id>.geojson` (no `-ontario`/`-bc` suffix). Includes neighbor titles. |
+| Ontario MLAS | `claims/<id>-ontario.geojson` |
+| British Columbia MTA | `claims/<id>-bc.geojson` |
+
+Refresh ON/BC from a checkout that has `claims/companies.json` (origin/main):
 
 ```
 python build_on_bc_extracts.py
 ```
 
-That script hits Ontario MLAS and BC MTA REST and rewrites `claims/<id>-ontario.geojson` / `claims/<id>-bc.geojson`. Copy those files into this repo’s `claims/` folder if you are on a checkout that does not have them (this dirty UX tree did not). Quebec per-title GeoJSON is still map-only.
+Quebec GESTIM extracts ship on `origin/main` under `claims/`. Copy them into this tree’s `claims/` if the checkout does not have them (this dirty UX tree did not). Do not rewrite collectors.
 
-Local Groks `companies.json` may lag live Pages; rebuild overlays ON/BC counts from the extract files.
+Local Groks `companies.json` may lag live Pages; rebuild overlays Quebec/ON/BC counts from the extract files (Quebec `quebec_count` is **focus** titles only).
 
 ## Next
 
-- Quebec GESTIM per-title rows (same properties grain; extracts are large)
 - Excel workbook of links + calc
 - Second calc (insider vs politician same ticker/day, or mining purchase clusters)
 - PWA pages reading export JSON instead of ad-hoc joins
+- Optional: stamp Midland/Abcourt-style word-order neighbors that Jev currently sends to curator

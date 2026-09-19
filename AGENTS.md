@@ -34,6 +34,18 @@ Form 4 collection talks to public `www.sec.gov` Archives. No secrets. SEC fair-a
 
 `.cursor/environment.json` runs those builders in `install`, so a fresh Cloud Agent always has up-to-date derived JSON.
 
+## Jev review gate — rate before publish, review after
+
+When building a change, consult Jev (`jev-review.py`, stdlib only) twice:
+
+```
+python3 jev-review.py self-test # no key or network needed; validates gate logic
+TYPESAFE_API_KEY=... python3 jev-review.py rate [--base main] # pre-publish; exits 2 if Jev fails the gate
+TYPESAFE_API_KEY=... python3 jev-review.py review [--base main] # post-publish; advisory follow-up verdict
+```
+
+`rate` sends the branch diff to `jev-latest` (correctness + risk Scores, readiness Noul) and blocks publishing unless ready ≥ 0.7 and correctness ≥ 1.2 (override with `--min-ready` / `--min-correct`). `review` checks what shipped landed clean and what follow-up it needs. `rate --dry-run` prints the exact request payload without sending. The key comes from `$TYPESAFE_API_KEY` (Cloud Agents: Dashboard → Secrets); never commit it, and never call the API from the browser — the key stays server-side / local-only.
+
 ## Daily site refresh
 
 Off-repo Windows collector (not this repo; Senate eFD is captcha-gated) pushes twice daily:

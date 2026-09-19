@@ -1415,11 +1415,16 @@
         "<span class=\"qc-txn-after\">Held</span>" +
         "<span class=\"qc-txn-held\">% Held</span>"
       : "";
+    const opt = opts.showOptionMeta
+      ? "<span class=\"qc-txn-strike\">Strike</span>" +
+        "<span class=\"qc-txn-exp\">Exp</span>"
+      : "";
     return tapePhoneColsHtml() +
       "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
       "<span class=\"qc-txn-date\">Date</span>" +
       "<span class=\"qc-txn-id\">Name</span>" +
       "<span class=\"qc-txn-company\">Ticker</span>" +
+      opt +
       "<span class=\"qc-txn-coname\">Company</span>" +
       last +
       "<span class=\"qc-txn-chip\">Trade</span>" +
@@ -1443,7 +1448,26 @@
       : "";
     const optTag = optionTag(t);
     const showCode = code && code !== "—" ? code : "";
+    let strikeHtml = "";
+    let expHtml = "";
+    let optLineHtml = "";
+    if (opts.showOptionMeta) {
+      let strike = "";
+      let exp = "";
+      if (isOptionLike(t)) {
+        const o = optionMeta(t);
+        if (o.kind === "Call" || o.kind === "Put") {
+          if (o.strike) strike = "$" + o.strike;
+          exp = o.exp || "";
+          const detail = optionDetailText(o);
+          if (detail) optLineHtml = "<div class=\"qc-txn-optline\">" + esc(detail) + "</div>";
+        }
+      }
+      strikeHtml = "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>";
+      expHtml = "<span class=\"qc-txn-exp\">" + esc(exp) + "</span>";
+    }
     const co = "<span class=\"qc-txn-tk\">" + esc(showCode) + optTag + tapeKindHtml(t) + "</span>" +
+      strikeHtml + expHtml +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
     const companyHtml = tickerHref
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
@@ -1508,6 +1532,7 @@
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\">" + tapeDateHtml(t && t.trade_date) + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
       companyHtml +
+      optLineHtml +
     "</li>";
   }
 
@@ -1604,7 +1629,7 @@
     opts = opts || {};
     const empty = opts.empty || "No trades on the 3-year tape.";
     if (!rows || !rows.length) {
-      return politicianTapeColsHtml() + "<li class=\"muted\">" + esc(empty) + "</li>";
+      return politicianTapeColsHtml(opts) + "<li class=\"muted\">" + esc(empty) + "</li>";
     }
     const sorted = rows.slice().sort((a, b) => {
       const fd = String(b.filed_date || "").localeCompare(String(a.filed_date || ""));
@@ -1647,6 +1672,7 @@
           showLastClose: !!opts.showLastClose,
           lastClose: opts.showLastClose ? lastCloseLookup(opts.lastCloseByCode, t) : null,
           showHoldings: !!opts.showHoldings,
+          showOptionMeta: !!opts.showOptionMeta,
           companyFirst: !!opts.companyFirst,
           hideWhoLine: !!opts.nameSelf
         });

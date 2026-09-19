@@ -643,7 +643,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=162" />
+  <link rel="stylesheet" href="shell.css?v=166" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -714,14 +714,14 @@
       <p class="count" id="tape-count"></p>
     </div>
     <div class="qc-pol-desk">
-      <ol class="qc-txn-list qc-tape-list" id="rows" aria-label="Politician tape"></ol>
+      <ol class="qc-txn-list qc-tape-list qc-show-opt" id="rows" aria-label="Politician tape"></ol>
     </div>
     <div class="tape-more" id="tape-more-row" hidden>
       <button type="button" id="tape-more">Show full list</button>
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=126"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -1401,6 +1401,7 @@
         empty: key ? "No trades for this name on the 3-year tape." : "No trades on the 3-year tape.",
         holdKeyOf: (t) => holdingIdentity(t, tickerLookup).key,
         selectedId: visibleTradeId(),
+        showOptionMeta: true,
         limit: limit
       });
       const capped = !showAllTape && full.length > page;

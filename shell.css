@@ -875,6 +875,37 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-exp {
     display: none !important;
   }
+  .qc-txn-list.qc-tape-list.qc-show-opt > .qc-txn-tape:has(.qc-txn-optline),
+  .qc-txn-list.qc-tape-list.qc-show-opt > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-optline) {
+    grid-template-areas:
+      "date co chip hero"
+      ". opt opt .";
+    row-gap: 1px;
+    align-items: start;
+  }
+  .qc-txn-list.qc-tape-list.qc-show-opt > .qc-txn-tape:has(.qc-txn-who-line):has(.qc-txn-optline),
+  .qc-txn-list.qc-tape-list.qc-show-opt > .qc-txn-tape.qc-txn-co-first:has(.qc-txn-who-line):has(.qc-txn-optline) {
+    grid-template-areas:
+      "who who who who"
+      "date co chip hero"
+      ". opt opt .";
+  }
+  .qc-txn-list.qc-tape-list.qc-show-opt > .qc-txn-tape .qc-txn-optline {
+    display: block !important;
+    grid-area: opt;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--mute, #8b96a3);
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.25;
+    padding: 0 0 1px;
+  }
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-end,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tbl,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company,
@@ -1457,9 +1488,47 @@ summary:focus-visible,
     color: var(--mute, #8b96a3);
   }
   .qc-pol-desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+
+  /* Politician personal tape: Strike + Exp after ticker for Call/Put rows. */
+  .qc-pol-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
+  .qc-pol-desk .qc-show-opt .qc-txn-tape {
+    grid-template-columns: 5.1rem minmax(6.8rem, 1.15fr) 4.6rem 3.4rem 4.8rem minmax(6rem, 1.4fr) 4.6rem minmax(3.4rem, 0.5fr);
+    grid-template-areas: "date id co strike exp coname chip hero";
+  }
+  .qc-pol-desk .qc-show-opt .qc-txn-cols .qc-txn-strike,
+  .qc-pol-desk .qc-show-opt .qc-txn-cols .qc-txn-exp,
+  .qc-pol-desk .qc-show-opt .qc-txn-tape .qc-txn-strike,
+  .qc-pol-desk .qc-show-opt .qc-txn-tape .qc-txn-exp {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .qc-pol-desk .qc-show-opt .qc-txn-cols .qc-txn-strike { grid-area: strike; }
+  .qc-pol-desk .qc-show-opt .qc-txn-cols .qc-txn-exp { grid-area: exp; }
+  .qc-pol-desk .qc-show-opt .qc-txn-tape .qc-txn-strike {
+    grid-area: strike;
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--white, #eef2f5);
+  }
+  .qc-pol-desk .qc-show-opt .qc-txn-tape .qc-txn-exp {
+    grid-area: exp;
+    font-family: "JetBrains Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--mute, #8b96a3);
+  }
+  .qc-pol-desk .qc-show-opt .qc-txn-optline { display: none; }
 }
 
-/* Holdings on insider officer + company desks only. Politician tape stays 6-col. */
+/* Holdings on insider officer + company desks only. Politician personal tape adds Strike/Exp via .qc-show-opt. */
 .qc-txn-last { display: none; }
 @media (max-width: 899px) {
   .qc-has-hold .qc-txn-tape .qc-txn-meta {

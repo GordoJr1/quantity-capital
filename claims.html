@@ -40,11 +40,19 @@
       flex: 1; background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
       border-radius: 6px; padding: 8px 10px; font: inherit;
     }
-    #search-form button {
-      background: #e3b41a; color: #1a1306; border: 0; border-radius: 6px;
-      padding: 8px 12px; font-weight: 650; cursor: pointer;
+    #search-form button, #download-data {
+      border-radius: 6px; padding: 8px 12px; font-weight: 650; cursor: pointer;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+      white-space: nowrap;
     }
+    #search-form button {
+      background: #e3b41a; color: #1a1306; border: 0;
+    }
+    #download-data {
+      background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
+    }
+    #download-data:hover, #download-data:focus-visible { background: #1c2733; }
+    #download-data:disabled { opacity: 0.45; cursor: default; }
     #search-results {
       position: absolute; top: calc(100% + 6px); left: 0; right: 64px;
       background: #121820; border: 1px solid #2a3340; border-radius: 8px;
@@ -108,13 +116,14 @@
     <header class="hud">
       <div>
         <h1>Canadian claims</h1>
-        <p>Company view · QC / ON / BC</p>
+        <p>All claims · QC / ON / BC</p>
       </div>
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company" aria-label="Search company">
         <button type="submit">Search</button>
         <div id="search-results" hidden></div>
       </form>
+      <button type="button" id="download-data" disabled>Download data</button>
     </header>
     <aside class="layers">
       <h2>Provinces</h2>
@@ -122,13 +131,13 @@
       <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
       <h2>Company</h2>
-      <p class="hint" id="company-hint">No claims drawn until you search a company.</p>
+      <p class="hint" id="company-hint">Loading all company claims…</p>
       <div id="legend" hidden></div>
     </aside>
-    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · search a company · Not legal title.</footer>
+    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · loading claims · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=6"></script>
+  <script src="claims-map.js?v=7"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

@@ -266,6 +266,13 @@
     function fillCommodity() {
       const sel = document.getElementById("commodity");
       const rows = (state.data.commodities || []).filter((c) => (c.series && c.series.length) || (c.mines && c.mines.length));
+      rows.sort(function (a, b) {
+        if (a.id === "all") return -1;
+        if (b.id === "all") return 1;
+        if (a.id === "gold") return -1;
+        if (b.id === "gold") return 1;
+        return (a.name || "").localeCompare(b.name || "");
+      });
       sel.innerHTML = rows.map((c) => {
         const on = c.id === state.commodity ? " selected" : "";
         return "<option value=\"" + esc(c.id) + "\"" + on + ">" + esc(c.name) + "</option>";
@@ -287,6 +294,7 @@
     }
 
     function paintKpis(c) {
+      const allOps = c && c.id === "all";
       const pt = pointFor(c, state.year);
       const unit = (c && c.unit) || "";
       const val = pt && pt.canada;
@@ -297,8 +305,9 @@
       const mines = (c && c.mines) || [];
       const linked = mines.filter((m) => m.claims_href).length;
       document.getElementById("kpis").innerHTML =
-        "<div class=\"stat\"><b>" + esc(fmt(val, unit)) + "</b><span>Canada · " + esc(String(state.year || "—")) + "</span></div>" +
-        "<div class=\"stat\"><b>" + mines.length + "</b><span>Map 900A mines</span></div>" +
+        "<div class=\"stat\"><b>" + (allOps ? String(mines.length) : esc(fmt(val, unit))) + "</b><span>" +
+        (allOps ? "Map 900A operations" : ("Canada · " + esc(String(state.year || "—")))) + "</span></div>" +
+        "<div class=\"stat\"><b>" + mines.length + "</b><span>Mines listed</span></div>" +
         "<div class=\"stat\"><b>" + linked + "</b><span>Linked to Claims</span></div>" + extra;
     }
 
@@ -357,9 +366,11 @@
         }
       };
       const n = ((c && c.series) || []).filter((p) => p.canada != null).length;
-      document.getElementById("series-note").textContent = n
-        ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables."
-        : "No Canada quantity published for this commodity in the requested window.";
+      document.getElementById("series-note").textContent = (c && c.id === "all")
+        ? "All operations has no national production series — pick a commodity for StatCan / NRCan totals."
+        : (n
+          ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables."
+          : "No Canada quantity published for this commodity in the requested window.");
     }
 
     function paintProvinces(c) {
@@ -383,9 +394,14 @@
 
     function paintMines(c) {
       const mines = (c && c.mines) || [];
-      document.getElementById("mines-h").textContent = "Principal mines · " + ((c && c.name) || "commodity");
+      const allOps = c && c.id === "all";
+      document.getElementById("mines-h").textContent = allOps
+        ? "All principal mines"
+        : ("Principal mines · " + ((c && c.name) || "commodity"));
       document.getElementById("mines-note").textContent = mines.length
-        ? "Map 900A significant operations that list " + (c.name || "this commodity") + ". Click a linked name for the Claims map."
+        ? (allOps
+          ? "Every Map 900A principal operation, including owners not in the QC claims catalog. Claims Open is only set when we already have that company."
+          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Uncatalogued owners still appear; Claims Open is only set when we have a company id."))
         : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
       document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
         const href = m.claims_href;
@@ -395,7 +411,8 @@
         const claim = href
           ? "<a class=\"claim\" href=\"" + esc(href) + "\">Open</a>"
           : "<span class=\"quiet\">—</span>";
-        return "<tr><td>" + name + "</td><td>" + esc(m.location || "—") + "</td><td>" + esc(m.owners || "—") + "</td><td>" + claim + "</td></tr>";
+        const products = m.products_raw ? "<div class=\"quiet\">" + esc(m.products_raw) + "</div>" : "";
+        return "<tr><td>" + name + products + "</td><td>" + esc(m.location || "—") + "</td><td>" + esc(m.owners || "—") + "</td><td>" + claim + "</td></tr>";
       }).join("") : "<tr><td colspan=\"4\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
     }
 

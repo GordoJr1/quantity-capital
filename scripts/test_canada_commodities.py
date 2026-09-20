@@ -101,6 +101,25 @@ class LinkerTests(unittest.TestCase):
         self.assertIsNone(linked["claims_company"])
         self.assertIsNone(linked["claims_href"])
 
+    def test_vale_canada_does_not_steal_canada_nickel(self) -> None:
+        catalog = b.load_company_catalog(ROOT)
+        name_idx, mine_idx = b.build_indexes(catalog)
+        linked = b.link_mine(
+            {
+                "name": "Thompson (T-1 and T-3)",
+                "owners": "Vale Canada Limited",
+                "province": "Manitoba",
+                "city": "Thompson",
+                "product_ids": ["nickel"],
+                "layer": "metals",
+            },
+            catalog,
+            name_idx,
+            mine_idx,
+        )
+        self.assertNotEqual(linked.get("claims_company"), "canada-nickel")
+        self.assertIsNone(linked.get("claims_href"))
+
     def test_builtin_alias(self) -> None:
         cid, how = b.match_owner("Equinox Gold Corp.", self.name_idx, self.catalog)
         self.assertEqual(cid, "equinox-gold")
@@ -119,6 +138,14 @@ class OfflineBuildTests(unittest.TestCase):
         self.assertGreaterEqual(len(gold["mines"]), 1)
         malartic = next(m for m in gold["mines"] if "Malartic" in m["name"])
         self.assertTrue(malartic["claims_href"].startswith("claims.html?company="))
+        all_ops = next(c for c in payload["commodities"] if c["id"] == "all")
+        names = {m["name"] for m in all_ops["mines"]}
+        self.assertIn("Canadian Malartic", names)
+        self.assertIn("Unknown Brook", names)
+        self.assertIn("Vanscoy", names)
+        unknown = next(m for m in all_ops["mines"] if m["name"] == "Unknown Brook")
+        self.assertIsNone(unknown.get("claims_company"))
+        self.assertEqual(len(all_ops["mines"]), payload["n_mines"])
         for comm in payload["commodities"]:
             for mine in comm["mines"]:
                 self.assertNotIn("tonnes", mine)

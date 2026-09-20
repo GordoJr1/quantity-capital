@@ -1,0 +1,208 @@
+{
+  "schema": "qc-pr-merge-gate-v1",
+  "work": "C",
+  "pr_topic": "canadian commodity production + Map 900A mines",
+  "generated": "2026-09-20T23:04:31Z",
+  "model": "jev-latest",
+  "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
+  "not": "Jev Bot chat",
+  "index": {
+    "json": "canada/commodities.json",
+    "schema": "qc-canada-commodities-v1",
+    "n_commodities": 93,
+    "n_mines": 175,
+    "n_linked": 48,
+    "latest_year": 2025,
+    "years_available": 20,
+    "gold_years": 20,
+    "gold_mines": 58
+  },
+  "question_specs": {
+    "mine_tonnes": {
+      "type": "Choice",
+      "instructions": "Map 900A and StatCan/NRCan do not publish mine-level tonnes. What should canada.html store on each mine row?",
+      "criteria": {
+        "never_invent": "Name, location, owners, products, optional claims deep link. Never invent per-mine tonnes, koz, or production.",
+        "split_national": "Divide the Canada total equally across Map 900A mines.",
+        "guess_43_101": "Fill mine tonnes from memory or unsourced 43-101 guesses."
+      }
+    },
+    "map_fields": {
+      "type": "Choice",
+      "instructions": "Which Map 900A fields belong on the principal-mine roster?",
+      "criteria": {
+        "name_location_owners_products": "operation_name, city/province, operator_owners, product(s), lat/lon.",
+        "plus_invented_tonnes": "Those fields plus an invented annual tonne column."
+      }
+    },
+    "claims_href": {
+      "type": "Choice",
+      "instructions": "When should a mine row link to claims.html?company=…?",
+      "criteria": {
+        "claims_catalog_only": "Only when the owner/mine matches a claims/companies.json id (optional qc.sqlite aliases for that same id). Do not mint hrefs for beta/mcap-only names.",
+        "any_beta_id": "Link any beta/mcap slug even if it is not on the claims map."
+      }
+    },
+    "refresh_cadence": {
+      "type": "Choice",
+      "instructions": "How should this book refresh?",
+      "criteria": {
+        "monthly_script": "python3 scripts/build_canada_commodities.py on a monthly job. Not a morning/evening tape bat. Not daily-update.",
+        "morning_bat": "Add the NRCan/StatCan crawl to the twice-daily Windows bats."
+      }
+    },
+    "overview_first": {
+      "type": "Noul",
+      "instructions": "Is it correct that canada.html must not call loadAllExtracts or fetch per-company claim GeoJSON, and mine clicks use the existing overview-first claims.html?company= deep link?",
+      "criteria": {
+        "true": "Yes — Claims stays overview-first.",
+        "false": "No — Canada should load every extract."
+      }
+    },
+    "link_state": {
+      "type": "Score",
+      "instructions": "How do the Map 900A owner and the claims-catalog issuer relate as companies? Use this only when the deterministic linker left the owner unmatched.",
+      "criteria": [
+        "They name two different companies or issuers.",
+        "They are related (subsidiary, project vehicle, former name) but not clearly the same listed issuer.",
+        "They are the same listed issuer, or the owner is a wholly owned title vehicle for that issuer."
+      ]
+    }
+  },
+  "calls": [
+    {
+      "id": "policy:mine_tonnes",
+      "label": "canada_mine_tonnes_v1",
+      "questions": [
+        "mine_tonnes"
+      ],
+      "state": {
+        "locked_decision": "never_invent",
+        "source": "Map 900A / StatCan / NRCan"
+      }
+    },
+    {
+      "id": "policy:map_fields",
+      "label": "canada_map_fields_v1",
+      "questions": [
+        "map_fields"
+      ],
+      "state": {
+        "locked_decision": "name_location_owners_products"
+      }
+    },
+    {
+      "id": "policy:claims_href",
+      "label": "canada_claims_href_v1",
+      "questions": [
+        "claims_href"
+      ],
+      "state": {
+        "locked_decision": "claims_catalog_only"
+      }
+    },
+    {
+      "id": "policy:refresh_cadence",
+      "label": "canada_refresh_cadence_v1",
+      "questions": [
+        "refresh_cadence"
+      ],
+      "state": {
+        "locked_decision": "monthly_script",
+        "not": [
+          "morning bat",
+          "daily-update"
+        ]
+      }
+    },
+    {
+      "id": "policy:overview_first",
+      "label": "canada_overview_first_v1",
+      "questions": [
+        "overview_first"
+      ],
+      "state": {
+        "locked_decision": true,
+        "must_not": [
+          "loadAllExtracts",
+          "per-company extracts"
+        ]
+      }
+    },
+    {
+      "id": "owner:gold-mountain-mining-corp",
+      "label": "canada_owner_v1:GOLD MOUNTAIN MINING CORP:spanish-mountain-gold",
+      "questions": [
+        "link_state"
+      ],
+      "state": {
+        "owner": "Gold Mountain Mining Corp.",
+        "mine": "Elk",
+        "catalog_id": "spanish-mountain-gold",
+        "catalog_name": "Spanish Mountain Gold",
+        "alt_candidates": [],
+        "in_claims": true,
+        "do_not": "invent mine tonnes"
+      }
+    },
+    {
+      "id": "owner:impala-canada-ltd",
+      "label": "canada_owner_v1:IMPALA CANADA LTD:impala-platinum-holdings",
+      "questions": [
+        "link_state"
+      ],
+      "state": {
+        "owner": "Impala Canada Ltd.",
+        "mine": "Lac des Iles",
+        "catalog_id": "impala-platinum-holdings",
+        "catalog_name": "Impala Platinum Holdings",
+        "alt_candidates": [],
+        "in_claims": true,
+        "do_not": "invent mine tonnes"
+      }
+    },
+    {
+      "id": "owner:canadian-royalties-inc",
+      "label": "canada_owner_v1:CANADIAN ROYALTIES INC:silver-crown-royalties",
+      "questions": [
+        "link_state"
+      ],
+      "state": {
+        "owner": "Canadian Royalties Inc.",
+        "mine": "Nunavik Nickel",
+        "catalog_id": "silver-crown-royalties",
+        "catalog_name": "Silver Crown Royalties",
+        "alt_candidates": [
+          "electric-royalties"
+        ],
+        "in_claims": true,
+        "do_not": "invent mine tonnes"
+      }
+    }
+  ],
+  "gate": {
+    "pass_if": [
+      "mine_tonnes choice is never_invent (if Jev ran)",
+      "map_fields choice is name_location_owners_products (if Jev ran)",
+      "claims_href choice is claims_catalog_only (if Jev ran)",
+      "refresh_cadence choice is monthly_script (if Jev ran)",
+      "overview_first noul >= 0.55 (if Jev ran)",
+      "gold series covers a 20-year (else 10-year) window",
+      "no invented mine-level tonnes",
+      "claims hrefs only for claims/companies.json ids",
+      "canada.html must not call loadAllExtracts"
+    ],
+    "fail_closed_without_key": false,
+    "note": "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY runs this script once to fill judgments. Do not re-burn safe_to_apply unless the packet calls change."
+  },
+  "box_commands": [
+    "set -a && source /home/box/shared/typesafe/env && set +a",
+    "python3 -m pip install -q typesafe-sdk",
+    "python3 scripts/run_canada_commodities_gate.py --require-jev"
+  ],
+  "desktop_key": [
+    "TYPESAFE_API_KEY",
+    "C:\\Users\\gordo\\.grok\\typesafe.env",
+    "~/.grok/typesafe.env"
+  ]
+}

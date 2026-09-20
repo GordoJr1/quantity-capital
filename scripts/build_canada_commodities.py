@@ -68,8 +68,12 @@ STOP = {
     "INC", "INCORPORATED", "CORP", "CORPORATION", "LTD", "LIMITED", "LLC",
     "LLP", "LP", "PLC", "CO", "COMPANY", "THE", "AND", "OF", "MINES", "MINE",
     "MINING", "ULC", "SA", "NV", "RESOURCES", "RESOURCE", "GOLD", "LTEE",
-    "LIMITEE", "SOCIETE", "MINIERE",
+    "LIMITEE", "SOCIETE", "MINIERE", "CANADA", "CANADIAN", "QUEBEC",
+    "ONTARIO", "HOLDINGS", "GROUP", "INTERNATIONAL", "MINERALS", "LIMITED",
+    "PRODUCTS", "MATERIALS", "SERVICES", "LIME", "GYPSUM",
 }
+OWNER_ALIASES = HERE / "canada-owner-aliases.json"
+JEV_JUDGMENTS = HERE / "canada-commodities-jev-judgments.json"
 MINE_STRIP = re.compile(
     r"\b(complex|mine|mines|project|operation|pit|site|mill|deposit|camp)\b",
     re.I,
@@ -295,6 +299,8 @@ def display_name(cid: str, raw: str) -> str:
         "gypsum": "Gypsum",
         "limestone": "Limestone",
         "niobium": "Niobium",
+        "all": "All operations",
+        "other": "Other",
     }
     if cid in names:
         return names[cid]
@@ -616,11 +622,13 @@ def load_company_catalog(
 ) -> dict[str, dict[str, Any]]:
     catalog: dict[str, dict[str, Any]] = {}
 
-    def ensure(cid: str, name: str | None = None) -> dict[str, Any]:
+    def ensure(cid: str, name: str | None = None, *, in_claims: bool = False) -> dict[str, Any]:
         rec = catalog.setdefault(
             cid,
-            {"id": cid, "names": set(), "mines": []},
+            {"id": cid, "names": set(), "mines": [], "in_claims": False},
         )
+        if in_claims:
+            rec["in_claims"] = True
         if name:
             rec["names"].add(name)
         return rec
@@ -632,7 +640,7 @@ def load_company_catalog(
             cid = row.get("id")
             if not cid:
                 continue
-            rec = ensure(cid, row.get("holder"))
+            rec = ensure(cid, row.get("holder"), in_claims=True)
             rec["names"].update(row.get("names") or [])
             rec["names"].add(cid.replace("-", " "))
             for mine in row.get("mines") or []:
@@ -641,7 +649,12 @@ def load_company_catalog(
                         {"id": mine.get("id") or slugify(mine["name"]), "name": mine["name"]}
                     )
 
-    for rel in ("beta/issuers.json", "beta/explorers.json", "beta/claims-publics.json"):
+    for rel in (
+        "beta/issuers.json",
+        "beta/explorers.json",
+        "beta/claims-publics.json",
+        "beta/mcap.json",
+    ):
         path = root / rel
         if not path.exists():
             continue
@@ -650,7 +663,7 @@ def load_company_catalog(
             cid = row.get("id") or row.get("beta_id")
             if not cid:
                 continue
-            rec = ensure(cid, row.get("name"))
+            rec = ensure(cid, row.get("name"), in_claims=cid in catalog and catalog[cid]["in_claims"])
             rec["names"].update(row.get("names") or [])
             if row.get("alias_of"):
                 rec["alias_of"] = row["alias_of"]
@@ -661,7 +674,7 @@ def load_company_catalog(
             for cid, name, holder, names_json in con.execute(
                 "SELECT company_id, name, holder, names_json FROM companies"
             ):
-                rec = ensure(cid, name)
+                rec = ensure(cid, name, in_claims=cid in catalog and catalog[cid]["in_claims"])
                 if holder:
                     rec["names"].add(holder)
                 try:
@@ -683,10 +696,16 @@ def load_company_catalog(
 
 
 def build_indexes(catalog: dict[str, dict[str, Any]]) -> tuple[dict[str, str], dict[str, tuple[str, str]]]:
-    name_idx: dict[str, str] = dict(BUILTIN_ALIASES)
+    name_idx: dict[str, str] = load_owner_aliases()
     mine_idx: dict[str, tuple[str, str]] = {}
+    claims_ids = {cid for cid, rec in catalog.items() if rec.get("in_claims")}
     for cid, rec in catalog.items():
         target = rec.get("alias_of") or cid
+        if rec.get("alias_of") and rec["alias_of"] in catalog:
+            target = rec["alias_of"]
+        if rec.get("in_claims") is False:
+            # Beta/mcap-only names must not mint a claims.html?company= href.
+            continue
         for name in rec["names"] + [cid.replace("-", " ")]:
             name_idx.setdefault(fold(name), target)
             ck = core_key(name)
@@ -698,26 +717,57 @@ def build_indexes(catalog: dict[str, dict[str, Any]]) -> tuple[dict[str, str], d
     return name_idx, mine_idx
 
 
+def load_owner_aliases() -> dict[str, str]:
+    """Deterministic extras + one-shot Jev judgments. Never requires a key."""
+    out = dict(BUILTIN_ALIASES)
+    if OWNER_ALIASES.exists():
+        try:
+            payload = json.loads(OWNER_ALIASES.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            payload = {}
+        for row in payload.get("aliases") or []:
+            key = fold(row.get("owner") or "") or core_key(row.get("owner") or "")
+            cid = (row.get("company_id") or "").strip()
+            if key and cid:
+                out[key] = cid
+                ck = core_key(row.get("owner") or "")
+                if ck:
+                    out[ck] = cid
+    if JEV_JUDGMENTS.exists():
+        try:
+            judged = json.loads(JEV_JUDGMENTS.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            judged = {}
+        if judged.get("ran"):
+            for call in judged.get("calls") or []:
+                if not str(call.get("id") or "").startswith("owner:"):
+                    continue
+                ans = (call.get("answers") or {}).get("link_state") or {}
+                score = ans.get("score")
+                if score is None:
+                    continue
+                # Same bands as scripts/qc_sqlite/jev.py LINK_OUTCOME (no import).
+                band = min(int(float(score) + 0.5), 2)
+                outcome = ("leave_unlinked", "curator", "same_entity")[band]
+                state = call.get("state") or {}
+                cid = state.get("catalog_id")
+                owner = state.get("owner")
+                if outcome == "same_entity" and cid and owner and state.get("in_claims"):
+                    out[fold(owner)] = cid
+                    ck = core_key(owner)
+                    if ck:
+                        out[ck] = cid
+    return out
+
+
 def match_owner(owner: str, name_idx: dict[str, str], catalog: dict[str, dict[str, Any]]) -> tuple[str | None, str]:
+    """Exact / core-key only. No unique-token guesses (those invented claims ids)."""
     folded = fold(owner)
     ck = core_key(owner)
     if folded in name_idx:
         return name_idx[folded], "owner-exact"
     if ck and ck in name_idx:
         return name_idx[ck], "owner-core"
-    # Unique token hit (long tokens only).
-    hits: set[str] = set()
-    for tok in tokens(owner):
-        if len(tok) < 5:
-            continue
-        for cid, rec in catalog.items():
-            blob = fold(" ".join(rec["names"]))
-            if re.search(rf"\b{re.escape(tok)}\b", blob):
-                hits.add(rec.get("alias_of") or cid)
-        if tok in name_idx:
-            hits.add(name_idx[tok])
-    if len(hits) == 1:
-        return next(iter(hits)), "owner-token"
     return None, ""
 
 
@@ -817,6 +867,11 @@ def link_mine(
         if owner_how:
             how = owner_how
     href = None
+    in_claims = catalog.get(company_id or "", {}).get("in_claims")
+    if company_id and in_claims is False:
+        company_id = None
+        asset_id = None
+        how = None
     if company_id:
         href = "claims.html?company=" + company_id
         if asset_id:
@@ -872,11 +927,17 @@ def rows_to_commodities(
 
     mines_by_c: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for mine in mines:
+        attached = False
         for cid in mine.get("products") or []:
             mines_by_c[cid].append(mine)
-        # coal / oil-sands layer fallback
+            attached = True
         if mine.get("layer") in {"coal", "oil-sands"}:
             mines_by_c[mine["layer"]].append(mine)
+            attached = True
+        # Keep every Map 900A row even with no catalog company and no
+        # commodity token — they still belong on the All operations roster.
+        if not attached:
+            mines_by_c["other"].append(mine)
 
     commodities: list[dict[str, Any]] = []
     extra_ids = set(mines_by_c) | set(grouped)
@@ -919,11 +980,33 @@ def rows_to_commodities(
         )
 
     def sort_key(c: dict[str, Any]) -> tuple:
-        pref = 0 if c["id"] == "gold" else 1 if c["id"] in {
+        if c["id"] == "all":
+            pref = -1
+        elif c["id"] == "gold":
+            pref = 0
+        elif c["id"] in {
             "copper", "nickel", "silver", "iron-ore", "uranium", "potash", "coal",
-        } else 2
+        }:
+            pref = 1
+        else:
+            pref = 2
         return (pref, c["name"].lower())
 
+    all_mines = sorted(
+        mines,
+        key=lambda m: (m.get("province") or "", m.get("name") or ""),
+    )
+    commodities.append(
+        {
+            "id": "all",
+            "name": "All operations",
+            "kind": "all",
+            "unit": "",
+            "unit_label": "",
+            "series": [],
+            "mines": all_mines,
+        }
+    )
     commodities.sort(key=sort_key)
     return commodities
 
@@ -1094,6 +1177,7 @@ def build_payload(
         "blockers": blockers,
         "n_mines": len(linked),
         "n_linked": sum(1 for m in linked if m.get("claims_company")),
+        "mines": linked,
         "commodities": commodities,
     }
 
@@ -1106,6 +1190,7 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
     if not comms:
         errors.append("no commodities")
     gold = next((c for c in comms if c["id"] == "gold"), None)
+    all_ops = next((c for c in comms if c["id"] == "all"), None)
     if not gold:
         errors.append("gold missing")
     else:
@@ -1121,6 +1206,25 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
             href = mine.get("claims_href")
             if href and not href.startswith("claims.html?company="):
                 errors.append(f"bad claims href {href}")
+    if not all_ops or not all_ops.get("mines"):
+        errors.append("all operations roster missing")
+    elif payload.get("n_mines") and len(all_ops["mines"]) < payload["n_mines"]:
+        errors.append("all operations dropped Map 900A mines")
+    claims_ids = set()
+    claims_path = ROOT / "claims" / "companies.json"
+    if claims_path.exists():
+        claims_ids = {
+            r.get("id")
+            for r in (json.loads(claims_path.read_text(encoding="utf-8-sig")).get("companies") or [])
+            if r.get("id")
+        }
+    for comm in comms:
+        for mine in comm.get("mines") or []:
+            cid = mine.get("claims_company")
+            if cid and claims_ids and cid not in claims_ids:
+                errors.append(f"claims href for non-catalog id {cid}")
+            if mine.get("owners") == "Vale Canada Limited" and mine.get("claims_company") == "canada-nickel":
+                errors.append("Vale Canada must not link to canada-nickel")
     return errors
 
 

@@ -14,7 +14,16 @@ python3 scripts/build_canada_commodities.py --offline
 python3 scripts/build_canada_commodities.py --check
 ```
 
-`--sqlite` is optional (`qc.sqlite` is gitignored). `--jev` is optional TypeSafe/Jev owner linking (one shot, cached). Without a key the deterministic linker still writes claims deep links — CI does not need secrets.
+`--sqlite` is optional (`qc.sqlite` is gitignored). The monthly ingest is deterministic. Jev is only for leftover fuzzy owner→claims-company pairs, via a **one-shot** merge gate (not during every ingest, not in morning/evening bats):
+
+```
+python3 scripts/run_canada_commodities_gate.py --packet-only   # CI / Cloud Agent
+# QC box, once:
+set -a && source /home/box/shared/typesafe/env && set +a
+python3 scripts/run_canada_commodities_gate.py --require-jev
+```
+
+Do not re-run `--require-jev` unless the packet calls change (no repeated safe_to_apply burns). Without a key the PR stays green.
 
 TypeSafe key locations (never commit or paste the key):
 

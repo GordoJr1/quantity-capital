@@ -1,0 +1,256 @@
+{
+  "schema": "qc-pr-merge-gate-v1",
+  "work": "A",
+  "pr_topic": "claims publics onto Insiders tape universe",
+  "generated": "2026-09-20T18:32:16Z",
+  "model": "jev-latest",
+  "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
+  "not": "Jev Bot chat",
+  "audit": {
+    "csv": "scripts/claims-insider-ticker-audit.csv",
+    "md": "scripts/claims-insider-ticker-audit.md",
+    "n": 191,
+    "counts": {
+      "matched": 191
+    },
+    "new_publics": [
+      {
+        "status": "matched",
+        "id": "g2-goldfields",
+        "name": "G2 Goldfields",
+        "tickers": "GTWO.TO",
+        "insider_name": "G2 Goldfields",
+        "note": "already on insider-companies.json"
+      },
+      {
+        "status": "matched",
+        "id": "probe-gold",
+        "name": "Probe Gold",
+        "tickers": "PRB.TO",
+        "insider_name": "Probe Gold",
+        "note": "already on insider-companies.json"
+      }
+    ],
+    "samples": {
+      "filings_normal": {
+        "status": "matched",
+        "id": "newmont",
+        "name": "Newmont Corporation",
+        "tickers": "NEM NGT",
+        "insider_name": "Newmont",
+        "note": "already on insider-companies.json"
+      },
+      "empty_badge": {
+        "status": "matched",
+        "id": "gold-fields",
+        "name": "Groupe Minier Windfall Inc.",
+        "tickers": "GFI",
+        "insider_name": "Gold Fields",
+        "note": "already on insider-companies.json"
+      }
+    }
+  },
+  "question_specs": {
+    "empty_badge_copy": {
+      "type": "Choice",
+      "instructions": "Which badge copy should the Insiders issuer list/tape use when a public claims issuer is on the watchlist but has no Form 4 / SEDI prints?",
+      "criteria": {
+        "no_filings_yet": "Use 'No filings yet'. Short, clear, not a broken blank row.",
+        "watchlist_no_prints": "Use 'On watchlist — no insider prints'.",
+        "no_form4_sedi": "Use 'No Form 4 / SEDI yet'."
+      }
+    },
+    "empty_row_policy": {
+      "type": "Choice",
+      "instructions": "A claims public is already on the Insiders universe but the tape has zero officer prints. What should the PWA do?",
+      "criteria": {
+        "keep_with_badge": "Keep the issuer visible with a No filings yet badge. Do not hide it.",
+        "hide_until_data": "Hide the issuer until the first Form 4 / SEDI print lands.",
+        "blank_row": "Show a trade row with empty cells (no badge)."
+      }
+    },
+    "private_filter": {
+      "type": "Noul",
+      "instructions": "Is it correct to exclude numbered provincial corps, Crown/ministry holders, and unmatched person-like names from the Insiders universe, while keeping catalog names that resolve to a CAD/US ticker?",
+      "criteria": {
+        "true": "Yes — those holders are not listed issuers we should tape.",
+        "false": "No — the filter is too tight or too loose for this catalog."
+      }
+    },
+    "on_universe": {
+      "type": "Noul",
+      "instructions": "Does this named claims-map company belong on the public Insiders issuer list given a resolvable listed ticker?",
+      "criteria": {
+        "true": "Yes — it is a publicly traded issuer the tape should watch.",
+        "false": "No — private, unmatched, wrong entity, or should stay off tape."
+      }
+    },
+    "same_listed_issuer": {
+      "type": "Score",
+      "instructions": "How do the claims-map name and the insider-companies name relate?",
+      "criteria": [
+        "They name two different listed companies.",
+        "Related (former name, vehicle, or project) but not clearly the same issuer.",
+        "The same listed issuer (allowing legal suffixes and ticker aliases)."
+      ]
+    }
+  },
+  "calls": [
+    {
+      "id": "policy:empty_badge_copy",
+      "label": "claims_insider_empty_badge_v1",
+      "questions": [
+        "empty_badge_copy"
+      ],
+      "state": {
+        "surface": "insiders.html Issuers view + insider-ticker.html empty tape",
+        "current_copy": "No filings yet",
+        "locked_decision": "include empty filings with a clear badge, not a blank row"
+      }
+    },
+    {
+      "id": "policy:empty_row_policy",
+      "label": "claims_insider_empty_row_v1",
+      "questions": [
+        "empty_row_policy"
+      ],
+      "state": {
+        "locked_decision": "include on tape with a no filings yet badge; do not hide until data lands",
+        "audit": {
+          "matched": 191
+        }
+      }
+    },
+    {
+      "id": "policy:private_filter",
+      "label": "claims_insider_private_filter_v1",
+      "questions": [
+        "private_filter"
+      ],
+      "state": {
+        "rule": "exclude numbered provincial corps, Crown/ministry, unmatched person-like holders",
+        "catalog_n": 191,
+        "private_excluded": 0,
+        "missing_ticker": 0,
+        "matched": 191
+      }
+    },
+    {
+      "id": "issuer:probe-gold",
+      "label": "claims_insider_on_universe_v1:probe-gold",
+      "questions": [
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "probe-gold",
+        "name": "Probe Gold",
+        "tickers": [
+          "PRB.TO"
+        ],
+        "exchange": "TSX",
+        "already_on_excel_watchlist": false,
+        "filings_on_tape": false
+      }
+    },
+    {
+      "id": "issuer:g2-goldfields",
+      "label": "claims_insider_on_universe_v1:g2-goldfields",
+      "questions": [
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "g2-goldfields",
+        "name": "G2 Goldfields",
+        "tickers": [
+          "GTWO.TO"
+        ],
+        "exchange": "TSX",
+        "already_on_excel_watchlist": false,
+        "filings_on_tape": false
+      }
+    },
+    {
+      "id": "issuer:newmont",
+      "label": "claims_insider_on_universe_v1:newmont",
+      "questions": [
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "newmont",
+        "name": "Newmont",
+        "tickers": [
+          "NEM"
+        ],
+        "already_on_excel_watchlist": true,
+        "filings_on_tape": true
+      }
+    },
+    {
+      "id": "issuer:gold-fields",
+      "label": "claims_insider_same_issuer_v1:gold-fields",
+      "questions": [
+        "same_listed_issuer",
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "gold-fields",
+        "claims_holder": "Groupe Minier Windfall Inc.",
+        "insider_name": "Gold Fields",
+        "tickers": [
+          "GFI"
+        ],
+        "note": "Windfall title vehicle / project name on the Quebec extract",
+        "filings_on_tape": false
+      }
+    },
+    {
+      "id": "issuer:harmony",
+      "label": "claims_insider_same_issuer_v1:harmony",
+      "questions": [
+        "same_listed_issuer",
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "harmony",
+        "claims_holder": "Harmony Gold Mining Company Limited",
+        "insider_name": "Harmony Gold",
+        "tickers": [
+          "HMY"
+        ]
+      }
+    },
+    {
+      "id": "issuer:thesis-gold",
+      "label": "claims_insider_same_issuer_v1:thesis-gold",
+      "questions": [
+        "same_listed_issuer",
+        "on_universe"
+      ],
+      "state": {
+        "claims_id": "thesis-gold",
+        "claims_holder": "Thesis Gold",
+        "insider_name": "Thesis Gold & Silver",
+        "tickers": [
+          "TAU.V",
+          "THSGF"
+        ],
+        "note": "same CAD/US pair; watchlist still uses the older display name"
+      }
+    }
+  ],
+  "gate": {
+    "pass_if": [
+      "empty_row_policy choice is keep_with_badge (if Jev ran)",
+      "on_universe noul >= 0.55 for probe-gold, g2-goldfields, newmont (if Jev ran)",
+      "ticker audit exists and matched == catalog n",
+      "private-excluded holders are not on insider-companies.json"
+    ],
+    "fail_closed_without_key": false,
+    "note": "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY runs the same script to fill judgments."
+  },
+  "box_commands": [
+    "set -a && source /home/box/shared/typesafe/env && set +a",
+    "python3 -m pip install -q typesafe-sdk",
+    "python3 scripts/run_pr_merge_gate.py"
+  ]
+}

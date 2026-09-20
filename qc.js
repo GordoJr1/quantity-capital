@@ -1250,6 +1250,64 @@
     return "insider-ticker.html?t=" + encodeURIComponent(t.ticker);
   }
 
+  function companySymbols(co) {
+    const out = [];
+    const seen = {};
+    const list = [].concat(
+      (co && co.us) || [],
+      (co && co.cad) || [],
+      (co && co.other) || [],
+      (co && co.all) || []
+    );
+    list.forEach((s) => {
+      const t = String(s || "").toUpperCase();
+      if (!t || seen[t]) return;
+      seen[t] = true;
+      out.push(t);
+    });
+    return out;
+  }
+
+  function issuerPrimaryTicker(co) {
+    const all = companySymbols(co);
+    const cad = all.find((t) => /\.(TO|V|CN|NE)$/.test(t));
+    return cad || all[0] || "";
+  }
+
+  function emptyFilingsBadgeHtml() {
+    return "<span class=\"qc-empty-filings\" title=\"On the insider universe; no Form 4 / SEDI prints on the tape yet\">No filings yet</span>";
+  }
+
+  function tradeTickerSet(trades) {
+    const set = {};
+    (trades || []).forEach((t) => {
+      const c = String((t && t.ticker) || "").toUpperCase();
+      if (c) set[c] = (set[c] || 0) + 1;
+    });
+    return set;
+  }
+
+  function issuerFilingCount(co, tickerSet) {
+    return companySymbols(co).reduce((n, t) => n + ((tickerSet && tickerSet[t]) || 0), 0);
+  }
+
+  function issuerRowHtml(co, opts) {
+    opts = opts || {};
+    const primary = issuerPrimaryTicker(co);
+    const name = String((co && co.name) || "");
+    const href = primary ? "insider-ticker.html?t=" + encodeURIComponent(primary) : "";
+    const filings = Number(opts.filings || 0);
+    const badge = filings > 0
+      ? "<span class=\"qc-issuer-meta\">" + esc(filings === 1 ? "1 print" : filings + " prints") + "</span>"
+      : emptyFilingsBadgeHtml();
+    const inner = "<span class=\"qc-txn-tk\">" + esc(primary || "—") + "</span>" +
+      "<span class=\"qc-issuer-name\">" + esc(name) + "</span>";
+    const main = href
+      ? "<a class=\"qc-issuer-main\" href=\"" + href + "\">" + inner + "</a>"
+      : "<span class=\"qc-issuer-main\">" + inner + "</span>";
+    return "<li class=\"qc-issuer" + (filings ? "" : " qc-issuer-empty") + "\">" + main + badge + "</li>";
+  }
+
   function tapeTickerHtml(t) {
     if (!t || !t.ticker) return "";
     const href = tickerHref(t);
@@ -2120,6 +2178,12 @@
     applyForm4: applyForm4,
     rememberReturn: rememberReturn,
     bindBack: bindBack,
+    companySymbols: companySymbols,
+    issuerPrimaryTicker: issuerPrimaryTicker,
+    emptyFilingsBadgeHtml: emptyFilingsBadgeHtml,
+    issuerRowHtml: issuerRowHtml,
+    tradeTickerSet: tradeTickerSet,
+    issuerFilingCount: issuerFilingCount,
     BAD_TICKERS: BAD_TICKERS
   };
 })(window);

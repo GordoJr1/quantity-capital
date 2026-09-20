@@ -282,6 +282,7 @@ def build_packet(root: Path) -> dict[str, Any]:
             "pass_if": [
                 "empty_row_policy choice is keep_with_badge (if Jev ran)",
                 "on_universe noul >= 0.55 for probe-gold, g2-goldfields, newmont (if Jev ran)",
+                "same_listed_issuer: score >= 1.4, or related-vehicle band score >= 1.0 with on_universe >= 0.55 (Windfall→GFI keep)",
                 "ticker audit exists and matched == catalog n",
                 "private-excluded holders are not on insider-companies.json",
             ],
@@ -294,7 +295,7 @@ def build_packet(root: Path) -> dict[str, Any]:
         "box_commands": [
             "set -a && source /home/box/shared/typesafe/env && set +a",
             "python3 -m pip install -q typesafe-sdk",
-            "python3 scripts/run_pr_merge_gate.py",
+            "python3 scripts/run_pr_merge_gate.py --require-jev",
         ],
     }
 
@@ -431,7 +432,18 @@ def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str
         add(f"{cid}_on_universe", p is None or p >= 0.55, f"noul={p}")
     for cid in ("issuer:gold-fields", "issuer:harmony", "issuer:thesis-gold"):
         s = score(cid, "same_listed_issuer")
-        add(f"{cid}_same_issuer", s is None or s >= 1.4, f"score={s}")
+        p = noul(cid, "on_universe")
+        # 2.0 same issuer; ~1.x related/vehicle (Windfall→GFI). Soft pass if
+        # score >= 1.0 and the claims public still belongs on the universe.
+        same = s is None or s >= 1.4
+        vehicle = s is not None and s >= 1.0 and (p is None or p >= 0.55)
+        add(
+            f"{cid}_same_issuer",
+            same or vehicle,
+            f"score={s} on_universe={p}",
+        )
+        if p is not None:
+            add(f"{cid}_on_universe", p >= 0.55, f"noul={p}")
 
     failed = [c for c in checks if not c["ok"]]
     return {

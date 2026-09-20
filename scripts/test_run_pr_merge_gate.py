@@ -58,6 +58,54 @@ class Packet(unittest.TestCase):
         self.assertFalse(gate["pass"])
         self.assertIn("issuer:probe-gold_on_universe", gate["failed"])
 
+    def test_vehicle_band_passes_gold_fields(self):
+        packet = {
+            "audit": {
+                "n": 2,
+                "counts": {"matched": 2, "missing-ticker": 0},
+                "new_publics": [{"id": "probe-gold"}, {"id": "g2-goldfields"}],
+            }
+        }
+        judgments = {
+            "ran": True,
+            "model": "jev-1.13.0",
+            "calls": [
+                {
+                    "id": "issuer:gold-fields",
+                    "answers": {
+                        "same_listed_issuer": {"type": "score", "score": 1.29},
+                        "on_universe": {"type": "noul", "noul": 0.62},
+                    },
+                }
+            ],
+        }
+        gate = evaluate_gate(packet, judgments)
+        self.assertTrue(gate["pass"], gate.get("failed"))
+
+    def test_vehicle_band_fails_without_universe(self):
+        packet = {
+            "audit": {
+                "n": 2,
+                "counts": {"matched": 2, "missing-ticker": 0},
+                "new_publics": [{"id": "probe-gold"}, {"id": "g2-goldfields"}],
+            }
+        }
+        judgments = {
+            "ran": True,
+            "model": "jev-1.13.0",
+            "calls": [
+                {
+                    "id": "issuer:gold-fields",
+                    "answers": {
+                        "same_listed_issuer": {"type": "score", "score": 1.29},
+                        "on_universe": {"type": "noul", "noul": 0.40},
+                    },
+                }
+            ],
+        }
+        gate = evaluate_gate(packet, judgments)
+        self.assertFalse(gate["pass"])
+
     def test_audit_summary_picks_samples(self):
         rows = [
             {"status": "matched", "id": "newmont", "tickers": "NEM"},

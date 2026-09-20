@@ -3,6 +3,7 @@ const OVERVIEW_URL = "claims/overview.geojson";
 const EXTRACT_BYTES_URL = "claims/extract-bytes.json";
 const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
+const SHIELD_CENTER = [-78, 50];
 const NEARBY_PAD_DEG = 0.35;
 const NEARBY_BUDGET_BYTES = 48 * 1024 * 1024;
 const NEARBY_MAX_COMPANIES = 20;
@@ -34,8 +35,8 @@ const map = new maplibregl.Map({
       { id: "basemap", type: "raster", source: "esri" },
     ],
   },
-  center: CANADA_CENTER,
-  zoom: 3.4,
+  center: SHIELD_CENTER,
+  zoom: 4.4,
   attributionControl: true,
 });
 
@@ -206,7 +207,7 @@ function popupHtml(p) {
   if (isOverviewProps(p)) {
     const n = p.claim_count == null || p.claim_count === "" ? "—" : Number(p.claim_count).toLocaleString("en-CA");
     return "<div class=\"pop\"><div class=\"holder\">" + (p.holder || "Unknown holder") + "</div><dl>" +
-      row("Role", "Overview cell") +
+      row("Role", "Claim footprint") +
       row("Titles here", n) +
       row("Where", p.jurisdiction) +
       row("Note", "Search or click to load full claim polygons") +
@@ -367,7 +368,7 @@ function paintAllLegend(features) {
     return;
   }
   hint.hidden = false;
-  hint.textContent = "Overview of every company with extracts. Click a cell or holder name to load full titles.";
+  hint.textContent = "Every company with extracts. Click a block or holder name to load full titles.";
   box.hidden = false;
   const rows = order.map((id) => {
     const c = findIndexed(id) || { holder: id, color: colorForId(id) };
@@ -1050,20 +1051,32 @@ function overviewTitleCount(features) {
   return n;
 }
 
+function overviewFitFeatures(features) {
+  const vis = features || [];
+  const east = vis.filter((f) => {
+    const j = (f.properties || {}).jurisdiction;
+    return j === "Quebec" || j === "Ontario";
+  });
+  if (east.length >= 10) return east;
+  return vis;
+}
+
 function paintAllClaims(fit) {
   ensureCompanyLayers();
   const data = collectOverview();
   setPainted(data);
-  if (fit) fitFc(data, 5.2);
+  if (fit) {
+    fitFc({ type: "FeatureCollection", features: overviewFitFeatures(data.features) }, 5.8);
+  }
   paintLegend(null, data.features);
   paintCamps(null);
   const holders = overviewCompanyCount(data.features);
   const titles = overviewTitleCount(data.features);
-  setHud("All companies · overview");
+  setHud("All companies");
   const extra = "<strong>All companies</strong>" +
     (holders ? " · " + holders.toLocaleString("en-CA") + " holders" : " · no titles in on provinces") +
     (titles ? " · " + titles.toLocaleString("en-CA") + " titles" : "") +
-    " · overview cells · search to load full polygons";
+    " · search a holder for full titles";
   setStatus(extra);
 }
 
@@ -1279,7 +1292,7 @@ function downloadVisibleClaims() {
   if (!el) return;
   el.addEventListener("change", () => {
     if (currentCompany) selectCompany(currentCompany.id, currentAssetId);
-    else if (overviewFc) paintAllClaims(false);
+    else if (overviewFc) paintAllClaims(true);
     else showAllClaims({ fit: false });
   });
 });

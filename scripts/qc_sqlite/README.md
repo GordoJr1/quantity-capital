@@ -13,6 +13,8 @@ python scripts/qc_sqlite/rebuild.py
 python scripts/qc_sqlite/rebuild.py --skip-jev
 python scripts/qc_sqlite/rebuild.py --skip-tells
 python scripts/qc_sqlite/tells.py
+python scripts/qc_sqlite/analysis.py
+python scripts/qc_sqlite/rebuild.py --skip-analysis
 ```
 
 Needs `pip install typesafe-sdk` for Jev calls. `TYPESAFE_API_KEY` is read from the process env, or from `%USERPROFILE%\.grok\typesafe.env`. The key is never written to the repo.
@@ -26,7 +28,7 @@ Outputs:
 
 Excel export is not in this pilot.
 
-## Schema (v4)
+## Schema (v5)
 
 | Table | What |
 | --- | --- |
@@ -70,6 +72,19 @@ Same rules as `collect/build_tells.py` (deterministic — no Jev on this path):
 
 Rebuild writes `tells.json` at the site root (and `scripts/qc_sqlite/export/tells.json`) when `prices/` exists. `python scripts/qc_sqlite/tells.py` refreshes Tells without a full claims rebuild. Do not change `tells.html`; it still fetches `tells.json`.
 
+## Analysis / signals book (`analysis.json`)
+
+Same scaffolding as `collect/build_analysis.py` (90-day window, heat, weekly/monthly TA, conflict regex). **Jev gates the export:**
+
+| Question | Primitive | Effect |
+| --- | --- | --- |
+| `ship` | Choice ship/drop | Row is omitted if drop |
+| `action` | Choice buy-dip / watch / avoid | Replaces rule action when confidence ≥ 0.55 |
+| `borderline` | Score | Weak buy-dip without a washout flag becomes watch |
+| `conflict_real` | Noul | Committee overlap stripped if noul < 0.45 |
+
+Default `python scripts/qc_sqlite/analysis.py` calls Jev (needs `TYPESAFE_API_KEY`). `--skip-jev` is rules-only. `signals.html` still fetches `analysis.json`. Do not rewrite `build_analysis.py`.
+
 ## What Jev decides
 
 | Call | Primitive | Used for |
@@ -78,6 +93,7 @@ Rebuild writes `tells.json` at the site root (and `scripts/qc_sqlite/export/tell
 | Each catalog producer + fuzzy neighbor holders | Score (same / related / different) + Noul `same_name`, `holder_is_vehicle` | claim ↔ company link confidence; round Score to `leave_unlinked` / `curator` / `same_entity` |
 | Unique title holders that fuzzy-match one catalog issuer or share distinctive tokens with the extract issuer | same Score + Nouls | JV co-holders, Quebec neighbor holders, and title vehicles. Unmatched names (SMM Gold Côté, numbered Quebec inc., persons) stay unlinked. Extract-alias is **not** applied to `role=neighbor` titles. |
 | Top 20 `size_bps` trades | Choice flag + Noul `is_anomaly` | calc flags |
+| Analysis book/avoid candidates | Choice `ship`/`action`, Score `borderline`, Noul `conflict_real` | Ship vs drop, action label, conflict framing |
 
 Code still owns exact slug matches, amount-band parsing, and the bps formula. `--skip-jev` ingests everything and leaves Jev columns null.
 

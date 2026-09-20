@@ -24,6 +24,7 @@ CLAIMS_DIR = QC_ROOT / "claims"
 PRICES = QC_ROOT / "prices"
 GROKS_PRICES = GROKS / "prices"
 TELLS_JSON = QC_ROOT / "tells.json"
+ANALYSIS_JSON = QC_ROOT / "analysis.json"
 
 DB_PATH = QC_ROOT / "qc.sqlite"
 DB_MIRROR = GROKS / "qc.sqlite"

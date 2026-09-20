@@ -190,7 +190,8 @@ CREATE TABLE IF NOT EXISTS politician_trades (
   trade_date TEXT,
   filed_date TEXT,
   owner TEXT,
-  source TEXT
+  source TEXT,
+  added TEXT
 );
 
 CREATE TABLE IF NOT EXISTS insider_trades (
@@ -334,6 +335,60 @@ CREATE VIEW IF NOT EXISTS v_tell_now AS
 SELECT ticker, name, last, px_asof, last_buy, buy_px, chg, near_low, open, high_end, score, why, rank
 FROM tell_now
 ORDER BY rank;
+
+-- Analysis / signals book (build_analysis.py rules + Jev ship/drop).
+CREATE TABLE IF NOT EXISTS analysis_candidates (
+  ticker TEXT PRIMARY KEY,
+  name TEXT,
+  rule_action TEXT,
+  action TEXT,
+  score REAL,
+  why TEXT,
+  last_px REAL,
+  px_asof TEXT,
+  buy_px REAL,
+  chg_since_buy REAL,
+  last_buy TEXT,
+  n_buyers INTEGER,
+  buy_high INTEGER,
+  heat_rank INTEGER,
+  heat REAL,
+  landed INTEGER,
+  landed_at TEXT,
+  lag_days INTEGER,
+  conflict INTEGER,
+  conflict_why_json TEXT,
+  whale INTEGER,
+  cluster INTEGER,
+  buyers_json TEXT,
+  weekly_json TEXT,
+  monthly_json TEXT,
+  invalidation REAL,
+  flags_json TEXT,
+  jev_ship TEXT,
+  jev_action TEXT,
+  jev_action_confidence REAL,
+  jev_borderline REAL,
+  jev_conflict_noul REAL,
+  jev_model TEXT,
+  shipped INTEGER NOT NULL DEFAULT 0,
+  list TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_analysis_score ON analysis_candidates(score);
+CREATE INDEX IF NOT EXISTS idx_analysis_list ON analysis_candidates(list, shipped);
+
+CREATE VIEW IF NOT EXISTS v_analysis_book AS
+SELECT ticker, name, action, score, why, heat_rank, list
+FROM analysis_candidates
+WHERE shipped = 1 AND list = 'book'
+ORDER BY score DESC;
+
+CREATE VIEW IF NOT EXISTS v_analysis_avoid AS
+SELECT ticker, name, action, score, why, heat_rank, list
+FROM analysis_candidates
+WHERE shipped = 1 AND list = 'avoid'
+ORDER BY score DESC;
 
 CREATE VIEW IF NOT EXISTS v_trade_size_vs_cap AS
 SELECT

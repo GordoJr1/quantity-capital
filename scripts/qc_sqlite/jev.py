@@ -212,6 +212,94 @@ def link_questions():
     }
 
 
+def store_decision(con, subject_type: str, subject_id: str, packed: dict[str, Any]) -> None:
+    from datetime import datetime, timezone
+
+    created = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    model = packed.get("model")
+    inn = packed.get("input_tokens")
+    out = packed.get("output_tokens")
+    for qid, ans in (packed.get("answers") or {}).items():
+        con.execute(
+            """
+            INSERT INTO jev_decisions(
+              created_at, subject_type, subject_id, question_id, primitive,
+              model, answer_json, input_tokens, output_tokens
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                created,
+                subject_type,
+                subject_id,
+                qid,
+                ans.get("type"),
+                model,
+                json.dumps(ans),
+                inn,
+                out,
+            ),
+        )
+
+
+def analysis_questions():
+    from typesafe_sdk import Choice, Noul, Score
+
+    return {
+        "ship": Choice(
+            instructions=(
+                "Should this ticker appear on today's politician-tape book "
+                "(play list or avoid list) for a public STOCK Act desk?"
+            ),
+            criteria={
+                "ship": (
+                    "Include it. The official-tape plus weekly/monthly setup is "
+                    "informative enough to show."
+                ),
+                "drop": (
+                    "Leave it off. Too weak, stale, mega-cap noise, a coincidental "
+                    "committee regex, or the tape and TA do not cohere."
+                ),
+            },
+        ),
+        "action": Choice(
+            instructions=(
+                "Which desk action fits this setup? Prefer avoid if the open already "
+                "ran or weekly RSI is stretched into the highs. Prefer buy-dip only if "
+                "weekly washed out and monthly is not broken. Watch otherwise."
+            ),
+            criteria={
+                "buy-dip": (
+                    "Weekly washout, monthly still acceptable, politician buy is not a chase."
+                ),
+                "watch": "Worth tracking but not a dip-buy and not a hard avoid.",
+                "avoid": (
+                    "Do not chase: price already ran, weekly extended, or the open is gone."
+                ),
+            },
+        ),
+        "borderline": Score(
+            instructions=(
+                "How clear is this as a desk call (not how bullish the stock is)?"
+            ),
+            criteria=[
+                "Rules barely apply or the evidence conflicts.",
+                "Usable but a close call.",
+                "Clear tape plus TA story.",
+            ],
+        ),
+        "conflict_real": Noul(
+            instructions=(
+                "Is the committee/industry overlap a real conflict worth showing, "
+                "not a coincidental regex hit?"
+            ),
+            criteria={
+                "true": "The filer's seat and this issuer's business actually overlap.",
+                "false": "The overlap tag is weak, generic, or coincidental.",
+            },
+        ),
+    }
+
+
 def calc_questions():
     from typesafe_sdk import Choice, Noul
 

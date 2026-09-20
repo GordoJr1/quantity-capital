@@ -4,7 +4,9 @@ Usage (from the quantity-capital repo root):
   python scripts/qc_sqlite/rebuild.py
   python scripts/qc_sqlite/rebuild.py --skip-jev
   python scripts/qc_sqlite/rebuild.py --skip-tells
+  python scripts/qc_sqlite/rebuild.py --skip-analysis
   python scripts/qc_sqlite/tells.py
+  python scripts/qc_sqlite/analysis.py
 """
 from __future__ import annotations
 
@@ -1038,6 +1040,7 @@ def ingest_politician_trades(con: sqlite3.Connection) -> None:
                 t.get("filed_date"),
                 t.get("owner"),
                 t.get("source"),
+                t.get("added"),
             )
         )
     con.executemany(
@@ -1045,8 +1048,8 @@ def ingest_politician_trades(con: sqlite3.Connection) -> None:
         INSERT OR REPLACE INTO politician_trades(
           trade_id, filer, filer_id, chamber, ticker, asset, asset_type, side,
           amount_raw, amount_low, amount_high, amount_mid, trade_date, filed_date,
-          owner, source
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          owner, source, added
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         rows,
     )
@@ -1463,6 +1466,7 @@ def print_report(con: sqlite3.Connection) -> None:
         "tell_events",
         "tell_hands",
         "tell_now",
+        "analysis_candidates",
         "jev_decisions",
     ):
         log(f"  {table:22} {n(f'SELECT COUNT(*) FROM {table}'):>8}")
@@ -1491,6 +1495,12 @@ def print_report(con: sqlite3.Connection) -> None:
         "  calc Jev-flagged "
         f"{n('SELECT COUNT(*) FROM trade_size_vs_cap WHERE jev_flag IS NOT NULL')}"
     )
+    try:
+        ab = n("SELECT COUNT(*) FROM analysis_candidates WHERE shipped=1 AND list='book'")
+        aa = n("SELECT COUNT(*) FROM analysis_candidates WHERE shipped=1 AND list='avoid'")
+        log(f"  analysis shipped book/avoid {ab} / {aa}")
+    except sqlite3.Error:
+        pass
     top = con.execute(
         """
         SELECT ticker, filer, side, amount_raw, ROUND(size_bps, 4), jev_flag
@@ -1505,7 +1515,7 @@ def print_report(con: sqlite3.Connection) -> None:
         log(f"    {r[0]:8} {r[1][:22]:22} {r[2]:8} {r[3]:22} bps={r[4]} flag={r[5]}")
 
 
-def rebuild(skip_jev: bool, skip_tells: bool = False) -> None:
+def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = False) -> None:
     tmp = DB_PATH.with_suffix(".sqlite.tmp")
     if tmp.exists():
         tmp.unlink()
@@ -1513,7 +1523,7 @@ def rebuild(skip_jev: bool, skip_tells: bool = False) -> None:
     con = connect(tmp)
     try:
         apply_schema(con)
-        meta_set(con, "schema_version", "qc-sqlite-pilot-v4")
+        meta_set(con, "schema_version", "qc-sqlite-pilot-v5")
         meta_set(con, "built_at", now_iso())
         meta_set(con, "pilot_calc", "size_vs_cap")
         meta_set(
@@ -1559,6 +1569,11 @@ def rebuild(skip_jev: bool, skip_tells: bool = False) -> None:
             import tells as tells_mod
 
             tells_mod.run(con)
+        if not skip_analysis:
+            log("Analysis / signals book…")
+            import analysis as analysis_mod
+
+            analysis_mod.run(con, skip_jev=skip_jev)
         meta_set(con, "built_finished_at", now_iso())
         con.commit()
         export_stubs(con)
@@ -1581,9 +1596,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Rebuild Quantity Capital qc.sqlite")
     parser.add_argument("--skip-jev", action="store_true", help="Ingest only; leave Jev fields null")
     parser.add_argument("--skip-tells", action="store_true", help="Skip Tells board calc / tells.json export")
+    parser.add_argument("--skip-analysis", action="store_true", help="Skip analysis.json / signals book")
     args = parser.parse_args()
     os.chdir(QC_ROOT)
-    rebuild(skip_jev=args.skip_jev, skip_tells=args.skip_tells)
+    rebuild(skip_jev=args.skip_jev, skip_tells=args.skip_tells, skip_analysis=args.skip_analysis)
     return 0
 
 

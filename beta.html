@@ -1507,17 +1507,31 @@
     const PREVIEW_NEAR_MAX = 80;
     function loadMapLibre() {
       if (window.maplibregl) return Promise.resolve();
-      return new Promise((resolve, reject) => {
+      const srcs = [
+        "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js",
+        "https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+      ];
+      const cssHrefs = [
+        "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css",
+        "https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+      ];
+      function addCss(href) {
         const css = document.createElement("link");
         css.rel = "stylesheet";
-        css.href = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css";
+        css.href = href;
         document.head.appendChild(css);
-        const s = document.createElement("script");
-        s.src = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
+      }
+      function tryScript(i) {
+        return new Promise((resolve, reject) => {
+          addCss(cssHrefs[i] || cssHrefs[0]);
+          const s = document.createElement("script");
+          s.src = srcs[i];
+          s.onload = () => window.maplibregl ? resolve() : reject(new Error("maplibre missing"));
+          s.onerror = () => reject(new Error("maplibre script"));
+          document.head.appendChild(s);
+        });
+      }
+      return tryScript(0).catch(() => tryScript(1));
     }
     function loadClaimsOverview() {
       if (overviewFc) return Promise.resolve(overviewFc);
@@ -1698,8 +1712,9 @@
         link.textContent = "Full map";
       }
       loadMapLibre().then(() => loadClaimsOverview()).then(drawMinesInset).catch(() => {
+        if (insetMap) return;
         const host = document.getElementById("mines-inset-map");
-        if (host) host.textContent = "Map library failed to load.";
+        if (host && !host.querySelector("canvas")) host.textContent = "Map library failed to load.";
       });
     }
     const PREVIEW_STYLE_LAYERS = [
@@ -1812,14 +1827,19 @@
         else head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
       }
       if (!insetMap) {
-        insetMap = new maplibregl.Map({
-          container: host,
-          style: previewMapStyle(),
-          center: [-75, 50],
-          zoom: 4.2,
-          interactive: true,
-          attributionControl: false
-        });
+        try {
+          insetMap = new maplibregl.Map({
+            container: host,
+            style: previewMapStyle(),
+            center: [-75, 50],
+            zoom: 4.2,
+            interactive: true,
+            attributionControl: false
+          });
+        } catch (err) {
+          host.textContent = "Map preview needs WebGL.";
+          return;
+        }
         insetMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
         insetMap.on("load", drawMinesInset);
       }

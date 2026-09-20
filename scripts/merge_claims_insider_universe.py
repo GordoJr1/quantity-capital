@@ -7,6 +7,10 @@ insider-companies.json. Writes a ticker audit (CSV + markdown).
 
 Does not crawl provinces, does not touch qc.sqlite, does not rewrite the
 off-repo tape.
+
+Jev (TypeSafe System One, not Jev Bot) is the merge-gate companion:
+  python3 scripts/run_pr_merge_gate.py            # calls API when TYPESAFE_API_KEY exists
+  python3 scripts/run_pr_merge_gate.py --packet-only
 """
 from __future__ import annotations
 

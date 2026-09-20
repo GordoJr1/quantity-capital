@@ -25,6 +25,7 @@ jobs:
           set -euo pipefail
           for f in \
             claims/companies.json \
+            claims/overview.geojson \
             tickers.json \
             traders.json \
             tells.json \
@@ -49,8 +50,15 @@ jobs:
           set -euo pipefail
           grep -q 'Download data' claims.html
           grep -E -q 'id="download-claims"|id="download-data"' claims.html
-          grep -q 'All claims' claims.html
+          grep -q 'All companies' claims.html
           grep -q 'function showAllClaims' claims-map.js
+          grep -q 'claims/overview.geojson' claims-map.js
+          grep -q 'function loadOverview' claims-map.js
+          grep -q 'function overviewForCompany' claims-map.js
           grep -q 'NEARBY_PAD_DEG' claims-map.js
           grep -q 'downloadVisibleClaims' claims-map.js
+          if grep -n 'loadAllExtracts' claims-map.js; then
+            echo "loadAllExtracts must not return (overview-first)" >&2
+            exit 1
+          fi
           echo "claims HUD hooks ok"

@@ -4,6 +4,14 @@ Committed GeoJSON extracts for the [claims map](../claims.html). **Not legal tit
 
 Rebuild Ontario/BC extracts with `python3 build_on_bc_extracts.py` (stdlib only; hits the official REST endpoints). Quebec GESTIM extracts are the existing `claims/<id>.geojson` files.
 
+The map’s default “all companies” view loads `claims/overview.geojson` (not the per-company extracts). After adding or refreshing extracts, regenerate it:
+
+```
+python3 scripts/build_claims_overview.py
+```
+
+That walk is stdlib-only, reads committed `claims/*.geojson` + `companies.json`, and writes ~0.2° focus-title cells. One-off / publish hook — not part of morning bats or `daily-update`.
+
 ## Quebec — GESTIM
 
 - Product: active mineral titles (GESTIM).

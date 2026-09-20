@@ -412,3 +412,60 @@ FROM politician_trades t
 LEFT JOIN tickers k ON k.ticker = t.ticker
 LEFT JOIN company_tickers ct ON ct.ticker = t.ticker AND ct.is_primary = 1
 LEFT JOIN companies c ON c.company_id = ct.company_id;
+
+CREATE TABLE IF NOT EXISTS paper_legs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  filer_id TEXT NOT NULL,
+  ticker TEXT NOT NULL,
+  filed TEXT,
+  trade TEXT,
+  amt TEXT,
+  entry_px REAL,
+  entry_date TEXT,
+  exit_px REAL,
+  exit_date TEXT,
+  ret REAL,
+  jev_artifact_noul REAL,
+  jev_quality REAL,
+  jev_model TEXT
+);
+CREATE TABLE IF NOT EXISTS paper_filers (
+  filer_id TEXT PRIMARY KEY,
+  name TEXT,
+  chamber TEXT,
+  n INTEGER,
+  skip INTEGER,
+  avg REAL,
+  med REAL,
+  win INTEGER
+);
+CREATE TABLE IF NOT EXISTS paper_tickers (
+  ticker TEXT PRIMARY KEY,
+  name TEXT,
+  n INTEGER,
+  people INTEGER,
+  avg REAL,
+  med REAL,
+  win INTEGER
+);
+CREATE TABLE IF NOT EXISTS insider_form4 (
+  trade_id TEXT PRIMARY KEY,
+  plan INTEGER,
+  payload_json TEXT
+);
+CREATE TABLE IF NOT EXISTS insider_repeatable_filers (
+  filer_id TEXT PRIMARY KEY,
+  payload_json TEXT
+);
+CREATE TABLE IF NOT EXISTS insider_follow (
+  filer_id TEXT PRIMARY KEY,
+  shipped INTEGER,
+  jev_ship TEXT,
+  jev_confidence REAL,
+  payload_json TEXT
+);
+CREATE TABLE IF NOT EXISTS insider_analysis_book (
+  ticker TEXT PRIMARY KEY,
+  list TEXT,
+  payload_json TEXT
+);

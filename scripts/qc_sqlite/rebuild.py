@@ -1450,6 +1450,7 @@ def print_report(con: sqlite3.Connection) -> None:
         return con.execute(sql).fetchone()[0]
 
     log("---- qc.sqlite ----")
+    have = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
     for table in (
         "companies",
         "tickers",
@@ -1467,8 +1468,14 @@ def print_report(con: sqlite3.Connection) -> None:
         "tell_hands",
         "tell_now",
         "analysis_candidates",
+        "paper_filers",
+        "paper_legs",
+        "insider_form4",
+        "insider_follow",
         "jev_decisions",
     ):
+        if table not in have:
+            continue
         log(f"  {table:22} {n(f'SELECT COUNT(*) FROM {table}'):>8}")
     focus_n = n("SELECT COUNT(*) FROM claim_packs WHERE role='focus'")
     neigh_n = n("SELECT COUNT(*) FROM claim_packs WHERE role='neighbor'")
@@ -1515,7 +1522,99 @@ def print_report(con: sqlite3.Connection) -> None:
         log(f"    {r[0]:8} {r[1][:22]:22} {r[2]:8} {r[3]:22} bps={r[4]} flag={r[5]}")
 
 
-def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = False) -> None:
+def refresh_tapes(con: sqlite3.Connection) -> None:
+    con.execute("DELETE FROM trade_size_vs_cap")
+    con.execute("DELETE FROM politician_trades")
+    ingest_politician_trades(con)
+    con.execute("DELETE FROM insider_trades")
+    ingest_insider_trades(con)
+    materialize_calc(con)
+
+
+def run_boards(
+    con: sqlite3.Connection,
+    *,
+    skip_jev: bool,
+    skip_tells: bool,
+    skip_analysis: bool,
+    skip_paper: bool,
+    skip_insider: bool,
+    excel: bool,
+) -> None:
+    if not skip_tells:
+        log("Tells board…")
+        import tells as tells_mod
+
+        tells_mod.run(con)
+    if not skip_analysis:
+        log("Analysis / signals book…")
+        import analysis as analysis_mod
+
+        analysis_mod.run(con, skip_jev=skip_jev)
+    if not skip_paper:
+        log("Paper / backtest…")
+        import paper as paper_mod
+
+        paper_mod.run(con, skip_jev=skip_jev)
+    if not skip_insider:
+        log("Insider boards…")
+        import insider_boards as insider_mod
+
+        insider_mod.run(con, skip_jev=skip_jev)
+    if excel:
+        log("Excel export…")
+        import export_excel as excel_mod
+
+        excel_mod.run(con)
+
+
+def rebuild_boards(
+    skip_jev: bool = False,
+    skip_tells: bool = False,
+    skip_analysis: bool = False,
+    skip_paper: bool = False,
+    skip_insider: bool = False,
+    excel: bool = False,
+) -> int:
+    if not DB_PATH.exists():
+        log("no qc.sqlite; running full rebuild")
+        rebuild(
+            skip_jev=skip_jev,
+            skip_tells=skip_tells,
+            skip_analysis=skip_analysis,
+            skip_paper=skip_paper,
+            skip_insider=skip_insider,
+            excel=excel,
+        )
+        return 0
+    con = connect(DB_PATH)
+    try:
+        log("Boards-only refresh of tapes + exports")
+        refresh_tapes(con)
+        con.commit()
+        run_boards(
+            con,
+            skip_jev=skip_jev,
+            skip_tells=skip_tells,
+            skip_analysis=skip_analysis,
+            skip_paper=skip_paper,
+            skip_insider=skip_insider,
+            excel=excel,
+        )
+        meta_set(con, "boards_refreshed_at", now_iso())
+        con.commit()
+        print_report(con)
+    finally:
+        con.close()
+    try:
+        shutil.copy2(DB_PATH, DB_MIRROR)
+        log(f"Mirrored {DB_MIRROR}")
+    except OSError as exc:
+        log(f"Mirror skipped: {exc}")
+    return 0
+
+
+def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = False, skip_paper: bool = False, skip_insider: bool = False, excel: bool = False) -> None:
     tmp = DB_PATH.with_suffix(".sqlite.tmp")
     if tmp.exists():
         tmp.unlink()
@@ -1564,16 +1663,15 @@ def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = Fals
 
         run_link_jev(con, pending, skip_jev)
         run_calc_jev(con, skip_jev)
-        if not skip_tells:
-            log("Tells board…")
-            import tells as tells_mod
-
-            tells_mod.run(con)
-        if not skip_analysis:
-            log("Analysis / signals book…")
-            import analysis as analysis_mod
-
-            analysis_mod.run(con, skip_jev=skip_jev)
+        run_boards(
+            con,
+            skip_jev=skip_jev,
+            skip_tells=skip_tells,
+            skip_analysis=skip_analysis,
+            skip_paper=skip_paper,
+            skip_insider=skip_insider,
+            excel=excel,
+        )
         meta_set(con, "built_finished_at", now_iso())
         con.commit()
         export_stubs(con)
@@ -1597,9 +1695,33 @@ def main() -> int:
     parser.add_argument("--skip-jev", action="store_true", help="Ingest only; leave Jev fields null")
     parser.add_argument("--skip-tells", action="store_true", help="Skip Tells board calc / tells.json export")
     parser.add_argument("--skip-analysis", action="store_true", help="Skip analysis.json / signals book")
+    parser.add_argument("--skip-paper", action="store_true", help="Skip paper / backtest.json")
+    parser.add_argument("--skip-insider", action="store_true", help="Skip insider boards")
+    parser.add_argument("--excel", action="store_true", help="Write Desktop xlsx exports")
+    parser.add_argument(
+        "--boards-only",
+        action="store_true",
+        help="Refresh tapes + board JSON on existing qc.sqlite (skip claims ingest)",
+    )
     args = parser.parse_args()
     os.chdir(QC_ROOT)
-    rebuild(skip_jev=args.skip_jev, skip_tells=args.skip_tells, skip_analysis=args.skip_analysis)
+    if args.boards_only:
+        return rebuild_boards(
+            skip_jev=args.skip_jev,
+            skip_tells=args.skip_tells,
+            skip_analysis=args.skip_analysis,
+            skip_paper=args.skip_paper,
+            skip_insider=args.skip_insider,
+            excel=args.excel,
+        )
+    rebuild(
+        skip_jev=args.skip_jev,
+        skip_tells=args.skip_tells,
+        skip_analysis=args.skip_analysis,
+        skip_paper=args.skip_paper,
+        skip_insider=args.skip_insider,
+        excel=args.excel,
+    )
     return 0
 
 

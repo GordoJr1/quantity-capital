@@ -10,11 +10,14 @@ From `C:\Users\gordo\Desktop\quantity-capital`:
 
 ```
 python scripts/qc_sqlite/rebuild.py
+python scripts/qc_sqlite/rebuild.py --boards-only
 python scripts/qc_sqlite/rebuild.py --skip-jev
-python scripts/qc_sqlite/rebuild.py --skip-tells
+python scripts/qc_sqlite/paper.py
 python scripts/qc_sqlite/tells.py
 python scripts/qc_sqlite/analysis.py
-python scripts/qc_sqlite/rebuild.py --skip-analysis
+python scripts/qc_sqlite/insider_boards.py
+python scripts/qc_sqlite/export_excel.py
+python scripts/qc_sqlite/fetch_province_claims.py --ontario --bc --resume
 ```
 
 Needs `pip install typesafe-sdk` for Jev calls. `TYPESAFE_API_KEY` is read from the process env, or from `%USERPROFILE%\.grok\typesafe.env`. The key is never written to the repo.
@@ -26,7 +29,9 @@ Outputs:
 - `scripts/qc_sqlite/export/*.json` — PWA-sized stubs (attributes/links + top calc rows)
 - `scripts/qc_sqlite/.cache/jev.json` — local Jev answer cache (not the API key)
 
-Excel export is not in this pilot.
+Excel: `python scripts/qc_sqlite/export_excel.py` writes `quantity-capital-brain.xlsx` and `quantity-capital-claims.xlsx` (no polygons).
+
+Daily bats (`Groks folder/collect/update-politicians.bat`, `update-insiders.bat`) still run the scrapers, then `rebuild.py --boards-only`. `publish.py` also runs `--boards-only` on the publish worktree **when** `scripts/qc_sqlite` exists on that tree (after this PR lands). Until merge, live Pages keeps collector JSON.
 
 ## Schema (v5)
 
@@ -123,9 +128,12 @@ Quebec GESTIM extracts ship on `origin/main` under `claims/`. Copy them into thi
 
 Local Groks `companies.json` may lag live Pages; rebuild overlays Quebec/ON/BC counts from the extract files (Quebec `quebec_count` is **focus** titles only).
 
-## Next
+## Paper / insiders
 
-- Excel workbook of links + calc
-- Second calc (insider vs politician same ticker/day, or mining purchase clusters)
-- PWA pages reading export JSON instead of ad-hoc joins
-- Optional: stamp Midland/Abcourt-style word-order neighbors that Jev currently sends to curator
+- `paper.py` → `backtest.json` (paper.html). Jev scores the 12 largest |return| legs as artifact vs ordinary.
+- `insider_boards.py` runs `_upstream` builders (repeatable, follow, analysis) against the site root, stores JSON in sqlite, Jev-gates the follow list.
+- Form 4 sidecar: ingest `insider-form4.json` (do not re-scrape SEC from rebuild). Refresh with `collect/form4_enrich.py` separately.
+
+## Full-province claims
+
+`fetch_province_claims.py` pulls Ontario MLAS and BC MTA with `where=1=1`, `returnGeometry=false`, into packs `province:ontario` / `province:bc`. Resume with `--resume`. Quebec GESTIM has no open REST here — producer extracts only.

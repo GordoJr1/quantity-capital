@@ -415,17 +415,34 @@ function paintLegend(company, features) {
     hint.textContent = "No titles in the provinces that are switched on.";
     return;
   }
-  hint.hidden = true;
+  hint.hidden = false;
+  hint.textContent = "This holder’s full titles, plus nearby catalog claims within ~0.35°. Click a neighbor to load them.";
   box.hidden = false;
-  const extra = (company.neighbors || []).length > 10 && provinceOn("ly-quebec")
-    ? "<p class=\"hint\">" + ((company.neighbors || []).length - 10) + " more Quebec neighbor holders share a gray.</p>"
+  const seenN = {};
+  const nearbyRows = [];
+  (features || []).forEach((f) => {
+    const p = f.properties || {};
+    if (p.role !== "neighbor" || !p.company_id || seenN[p.company_id]) return;
+    seenN[p.company_id] = 1;
+    const c = findIndexed(p.company_id);
+    nearbyRows.push({
+      id: p.company_id,
+      holder: (c && c.holder) || p.holder,
+      count: c ? visibleCounts(c).total : (p.claim_count || 0),
+      color: p.color || colorForId(p.company_id),
+    });
+  });
+  nearbyRows.sort((a, b) => (b.count || 0) - (a.count || 0));
+  const shown = nearbyRows.slice(0, 12);
+  const extra = nearbyRows.length > 12
+    ? "<p class=\"hint\">" + (nearbyRows.length - 12) + " more nearby holders.</p>"
     : "";
   const rows = [
-    { holder: company.holder, count: vis.total, color: company.color, focus: true },
-  ].concat(provinceOn("ly-quebec") ? (company.neighbors || []).slice(0, 10) : []);
+    { holder: company.holder, count: vis.total, color: company.color || "#e8b040", focus: true },
+  ].concat(shown);
   box.innerHTML = "<h2>Holders</h2>" + rows.map((r) => {
     const on = r.focus || !hiddenHolders.has(r.holder);
-    return "<label class=\"swatch\"><input type=\"checkbox\" data-holder=\"" +
+    return "<label class=\"swatch\"" + (r.id ? " data-id=\"" + r.id + "\"" : "") + "><input type=\"checkbox\" data-holder=\"" +
       r.holder.replace(/"/g, "&quot;") + "\"" + (on ? " checked" : "") + (r.focus ? " disabled" : "") +
       "> <span class=\"chip\" style=\"background:" + r.color + "\"></span>" +
       "<span class=\"nm\">" + r.holder + "</span>" +
@@ -438,6 +455,14 @@ function paintLegend(company, features) {
       if (input.checked) hiddenHolders.delete(name);
       else hiddenHolders.add(name);
       applyHolderFilter();
+    });
+  });
+  box.querySelectorAll("label.swatch[data-id]").forEach((lab) => {
+    lab.addEventListener("click", (e) => {
+      if (e.target && e.target.closest && e.target.closest("input")) return;
+      e.preventDefault();
+      const id = lab.getAttribute("data-id");
+      if (id) selectCompany(id);
     });
   });
 }
@@ -521,7 +546,8 @@ function ensureCompanyLayers() {
     map.on("click", id, (e) => {
       if (!e.features || !e.features.length) return;
       const props = e.features[0].properties || {};
-      if (!currentCompany && isOverviewProps(props) && props.company_id) {
+      if (isOverviewProps(props) && props.company_id &&
+          (!currentCompany || currentCompany.id !== props.company_id)) {
         selectCompany(props.company_id);
         return;
       }
@@ -557,7 +583,7 @@ function visibleCounts(company) {
 
 function visibleBbox(company) {
   let b = null;
-  if (provinceOn("ly-quebec")) b = mergeBbox(b, company.bbox);
+  if (provinceOn("ly-quebec")) b = mergeBbox(b, company.quebec_bbox || company.bbox);
   if (provinceOn("ly-ontario")) b = mergeBbox(b, company.ontario_bbox);
   if (provinceOn("ly-bc")) b = mergeBbox(b, company.bc_bbox);
   return b;
@@ -707,7 +733,7 @@ async function loadExtract(company) {
     extractCache[company.id] = { type: "FeatureCollection", features: [] };
     return extractCache[company.id];
   }
-  const parts = await Promise.all(jobs);
+  const parts = await Promise.all(jobs.map((job) => job.catch(() => ({ type: "FeatureCollection", features: [] }))));
   const features = [];
   parts.forEach((p) => { (p.features || []).forEach((f) => features.push(f)); });
   const fc = { type: "FeatureCollection", features };
@@ -802,6 +828,56 @@ function overviewForCompany(company) {
   return filterByProvince({ type: "FeatureCollection", features });
 }
 
+function hitsAnyPad(box, pads) {
+  if (!box || !pads || !pads.length) return false;
+  for (let i = 0; i < pads.length; i++) {
+    if (bboxIntersects(box, pads[i])) return true;
+  }
+  return false;
+}
+
+function nearbyPadsForCompany(company) {
+  const pads = [];
+  const cells = overviewForCompany(company).features;
+  cells.forEach((f) => {
+    const b = featureBbox(f);
+    if (b) pads.push(expandBbox(b, NEARBY_PAD_DEG));
+  });
+  if (pads.length) return pads;
+  const own = extractCache[company.id];
+  if (own) {
+    filterByProvince(own).features.forEach((f) => {
+      const p = f.properties || {};
+      if (!isFocusFeature(f) || isOverviewProps(p)) return;
+      const b = featureBbox(f);
+      if (b) pads.push(expandBbox(b, NEARBY_PAD_DEG));
+    });
+  }
+  const vb = visibleBbox(company);
+  if (!pads.length && vb) pads.push(expandBbox(vb, NEARBY_PAD_DEG));
+  return pads;
+}
+
+function nearbyOverviewFeatures(company, pads, seen) {
+  const features = [];
+  if (!overviewFc || !pads.length) return features;
+  filterByProvince(overviewFc).features.forEach((f) => {
+    const p = f.properties || {};
+    if (!p.company_id || p.company_id === company.id) return;
+    const key = "ov|" + claimKey(p);
+    if (seen[key]) return;
+    if (!hitsAnyPad(featureBbox(f), pads)) return;
+    seen[key] = 1;
+    features.push(Object.assign({}, f, {
+      properties: Object.assign({}, p, {
+        role: "neighbor",
+        color: p.color || colorForId(p.company_id),
+      }),
+    }));
+  });
+  return features;
+}
+
 function companyPlusNearbyFc(company) {
   const own = extractCache[company.id] || { type: "FeatureCollection", features: [] };
   const ownVis = filterByProvince(own);
@@ -821,33 +897,28 @@ function companyPlusNearbyFc(company) {
     });
     features.push(Object.assign({}, f, { properties: props }));
   });
-  const focusOnly = {
-    type: "FeatureCollection",
-    features: ownVis.features.filter(isFocusFeature),
-  };
-  const box = expandBbox(bboxFromFc(focusOnly) || visibleBbox(company), NEARBY_PAD_DEG);
-  if (box) {
-    (catalog.companies || []).forEach((c) => {
-      if (c.id === company.id) return;
-      const fc = extractCache[c.id];
-      if (!fc) return;
-      filterByProvince(fc).features.forEach((f) => {
-        if (!isFocusFeature(f)) return;
-        const p = f.properties || {};
-        if (isOverviewProps(p)) return;
-        const key = claimKey(p);
-        if (seen[key]) return;
-        if (!bboxIntersects(featureBbox(f), box)) return;
-        seen[key] = 1;
-        const props = Object.assign({}, p, {
-          role: "neighbor",
-          color: c.color || p.color || "#90a4ae",
-          company_id: c.id,
-        });
-        features.push(Object.assign({}, f, { properties: props }));
+  const pads = nearbyPadsForCompany(company);
+  (catalog.companies || []).forEach((c) => {
+    if (c.id === company.id) return;
+    const fc = extractCache[c.id];
+    if (!fc) return;
+    filterByProvince(fc).features.forEach((f) => {
+      if (!isFocusFeature(f)) return;
+      const p = f.properties || {};
+      if (isOverviewProps(p)) return;
+      const key = claimKey(p);
+      if (seen[key]) return;
+      if (!hitsAnyPad(featureBbox(f), pads)) return;
+      seen[key] = 1;
+      const props = Object.assign({}, p, {
+        role: "neighbor",
+        color: c.color || p.color || "#90a4ae",
+        company_id: c.id,
       });
+      features.push(Object.assign({}, f, { properties: props }));
     });
-  }
+  });
+  nearbyOverviewFeatures(company, pads, seen).forEach((f) => features.push(f));
   return { type: "FeatureCollection", features };
 }
 
@@ -912,11 +983,35 @@ function paintAllClaims(fit) {
   setStatus(extra);
 }
 
+function fitCompanyTitles(company, asset) {
+  if (asset && Number.isFinite(asset.lat) && Number.isFinite(asset.lon)) {
+    fitCompany(company, asset);
+    return;
+  }
+  const own = extractCache[company.id];
+  if (own) {
+    const focus = filterByProvince(own).features.filter((f) => {
+      const p = f.properties || {};
+      return isFocusFeature(f) && !isOverviewProps(p);
+    });
+    if (focus.length) {
+      fitFc({ type: "FeatureCollection", features: focus }, 7);
+      return;
+    }
+  }
+  const preview = overviewForCompany(company);
+  if (preview.features.length) {
+    fitFc(preview, 7);
+    return;
+  }
+  fitCompany(company, asset);
+}
+
 function paintCompanyPlusNearby(company, asset, opts) {
   ensureCompanyLayers();
   const data = companyPlusNearbyFc(company);
   setPainted(data);
-  if (!opts || opts.fit !== false) fitCompany(company, asset);
+  if (!opts || opts.fit !== false) fitCompanyTitles(company, asset);
   paintLegend(company, data.features);
   setHud((company.holder || company.names[0]) + " · QC / ON / BC");
   const vis = visibleCounts(company);
@@ -985,13 +1080,16 @@ function selectCompany(id, assetId) {
     }
     const preview = overviewForCompany(company);
     if (preview.features.length) {
-      setPainted(preview);
-      fitCompany(company, asset);
+      const seen = {};
+      const pads = nearbyPadsForCompany(company);
+      const near = nearbyOverviewFeatures(company, pads, seen);
+      setPainted({ type: "FeatureCollection", features: preview.features.concat(near) });
+      fitCompanyTitles(company, asset);
     }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then(() => {
       if (gen !== viewGen) return;
-      paintCompanyPlusNearby(company, asset, preview.features.length ? { fit: false } : undefined);
+      paintCompanyPlusNearby(company, asset);
     }).catch(() => {
       if (gen !== viewGen) return;
       setStatus("Could not load company extract");

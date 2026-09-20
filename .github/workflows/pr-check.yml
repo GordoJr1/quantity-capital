@@ -55,6 +55,8 @@ jobs:
           grep -q 'claims/overview.geojson' claims-map.js
           grep -q 'function loadOverview' claims-map.js
           grep -q 'function overviewForCompany' claims-map.js
+          grep -q 'function nearbyPadsForCompany' claims-map.js
+          grep -q 'function fitCompanyTitles' claims-map.js
           grep -q 'NEARBY_PAD_DEG' claims-map.js
           grep -q 'downloadVisibleClaims' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js; then

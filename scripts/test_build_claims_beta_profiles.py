@@ -106,6 +106,7 @@ class BetaHtmlHooksTests(unittest.TestCase):
         self.assertGreater(end, start)
         self.assertIn("claims/overview.geojson", html)
         self.assertIn("beta/claims-publics.json", html)
+        self.assertIn("preview-focus-dot", html)
         self.assertNotIn("loadAllExtracts", html)
         path = Path("/tmp/beta-inline.js")
         path.write_text(html[start + 8 : end], encoding="utf-8")

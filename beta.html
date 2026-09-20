@@ -1501,6 +1501,7 @@
     let insetMarks = [];
     let overviewFc = null;
     let overviewLoad = null;
+    let previewFitToken = 0;
     const OVERVIEW_URL = "claims/overview.geojson";
     const PREVIEW_NEAR_PAD = 0.35;
     const PREVIEW_NEAR_MAX = 80;
@@ -1641,11 +1642,22 @@
       });
       const focusPainted = focus.features.map((f) => {
         const p = f.properties || {};
-        const color = (pub && pub.color) || p.color || "#e8b040";
+        const color = (p.color && p.color !== "#e8b040") ? p.color : "#e3b41a";
         return Object.assign({}, f, { properties: Object.assign({}, p, { role: "focus", color: color }) });
       });
+      function asDot(f, role) {
+        const box = featureBbox(f);
+        if (!box) return null;
+        const p = f.properties || {};
+        return {
+          type: "Feature",
+          properties: Object.assign({}, p, { role: role, color: p.color || (role === "focus-dot" ? "#e3b41a" : "#90a4ae") }),
+          geometry: { type: "Point", coordinates: [(box[0] + box[2]) / 2, (box[1] + box[3]) / 2] }
+        };
+      }
+      const dots = focusPainted.map((f) => asDot(f, "focus-dot")).concat(near.map((f) => asDot(f, "nearby-dot"))).filter(Boolean);
       return {
-        fc: { type: "FeatureCollection", features: near.concat(focusPainted) },
+        fc: { type: "FeatureCollection", features: near.concat(focusPainted, dots) },
         focus: focusPainted,
         hasFocus: focusPainted.length > 0
       };
@@ -1698,28 +1710,66 @@
         type: "fill",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "nearby"],
-        paint: { "fill-color": ["coalesce", ["get", "color"], "#5b6b78"], "fill-opacity": 0.18 }
+        paint: {
+          "fill-color": ["coalesce", ["get", "color"], "#5b6b78"],
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.46, 8, 0.28]
+        }
       });
       insetMap.addLayer({
         id: "preview-near-line",
         type: "line",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "nearby"],
-        paint: { "line-color": ["coalesce", ["get", "color"], "#5b6b78"], "line-width": 0.8, "line-opacity": 0.55 }
+        paint: {
+          "line-color": ["coalesce", ["get", "color"], "#90a4ae"],
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 8, 0.7]
+        }
       });
       insetMap.addLayer({
         id: "preview-focus-fill",
         type: "fill",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "focus"],
-        paint: { "fill-color": ["coalesce", ["get", "color"], "#e8b040"], "fill-opacity": 0.38 }
+        paint: {
+          "fill-color": ["coalesce", ["get", "color"], "#e8b040"],
+          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.88, 8, 0.55]
+        }
       });
       insetMap.addLayer({
         id: "preview-focus-line",
         type: "line",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "focus"],
-        paint: { "line-color": ["coalesce", ["get", "color"], "#e8b040"], "line-width": 1.2, "line-opacity": 0.95 }
+        paint: {
+          "line-color": "#f3d48a",
+          "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.4, 8, 1.0]
+        }
+      });
+      insetMap.addLayer({
+        id: "preview-near-dot",
+        type: "circle",
+        source: "claims-preview",
+        maxzoom: 6.8,
+        filter: ["==", ["get", "role"], "nearby-dot"],
+        paint: {
+          "circle-color": ["coalesce", ["get", "color"], "#90a4ae"],
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 6, 3.2],
+          "circle-stroke-width": 0.8,
+          "circle-stroke-color": "#0b1016"
+        }
+      });
+      insetMap.addLayer({
+        id: "preview-focus-dot",
+        type: "circle",
+        source: "claims-preview",
+        maxzoom: 6.8,
+        filter: ["==", ["get", "role"], "focus-dot"],
+        paint: {
+          "circle-color": ["coalesce", ["get", "color"], "#e3b41a"],
+          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 3.4, 6, 5],
+          "circle-stroke-width": 1.2,
+          "circle-stroke-color": "#1a1306"
+        }
       });
     }
     function drawMinesInset() {
@@ -1818,17 +1868,26 @@
         if (!padBox || bboxIntersects(padBox, [a.lon, a.lat, a.lon, a.lat])) inViewMines.push(a);
       });
       const fitMines = boxes.length ? inViewMines : mines;
-      if (window.maplibregl && (boxes.length || fitMines.length)) {
+      const fitToken = ++previewFitToken;
+      function fitPreview() {
+        if (fitToken !== previewFitToken || !insetMap || !window.maplibregl) return;
+        insetMap.resize();
+        if (!boxes.length && !fitMines.length) return;
         const b = new maplibregl.LngLatBounds();
         boxes.forEach((box) => {
           b.extend([box[0], box[1]]);
           b.extend([box[2], box[3]]);
         });
         fitMines.forEach((a) => b.extend([a.lon, a.lat]));
-        const maxZoom = boxes.length ? 7.2 : 3.1;
-        insetMap.fitBounds(b, { padding: 28, maxZoom: maxZoom, duration: 0 });
+        if (b.isEmpty()) return;
+        const maxZoom = boxes.length ? 6.4 : 3.1;
+        insetMap.fitBounds(b, { padding: 36, maxZoom: maxZoom, duration: 0 });
       }
-      requestAnimationFrame(() => { if (insetMap) insetMap.resize(); });
+      requestAnimationFrame(() => {
+        fitPreview();
+        requestAnimationFrame(fitPreview);
+      });
+      insetMap.once("idle", fitPreview);
     }
     function paint() {
       if (!profile) return;

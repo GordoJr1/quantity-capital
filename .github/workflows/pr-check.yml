@@ -96,6 +96,7 @@ jobs:
           grep -q 'data-layer="claims"' beta.html
           grep -q 'id="claims-line"' beta.html
           grep -q 'PREVIEW_NEAR_MAX' beta.html
+          grep -q 'preview-focus-dot' beta.html
           if grep -n 'loadAllExtracts' beta.html; then
             echo "beta.html must not call loadAllExtracts" >&2
             exit 1

@@ -1,9 +1,13 @@
-"""Pull Ontario MLAS + BC MTA titles for every holder (attributes only).
+﻿"""Pull Ontario MLAS + BC MTA titles for every holder (attributes only).
 
 Quebec GESTIM has no equivalent open REST in this repo — scaffolded only.
 Resume with --resume. Use --limit-pages for a short run.
 
 Pack ids: province:ontario / province:bc with company_id = _province_ontario / _province_bc.
+
+Ontario holders often look like "(100) ACME INC" so letter prefixes on HOLDER
+return empty — Ontario uses OBJECTID keyset pagination over 1=1 instead.
+BC still walks OWNER_NAME letter prefixes (per-letter resume offsets).
 """
 from __future__ import annotations
 
@@ -25,7 +29,7 @@ from paths import DB_PATH, QC_ROOT
 
 ON_URL = "https://ws.lioservices.lrc.gov.on.ca/arcgis1071a/rest/services/MLAS/mlas_op/MapServer/1/query"
 BC_URL = "https://delivery.maps.gov.bc.ca/arcgis/rest/services/whse/bcgw_pub_whse_mineral_tenure/MapServer/36/query"
-ON_FIELDS = "TENURE_NUMBER_ID,HOLDER,TENURE_STATUS_DESC,ISSUE_DATE,ANNIVERSARY_DATE,CLAIM_DUE_DATE,TITLE_TYPE_DESC"
+ON_FIELDS = "OBJECTID,TENURE_NUMBER_ID,HOLDER,TENURE_STATUS_DESC,ISSUE_DATE,ANNIVERSARY_DATE,CLAIM_DUE_DATE,TITLE_TYPE_DESC"
 BC_FIELDS = "TENURE_NUMBER_ID,CLAIM_NAME,OWNER_NAME,TENURE_TYPE_DESCRIPTION,TITLE_TYPE_DESCRIPTION,ISSUE_DATE,GOOD_TO_DATE,TERMINATION_DATE,AREA_IN_HECTARES,TENURE_SUB_TYPE_DESCRIPTION"
 ON_SOURCE = "Ontario MLAS operational claims (OGSEarth / LIO MapServer). Unofficial viewing data, not legal title."
 BC_SOURCE = "BC MTA Mineral, Placer and Coal Tenure Spatial View (BCGW). Open Government Licence – British Columbia. Not legal title."
@@ -88,23 +92,6 @@ def ensure_province_companies(con: sqlite3.Connection) -> None:
         )
 
 
-def fetch_page(url: str, where: str, out_fields: str, offset: int, page_size: int, envelope=None) -> list[dict]:
-    params = {
-        "where": where,
-        "outFields": out_fields,
-        "outSR": 4326,
-        "f": "geojson",
-        "resultRecordCount": page_size,
-        "resultOffset": offset,
-        "maxAllowableOffset": 0.0004,
-    }
-    data = get_json(url, params)
-    if data.get("error"):
-        log(f"  api error {data['error']}")
-        return []
-    return data.get("features") or []
-
-
 def props_on(attrs: dict) -> dict:
     return {
         "claim_id": attrs.get("TENURE_NUMBER_ID"),
@@ -115,13 +102,14 @@ def props_on(attrs: dict) -> dict:
         "anniversary_or_expiry": epoch_to_date(attrs.get("ANNIVERSARY_DATE") or attrs.get("CLAIM_DUE_DATE")),
         "area_ha": None,
         "tenure_type": attrs.get("TITLE_TYPE_DESC"),
+        "objectid": attrs.get("OBJECTID"),
     }
 
 
 def props_bc(attrs: dict) -> dict:
     return {
         "claim_id": attrs.get("TENURE_NUMBER_ID") or attrs.get("TENURE_NUMBER"),
-        "claim_name": attrs.get("TENURE_NUMBER"),
+        "claim_name": attrs.get("CLAIM_NAME") or attrs.get("TENURE_NUMBER"),
         "holder": attrs.get("OWNER_NAME"),
         "status": attrs.get("TENURE_TYPE_DESCRIPTION"),
         "recorded_date": epoch_to_date(attrs.get("ISSUE_DATE")),
@@ -135,7 +123,7 @@ def ingest_features(con: sqlite3.Connection, pack_id: str, company_id: str, juri
     as_of = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     rows = []
     for f in feats:
-        attrs = f.get("properties") or f.get("attributes") or {}
+        attrs = f.get("attributes") or f.get("properties") or {}
         p = mapper(attrs)
         cid = p.get("claim_id")
         if cid is None or cid == "":
@@ -176,70 +164,153 @@ def ingest_features(con: sqlite3.Connection, pack_id: str, company_id: str, juri
     return len(rows)
 
 
-def pull(con: sqlite3.Connection, kind: str, limit_pages: int, resume: bool, letters: str) -> int:
-    holder_field = "HOLDER" if kind == "ontario" else "OWNER_NAME"
+def fetch_bc_page(where: str, offset: int) -> list[dict]:
+    params = {
+        "where": where,
+        "outFields": BC_FIELDS,
+        "outSR": 4326,
+        "f": "json",
+        "returnGeometry": "false",
+        "resultRecordCount": PAGE,
+        "resultOffset": offset,
+    }
+    data = get_json(BC_URL, params)
+    if data.get("error"):
+        log(f"  api error {data['error']}")
+        return []
+    return data.get("features") or []
+
+
+def fetch_on_page(after_objectid: int) -> list[dict]:
+    where = "1=1" if after_objectid <= 0 else f"OBJECTID>{after_objectid}"
+    params = {
+        "where": where,
+        "outFields": ON_FIELDS,
+        "f": "json",
+        "returnGeometry": "false",
+        "resultRecordCount": PAGE,
+        "orderByFields": "OBJECTID ASC",
+    }
+    data = get_json(ON_URL, params)
+    if data.get("error"):
+        log(f"  api error {data['error']}")
+        return []
+    return data.get("features") or []
+
+
+def pull_bc(con: sqlite3.Connection, limit_pages: int, resume: bool, letters: str) -> int:
     prefixes = list(letters) if letters else list("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-    if kind == "ontario":
-        url, fields, pack, company, juris, source, mapper = (
-            ON_URL, ON_FIELDS, "province:ontario", "_province_ontario",
-            "Ontario", ON_SOURCE, props_on,
-        )
-    else:
-        url, fields, pack, company, juris, source, mapper = (
-            BC_URL, BC_FIELDS, "province:bc", "_province_bc",
-            "British Columbia", BC_SOURCE, props_bc,
-        )
+    pack, company, juris, source = "province:bc", "_province_bc", "British Columbia", BC_SOURCE
     total = 0
     for ch in prefixes:
-        where = f"UPPER({holder_field}) LIKE '{ch}%'"
-        log(f"{kind} prefix {ch}")
-        total += pull_where(con, kind, url, fields, where, pack, company, juris, source, mapper, limit_pages, resume)
+        where = f"UPPER(OWNER_NAME) LIKE '{ch}%'"
+        log(f"bc prefix {ch}")
+        meta_key = f"province_bc_offset_{ch}"
+        offset = 0
+        if resume:
+            row = con.execute("SELECT value FROM meta WHERE key=?", (meta_key,)).fetchone()
+            if row:
+                try:
+                    offset = int(row[0])
+                except Exception:
+                    offset = 0
+        pages = 0
+        letter_n = 0
+        while True:
+            if limit_pages and pages >= limit_pages:
+                break
+            log(f"bc offset={offset}")
+            try:
+                feats = fetch_bc_page(where, offset)
+            except Exception as exc:
+                log(f"bc fetch failed: {type(exc).__name__}: {exc}")
+                break
+            if not feats:
+                log(f"bc done at offset {offset}")
+                break
+            n = ingest_features(con, pack, company, juris, source, feats, props_bc)
+            letter_n += n
+            total += n
+            pages += 1
+            offset += len(feats)
+            con.execute(
+                "INSERT INTO meta(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                (meta_key, str(offset)),
+            )
+            con.execute(
+                "UPDATE claim_packs SET claim_count = (SELECT COUNT(*) FROM claim_titles WHERE pack_id=?) WHERE pack_id=?",
+                (pack, pack),
+            )
+            con.commit()
+            if len(feats) < PAGE:
+                log(f"bc last page at offset {offset}")
+                break
+            time.sleep(0.15)
+        log(f"bc ingested {letter_n} this run for {ch}, next offset {offset}")
     return total
 
 
-def pull_where(con, kind, url, fields, where, pack, company, juris, source, mapper, limit_pages, resume) -> int:
-    meta_key = f"province_{kind}_offset"
-    offset = 0
+def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> int:
+    pack, company, juris, source = "province:ontario", "_province_ontario", "Ontario", ON_SOURCE
+    meta_key = "province_ontario_objectid"
+    after = 0
     if resume:
         row = con.execute("SELECT value FROM meta WHERE key=?", (meta_key,)).fetchone()
         if row:
             try:
-                offset = int(json.loads(row[0]) if row[0].startswith("{") else row[0])
+                after = int(row[0])
             except Exception:
-                offset = int(row[0] or 0)
+                after = 0
     pages = 0
     total = 0
+    log(f"ontario keyset after OBJECTID={after}")
     while True:
         if limit_pages and pages >= limit_pages:
             break
-        log(f"{kind} offset={offset}")
         try:
-            feats = fetch_page(url, where, fields, offset, PAGE)
+            feats = fetch_on_page(after)
         except Exception as exc:
-            log(f"{kind} fetch failed: {type(exc).__name__}: {exc}")
+            log(f"ontario fetch failed: {type(exc).__name__}: {exc}")
             break
         if not feats:
-            log(f"{kind} done at offset {offset}")
-            offset = 0
+            log(f"ontario done after OBJECTID={after}")
             break
-        n = ingest_features(con, pack, company, juris, source, feats, mapper)
+        n = ingest_features(con, pack, company, juris, source, feats, props_on)
         total += n
         pages += 1
-        offset += len(feats)
+        # advance keyset
+        oids = []
+        for f in feats:
+            attrs = f.get("attributes") or f.get("properties") or {}
+            if attrs.get("OBJECTID") is not None:
+                oids.append(int(attrs["OBJECTID"]))
+        if not oids:
+            log("ontario page missing OBJECTID — stop")
+            break
+        after = max(oids)
         con.execute(
             "INSERT INTO meta(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
-            (meta_key, str(offset)),
+            (meta_key, str(after)),
         )
-        con.execute(
-            "UPDATE claim_packs SET claim_count = (SELECT COUNT(*) FROM claim_titles WHERE pack_id=?) WHERE pack_id=?",
-            (pack, pack),
-        )
-        con.commit()
+        if pages % 10 == 0 or len(feats) < PAGE:
+            con.execute(
+                "UPDATE claim_packs SET claim_count = (SELECT COUNT(*) FROM claim_titles WHERE pack_id=?) WHERE pack_id=?",
+                (pack, pack),
+            )
+            con.commit()
+            log(f"ontario pages={pages} ingested={total} after_oid={after} pack_rows={con.execute('SELECT COUNT(*) FROM claim_titles WHERE pack_id=?', (pack,)).fetchone()[0]}")
+        else:
+            con.commit()
         if len(feats) < PAGE:
-            log(f"{kind} last page at offset {offset}")
+            log(f"ontario last page after OBJECTID={after}")
             break
-        time.sleep(0.2)
-    log(f"{kind} ingested {total} this run, next offset {offset}")
+        time.sleep(0.12)
+    con.execute(
+        "UPDATE claim_packs SET claim_count = (SELECT COUNT(*) FROM claim_titles WHERE pack_id=?) WHERE pack_id=?",
+        (pack, pack),
+    )
+    con.commit()
+    log(f"ontario ingested {total} this run, resume OBJECTID>{after}")
     return total
 
 
@@ -249,7 +320,7 @@ def main() -> int:
     p.add_argument("--bc", action="store_true")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--limit-pages", type=int, default=0)
-    p.add_argument("--letters", default="A", help="Holder prefixes to walk, e.g. ABC. Default A for a short run.")
+    p.add_argument("--letters", default="ABCDEFGHIJKLMNOPQRSTUVWXYZ", help="BC owner prefixes only")
     args = p.parse_args()
     if not args.ontario and not args.bc:
         args.ontario = args.bc = True
@@ -261,10 +332,9 @@ def main() -> int:
         ensure_province_companies(con)
         con.commit()
         if args.ontario:
-            pull(con, "ontario", args.limit_pages, args.resume, args.letters)
+            pull_ontario(con, args.limit_pages, args.resume)
         if args.bc:
-            pull(con, "bc", args.limit_pages, args.resume, args.letters)
-        con.commit()
+            pull_bc(con, args.limit_pages, args.resume, args.letters)
         log("Quebec GESTIM full-province: no open REST in-repo. Keep producer extracts.")
     finally:
         con.close()

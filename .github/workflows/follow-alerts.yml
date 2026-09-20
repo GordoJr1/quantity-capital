@@ -1,5 +1,6 @@
 # Rebuild Form 4 sidecar + follow list after the off-repo collector
-# pushes a new tape. Daily-update runs the same pair after prices.
+# pushes a new tape. Daily-update runs the same pair as an evening
+# backstop; prices stay morning-only and are not fetched there.
 name: follow-alerts
 on:
   push:

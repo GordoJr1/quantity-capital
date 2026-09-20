@@ -1,8 +1,10 @@
-# Refresh committed Yahoo daily closes, enrich SEC Form 4 plan flags /
-# Table I holdings, and rebuild backtest.json, insider-repeatable.json,
-# and insider-follow.json. Senate eFD is not fetched here (captcha).
-# New Form 4 / SEDI / STOCK Act rows still arrive from the off-repo tape
-# job; this Action only annotates Form 4s already on the tape.
+# Enrich SEC Form 4 plan flags / Table I holdings, then rebuild
+# backtest.json, insider-repeatable.json, and insider-follow.json.
+# Yahoo daily closes are refreshed by the morning off-repo collect
+# bats only; this Action no longer fetches or commits prices/.
+# Senate eFD is not fetched here (captcha). New Form 4 / SEDI /
+# STOCK Act rows still arrive from the off-repo tape job; this
+# Action only annotates Form 4s already on the tape.
 name: daily-update
 on:
   schedule:
@@ -10,11 +12,6 @@ on:
     # evening tape push (~18:12–18:38 ET), so this is a backstop.
     - cron: "30 23 * * *"
   workflow_dispatch:
-    inputs:
-      limit:
-        description: "Max price files to fetch (empty = all)"
-        required: false
-        default: ""
   # A push that touches this file on main starts a run (used to kick
   # off the first refresh when workflow_dispatch is not available).
   push:
@@ -40,16 +37,6 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch latest Yahoo closes
-        run: |
-          set -euo pipefail
-          LIMIT="${{ github.event.inputs.limit }}"
-          if [ -n "${LIMIT}" ]; then
-            python3 fetch-prices.py --limit "${LIMIT}"
-          else
-            python3 fetch-prices.py
-          fi
-
       - name: Enrich Form 4 10b5-1 flags and Table I holdings
         run: |
           set -euo pipefail
@@ -58,20 +45,12 @@ jobs:
       - name: Rebuild backtest.json and insider-repeatable.json
         run: |
           set -euo pipefail
-          PRICE_CHANGED=0
-          FORM4_CHANGED=0
-          git diff --quiet -- prices || PRICE_CHANGED=1
-          git diff --quiet -- insider-form4.json || FORM4_CHANGED=1
-          if [ "$PRICE_CHANGED" = 1 ]; then
-            python3 build-backtest.py
-          else
-            echo "prices unchanged; skipping backtest"
-          fi
-          if [ "$PRICE_CHANGED" = 1 ] || [ "$FORM4_CHANGED" = 1 ]; then
-            python3 build-insider-repeatable.py
-          else
-            echo "prices/form4 unchanged; skipping repeatable"
-          fi
+          # Always rebuild. This Action no longer fetches prices/, so a
+          # git-diff-prices gate would skip forever. Morning collect bats
+          # commit closes; this job is the evening backstop for paper +
+          # Repeatable against that committed book (plus any Form 4 enrich).
+          python3 build-backtest.py
+          python3 build-insider-repeatable.py
 
       - name: Rebuild follow list and alerts
         run: |
@@ -85,12 +64,12 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add prices backtest.json insider-repeatable.json insider-follow.json insider-form4.json
+          git add backtest.json insider-repeatable.json insider-follow.json insider-form4.json
           if git diff --staged --quiet; then
             echo "no data changes"
             exit 0
           fi
-          git commit -m "Daily price refresh $(date -u +%F)"
+          git commit -m "Daily Form 4 / backtest refresh $(date -u +%F)"
           git pull --rebase origin main
           git push
           # GITHUB_TOKEN commits do not always start pages-build-deployment.

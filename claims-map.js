@@ -249,6 +249,11 @@ function setDownloadEnabled(on) {
   if (btn) btn.disabled = !on;
 }
 
+function setHudKicker(text) {
+  const el = document.querySelector(".hud p");
+  if (el) el.textContent = text;
+}
+
 function companyMatches(c, needle) {
   if ((c.names || []).some((n) => String(n).toLowerCase().includes(needle))) return true;
   if (String(c.holder || "").toLowerCase().includes(needle)) return true;
@@ -688,6 +693,7 @@ function paintAllClaims(fit) {
   const data = { type: "FeatureCollection", features };
   pushMapData(data);
   if (fit) fitAll(data);
+  setHudKicker("All claims · QC / ON / BC");
   paintLegend(null, legendRowsFromFeatures(features, null));
   const bits = statusBits(features);
   const nCo = legendRowsFromFeatures(features, null).length;
@@ -706,6 +712,7 @@ function paintCompanyData(company, asset) {
   const data = { type: "FeatureCollection", features: focusVis.features.concat(nearbyVis.features) };
   pushMapData(data);
   fitCompany(company, asset);
+  setHudKicker("Focus + nearby · QC / ON / BC");
   paintLegend(company, legendRowsFromFeatures(data.features, company.id));
   const bits = statusBits(focusVis.features);
   let extra = "<strong>" + companyLabel(company) + "</strong>";
@@ -797,6 +804,7 @@ function selectCompany(id, assetId) {
       setDownloadEnabled(false);
       fitCompany(company, asset);
       paintLegend(company, []);
+      setHudKicker("Focus + nearby · QC / ON / BC");
       let extra = "<strong>" + companyLabel(company) + "</strong> · no QC/ON/BC titles in extracts";
       if (asset) extra += " · around " + asset.name + " · " + (asset.note || "");
       setStatus(extra);

@@ -8,6 +8,7 @@
     {
       "id": "newmont",
       "names": [
+        "Newmont",
         "Newmont Corporation",
         "newmont"
       ],
@@ -230,7 +231,8 @@
         56.1081,
         -129.8159,
         57.8207
-      ]
+      ],
+      "ontario_bbox": null
     },
     {
       "id": "agnico-eagle",
@@ -243,7 +245,7 @@
         "agnico eagle"
       ],
       "holder": "Agnico Eagle Abitibi Acquisition Corp.",
-      "claim_count": 13881,
+      "claim_count": 13889,
       "neighbor_count": 6782,
       "bbox": [
         -79.51777,
@@ -1004,14 +1006,26 @@
       ],
       "quebec_count": 4654,
       "ontario_count": 9227,
-      "bc_count": 0,
+      "bc_count": 8,
       "ontario_extract": "claims/agnico-eagle-ontario.geojson",
-      "bc_extract": null,
+      "bc_extract": "claims/agnico-eagle-bc.geojson",
       "ontario_bbox": [
         -91.6188,
         48.0417,
         -79.5169,
         50.1
+      ],
+      "bc_bbox": [
+        -130.1517,
+        59.9498,
+        -130.0267,
+        59.9998
+      ],
+      "quebec_bbox": [
+        -79.51777295745983,
+        47.99166666610901,
+        -75.82500000018976,
+        50.041666674431966
       ]
     },
     {
@@ -1025,7 +1039,7 @@
         "barrick"
       ],
       "holder": "Barrick Gold inc.",
-      "claim_count": 45,
+      "claim_count": 864,
       "neighbor_count": 179,
       "bbox": [
         -75.79167,
@@ -1230,19 +1244,38 @@
         }
       ],
       "quebec_count": 45,
-      "ontario_count": 0,
-      "bc_count": 0,
-      "ontario_extract": null,
-      "bc_extract": null
+      "ontario_count": 754,
+      "bc_count": 65,
+      "ontario_extract": "claims/barrick-ontario.geojson",
+      "bc_extract": "claims/barrick-bc.geojson",
+      "ontario_bbox": [
+        -80.5813,
+        47.9667,
+        -80.2,
+        48.1333
+      ],
+      "bc_bbox": [
+        -121.5533,
+        49.3291,
+        -119.9887,
+        49.4935
+      ],
+      "quebec_bbox": [
+        -75.79166666906872,
+        49.5999999991742,
+        -75.68333332682178,
+        49.633333340944326
+      ]
     },
     {
       "id": "anglogold",
       "names": [
+        "AngloGold Ashanti",
         "AngloGold Ashanti plc",
         "anglogold"
       ],
       "holder": "AngloGold Ashanti plc",
-      "claim_count": 0,
+      "claim_count": 12,
       "neighbor_count": 0,
       "bbox": null,
       "color": "#e8b040",
@@ -1381,10 +1414,17 @@
       ],
       "neighbors": [],
       "quebec_count": 0,
-      "ontario_count": 0,
+      "ontario_count": 12,
       "bc_count": 0,
-      "ontario_extract": null,
-      "bc_extract": null
+      "ontario_extract": "claims/anglogold-ontario.geojson",
+      "bc_extract": null,
+      "ontario_bbox": [
+        -80.2875,
+        48.1667,
+        -80.2625,
+        48.1833
+      ],
+      "bc_bbox": null
     },
     {
       "id": "gold-fields",
@@ -1396,7 +1436,7 @@
         "gold fields"
       ],
       "holder": "Groupe Minier Windfall Inc.",
-      "claim_count": 4425,
+      "claim_count": 4451,
       "neighbor_count": 3217,
       "bbox": [
         -78.8,
@@ -1895,11 +1935,19 @@
           "color": "#90a4ae"
         }
       ],
-      "quebec_count": 4425,
+      "quebec_count": 4451,
       "ontario_count": 0,
       "bc_count": 0,
       "ontario_extract": null,
-      "bc_extract": null
+      "bc_extract": null,
+      "ontario_bbox": null,
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -79.1536870951017,
+        46.00203046008209,
+        -58.64660819709782,
+        51.24417689820265
+      ]
     },
     {
       "id": "kinross",
@@ -2849,11 +2897,19 @@
         47.475,
         -81.2688,
         49.1917
+      ],
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -79.35268826460094,
+        45.79717957612345,
+        -71.27729952048664,
+        53.34166667408916
       ]
     },
     {
       "id": "evolution",
       "names": [
+        "Evolution Mining",
         "Evolution Mining Limited",
         "evolution"
       ],
@@ -2926,7 +2982,8 @@
         48.7667,
         -89.7938,
         51.3625
-      ]
+      ],
+      "bc_bbox": null
     },
     {
       "id": "alamos-gold",
@@ -3091,6 +3148,13 @@
         47.9042,
         -80.1,
         49.9917
+      ],
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -78.45000000000002,
+        49.15833333334084,
+        -74.36666665931182,
+        62.09166666874713
       ]
     },
     {
@@ -3204,7 +3268,7 @@
         "eldorado gold"
       ],
       "holder": "Eldorado Gold (Quebec) inc.",
-      "claim_count": 940,
+      "claim_count": 13700,
       "neighbor_count": 1813,
       "bbox": [
         -78.525,
@@ -3528,11 +3592,24 @@
           "color": "#90a4ae"
         }
       ],
-      "quebec_count": 940,
-      "ontario_count": 0,
+      "quebec_count": 13613,
+      "ontario_count": 87,
       "bc_count": 0,
-      "ontario_extract": null,
-      "bc_extract": null
+      "ontario_extract": "claims/eldorado-gold-ontario.geojson",
+      "bc_extract": null,
+      "ontario_bbox": [
+        -80.4063,
+        46.9333,
+        -79.575,
+        47.7167
+      ],
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -79.57933520108732,
+        45.37499999411858,
+        -62.15833333075288,
+        61.7000000084715
+      ]
     },
     {
       "id": "ssr-mining",
@@ -3669,6 +3746,7 @@
     {
       "id": "centerra-gold",
       "names": [
+        "Centerra Gold",
         "Centerra Gold Inc.",
         "centerra gold"
       ],
@@ -3731,20 +3809,22 @@
         54.0249,
         -123.6953,
         55.1916
-      ]
+      ],
+      "ontario_bbox": null
     },
     {
       "id": "dpm-metals",
       "names": [
+        "DPM Metals",
         "DPM Metals Inc.",
         "dpm metals"
       ],
       "holder": "DPM Metals Inc.",
-      "claim_count": 0,
+      "claim_count": 97,
       "neighbor_count": 0,
       "bbox": null,
       "color": "#e8b040",
-      "extract": null,
+      "extract": "claims/dpm-metals.geojson",
       "mines": [
         {
           "id": "chelopech",
@@ -3788,11 +3868,19 @@
         }
       ],
       "neighbors": [],
-      "quebec_count": 0,
+      "quebec_count": 97,
       "ontario_count": 0,
       "bc_count": 0,
       "ontario_extract": null,
-      "bc_extract": null
+      "bc_extract": null,
+      "ontario_bbox": null,
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -78.24622257142153,
+        48.18333332633672,
+        -78.10271362385312,
+        48.24383462743331
+      ]
     },
     {
       "id": "k92-mining",
@@ -3950,6 +4038,7 @@
     {
       "id": "artemis-gold",
       "names": [
+        "Artemis Gold",
         "Artemis Gold Inc.",
         "artemis gold"
       ],
@@ -3982,7 +4071,8 @@
         53.1457,
         -124.8891,
         53.3541
-      ]
+      ],
+      "ontario_bbox": null
     },
     {
       "id": "wesdome-gold-mines",
@@ -4108,11 +4198,19 @@
         47.9375,
         -84.7313,
         48.225
+      ],
+      "bc_bbox": null,
+      "quebec_bbox": [
+        -77.9961082815785,
+        48.083023725382574,
+        -77.82787563766954,
+        48.191666673369696
       ]
     },
     {
       "id": "equinox-gold",
       "names": [
+        "Equinox Gold",
         "Equinox Gold Corp.",
         "equinox gold"
       ],
@@ -4215,7 +4313,8 @@
         49.6083,
         -83.8875,
         53.0
-      ]
+      ],
+      "bc_bbox": null
     },
     {
       "id": "galiano-gold",
@@ -4523,13 +4622,4426 @@
       "bc_count": 0,
       "ontario_extract": null,
       "bc_extract": null
+    },
+    {
+      "id": "kenorland-minerals",
+      "names": [
+        "Kenorland Minerals",
+        "kenorland minerals"
+      ],
+      "holder": "Kenorland Minerals",
+      "claim_count": 67363,
+      "color": "#e8b040",
+      "extract": "claims/kenorland-minerals.geojson",
+      "ontario_extract": "claims/kenorland-minerals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=59930",
+      "ontario_count": 60268,
+      "ontario_bbox": [
+        -94.8,
+        48.1417,
+        -82.2313,
+        54.0417
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 7095,
+      "quebec_bbox": [
+        -79.49166667273865,
+        48.525000000009314,
+        -72.2749999903125,
+        53.14166667594781
+      ]
+    },
+    {
+      "id": "ongold-resources",
+      "names": [
+        "ONGold Resources Ltd",
+        "ongold resources"
+      ],
+      "holder": "ONGold Resources Ltd",
+      "claim_count": 8076,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/ongold-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=8076",
+      "ontario_count": 8076,
+      "ontario_bbox": [
+        -92.7813,
+        47.625,
+        -80.9188,
+        54.7042
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "gfg-resources",
+      "names": [
+        "GFG Resources",
+        "gfg resources"
+      ],
+      "holder": "GFG Resources",
+      "claim_count": 4727,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/gfg-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=4727",
+      "ontario_count": 4727,
+      "ontario_bbox": [
+        -82.7313,
+        47.7375,
+        -80.15,
+        48.7458
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "new-age-metals",
+      "names": [
+        "New Age Metals",
+        "new age metals"
+      ],
+      "holder": "New Age Metals",
+      "claim_count": 4425,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/new-age-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=4398",
+      "ontario_count": 4425,
+      "ontario_bbox": [
+        -94.3,
+        46.6208,
+        -80.1063,
+        52.4667
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "dryden-gold",
+      "names": [
+        "Dryden Gold Corp",
+        "dryden gold"
+      ],
+      "holder": "Dryden Gold Corp",
+      "claim_count": 3587,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/dryden-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=3587",
+      "ontario_count": 3587,
+      "ontario_bbox": [
+        -93.0438,
+        49.2042,
+        -91.8938,
+        49.8667
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "canada-nickel",
+      "names": [
+        "Canada Nickel",
+        "canada nickel"
+      ],
+      "holder": "Canada Nickel",
+      "claim_count": 27500,
+      "color": "#e8b040",
+      "extract": "claims/canada-nickel.geojson",
+      "ontario_extract": "claims/canada-nickel-ontario.geojson",
+      "bc_extract": "claims/canada-nickel-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=3409",
+      "ontario_count": 16989,
+      "ontario_bbox": [
+        -94.7796,
+        44.6583,
+        -77.3625,
+        53.9458
+      ],
+      "bc_count": 377,
+      "bc_bbox": [
+        -137.1794,
+        49.004,
+        -114.6459,
+        59.7374
+      ],
+      "quebec_count": 10134,
+      "quebec_bbox": [
+        -79.5176553379229,
+        45.649999998445686,
+        -58.0083331416963,
+        61.80676454534869
+      ]
+    },
+    {
+      "id": "renegade-gold",
+      "names": [
+        "Renegade Gold",
+        "renegade gold"
+      ],
+      "holder": "Renegade Gold",
+      "claim_count": 2941,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/renegade-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2935",
+      "ontario_count": 2941,
+      "ontario_bbox": [
+        -94.375,
+        50.625,
+        -92.35,
+        51.45
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "big-ridge-gold",
+      "names": [
+        "Big Ridge Gold Corp.",
+        "big ridge gold"
+      ],
+      "holder": "Big Ridge Gold Corp.",
+      "claim_count": 3409,
+      "color": "#e8b040",
+      "extract": "claims/big-ridge-gold.geojson",
+      "ontario_extract": "claims/big-ridge-gold-ontario.geojson",
+      "bc_extract": "claims/big-ridge-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2879",
+      "ontario_count": 3151,
+      "ontario_bbox": [
+        -94.5813,
+        44.7792,
+        -77.3813,
+        52.5292
+      ],
+      "bc_count": 83,
+      "bc_bbox": [
+        -130.5378,
+        54.7832,
+        -125.2642,
+        57.236
+      ],
+      "quebec_count": 175,
+      "quebec_bbox": [
+        -78.20833333333331,
+        46.02738303730568,
+        -65.32499999847168,
+        59.516666677745974
+      ]
+    },
+    {
+      "id": "silver-storm-mining",
+      "names": [
+        "Silver Storm Mining",
+        "silver storm mining"
+      ],
+      "holder": "Silver Storm Mining",
+      "claim_count": 3570,
+      "color": "#e8b040",
+      "extract": "claims/silver-storm-mining.geojson",
+      "ontario_extract": "claims/silver-storm-mining-ontario.geojson",
+      "bc_extract": "claims/silver-storm-mining-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2108",
+      "ontario_count": 3357,
+      "ontario_bbox": [
+        -93.9313,
+        47.175,
+        -79.5,
+        53.8292
+      ],
+      "bc_count": 71,
+      "bc_bbox": [
+        -131.8822,
+        49.9701,
+        -117.1817,
+        59.9998
+      ],
+      "quebec_count": 142,
+      "quebec_bbox": [
+        -76.12500000345372,
+        49.11666667015424,
+        -63.449999999475665,
+        57.508333344350966
+      ]
+    },
+    {
+      "id": "probe-gold",
+      "names": [
+        "Probe Gold",
+        "probe gold"
+      ],
+      "holder": "Probe Gold",
+      "claim_count": 5106,
+      "color": "#e8b040",
+      "extract": "claims/probe-gold.geojson",
+      "ontario_extract": "claims/probe-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2047",
+      "ontario_count": 631,
+      "ontario_bbox": [
+        -89.4688,
+        47.7583,
+        -83.0938,
+        52.9625
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 4475,
+      "quebec_bbox": [
+        -79.51777143979507,
+        48.00833333193699,
+        -76.19166666811095,
+        53.050000014068566
+      ]
+    },
+    {
+      "id": "hemlo-mining",
+      "names": [
+        "Hemlo Mining Corp.",
+        "hemlo mining"
+      ],
+      "holder": "Hemlo Mining Corp.",
+      "claim_count": 1885,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/hemlo-mining-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1885",
+      "ontario_count": 1885,
+      "ontario_bbox": [
+        -86.3125,
+        48.675,
+        -85.6625,
+        48.9083
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "green-shift",
+      "names": [
+        "Green Shift",
+        "green shift"
+      ],
+      "holder": "Green Shift",
+      "claim_count": 4304,
+      "color": "#e8b040",
+      "extract": "claims/green-shift.geojson",
+      "ontario_extract": "claims/green-shift-ontario.geojson",
+      "bc_extract": "claims/green-shift-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1841",
+      "ontario_count": 3637,
+      "ontario_bbox": [
+        -93.6875,
+        46.7417,
+        -79.5172,
+        52.8917
+      ],
+      "bc_count": 35,
+      "bc_bbox": [
+        -129.2955,
+        49.3364,
+        -116.401,
+        58.4539
+      ],
+      "quebec_count": 632,
+      "quebec_bbox": [
+        -77.22500000555519,
+        45.46666666227578,
+        -61.68333332698242,
+        50.39166667128192
+      ]
+    },
+    {
+      "id": "btu-metals",
+      "names": [
+        "BTU Metals",
+        "btu metals"
+      ],
+      "holder": "BTU Metals",
+      "claim_count": 1714,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/btu-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1688",
+      "ontario_count": 1714,
+      "ontario_bbox": [
+        -93.8625,
+        47.8958,
+        -84.05,
+        50.9042
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "harfang-exploration",
+      "names": [
+        "Harfang Exploration",
+        "harfang exploration"
+      ],
+      "holder": "Harfang Exploration",
+      "claim_count": 4275,
+      "color": "#e8b040",
+      "extract": "claims/harfang-exploration.geojson",
+      "ontario_extract": "claims/harfang-exploration-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1637",
+      "ontario_count": 1628,
+      "ontario_bbox": [
+        -90.6688,
+        47.1417,
+        -79.7125,
+        51.3
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 2647,
+      "quebec_bbox": [
+        -77.68333334336064,
+        51.58333333086422,
+        -74.49166666038212,
+        53.475000005775264
+      ]
+    },
+    {
+      "id": "great-pacific-gold",
+      "names": [
+        "Great Pacific Gold",
+        "great pacific gold"
+      ],
+      "holder": "Great Pacific Gold",
+      "claim_count": 1630,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/great-pacific-gold-ontario.geojson",
+      "bc_extract": "claims/great-pacific-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1630",
+      "ontario_count": 1627,
+      "ontario_bbox": [
+        -93.9938,
+        47.4417,
+        -81.0,
+        51.75
+      ],
+      "bc_count": 3,
+      "bc_bbox": [
+        -123.5174,
+        49.7243,
+        -123.1316,
+        50.6841
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "generation-mining",
+      "names": [
+        "Generation Mining",
+        "generation mining"
+      ],
+      "holder": "Generation Mining",
+      "claim_count": 1623,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/generation-mining-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1623",
+      "ontario_count": 1623,
+      "ontario_bbox": [
+        -86.6438,
+        48.6875,
+        -86.2188,
+        48.925
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "kirkland-lake-discoveries",
+      "names": [
+        "Kirkland Lake Discoveries",
+        "kirkland lake discoveries"
+      ],
+      "holder": "Kirkland Lake Discoveries",
+      "claim_count": 1643,
+      "color": "#e8b040",
+      "extract": "claims/kirkland-lake-discoveries.geojson",
+      "ontario_extract": "claims/kirkland-lake-discoveries-ontario.geojson",
+      "bc_extract": "claims/kirkland-lake-discoveries-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1619",
+      "ontario_count": 1597,
+      "ontario_bbox": [
+        -80.2438,
+        47.9792,
+        -79.5176,
+        48.3708
+      ],
+      "bc_count": 20,
+      "bc_bbox": [
+        -118.9074,
+        49.017,
+        -118.6079,
+        49.1068
+      ],
+      "quebec_count": 26,
+      "quebec_bbox": [
+        -79.51776795807582,
+        49.508333338810964,
+        -74.9749999956382,
+        53.13333333908784
+      ]
+    },
+    {
+      "id": "major-drilling-group-international",
+      "names": [
+        "Major Drilling Group International",
+        "major drilling group international"
+      ],
+      "holder": "Major Drilling Group International",
+      "claim_count": 1668,
+      "color": "#e8b040",
+      "extract": "claims/major-drilling-group-international.geojson",
+      "ontario_extract": "claims/major-drilling-group-international-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1589",
+      "ontario_count": 1558,
+      "ontario_bbox": [
+        -81.9125,
+        46.2792,
+        -80.775,
+        47.5792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 110,
+      "quebec_bbox": [
+        -74.83333333977225,
+        49.27500000436345,
+        -74.5333333303826,
+        49.33333334084508
+      ]
+    },
+    {
+      "id": "silver-crown-royalties",
+      "names": [
+        "Silver Crown Royalties",
+        "silver crown royalties"
+      ],
+      "holder": "Silver Crown Royalties",
+      "claim_count": 3002,
+      "color": "#e8b040",
+      "extract": "claims/silver-crown-royalties.geojson",
+      "ontario_extract": "claims/silver-crown-royalties-ontario.geojson",
+      "bc_extract": "claims/silver-crown-royalties-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1540",
+      "ontario_count": 2758,
+      "ontario_bbox": [
+        -93.9313,
+        44.675,
+        -77.3688,
+        53.8292
+      ],
+      "bc_count": 102,
+      "bc_bbox": [
+        -131.8822,
+        49.9701,
+        -117.1817,
+        59.9998
+      ],
+      "quebec_count": 142,
+      "quebec_bbox": [
+        -76.12500000345372,
+        49.11666667015424,
+        -63.449999999475665,
+        57.508333344350966
+      ]
+    },
+    {
+      "id": "amex-exploration",
+      "names": [
+        "Amex Exploration",
+        "amex exploration"
+      ],
+      "holder": "Amex Exploration",
+      "claim_count": 2000,
+      "color": "#e8b040",
+      "extract": "claims/amex-exploration.geojson",
+      "ontario_extract": "claims/amex-exploration-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1497",
+      "ontario_count": 1417,
+      "ontario_bbox": [
+        -80.0563,
+        48.9292,
+        -79.5173,
+        49.3917
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 583,
+      "quebec_bbox": [
+        -79.51783525407004,
+        48.97499999341967,
+        -71.8833333317877,
+        52.50000000279154
+      ]
+    },
+    {
+      "id": "transition-metals",
+      "names": [
+        "Transition Metals",
+        "transition metals"
+      ],
+      "holder": "Transition Metals",
+      "claim_count": 1691,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/transition-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1454",
+      "ontario_count": 1691,
+      "ontario_bbox": [
+        -90.25,
+        44.8792,
+        -77.4875,
+        49.7292
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "delta-resources",
+      "names": [
+        "Delta Resources Limited",
+        "delta resources"
+      ],
+      "holder": "Delta Resources Limited",
+      "claim_count": 1781,
+      "color": "#e8b040",
+      "extract": "claims/delta-resources.geojson",
+      "ontario_extract": "claims/delta-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1295",
+      "ontario_count": 1337,
+      "ontario_bbox": [
+        -90.3688,
+        48.45,
+        -89.725,
+        48.6333
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 444,
+      "quebec_bbox": [
+        -74.35833333969393,
+        46.5083333376847,
+        -70.16666666342645,
+        49.77500000720904
+      ]
+    },
+    {
+      "id": "new-gold",
+      "names": [
+        "New Gold",
+        "new gold"
+      ],
+      "holder": "New Gold",
+      "claim_count": 1282,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/new-gold-ontario.geojson",
+      "bc_extract": "claims/new-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1282",
+      "ontario_count": 1226,
+      "ontario_bbox": [
+        -94.3313,
+        48.7417,
+        -93.6313,
+        51.0167
+      ],
+      "bc_count": 56,
+      "bc_bbox": [
+        -120.5763,
+        50.5374,
+        -120.321,
+        51.6208
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "stllr-gold",
+      "names": [
+        "STLLR Gold",
+        "stllr gold"
+      ],
+      "holder": "STLLR Gold",
+      "claim_count": 1263,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/stllr-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1263",
+      "ontario_count": 1263,
+      "ontario_bbox": [
+        -81.5313,
+        48.2375,
+        -79.8188,
+        48.5917
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "sterling-metals",
+      "names": [
+        "Sterling Metals",
+        "sterling metals"
+      ],
+      "holder": "Sterling Metals",
+      "claim_count": 1210,
+      "color": "#e8b040",
+      "extract": "claims/sterling-metals.geojson",
+      "ontario_extract": "claims/sterling-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1206",
+      "ontario_count": 1206,
+      "ontario_bbox": [
+        -84.7938,
+        46.75,
+        -81.7563,
+        47.1125
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 4,
+      "quebec_bbox": [
+        -65.54645413106779,
+        49.02287946082691,
+        -57.2735585501689,
+        51.50344704631729
+      ]
+    },
+    {
+      "id": "lucara-diamond",
+      "names": [
+        "Lucara Diamond",
+        "lucara diamond"
+      ],
+      "holder": "Lucara Diamond",
+      "claim_count": 1114,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/lucara-diamond-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1114",
+      "ontario_count": 1114,
+      "ontario_bbox": [
+        -85.6188,
+        48.075,
+        -84.6625,
+        48.6792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "highland-copper",
+      "names": [
+        "Highland Copper",
+        "highland copper"
+      ],
+      "holder": "Highland Copper",
+      "claim_count": 1078,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/highland-copper-ontario.geojson",
+      "bc_extract": "claims/highland-copper-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1047",
+      "ontario_count": 31,
+      "ontario_bbox": [
+        -78.4938,
+        44.8583,
+        -78.1563,
+        45.0792
+      ],
+      "bc_count": 1047,
+      "bc_bbox": [
+        -121.2849,
+        50.2534,
+        -120.8654,
+        50.5825
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "red-canyon-resources",
+      "names": [
+        "Red Canyon Resources",
+        "red canyon resources"
+      ],
+      "holder": "Red Canyon Resources",
+      "claim_count": 924,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/red-canyon-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=924",
+      "ontario_count": 924,
+      "ontario_bbox": [
+        -92.7688,
+        51.1125,
+        -92.0375,
+        51.4625
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "midland-exploration",
+      "names": [
+        "Midland Exploration",
+        "midland exploration"
+      ],
+      "holder": "Midland Exploration",
+      "claim_count": 12375,
+      "color": "#e8b040",
+      "extract": "claims/midland-exploration.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=743",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 12375,
+      "quebec_bbox": [
+        -79.51776723536003,
+        46.24999999900024,
+        -65.29166666913666,
+        58.46666667962085
+      ]
+    },
+    {
+      "id": "nickel-creek-platinum",
+      "names": [
+        "Nickel Creek Platinum",
+        "nickel creek platinum"
+      ],
+      "holder": "Nickel Creek Platinum",
+      "claim_count": 9594,
+      "color": "#e8b040",
+      "extract": "claims/nickel-creek-platinum.geojson",
+      "ontario_extract": "claims/nickel-creek-platinum-ontario.geojson",
+      "bc_extract": "claims/nickel-creek-platinum-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=735",
+      "ontario_count": 8093,
+      "ontario_bbox": [
+        -93.975,
+        47.1958,
+        -79.9188,
+        51.4208
+      ],
+      "bc_count": 251,
+      "bc_bbox": [
+        -131.7271,
+        49.0874,
+        -117.3011,
+        58.6039
+      ],
+      "quebec_count": 1250,
+      "quebec_bbox": [
+        -78.75000000062099,
+        48.558333327890395,
+        -67.26666666470902,
+        59.308333395458185
+      ]
+    },
+    {
+      "id": "appia-rare-earths-uranium",
+      "names": [
+        "Appia Rare Earths & Uranium Corp",
+        "appia rare earths uranium"
+      ],
+      "holder": "Appia Rare Earths & Uranium Corp",
+      "claim_count": 698,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/appia-rare-earths-uranium-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=698",
+      "ontario_count": 698,
+      "ontario_bbox": [
+        -82.7938,
+        46.4167,
+        -82.4313,
+        46.525
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "g2-goldfields",
+      "names": [
+        "G2 Goldfields",
+        "g2 goldfields"
+      ],
+      "holder": "G2 Goldfields",
+      "claim_count": 732,
+      "color": "#e8b040",
+      "extract": "claims/g2-goldfields.geojson",
+      "ontario_extract": "claims/g2-goldfields-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=696",
+      "ontario_count": 690,
+      "ontario_bbox": [
+        -88.5438,
+        47.8833,
+        -82.35,
+        52.6958
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 42,
+      "quebec_bbox": [
+        -79.11903434061487,
+        48.25841038501014,
+        -75.95400277548823,
+        49.59009219070176
+      ]
+    },
+    {
+      "id": "stardust-metal",
+      "names": [
+        "Stardust Metal",
+        "stardust metal"
+      ],
+      "holder": "Stardust Metal",
+      "claim_count": 644,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/stardust-metal-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=644",
+      "ontario_count": 644,
+      "ontario_bbox": [
+        -90.325,
+        47.8708,
+        -80.0938,
+        48.675
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "impala-platinum-holdings",
+      "names": [
+        "Impala Platinum Holdings",
+        "impala platinum holdings"
+      ],
+      "holder": "Impala Platinum Holdings",
+      "claim_count": 581,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/impala-platinum-holdings-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=581",
+      "ontario_count": 581,
+      "ontario_bbox": [
+        -90.3625,
+        48.5708,
+        -89.4313,
+        49.7542
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "abcourt-mines",
+      "names": [
+        "Abcourt Mines",
+        "abcourt mines"
+      ],
+      "holder": "Abcourt Mines",
+      "claim_count": 1329,
+      "color": "#e8b040",
+      "extract": "claims/abcourt-mines.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=576",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1329,
+      "quebec_bbox": [
+        -79.25827165272698,
+        47.86666666200606,
+        -76.90833333111443,
+        49.993057621446084
+      ]
+    },
+    {
+      "id": "gold-finder-resources",
+      "names": [
+        "Gold Finder Resources",
+        "gold finder resources"
+      ],
+      "holder": "Gold Finder Resources",
+      "claim_count": 570,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/gold-finder-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=570",
+      "ontario_count": 570,
+      "ontario_bbox": [
+        -94.3313,
+        50.7458,
+        -91.3938,
+        51.2125
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "power-metals",
+      "names": [
+        "Power Metals",
+        "power metals"
+      ],
+      "holder": "Power Metals",
+      "claim_count": 5751,
+      "color": "#e8b040",
+      "extract": "claims/power-metals.geojson",
+      "ontario_extract": "claims/power-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=564",
+      "ontario_count": 745,
+      "ontario_bbox": [
+        -93.8875,
+        46.3667,
+        -79.8188,
+        49.1875
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 5006,
+      "quebec_bbox": [
+        -79.40000000129433,
+        45.399999999621684,
+        -64.30833332813751,
+        53.30000001407579
+      ]
+    },
+    {
+      "id": "tiger-gold",
+      "names": [
+        "Tiger Gold Corp.",
+        "tiger gold"
+      ],
+      "holder": "Tiger Gold Corp.",
+      "claim_count": 562,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/tiger-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=562",
+      "ontario_count": 562,
+      "ontario_bbox": [
+        -79.8938,
+        48.3917,
+        -79.5171,
+        49.5792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "mcfarlane-lake-mining",
+      "names": [
+        "McFarlane Lake Mining",
+        "mcfarlane lake mining"
+      ],
+      "holder": "McFarlane Lake Mining",
+      "claim_count": 557,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/mcfarlane-lake-mining-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=557",
+      "ontario_count": 557,
+      "ontario_bbox": [
+        -81.85,
+        46.1,
+        -80.175,
+        48.6125
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "elcora-advanced-materials",
+      "names": [
+        "Elcora Advanced Materials",
+        "elcora advanced materials"
+      ],
+      "holder": "Elcora Advanced Materials",
+      "claim_count": 549,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/elcora-advanced-materials-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=549",
+      "ontario_count": 549,
+      "ontario_bbox": [
+        -88.325,
+        46.8,
+        -79.4688,
+        51.6625
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "globex-mining-enterprises",
+      "names": [
+        "Globex Mining Enterprises",
+        "globex mining enterprises"
+      ],
+      "holder": "Globex Mining Enterprises",
+      "claim_count": 3117,
+      "color": "#e8b040",
+      "extract": "claims/globex-mining-enterprises.geojson",
+      "ontario_extract": "claims/globex-mining-enterprises-ontario.geojson",
+      "bc_extract": "claims/globex-mining-enterprises-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=535",
+      "ontario_count": 128,
+      "ontario_bbox": [
+        -94.35,
+        46.6458,
+        -79.125,
+        49.7292
+      ],
+      "bc_count": 54,
+      "bc_bbox": [
+        -133.441,
+        50.637,
+        -120.4104,
+        59.5443
+      ],
+      "quebec_count": 2935,
+      "quebec_bbox": [
+        -79.51759338420176,
+        46.08333333396839,
+        -61.19999999838509,
+        59.650000011520994
+      ]
+    },
+    {
+      "id": "silver-north-resources",
+      "names": [
+        "Silver North Resources",
+        "silver north resources"
+      ],
+      "holder": "Silver North Resources",
+      "claim_count": 2024,
+      "color": "#e8b040",
+      "extract": "claims/silver-north-resources.geojson",
+      "ontario_extract": "claims/silver-north-resources-ontario.geojson",
+      "bc_extract": "claims/silver-north-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=531",
+      "ontario_count": 1535,
+      "ontario_bbox": [
+        -93.9313,
+        46.7417,
+        -79.5,
+        53.8292
+      ],
+      "bc_count": 280,
+      "bc_bbox": [
+        -131.8822,
+        49.9701,
+        -117.1817,
+        59.9998
+      ],
+      "quebec_count": 209,
+      "quebec_bbox": [
+        -78.76666666921679,
+        49.11666667015424,
+        -63.449999999475665,
+        57.508333344350966
+      ]
+    },
+    {
+      "id": "rio-silver",
+      "names": [
+        "Rio Silver",
+        "rio silver"
+      ],
+      "holder": "Rio Silver",
+      "claim_count": 528,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/rio-silver-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=528",
+      "ontario_count": 528,
+      "ontario_bbox": [
+        -91.9875,
+        53.6792,
+        -91.7563,
+        53.8292
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "nexgold",
+      "names": [
+        "NexGold Mining",
+        "nexgold"
+      ],
+      "holder": "NexGold Mining",
+      "claim_count": 504,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/nexgold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=504",
+      "ontario_count": 504,
+      "ontario_bbox": [
+        -92.6563,
+        49.7167,
+        -91.9125,
+        50.0375
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "nord-precious-metals",
+      "names": [
+        "Nord Precious Metals",
+        "nord precious metals"
+      ],
+      "holder": "Nord Precious Metals",
+      "claim_count": 1642,
+      "color": "#e8b040",
+      "extract": "claims/nord-precious-metals.geojson",
+      "ontario_extract": "claims/nord-precious-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=498",
+      "ontario_count": 521,
+      "ontario_bbox": [
+        -90.7375,
+        46.5708,
+        -80.025,
+        49.3583
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1121,
+      "quebec_bbox": [
+        -79.26220235278669,
+        46.37169320251577,
+        -57.7918697083594,
+        53.51666667230205
+      ]
+    },
+    {
+      "id": "glencore",
+      "names": [
+        "Glencore",
+        "glencore"
+      ],
+      "holder": "Glencore",
+      "claim_count": 2137,
+      "color": "#e8b040",
+      "extract": "claims/glencore.geojson",
+      "ontario_extract": "claims/glencore-ontario.geojson",
+      "bc_extract": "claims/glencore-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=468",
+      "ontario_count": 269,
+      "ontario_bbox": [
+        -91.1688,
+        46.4125,
+        -80.8,
+        49.9
+      ],
+      "bc_count": 85,
+      "bc_bbox": [
+        -137.1794,
+        49.8451,
+        -119.925,
+        59.7374
+      ],
+      "quebec_count": 1783,
+      "quebec_bbox": [
+        -79.14649933714136,
+        47.158333334903155,
+        -65.94999999826128,
+        61.80676454534869
+      ]
+    },
+    {
+      "id": "grid-metals",
+      "names": [
+        "Grid Metals",
+        "grid metals"
+      ],
+      "holder": "Grid Metals",
+      "claim_count": 469,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/grid-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=466",
+      "ontario_count": 469,
+      "ontario_bbox": [
+        -82.3,
+        46.3708,
+        -80.1125,
+        47.7958
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "solstice-minerals",
+      "names": [
+        "Solstice Minerals Limited",
+        "solstice minerals"
+      ],
+      "holder": "Solstice Minerals Limited",
+      "claim_count": 548,
+      "color": "#e8b040",
+      "extract": "claims/solstice-minerals.geojson",
+      "ontario_extract": "claims/solstice-minerals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=462",
+      "ontario_count": 462,
+      "ontario_bbox": [
+        -93.7438,
+        46.425,
+        -79.7125,
+        51.75
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 86,
+      "quebec_bbox": [
+        -77.93333333936799,
+        49.466666666003995,
+        -77.70000000288606,
+        49.52500000763286
+      ]
+    },
+    {
+      "id": "falco-resources",
+      "names": [
+        "Falco Resources",
+        "falco resources"
+      ],
+      "holder": "Falco Resources",
+      "claim_count": 1745,
+      "color": "#e8b040",
+      "extract": "claims/falco-resources.geojson",
+      "ontario_extract": "claims/falco-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=451",
+      "ontario_count": 343,
+      "ontario_bbox": [
+        -91.3438,
+        47.65,
+        -80.6625,
+        50.5125
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1402,
+      "quebec_bbox": [
+        -79.425,
+        48.225000000010205,
+        -78.66667015565834,
+        48.47500000000948
+      ]
+    },
+    {
+      "id": "cobalt-blue-holdings",
+      "names": [
+        "Cobalt Blue Holdings",
+        "cobalt blue holdings"
+      ],
+      "holder": "Cobalt Blue Holdings",
+      "claim_count": 1283,
+      "color": "#e8b040",
+      "extract": "claims/cobalt-blue-holdings.geojson",
+      "ontario_extract": "claims/cobalt-blue-holdings-ontario.geojson",
+      "bc_extract": "claims/cobalt-blue-holdings-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=426",
+      "ontario_count": 1249,
+      "ontario_bbox": [
+        -84.7563,
+        46.2042,
+        -79.4333,
+        48.4083
+      ],
+      "bc_count": 3,
+      "bc_bbox": [
+        -122.9702,
+        50.8874,
+        -122.9452,
+        50.8999
+      ],
+      "quebec_count": 31,
+      "quebec_bbox": [
+        -79.40833333679882,
+        47.18333332937984,
+        -79.32499999418602,
+        47.23333333605693
+      ]
+    },
+    {
+      "id": "northstar-gold",
+      "names": [
+        "Northstar Gold",
+        "northstar gold"
+      ],
+      "holder": "Northstar Gold",
+      "claim_count": 406,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/northstar-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=406",
+      "ontario_count": 406,
+      "ontario_bbox": [
+        -80.1813,
+        47.0208,
+        -79.8125,
+        48.05
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "golden-arrow",
+      "names": [
+        "Golden Arrow",
+        "golden arrow"
+      ],
+      "holder": "Golden Arrow",
+      "claim_count": 1914,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/golden-arrow-ontario.geojson",
+      "bc_extract": "claims/golden-arrow-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=386",
+      "ontario_count": 1904,
+      "ontario_bbox": [
+        -95.15,
+        46.7542,
+        -79.65,
+        50.7792
+      ],
+      "bc_count": 10,
+      "bc_bbox": [
+        -130.5378,
+        53.102,
+        -121.5211,
+        57.236
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "falcon-gold",
+      "names": [
+        "Falcon Gold Corp.",
+        "falcon gold"
+      ],
+      "holder": "Falcon Gold Corp.",
+      "claim_count": 343,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/falcon-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=343",
+      "ontario_count": 343,
+      "ontario_bbox": [
+        -91.3438,
+        47.65,
+        -80.6625,
+        50.5125
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "rpx-gold",
+      "names": [
+        "RPX Gold Inc.",
+        "rpx gold"
+      ],
+      "holder": "RPX Gold Inc.",
+      "claim_count": 335,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/rpx-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=335",
+      "ontario_count": 335,
+      "ontario_bbox": [
+        -84.8063,
+        47.8333,
+        -82.2,
+        48.025
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "inventus-mining",
+      "names": [
+        "Inventus Mining",
+        "inventus mining"
+      ],
+      "holder": "Inventus Mining",
+      "claim_count": 306,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/inventus-mining-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=306",
+      "ontario_count": 306,
+      "ontario_bbox": [
+        -80.6938,
+        46.7042,
+        -80.2188,
+        47.0375
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "mayfair-gold",
+      "names": [
+        "Mayfair Gold",
+        "mayfair gold"
+      ],
+      "holder": "Mayfair Gold",
+      "claim_count": 287,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/mayfair-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=287",
+      "ontario_count": 287,
+      "ontario_bbox": [
+        -80.2625,
+        48.4667,
+        -79.5175,
+        48.5542
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "noble-mineral-exploration",
+      "names": [
+        "Noble Mineral Exploration Inc.",
+        "noble mineral exploration"
+      ],
+      "holder": "Noble Mineral Exploration Inc.",
+      "claim_count": 284,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/noble-mineral-exploration-ontario.geojson",
+      "bc_extract": "claims/noble-mineral-exploration-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=284",
+      "ontario_count": 281,
+      "ontario_bbox": [
+        -94.1313,
+        48.875,
+        -83.7375,
+        50.1917
+      ],
+      "bc_count": 3,
+      "bc_bbox": [
+        -121.4867,
+        52.791,
+        -121.4568,
+        52.8159
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "abitibi-metals",
+      "names": [
+        "Abitibi Metals",
+        "abitibi metals"
+      ],
+      "holder": "Abitibi Metals",
+      "claim_count": 3521,
+      "color": "#e8b040",
+      "extract": "claims/abitibi-metals.geojson",
+      "ontario_extract": "claims/abitibi-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=261",
+      "ontario_count": 249,
+      "ontario_bbox": [
+        -85.9625,
+        47.325,
+        -80.0813,
+        49.1792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 3272,
+      "quebec_bbox": [
+        -79.1916666690991,
+        47.99166666610901,
+        -75.79999999667038,
+        49.908333341147845
+      ]
+    },
+    {
+      "id": "bonterra-resources",
+      "names": [
+        "Bonterra Resources",
+        "bonterra resources"
+      ],
+      "holder": "Bonterra Resources",
+      "claim_count": 601,
+      "color": "#e8b040",
+      "extract": "claims/bonterra-resources.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=236",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 601,
+      "quebec_bbox": [
+        -77.84195887919182,
+        48.09775173386327,
+        -75.75746300195419,
+        49.66666667434149
+      ]
+    },
+    {
+      "id": "rio-tinto",
+      "names": [
+        "Rio Tinto",
+        "rio tinto"
+      ],
+      "holder": "Rio Tinto",
+      "claim_count": 1348,
+      "color": "#e8b040",
+      "extract": "claims/rio-tinto.geojson",
+      "ontario_extract": "claims/rio-tinto-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=225",
+      "ontario_count": 225,
+      "ontario_bbox": [
+        -89.725,
+        48.0167,
+        -85.4625,
+        48.6083
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1123,
+      "quebec_bbox": [
+        -76.38333333675557,
+        49.76666666590994,
+        -63.29166666332628,
+        53.6666666736197
+      ]
+    },
+    {
+      "id": "pinnacle-silver-and-gold",
+      "names": [
+        "Pinnacle Silver and Gold",
+        "pinnacle silver and gold"
+      ],
+      "holder": "Pinnacle Silver and Gold",
+      "claim_count": 188,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/pinnacle-silver-and-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=188",
+      "ontario_count": 188,
+      "ontario_bbox": [
+        -92.5188,
+        51.475,
+        -92.3875,
+        51.5292
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "cartier-resources",
+      "names": [
+        "Cartier Resources",
+        "cartier resources"
+      ],
+      "holder": "Cartier Resources",
+      "claim_count": 628,
+      "color": "#e8b040",
+      "extract": "claims/cartier-resources.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=180",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 628,
+      "quebec_bbox": [
+        -78.64726429421638,
+        47.94166666736826,
+        -68.05833353890922,
+        52.15000001002344
+      ]
+    },
+    {
+      "id": "signature-resources",
+      "names": [
+        "Signature Resources",
+        "signature resources"
+      ],
+      "holder": "Signature Resources",
+      "claim_count": 179,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/signature-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=179",
+      "ontario_count": 179,
+      "ontario_bbox": [
+        -93.2063,
+        53.7875,
+        -92.7375,
+        53.9167
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "eskay-mining",
+      "names": [
+        "Eskay Mining",
+        "eskay mining"
+      ],
+      "holder": "Eskay Mining",
+      "claim_count": 164,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/eskay-mining-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=164",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 164,
+      "bc_bbox": [
+        -130.6408,
+        56.3831,
+        -130.207,
+        56.7351
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "emperor-metals",
+      "names": [
+        "Emperor Metals",
+        "emperor metals"
+      ],
+      "holder": "Emperor Metals",
+      "claim_count": 167,
+      "color": "#e8b040",
+      "extract": "claims/emperor-metals.geojson",
+      "ontario_extract": "claims/emperor-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=155",
+      "ontario_count": 141,
+      "ontario_bbox": [
+        -86.3,
+        48.6708,
+        -85.7625,
+        48.8792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 26,
+      "quebec_bbox": [
+        -79.10000000000001,
+        48.19960560305052,
+        -79.0333333333333,
+        48.225000048930454
+      ]
+    },
+    {
+      "id": "canterra-minerals",
+      "names": [
+        "Canterra Minerals Corp.",
+        "canterra minerals"
+      ],
+      "holder": "Canterra Minerals Corp.",
+      "claim_count": 153,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/canterra-minerals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=153",
+      "ontario_count": 153,
+      "ontario_bbox": [
+        -86.7938,
+        52.4125,
+        -86.6813,
+        52.4958
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "mundoro-capital",
+      "names": [
+        "Mundoro Capital",
+        "mundoro capital"
+      ],
+      "holder": "Mundoro Capital",
+      "claim_count": 298,
+      "color": "#e8b040",
+      "extract": "claims/mundoro-capital.geojson",
+      "ontario_extract": "claims/mundoro-capital-ontario.geojson",
+      "bc_extract": "claims/mundoro-capital-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=142",
+      "ontario_count": 110,
+      "ontario_bbox": [
+        -86.1063,
+        46.975,
+        -81.3188,
+        49.7708
+      ],
+      "bc_count": 5,
+      "bc_bbox": [
+        -124.9141,
+        49.5987,
+        -117.7387,
+        53.9999
+      ],
+      "quebec_count": 183,
+      "quebec_bbox": [
+        -79.51666667305824,
+        48.94999999288772,
+        -79.21666666108776,
+        49.133333339804324
+      ]
+    },
+    {
+      "id": "dynasty-gold",
+      "names": [
+        "Dynasty Gold Corp",
+        "dynasty gold"
+      ],
+      "holder": "Dynasty Gold Corp",
+      "claim_count": 135,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/dynasty-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=132",
+      "ontario_count": 135,
+      "ontario_bbox": [
+        -92.5625,
+        49.3625,
+        -92.4875,
+        49.4208
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "nexmetals-mining",
+      "names": [
+        "NexMetals Mining Corp.",
+        "nexmetals mining"
+      ],
+      "holder": "NexMetals Mining Corp.",
+      "claim_count": 126,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/nexmetals-mining-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=126",
+      "ontario_count": 126,
+      "ontario_bbox": [
+        -80.8875,
+        46.7792,
+        -80.8063,
+        46.8458
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "radisson-mining",
+      "names": [
+        "Radisson Mining",
+        "radisson mining"
+      ],
+      "holder": "Radisson Mining",
+      "claim_count": 177,
+      "color": "#e8b040",
+      "extract": "claims/radisson-mining.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=125",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 177,
+      "quebec_bbox": [
+        -78.50000000339773,
+        48.14166666504439,
+        -77.9500000022812,
+        49.558333340578436
+      ]
+    },
+    {
+      "id": "white-gold",
+      "names": [
+        "White Gold",
+        "white gold"
+      ],
+      "holder": "White Gold",
+      "claim_count": 3842,
+      "color": "#e8b040",
+      "extract": "claims/white-gold.geojson",
+      "ontario_extract": "claims/white-gold-ontario.geojson",
+      "bc_extract": "claims/white-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=125",
+      "ontario_count": 1236,
+      "ontario_bbox": [
+        -92.6063,
+        45.5583,
+        -80.0375,
+        53.0
+      ],
+      "bc_count": 1,
+      "bc_bbox": [
+        -122.0563,
+        52.9874,
+        -122.0405,
+        52.9935
+      ],
+      "quebec_count": 2605,
+      "quebec_bbox": [
+        -79.45833333856642,
+        46.12499999997828,
+        -62.86666666508216,
+        56.300000008019495
+      ]
+    },
+    {
+      "id": "champion-iron",
+      "names": [
+        "Champion Iron",
+        "champion iron"
+      ],
+      "holder": "Champion Iron",
+      "claim_count": 1718,
+      "color": "#e8b040",
+      "extract": "claims/champion-iron.geojson",
+      "ontario_extract": "claims/champion-iron-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=124",
+      "ontario_count": 146,
+      "ontario_bbox": [
+        -93.175,
+        46.5667,
+        -80.8375,
+        49.7792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1572,
+      "quebec_bbox": [
+        -68.18333358092997,
+        51.99166666961992,
+        -67.10833328390704,
+        52.8083327421863
+      ]
+    },
+    {
+      "id": "teuton-resources",
+      "names": [
+        "Teuton Resources",
+        "teuton resources"
+      ],
+      "holder": "Teuton Resources",
+      "claim_count": 124,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/teuton-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=124",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 124,
+      "bc_bbox": [
+        -130.427,
+        49.4979,
+        -121.7002,
+        56.3498
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "apollo-silver",
+      "names": [
+        "Apollo Silver",
+        "apollo silver"
+      ],
+      "holder": "Apollo Silver",
+      "claim_count": 122,
+      "color": "#e8b040",
+      "extract": "claims/apollo-silver.geojson",
+      "ontario_extract": "claims/apollo-silver-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=120",
+      "ontario_count": 94,
+      "ontario_bbox": [
+        -91.5063,
+        48.8708,
+        -91.3938,
+        49.0417
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 28,
+      "quebec_bbox": [
+        -78.17499999383952,
+        48.04999999993669,
+        -78.0666666587131,
+        48.100000004604986
+      ]
+    },
+    {
+      "id": "fancamp-exploration",
+      "names": [
+        "Fancamp Exploration Ltd.",
+        "fancamp exploration"
+      ],
+      "holder": "Fancamp Exploration Ltd.",
+      "claim_count": 1000,
+      "color": "#e8b040",
+      "extract": "claims/fancamp-exploration.geojson",
+      "ontario_extract": "claims/fancamp-exploration-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=115",
+      "ontario_count": 104,
+      "ontario_bbox": [
+        -83.3625,
+        53.5375,
+        -83.2813,
+        53.5833
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 896,
+      "quebec_bbox": [
+        -78.30833334265476,
+        45.33333332632043,
+        -63.36666666682869,
+        51.53333333929369
+      ]
+    },
+    {
+      "id": "total-metals",
+      "names": [
+        "Total Metals Corp.",
+        "total metals"
+      ],
+      "holder": "Total Metals Corp.",
+      "claim_count": 115,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/total-metals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=115",
+      "ontario_count": 115,
+      "ontario_bbox": [
+        -95.1125,
+        46.3708,
+        -81.8188,
+        49.725
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "amarc-resources",
+      "names": [
+        "Amarc Resources",
+        "amarc resources"
+      ],
+      "holder": "Amarc Resources",
+      "claim_count": 113,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/amarc-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=113",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 113,
+      "bc_bbox": [
+        -126.8643,
+        51.0165,
+        -123.2452,
+        57.3332
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "nexus-gold",
+      "names": [
+        "Nexus Gold",
+        "nexus gold"
+      ],
+      "holder": "Nexus Gold",
+      "claim_count": 108,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/nexus-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=108",
+      "ontario_count": 108,
+      "ontario_bbox": [
+        -93.9063,
+        51.0125,
+        -93.825,
+        51.0833
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "cassiar-gold",
+      "names": [
+        "Cassiar Gold",
+        "cassiar gold"
+      ],
+      "holder": "Cassiar Gold",
+      "claim_count": 101,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/cassiar-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=101",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 101,
+      "bc_bbox": [
+        -129.8752,
+        49.1374,
+        -116.9449,
+        59.342
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "critical-elements-lithium",
+      "names": [
+        "Critical Elements Lithium",
+        "critical elements lithium"
+      ],
+      "holder": "Critical Elements Lithium",
+      "claim_count": 4641,
+      "color": "#e8b040",
+      "extract": "claims/critical-elements-lithium.geojson",
+      "ontario_extract": "claims/critical-elements-lithium-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=85",
+      "ontario_count": 3090,
+      "ontario_bbox": [
+        -94.1375,
+        46.8958,
+        -80.6938,
+        50.1708
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 1551,
+      "quebec_bbox": [
+        -79.40833333153675,
+        45.308333332818776,
+        -63.01666666600311,
+        61.55833334669276
+      ]
+    },
+    {
+      "id": "vr-resources",
+      "names": [
+        "VR Resources",
+        "vr resources"
+      ],
+      "holder": "VR Resources",
+      "claim_count": 83,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/vr-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=83",
+      "ontario_count": 83,
+      "ontario_bbox": [
+        -92.9625,
+        48.8125,
+        -81.725,
+        50.6458
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "almonty-industries",
+      "names": [
+        "Almonty Industries",
+        "almonty industries"
+      ],
+      "holder": "Almonty Industries",
+      "claim_count": 79,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/almonty-industries-ontario.geojson",
+      "bc_extract": "claims/almonty-industries-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=79",
+      "ontario_count": 37,
+      "ontario_bbox": [
+        -84.7875,
+        47.9833,
+        -84.65,
+        48.0292
+      ],
+      "bc_count": 42,
+      "bc_bbox": [
+        -122.2513,
+        49.7373,
+        -120.2321,
+        51.209
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "wallbridge",
+      "names": [
+        "Wallbridge Mining",
+        "wallbridge"
+      ],
+      "holder": "Wallbridge Mining",
+      "claim_count": 884,
+      "color": "#e8b040",
+      "extract": "claims/wallbridge.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=77",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 884,
+      "quebec_bbox": [
+        -79.42500000524907,
+        49.483333332771906,
+        -77.64207751307731,
+        50.08333334071767
+      ]
+    },
+    {
+      "id": "northwest-copper",
+      "names": [
+        "NorthWest Copper",
+        "northwest copper"
+      ],
+      "holder": "NorthWest Copper",
+      "claim_count": 75,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/northwest-copper-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=75",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 75,
+      "bc_bbox": [
+        -126.0706,
+        49.5661,
+        -118.8649,
+        56.5374
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "aurelius-minerals",
+      "names": [
+        "Aurelius Minerals",
+        "aurelius minerals"
+      ],
+      "holder": "Aurelius Minerals",
+      "claim_count": 68,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/aurelius-minerals-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=68",
+      "ontario_count": 68,
+      "ontario_bbox": [
+        -79.7563,
+        49.475,
+        -79.675,
+        49.5083
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "integra-resources",
+      "names": [
+        "Integra Resources",
+        "integra resources"
+      ],
+      "holder": "Integra Resources",
+      "claim_count": 82,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/integra-resources-ontario.geojson",
+      "bc_extract": "claims/integra-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=68",
+      "ontario_count": 68,
+      "ontario_bbox": [
+        -79.95,
+        48.1667,
+        -79.875,
+        48.2083
+      ],
+      "bc_count": 14,
+      "bc_bbox": [
+        -127.2955,
+        57.4409,
+        -127.083,
+        57.5165
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "benton-resources",
+      "names": [
+        "Benton Resources",
+        "benton resources"
+      ],
+      "holder": "Benton Resources",
+      "claim_count": 66,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/benton-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=66",
+      "ontario_count": 66,
+      "ontario_bbox": [
+        -94.6625,
+        48.6458,
+        -85.6938,
+        49.875
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "eagle-plains-resources",
+      "names": [
+        "Eagle Plains Resources",
+        "eagle plains resources"
+      ],
+      "holder": "Eagle Plains Resources",
+      "claim_count": 14208,
+      "color": "#e8b040",
+      "extract": "claims/eagle-plains-resources.geojson",
+      "ontario_extract": "claims/eagle-plains-resources-ontario.geojson",
+      "bc_extract": "claims/eagle-plains-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=63",
+      "ontario_count": 9369,
+      "ontario_bbox": [
+        -91.6188,
+        45.1792,
+        -77.3813,
+        50.6167
+      ],
+      "bc_count": 71,
+      "bc_bbox": [
+        -130.1517,
+        49.1375,
+        -115.5135,
+        59.9998
+      ],
+      "quebec_count": 4768,
+      "quebec_bbox": [
+        -79.51777295745983,
+        46.02738303730568,
+        -65.32499999847168,
+        59.516666677745974
+      ]
+    },
+    {
+      "id": "premier-american-uranium",
+      "names": [
+        "Premier American Uranium Inc.",
+        "premier american uranium"
+      ],
+      "holder": "Premier American Uranium Inc.",
+      "claim_count": 110,
+      "color": "#e8b040",
+      "extract": "claims/premier-american-uranium.geojson",
+      "ontario_extract": "claims/premier-american-uranium-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=60",
+      "ontario_count": 60,
+      "ontario_bbox": [
+        -93.875,
+        51.0167,
+        -93.8,
+        51.0625
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 50,
+      "quebec_bbox": [
+        -72.49166666782162,
+        47.790262310668204,
+        -65.99024895714373,
+        50.29641372545098
+      ]
+    },
+    {
+      "id": "first-quantum-minerals",
+      "names": [
+        "First Quantum Minerals",
+        "first quantum minerals"
+      ],
+      "holder": "First Quantum Minerals",
+      "claim_count": 3113,
+      "color": "#e8b040",
+      "extract": "claims/first-quantum-minerals.geojson",
+      "ontario_extract": "claims/first-quantum-minerals-ontario.geojson",
+      "bc_extract": "claims/first-quantum-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=57",
+      "ontario_count": 1555,
+      "ontario_bbox": [
+        -91.3438,
+        48.3583,
+        -80.1,
+        51.125
+      ],
+      "bc_count": 2,
+      "bc_bbox": [
+        -120.77,
+        50.3124,
+        -119.7937,
+        51.171
+      ],
+      "quebec_count": 1556,
+      "quebec_bbox": [
+        -79.06666666666672,
+        45.308333332818776,
+        -63.70833302057279,
+        56.23333333939434
+      ]
+    },
+    {
+      "id": "skeena",
+      "names": [
+        "Skeena Resources",
+        "skeena"
+      ],
+      "holder": "Skeena Resources",
+      "claim_count": 56,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/skeena-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=56",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 56,
+      "bc_bbox": [
+        -131.1767,
+        56.604,
+        -129.6096,
+        57.7829
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "golden-goliath-resources",
+      "names": [
+        "Golden Goliath Resources",
+        "golden goliath resources"
+      ],
+      "holder": "Golden Goliath Resources",
+      "claim_count": 1528,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/golden-goliath-resources-ontario.geojson",
+      "bc_extract": "claims/golden-goliath-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=54",
+      "ontario_count": 1518,
+      "ontario_bbox": [
+        -95.15,
+        46.9917,
+        -79.65,
+        50.7792
+      ],
+      "bc_count": 10,
+      "bc_bbox": [
+        -130.5378,
+        53.102,
+        -121.5211,
+        57.236
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "walker-lane-resources",
+      "names": [
+        "Walker Lane Resources",
+        "walker lane resources"
+      ],
+      "holder": "Walker Lane Resources",
+      "claim_count": 52,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/walker-lane-resources-ontario.geojson",
+      "bc_extract": "claims/walker-lane-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=51",
+      "ontario_count": 51,
+      "ontario_bbox": [
+        -84.1313,
+        46.825,
+        -80.975,
+        47.7167
+      ],
+      "bc_count": 1,
+      "bc_bbox": [
+        -116.0698,
+        49.3625,
+        -116.0448,
+        49.375
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "scottie-resources",
+      "names": [
+        "Scottie Resources",
+        "scottie resources"
+      ],
+      "holder": "Scottie Resources",
+      "claim_count": 49,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/scottie-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=49",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 49,
+      "bc_bbox": [
+        -130.1393,
+        55.7271,
+        -129.6582,
+        56.3623
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "enduro-metals",
+      "names": [
+        "Enduro Metals",
+        "enduro metals"
+      ],
+      "holder": "Enduro Metals",
+      "claim_count": 46,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/enduro-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=46",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 46,
+      "bc_bbox": [
+        -131.0833,
+        56.7936,
+        -130.7208,
+        57.0207
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "tectonic-metals",
+      "names": [
+        "Tectonic Metals",
+        "tectonic metals"
+      ],
+      "holder": "Tectonic Metals",
+      "claim_count": 793,
+      "color": "#e8b040",
+      "extract": "claims/tectonic-metals.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=46",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 793,
+      "quebec_bbox": [
+        -77.04166667283143,
+        45.63305224902093,
+        -66.174999999997,
+        61.64166669149736
+      ]
+    },
+    {
+      "id": "teck-resources",
+      "names": [
+        "Teck Resources",
+        "teck resources"
+      ],
+      "holder": "Teck Resources",
+      "claim_count": 1409,
+      "color": "#e8b040",
+      "extract": "claims/teck-resources.geojson",
+      "ontario_extract": "claims/teck-resources-ontario.geojson",
+      "bc_extract": "claims/teck-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=45",
+      "ontario_count": 175,
+      "ontario_bbox": [
+        -93.4,
+        49.5375,
+        -93.275,
+        49.6042
+      ],
+      "bc_count": 1144,
+      "bc_bbox": [
+        -131.0583,
+        49.4249,
+        -115.8925,
+        58.0945
+      ],
+      "quebec_count": 90,
+      "quebec_bbox": [
+        -79.35268826460094,
+        48.09734152378976,
+        -75.95400277548823,
+        49.6416666783731
+      ]
+    },
+    {
+      "id": "westhaven-gold",
+      "names": [
+        "Westhaven Gold",
+        "westhaven gold"
+      ],
+      "holder": "Westhaven Gold",
+      "claim_count": 45,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/westhaven-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=45",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 45,
+      "bc_bbox": [
+        -121.5326,
+        49.8249,
+        -120.7513,
+        50.3832
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "palisades-goldcorp",
+      "names": [
+        "Palisades Goldcorp",
+        "palisades goldcorp"
+      ],
+      "holder": "Palisades Goldcorp",
+      "claim_count": 42,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/palisades-goldcorp-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=42",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 42,
+      "bc_bbox": [
+        -126.3263,
+        49.8583,
+        -117.3449,
+        54.9085
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "selkirk-copper-mines",
+      "names": [
+        "Selkirk Copper Mines",
+        "selkirk copper mines"
+      ],
+      "holder": "Selkirk Copper Mines",
+      "claim_count": 41,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/selkirk-copper-mines-ontario.geojson",
+      "bc_extract": "claims/selkirk-copper-mines-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=41",
+      "ontario_count": 12,
+      "ontario_bbox": [
+        -80.7875,
+        48.425,
+        -80.7688,
+        48.4417
+      ],
+      "bc_count": 29,
+      "bc_bbox": [
+        -126.9266,
+        49.229,
+        -117.9824,
+        56.9499
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "spanish-mountain-gold",
+      "names": [
+        "Spanish Mountain Gold",
+        "spanish mountain gold"
+      ],
+      "holder": "Spanish Mountain Gold",
+      "claim_count": 41,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/spanish-mountain-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=41",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 41,
+      "bc_bbox": [
+        -121.5389,
+        52.5327,
+        -121.3701,
+        52.6291
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "black-stone-minerals",
+      "names": [
+        "Black Stone Minerals",
+        "black stone minerals"
+      ],
+      "holder": "Black Stone Minerals",
+      "claim_count": 1328,
+      "color": "#e8b040",
+      "extract": "claims/black-stone-minerals.geojson",
+      "ontario_extract": "claims/black-stone-minerals-ontario.geojson",
+      "bc_extract": "claims/black-stone-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=40",
+      "ontario_count": 715,
+      "ontario_bbox": [
+        -93.7188,
+        47.425,
+        -79.5125,
+        50.4792
+      ],
+      "bc_count": 15,
+      "bc_bbox": [
+        -126.5578,
+        48.5666,
+        -115.9073,
+        53.2866
+      ],
+      "quebec_count": 598,
+      "quebec_bbox": [
+        -79.36666667324283,
+        46.41788889094126,
+        -65.46666666448981,
+        49.92500000506155
+      ]
+    },
+    {
+      "id": "p2-gold",
+      "names": [
+        "P2 Gold",
+        "p2 gold"
+      ],
+      "holder": "P2 Gold",
+      "claim_count": 39,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/p2-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=39",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 39,
+      "bc_bbox": [
+        -131.027,
+        57.2248,
+        -130.6083,
+        57.379
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "rupert-resources",
+      "names": [
+        "Rupert Resources",
+        "rupert resources"
+      ],
+      "holder": "Rupert Resources",
+      "claim_count": 39,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/rupert-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=39",
+      "ontario_count": 39,
+      "ontario_bbox": [
+        -84.525,
+        47.0042,
+        -84.3625,
+        47.1375
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "energy-fuels",
+      "names": [
+        "Energy Fuels",
+        "energy fuels"
+      ],
+      "holder": "Energy Fuels",
+      "claim_count": 1046,
+      "color": "#e8b040",
+      "extract": "claims/energy-fuels.geojson",
+      "ontario_extract": "claims/energy-fuels-ontario.geojson",
+      "bc_extract": "claims/energy-fuels-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=35",
+      "ontario_count": 819,
+      "ontario_bbox": [
+        -86.775,
+        46.2208,
+        -78.6875,
+        50.5458
+      ],
+      "bc_count": 30,
+      "bc_bbox": [
+        -131.8331,
+        50.3499,
+        -120.845,
+        58.2665
+      ],
+      "quebec_count": 197,
+      "quebec_bbox": [
+        -75.62500000308657,
+        45.074999997979795,
+        -62.79999999515436,
+        50.38333334097658
+      ]
+    },
+    {
+      "id": "freeman-gold",
+      "names": [
+        "Freeman Gold",
+        "freeman gold"
+      ],
+      "holder": "Freeman Gold",
+      "claim_count": 35,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/freeman-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=35",
+      "ontario_count": 35,
+      "ontario_bbox": [
+        -80.6875,
+        48.8375,
+        -80.6125,
+        48.8708
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "thesis-gold",
+      "names": [
+        "Thesis Gold",
+        "thesis gold"
+      ],
+      "holder": "Thesis Gold",
+      "claim_count": 35,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/thesis-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=34",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 35,
+      "bc_bbox": [
+        -127.5205,
+        57.2873,
+        -127.1143,
+        57.5415
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "mosaic-company",
+      "names": [
+        "The Mosaic Company",
+        "mosaic company"
+      ],
+      "holder": "The Mosaic Company",
+      "claim_count": 460,
+      "color": "#e8b040",
+      "extract": "claims/mosaic-company.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=33",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 460,
+      "quebec_bbox": [
+        -79.15833333647106,
+        47.308333326484764,
+        -74.94999999405468,
+        52.091666675311124
+      ]
+    },
+    {
+      "id": "sierra-madre-gold-and-silver",
+      "names": [
+        "Sierra Madre Gold and Silver",
+        "sierra madre gold and silver"
+      ],
+      "holder": "Sierra Madre Gold and Silver",
+      "claim_count": 33,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/sierra-madre-gold-and-silver-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=33",
+      "ontario_count": 33,
+      "ontario_bbox": [
+        -84.6625,
+        47.9583,
+        -84.5938,
+        48.0
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "goldcliff-resource",
+      "names": [
+        "Goldcliff Resource Corp",
+        "goldcliff resource"
+      ],
+      "holder": "Goldcliff Resource Corp",
+      "claim_count": 30,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/goldcliff-resource-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=30",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 30,
+      "bc_bbox": [
+        -120.0575,
+        49.3416,
+        -119.9075,
+        49.4166
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "imperial-oil",
+      "names": [
+        "Imperial Oil Limited",
+        "imperial oil"
+      ],
+      "holder": "Imperial Oil Limited",
+      "claim_count": 29,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/imperial-oil-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=29",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 29,
+      "bc_bbox": [
+        -130.6315,
+        49.7332,
+        -124.5139,
+        56.1374
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "tudor-gold",
+      "names": [
+        "Tudor Gold",
+        "tudor gold"
+      ],
+      "holder": "Tudor Gold",
+      "claim_count": 29,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/tudor-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=29",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 29,
+      "bc_bbox": [
+        -130.2176,
+        56.5494,
+        -130.0412,
+        56.662
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "goldstorm-metals",
+      "names": [
+        "Goldstorm Metals",
+        "goldstorm metals"
+      ],
+      "holder": "Goldstorm Metals",
+      "claim_count": 28,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/goldstorm-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=28",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 28,
+      "bc_bbox": [
+        -130.3083,
+        56.2498,
+        -130.0513,
+        56.4373
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "kodiak-copper",
+      "names": [
+        "Kodiak Copper",
+        "kodiak copper"
+      ],
+      "holder": "Kodiak Copper",
+      "claim_count": 28,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/kodiak-copper-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=28",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 28,
+      "bc_bbox": [
+        -120.5562,
+        49.604,
+        -120.4075,
+        49.7749
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "taseko-mines",
+      "names": [
+        "Taseko Mines",
+        "taseko mines"
+      ],
+      "holder": "Taseko Mines",
+      "claim_count": 28,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/taseko-mines-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=28",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 28,
+      "bc_bbox": [
+        -123.6827,
+        51.3665,
+        -123.5077,
+        51.4957
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "freegold-ventures",
+      "names": [
+        "Freegold Ventures",
+        "freegold ventures"
+      ],
+      "holder": "Freegold Ventures",
+      "claim_count": 27,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/freegold-ventures-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=27",
+      "ontario_count": 27,
+      "ontario_bbox": [
+        -80.3438,
+        46.6458,
+        -80.3063,
+        46.675
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "labrador-gold",
+      "names": [
+        "Labrador Gold",
+        "labrador gold"
+      ],
+      "holder": "Labrador Gold",
+      "claim_count": 68,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/labrador-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=27",
+      "ontario_count": 68,
+      "ontario_bbox": [
+        -83.1813,
+        47.8042,
+        -83.1438,
+        47.8542
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "silver-spruce-resources",
+      "names": [
+        "Silver Spruce Resources",
+        "silver spruce resources"
+      ],
+      "holder": "Silver Spruce Resources",
+      "claim_count": 1462,
+      "color": "#e8b040",
+      "extract": "claims/silver-spruce-resources.geojson",
+      "ontario_extract": "claims/silver-spruce-resources-ontario.geojson",
+      "bc_extract": "claims/silver-spruce-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=27",
+      "ontario_count": 1249,
+      "ontario_bbox": [
+        -93.9313,
+        47.175,
+        -79.5,
+        53.8292
+      ],
+      "bc_count": 71,
+      "bc_bbox": [
+        -131.8822,
+        49.9701,
+        -117.1817,
+        59.9998
+      ],
+      "quebec_count": 142,
+      "quebec_bbox": [
+        -76.12500000345372,
+        49.11666667015424,
+        -63.449999999475665,
+        57.508333344350966
+      ]
+    },
+    {
+      "id": "decade-resources",
+      "names": [
+        "Decade Resources",
+        "decade resources"
+      ],
+      "holder": "Decade Resources",
+      "claim_count": 26,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/decade-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=26",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 26,
+      "bc_bbox": [
+        -128.258,
+        54.4582,
+        -128.0017,
+        54.5332
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "surge-copper",
+      "names": [
+        "Surge Copper",
+        "surge copper"
+      ],
+      "holder": "Surge Copper",
+      "claim_count": 26,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/surge-copper-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=26",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 26,
+      "bc_bbox": [
+        -127.4767,
+        53.5707,
+        -126.9704,
+        53.829
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "international-tower-hill",
+      "names": [
+        "International Tower Hill",
+        "international tower hill"
+      ],
+      "holder": "International Tower Hill",
+      "claim_count": 4615,
+      "color": "#e8b040",
+      "extract": "claims/international-tower-hill.geojson",
+      "ontario_extract": "claims/international-tower-hill-ontario.geojson",
+      "bc_extract": "claims/international-tower-hill-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=25",
+      "ontario_count": 4437,
+      "ontario_bbox": [
+        -94.5375,
+        45.0167,
+        -77.55,
+        49.5042
+      ],
+      "bc_count": 45,
+      "bc_bbox": [
+        -128.6421,
+        49.4184,
+        -118.0831,
+        58.3158
+      ],
+      "quebec_count": 133,
+      "quebec_bbox": [
+        -79.51786269846625,
+        46.74166666952586,
+        -60.39166665860502,
+        58.34166668099502
+      ]
+    },
+    {
+      "id": "omineca-mining-and-metals",
+      "names": [
+        "Omineca Mining and Metals",
+        "omineca mining and metals"
+      ],
+      "holder": "Omineca Mining and Metals",
+      "claim_count": 24,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/omineca-mining-and-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=24",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 24,
+      "bc_bbox": [
+        -124.5391,
+        49.2915,
+        -121.6888,
+        54.4714
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "orex-minerals",
+      "names": [
+        "Orex Minerals",
+        "orex minerals"
+      ],
+      "holder": "Orex Minerals",
+      "claim_count": 24,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/orex-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=24",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 24,
+      "bc_bbox": [
+        -118.1136,
+        49.1457,
+        -117.9449,
+        49.3041
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "canasil-resources",
+      "names": [
+        "Canasil Resources",
+        "canasil resources"
+      ],
+      "holder": "Canasil Resources",
+      "claim_count": 22,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/canasil-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=22",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 22,
+      "bc_bbox": [
+        -126.9317,
+        57.2143,
+        -126.7963,
+        57.2763
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "coeur-mining",
+      "names": [
+        "Coeur Mining",
+        "coeur mining"
+      ],
+      "holder": "Coeur Mining",
+      "claim_count": 21,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/coeur-mining-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=21",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 21,
+      "bc_bbox": [
+        -130.4205,
+        59.8039,
+        -130.1142,
+        59.9998
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "goliath-resources",
+      "names": [
+        "Goliath Resources",
+        "goliath resources"
+      ],
+      "holder": "Goliath Resources",
+      "claim_count": 95,
+      "color": "#e8b040",
+      "extract": "claims/goliath-resources.geojson",
+      "ontario_extract": "claims/goliath-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=19",
+      "ontario_count": 54,
+      "ontario_bbox": [
+        -93.7375,
+        46.9917,
+        -84.3625,
+        50.7792
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 41,
+      "quebec_bbox": [
+        -75.15000000328669,
+        49.27500000310101,
+        -75.03333333019368,
+        49.35000000706317
+      ]
+    },
+    {
+      "id": "electric-royalties",
+      "names": [
+        "Electric Royalties",
+        "electric royalties"
+      ],
+      "holder": "Electric Royalties",
+      "claim_count": 2371,
+      "color": "#e8b040",
+      "extract": "claims/electric-royalties.geojson",
+      "ontario_extract": "claims/electric-royalties-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=17",
+      "ontario_count": 17,
+      "ontario_bbox": [
+        -91.9,
+        49.2917,
+        -87.8938,
+        50.975
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 2354,
+      "quebec_bbox": [
+        -78.38278819219485,
+        48.71960658648483,
+        -69.2666666599065,
+        60.18333334676088
+      ]
+    },
+    {
+      "id": "enterprise-products-partners",
+      "names": [
+        "Enterprise Products Partners",
+        "enterprise products partners"
+      ],
+      "holder": "Enterprise Products Partners",
+      "claim_count": 188,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/enterprise-products-partners-ontario.geojson",
+      "bc_extract": "claims/enterprise-products-partners-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=14",
+      "ontario_count": 128,
+      "ontario_bbox": [
+        -94.35,
+        46.6458,
+        -79.125,
+        49.7292
+      ],
+      "bc_count": 60,
+      "bc_bbox": [
+        -133.441,
+        49.3943,
+        -120.4104,
+        59.5443
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "dynacor-group",
+      "names": [
+        "Dynacor Group",
+        "dynacor group"
+      ],
+      "holder": "Dynacor Group",
+      "claim_count": 6,
+      "color": "#e8b040",
+      "extract": "claims/dynacor-group.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=12",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 6,
+      "quebec_bbox": [
+        -77.89270730472539,
+        48.130970375620365,
+        -77.8755905319496,
+        48.136658472903555
+      ]
+    },
+    {
+      "id": "troilus-mining",
+      "names": [
+        "Troilus Mining",
+        "troilus mining"
+      ],
+      "holder": "Troilus Mining",
+      "claim_count": 938,
+      "color": "#e8b040",
+      "extract": "claims/troilus-mining.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=11",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 938,
+      "quebec_bbox": [
+        -77.4083333347966,
+        48.32499999836078,
+        -74.1916666697821,
+        53.21666667498597
+      ]
+    },
+    {
+      "id": "almadex-minerals",
+      "names": [
+        "Almadex Minerals Ltd.",
+        "almadex minerals"
+      ],
+      "holder": "Almadex Minerals Ltd.",
+      "claim_count": 10,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/almadex-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=10",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 10,
+      "bc_bbox": [
+        -121.3825,
+        50.0832,
+        -121.0638,
+        50.2166
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "metal-energy",
+      "names": [
+        "Metal Energy",
+        "metal energy"
+      ],
+      "holder": "Metal Energy",
+      "claim_count": 39354,
+      "color": "#e8b040",
+      "extract": "claims/metal-energy.geojson",
+      "ontario_extract": "claims/metal-energy-ontario.geojson",
+      "bc_extract": "claims/metal-energy-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=9",
+      "ontario_count": 25643,
+      "ontario_bbox": [
+        -95.1125,
+        44.8792,
+        -77.4875,
+        52.9875
+      ],
+      "bc_count": 538,
+      "bc_bbox": [
+        -133.605,
+        49.229,
+        -115.8925,
+        59.6083
+      ],
+      "quebec_count": 13173,
+      "quebec_bbox": [
+        -79.4333333333333,
+        45.308333332818776,
+        -63.33333333328141,
+        57.12500001054585
+      ]
+    },
+    {
+      "id": "pacific-empire-minerals",
+      "names": [
+        "Pacific Empire Minerals",
+        "pacific empire minerals"
+      ],
+      "holder": "Pacific Empire Minerals",
+      "claim_count": 187,
+      "color": "#e8b040",
+      "extract": "claims/pacific-empire-minerals.geojson",
+      "ontario_extract": null,
+      "bc_extract": "claims/pacific-empire-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=9",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 130,
+      "bc_bbox": [
+        -129.933,
+        49.479,
+        -120.4316,
+        59.3415
+      ],
+      "quebec_count": 57,
+      "quebec_bbox": [
+        -79.51763550008852,
+        48.433333333342894,
+        -79.46471153957043,
+        48.55833333168073
+      ]
+    },
+    {
+      "id": "blue-lagoon-resources",
+      "names": [
+        "Blue Lagoon Resources",
+        "blue lagoon resources"
+      ],
+      "holder": "Blue Lagoon Resources",
+      "claim_count": 125,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/blue-lagoon-resources-ontario.geojson",
+      "bc_extract": "claims/blue-lagoon-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=8",
+      "ontario_count": 116,
+      "ontario_bbox": [
+        -87.9063,
+        49.2583,
+        -82.9438,
+        49.8208
+      ],
+      "bc_count": 9,
+      "bc_bbox": [
+        -123.6327,
+        51.0832,
+        -122.3889,
+        52.4291
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "cardinal-energy",
+      "names": [
+        "Cardinal Energy",
+        "cardinal energy"
+      ],
+      "holder": "Cardinal Energy",
+      "claim_count": 8,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/cardinal-energy-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=8",
+      "ontario_count": 8,
+      "ontario_bbox": [
+        -82.15,
+        47.5125,
+        -79.8875,
+        47.6333
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "independence-gold",
+      "names": [
+        "Independence Gold",
+        "independence gold"
+      ],
+      "holder": "Independence Gold",
+      "claim_count": 8,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/independence-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=8",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 8,
+      "bc_bbox": [
+        -125.0641,
+        53.0082,
+        -124.9578,
+        53.0582
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "alpha-metallurgical-resources",
+      "names": [
+        "Alpha Metallurgical Resources",
+        "alpha metallurgical resources"
+      ],
+      "holder": "Alpha Metallurgical Resources",
+      "claim_count": 11,
+      "color": "#e8b040",
+      "extract": "claims/alpha-metallurgical-resources.geojson",
+      "ontario_extract": null,
+      "bc_extract": "claims/alpha-metallurgical-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=7",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 7,
+      "bc_bbox": [
+        -124.6889,
+        49.9915,
+        -124.6139,
+        50.0707
+      ],
+      "quebec_count": 4,
+      "quebec_bbox": [
+        -69.43333333944483,
+        47.35000000235103,
+        -69.41666666594075,
+        47.366666673520506
+      ]
+    },
+    {
+      "id": "avino-silver-gold-mines",
+      "names": [
+        "Avino Silver & Gold Mines",
+        "avino silver gold mines"
+      ],
+      "holder": "Avino Silver & Gold Mines",
+      "claim_count": 7,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/avino-silver-gold-mines-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=7",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 7,
+      "bc_bbox": [
+        -122.7702,
+        50.8624,
+        -122.7076,
+        50.9082
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "klondike-silver",
+      "names": [
+        "Klondike Silver",
+        "klondike silver"
+      ],
+      "holder": "Klondike Silver",
+      "claim_count": 21,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/klondike-silver-ontario.geojson",
+      "bc_extract": "claims/klondike-silver-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=6",
+      "ontario_count": 15,
+      "ontario_bbox": [
+        -81.2625,
+        46.7583,
+        -81.2125,
+        46.7708
+      ],
+      "bc_count": 6,
+      "bc_bbox": [
+        -117.2626,
+        49.9701,
+        -117.1817,
+        50.005
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "skyharbour-resources",
+      "names": [
+        "Skyharbour Resources",
+        "skyharbour resources"
+      ],
+      "holder": "Skyharbour Resources",
+      "claim_count": 6,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/skyharbour-resources-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=6",
+      "ontario_count": 6,
+      "ontario_bbox": [
+        -92.6938,
+        51.1083,
+        -92.6813,
+        51.1208
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "united-states-antimony",
+      "names": [
+        "United States Antimony Corp.",
+        "united states antimony"
+      ],
+      "holder": "United States Antimony Corp.",
+      "claim_count": 19,
+      "color": "#e8b040",
+      "extract": "claims/united-states-antimony.geojson",
+      "ontario_extract": "claims/united-states-antimony-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=6",
+      "ontario_count": 4,
+      "ontario_bbox": [
+        -94.5375,
+        49.4958,
+        -94.525,
+        49.5042
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 15,
+      "quebec_bbox": [
+        -78.34166667594734,
+        46.74166666952586,
+        -60.39166665860502,
+        58.34166668099502
+      ]
+    },
+    {
+      "id": "canagold",
+      "names": [
+        "Canagold",
+        "canagold"
+      ],
+      "holder": "Canagold",
+      "claim_count": 5,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/canagold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=5",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 5,
+      "bc_bbox": [
+        -130.4854,
+        56.6063,
+        -130.4202,
+        56.6471
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "doubleview-gold",
+      "names": [
+        "Doubleview Gold",
+        "doubleview gold"
+      ],
+      "holder": "Doubleview Gold",
+      "claim_count": 5,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/doubleview-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=5",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 5,
+      "bc_bbox": [
+        -131.6394,
+        58.1831,
+        -131.5644,
+        58.2248
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "equity-metals",
+      "names": [
+        "Equity Metals",
+        "equity metals"
+      ],
+      "holder": "Equity Metals",
+      "claim_count": 4,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/equity-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=4",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 4,
+      "bc_bbox": [
+        -126.7517,
+        54.0457,
+        -126.6767,
+        54.1041
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "garibaldi-resources",
+      "names": [
+        "Garibaldi Resources",
+        "garibaldi resources"
+      ],
+      "holder": "Garibaldi Resources",
+      "claim_count": 4,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/garibaldi-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=4",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 4,
+      "bc_bbox": [
+        -131.0083,
+        50.6832,
+        -123.4452,
+        56.7915
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "outcrop-silver-and-gold",
+      "names": [
+        "Outcrop Silver and Gold",
+        "outcrop silver and gold"
+      ],
+      "holder": "Outcrop Silver and Gold",
+      "claim_count": 4,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/outcrop-silver-and-gold-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=4",
+      "ontario_count": 4,
+      "ontario_bbox": [
+        -79.6625,
+        47.3417,
+        -79.65,
+        47.35
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "defense-metals",
+      "names": [
+        "Defense Metals",
+        "defense metals"
+      ],
+      "holder": "Defense Metals",
+      "claim_count": 3,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/defense-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=3",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 3,
+      "bc_bbox": [
+        -122.1203,
+        54.5208,
+        -122.0828,
+        54.5458
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "san-lorenzo-gold",
+      "names": [
+        "San Lorenzo Gold",
+        "san lorenzo gold"
+      ],
+      "holder": "San Lorenzo Gold",
+      "claim_count": 0,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=3",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "exploits-discovery",
+      "names": [
+        "Exploits Discovery Corp.",
+        "exploits discovery"
+      ],
+      "holder": "Exploits Discovery Corp.",
+      "claim_count": 2,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/exploits-discovery-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 2,
+      "ontario_bbox": [
+        -86.5375,
+        49.6917,
+        -86.525,
+        49.6958
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "lake-victoria-gold",
+      "names": [
+        "Lake Victoria Gold",
+        "lake victoria gold"
+      ],
+      "holder": "Lake Victoria Gold",
+      "claim_count": 6859,
+      "color": "#e8b040",
+      "extract": "claims/lake-victoria-gold.geojson",
+      "ontario_extract": "claims/lake-victoria-gold-ontario.geojson",
+      "bc_extract": "claims/lake-victoria-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 6269,
+      "ontario_bbox": [
+        -94.575,
+        44.625,
+        -77.0188,
+        51.975
+      ],
+      "bc_count": 11,
+      "bc_bbox": [
+        -127.2953,
+        48.4123,
+        -122.9435,
+        53.3008
+      ],
+      "quebec_count": 579,
+      "quebec_bbox": [
+        -79.51776795807582,
+        45.02500000088542,
+        -66.78333333704612,
+        55.458333344112766
+      ]
+    },
+    {
+      "id": "metallis-resources",
+      "names": [
+        "Metallis Resources",
+        "metallis resources"
+      ],
+      "holder": "Metallis Resources",
+      "claim_count": 2,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/metallis-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 2,
+      "bc_bbox": [
+        -130.6583,
+        56.4415,
+        -130.6208,
+        56.5123
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "sun-summit-minerals",
+      "names": [
+        "Sun Summit Minerals",
+        "sun summit minerals"
+      ],
+      "holder": "Sun Summit Minerals",
+      "claim_count": 2,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/sun-summit-minerals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 2,
+      "bc_bbox": [
+        -126.8455,
+        54.2624,
+        -126.8017,
+        54.3082
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "talisker-resources",
+      "names": [
+        "Talisker Resources",
+        "talisker resources"
+      ],
+      "holder": "Talisker Resources",
+      "claim_count": 2,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/talisker-resources-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 2,
+      "bc_bbox": [
+        -121.6951,
+        50.6207,
+        -121.6826,
+        50.6291
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "vista-gold",
+      "names": [
+        "Vista Gold",
+        "vista gold"
+      ],
+      "holder": "Vista Gold",
+      "claim_count": 78,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/vista-gold-ontario.geojson",
+      "bc_extract": "claims/vista-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=2",
+      "ontario_count": 76,
+      "ontario_bbox": [
+        -91.95,
+        48.8958,
+        -90.7313,
+        48.9458
+      ],
+      "bc_count": 2,
+      "bc_bbox": [
+        -123.2277,
+        51.3129,
+        -123.1702,
+        51.3309
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "austin-gold",
+      "names": [
+        "Austin Gold",
+        "austin gold"
+      ],
+      "holder": "Austin Gold",
+      "claim_count": 1,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/austin-gold-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 1,
+      "bc_bbox": [
+        -121.5655,
+        53.0835,
+        -121.5577,
+        53.0898
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "niocorp-developments",
+      "names": [
+        "NioCorp Developments",
+        "niocorp developments"
+      ],
+      "holder": "NioCorp Developments",
+      "claim_count": 1,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": "claims/niocorp-developments-ontario.geojson",
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1",
+      "ontario_count": 1,
+      "ontario_bbox": [
+        -92.4063,
+        49.4917,
+        -92.4,
+        49.4958
+      ],
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
+    },
+    {
+      "id": "sovereign-metals",
+      "names": [
+        "Sovereign Metals Limited",
+        "sovereign metals"
+      ],
+      "holder": "Sovereign Metals Limited",
+      "claim_count": 1,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": "claims/sovereign-metals-bc.geojson",
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 1,
+      "bc_bbox": [
+        -121.9529,
+        52.9813,
+        -121.9404,
+        52.9865
+      ],
+      "quebec_count": 0
+    },
+    {
+      "id": "st-barbara",
+      "names": [
+        "St Barbara",
+        "st barbara"
+      ],
+      "holder": "St Barbara",
+      "claim_count": 0,
+      "color": "#e8b040",
+      "extract": null,
+      "ontario_extract": null,
+      "bc_extract": null,
+      "mines": [],
+      "source_note": "auto from qc.sqlite linked parties n=1",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0
     }
   ],
   "sources": {
-    "quebec": "GESTIM active titles",
+    "quebec": "GESTIM active titles (MRNF digital data dump). Not legal title.",
     "ontario": "Ontario MLAS operational claims (OGSEarth / LIO MapServer). Unofficial viewing data, not legal title.",
-    "british_columbia": "BC MTA Mineral, Placer and Coal Tenure Spatial View (BCGW). Open Government Licence – British Columbia. Not legal title.",
-    "as_of_on_bc": "2026-09-17"
+    "british_columbia": "BC MTA Mineral, Placer and Coal Tenure Spatial View (BCGW). Open Government Licence - British Columbia. Not legal title.",
+    "as_of_on_bc": "2026-09-17",
+    "as_of_polygons": "2026-09-20"
   },
-  "on_bc_built_at": "2026-09-17T01:29:54Z"
+  "on_bc_built_at": "2026-09-20T04:45:37Z"
 }

@@ -46,7 +46,7 @@ Do **not** `git add` those collector files in a feature commit. A racing desktop
 
 `.github/workflows/morning-check.yml` runs ~07:40 ET and fails if `trades-lite.json` or `insider-trades-lite.json` `collected` is not today (America/New_York). It does not scrape.
 
-`.github/workflows/daily-update.yml` runs daily at 23:30 UTC: fetch Yahoo closes, enrich Form 4 plan/holdings (public SEC, no secrets), rebuild `backtest.json` / `insider-repeatable.json` if prices or the Form 4 sidecar moved, always rebuild `insider-follow.json`, commit to `main`, then request a GitHub Pages rebuild. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed.
+`.github/workflows/daily-update.yml` runs daily at 23:30 UTC: enrich Form 4 plan/holdings (public SEC, no secrets), always rebuild `backtest.json` / `insider-repeatable.json` / `insider-follow.json` from the committed morning `prices/` book, commit those artifacts (not `prices/`) to `main`, then request a GitHub Pages rebuild. Yahoo daily closes are morning-only from the off-repo collect bats; this Action no longer fetches or commits `prices/`. `follow-alerts.yml` re-runs the Form 4 enrich + follow builders when `insider-trades-lite.json` is pushed.
 
 ## Service worker cache — read before editing shell assets
 

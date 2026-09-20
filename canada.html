@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Canada — Quantity Capital</title>
+  <meta name="description" content="Canadian mineral production (national aggregates) and Map 900A principal mines. Not investment advice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" /></noscript>
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    .kicker, h1, h2, nav, .chip {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    body { padding-top: env(safe-area-inset-top, 0px); }
+    .kicker { color: var(--caution); margin: 8px 0 4px; }
+    h1 { font-size: 1.5rem; line-height: 1.15; margin: 0; }
+    .lede { color: var(--paper); max-width: 68ch; line-height: 1.5; margin-bottom: 10px; }
+    .asof { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; }
+    .quiet { color: var(--mute); font-size: 0.78rem; line-height: 1.4; }
+    .pickers {
+      display: grid; grid-template-columns: minmax(220px, 320px) minmax(140px, 180px);
+      gap: 12px 16px; margin: 0 0 16px; max-width: 520px;
+    }
+    .picker label {
+      display: block; font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--mute);
+      font-size: 0.78rem; margin-bottom: 4px;
+    }
+    .picker select {
+      width: 100%; background: #151b24; border: 1px solid #4a5563; color: var(--white);
+      padding: 10px 12px; font: inherit; min-height: 44px;
+    }
+    .picker select:focus { outline: 1px solid var(--caution); }
+    .stats {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0 0 18px; border: 1px solid #4a5563; background: var(--panel);
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block; font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.5rem; color: var(--caution); letter-spacing: 0.06em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    h2 { font-size: 1.15rem; margin: 22px 0 10px; }
+    .chart-wrap {
+      background: rgba(21, 27, 36, 0.94); border: 1px solid #4a5563;
+      padding: 12px 12px 8px; margin: 0 0 16px;
+    }
+    #chart-svg { width: 100%; height: 220px; display: block; }
+    .chart-x {
+      display: flex; justify-content: space-between; color: var(--mute);
+      font-size: 0.72rem; padding: 4px 2px 0;
+    }
+    .table-wrap { overflow-x: auto; margin: 0 0 8px; border: 1px solid #4a5563; background: var(--panel); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #3a4452; vertical-align: top; }
+    th {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--mute); font-weight: 600; font-size: 0.82rem;
+      background: #222a35;
+    }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    tr:last-child td { border-bottom: 0; }
+    tr.on td { background: rgba(227, 180, 26, 0.08); }
+    a.mine { color: var(--white); text-decoration: none; font-weight: 600; }
+    a.mine:hover { color: var(--teal); }
+    a.claim { color: var(--caution); text-decoration: none; }
+    a.claim:hover { color: var(--white); }
+    .layout {
+      display: grid; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
+      gap: 12px 28px; align-items: start;
+    }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap {
+      display: flex; flex-direction: column; gap: 10px; padding: 18px 0 36px;
+      color: var(--mute); font-size: 0.88rem; line-height: 1.45;
+    }
+    footer .legal {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    [hidden], .hidden { display: none !important; }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
+      .stat:last-child { border-bottom: 0; }
+    }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 24px); }
+      header nav { display: none; }
+      .tabbar {
+        display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+        background: var(--ink); border-top: 2px solid var(--teal);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+      .tabbar a {
+        flex: 1 1 0; min-height: 44px; display: flex; align-items: center; justify-content: center;
+        font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+        font-size: 0.78rem; color: var(--paper); text-decoration: none; padding: 0 2px; text-align: center;
+      }
+      .tabbar a.on, .tabbar a:hover { color: var(--caution); }
+      body { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 16px); }
+      .pickers { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="shell.css?v=113" />
+</head>
+<body>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Beta">
+        <a href="beta.html" title="Issuer mine profiles">Mines</a>
+        <a href="claims.html" title="Quebec, Ontario, and BC mineral claims">Claims</a>
+        <a href="canada.html" class="on" aria-current="page" title="Canadian mineral production">Canada</a>
+      </nav>
+      <div class="qc-modes">
+        <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+        <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+      </div>
+    </div>
+  </header>
+  <div class="wrap" id="main">
+    <p class="kicker">Beta</p>
+    <h1>Canadian production</h1>
+    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. Mine-level tonnes are confidential and are not shown.</p>
+    <p class="asof" id="asof">Loading production book…</p>
+    <div class="pickers">
+      <div class="picker">
+        <label for="commodity">Commodity</label>
+        <select id="commodity"></select>
+      </div>
+      <div class="picker">
+        <label for="year">Year</label>
+        <select id="year"></select>
+      </div>
+    </div>
+    <div class="stats" id="kpis"></div>
+    <div class="layout">
+      <div>
+        <h2 id="chart-h">Canada totals</h2>
+        <div class="chart-wrap">
+          <svg id="chart-svg" viewBox="0 0 640 220" preserveAspectRatio="none" role="img" aria-label="Canada production over time"></svg>
+          <div class="chart-x" id="chart-x"></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th class="num" id="qty-col">Quantity</th>
+                <th>Source</th>
+              </tr>
+            </thead>
+            <tbody id="series"></tbody>
+          </table>
+        </div>
+        <p class="quiet" id="series-note"></p>
+        <h2 id="prov-h" hidden>Provinces · <span id="prov-year"></span></h2>
+        <div class="table-wrap" id="prov-wrap" hidden>
+          <table>
+            <thead><tr><th>Province / territory</th><th class="num">Quantity</th></tr></thead>
+            <tbody id="provinces"></tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h2 id="mines-h">Principal mines</h2>
+        <p class="quiet" id="mines-note">Map 900A significant operations that list this commodity. Click a linked name for the Claims map.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mine</th>
+                <th>Location</th>
+                <th>Owner(s)</th>
+                <th>Claims</th>
+              </tr>
+            </thead>
+            <tbody id="mines"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap">
+      <p id="disclaimer"></p>
+      <p class="quiet">Sources: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1610002201">StatCan 16-10-0022</a> · <a href="https://mmsd.nrcan-rncan.gc.ca/prod-prod/ann-ann-eng.aspx">NRCan annual production</a> · <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720">Map 900A</a></p>
+      <p class="legal">Not investment advice. Not legal title. © Quantity Capital</p>
+    </div>
+  </footer>
+  <script src="qc.js?v=128"></script>
+  <script>
+    const KOZ = 31.1034768;
+    const state = { data: null, commodity: "gold", year: null };
+
+    function esc(s) {
+      return QC && QC.esc ? QC.esc(s) : String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function fmt(n, unit) {
+      if (n == null || !isFinite(n)) return "—";
+      const abs = Math.abs(n);
+      const digits = abs >= 1000 ? 0 : abs >= 10 ? 1 : 2;
+      return n.toLocaleString("en-CA", { maximumFractionDigits: digits }) + (unit ? " " + unit : "");
+    }
+
+    function comm() {
+      const list = (state.data && state.data.commodities) || [];
+      return list.find((c) => c.id === state.commodity) || list[0] || null;
+    }
+
+    function latestNumericYear(c) {
+      const pts = (c && c.series) || [];
+      for (let i = pts.length - 1; i >= 0; i--) {
+        if (pts[i].canada != null) return pts[i].year;
+      }
+      return (pts[pts.length - 1] && pts[pts.length - 1].year) || state.data.latest_year;
+    }
+
+    function pointFor(c, year) {
+      return ((c && c.series) || []).find((p) => p.year === year) || null;
+    }
+
+    function syncUrl() {
+      const u = new URL(location.href);
+      u.searchParams.set("c", state.commodity);
+      if (state.year) u.searchParams.set("y", String(state.year));
+      history.replaceState(null, "", u.pathname + u.search + u.hash);
+    }
+
+    function fillCommodity() {
+      const sel = document.getElementById("commodity");
+      const rows = (state.data.commodities || []).filter((c) => (c.series && c.series.length) || (c.mines && c.mines.length));
+      sel.innerHTML = rows.map((c) => {
+        const on = c.id === state.commodity ? " selected" : "";
+        return "<option value=\"" + esc(c.id) + "\"" + on + ">" + esc(c.name) + "</option>";
+      }).join("");
+    }
+
+    function fillYear(c) {
+      const sel = document.getElementById("year");
+      const years = (c.series || []).map((p) => p.year);
+      if (!years.length) {
+        sel.innerHTML = "<option value=\"\">—</option>";
+        return;
+      }
+      if (!state.year || years.indexOf(state.year) < 0) state.year = latestNumericYear(c);
+      sel.innerHTML = years.map((y) => {
+        const on = y === state.year ? " selected" : "";
+        return "<option value=\"" + y + "\"" + on + ">" + y + "</option>";
+      }).join("");
+    }
+
+    function paintKpis(c) {
+      const pt = pointFor(c, state.year);
+      const unit = (c && c.unit) || "";
+      const val = pt && pt.canada;
+      let extra = "";
+      if (val != null && (c.id === "gold" || c.id === "silver") && unit === "kg") {
+        extra = "<div class=\"stat\"><b>" + fmt(val / KOZ) + "</b><span>≈ thousand oz</span></div>";
+      }
+      const mines = (c && c.mines) || [];
+      const linked = mines.filter((m) => m.claims_href).length;
+      document.getElementById("kpis").innerHTML =
+        "<div class=\"stat\"><b>" + esc(fmt(val, unit)) + "</b><span>Canada · " + esc(String(state.year || "—")) + "</span></div>" +
+        "<div class=\"stat\"><b>" + mines.length + "</b><span>Map 900A mines</span></div>" +
+        "<div class=\"stat\"><b>" + linked + "</b><span>Linked to Claims</span></div>" + extra;
+    }
+
+    function paintChart(c) {
+      const svg = document.getElementById("chart-svg");
+      const axis = document.getElementById("chart-x");
+      const series = (c && c.series) || [];
+      const nums = series.filter((p) => p.canada != null);
+      if (!nums.length) {
+        svg.innerHTML = "";
+        axis.textContent = "No published Canada total for this series.";
+        return;
+      }
+      const w = 640, h = 220, padL = 8, padR = 8, padT = 16, padB = 12;
+      const ys = nums.map((p) => p.canada);
+      const max = Math.max.apply(null, ys);
+      const min = 0;
+      const span = Math.max(max - min, 1);
+      const bw = (w - padL - padR) / series.length;
+      let bars = "";
+      series.forEach((p, i) => {
+        const x = padL + i * bw;
+        if (p.canada == null) {
+          bars += "<rect x=\"" + (x + 2) + "\" y=\"" + (h - padB - 4) + "\" width=\"" + Math.max(bw - 4, 2) + "\" height=\"4\" fill=\"#3a4452\" data-year=\"" + p.year + "\"></rect>";
+          return;
+        }
+        const bh = ((p.canada - min) / span) * (h - padT - padB);
+        const y = h - padB - bh;
+        const on = p.year === state.year;
+        bars += "<rect data-year=\"" + p.year + "\" x=\"" + (x + 2) + "\" y=\"" + y + "\" width=\"" + Math.max(bw - 4, 2) + "\" height=\"" + Math.max(bh, 2) + "\" fill=\"" + (on ? "#e3b41a" : "#36999d") + "\" opacity=\"" + (on ? "1" : "0.78") + "\"></rect>";
+      });
+      svg.innerHTML = bars;
+      axis.innerHTML = "<span>" + series[0].year + "</span><span>" + series[series.length - 1].year + "</span>";
+      svg.onclick = function (ev) {
+        const y = ev.target && ev.target.getAttribute && ev.target.getAttribute("data-year");
+        if (y) {
+          state.year = Number(y);
+          paint();
+        }
+      };
+    }
+
+    function paintSeries(c) {
+      const unit = (c && c.unit) || "";
+      document.getElementById("qty-col").textContent = unit ? ("Quantity (" + unit + ")") : "Quantity";
+      document.getElementById("series").innerHTML = ((c && c.series) || []).map((p) => {
+        const on = p.year === state.year ? " class=\"on\"" : "";
+        const qty = p.canada == null ? (p.status === "x" ? "x" : "—") : fmt(p.canada);
+        return "<tr" + on + " data-year=\"" + p.year + "\"><td>" + p.year + "</td><td class=\"num\">" + esc(qty) + "</td><td>" + esc(p.source || "") + (p.status === "p" ? " · prelim." : "") + (p.status === "x" ? " · confidential" : "") + "</td></tr>";
+      }).join("");
+      document.getElementById("series").onclick = function (ev) {
+        const tr = ev.target.closest && ev.target.closest("tr[data-year]");
+        if (tr) {
+          state.year = Number(tr.getAttribute("data-year"));
+          paint();
+        }
+      };
+      const n = ((c && c.series) || []).filter((p) => p.canada != null).length;
+      document.getElementById("series-note").textContent = n
+        ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables."
+        : "No Canada quantity published for this commodity in the requested window.";
+    }
+
+    function paintProvinces(c) {
+      const pt = pointFor(c, state.year);
+      const prov = pt && pt.provinces;
+      const wrap = document.getElementById("prov-wrap");
+      const head = document.getElementById("prov-h");
+      if (!prov || !Object.keys(prov).length) {
+        wrap.hidden = true;
+        head.hidden = true;
+        return;
+      }
+      wrap.hidden = false;
+      head.hidden = false;
+      document.getElementById("prov-year").textContent = String(state.year);
+      const rows = Object.keys(prov).sort(function (a, b) { return prov[b] - prov[a]; });
+      document.getElementById("provinces").innerHTML = rows.map((name) =>
+        "<tr><td>" + esc(name) + "</td><td class=\"num\">" + esc(fmt(prov[name])) + "</td></tr>"
+      ).join("");
+    }
+
+    function paintMines(c) {
+      const mines = (c && c.mines) || [];
+      document.getElementById("mines-h").textContent = "Principal mines · " + ((c && c.name) || "commodity");
+      document.getElementById("mines-note").textContent = mines.length
+        ? "Map 900A significant operations that list " + (c.name || "this commodity") + ". Click a linked name for the Claims map."
+        : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
+      document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
+        const href = m.claims_href;
+        const name = href
+          ? "<a class=\"mine\" href=\"" + esc(href) + "\">" + esc(m.name) + "</a>"
+          : esc(m.name);
+        const claim = href
+          ? "<a class=\"claim\" href=\"" + esc(href) + "\">Open</a>"
+          : "<span class=\"quiet\">—</span>";
+        return "<tr><td>" + name + "</td><td>" + esc(m.location || "—") + "</td><td>" + esc(m.owners || "—") + "</td><td>" + claim + "</td></tr>";
+      }).join("") : "<tr><td colspan=\"4\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
+    }
+
+    function paint() {
+      const c = comm();
+      if (!c) return;
+      fillYear(c);
+      paintKpis(c);
+      paintChart(c);
+      paintSeries(c);
+      paintProvinces(c);
+      paintMines(c);
+      syncUrl();
+    }
+
+    function boot(data) {
+      state.data = data;
+      const params = new URLSearchParams(location.search);
+      const want = params.get("c") || params.get("commodity");
+      if (want && (data.commodities || []).some((c) => c.id === want)) state.commodity = want;
+      else if (!(data.commodities || []).some((c) => c.id === "gold")) {
+        const first = (data.commodities || [])[0];
+        state.commodity = first ? first.id : "gold";
+      }
+      const y = Number(params.get("y") || params.get("year"));
+      if (y) state.year = y;
+      const c = comm();
+      if (c && !state.year) state.year = latestNumericYear(c);
+      document.getElementById("asof").textContent =
+        "Book " + (data.generated || "").replace("T", " ").replace("Z", " UTC") +
+        " · latest year " + (data.latest_year || "—") +
+        " · " + (data.years_available || "—") + " years · " +
+        (data.n_mines || 0) + " principal operations";
+      document.getElementById("disclaimer").textContent = data.disclaimer || "";
+      fillCommodity();
+      paint();
+    }
+
+    document.getElementById("commodity").addEventListener("change", function () {
+      state.commodity = this.value;
+      const c = comm();
+      state.year = latestNumericYear(c);
+      paint();
+    });
+    document.getElementById("year").addEventListener("change", function () {
+      state.year = Number(this.value);
+      paint();
+    });
+
+    fetch("canada/commodities.json").then(function (r) {
+      if (!r.ok) throw new Error("commodities.json " + r.status);
+      return r.json();
+    }).then(boot).catch(function (err) {
+      document.getElementById("asof").textContent = "Could not load canada/commodities.json. Serve the repo over HTTP.";
+      document.getElementById("disclaimer").textContent = String(err && err.message || err);
+    });
+
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Beta">
+    <a href="beta.html">Mines</a>
+    <a href="claims.html">Claims</a>
+    <a href="canada.html" class="on" aria-current="page">Canada</a>
+  </nav>
+</body>
+</html>

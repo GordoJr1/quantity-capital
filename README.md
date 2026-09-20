@@ -24,4 +24,16 @@ python3 build-insider-follow.py      # Follow / Best officers + new-print alerts
 
 `collect/form4_enrich.py` needs a SEC fair-access User-Agent: company name + email (default `Quantity Capital gordojr@proton.me`). Mozilla-style UAs get HTTP 403. Cap is 10 requests/second; the script sleeps 0.12s and reuses accessions already in `insider-form4.json`. No secrets. Do not point it at Senate eFD.
 
+`canada.html` is the beta **Canada** tab: national commodity production (last 20 years, else 10) plus Map 900A principal mines. Rebuild monthly — not part of the morning/evening tape bats:
+
+```
+python3 scripts/build_canada_commodities.py              # StatCan 16-10-0022 + NRCan annual + Map 900A
+python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite  # optional owner aliases
+python3 scripts/build_canada_commodities.py --jev        # optional TypeSafe linker; deterministic fallback otherwise
+python3 scripts/build_canada_commodities.py --offline    # fixtures only (CI / blocked network)
+python3 scripts/build_canada_commodities.py --check
+```
+
+Writes `canada/commodities.json`. No secrets. Do not commit `qc.sqlite`. Mine-level tonnes are not published and are never written. See `canada/README.md`.
+
 GitHub Action `daily-update` runs Form 4 enrich plus backtest / Repeatable / follow rebuilds daily at 23:30 UTC and commits those artifacts to `main` when data changed. It does not fetch or commit `prices/` — Yahoo daily closes stay morning-only from the off-repo collect bats. `follow-alerts.yml` does the Form 4 + follow rebuild when the tape is pushed. `morning-check` fails ~07:40 ET if today's off-repo politician (~07:22 ET) or insiders (~07:05 ET) tape stamp is missing. New Senate/House/OGE/SEDI filings still depend on the off-repo collector; do not mix those JSON files into feature commits.

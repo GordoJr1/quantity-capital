@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLAIMS = ROOT / "claims"
 CATALOG = CLAIMS / "companies.json"
 OUT = CLAIMS / "overview.geojson"
+BYTES_OUT = CLAIMS / "extract-bytes.json"
 DEFAULT_GRID = 0.2
 
 
@@ -158,15 +159,20 @@ def build(grid: float) -> dict:
     files = 0
     titles = 0
     used = 0
+    company_bytes = {}
     for company in companies:
         extracts = company_extracts(company)
         if not extracts:
             continue
         used += 1
+        total = 0
         for jurisdiction, rel in extracts:
             path = ROOT / rel
             files += 1
+            if path.is_file():
+                total += path.stat().st_size
             titles += accumulate_file(path, company, jurisdiction, grid, buckets)
+        company_bytes[company["id"]] = total
     features = []
     for (cid, jurisdiction, ix, iy), slot in sorted(
         buckets.items(), key=lambda kv: (kv[0][0], kv[0][1], kv[0][2], kv[0][3])
@@ -201,6 +207,7 @@ def build(grid: float) -> dict:
         "companies": used,
         "extract_files": files,
         "source_titles": titles,
+        "company_bytes": company_bytes,
         "features": features,
     }
 
@@ -214,11 +221,17 @@ def main() -> int:
         raise SystemExit("--grid must be > 0")
     fc = build(args.grid)
     args.out.write_text(json.dumps(fc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    bytes_payload = {
+        "generated_at": fc["generated_at"],
+        "company_bytes": fc.get("company_bytes") or {},
+    }
+    BYTES_OUT.write_text(json.dumps(bytes_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     kb = args.out.stat().st_size / 1024
     print(
         "Wrote %s · %d cells · %d companies · %d source titles · %.1f KB · grid %s°"
         % (args.out.relative_to(ROOT), len(fc["features"]), fc["companies"], fc["source_titles"], kb, args.grid)
     )
+    print("Wrote %s · %d company byte totals" % (BYTES_OUT.relative_to(ROOT), len(bytes_payload["company_bytes"])))
     return 0
 
 

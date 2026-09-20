@@ -1,8 +1,12 @@
 const CATALOG_URL = "claims/companies.json";
 const OVERVIEW_URL = "claims/overview.geojson";
+const EXTRACT_BYTES_URL = "claims/extract-bytes.json";
 const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
 const NEARBY_PAD_DEG = 0.35;
+const NEARBY_BUDGET_BYTES = 48 * 1024 * 1024;
+const NEARBY_MAX_COMPANIES = 16;
+const NEARBY_SINGLE_MAX_BYTES = 14 * 1024 * 1024;
 const CSV_FIELDS = [
   "company_id", "company", "role", "holder", "claim_id", "claim_name",
   "status", "recorded_date", "anniversary_or_expiry", "area_ha",
@@ -51,6 +55,7 @@ let currentAssetId = null;
 let paintedFc = { type: "FeatureCollection", features: [] };
 let overviewFc = null;
 let overviewLoad = null;
+let extractBytes = {};
 
 // Same-holder needles as the first producer extract batch (GESTIM / MLAS / MTA).
 const FEATURED_NEEDLES = {
@@ -416,7 +421,7 @@ function paintLegend(company, features) {
     return;
   }
   hint.hidden = false;
-  hint.textContent = "This holder’s full titles, plus nearby catalog claims within ~0.35°. Click a neighbor to load them.";
+  hint.textContent = "This holder’s full titles, plus nearby titles within ~0.35°. Overview squares are only on the all-companies view.";
   box.hidden = false;
   const seenN = {};
   const nearbyRows = [];
@@ -792,11 +797,12 @@ function catalogOverviewFc() {
 function loadOverview() {
   if (overviewFc) return Promise.resolve(overviewFc);
   if (overviewLoad) return overviewLoad;
-  overviewLoad = loadOne(OVERVIEW_URL).then((fc) => {
-    overviewFc = fc;
-    return fc;
-  }).catch(() => {
-    overviewFc = catalogOverviewFc();
+  overviewLoad = Promise.all([
+    loadOne(OVERVIEW_URL).catch(() => catalogOverviewFc()),
+    loadOne(EXTRACT_BYTES_URL).catch(() => ({ company_bytes: {} })),
+  ]).then((pair) => {
+    overviewFc = pair[0];
+    extractBytes = (pair[1] && pair[1].company_bytes) || overviewFc.company_bytes || {};
     return overviewFc;
   });
   return overviewLoad;
@@ -858,24 +864,52 @@ function nearbyPadsForCompany(company) {
   return pads;
 }
 
-function nearbyOverviewFeatures(company, pads, seen) {
-  const features = [];
-  if (!overviewFc || !pads.length) return features;
-  filterByProvince(overviewFc).features.forEach((f) => {
-    const p = f.properties || {};
-    if (!p.company_id || p.company_id === company.id) return;
-    const key = "ov|" + claimKey(p);
-    if (seen[key]) return;
-    if (!hitsAnyPad(featureBbox(f), pads)) return;
-    seen[key] = 1;
-    features.push(Object.assign({}, f, {
-      properties: Object.assign({}, p, {
-        role: "neighbor",
-        color: p.color || colorForId(p.company_id),
-      }),
-    }));
+function companyExtractBytes(company) {
+  if (!company) return 0;
+  if (extractBytes[company.id]) return extractBytes[company.id];
+  return 0;
+}
+
+function nearbyCandidateCompanies(company) {
+  const pads = nearbyPadsForCompany(company);
+  const hits = {};
+  if (overviewFc && pads.length) {
+    filterByProvince(overviewFc).features.forEach((f) => {
+      const p = f.properties || {};
+      if (!p.company_id || p.company_id === company.id) return;
+      if (!hitsAnyPad(featureBbox(f), pads)) return;
+      hits[p.company_id] = (hits[p.company_id] || 0) + 1;
+    });
+  }
+  const rows = Object.keys(hits).map((id) => {
+    const c = findIndexed(id);
+    return { company: c, hits: hits[id], bytes: companyExtractBytes(c) };
+  }).filter((r) => r.company && hasAnyExtract(r.company));
+  rows.sort((a, b) => b.hits - a.hits || (a.bytes || 0) - (b.bytes || 0));
+  const picked = [];
+  let used = 0;
+  rows.forEach((r) => {
+    if (picked.length >= NEARBY_MAX_COMPANIES) return;
+    const sz = r.bytes || 4 * 1024 * 1024;
+    if (r.bytes && r.bytes > NEARBY_SINGLE_MAX_BYTES) return;
+    if (used + sz > NEARBY_BUDGET_BYTES) return;
+    picked.push(r.company);
+    used += sz;
   });
-  return features;
+  return picked;
+}
+
+function loadNearbyExtracts(company) {
+  const targets = nearbyCandidateCompanies(company).filter((c) => !extractCache[c.id]);
+  let i = 0;
+  const workers = [];
+  function next() {
+    if (i >= targets.length) return Promise.resolve();
+    const c = targets[i++];
+    return loadExtract(c).catch(() => ({ type: "FeatureCollection", features: [] })).then(next);
+  }
+  for (let w = 0; w < 3; w++) workers.push(next());
+  return Promise.all(workers);
 }
 
 function companyPlusNearbyFc(company) {
@@ -918,7 +952,6 @@ function companyPlusNearbyFc(company) {
       features.push(Object.assign({}, f, { properties: props }));
     });
   });
-  nearbyOverviewFeatures(company, pads, seen).forEach((f) => features.push(f));
   return { type: "FeatureCollection", features };
 }
 
@@ -1078,18 +1111,15 @@ function selectCompany(id, assetId) {
       setStatus(extra);
       return;
     }
-    const preview = overviewForCompany(company);
-    if (preview.features.length) {
-      const seen = {};
-      const pads = nearbyPadsForCompany(company);
-      const near = nearbyOverviewFeatures(company, pads, seen);
-      setPainted({ type: "FeatureCollection", features: preview.features.concat(near) });
-      fitCompanyTitles(company, asset);
-    }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then(() => {
       if (gen !== viewGen) return;
       paintCompanyPlusNearby(company, asset);
+      setStatus("Loading nearby titles around <strong>" + company.holder + "</strong>…");
+      return loadNearbyExtracts(company).then(() => {
+        if (gen !== viewGen || currentCompany !== company) return;
+        paintCompanyPlusNearby(company, asset, { fit: false });
+      });
     }).catch(() => {
       if (gen !== viewGen) return;
       setStatus("Could not load company extract");

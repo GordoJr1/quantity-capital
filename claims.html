@@ -124,7 +124,7 @@
     <header class="hud">
       <div>
         <h1>Canadian claims</h1>
-        <p id="hud-sub">All companies · overview</p>
+        <p id="hud-sub">All companies</p>
       </div>
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
@@ -139,14 +139,14 @@
       <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
       <h2>Company</h2>
-      <p class="hint" id="company-hint">Every company with QC / ON / BC extracts. Cells are a 0.2° overview — search or click a holder to load full claim polygons.</p>
+      <p class="hint" id="company-hint">Every company with QC / ON / BC extracts. Claim-block footprints — search or click a holder for full titles.</p>
       <div id="camps" hidden></div>
       <div id="legend" hidden></div>
     </aside>
     <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies overview · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=16"></script>
+  <script src="claims-map.js?v=17"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

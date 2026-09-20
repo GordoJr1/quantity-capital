@@ -10,7 +10,7 @@ The map’s default “all companies” view loads `claims/overview.geojson` (no
 python3 scripts/build_claims_overview.py
 ```
 
-That walk is stdlib-only, reads committed `claims/*.geojson` + `companies.json`, and writes ~0.2° focus-title cells plus `claims/extract-bytes.json` (per-company extract sizes for nearby loading). One-off / publish hook — not part of morning bats or `daily-update`. The 0.2° cells are the default all-companies view only; a searched holder paints real claim polygons.
+That walk is stdlib-only, reads committed `claims/*.geojson` + `companies.json`, and writes claim-block footprints (merged ~0.02° title cells) plus `claims/extract-bytes.json` (per-company extract sizes for nearby loading). One-off / publish hook — not part of morning bats or `daily-update`. Those footprints are the default all-companies view only; a searched holder paints real claim polygons.
 
 ## Quebec — GESTIM
 

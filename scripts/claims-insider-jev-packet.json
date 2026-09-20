@@ -2,7 +2,7 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "A",
   "pr_topic": "claims publics onto Insiders tape universe",
-  "generated": "2026-09-20T18:32:16Z",
+  "generated": "2026-09-20T23:07:50Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
@@ -242,6 +242,7 @@
     "pass_if": [
       "empty_row_policy choice is keep_with_badge (if Jev ran)",
       "on_universe noul >= 0.55 for probe-gold, g2-goldfields, newmont (if Jev ran)",
+      "same_listed_issuer: score >= 1.4, or related-vehicle band score >= 1.0 with on_universe >= 0.55 (Windfall→GFI keep)",
       "ticker audit exists and matched == catalog n",
       "private-excluded holders are not on insider-companies.json"
     ],
@@ -251,6 +252,6 @@
   "box_commands": [
     "set -a && source /home/box/shared/typesafe/env && set +a",
     "python3 -m pip install -q typesafe-sdk",
-    "python3 scripts/run_pr_merge_gate.py"
+    "python3 scripts/run_pr_merge_gate.py --require-jev"
   ]
 }

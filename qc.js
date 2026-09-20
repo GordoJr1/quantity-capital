@@ -1924,7 +1924,8 @@
     "insider.html": "Insider",
     "insider-ticker.html": "Ticker",
     "claims.html": "Claims",
-    "beta.html": "Beta"
+    "beta.html": "Beta",
+    "canada.html": "Canada"
   };
   const LIST_FILES = {
     "index.html": 1,
@@ -1939,7 +1940,8 @@
     "insider-board.html": 1,
     "insider-checks.html": 1,
     "claims.html": 1,
-    "beta.html": 1
+    "beta.html": 1,
+    "canada.html": 1
   };
   const DRILL_FILES = {
     "politician.html": 1,

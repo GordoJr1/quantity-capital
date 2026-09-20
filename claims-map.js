@@ -249,6 +249,42 @@ function setDownloadEnabled(on) {
   if (btn) btn.disabled = !on;
 }
 
+function setNeighborsDownloadEnabled(on) {
+  const btn = document.getElementById("download-neighbors");
+  if (!btn) return;
+  btn.disabled = !on;
+  btn.title = on
+    ? "Download companies around this holder as CSV"
+    : "Select a company first";
+}
+
+let tickerLookups = null;
+let tickerLookupsLoad = null;
+
+function loadTickerLookups() {
+  const api = window.qcClaimsNeighbors;
+  if (tickerLookups) return Promise.resolve(tickerLookups);
+  if (tickerLookupsLoad) return tickerLookupsLoad;
+  tickerLookupsLoad = Promise.all([
+    fetch(assetUrl("insider-companies.json")).then((r) => r.ok ? r.json() : { companies: [] }).catch(() => ({ companies: [] })),
+    fetch(assetUrl("beta/issuers.json")).then((r) => r.ok ? r.json() : { issuers: [] }).catch(() => ({ issuers: [] })),
+    fetch(assetUrl("beta/explorers.json")).then((r) => r.ok ? r.json() : { issuers: [] }).catch(() => ({ issuers: [] })),
+  ]).then((pair) => {
+    const insider = pair[0];
+    const issuers = pair[1];
+    const explorers = pair[2];
+    tickerLookups = api.buildTickerIndex({
+      insiderCompanies: insider.companies || [],
+      betaIssuers: (issuers.issuers || []).concat(explorers.issuers || []),
+    });
+    return tickerLookups;
+  }).catch(() => {
+    tickerLookups = api.buildTickerIndex({ insiderCompanies: [], betaIssuers: [] });
+    return tickerLookups;
+  });
+  return tickerLookupsLoad;
+}
+
 function setStatus(extra) {
   const el = document.getElementById("status");
   const asOf = catalog && (catalog.sources && catalog.sources.as_of_on_bc || catalog.as_of) ? (catalog.sources && catalog.sources.as_of_on_bc || catalog.as_of) : "";
@@ -1177,6 +1213,7 @@ function showAllClaims(opts) {
   const gen = ++viewGen;
   currentCompany = null;
   currentAssetId = null;
+  setNeighborsDownloadEnabled(false);
   hiddenHolders = new Set();
   const fit = !!(opts && opts.fit);
   setHud("All companies · overview");
@@ -1203,6 +1240,8 @@ function selectCompany(id, assetId) {
   if (!company) return;
   currentCompany = company;
   currentAssetId = assetId || null;
+  setNeighborsDownloadEnabled(true);
+  loadTickerLookups();
   document.getElementById("search-results").hidden = true;
   document.getElementById("search").value = company.names[0] || company.holder;
   hiddenHolders = new Set();
@@ -1259,6 +1298,48 @@ function centroidLonLat(f) {
     Math.round(((b[0] + b[2]) / 2) * 1e5) / 1e5,
     Math.round(((b[1] + b[3]) / 2) * 1e5) / 1e5,
   ];
+}
+
+function overviewFeaturesForNeighbors() {
+  return (overviewFc && overviewFc.features) || [];
+}
+
+function downloadNeighbors() {
+  const api = window.qcClaimsNeighbors;
+  if (!currentCompany) {
+    setStatus("Select a company first");
+    return;
+  }
+  if (!api) {
+    setStatus("Neighbor sheet is not available");
+    return;
+  }
+  loadTickerLookups().then((tickerIndex) => {
+    if (!currentCompany) return;
+    const rows = api.buildNeighborRows({
+      catalog: catalog,
+      focus: currentCompany,
+      tickerIndex: tickerIndex,
+      overviewFeatures: overviewFeaturesForNeighbors(),
+      padDeg: NEARBY_PAD_DEG,
+    });
+    if (!rows.length) {
+      setStatus("No surrounding companies to download for <strong>" + (currentCompany.holder || currentCompany.id) + "</strong>");
+      return;
+    }
+    const blob = new Blob([api.toCsv(rows)], { type: "text/csv;charset=utf-8" });
+    const name = api.filenameFor(currentCompany);
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+    setStatus("Downloaded <strong>" + rows.length.toLocaleString("en-CA") + "</strong> surrounding companies · " + name);
+  }).catch(() => {
+    setStatus("Could not build the neighbors sheet");
+  });
 }
 
 function downloadVisibleClaims() {
@@ -1319,6 +1400,11 @@ document.getElementById("download-claims").addEventListener("click", (e) => {
   downloadVisibleClaims();
 });
 
+document.getElementById("download-neighbors").addEventListener("click", (e) => {
+  e.preventDefault();
+  downloadNeighbors();
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closePopup();
@@ -1349,4 +1435,5 @@ fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
 window.qcSelectCompany = selectCompany;
 window.qcShowAllClaims = showAllClaims;
 window.qcDownloadClaims = downloadVisibleClaims;
+window.qcDownloadNeighbors = downloadNeighbors;
 window.qcClaimsNearbyPadDeg = NEARBY_PAD_DEG;

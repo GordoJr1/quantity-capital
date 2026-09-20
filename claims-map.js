@@ -490,7 +490,7 @@ function ensureCompanyLayers() {
     filter: ["==", ["get", "role"], "neighbor"],
     paint: {
       "fill-color": ["coalesce", ["get", "color"], "#90a4ae"],
-      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.7, 8, 0.38],
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.28, 8, 0.18],
     },
   });
   map.addLayer({
@@ -926,7 +926,7 @@ function companyPlusNearbyFc(company) {
     const role = p.role === "neighbor" ? "neighbor" : "focus";
     const props = Object.assign({}, p, {
       role: role,
-      color: role === "focus" ? (company.color || p.color || "#e8b040") : (p.color || "#90a4ae"),
+      color: role === "focus" ? "#e8b040" : "#90a4ae",
       company_id: p.company_id || company.id,
     });
     features.push(Object.assign({}, f, { properties: props }));
@@ -946,7 +946,7 @@ function companyPlusNearbyFc(company) {
       seen[key] = 1;
       const props = Object.assign({}, p, {
         role: "neighbor",
-        color: c.color || p.color || "#90a4ae",
+        color: "#90a4ae",
         company_id: c.id,
       });
       features.push(Object.assign({}, f, { properties: props }));
@@ -1006,6 +1006,7 @@ function paintAllClaims(fit) {
   setPainted(data);
   if (fit) fitFc(data, 5.2);
   paintLegend(null, data.features);
+  paintCamps(null);
   const holders = overviewCompanyCount(data.features);
   const titles = overviewTitleCount(data.features);
   setHud("All companies · overview");
@@ -1016,10 +1017,55 @@ function paintAllClaims(fit) {
   setStatus(extra);
 }
 
+function canadaCamps(company) {
+  return (company.mines || []).filter((m) => {
+    if (!Number.isFinite(m.lat) || !Number.isFinite(m.lon)) return false;
+    const country = String(m.country || "");
+    const region = String(m.region || "");
+    return country === "Canada" || !!m.gestim || /Quebec|Ontario|British Columbia|\bBC\b/i.test(region);
+  });
+}
+
+function paintCamps(company) {
+  const el = document.getElementById("camps");
+  if (!el) return;
+  const camps = company ? canadaCamps(company) : [];
+  if (!camps.length) {
+    el.hidden = true;
+    el.innerHTML = "";
+    return;
+  }
+  el.hidden = false;
+  el.innerHTML = "<h2>Camps</h2>" + camps.map((m) => {
+    const where = m.region ? String(m.region).replace(/\s*\(.*\)\s*/g, "").trim() : "";
+    return "<button type=\"button\" class=\"camp\" data-id=\"" + m.id + "\">" +
+      m.name + (where ? " <span>" + where + "</span>" : "") + "</button>";
+  }).join("");
+  el.querySelectorAll("button.camp").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const m = camps.find((x) => x.id === btn.dataset.id);
+      if (!m) return;
+      currentAssetId = m.id;
+      fitCompany(company, m);
+    });
+  });
+}
+
 function fitCompanyTitles(company, asset) {
   if (asset && Number.isFinite(asset.lat) && Number.isFinite(asset.lon)) {
     fitCompany(company, asset);
     return;
+  }
+  const camps = canadaCamps(company);
+  if (camps.length) {
+    let b = null;
+    camps.forEach((m) => {
+      b = mergeBbox(b, [m.lon - 0.55, m.lat - 0.35, m.lon + 0.55, m.lat + 0.35]);
+    });
+    if (b) {
+      map.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 64, duration: 1100, maxZoom: 8 });
+      return;
+    }
   }
   const own = extractCache[company.id];
   if (own) {
@@ -1032,11 +1078,6 @@ function fitCompanyTitles(company, asset) {
       return;
     }
   }
-  const preview = overviewForCompany(company);
-  if (preview.features.length) {
-    fitFc(preview, 7);
-    return;
-  }
   fitCompany(company, asset);
 }
 
@@ -1046,7 +1087,13 @@ function paintCompanyPlusNearby(company, asset, opts) {
   setPainted(data);
   if (!opts || opts.fit !== false) fitCompanyTitles(company, asset);
   paintLegend(company, data.features);
-  setHud((company.holder || company.names[0]) + " · QC / ON / BC");
+  paintCamps(company);
+  const visHud = visibleCounts(company);
+  const hudBits = [];
+  if (visHud.qc) hudBits.push(visHud.qc.toLocaleString("en-CA") + " QC");
+  if (visHud.on) hudBits.push(visHud.on.toLocaleString("en-CA") + " ON");
+  if (visHud.bc) hudBits.push(visHud.bc.toLocaleString("en-CA") + " BC");
+  setHud((company.holder || company.names[0]) + (hudBits.length ? " · " + hudBits.join(" · ") : " · QC / ON / BC"));
   const vis = visibleCounts(company);
   const bits = [];
   if (vis.qc) bits.push(vis.qc.toLocaleString("en-CA") + " QC");
@@ -1097,6 +1144,7 @@ function selectCompany(id, assetId) {
   document.getElementById("search").value = company.names[0] || company.holder;
   hiddenHolders = new Set();
   paintLegend(company);
+  paintCamps(company);
   setHud((company.holder || company.names[0]) + " · QC / ON / BC");
   const gen = ++viewGen;
   const asset = (company.mines || []).find((m) => m.id === assetId);

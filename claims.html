@@ -76,7 +76,7 @@
     #legend { max-height: 42vh; overflow: auto; }
     .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; }
     .swatch .chip { width: 10px; height: 10px; border-radius: 2px; flex: 0 0 auto; }
-    .swatch .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .swatch .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
     .swatch .n { color: #9aa8b8; }
     .status {
       left: 12px; right: 12px; bottom: 12px; padding: 8px 12px; border-radius: 8px;
@@ -116,10 +116,10 @@
     <header class="hud">
       <div>
         <h1>Canadian claims</h1>
-        <p id="hud-sub">All claims · QC / ON / BC</p>
+        <p id="hud-sub">All companies · overview</p>
       </div>
       <form id="search-form" autocomplete="off">
-        <input id="search" type="search" placeholder="Search a company" aria-label="Search company">
+        <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
         <button type="submit">Search</button>
         <button type="button" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
         <div id="search-results" hidden></div>
@@ -131,13 +131,13 @@
       <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
       <h2>Company</h2>
-      <p class="hint" id="company-hint">All company claims in the provinces that are switched on. Search to highlight one holder plus nearby titles.</p>
+      <p class="hint" id="company-hint">Every company with QC / ON / BC extracts. Cells are a 0.2° overview — search or click a holder to load full claim polygons.</p>
       <div id="legend" hidden></div>
     </aside>
-    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies · Not legal title.</footer>
+    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies overview · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=9"></script>
+  <script src="claims-map.js?v=10"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

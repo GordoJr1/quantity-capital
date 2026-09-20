@@ -6,7 +6,7 @@ Amounts are ranges, not share counts. Not investment advice.
 
 The live site is GitHub Pages from `main`: https://gordojr1.github.io/quantity-capital/
 
-`claims.html` is the Quebec GESTIM / Ontario MLAS / BC MTA map (all committed company claims on load; search focuses one company plus nearby catalog claims). `beta.html` has a desktop-only mines inset beside Pipeline (same width as the price chart; hidden on phone with the Claims tab). Per-company extracts in `claims/` are a few MB each — do not commit nationwide PMTiles or shapefiles.
+`claims.html` is the Quebec GESTIM / Ontario MLAS / BC MTA map. The default view is a lightweight all-companies overview (`claims/overview.geojson`, rebuilt with `python3 scripts/build_claims_overview.py`) so the browser does not fetch every extract. Search or click a holder to load that company’s full polygons. `beta.html` has a desktop-only mines inset beside Pipeline (same width as the price chart; hidden on phone with the Claims tab). Per-company extracts in `claims/` are a few MB each — do not commit nationwide PMTiles or shapefiles.
 
 `paper.html` is a filed-date copy backtest (buy when the public filing lands). Rebuild with `python3 build-backtest.py`.
 

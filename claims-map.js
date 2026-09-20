@@ -1,11 +1,12 @@
 const CATALOG_URL = "claims/companies.json";
+const OVERVIEW_URL = "claims/overview.geojson";
 const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
 const NEARBY_PAD_DEG = 0.35;
 const CSV_FIELDS = [
   "company_id", "company", "role", "holder", "claim_id", "claim_name",
   "status", "recorded_date", "anniversary_or_expiry", "area_ha",
-  "tenure_type", "jurisdiction", "source", "as_of", "lon", "lat",
+  "tenure_type", "jurisdiction", "source", "as_of", "claim_count", "lon", "lat",
 ];
 
 const map = new maplibregl.Map({
@@ -48,8 +49,8 @@ let viewGen = 0;
 let currentCompany = null;
 let currentAssetId = null;
 let paintedFc = { type: "FeatureCollection", features: [] };
-let allLoad = null;
-let extractsReady = false;
+let overviewFc = null;
+let overviewLoad = null;
 
 // Same-holder needles as the first producer extract batch (GESTIM / MLAS / MTA).
 const FEATURED_NEEDLES = {
@@ -97,6 +98,15 @@ function featuredIdForHolder(name) {
 function slugName(s) {
   const n = normName(s) || "holder";
   return n.replace(/\s+/g, "-").slice(0, 80);
+}
+
+function colorForId(id) {
+  let h = 0;
+  const s = String(id || "");
+  for (let i = 0; i < s.length; i++) {
+    h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  }
+  return "hsl(" + (h % 360) + ", 68%, 56%)";
 }
 
 function findIndexed(id) {
@@ -180,9 +190,23 @@ function closePopup() {
   }
 }
 
+function isOverviewProps(p) {
+  return !!(p && (p.overview || p.status === "overview" || p.tenure_type === "overview"));
+}
+
 function popupHtml(p) {
   const row = (label, value) =>
     "<dt>" + label + "</dt><dd>" + (value == null || value === "" ? "—" : value) + "</dd>";
+  if (isOverviewProps(p)) {
+    const n = p.claim_count == null || p.claim_count === "" ? "—" : Number(p.claim_count).toLocaleString("en-CA");
+    return "<div class=\"pop\"><div class=\"holder\">" + (p.holder || "Unknown holder") + "</div><dl>" +
+      row("Role", "Overview cell") +
+      row("Titles here", n) +
+      row("Where", p.jurisdiction) +
+      row("Note", "Search or click to load full claim polygons") +
+      row("As of", p.as_of) +
+      "</dl></div>";
+  }
   const ha = p.area_ha == null || p.area_ha === "" ? "—" : p.area_ha + " ha";
   const role = p.role === "focus" ? "Company claim" : "Neighbor";
   return "<div class=\"pop\"><div class=\"holder\">" + (p.holder || "Unknown holder") + "</div><dl>" +
@@ -333,18 +357,27 @@ function paintAllLegend(features) {
   if (!order.length) {
     box.hidden = true;
     hint.hidden = false;
-    hint.textContent = "No titles in the provinces that are switched on.";
+    hint.textContent = "No companies with claims in the provinces that are switched on.";
     return;
   }
-  hint.hidden = true;
+  hint.hidden = false;
+  hint.textContent = "Overview of every company with extracts. Click a cell or holder name to load full titles.";
   box.hidden = false;
   const rows = order.map((id) => {
-    const c = findIndexed(id) || { holder: id, color: "#e8b040" };
-    return { holder: c.holder, count: counts[id], color: c.color || "#e8b040" };
+    const c = findIndexed(id) || { holder: id, color: colorForId(id) };
+    const vis = c && (c.quebec_count || c.ontario_count || c.bc_count)
+      ? visibleCounts(c).total
+      : counts[id];
+    return {
+      id: id,
+      holder: c.holder || id,
+      count: vis || counts[id],
+      color: colorForId(id),
+    };
   }).sort((a, b) => (b.count || 0) - (a.count || 0));
   box.innerHTML = "<h2>Holders</h2>" + rows.map((r) => {
     const on = !hiddenHolders.has(r.holder);
-    return "<label class=\"swatch\"><input type=\"checkbox\" data-holder=\"" +
+    return "<label class=\"swatch\"" + (r.id ? " data-id=\"" + r.id + "\"" : "") + "><input type=\"checkbox\" data-holder=\"" +
       r.holder.replace(/"/g, "&quot;") + "\"" + (on ? " checked" : "") +
       "> <span class=\"chip\" style=\"background:" + r.color + "\"></span>" +
       "<span class=\"nm\">" + r.holder + "</span>" +
@@ -356,6 +389,14 @@ function paintAllLegend(features) {
       if (input.checked) hiddenHolders.delete(name);
       else hiddenHolders.add(name);
       applyHolderFilter();
+    });
+  });
+  box.querySelectorAll("label.swatch[data-id]").forEach((lab) => {
+    lab.addEventListener("click", (e) => {
+      if (e.target && e.target.closest && e.target.closest("input")) return;
+      e.preventDefault();
+      const id = lab.getAttribute("data-id");
+      if (id) selectCompany(id);
     });
   });
 }
@@ -479,7 +520,12 @@ function ensureCompanyLayers() {
   ["focus-fill", "neighbor-fill", "focus-dot", "neighbor-dot"].forEach((id) => {
     map.on("click", id, (e) => {
       if (!e.features || !e.features.length) return;
-      openProps(e.lngLat, e.features[0].properties);
+      const props = e.features[0].properties || {};
+      if (!currentCompany && isOverviewProps(props) && props.company_id) {
+        selectCompany(props.company_id);
+        return;
+      }
+      openProps(e.lngLat, props);
     });
     map.on("mouseenter", id, () => { map.getCanvas().style.cursor = "pointer"; });
     map.on("mouseleave", id, () => { map.getCanvas().style.cursor = ""; });
@@ -670,51 +716,74 @@ async function loadExtract(company) {
   return fc;
 }
 
-function loadAllExtracts() {
-  if (allLoad) return allLoad;
-  const companies = (catalog.companies || []).filter(hasAnyExtract);
-  allLoad = Promise.all(companies.map((c) =>
-    loadExtract(c).catch(() => {
-      extractCache[c.id] = extractCache[c.id] || { type: "FeatureCollection", features: [] };
-      return extractCache[c.id];
-    })
-  )).then((rows) => {
-    extractsReady = true;
-    return rows;
-  });
-  return allLoad;
-}
-
 function hasAnyExtract(company) {
   return !!(company.extract || company.ontario_extract || company.bc_extract);
+}
+
+function bboxPolygon(b) {
+  return {
+    type: "Polygon",
+    coordinates: [[[b[0], b[1]], [b[2], b[1]], [b[2], b[3]], [b[0], b[3]], [b[0], b[1]]]],
+  };
+}
+
+function catalogOverviewFc() {
+  const features = [];
+  (catalog.companies || []).forEach((c) => {
+    const specs = [
+      { bbox: c.quebec_bbox || c.bbox, jurisdiction: "Quebec", count: c.quebec_count, extract: c.extract },
+      { bbox: c.ontario_bbox, jurisdiction: "Ontario", count: c.ontario_count, extract: c.ontario_extract },
+      { bbox: c.bc_bbox, jurisdiction: "British Columbia", count: c.bc_count, extract: c.bc_extract },
+    ];
+    specs.forEach((s) => {
+      if (!s.extract || !s.bbox || s.bbox.length !== 4) return;
+      const n = s.count || 0;
+      features.push({
+        type: "Feature",
+        properties: {
+          company_id: c.id,
+          company: c.holder,
+          holder: c.holder,
+          role: "focus",
+          color: colorForId(c.id),
+          claim_id: c.id + ":" + s.jurisdiction.replace(/\s+/g, "-").toLowerCase(),
+          claim_name: "Overview footprint",
+          status: "overview",
+          tenure_type: "overview",
+          jurisdiction: s.jurisdiction,
+          source: "claims/companies.json bbox fallback",
+          as_of: (catalog && catalog.as_of) || "",
+          claim_count: n,
+          overview: true,
+        },
+        geometry: bboxPolygon(s.bbox),
+      });
+    });
+  });
+  return { type: "FeatureCollection", features };
+}
+
+function loadOverview() {
+  if (overviewFc) return Promise.resolve(overviewFc);
+  if (overviewLoad) return overviewLoad;
+  overviewLoad = loadOne(OVERVIEW_URL).then((fc) => {
+    overviewFc = fc;
+    return fc;
+  }).catch(() => {
+    overviewFc = catalogOverviewFc();
+    return overviewFc;
+  });
+  return overviewLoad;
+}
+
+function collectOverview() {
+  const src = overviewFc || catalogOverviewFc();
+  return filterByProvince(src);
 }
 
 function isFocusFeature(f) {
   const role = f.properties && f.properties.role;
   return role !== "neighbor";
-}
-
-function collectAllFocus() {
-  const features = [];
-  const seen = {};
-  (catalog.companies || []).forEach((c) => {
-    const fc = extractCache[c.id];
-    if (!fc) return;
-    (fc.features || []).forEach((f) => {
-      if (!isFocusFeature(f)) return;
-      const p = f.properties || {};
-      const key = claimKey(p);
-      if (seen[key]) return;
-      seen[key] = 1;
-      const props = Object.assign({}, p, {
-        role: "focus",
-        color: c.color || p.color || "#e8b040",
-        company_id: c.id,
-      });
-      features.push(Object.assign({}, f, { properties: props }));
-    });
-  });
-  return filterByProvince({ type: "FeatureCollection", features });
 }
 
 function companyPlusNearbyFc(company) {
@@ -760,6 +829,21 @@ function companyPlusNearbyFc(company) {
         features.push(Object.assign({}, f, { properties: props }));
       });
     });
+    if (overviewFc) {
+      filterByProvince(overviewFc).features.forEach((f) => {
+        const p = f.properties || {};
+        if (!p.company_id || p.company_id === company.id) return;
+        const key = "ov|" + claimKey(p);
+        if (seen[key] || seen[claimKey(p)]) return;
+        if (!bboxIntersects(featureBbox(f), box)) return;
+        seen[key] = 1;
+        const props = Object.assign({}, p, {
+          role: "neighbor",
+          color: p.color || colorForId(p.company_id),
+        });
+        features.push(Object.assign({}, f, { properties: props }));
+      });
+    }
   }
   return { type: "FeatureCollection", features };
 }
@@ -787,30 +871,41 @@ function setPainted(fc) {
   setDownloadEnabled(!!(fc.features && fc.features.length));
 }
 
-function jurisdictionBits(features) {
-  const n = { Quebec: 0, Ontario: 0, "British Columbia": 0 };
+function overviewCompanyCount(features) {
+  const ids = {};
   (features || []).forEach((f) => {
-    const j = (f.properties && f.properties.jurisdiction) || "Quebec";
-    if (n[j] != null) n[j] += 1;
+    const id = f.properties && f.properties.company_id;
+    if (id) ids[id] = 1;
   });
-  const bits = [];
-  if (n.Quebec) bits.push(n.Quebec.toLocaleString("en-CA") + " QC");
-  if (n.Ontario) bits.push(n.Ontario.toLocaleString("en-CA") + " ON");
-  if (n["British Columbia"]) bits.push(n["British Columbia"].toLocaleString("en-CA") + " BC");
-  return bits;
+  return Object.keys(ids).length;
+}
+
+function overviewTitleCount(features) {
+  let n = 0;
+  const ids = {};
+  (features || []).forEach((f) => {
+    const id = f.properties && f.properties.company_id;
+    if (!id || ids[id]) return;
+    ids[id] = 1;
+    const c = findIndexed(id);
+    n += c ? visibleCounts(c).total : (Number(f.properties.claim_count) || 0);
+  });
+  return n;
 }
 
 function paintAllClaims(fit) {
   ensureCompanyLayers();
-  const data = collectAllFocus();
+  const data = collectOverview();
   setPainted(data);
-  if (fit) fitFc(data, 6);
+  if (fit) fitFc(data, 5.2);
   paintLegend(null, data.features);
-  setHud("All claims · QC / ON / BC");
-  const bits = jurisdictionBits(data.features);
+  const holders = overviewCompanyCount(data.features);
+  const titles = overviewTitleCount(data.features);
+  setHud("All companies · overview");
   const extra = "<strong>All companies</strong>" +
-    (bits.length ? " · " + bits.join(" · ") : " · no titles in on provinces") +
-    " · search to highlight one holder";
+    (holders ? " · " + holders.toLocaleString("en-CA") + " holders" : " · no titles in on provinces") +
+    (titles ? " · " + titles.toLocaleString("en-CA") + " titles" : "") +
+    " · overview cells · search to load full polygons";
   setStatus(extra);
 }
 
@@ -843,21 +938,21 @@ function showAllClaims(opts) {
   currentAssetId = null;
   hiddenHolders = new Set();
   const fit = !!(opts && opts.fit);
-  setHud("All claims · QC / ON / BC");
+  setHud("All companies · overview");
   whenMapReady(() => {
     if (gen !== viewGen) return;
     ensureCompanyLayers();
-    if (extractsReady) {
+    if (overviewFc) {
       paintAllClaims(fit);
       return;
     }
-    setStatus("Loading <strong>all claims</strong>…");
-    loadAllExtracts().then(() => {
+    setStatus("Loading <strong>all companies</strong> overview…");
+    loadOverview().then(() => {
       if (gen !== viewGen) return;
       paintAllClaims(fit);
     }).catch(() => {
       if (gen !== viewGen) return;
-      setStatus("Could not load claims extracts");
+      setStatus("Could not load claims overview");
     });
   });
 }
@@ -883,15 +978,14 @@ function selectCompany(id, assetId) {
       let extra = "<strong>" + (company.holder || company.names[0]) + "</strong> · no QC/ON/BC titles in extracts";
       if (asset) extra += " · around " + asset.name + " · " + (asset.note || "");
       setStatus(extra);
-      loadAllExtracts();
       return;
     }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then(() => {
       if (gen !== viewGen) return;
       paintCompanyPlusNearby(company, asset);
-      loadAllExtracts().then(() => {
-        if (gen !== viewGen) return;
+      loadOverview().then(() => {
+        if (gen !== viewGen || currentCompany !== company) return;
         paintCompanyPlusNearby(company, asset, { fit: false });
       });
     }).catch(() => {
@@ -939,8 +1033,8 @@ function downloadVisibleClaims() {
     lines.push(CSV_FIELDS.map((k) => csvEscape(row[k])).join(","));
   });
   const blob = new Blob(["\uFEFF" + lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
-  const slug = currentCompany ? (currentCompany.id || slugName(currentCompany.holder)) : "";
-  const name = slug ? "qc-claims-" + slug + ".csv" : "qc-claims.csv";
+  const slug = currentCompany ? (currentCompany.id || slugName(currentCompany.holder)) : "overview";
+  const name = "qc-claims-" + slug + ".csv";
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = name;
@@ -955,7 +1049,8 @@ function downloadVisibleClaims() {
   if (!el) return;
   el.addEventListener("change", () => {
     if (currentCompany) selectCompany(currentCompany.id, currentAssetId);
-    else if (extractsReady) paintAllClaims(false);
+    else if (overviewFc) paintAllClaims(false);
+    else showAllClaims({ fit: false });
   });
 });
 
@@ -999,7 +1094,7 @@ fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
   const companyId = params.get("company");
   const assetId = params.get("asset") || params.get("mine");
   if (companyId) {
-    loadAllExtracts();
+    loadOverview();
     selectCompany(companyId, assetId);
   } else {
     showAllClaims({ fit: true });

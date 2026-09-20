@@ -29,7 +29,7 @@ python3 build-insider-follow.py      # Follow / Best officers + new-print alerts
 ```
 python3 scripts/build_canada_commodities.py              # StatCan 16-10-0022 + NRCan annual + Map 900A
 python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite  # optional owner aliases
-python3 scripts/build_canada_commodities.py --jev        # optional TypeSafe linker; deterministic fallback otherwise
+python3 scripts/build_canada_commodities.py --jev        # optional one-shot TypeSafe; key from env / ~/.grok/typesafe.env / box typesafe/env
 python3 scripts/build_canada_commodities.py --offline    # fixtures only (CI / blocked network)
 python3 scripts/build_canada_commodities.py --check
 ```

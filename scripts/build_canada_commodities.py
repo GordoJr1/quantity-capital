@@ -17,7 +17,10 @@ Monthly refresh (not a morning/evening bat):
     python3 scripts/build_canada_commodities.py --offline      # fixtures only
     python3 scripts/build_canada_commodities.py --check
 
-Jev/TypeSafe is optional. CI and --offline use the deterministic linker.
+Jev/TypeSafe is optional and one-shot (cached). CI and --offline use the
+deterministic linker. Key sources if present: TYPESAFE_API_KEY,
+~/.grok/typesafe.env, C:\\Users\\gordo\\.grok\\typesafe.env, or
+source /home/box/shared/typesafe/env. Never commit the key.
 """
 from __future__ import annotations
 

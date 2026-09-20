@@ -14,7 +14,13 @@ python3 scripts/build_canada_commodities.py --offline
 python3 scripts/build_canada_commodities.py --check
 ```
 
-`--sqlite` is optional (`qc.sqlite` is gitignored). `--jev` is optional TypeSafe/Jev owner linking; without `TYPESAFE_API_KEY` the deterministic linker still writes claims deep links.
+`--sqlite` is optional (`qc.sqlite` is gitignored). `--jev` is optional TypeSafe/Jev owner linking (one shot, cached). Without a key the deterministic linker still writes claims deep links — CI does not need secrets.
+
+TypeSafe key locations (never commit or paste the key):
+
+- Environment: `TYPESAFE_API_KEY`
+- Desktop: `C:\Users\gordo\.grok\typesafe.env` (also `~/.grok/typesafe.env`)
+- Box: `source /home/box/shared/typesafe/env`
 
 Writes `canada/commodities.json`. User-Agent: `Quantity Capital gordojr@proton.me`. Sleeps 0.15s between NRCan year pages.
 

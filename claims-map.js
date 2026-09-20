@@ -786,6 +786,22 @@ function isFocusFeature(f) {
   return role !== "neighbor";
 }
 
+function overviewForCompany(company) {
+  const src = overviewFc || { type: "FeatureCollection", features: [] };
+  const features = [];
+  (src.features || []).forEach((f) => {
+    const p = f.properties || {};
+    if (p.company_id !== company.id) return;
+    features.push(Object.assign({}, f, {
+      properties: Object.assign({}, p, {
+        role: "focus",
+        color: company.color || p.color || colorForId(company.id),
+      }),
+    }));
+  });
+  return filterByProvince({ type: "FeatureCollection", features });
+}
+
 function companyPlusNearbyFc(company) {
   const own = extractCache[company.id] || { type: "FeatureCollection", features: [] };
   const ownVis = filterByProvince(own);
@@ -793,6 +809,7 @@ function companyPlusNearbyFc(company) {
   const seen = {};
   ownVis.features.forEach((f) => {
     const p = f.properties || {};
+    if (isOverviewProps(p)) return;
     const key = claimKey(p);
     if (seen[key]) return;
     seen[key] = 1;
@@ -817,6 +834,7 @@ function companyPlusNearbyFc(company) {
       filterByProvince(fc).features.forEach((f) => {
         if (!isFocusFeature(f)) return;
         const p = f.properties || {};
+        if (isOverviewProps(p)) return;
         const key = claimKey(p);
         if (seen[key]) return;
         if (!bboxIntersects(featureBbox(f), box)) return;
@@ -829,21 +847,6 @@ function companyPlusNearbyFc(company) {
         features.push(Object.assign({}, f, { properties: props }));
       });
     });
-    if (overviewFc) {
-      filterByProvince(overviewFc).features.forEach((f) => {
-        const p = f.properties || {};
-        if (!p.company_id || p.company_id === company.id) return;
-        const key = "ov|" + claimKey(p);
-        if (seen[key] || seen[claimKey(p)]) return;
-        if (!bboxIntersects(featureBbox(f), box)) return;
-        seen[key] = 1;
-        const props = Object.assign({}, p, {
-          role: "neighbor",
-          color: p.color || colorForId(p.company_id),
-        });
-        features.push(Object.assign({}, f, { properties: props }));
-      });
-    }
   }
   return { type: "FeatureCollection", features };
 }
@@ -980,14 +983,15 @@ function selectCompany(id, assetId) {
       setStatus(extra);
       return;
     }
+    const preview = overviewForCompany(company);
+    if (preview.features.length) {
+      setPainted(preview);
+      fitCompany(company, asset);
+    }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then(() => {
       if (gen !== viewGen) return;
-      paintCompanyPlusNearby(company, asset);
-      loadOverview().then(() => {
-        if (gen !== viewGen || currentCompany !== company) return;
-        paintCompanyPlusNearby(company, asset, { fit: false });
-      });
+      paintCompanyPlusNearby(company, asset, preview.features.length ? { fit: false } : undefined);
     }).catch(() => {
       if (gen !== viewGen) return;
       setStatus("Could not load company extract");

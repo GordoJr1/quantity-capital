@@ -35,7 +35,7 @@
     }
     .hud h1 { font-size: 15px; margin: 0; }
     .hud p { margin: 0; color: #9aa8b8; font-size: 12px; letter-spacing: 0; text-transform: none; }
-    #search-form { position: relative; flex: 1; display: flex; gap: 8px; }
+    #search-form { position: relative; flex: 1; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     #search {
       flex: 1; background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
       border-radius: 6px; padding: 8px 10px; font: inherit;
@@ -45,14 +45,14 @@
       padding: 8px 12px; font-weight: 650; cursor: pointer;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
     }
-    #download-claims {
+    #search-form button.dl {
       background: #141a22; color: #e8eef6; border: 1px solid #2a3340; border-radius: 6px;
       padding: 8px 12px; font-weight: 650; cursor: pointer;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
       white-space: nowrap;
     }
-    #download-claims:hover, #download-claims:focus-visible { background: #1c2733; }
-    #download-claims:disabled { opacity: 0.45; cursor: default; }
+    #search-form button.dl:hover, #search-form button.dl:focus-visible { background: #1c2733; }
+    #search-form button.dl:disabled { opacity: 0.45; cursor: default; }
     #search-results {
       position: absolute; top: calc(100% + 6px); left: 0; right: 0;
       background: #121820; border: 1px solid #2a3340; border-radius: 8px;
@@ -129,7 +129,8 @@
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
         <button type="submit">Search</button>
-        <button type="button" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
+        <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
+        <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
         <div id="search-results" hidden></div>
       </form>
     </header>
@@ -146,7 +147,8 @@
     <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies overview · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=17"></script>
+  <script src="claims-neighbors.js?v=1"></script>
+  <script src="claims-map.js?v=18"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

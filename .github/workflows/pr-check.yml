@@ -40,7 +40,7 @@ jobs:
       - name: Syntax-check JS
         run: |
           set -euo pipefail
-          for f in claims-map.js qc.js sw.js chart.js refresh.js
+          for f in claims-map.js claims-neighbors.js qc.js sw.js chart.js refresh.js
           do
             echo "node --check $f"
             node --check "$f"
@@ -66,8 +66,18 @@ jobs:
           grep -q 'claims/extract-bytes.json' claims-map.js
           grep -q 'NEARBY_PAD_DEG' claims-map.js
           grep -q 'downloadVisibleClaims' claims-map.js
+          grep -q 'Download neighbors' claims.html
+          grep -q 'id="download-neighbors"' claims.html
+          grep -q 'Select a company first' claims.html
+          grep -q 'function downloadNeighbors' claims-map.js
+          grep -q 'qc-claims-neighbors-' claims-neighbors.js
+          grep -q 'function buildNeighborRows' claims-neighbors.js
+          grep -q 'insider-companies.json' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js; then
             echo "loadAllExtracts must not return (overview-first)" >&2
             exit 1
           fi
           echo "claims HUD hooks ok"
+
+      - name: Neighbor sheet matching
+        run: node scripts/check_claims_neighbors.js

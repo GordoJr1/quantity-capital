@@ -1,0 +1,5260 @@
+{
+  "schema": "qc-beta-claims-publics-v1",
+  "generated": "2026-09-20T18:48:02Z",
+  "disclaimer": "Claims-map publics using claims/companies.json ids. Deep link beta.html?id=<claims-id>. Map preview uses claims/overview.geojson cells + catalog mines — not per-company extracts. Shells already on disk are reused. Not legal title. Not investment advice.",
+  "universe_note": "Every claims/companies.json issuer that resolves to a beta ticker and profile file. troilus-mining aliases to the filing-backed troilus shell. Do not invent ounces.",
+  "n": 191,
+  "counts": {
+    "matched": 191
+  },
+  "aliases": {
+    "troilus-mining": "troilus"
+  },
+  "issuers": [
+    {
+      "id": "abcourt-mines",
+      "beta_id": "abcourt-mines",
+      "alias_of": null,
+      "name": "Abcourt Mines",
+      "file": "beta/abcourt-mines.json",
+      "tickers": [
+        "ABI.V",
+        "ABMBF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1329,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.25827165272698,
+        47.86666666200606,
+        -76.90833333111443,
+        49.993057621446084
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "abitibi-metals",
+      "beta_id": "abitibi-metals",
+      "alias_of": null,
+      "name": "Abitibi Metals",
+      "file": "beta/abitibi-metals.json",
+      "tickers": [
+        "AMQ.CN",
+        "AMQFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3521,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -85.9625,
+        47.325,
+        -75.79999999667038,
+        49.908333341147845
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "agnico-eagle",
+      "beta_id": "agnico-eagle",
+      "alias_of": null,
+      "name": "Agnico Eagle",
+      "file": "beta/agnico-eagle.json",
+      "tickers": [
+        "AEM",
+        "AEM.TO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 13889,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -130.1517,
+        47.99166666610901,
+        -75.825,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "alamos-gold",
+      "beta_id": "alamos-gold",
+      "alias_of": null,
+      "name": "Alamos Gold",
+      "file": "beta/alamos-gold.json",
+      "tickers": [
+        "AGI",
+        "AGI.TO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 9719,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -87.7688,
+        47.9042,
+        -74.36666665931182,
+        62.09167
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "almadex-minerals",
+      "beta_id": "almadex-minerals",
+      "alias_of": null,
+      "name": "Almadex Minerals Ltd.",
+      "file": "beta/almadex-minerals.json",
+      "tickers": [
+        "DEX.V",
+        "AAMMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 10,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.3825,
+        50.0832,
+        -121.0638,
+        50.2166
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "almonty-industries",
+      "beta_id": "almonty-industries",
+      "alias_of": null,
+      "name": "Almonty Industries",
+      "file": "beta/almonty-industries.json",
+      "tickers": [
+        "AII.TO",
+        "ALMTF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 79,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -122.2513,
+        47.9833,
+        -84.65,
+        51.209
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "alpha-metallurgical-resources",
+      "beta_id": "alpha-metallurgical-resources",
+      "alias_of": null,
+      "name": "Alpha Metallurgical Resources",
+      "file": "beta/alpha-metallurgical-resources.json",
+      "tickers": [
+        "AMR"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 11,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -124.6889,
+        47.35000000235103,
+        -69.41666666594075,
+        50.0707
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "amarc-resources",
+      "beta_id": "amarc-resources",
+      "alias_of": null,
+      "name": "Amarc Resources",
+      "file": "beta/amarc-resources.json",
+      "tickers": [
+        "AHR.V",
+        "AXREF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 113,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.8643,
+        51.0165,
+        -123.2452,
+        57.3332
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "amex-exploration",
+      "beta_id": "amex-exploration",
+      "alias_of": null,
+      "name": "Amex Exploration",
+      "file": "beta/amex-exploration.json",
+      "tickers": [
+        "AMX.V",
+        "AMXEF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 2000,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.0563,
+        48.9292,
+        -71.8833333317877,
+        52.50000000279154
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "anglogold",
+      "beta_id": "anglogold",
+      "alias_of": null,
+      "name": "AngloGold Ashanti",
+      "file": "beta/anglogold.json",
+      "tickers": [
+        "AU"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 12,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -80.2875,
+        48.1667,
+        -80.2625,
+        48.1833
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "apollo-silver",
+      "beta_id": "apollo-silver",
+      "alias_of": null,
+      "name": "Apollo Silver",
+      "file": "beta/apollo-silver.json",
+      "tickers": [
+        "APGO.V",
+        "APGOF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 122,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -91.5063,
+        48.04999999993669,
+        -78.0666666587131,
+        49.0417
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "appia-rare-earths-uranium",
+      "beta_id": "appia-rare-earths-uranium",
+      "alias_of": null,
+      "name": "Appia Rare Earths & Uranium Corp",
+      "file": "beta/appia-rare-earths-uranium.json",
+      "tickers": [
+        "API.CN",
+        "APAAF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 698,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -82.7938,
+        46.4167,
+        -82.4313,
+        46.525
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "aris-mining",
+      "beta_id": "aris-mining",
+      "alias_of": null,
+      "name": "Aris Mining",
+      "file": "beta/aris-mining.json",
+      "tickers": [
+        "ARIS.TO",
+        "ARMN",
+        "ARIS"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "artemis-gold",
+      "beta_id": "artemis-gold",
+      "alias_of": null,
+      "name": "Artemis Gold",
+      "file": "beta/artemis-gold.json",
+      "tickers": [
+        "ARTG.V",
+        "ARGTF",
+        "ARTG"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 7,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -125.2005,
+        53.1457,
+        -124.8891,
+        53.3541
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "asante-gold",
+      "beta_id": "asante-gold",
+      "alias_of": null,
+      "name": "Asante Gold",
+      "file": "beta/asante-gold.json",
+      "tickers": [
+        "ASE.V",
+        "ASGOF"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "aurelius-minerals",
+      "beta_id": "aurelius-minerals",
+      "alias_of": null,
+      "name": "Aurelius Minerals",
+      "file": "beta/aurelius-minerals.json",
+      "tickers": [
+        "AUL.V",
+        "AURQF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 68,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.7563,
+        49.475,
+        -79.675,
+        49.5083
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "austin-gold",
+      "beta_id": "austin-gold",
+      "alias_of": null,
+      "name": "Austin Gold",
+      "file": "beta/austin-gold.json",
+      "tickers": [
+        "AUST"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.5655,
+        53.0835,
+        -121.5577,
+        53.0898
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "avino-silver-gold-mines",
+      "beta_id": "avino-silver-gold-mines",
+      "alias_of": null,
+      "name": "Avino Silver & Gold Mines",
+      "file": "beta/avino-silver-gold-mines.json",
+      "tickers": [
+        "ASM.TO",
+        "ASM"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 7,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -122.7702,
+        50.8624,
+        -122.7076,
+        50.9082
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "b2gold",
+      "beta_id": "b2gold",
+      "alias_of": null,
+      "name": "B2Gold",
+      "file": "beta/b2gold.json",
+      "tickers": [
+        "BTG",
+        "BTO.TO",
+        "BTO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "barrick",
+      "beta_id": "barrick",
+      "alias_of": null,
+      "name": "Barrick",
+      "file": "beta/barrick.json",
+      "tickers": [
+        "B",
+        "ABX.TO",
+        "ABX"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 864,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -121.5533,
+        47.9667,
+        -75.68333,
+        49.633333340944326
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "benton-resources",
+      "beta_id": "benton-resources",
+      "alias_of": null,
+      "name": "Benton Resources",
+      "file": "beta/benton-resources.json",
+      "tickers": [
+        "BEX.V",
+        "BNTRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 66,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.6625,
+        48.6458,
+        -85.6938,
+        49.875
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "big-ridge-gold",
+      "beta_id": "big-ridge-gold",
+      "alias_of": null,
+      "name": "Big Ridge Gold Corp.",
+      "file": "beta/big-ridge-gold.json",
+      "tickers": [
+        "BRAU.V",
+        "ALVLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3409,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.5378,
+        44.7792,
+        -65.32499999847168,
+        59.516666677745974
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "black-stone-minerals",
+      "beta_id": "black-stone-minerals",
+      "alias_of": null,
+      "name": "Black Stone Minerals",
+      "file": "beta/black-stone-minerals.json",
+      "tickers": [
+        "BSM"
+      ],
+      "kind": "royalty",
+      "stage": "royalty",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1328,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.5578,
+        46.41788889094126,
+        -65.46666666448981,
+        53.2866
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "blue-lagoon-resources",
+      "beta_id": "blue-lagoon-resources",
+      "alias_of": null,
+      "name": "Blue Lagoon Resources",
+      "file": "beta/blue-lagoon-resources.json",
+      "tickers": [
+        "BLLG.CN",
+        "BLAGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 125,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -123.6327,
+        49.2583,
+        -82.9438,
+        52.4291
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "bonterra-resources",
+      "beta_id": "bonterra-resources",
+      "alias_of": null,
+      "name": "Bonterra Resources",
+      "file": "beta/bonterra-resources.json",
+      "tickers": [
+        "BTR.V",
+        "BONXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 601,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -77.84195887919182,
+        48.09775173386327,
+        -75.75746300195419,
+        49.66666667434149
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "btu-metals",
+      "beta_id": "btu-metals",
+      "alias_of": null,
+      "name": "BTU Metals",
+      "file": "beta/btu-metals.json",
+      "tickers": [
+        "BTU.V",
+        "BTUMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1714,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.8625,
+        47.8958,
+        -84.05,
+        50.9042
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "caledonia-mining",
+      "beta_id": "caledonia-mining",
+      "alias_of": null,
+      "name": "Caledonia Mining",
+      "file": "beta/caledonia-mining.json",
+      "tickers": [
+        "CMCL",
+        "CMCL.L"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "canada-nickel",
+      "beta_id": "canada-nickel",
+      "alias_of": null,
+      "name": "Canada Nickel",
+      "file": "beta/canada-nickel.json",
+      "tickers": [
+        "CNC.V",
+        "CNIKF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 27500,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -137.1794,
+        44.6583,
+        -58.0083331416963,
+        61.80676454534869
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "canagold",
+      "beta_id": "canagold",
+      "alias_of": null,
+      "name": "Canagold",
+      "file": "beta/canagold.json",
+      "tickers": [
+        "CCM.TO",
+        "CRCUF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 5,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.4854,
+        56.6063,
+        -130.4202,
+        56.6471
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "canasil-resources",
+      "beta_id": "canasil-resources",
+      "alias_of": null,
+      "name": "Canasil Resources",
+      "file": "beta/canasil-resources.json",
+      "tickers": [
+        "CLZ.V",
+        "CNSUF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 22,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.9317,
+        57.2143,
+        -126.7963,
+        57.2763
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "canterra-minerals",
+      "beta_id": "canterra-minerals",
+      "alias_of": null,
+      "name": "Canterra Minerals Corp.",
+      "file": "beta/canterra-minerals.json",
+      "tickers": [
+        "CTM.V",
+        "CTMCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 153,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -86.7938,
+        52.4125,
+        -86.6813,
+        52.4958
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "cardinal-energy",
+      "beta_id": "cardinal-energy",
+      "alias_of": null,
+      "name": "Cardinal Energy",
+      "file": "beta/cardinal-energy.json",
+      "tickers": [
+        "CJ.TO",
+        "CRLFF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 8,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -82.15,
+        47.5125,
+        -79.8875,
+        47.6333
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "cartier-resources",
+      "beta_id": "cartier-resources",
+      "alias_of": null,
+      "name": "Cartier Resources",
+      "file": "beta/cartier-resources.json",
+      "tickers": [
+        "ECR.V",
+        "ECRFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 628,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -78.64726429421638,
+        47.94166666736826,
+        -68.05833353890922,
+        52.15000001002344
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "cassiar-gold",
+      "beta_id": "cassiar-gold",
+      "alias_of": null,
+      "name": "Cassiar Gold",
+      "file": "beta/cassiar-gold.json",
+      "tickers": [
+        "GLDC.V",
+        "CGLCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 101,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -129.8752,
+        49.1374,
+        -116.9449,
+        59.342
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "centerra-gold",
+      "beta_id": "centerra-gold",
+      "alias_of": null,
+      "name": "Centerra Gold",
+      "file": "beta/centerra-gold.json",
+      "tickers": [
+        "CG.TO",
+        "CGAU",
+        "CG"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 112,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -125.2329,
+        54.0249,
+        -123.6953,
+        55.1916
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "champion-iron",
+      "beta_id": "champion-iron",
+      "alias_of": null,
+      "name": "Champion Iron",
+      "file": "beta/champion-iron.json",
+      "tickers": [
+        "CIA.TO",
+        "CIAFF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1718,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.175,
+        46.5667,
+        -67.10833328390704,
+        52.8083327421863
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "cobalt-blue-holdings",
+      "beta_id": "cobalt-blue-holdings",
+      "alias_of": null,
+      "name": "Cobalt Blue Holdings",
+      "file": "beta/cobalt-blue-holdings.json",
+      "tickers": [
+        "CBBHF",
+        "COB.AX"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1283,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -122.9702,
+        46.2042,
+        -79.32499999418602,
+        50.8999
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "coeur-mining",
+      "beta_id": "coeur-mining",
+      "alias_of": null,
+      "name": "Coeur Mining",
+      "file": "beta/coeur-mining.json",
+      "tickers": [
+        "CDE"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 21,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.4205,
+        59.8039,
+        -130.1142,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "critical-elements-lithium",
+      "beta_id": "critical-elements-lithium",
+      "alias_of": null,
+      "name": "Critical Elements Lithium",
+      "file": "beta/critical-elements-lithium.json",
+      "tickers": [
+        "CRE.V",
+        "CRECF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4641,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.1375,
+        45.308333332818776,
+        -63.01666666600311,
+        61.55833334669276
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "decade-resources",
+      "beta_id": "decade-resources",
+      "alias_of": null,
+      "name": "Decade Resources",
+      "file": "beta/decade-resources.json",
+      "tickers": [
+        "DEC.V",
+        "DECXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 26,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -128.258,
+        54.4582,
+        -128.0017,
+        54.5332
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "defense-metals",
+      "beta_id": "defense-metals",
+      "alias_of": null,
+      "name": "Defense Metals",
+      "file": "beta/defense-metals.json",
+      "tickers": [
+        "DEFN.V",
+        "DFMTF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -122.1203,
+        54.5208,
+        -122.0828,
+        54.5458
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "delta-resources",
+      "beta_id": "delta-resources",
+      "alias_of": null,
+      "name": "Delta Resources Limited",
+      "file": "beta/delta-resources.json",
+      "tickers": [
+        "DLTA.V",
+        "DTARF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1781,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.3688,
+        46.5083333376847,
+        -70.16666666342645,
+        49.77500000720904
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "doubleview-gold",
+      "beta_id": "doubleview-gold",
+      "alias_of": null,
+      "name": "Doubleview Gold",
+      "file": "beta/doubleview-gold.json",
+      "tickers": [
+        "DBG.V",
+        "DBLVF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 5,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.6394,
+        58.1831,
+        -131.5644,
+        58.2248
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "dpm-metals",
+      "beta_id": "dpm-metals",
+      "alias_of": null,
+      "name": "DPM Metals",
+      "file": "beta/dpm-metals.json",
+      "tickers": [
+        "DPM.TO",
+        "DPMLF",
+        "DPM"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 97,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -78.24622257142153,
+        48.18333332633672,
+        -78.10271362385312,
+        48.24383462743331
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "drdgold",
+      "beta_id": "drdgold",
+      "alias_of": null,
+      "name": "DRDGOLD",
+      "file": "beta/drdgold.json",
+      "tickers": [
+        "DRD"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "dryden-gold",
+      "beta_id": "dryden-gold",
+      "alias_of": null,
+      "name": "Dryden Gold Corp",
+      "file": "beta/dryden-gold.json",
+      "tickers": [
+        "DRY.V",
+        "DRYGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3587,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.0438,
+        49.2042,
+        -91.8938,
+        49.8667
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "dynacor-group",
+      "beta_id": "dynacor-group",
+      "alias_of": null,
+      "name": "Dynacor Group",
+      "file": "beta/dynacor-group.json",
+      "tickers": [
+        "DNG.TO",
+        "DNGDF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 6,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -77.89270730472539,
+        48.130970375620365,
+        -77.8755905319496,
+        48.136658472903555
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "dynasty-gold",
+      "beta_id": "dynasty-gold",
+      "alias_of": null,
+      "name": "Dynasty Gold Corp",
+      "file": "beta/dynasty-gold.json",
+      "tickers": [
+        "DYG.V",
+        "DGDCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 135,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.5625,
+        49.3625,
+        -92.4875,
+        49.4208
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "eagle-plains-resources",
+      "beta_id": "eagle-plains-resources",
+      "alias_of": null,
+      "name": "Eagle Plains Resources",
+      "file": "beta/eagle-plains-resources.json",
+      "tickers": [
+        "EPL.V",
+        "EGPLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 14208,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.1517,
+        45.1792,
+        -65.32499999847168,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "elcora-advanced-materials",
+      "beta_id": "elcora-advanced-materials",
+      "alias_of": null,
+      "name": "Elcora Advanced Materials",
+      "file": "beta/elcora-advanced-materials.json",
+      "tickers": [
+        "ERA.V",
+        "ECORF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 549,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -88.325,
+        46.8,
+        -79.4688,
+        51.6625
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "eldorado-gold",
+      "beta_id": "eldorado-gold",
+      "alias_of": null,
+      "name": "Eldorado Gold",
+      "file": "beta/eldorado-gold.json",
+      "tickers": [
+        "EGO",
+        "ELD.TO",
+        "ELD"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 13700,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -80.4063,
+        45.37499999411858,
+        -62.15833333075288,
+        61.7000000084715
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "electric-royalties",
+      "beta_id": "electric-royalties",
+      "alias_of": null,
+      "name": "Electric Royalties",
+      "file": "beta/electric-royalties.json",
+      "tickers": [
+        "ELEC.V",
+        "ELECF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2371,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -91.9,
+        48.71960658648483,
+        -69.2666666599065,
+        60.18333334676088
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "emperor-metals",
+      "beta_id": "emperor-metals",
+      "alias_of": null,
+      "name": "Emperor Metals",
+      "file": "beta/emperor-metals.json",
+      "tickers": [
+        "AUOZ.CN",
+        "EMAUF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 167,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -86.3,
+        48.19960560305052,
+        -79.0333333333333,
+        48.8792
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "endeavour",
+      "beta_id": "endeavour",
+      "alias_of": null,
+      "name": "Endeavour",
+      "file": "beta/endeavour.json",
+      "tickers": [
+        "EDV.TO",
+        "EDVMF",
+        "EDV"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "enduro-metals",
+      "beta_id": "enduro-metals",
+      "alias_of": null,
+      "name": "Enduro Metals",
+      "file": "beta/enduro-metals.json",
+      "tickers": [
+        "ENDR.V",
+        "ENDMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 46,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.0833,
+        56.7936,
+        -130.7208,
+        57.0207
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "energy-fuels",
+      "beta_id": "energy-fuels",
+      "alias_of": null,
+      "name": "Energy Fuels",
+      "file": "beta/energy-fuels.json",
+      "tickers": [
+        "EFR.TO",
+        "UUUU"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1046,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.8331,
+        45.074999997979795,
+        -62.79999999515436,
+        58.2665
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "enterprise-products-partners",
+      "beta_id": "enterprise-products-partners",
+      "alias_of": null,
+      "name": "Enterprise Products Partners",
+      "file": "beta/enterprise-products-partners.json",
+      "tickers": [
+        "EPD"
+      ],
+      "kind": "other",
+      "stage": "other",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 188,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -133.441,
+        46.6458,
+        -79.125,
+        59.5443
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "equinox-gold",
+      "beta_id": "equinox-gold",
+      "alias_of": null,
+      "name": "Equinox Gold",
+      "file": "beta/equinox-gold.json",
+      "tickers": [
+        "EQX",
+        "EQX.TO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 2714,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -91.2875,
+        49.6083,
+        -83.8875,
+        53.0
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "equity-metals",
+      "beta_id": "equity-metals",
+      "alias_of": null,
+      "name": "Equity Metals",
+      "file": "beta/equity-metals.json",
+      "tickers": [
+        "EQTY.V",
+        "EQMEF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.7517,
+        54.0457,
+        -126.6767,
+        54.1041
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "eskay-mining",
+      "beta_id": "eskay-mining",
+      "alias_of": null,
+      "name": "Eskay Mining",
+      "file": "beta/eskay-mining.json",
+      "tickers": [
+        "ESK.V",
+        "ESKYF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 164,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.6408,
+        56.3831,
+        -130.207,
+        56.7351
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "evolution",
+      "beta_id": "evolution",
+      "alias_of": null,
+      "name": "Evolution",
+      "file": "beta/evolution.json",
+      "tickers": [
+        "EVN.AX",
+        "CAHPF",
+        "EVN.ASX",
+        "EVN"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 3691,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -94.3063,
+        48.7667,
+        -89.7938,
+        51.3625
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "exploits-discovery",
+      "beta_id": "exploits-discovery",
+      "alias_of": null,
+      "name": "Exploits Discovery Corp.",
+      "file": "beta/exploits-discovery.json",
+      "tickers": [
+        "NFLD.CN",
+        "NFLDF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -86.5375,
+        49.6917,
+        -86.525,
+        49.6958
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "falco-resources",
+      "beta_id": "falco-resources",
+      "alias_of": null,
+      "name": "Falco Resources",
+      "file": "beta/falco-resources.json",
+      "tickers": [
+        "FPC.V",
+        "FPRGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1745,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -91.3438,
+        47.65,
+        -78.66667015565834,
+        50.5125
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "falcon-gold",
+      "beta_id": "falcon-gold",
+      "alias_of": null,
+      "name": "Falcon Gold Corp.",
+      "file": "beta/falcon-gold.json",
+      "tickers": [
+        "FG.V",
+        "FGLDD"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 343,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -91.3438,
+        47.65,
+        -80.6625,
+        50.5125
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "fancamp-exploration",
+      "beta_id": "fancamp-exploration",
+      "alias_of": null,
+      "name": "Fancamp Exploration Ltd.",
+      "file": "beta/fancamp-exploration.json",
+      "tickers": [
+        "FNC.V",
+        "FNCJF"
+      ],
+      "kind": "other",
+      "stage": "other",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1000,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -83.3625,
+        45.33333332632043,
+        -63.36666666682869,
+        53.5833
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "first-quantum-minerals",
+      "beta_id": "first-quantum-minerals",
+      "alias_of": null,
+      "name": "First Quantum Minerals",
+      "file": "beta/first-quantum-minerals.json",
+      "tickers": [
+        "FM.TO",
+        "FQVLF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3113,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -120.77,
+        45.308333332818776,
+        -63.70833302057279,
+        56.23333333939434
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "fortuna-mining",
+      "beta_id": "fortuna-mining",
+      "alias_of": null,
+      "name": "Fortuna Mining",
+      "file": "beta/fortuna-mining.json",
+      "tickers": [
+        "FSM",
+        "FVI.TO",
+        "FVI"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "freegold-ventures",
+      "beta_id": "freegold-ventures",
+      "alias_of": null,
+      "name": "Freegold Ventures",
+      "file": "beta/freegold-ventures.json",
+      "tickers": [
+        "FVL.TO",
+        "FGOVF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 27,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.3438,
+        46.6458,
+        -80.3063,
+        46.675
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "freeman-gold",
+      "beta_id": "freeman-gold",
+      "alias_of": null,
+      "name": "Freeman Gold",
+      "file": "beta/freeman-gold.json",
+      "tickers": [
+        "FMAN.V",
+        "FMANF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 35,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.6875,
+        48.8375,
+        -80.6125,
+        48.8708
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "g2-goldfields",
+      "beta_id": "g2-goldfields",
+      "alias_of": null,
+      "name": "G2 Goldfields",
+      "file": "beta/g2-goldfields.json",
+      "tickers": [
+        "GTWO.TO"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 732,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -88.5438,
+        47.8833,
+        -75.95400277548823,
+        52.6958
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "galiano-gold",
+      "beta_id": "galiano-gold",
+      "alias_of": null,
+      "name": "Galiano Gold",
+      "file": "beta/galiano-gold.json",
+      "tickers": [
+        "GAU",
+        "GAU.TO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "garibaldi-resources",
+      "beta_id": "garibaldi-resources",
+      "alias_of": null,
+      "name": "Garibaldi Resources",
+      "file": "beta/garibaldi-resources.json",
+      "tickers": [
+        "GGI.V",
+        "GGIFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.0083,
+        50.6832,
+        -123.4452,
+        56.7915
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "generation-mining",
+      "beta_id": "generation-mining",
+      "alias_of": null,
+      "name": "Generation Mining",
+      "file": "beta/generation-mining.json",
+      "tickers": [
+        "GENM.TO",
+        "GENMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1623,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -86.6438,
+        48.6875,
+        -86.2188,
+        48.925
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "gfg-resources",
+      "beta_id": "gfg-resources",
+      "alias_of": null,
+      "name": "GFG Resources",
+      "file": "beta/gfg-resources.json",
+      "tickers": [
+        "GFG.V",
+        "GFGSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4727,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -82.7313,
+        47.7375,
+        -80.15,
+        48.7458
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "glencore",
+      "beta_id": "glencore",
+      "alias_of": null,
+      "name": "Glencore",
+      "file": "beta/glencore.json",
+      "tickers": [
+        "GLNCY",
+        "GLEN.L"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2137,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -137.1794,
+        46.4125,
+        -65.94999999826128,
+        61.80676454534869
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "globex-mining-enterprises",
+      "beta_id": "globex-mining-enterprises",
+      "alias_of": null,
+      "name": "Globex Mining Enterprises",
+      "file": "beta/globex-mining-enterprises.json",
+      "tickers": [
+        "GMX.TO",
+        "GLBXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3117,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -133.441,
+        46.08333333396839,
+        -61.19999999838509,
+        59.650000011520994
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "gold-fields",
+      "beta_id": "gold-fields",
+      "alias_of": null,
+      "name": "Gold Fields",
+      "file": "beta/gold-fields.json",
+      "tickers": [
+        "GFI"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 4451,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -79.1536870951017,
+        46.00203046008209,
+        -58.64660819709782,
+        51.24417689820265
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "gold-finder-resources",
+      "beta_id": "gold-finder-resources",
+      "alias_of": null,
+      "name": "Gold Finder Resources",
+      "file": "beta/gold-finder-resources.json",
+      "tickers": [
+        "GLD.V",
+        "GLDFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 570,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.3313,
+        50.7458,
+        -91.3938,
+        51.2125
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "goldcliff-resource",
+      "beta_id": "goldcliff-resource",
+      "alias_of": null,
+      "name": "Goldcliff Resource Corp",
+      "file": "beta/goldcliff-resource.json",
+      "tickers": [
+        "GCN.V",
+        "GCFFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 30,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -120.0575,
+        49.3416,
+        -119.9075,
+        49.4166
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "golden-arrow",
+      "beta_id": "golden-arrow",
+      "alias_of": null,
+      "name": "Golden Arrow",
+      "file": "beta/golden-arrow.json",
+      "tickers": [
+        "GRG.V",
+        "GARWF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1914,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.5378,
+        46.7542,
+        -79.65,
+        57.236
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "golden-goliath-resources",
+      "beta_id": "golden-goliath-resources",
+      "alias_of": null,
+      "name": "Golden Goliath Resources",
+      "file": "beta/golden-goliath-resources.json",
+      "tickers": [
+        "GNG.V",
+        "GGTHF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1528,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.5378,
+        46.9917,
+        -79.65,
+        57.236
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "goldstorm-metals",
+      "beta_id": "goldstorm-metals",
+      "alias_of": null,
+      "name": "Goldstorm Metals",
+      "file": "beta/goldstorm-metals.json",
+      "tickers": [
+        "GSTM.V",
+        "GSTMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 28,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.3083,
+        56.2498,
+        -130.0513,
+        56.4373
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "goliath-resources",
+      "beta_id": "goliath-resources",
+      "alias_of": null,
+      "name": "Goliath Resources",
+      "file": "beta/goliath-resources.json",
+      "tickers": [
+        "GOT.V",
+        "GOTRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 95,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.7375,
+        46.9917,
+        -75.03333333019368,
+        50.7792
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "great-pacific-gold",
+      "beta_id": "great-pacific-gold",
+      "alias_of": null,
+      "name": "Great Pacific Gold",
+      "file": "beta/great-pacific-gold.json",
+      "tickers": [
+        "GPAC.V",
+        "FSXLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1630,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -123.5174,
+        47.4417,
+        -81.0,
+        51.75
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "green-shift",
+      "beta_id": "green-shift",
+      "alias_of": null,
+      "name": "Green Shift",
+      "file": "beta/green-shift.json",
+      "tickers": [
+        "GCOM.V",
+        "GRCMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4304,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -129.2955,
+        45.46666666227578,
+        -61.68333332698242,
+        58.4539
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "grid-metals",
+      "beta_id": "grid-metals",
+      "alias_of": null,
+      "name": "Grid Metals",
+      "file": "beta/grid-metals.json",
+      "tickers": [
+        "GRDM.V",
+        "MSMGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 469,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -82.3,
+        46.3708,
+        -80.1125,
+        47.7958
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "harfang-exploration",
+      "beta_id": "harfang-exploration",
+      "alias_of": null,
+      "name": "Harfang Exploration",
+      "file": "beta/harfang-exploration.json",
+      "tickers": [
+        "HAR.V",
+        "HRFEF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4275,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.6688,
+        47.1417,
+        -74.49166666038212,
+        53.475000005775264
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "harmony",
+      "beta_id": "harmony",
+      "alias_of": null,
+      "name": "Harmony",
+      "file": "beta/harmony.json",
+      "tickers": [
+        "HMY"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "hemlo-mining",
+      "beta_id": "hemlo-mining",
+      "alias_of": null,
+      "name": "Hemlo Mining Corp.",
+      "file": "beta/hemlo-mining.json",
+      "tickers": [
+        "HMMC.V",
+        "TPNEF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1885,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -86.3125,
+        48.675,
+        -85.6625,
+        48.9083
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "highland-copper",
+      "beta_id": "highland-copper",
+      "alias_of": null,
+      "name": "Highland Copper",
+      "file": "beta/highland-copper.json",
+      "tickers": [
+        "HI.V",
+        "HDRSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1078,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.2849,
+        44.8583,
+        -78.1563,
+        50.5825
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "iamgold",
+      "beta_id": "iamgold",
+      "alias_of": null,
+      "name": "IAMGOLD",
+      "file": "beta/iamgold.json",
+      "tickers": [
+        "IAG",
+        "IMG.TO",
+        "IMG"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 6176,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -82.5938,
+        45.79717957612345,
+        -71.27729952048664,
+        53.34167
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "impala-platinum-holdings",
+      "beta_id": "impala-platinum-holdings",
+      "alias_of": null,
+      "name": "Impala Platinum Holdings",
+      "file": "beta/impala-platinum-holdings.json",
+      "tickers": [
+        "IMPUY",
+        "IMP.JO"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 581,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.3625,
+        48.5708,
+        -89.4313,
+        49.7542
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "imperial-oil",
+      "beta_id": "imperial-oil",
+      "alias_of": null,
+      "name": "Imperial Oil Limited",
+      "file": "beta/imperial-oil.json",
+      "tickers": [
+        "IMO.TO",
+        "IMO"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 29,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.6315,
+        49.7332,
+        -124.5139,
+        56.1374
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "independence-gold",
+      "beta_id": "independence-gold",
+      "alias_of": null,
+      "name": "Independence Gold",
+      "file": "beta/independence-gold.json",
+      "tickers": [
+        "IGO.V",
+        "IEGCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 8,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -125.0641,
+        53.0082,
+        -124.9578,
+        53.0582
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "integra-resources",
+      "beta_id": "integra-resources",
+      "alias_of": null,
+      "name": "Integra Resources",
+      "file": "beta/integra-resources.json",
+      "tickers": [
+        "ITR.V",
+        "ITRG"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 82,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -127.2955,
+        48.1667,
+        -79.875,
+        57.5165
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "international-tower-hill",
+      "beta_id": "international-tower-hill",
+      "alias_of": null,
+      "name": "International Tower Hill",
+      "file": "beta/international-tower-hill.json",
+      "tickers": [
+        "ITH.TO",
+        "THM"
+      ],
+      "kind": "explorer",
+      "stage": "landbank",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4615,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -128.6421,
+        45.0167,
+        -60.39166665860502,
+        58.34166668099502
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "inventus-mining",
+      "beta_id": "inventus-mining",
+      "alias_of": null,
+      "name": "Inventus Mining",
+      "file": "beta/inventus-mining.json",
+      "tickers": [
+        "IVS.V",
+        "GNGXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 306,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.6938,
+        46.7042,
+        -80.2188,
+        47.0375
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "jaguar-mining",
+      "beta_id": "jaguar-mining",
+      "alias_of": null,
+      "name": "Jaguar Mining",
+      "file": "beta/jaguar-mining.json",
+      "tickers": [
+        "JAG.TO",
+        "JAGGF"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "k92-mining",
+      "beta_id": "k92-mining",
+      "alias_of": null,
+      "name": "K92 Mining",
+      "file": "beta/k92-mining.json",
+      "tickers": [
+        "KNT.TO",
+        "KNTNF",
+        "KNT"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "kenorland-minerals",
+      "beta_id": "kenorland-minerals",
+      "alias_of": null,
+      "name": "Kenorland Minerals",
+      "file": "beta/kenorland-minerals.json",
+      "tickers": [
+        "KLD.V",
+        "KLDCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 67363,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.8,
+        48.1417,
+        -72.2749999903125,
+        54.0417
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "kinross",
+      "beta_id": "kinross",
+      "alias_of": null,
+      "name": "Kinross",
+      "file": "beta/kinross.json",
+      "tickers": [
+        "KGC",
+        "K.TO",
+        "K"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "kirkland-lake-discoveries",
+      "beta_id": "kirkland-lake-discoveries",
+      "alias_of": null,
+      "name": "Kirkland Lake Discoveries",
+      "file": "beta/kirkland-lake-discoveries.json",
+      "tickers": [
+        "KLDC.V",
+        "KLKLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1643,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -118.9074,
+        47.9792,
+        -74.9749999956382,
+        53.13333333908784
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "klondike-silver",
+      "beta_id": "klondike-silver",
+      "alias_of": null,
+      "name": "Klondike Silver",
+      "file": "beta/klondike-silver.json",
+      "tickers": [
+        "KS.V",
+        "KLSVF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 21,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -117.2626,
+        46.7583,
+        -81.2125,
+        50.005
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "kodiak-copper",
+      "beta_id": "kodiak-copper",
+      "alias_of": null,
+      "name": "Kodiak Copper",
+      "file": "beta/kodiak-copper.json",
+      "tickers": [
+        "KDK.V",
+        "KDKCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 28,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -120.5562,
+        49.604,
+        -120.4075,
+        49.7749
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "labrador-gold",
+      "beta_id": "labrador-gold",
+      "alias_of": null,
+      "name": "Labrador Gold",
+      "file": "beta/labrador-gold.json",
+      "tickers": [
+        "LAB.V",
+        "NKOSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 68,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -83.1813,
+        47.8042,
+        -83.1438,
+        47.8542
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "lake-victoria-gold",
+      "beta_id": "lake-victoria-gold",
+      "alias_of": null,
+      "name": "Lake Victoria Gold",
+      "file": "beta/lake-victoria-gold.json",
+      "tickers": [
+        "LVG.V",
+        "LVGLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 6859,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -127.2953,
+        44.625,
+        -66.78333333704612,
+        55.458333344112766
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "lucara-diamond",
+      "beta_id": "lucara-diamond",
+      "alias_of": null,
+      "name": "Lucara Diamond",
+      "file": "beta/lucara-diamond.json",
+      "tickers": [
+        "LUC.TO",
+        "LUCRF"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1114,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -85.6188,
+        48.075,
+        -84.6625,
+        48.6792
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "lundin-gold",
+      "beta_id": "lundin-gold",
+      "alias_of": null,
+      "name": "Lundin Gold",
+      "file": "beta/lundin-gold.json",
+      "tickers": [
+        "LUG.TO",
+        "LUGDF",
+        "LUG"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "major-drilling-group-international",
+      "beta_id": "major-drilling-group-international",
+      "alias_of": null,
+      "name": "Major Drilling Group International",
+      "file": "beta/major-drilling-group-international.json",
+      "tickers": [
+        "MDI.TO",
+        "MJDLF"
+      ],
+      "kind": "other",
+      "stage": "other",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1668,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -81.9125,
+        46.2792,
+        -74.5333333303826,
+        49.33333334084508
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "mayfair-gold",
+      "beta_id": "mayfair-gold",
+      "alias_of": null,
+      "name": "Mayfair Gold",
+      "file": "beta/mayfair-gold.json",
+      "tickers": [
+        "MFG.V",
+        "MINE"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 287,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.2625,
+        48.4667,
+        -79.5175,
+        48.5542
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "mcfarlane-lake-mining",
+      "beta_id": "mcfarlane-lake-mining",
+      "alias_of": null,
+      "name": "McFarlane Lake Mining",
+      "file": "beta/mcfarlane-lake-mining.json",
+      "tickers": [
+        "MLM.CN",
+        "MLMLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 557,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -81.85,
+        46.1,
+        -80.175,
+        48.6125
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "metal-energy",
+      "beta_id": "metal-energy",
+      "alias_of": null,
+      "name": "Metal Energy",
+      "file": "beta/metal-energy.json",
+      "tickers": [
+        "MERG.V",
+        "MEEEF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 39354,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -133.605,
+        44.8792,
+        -63.33333333328141,
+        59.6083
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "metallis-resources",
+      "beta_id": "metallis-resources",
+      "alias_of": null,
+      "name": "Metallis Resources",
+      "file": "beta/metallis-resources.json",
+      "tickers": [
+        "MTS.V",
+        "MTLFF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.6583,
+        56.4415,
+        -130.6208,
+        56.5123
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "midland-exploration",
+      "beta_id": "midland-exploration",
+      "alias_of": null,
+      "name": "Midland Exploration",
+      "file": "beta/midland-exploration.json",
+      "tickers": [
+        "MD.V",
+        "MIDLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 12375,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.51776723536003,
+        46.24999999900024,
+        -65.29166666913666,
+        58.46666667962085
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "mineros",
+      "beta_id": "mineros",
+      "alias_of": null,
+      "name": "Mineros",
+      "file": "beta/mineros.json",
+      "tickers": [
+        "MSA.TO",
+        "MNSAF"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "mosaic-company",
+      "beta_id": "mosaic-company",
+      "alias_of": null,
+      "name": "The Mosaic Company",
+      "file": "beta/mosaic-company.json",
+      "tickers": [
+        "MOS"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 460,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.15833333647106,
+        47.308333326484764,
+        -74.94999999405468,
+        52.091666675311124
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "mundoro-capital",
+      "beta_id": "mundoro-capital",
+      "alias_of": null,
+      "name": "Mundoro Capital",
+      "file": "beta/mundoro-capital.json",
+      "tickers": [
+        "MUN.V",
+        "MUNMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 298,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -124.9141,
+        46.975,
+        -79.21666666108776,
+        53.9999
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "new-age-metals",
+      "beta_id": "new-age-metals",
+      "alias_of": null,
+      "name": "New Age Metals",
+      "file": "beta/new-age-metals.json",
+      "tickers": [
+        "NAM.V",
+        "NMTLF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4425,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.3,
+        46.6208,
+        -80.1063,
+        52.4667
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "new-gold",
+      "beta_id": "new-gold",
+      "alias_of": null,
+      "name": "New Gold",
+      "file": "beta/new-gold.json",
+      "tickers": [
+        "NGD.TO",
+        "NGD"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1282,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -120.5763,
+        48.7417,
+        -93.6313,
+        51.6208
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "newmont",
+      "beta_id": "newmont",
+      "alias_of": null,
+      "name": "Newmont",
+      "file": "beta/newmont.json",
+      "tickers": [
+        "NEM",
+        "NGT"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 34,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -130.4082,
+        56.1081,
+        -129.8159,
+        57.8207
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "nexgold",
+      "beta_id": "nexgold",
+      "alias_of": null,
+      "name": "NexGold",
+      "file": "beta/nexgold.json",
+      "tickers": [
+        "NEXG.V",
+        "NXGCF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 504,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.6563,
+        49.7167,
+        -91.9125,
+        50.0375
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "nexmetals-mining",
+      "beta_id": "nexmetals-mining",
+      "alias_of": null,
+      "name": "NexMetals Mining Corp.",
+      "file": "beta/nexmetals-mining.json",
+      "tickers": [
+        "NEXM.V",
+        "NEXM"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 126,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.8875,
+        46.7792,
+        -80.8063,
+        46.8458
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "nexus-gold",
+      "beta_id": "nexus-gold",
+      "alias_of": null,
+      "name": "Nexus Gold",
+      "file": "beta/nexus-gold.json",
+      "tickers": [
+        "NXS.V",
+        "NXXGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 108,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.9063,
+        51.0125,
+        -93.825,
+        51.0833
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "nickel-creek-platinum",
+      "beta_id": "nickel-creek-platinum",
+      "alias_of": null,
+      "name": "Nickel Creek Platinum",
+      "file": "beta/nickel-creek-platinum.json",
+      "tickers": [
+        "NCP.V",
+        "NCPCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 9594,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.7271,
+        47.1958,
+        -67.26666666470902,
+        59.308333395458185
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "niocorp-developments",
+      "beta_id": "niocorp-developments",
+      "alias_of": null,
+      "name": "NioCorp Developments",
+      "file": "beta/niocorp-developments.json",
+      "tickers": [
+        "NB"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.4063,
+        49.4917,
+        -92.4,
+        49.4958
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "noble-mineral-exploration",
+      "beta_id": "noble-mineral-exploration",
+      "alias_of": null,
+      "name": "Noble Mineral Exploration Inc.",
+      "file": "beta/noble-mineral-exploration.json",
+      "tickers": [
+        "NOB.V",
+        "NLPXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 284,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.4867,
+        48.875,
+        -83.7375,
+        52.8159
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "nord-precious-metals",
+      "beta_id": "nord-precious-metals",
+      "alias_of": null,
+      "name": "Nord Precious Metals",
+      "file": "beta/nord-precious-metals.json",
+      "tickers": [
+        "NTH.V",
+        "NPMMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1642,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.7375,
+        46.37169320251577,
+        -57.7918697083594,
+        53.51666667230205
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "northern-star",
+      "beta_id": "northern-star",
+      "alias_of": null,
+      "name": "Northern Star",
+      "file": "beta/northern-star.json",
+      "tickers": [
+        "NST.AX",
+        "NESRF",
+        "NST"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "northstar-gold",
+      "beta_id": "northstar-gold",
+      "alias_of": null,
+      "name": "Northstar Gold",
+      "file": "beta/northstar-gold.json",
+      "tickers": [
+        "NSG.CN",
+        "NSGCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 406,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -80.1813,
+        47.0208,
+        -79.8125,
+        48.05
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "northwest-copper",
+      "beta_id": "northwest-copper",
+      "alias_of": null,
+      "name": "NorthWest Copper",
+      "file": "beta/northwest-copper.json",
+      "tickers": [
+        "NWST.V",
+        "NWCCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 75,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.0706,
+        49.5661,
+        -118.8649,
+        56.5374
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "oceanagold",
+      "beta_id": "oceanagold",
+      "alias_of": null,
+      "name": "OceanaGold",
+      "file": "beta/oceanagold.json",
+      "tickers": [
+        "OGC.TO",
+        "OGC",
+        "OCANF"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "omineca-mining-and-metals",
+      "beta_id": "omineca-mining-and-metals",
+      "alias_of": null,
+      "name": "Omineca Mining and Metals",
+      "file": "beta/omineca-mining-and-metals.json",
+      "tickers": [
+        "OMM.V",
+        "OMMSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 24,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -124.5391,
+        49.2915,
+        -121.6888,
+        54.4714
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "ongold-resources",
+      "beta_id": "ongold-resources",
+      "alias_of": null,
+      "name": "ONGold Resources Ltd",
+      "file": "beta/ongold-resources.json",
+      "tickers": [
+        "ONAU.V",
+        "ONGRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 8076,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.7813,
+        47.625,
+        -80.9188,
+        54.7042
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "orex-minerals",
+      "beta_id": "orex-minerals",
+      "alias_of": null,
+      "name": "Orex Minerals",
+      "file": "beta/orex-minerals.json",
+      "tickers": [
+        "REX.V",
+        "ORMNF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 24,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -118.1136,
+        49.1457,
+        -117.9449,
+        49.3041
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "outcrop-silver-and-gold",
+      "beta_id": "outcrop-silver-and-gold",
+      "alias_of": null,
+      "name": "Outcrop Silver and Gold",
+      "file": "beta/outcrop-silver-and-gold.json",
+      "tickers": [
+        "OCG.TO",
+        "OCGSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 4,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.6625,
+        47.3417,
+        -79.65,
+        47.35
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "p2-gold",
+      "beta_id": "p2-gold",
+      "alias_of": null,
+      "name": "P2 Gold",
+      "file": "beta/p2-gold.json",
+      "tickers": [
+        "PGLD.V",
+        "PGLDF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 39,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.027,
+        57.2248,
+        -130.6083,
+        57.379
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "pacific-empire-minerals",
+      "beta_id": "pacific-empire-minerals",
+      "alias_of": null,
+      "name": "Pacific Empire Minerals",
+      "file": "beta/pacific-empire-minerals.json",
+      "tickers": [
+        "PEMC.V",
+        "PEMSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 187,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -129.933,
+        48.433333333342894,
+        -79.46471153957043,
+        59.3415
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "palisades-goldcorp",
+      "beta_id": "palisades-goldcorp",
+      "alias_of": null,
+      "name": "Palisades Goldcorp",
+      "file": "beta/palisades-goldcorp.json",
+      "tickers": [
+        "PALI.V",
+        "PLGDF"
+      ],
+      "kind": "other",
+      "stage": "other",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 42,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.3263,
+        49.8583,
+        -117.3449,
+        54.9085
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "pinnacle-silver-and-gold",
+      "beta_id": "pinnacle-silver-and-gold",
+      "alias_of": null,
+      "name": "Pinnacle Silver and Gold",
+      "file": "beta/pinnacle-silver-and-gold.json",
+      "tickers": [
+        "PINN.V",
+        "PSGCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 188,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.5188,
+        51.475,
+        -92.3875,
+        51.5292
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "power-metals",
+      "beta_id": "power-metals",
+      "alias_of": null,
+      "name": "Power Metals",
+      "file": "beta/power-metals.json",
+      "tickers": [
+        "PWM.V",
+        "PWRMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 5751,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.8875,
+        45.399999999621684,
+        -64.30833332813751,
+        53.30000001407579
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "premier-american-uranium",
+      "beta_id": "premier-american-uranium",
+      "alias_of": null,
+      "name": "Premier American Uranium Inc.",
+      "file": "beta/premier-american-uranium.json",
+      "tickers": [
+        "PUR.V",
+        "PAUIF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 110,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.875,
+        47.790262310668204,
+        -65.99024895714373,
+        51.0625
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "probe-gold",
+      "beta_id": "probe-gold",
+      "alias_of": null,
+      "name": "Probe Gold",
+      "file": "beta/probe-gold.json",
+      "tickers": [
+        "PRB.TO"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 5106,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -89.4688,
+        47.7583,
+        -76.19166666811095,
+        53.050000014068566
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "radisson-mining",
+      "beta_id": "radisson-mining",
+      "alias_of": null,
+      "name": "Radisson Mining",
+      "file": "beta/radisson-mining.json",
+      "tickers": [
+        "RDS.V",
+        "RMRDF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 177,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -78.50000000339773,
+        48.14166666504439,
+        -77.9500000022812,
+        49.558333340578436
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "red-canyon-resources",
+      "beta_id": "red-canyon-resources",
+      "alias_of": null,
+      "name": "Red Canyon Resources",
+      "file": "beta/red-canyon-resources.json",
+      "tickers": [
+        "REDC.CN",
+        "REDRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 924,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.7688,
+        51.1125,
+        -92.0375,
+        51.4625
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "renegade-gold",
+      "beta_id": "renegade-gold",
+      "alias_of": null,
+      "name": "Renegade Gold",
+      "file": "beta/renegade-gold.json",
+      "tickers": [
+        "RAGE.V",
+        "TGLDF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2941,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.375,
+        50.625,
+        -92.35,
+        51.45
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "rio-silver",
+      "beta_id": "rio-silver",
+      "alias_of": null,
+      "name": "Rio Silver",
+      "file": "beta/rio-silver.json",
+      "tickers": [
+        "RYO.V",
+        "RYOOF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 528,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -91.9875,
+        53.6792,
+        -91.7563,
+        53.8292
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "rio-tinto",
+      "beta_id": "rio-tinto",
+      "alias_of": null,
+      "name": "Rio Tinto",
+      "file": "beta/rio-tinto.json",
+      "tickers": [
+        "RIO",
+        "RIO.L"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1348,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -89.725,
+        48.0167,
+        -63.29166666332628,
+        53.6666666736197
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "rpx-gold",
+      "beta_id": "rpx-gold",
+      "alias_of": null,
+      "name": "RPX Gold Inc.",
+      "file": "beta/rpx-gold.json",
+      "tickers": [
+        "RPX.V",
+        "RDEXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 335,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -84.8063,
+        47.8333,
+        -82.2,
+        48.025
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "rupert-resources",
+      "beta_id": "rupert-resources",
+      "alias_of": null,
+      "name": "Rupert Resources",
+      "file": "beta/rupert-resources.json",
+      "tickers": [
+        "RUP.TO",
+        "RUPRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 39,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -84.525,
+        47.0042,
+        -84.3625,
+        47.1375
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "san-lorenzo-gold",
+      "beta_id": "san-lorenzo-gold",
+      "alias_of": null,
+      "name": "San Lorenzo Gold",
+      "file": "beta/san-lorenzo-gold.json",
+      "tickers": [
+        "SLG.V",
+        "SNLGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": false,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "scottie-resources",
+      "beta_id": "scottie-resources",
+      "alias_of": null,
+      "name": "Scottie Resources",
+      "file": "beta/scottie-resources.json",
+      "tickers": [
+        "SCOT.V",
+        "SCTSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 49,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.1393,
+        55.7271,
+        -129.6582,
+        56.3623
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "selkirk-copper-mines",
+      "beta_id": "selkirk-copper-mines",
+      "alias_of": null,
+      "name": "Selkirk Copper Mines",
+      "file": "beta/selkirk-copper-mines.json",
+      "tickers": [
+        "SCMI.V",
+        "SKRKF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 41,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.9266,
+        48.425,
+        -80.7688,
+        56.9499
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "sierra-madre-gold-and-silver",
+      "beta_id": "sierra-madre-gold-and-silver",
+      "alias_of": null,
+      "name": "Sierra Madre Gold and Silver",
+      "file": "beta/sierra-madre-gold-and-silver.json",
+      "tickers": [
+        "SM.V",
+        "SMDRF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 33,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -84.6625,
+        47.9583,
+        -84.5938,
+        48.0
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "signature-resources",
+      "beta_id": "signature-resources",
+      "alias_of": null,
+      "name": "Signature Resources",
+      "file": "beta/signature-resources.json",
+      "tickers": [
+        "SGU.V",
+        "SGGTF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 179,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.2063,
+        53.7875,
+        -92.7375,
+        53.9167
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "silver-crown-royalties",
+      "beta_id": "silver-crown-royalties",
+      "alias_of": null,
+      "name": "Silver Crown Royalties",
+      "file": "beta/silver-crown-royalties.json",
+      "tickers": [
+        "SCRI.NE",
+        "SLCRF"
+      ],
+      "kind": "royalty",
+      "stage": "royalty",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3002,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.8822,
+        44.675,
+        -63.449999999475665,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "silver-north-resources",
+      "beta_id": "silver-north-resources",
+      "alias_of": null,
+      "name": "Silver North Resources",
+      "file": "beta/silver-north-resources.json",
+      "tickers": [
+        "SNAG.V",
+        "TARSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2024,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.8822,
+        46.7417,
+        -63.449999999475665,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "silver-spruce-resources",
+      "beta_id": "silver-spruce-resources",
+      "alias_of": null,
+      "name": "Silver Spruce Resources",
+      "file": "beta/silver-spruce-resources.json",
+      "tickers": [
+        "SSE.V",
+        "SSEBF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1462,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.8822,
+        47.175,
+        -63.449999999475665,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "silver-storm-mining",
+      "beta_id": "silver-storm-mining",
+      "alias_of": null,
+      "name": "Silver Storm Mining",
+      "file": "beta/silver-storm-mining.json",
+      "tickers": [
+        "SVRS.V",
+        "SVRSF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3570,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.8822,
+        47.175,
+        -63.449999999475665,
+        59.9998
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "skeena",
+      "beta_id": "skeena",
+      "alias_of": null,
+      "name": "Skeena",
+      "file": "beta/skeena.json",
+      "tickers": [
+        "SKE.TO",
+        "SKE"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 56,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.1767,
+        56.604,
+        -129.6096,
+        57.7829
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "skyharbour-resources",
+      "beta_id": "skyharbour-resources",
+      "alias_of": null,
+      "name": "Skyharbour Resources",
+      "file": "beta/skyharbour-resources.json",
+      "tickers": [
+        "SYH.V",
+        "SYHBF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 6,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.6938,
+        51.1083,
+        -92.6813,
+        51.1208
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "solstice-minerals",
+      "beta_id": "solstice-minerals",
+      "alias_of": null,
+      "name": "Solstice Minerals Limited",
+      "file": "beta/solstice-minerals.json",
+      "tickers": [
+        "SLS.AX"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 548,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -93.7438,
+        46.425,
+        -77.70000000288606,
+        51.75
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "sovereign-metals",
+      "beta_id": "sovereign-metals",
+      "alias_of": null,
+      "name": "Sovereign Metals Limited",
+      "file": "beta/sovereign-metals.json",
+      "tickers": [
+        "SVMLF",
+        "SVM.AX"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.9529,
+        52.9813,
+        -121.9404,
+        52.9865
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "spanish-mountain-gold",
+      "beta_id": "spanish-mountain-gold",
+      "alias_of": null,
+      "name": "Spanish Mountain Gold",
+      "file": "beta/spanish-mountain-gold.json",
+      "tickers": [
+        "SPA.V",
+        "SPAZF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 41,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.5389,
+        52.5327,
+        -121.3701,
+        52.6291
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "ssr-mining",
+      "beta_id": "ssr-mining",
+      "alias_of": null,
+      "name": "SSR Mining",
+      "file": "beta/ssr-mining.json",
+      "tickers": [
+        "SSRM",
+        "SSRM.TO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "st-barbara",
+      "beta_id": "st-barbara",
+      "alias_of": null,
+      "name": "St Barbara",
+      "file": "beta/st-barbara.json",
+      "tickers": [
+        "STBMF",
+        "SBM.ASX"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": false,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "stardust-metal",
+      "beta_id": "stardust-metal",
+      "alias_of": null,
+      "name": "Stardust Metal",
+      "file": "beta/stardust-metal.json",
+      "tickers": [
+        "ZIGY.CN"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 644,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.325,
+        47.8708,
+        -80.0938,
+        48.675
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "sterling-metals",
+      "beta_id": "sterling-metals",
+      "alias_of": null,
+      "name": "Sterling Metals",
+      "file": "beta/sterling-metals.json",
+      "tickers": [
+        "SAG.V",
+        "SAGGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1210,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -84.7938,
+        46.75,
+        -57.2735585501689,
+        51.50344704631729
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "stllr-gold",
+      "beta_id": "stllr-gold",
+      "alias_of": null,
+      "name": "STLLR Gold",
+      "file": "beta/stllr-gold.json",
+      "tickers": [
+        "STLR.TO",
+        "STLRF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 1263,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -81.5313,
+        48.2375,
+        -79.8188,
+        48.5917
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "sun-summit-minerals",
+      "beta_id": "sun-summit-minerals",
+      "alias_of": null,
+      "name": "Sun Summit Minerals",
+      "file": "beta/sun-summit-minerals.json",
+      "tickers": [
+        "SMN.V",
+        "SMREF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -126.8455,
+        54.2624,
+        -126.8017,
+        54.3082
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "surge-copper",
+      "beta_id": "surge-copper",
+      "alias_of": null,
+      "name": "Surge Copper",
+      "file": "beta/surge-copper.json",
+      "tickers": [
+        "SURG.V",
+        "SRGXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 26,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -127.4767,
+        53.5707,
+        -126.9704,
+        53.829
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "talisker-resources",
+      "beta_id": "talisker-resources",
+      "alias_of": null,
+      "name": "Talisker Resources",
+      "file": "beta/talisker-resources.json",
+      "tickers": [
+        "TSK.TO",
+        "TSKFF"
+      ],
+      "kind": "explorer",
+      "stage": "development",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 2,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.6951,
+        50.6207,
+        -121.6826,
+        50.6291
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "taseko-mines",
+      "beta_id": "taseko-mines",
+      "alias_of": null,
+      "name": "Taseko Mines",
+      "file": "beta/taseko-mines.json",
+      "tickers": [
+        "TKO.TO",
+        "TGB"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 28,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -123.6827,
+        51.3665,
+        -123.5077,
+        51.4957
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "teck-resources",
+      "beta_id": "teck-resources",
+      "alias_of": null,
+      "name": "Teck Resources",
+      "file": "beta/teck-resources.json",
+      "tickers": [
+        "TECK"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1409,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -131.0583,
+        48.09734152378976,
+        -75.95400277548823,
+        58.0945
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "tectonic-metals",
+      "beta_id": "tectonic-metals",
+      "alias_of": null,
+      "name": "Tectonic Metals",
+      "file": "beta/tectonic-metals.json",
+      "tickers": [
+        "TECT.V",
+        "TETOF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 793,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -77.04166667283143,
+        45.63305224902093,
+        -66.174999999997,
+        61.64166669149736
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "teuton-resources",
+      "beta_id": "teuton-resources",
+      "alias_of": null,
+      "name": "Teuton Resources",
+      "file": "beta/teuton-resources.json",
+      "tickers": [
+        "TUO.V",
+        "TEUTF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 124,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.427,
+        49.4979,
+        -121.7002,
+        56.3498
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "thesis-gold",
+      "beta_id": "thesis-gold",
+      "alias_of": null,
+      "name": "Thesis Gold",
+      "file": "beta/thesis-gold.json",
+      "tickers": [
+        "TAU.V",
+        "THSGF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 35,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -127.5205,
+        57.2873,
+        -127.1143,
+        57.5415
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "thor-explorations",
+      "beta_id": "thor-explorations",
+      "alias_of": null,
+      "name": "Thor Explorations",
+      "file": "beta/thor-explorations.json",
+      "tickers": [
+        "THX.V",
+        "THXPF"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "tiger-gold",
+      "beta_id": "tiger-gold",
+      "alias_of": null,
+      "name": "Tiger Gold Corp.",
+      "file": "beta/tiger-gold.json",
+      "tickers": [
+        "TIGR.V",
+        "TGRGF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 562,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.8938,
+        48.3917,
+        -79.5171,
+        49.5792
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "torex-gold",
+      "beta_id": "torex-gold",
+      "alias_of": null,
+      "name": "Torex Gold",
+      "file": "beta/torex-gold.json",
+      "tickers": [
+        "TXG.TO",
+        "TORXF",
+        "TXG"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 0,
+      "has_overview": false,
+      "has_mines": true,
+      "bbox": null,
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "total-metals",
+      "beta_id": "total-metals",
+      "alias_of": null,
+      "name": "Total Metals Corp.",
+      "file": "beta/total-metals.json",
+      "tickers": [
+        "TT.V",
+        "TTTMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 115,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -95.1125,
+        46.3708,
+        -81.8188,
+        49.725
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "transition-metals",
+      "beta_id": "transition-metals",
+      "alias_of": null,
+      "name": "Transition Metals",
+      "file": "beta/transition-metals.json",
+      "tickers": [
+        "XTM.V",
+        "TNTMF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 1691,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -90.25,
+        44.8792,
+        -77.4875,
+        49.7292
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "troilus-mining",
+      "beta_id": "troilus",
+      "alias_of": "troilus",
+      "name": "Troilus",
+      "file": "beta/troilus.json",
+      "tickers": [
+        "TLG.TO",
+        "CHXMF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 938,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -77.4083333347966,
+        48.32499999836078,
+        -74.1916666697821,
+        53.21666667498597
+      ],
+      "color": "#e8b040",
+      "note": "alias troilus-mining → troilus"
+    },
+    {
+      "id": "tudor-gold",
+      "beta_id": "tudor-gold",
+      "alias_of": null,
+      "name": "Tudor Gold",
+      "file": "beta/tudor-gold.json",
+      "tickers": [
+        "TUD.V",
+        "TDRRF"
+      ],
+      "kind": "explorer",
+      "stage": "explorer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 29,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -130.2176,
+        56.5494,
+        -130.0412,
+        56.662
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "united-states-antimony",
+      "beta_id": "united-states-antimony",
+      "alias_of": null,
+      "name": "United States Antimony Corp.",
+      "file": "beta/united-states-antimony.json",
+      "tickers": [
+        "UAMY"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 19,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -94.5375,
+        46.74166666952586,
+        -60.39166665860502,
+        58.34166668099502
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "vista-gold",
+      "beta_id": "vista-gold",
+      "alias_of": null,
+      "name": "Vista Gold",
+      "file": "beta/vista-gold.json",
+      "tickers": [
+        "VGZ.TO",
+        "VGZ"
+      ],
+      "kind": "explorer",
+      "stage": "development",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 78,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -123.2277,
+        48.8958,
+        -90.7313,
+        51.3309
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "vr-resources",
+      "beta_id": "vr-resources",
+      "alias_of": null,
+      "name": "VR Resources",
+      "file": "beta/vr-resources.json",
+      "tickers": [
+        "VRR.V",
+        "VRRCF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 83,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -92.9625,
+        48.8125,
+        -81.725,
+        50.6458
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "walker-lane-resources",
+      "beta_id": "walker-lane-resources",
+      "alias_of": null,
+      "name": "Walker Lane Resources",
+      "file": "beta/walker-lane-resources.json",
+      "tickers": [
+        "WLR.V",
+        "CMCXF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 52,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -116.0698,
+        46.825,
+        -80.975,
+        49.375
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "wallbridge",
+      "beta_id": "wallbridge",
+      "alias_of": null,
+      "name": "Wallbridge",
+      "file": "beta/wallbridge.json",
+      "tickers": [
+        "WM.TO",
+        "WLBMF"
+      ],
+      "kind": "explorer",
+      "stage": "developer",
+      "layer": "explorers",
+      "in_issuers": false,
+      "in_explorers": true,
+      "filing_backed": true,
+      "claim_count": 884,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -79.42500000524907,
+        49.483333332771906,
+        -77.64207751307731,
+        50.08333334071767
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "wesdome-gold-mines",
+      "beta_id": "wesdome-gold-mines",
+      "alias_of": null,
+      "name": "Wesdome",
+      "file": "beta/wesdome-gold-mines.json",
+      "tickers": [
+        "WDO.TO",
+        "WDOFF",
+        "WDO"
+      ],
+      "kind": "producer",
+      "stage": null,
+      "layer": "producers",
+      "in_issuers": true,
+      "in_explorers": false,
+      "filing_backed": true,
+      "claim_count": 2462,
+      "has_overview": true,
+      "has_mines": true,
+      "bbox": [
+        -85.8,
+        47.9375,
+        -77.82787563766954,
+        48.225
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "westhaven-gold",
+      "beta_id": "westhaven-gold",
+      "alias_of": null,
+      "name": "Westhaven Gold",
+      "file": "beta/westhaven-gold.json",
+      "tickers": [
+        "WHN.V",
+        "WTHVF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 45,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -121.5326,
+        49.8249,
+        -120.7513,
+        50.3832
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "white-gold",
+      "beta_id": "white-gold",
+      "alias_of": null,
+      "name": "White Gold",
+      "file": "beta/white-gold.json",
+      "tickers": [
+        "WGO.V",
+        "WHGOF"
+      ],
+      "kind": "explorer",
+      "stage": "exploration",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 3842,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -122.0563,
+        45.5583,
+        -62.86666666508216,
+        56.300000008019495
+      ],
+      "color": "#e8b040",
+      "note": null
+    }
+  ]
+}

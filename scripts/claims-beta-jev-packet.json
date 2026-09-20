@@ -1,0 +1,207 @@
+{
+  "schema": "qc-pr-merge-gate-v1",
+  "work": "B",
+  "pr_topic": "claims-map issuer profiles + light map preview",
+  "generated": "2026-09-20T18:51:50Z",
+  "model": "jev-latest",
+  "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
+  "not": "Jev Bot chat",
+  "index": {
+    "json": "beta/claims-publics.json",
+    "n": 191,
+    "counts": {
+      "matched": 191
+    },
+    "aliases": {
+      "troilus-mining": "troilus"
+    },
+    "samples": {
+      "iamgold": {
+        "id": "iamgold",
+        "beta_id": "iamgold",
+        "alias_of": null,
+        "file": "beta/iamgold.json",
+        "tickers": [
+          "IAG",
+          "IMG.TO",
+          "IMG"
+        ],
+        "layer": "producers",
+        "has_overview": true,
+        "filing_backed": true
+      },
+      "probe-gold": {
+        "id": "probe-gold",
+        "beta_id": "probe-gold",
+        "alias_of": null,
+        "file": "beta/probe-gold.json",
+        "tickers": [
+          "PRB.TO"
+        ],
+        "layer": "explorers",
+        "has_overview": true,
+        "filing_backed": true
+      },
+      "troilus-mining": {
+        "id": "troilus-mining",
+        "beta_id": "troilus",
+        "alias_of": "troilus",
+        "file": "beta/troilus.json",
+        "tickers": [
+          "TLG.TO",
+          "CHXMF"
+        ],
+        "layer": "explorers",
+        "has_overview": true,
+        "filing_backed": true
+      },
+      "kenorland-minerals": {
+        "id": "kenorland-minerals",
+        "beta_id": "kenorland-minerals",
+        "alias_of": null,
+        "file": "beta/kenorland-minerals.json",
+        "tickers": [
+          "KLD.V",
+          "KLDCF"
+        ],
+        "layer": "claims",
+        "has_overview": true,
+        "filing_backed": false
+      }
+    }
+  },
+  "question_specs": {
+    "shell_fields": {
+      "type": "Choice",
+      "instructions": "Which fields are required on a newly generated claims-public issuer shell when the company is not already filing-backed?",
+      "criteria": {
+        "claims_id_tickers_no_ounces": "schema, claims/companies.json id, issuer name and tickers, null ounce KPIs, optional catalog mines. Do not invent ounces.",
+        "full_iamgold_rr": "Full IAMGOLD-style reserves/resources/production even if unsourced.",
+        "tickers_only": "Tickers and name only; omit schema, assets, and KPI stubs."
+      }
+    },
+    "map_extent": {
+      "type": "Choice",
+      "instructions": "What should the beta.html profile map preview fit to for a claims-map issuer?",
+      "criteria": {
+        "company_footprint": "Fit that company's overview cells (and mines that fall in view). Not Canada-wide. Not per-company extracts.",
+        "all_mines_world": "Fit every mine marker worldwide (IAMGOLD goes Africa + Canada).",
+        "canada_default": "Always start at a fixed Canada claims view."
+      }
+    },
+    "empty_profile": {
+      "type": "Choice",
+      "instructions": "How should a claims-public shell with no ounces or assets render?",
+      "criteria": {
+        "hide_empty_show_map": "Hide empty mines / R&R tables. Show a claims note and the map preview when an overview footprint exists.",
+        "placeholder_dashes": "Show ounce tables filled with dashes as if production exists.",
+        "error_page": "Refuse to open the profile until a filing pass."
+      }
+    },
+    "id_alias": {
+      "type": "Choice",
+      "instructions": "The claims catalog id is troilus-mining. The filing-backed shell is beta/troilus.json (id troilus). How should beta.html?id=troilus-mining resolve?",
+      "criteria": {
+        "alias_to_existing": "Resolve troilus-mining to the existing filing-backed beta/troilus.json. Do not invent a second ounce book.",
+        "new_stub": "Write a new empty beta/troilus-mining.json shell.",
+        "ignore_claims_id": "Only beta.html?id=troilus works; the claims id 404s."
+      }
+    },
+    "preview_light": {
+      "type": "Noul",
+      "instructions": "Is it correct that the profile map preview loads claims/overview.geojson plus catalog/profile mine markers and must not fetch per-company extracts or call loadAllExtracts?",
+      "criteria": {
+        "true": "Yes — overview cells / footprint / mines only.",
+        "false": "No — the preview should load full province extracts."
+      }
+    }
+  },
+  "calls": [
+    {
+      "id": "policy:shell_fields",
+      "label": "claims_beta_shell_fields_v1",
+      "questions": [
+        "shell_fields"
+      ],
+      "state": {
+        "locked_decision": "claims_id_tickers_no_ounces",
+        "do_not": "invent ounces or regenerate existing shells",
+        "index": {
+          "matched": 191
+        }
+      }
+    },
+    {
+      "id": "policy:map_extent",
+      "label": "claims_beta_map_extent_v1",
+      "questions": [
+        "map_extent"
+      ],
+      "state": {
+        "locked_decision": "company_footprint",
+        "preview_loads": [
+          "claims/overview.geojson",
+          "catalog mines",
+          "profile assets"
+        ],
+        "must_not_load": [
+          "per-company extracts",
+          "loadAllExtracts"
+        ]
+      }
+    },
+    {
+      "id": "policy:empty_profile",
+      "label": "claims_beta_empty_profile_v1",
+      "questions": [
+        "empty_profile"
+      ],
+      "state": {
+        "locked_decision": "hide_empty_show_map",
+        "example": "kenorland-minerals mcap shell — no ounces, has overview cells"
+      }
+    },
+    {
+      "id": "policy:id_alias",
+      "label": "claims_beta_id_alias_v1",
+      "questions": [
+        "id_alias"
+      ],
+      "state": {
+        "locked_decision": "alias_to_existing",
+        "claims_id": "troilus-mining",
+        "existing_file": "beta/troilus.json",
+        "existing_id": "troilus"
+      }
+    },
+    {
+      "id": "policy:preview_light",
+      "label": "claims_beta_preview_light_v1",
+      "questions": [
+        "preview_light"
+      ],
+      "state": {
+        "locked_decision": true,
+        "overview_first_after": "261-geojson stall"
+      }
+    }
+  ],
+  "gate": {
+    "pass_if": [
+      "shell_fields choice is claims_id_tickers_no_ounces (if Jev ran)",
+      "map_extent choice is company_footprint (if Jev ran)",
+      "empty_profile choice is hide_empty_show_map (if Jev ran)",
+      "id_alias choice is alias_to_existing (if Jev ran)",
+      "preview_light noul >= 0.55 (if Jev ran)",
+      "claims-publics.json lists all catalog ids; troilus-mining aliases to troilus",
+      "beta.html map preview must not call loadAllExtracts or fetch extracts"
+    ],
+    "fail_closed_without_key": false,
+    "note": "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY runs the same script to fill judgments."
+  },
+  "box_commands": [
+    "set -a && source /home/box/shared/typesafe/env && set +a",
+    "python3 -m pip install -q typesafe-sdk",
+    "python3 scripts/run_claims_beta_gate.py --require-jev"
+  ]
+}

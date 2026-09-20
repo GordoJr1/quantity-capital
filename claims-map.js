@@ -675,8 +675,15 @@ function featureBbox(f) {
   return f.__b;
 }
 
-function claimKey(p) {
-  return String((p && p.jurisdiction) || "") + "|" + String((p && p.claim_id) || "");
+function claimKey(p, f) {
+  const j = String((p && p.jurisdiction) || "");
+  const id = String((p && p.claim_id) || "");
+  if (id) return j + "|" + id;
+  if (f && f.__k) return f.__k;
+  const b = f ? featureBbox(f) : null;
+  const k = j + "|xy|" + (b ? b.map((n) => Math.round(n * 1e5)).join(",") : "");
+  if (f) f.__k = k;
+  return k;
 }
 
 function filterToHolders(fc, company) {
@@ -920,7 +927,7 @@ function companyPlusNearbyFc(company) {
   ownVis.features.forEach((f) => {
     const p = f.properties || {};
     if (isOverviewProps(p)) return;
-    const key = claimKey(p);
+    const key = claimKey(p, f);
     if (seen[key]) return;
     seen[key] = 1;
     const role = p.role === "neighbor" ? "neighbor" : "focus";
@@ -940,7 +947,7 @@ function companyPlusNearbyFc(company) {
       if (!isFocusFeature(f)) return;
       const p = f.properties || {};
       if (isOverviewProps(p)) return;
-      const key = claimKey(p);
+      const key = claimKey(p, f);
       if (seen[key]) return;
       if (!hitsAnyPad(featureBbox(f), pads)) return;
       seen[key] = 1;

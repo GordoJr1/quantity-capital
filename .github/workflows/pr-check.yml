@@ -60,6 +60,8 @@ jobs:
           grep -q 'function fitCompanyTitles' claims-map.js
           grep -q 'function loadNearbyExtracts' claims-map.js
           grep -q 'function canadaCamps' claims-map.js
+          grep -q 'function claimKey' claims-map.js
+          grep -q '|xy|' claims-map.js
           grep -q 'id="camps"' claims.html
           grep -q 'claims/extract-bytes.json' claims-map.js
           grep -q 'NEARBY_PAD_DEG' claims-map.js

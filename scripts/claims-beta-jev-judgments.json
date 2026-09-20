@@ -1,7 +1,99 @@
 {
-  "ran": false,
-  "reason": "packet_only",
-  "model": null,
-  "calls": [],
-  "generated": "2026-09-20T18:51:50Z"
+  "ran": true,
+  "reason": null,
+  "model": "jev-1.13.0",
+  "n": 5,
+  "errors": 0,
+  "calls": [
+    {
+      "id": "policy:shell_fields",
+      "label": "claims_beta_shell_fields_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "shell_fields": {
+          "type": "choice",
+          "choice": "claims_id_tickers_no_ounces",
+          "confidence": 1.0,
+          "probabilities": {
+            "claims_id_tickers_no_ounces": 1.0,
+            "tickers_only": 0.0,
+            "full_iamgold_rr": 0.0
+          }
+        }
+      },
+      "input_tokens": 447,
+      "output_tokens": 57
+    },
+    {
+      "id": "policy:map_extent",
+      "label": "claims_beta_map_extent_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "map_extent": {
+          "type": "choice",
+          "choice": "company_footprint",
+          "confidence": 1.0,
+          "probabilities": {
+            "all_mines_world": 0.0,
+            "canada_default": 0.0,
+            "company_footprint": 1.0
+          }
+        }
+      },
+      "input_tokens": 442,
+      "output_tokens": 50
+    },
+    {
+      "id": "policy:empty_profile",
+      "label": "claims_beta_empty_profile_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "empty_profile": {
+          "type": "choice",
+          "choice": "hide_empty_show_map",
+          "confidence": 1.0,
+          "probabilities": {
+            "error_page": 0.0,
+            "hide_empty_show_map": 1.0,
+            "placeholder_dashes": 0.0
+          }
+        }
+      },
+      "input_tokens": 410,
+      "output_tokens": 49
+    },
+    {
+      "id": "policy:id_alias",
+      "label": "claims_beta_id_alias_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "id_alias": {
+          "type": "choice",
+          "choice": "alias_to_existing",
+          "confidence": 1.0,
+          "probabilities": {
+            "new_stub": 0.0,
+            "alias_to_existing": 1.0,
+            "ignore_claims_id": 0.0
+          }
+        }
+      },
+      "input_tokens": 460,
+      "output_tokens": 48
+    },
+    {
+      "id": "policy:preview_light",
+      "label": "claims_beta_preview_light_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "preview_light": {
+          "type": "noul",
+          "noul": 0.78
+        }
+      },
+      "input_tokens": 362,
+      "output_tokens": 21
+    }
+  ],
+  "generated": "2026-09-20T19:37:12Z"
 }

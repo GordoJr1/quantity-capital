@@ -14,6 +14,7 @@
   <link rel="prefetch" href="insider-trades-lite.json">
       <link rel="prefetch" href="insider-follow.json">
   <link rel="prefetch" href="insider-form4.json">
+  <link rel="prefetch" href="insider-companies.json">
   <title>Insiders — Quantity Capital</title>
   <meta name="description" content="Officer and director open-market trades on the Quantity Capital watchlist. Form 4 within 2 business days; TSX names via public insider prints." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -559,6 +560,40 @@
       padding: 18px 8px;
       text-align: center;
     }
+    .qc-empty-filings {
+      display: inline-flex; align-items: center;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 0.78rem; color: var(--caution);
+      background: rgba(227, 180, 26, 0.1);
+      border: 1px solid var(--caution);
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    .qc-issuer-cols {
+      display: flex; justify-content: space-between; gap: 12px;
+      color: var(--mute); font-size: 0.75rem; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0 12px 8px;
+      font-family: "Barlow Condensed", sans-serif; list-style: none;
+    }
+    .qc-issuer {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 10px 12px;
+      border: 1px solid #3a4452; background: #151b24; margin: 0 0 6px;
+      list-style: none;
+    }
+    .qc-issuer-empty { border-left: 4px solid var(--caution); }
+    .qc-issuer-main {
+      display: flex; align-items: baseline; gap: 10px;
+      min-width: 0; color: inherit; text-decoration: none;
+    }
+    .qc-issuer-main:hover, .qc-issuer-main:hover .qc-txn-tk { color: var(--caution); }
+    .qc-issuer-name {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-weight: 600;
+    }
+    .qc-issuer-meta { color: var(--mute); font-size: 0.82rem; flex: 0 0 auto; }
+    .desk.issuers-only { display: block; }
+    .desk.issuers-only .focus { display: none; }
   </style>
 </head>
 <body>
@@ -621,7 +656,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=125"></script>
+  <script src="qc.js?v=126"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -631,9 +666,13 @@
     const params = new URLSearchParams(location.search);
     let days = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
     let side = params.get("side") || "";
+    let view = params.get("view") === "issuers" ? "issuers" : "tape";
+    let emptyOnly = params.get("empty") === "1";
     let q = "";
     let showAll = false;
     let all = [];
+    let companies = [];
+    let filingTickers = {};
     let collected = "";
     let deskRows = [];
     let activeId = "";
@@ -700,12 +739,76 @@
       return s;
     }
 
+    function syncUrl() {
+      const p = new URLSearchParams();
+      if (view === "issuers") p.set("view", "issuers");
+      else {
+        p.set("w", String(days));
+        if (side) p.set("side", side);
+      }
+      if (emptyOnly) p.set("empty", "1");
+      const qs = p.toString();
+      history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+    }
+
+    function issuerBlob(co) {
+      return [co.name, co.claims_id, QC.companySymbols(co).join(" ")].join(" ").toLowerCase();
+    }
+
+    function matchingIssuers(needle) {
+      const n = String(needle || "").trim().toLowerCase();
+      return (companies || []).filter((co) => {
+        const filings = QC.issuerFilingCount(co, filingTickers);
+        if (emptyOnly && filings) return false;
+        if (n && issuerBlob(co).indexOf(n) < 0) return false;
+        return true;
+      });
+    }
+
+    function paintWindows() {
+      const views =
+        "<button type=\"button\" class=\"chip" + (view === "tape" ? " on" : "") + "\" data-view=\"tape\">Tape</button>" +
+        "<button type=\"button\" class=\"chip" + (view === "issuers" ? " on" : "") + "\" data-view=\"issuers\">Issuers</button>";
+      const extra = view === "issuers"
+        ? "<button type=\"button\" class=\"chip" + (emptyOnly ? " on" : "") + "\" data-empty=\"1\">No filings</button>"
+        : WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
+          "<button type=\"button\" class=\"chip" + (side === "purchase" ? " on" : "") + "\" data-side=\"purchase\">Buys</button>" +
+          "<button type=\"button\" class=\"chip" + (side === "sale" ? " on" : "") + "\" data-side=\"sale\">Sells</button>";
+      document.getElementById("windows").innerHTML = views + extra;
+      const qEl = document.getElementById("q");
+      if (qEl) qEl.placeholder = view === "issuers" ? "Search ticker or company" : "Search officer, ticker, or company";
+      const desk = document.getElementById("desk");
+      if (desk) desk.classList.toggle("issuers-only", view === "issuers");
+    }
+
+    function paintIssuerList(list) {
+      const cols = "<li class=\"qc-issuer-cols\" aria-hidden=\"true\"><span>Ticker / company</span><span>Filings</span></li>";
+      const body = list.map((co) => QC.issuerRowHtml(co, { filings: QC.issuerFilingCount(co, filingTickers) })).join("");
+      document.getElementById("rows").innerHTML = list.length
+        ? cols + body
+        : "<li class=\"muted\">No issuers match.</li>";
+    }
+
     function paint(rows, collectedAt, keepPick) {
       document.getElementById("asof").textContent = QC.asOfLabel(collectedAt);
-      document.getElementById("windows").innerHTML =
-        WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
-        "<button type=\"button\" class=\"chip" + (side === "purchase" ? " on" : "") + "\" data-side=\"purchase\">Buys</button>" +
-        "<button type=\"button\" class=\"chip" + (side === "sale" ? " on" : "") + "\" data-side=\"sale\">Sells</button>";
+      paintWindows();
+      if (view === "issuers") {
+        const list = matchingIssuers(q).slice().sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+        const count = document.getElementById("tape-count");
+        const moreRow = document.getElementById("more-row");
+        if (count) {
+          count.hidden = false;
+          const emptyN = list.filter((co) => !QC.issuerFilingCount(co, filingTickers)).length;
+          count.textContent = list.length
+            ? list.length + " issuers" + (emptyN ? " · " + emptyN + " no filings yet" : "")
+            : "";
+        }
+        if (moreRow) moreRow.hidden = true;
+        const focusEl = document.getElementById("focus");
+        if (focusEl) focusEl.hidden = true;
+        paintIssuerList(list);
+        return;
+      }
       const cut = new Date(); cut.setDate(cut.getDate() - days);
       const cutIso = cut.toISOString().slice(0, 10);
       const needle = q.trim().toLowerCase();
@@ -771,9 +874,18 @@
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
-      document.getElementById("rows").innerHTML = deskRows.length
-        ? colsHtml + bodyHtml
-        : "<li class=\"muted\">No insider prints in this window.</li>";
+      if (deskRows.length) {
+        document.getElementById("rows").innerHTML = colsHtml + bodyHtml;
+      } else {
+        const issuerHits = needle ? matchingIssuers(needle) : [];
+        if (issuerHits.length) {
+          document.getElementById("rows").innerHTML =
+            "<li class=\"muted\">No insider prints in this window.</li>" +
+            issuerHits.map((co) => QC.issuerRowHtml(co, { filings: QC.issuerFilingCount(co, filingTickers) })).join("");
+        } else {
+          document.getElementById("rows").innerHTML = "<li class=\"muted\">No insider prints in this window.</li>";
+        }
+      }
       markActiveRow();
       paintFocus();
       const focusEl = document.getElementById("focus");
@@ -1077,6 +1189,13 @@
       const data = await fetch("insider-trades-lite.json").then((r) => r.json());
       all = data.trades || [];
       collected = data.collected || "";
+      filingTickers = QC.tradeTickerSet(all);
+      try {
+        const book = await fetch("insider-companies.json").then((r) => r.json());
+        companies = book.companies || [];
+      } catch (err) {
+        companies = [];
+      }
       try {
         const follow = await QC.loadFollow();
         followIds = QC.followById(follow);
@@ -1091,14 +1210,16 @@
       paint(all, collected);
     }
     document.getElementById("windows").addEventListener("click", (e) => {
+      const v = e.target.closest("button[data-view]");
+      const emptyBtn = e.target.closest("button[data-empty]");
       const w = e.target.closest("button[data-w]");
       const s = e.target.closest("button[data-side]");
+      if (v) view = v.dataset.view === "issuers" ? "issuers" : "tape";
+      if (emptyBtn) emptyOnly = !emptyOnly;
       if (w) days = Number(w.dataset.w);
       if (s) side = side === s.dataset.side ? "" : s.dataset.side;
-      const p = new URLSearchParams();
-      p.set("w", String(days));
-      if (side) p.set("side", side);
-      history.replaceState(null, "", location.pathname + "?" + p.toString());
+      if (!v && !emptyBtn && !w && !s) return;
+      syncUrl();
       showAll = false;
       paint(all, collected);
     });

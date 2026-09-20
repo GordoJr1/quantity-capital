@@ -1,0 +1,169 @@
+{
+  "ran": true,
+  "reason": null,
+  "model": "jev-1.13.0",
+  "n": 9,
+  "errors": 0,
+  "calls": [
+    {
+      "id": "policy:empty_badge_copy",
+      "label": "claims_insider_empty_badge_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "empty_badge_copy": {
+          "type": "choice",
+          "choice": "no_filings_yet",
+          "confidence": 0.54,
+          "probabilities": {
+            "no_form4_sedi": 0.08,
+            "no_filings_yet": 0.7,
+            "watchlist_no_prints": 0.22
+          }
+        }
+      },
+      "input_tokens": 447,
+      "output_tokens": 61
+    },
+    {
+      "id": "policy:empty_row_policy",
+      "label": "claims_insider_empty_row_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "empty_row_policy": {
+          "type": "choice",
+          "choice": "keep_with_badge",
+          "confidence": 0.99,
+          "probabilities": {
+            "keep_with_badge": 0.99,
+            "blank_row": 0.0,
+            "hide_until_data": 0.01
+          }
+        }
+      },
+      "input_tokens": 422,
+      "output_tokens": 51
+    },
+    {
+      "id": "policy:private_filter",
+      "label": "claims_insider_private_filter_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "private_filter": {
+          "type": "noul",
+          "noul": 0.79
+        }
+      },
+      "input_tokens": 402,
+      "output_tokens": 21
+    },
+    {
+      "id": "issuer:probe-gold",
+      "label": "claims_insider_on_universe_v1:probe-gold",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.75
+        }
+      },
+      "input_tokens": 396,
+      "output_tokens": 22
+    },
+    {
+      "id": "issuer:g2-goldfields",
+      "label": "claims_insider_on_universe_v1:g2-goldfields",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.74
+        }
+      },
+      "input_tokens": 402,
+      "output_tokens": 22
+    },
+    {
+      "id": "issuer:newmont",
+      "label": "claims_insider_on_universe_v1:newmont",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.94
+        }
+      },
+      "input_tokens": 384,
+      "output_tokens": 22
+    },
+    {
+      "id": "issuer:gold-fields",
+      "label": "claims_insider_same_issuer_v1:gold-fields",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.29,
+          "confidence": 0.44,
+          "probabilities": {
+            "0": 0.04,
+            "1": 0.63,
+            "2": 0.33
+          }
+        },
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.62
+        }
+      },
+      "input_tokens": 490,
+      "output_tokens": 40
+    },
+    {
+      "id": "issuer:harmony",
+      "label": "claims_insider_same_issuer_v1:harmony",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.97,
+          "confidence": 0.95,
+          "probabilities": {
+            "0": 0.01,
+            "1": 0.02,
+            "2": 0.97
+          }
+        },
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.89
+        }
+      },
+      "input_tokens": 463,
+      "output_tokens": 40
+    },
+    {
+      "id": "issuer:thesis-gold",
+      "label": "claims_insider_same_issuer_v1:thesis-gold",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.89,
+          "confidence": 0.83,
+          "probabilities": {
+            "0": 0.0,
+            "1": 0.1,
+            "2": 0.9
+          }
+        },
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.71
+        }
+      },
+      "input_tokens": 491,
+      "output_tokens": 40
+    }
+  ],
+  "generated": "2026-09-20T18:33:58Z"
+}

@@ -42,6 +42,10 @@ Writes `canada/commodities.json`. User-Agent: `Quantity Capital gordojr@proton.m
 
 If a live source is blocked, the builder records a `blockers` entry and can finish from `scripts/fixtures/canada/` (`--offline`, or automatic fallback when both production sources fail). Refill on a desktop that can reach StatCan/NRCan.
 
+## Troy ounces
+
+Gold, silver, platinum, palladium, rhodium, and platinum-group national (and provincial) totals are converted at ingest to troy ounces. Factor: **1 troy ounce = 31.1034768 grams**. Each year uses that year’s published StatCan/NRCan mass unit (NRCan silver is tonnes through 2018, then kilograms; gold is kilograms; PGMs are kilograms on NRCan through 2018 and grams on StatCan). Other commodities keep their source units. `--convert-existing` applies the same conversion to an already-built `canada/commodities.json` without refetching Map 900A. Do not invent mine-level ounces.
+
 ## Claims links
 
 Owners and mine names are matched to `claims/companies.json` (and beta issuer catalogs). Linked rows use the existing overview-first map:

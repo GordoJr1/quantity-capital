@@ -191,7 +191,7 @@
         <h2 id="prov-h" hidden>Provinces · <span id="prov-year"></span></h2>
         <div class="table-wrap" id="prov-wrap" hidden>
           <table>
-            <thead><tr><th>Province / territory</th><th class="num">Quantity</th></tr></thead>
+            <thead><tr><th>Province / territory</th><th class="num" id="prov-qty-col">Quantity</th></tr></thead>
             <tbody id="provinces"></tbody>
           </table>
         </div>
@@ -224,7 +224,6 @@
   </footer>
   <script src="qc.js?v=128"></script>
   <script>
-    const KOZ = 31.1034768;
     const state = { data: null, commodity: "gold", year: null };
 
     function esc(s) {
@@ -242,6 +241,10 @@
     function comm() {
       const list = (state.data && state.data.commodities) || [];
       return list.find((c) => c.id === state.commodity) || list[0] || null;
+    }
+
+    function unitText(c) {
+      return (c && (c.unit_label || c.unit)) || "";
     }
 
     function latestNumericYear(c) {
@@ -296,19 +299,15 @@
     function paintKpis(c) {
       const allOps = c && c.id === "all";
       const pt = pointFor(c, state.year);
-      const unit = (c && c.unit) || "";
+      const unit = unitText(c);
       const val = pt && pt.canada;
-      let extra = "";
-      if (val != null && (c.id === "gold" || c.id === "silver") && unit === "kg") {
-        extra = "<div class=\"stat\"><b>" + fmt(val / KOZ) + "</b><span>≈ thousand oz</span></div>";
-      }
       const mines = (c && c.mines) || [];
       const linked = mines.filter((m) => m.claims_href).length;
       document.getElementById("kpis").innerHTML =
         "<div class=\"stat\"><b>" + (allOps ? String(mines.length) : esc(fmt(val, unit))) + "</b><span>" +
         (allOps ? "Map 900A operations" : ("Canada · " + esc(String(state.year || "—")))) + "</span></div>" +
         "<div class=\"stat\"><b>" + mines.length + "</b><span>Mines listed</span></div>" +
-        "<div class=\"stat\"><b>" + linked + "</b><span>Linked to Claims</span></div>" + extra;
+        "<div class=\"stat\"><b>" + linked + "</b><span>Linked to Claims</span></div>";
     }
 
     function paintChart(c) {
@@ -318,6 +317,7 @@
       const nums = series.filter((p) => p.canada != null);
       if (!nums.length) {
         svg.innerHTML = "";
+        document.getElementById("chart-h").textContent = "Canada totals";
         axis.textContent = "No published Canada total for this series.";
         return;
       }
@@ -340,6 +340,8 @@
         bars += "<rect data-year=\"" + p.year + "\" x=\"" + (x + 2) + "\" y=\"" + y + "\" width=\"" + Math.max(bw - 4, 2) + "\" height=\"" + Math.max(bh, 2) + "\" fill=\"" + (on ? "#e3b41a" : "#36999d") + "\" opacity=\"" + (on ? "1" : "0.78") + "\"></rect>";
       });
       svg.innerHTML = bars;
+      const unit = unitText(c);
+      document.getElementById("chart-h").textContent = unit ? ("Canada totals · " + unit) : "Canada totals";
       axis.innerHTML = "<span>" + series[0].year + "</span><span>" + series[series.length - 1].year + "</span>";
       svg.onclick = function (ev) {
         const y = ev.target && ev.target.getAttribute && ev.target.getAttribute("data-year");
@@ -351,7 +353,7 @@
     }
 
     function paintSeries(c) {
-      const unit = (c && c.unit) || "";
+      const unit = unitText(c);
       document.getElementById("qty-col").textContent = unit ? ("Quantity (" + unit + ")") : "Quantity";
       document.getElementById("series").innerHTML = ((c && c.series) || []).map((p) => {
         const on = p.year === state.year ? " class=\"on\"" : "";
@@ -366,10 +368,12 @@
         }
       };
       const n = ((c && c.series) || []).filter((p) => p.canada != null).length;
+      const troy = unit === "troy oz";
       document.getElementById("series-note").textContent = (c && c.id === "all")
         ? "All operations has no national production series — pick a commodity for StatCan / NRCan totals."
         : (n
-          ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables."
+          ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables." +
+            (troy ? " Figures are troy ounces (1 troy oz = 31.1034768 g), converted from the published mass unit." : "")
           : "No Canada quantity published for this commodity in the requested window.");
     }
 
@@ -386,6 +390,8 @@
       wrap.hidden = false;
       head.hidden = false;
       document.getElementById("prov-year").textContent = String(state.year);
+      const unit = unitText(c);
+      document.getElementById("prov-qty-col").textContent = unit ? ("Quantity (" + unit + ")") : "Quantity";
       const rows = Object.keys(prov).sort(function (a, b) { return prov[b] - prov[a]; });
       document.getElementById("provinces").innerHTML = rows.map((name) =>
         "<tr><td>" + esc(name) + "</td><td class=\"num\">" + esc(fmt(prov[name])) + "</td></tr>"
@@ -431,7 +437,14 @@
     function boot(data) {
       state.data = data;
       const params = new URLSearchParams(location.search);
-      const want = params.get("c") || params.get("commodity");
+      const aliases = {
+        "platinum-recoverable": "platinum",
+        "palladium-recoverable": "palladium",
+        "rhodium-recoverable": "rhodium",
+        "rodium": "rhodium"
+      };
+      const wantRaw = params.get("c") || params.get("commodity");
+      const want = aliases[wantRaw] || wantRaw;
       if (want && (data.commodities || []).some((c) => c.id === want)) state.commodity = want;
       else if (!(data.commodities || []).some((c) => c.id === "gold")) {
         const first = (data.commodities || [])[0];
@@ -462,7 +475,7 @@
       paint();
     });
 
-    fetch("canada/commodities.json").then(function (r) {
+    fetch("canada/commodities.json?v=2").then(function (r) {
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
     }).then(boot).catch(function (err) {

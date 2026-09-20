@@ -34,6 +34,6 @@ python3 scripts/build_canada_commodities.py --offline    # fixtures only (CI / b
 python3 scripts/build_canada_commodities.py --check
 ```
 
-Writes `canada/commodities.json`. No secrets. Do not commit `qc.sqlite`. Mine-level tonnes are not published and are never written. See `canada/README.md`.
+Writes `canada/commodities.json`. No secrets. Do not commit `qc.sqlite`. Mine-level tonnes are not published and are never written. Gold, silver, platinum, palladium, rhodium (and the platinum-group aggregate) are stored as **troy ounces** (`1 troy oz = 31.1034768 g`), converted at ingest from that year’s published kg / tonne / gram total. See `canada/README.md`.
 
 GitHub Action `daily-update` runs Form 4 enrich plus backtest / Repeatable / follow rebuilds daily at 23:30 UTC and commits those artifacts to `main` when data changed. It does not fetch or commit `prices/` — Yahoo daily closes stay morning-only from the off-repo collect bats. `follow-alerts.yml` does the Form 4 + follow rebuild when the tape is pushed. `morning-check` fails ~07:40 ET if today's off-repo politician (~07:22 ET) or insiders (~07:05 ET) tape stamp is missing. New Senate/House/OGE/SEDI filings still depend on the off-repo collector; do not mix those JSON files into feature commits.

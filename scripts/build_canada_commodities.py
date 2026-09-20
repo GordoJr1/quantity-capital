@@ -4,6 +4,12 @@
 National (and optional provincial) aggregates only. Mine-level tonnes are
 not published and are never invented.
 
+Precious metals (gold, silver, platinum, palladium, rhodium, and the
+platinum-group aggregate) are converted at ingest to troy ounces using
+1 troy oz = 31.1034768 grams. Each year uses that year's published
+StatCan/NRCan mass unit (kg, tonnes, or grams). Other commodities keep
+their source units.
+
 Sources (no secrets):
   - StatCan table 16-10-0022 quantity CSV (2019–present)
   - NRCan annual mineral production HTML (FileT=YYYY; fills earlier years)
@@ -166,6 +172,10 @@ COMMODITY_ALIASES = {
     "iron concentrates": "iron-ore",
     "iron ore": "iron-ore",
     "iron agglomerates": "iron-agglomerates",
+    "platinum": "platinum",
+    "palladium": "palladium",
+    "rhodium": "rhodium",
+    "rodium": "rhodium",
     "platinum group": "platinum-group",
     "platinum group metals": "platinum-group",
     "diamonds": "diamonds",
@@ -190,6 +200,7 @@ KIND_HINT = {
     "cobalt": "metal", "zinc": "metal", "lead": "metal", "molybdenum": "metal",
     "uranium": "metal", "lithium": "metal", "iron-ore": "metal",
     "iron-agglomerates": "metal", "platinum-group": "metal", "niobium": "metal",
+    "platinum": "metal", "palladium": "metal", "rhodium": "metal",
     "diamonds": "nonmetal", "potash": "nonmetal", "graphite": "nonmetal",
     "salt": "nonmetal", "gypsum": "nonmetal", "limestone": "nonmetal",
     "coal": "coal", "oil-sands": "oil-sands",
@@ -290,6 +301,9 @@ def display_name(cid: str, raw: str) -> str:
         "iron-ore": "Iron ore",
         "iron-agglomerates": "Iron agglomerates",
         "platinum-group": "Platinum group",
+        "platinum": "Platinum",
+        "palladium": "Palladium",
+        "rhodium": "Rhodium",
         "diamonds": "Diamonds",
         "potash": "Potash",
         "coal": "Coal",
@@ -310,9 +324,46 @@ def display_name(cid: str, raw: str) -> str:
     return cleaned.strip() or cid.replace("-", " ").title()
 
 
+# International troy ounce. Convert gold / silver / platinum / palladium /
+# rhodium (and the platinum-group aggregate) from the published mass unit.
+TROY_OZ_GRAMS = 31.1034768
+TROY_OZ_UNIT = "troy oz"
+TROY_OZ_UNIT_LABEL = "troy oz"
+TROY_OZ_IDS = frozenset({
+    "gold",
+    "silver",
+    "platinum",
+    "palladium",
+    "rhodium",
+    "platinum-recoverable",
+    "palladium-recoverable",
+    "rhodium-recoverable",
+    "platinum-group",
+})
+TROY_OZ_CANONICAL = {
+    "gold": "gold",
+    "silver": "silver",
+    "platinum": "platinum",
+    "palladium": "palladium",
+    "rhodium": "rhodium",
+    "platinum-recoverable": "platinum",
+    "palladium-recoverable": "palladium",
+    "rhodium-recoverable": "rhodium",
+    "platinum-group": "platinum-group",
+}
+UNIT_NOTE = (
+    "Gold, silver, platinum, palladium, rhodium, and platinum-group totals "
+    "are troy ounces converted at ingest from the published StatCan/NRCan "
+    "mass unit for that year (1 troy oz = 31.1034768 grams). Other "
+    "commodities keep their source units. Mine-level quantities are not shown."
+)
+
+
 def unit_norm(uom: str) -> tuple[str, str]:
     t = (uom or "").strip().lower()
-    if t.startswith("kilogram"):
+    if "troy" in t or t in {"oz t", "ozt", "oz"}:
+        return TROY_OZ_UNIT, TROY_OZ_UNIT_LABEL
+    if t.startswith("kilogram") or t == "kg":
         return "kg", "kilograms"
     if "carat" in t:
         return "ct", "carats"
@@ -321,6 +372,108 @@ def unit_norm(uom: str) -> tuple[str, str]:
     if "tonne" in t or t in {"tonnes", "tons", "t"}:
         return "t", "tonnes"
     return (t or "t"), (uom or "tonnes")
+
+
+def is_troy_oz_commodity(cid: str) -> bool:
+    return cid in TROY_OZ_IDS or cid in TROY_OZ_CANONICAL
+
+
+def troy_oz_id(cid: str) -> str:
+    return TROY_OZ_CANONICAL.get(cid, cid)
+
+
+def mass_to_grams(value: float, unit: str) -> float | None:
+    """Grams from a published mass unit. None if the unit is not a mass we convert."""
+    code, _label = unit_norm(unit)
+    if code == "g":
+        return float(value)
+    if code == "kg":
+        return float(value) * 1000.0
+    if code == "t":
+        return float(value) * 1_000_000.0
+    if code == TROY_OZ_UNIT:
+        return float(value) * TROY_OZ_GRAMS
+    return None
+
+
+def to_troy_oz(value: float | None, unit: str) -> float | None:
+    """Published total → troy ounces. None stays None. Unknown units are left as-is."""
+    if value is None:
+        return None
+    code, _label = unit_norm(unit)
+    if code == TROY_OZ_UNIT:
+        return float(value)
+    grams = mass_to_grams(value, unit)
+    if grams is None:
+        return float(value)
+    return round(grams / TROY_OZ_GRAMS, 4)
+
+
+def published_unit_for_stored_point(cid: str, point: dict[str, Any], fallback: str) -> str:
+    """Recover the source-table unit when a built book stored one unit per series.
+
+    NRCan annual tables published silver in tonnes and platinum-group in
+    kilograms through 2018. StatCan 16-10-0022 (2019–) uses kilograms for
+    silver and grams for PGMs. Gold is kilograms in both sources.
+    """
+    src = (point.get("source") or "").lower()
+    year = point.get("year")
+    canon = troy_oz_id(cid)
+    if canon == "silver" and src == "nrcan" and year is not None and int(year) <= 2018:
+        return "t"
+    if canon == "platinum-group" and src == "nrcan" and year is not None and int(year) <= 2018:
+        return "kg"
+    return fallback
+
+
+def convert_number_to_troy_oz(value: Any, unit: str) -> Any:
+    if value is None:
+        return None
+    try:
+        return to_troy_oz(float(value), unit)
+    except (TypeError, ValueError):
+        return value
+
+
+def convert_payload_to_troy_oz(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert precious-metal series already stored in canada/commodities.json.
+
+    Uses each point's published mass unit (including the NRCan 2006–2018
+    silver-tonnes / PGM-kilograms tables). Idempotent when unit is already
+    troy oz. Does not touch mine rows.
+    """
+    comms = payload.get("commodities") or []
+    renamed: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for comm in comms:
+        cid = comm.get("id") or ""
+        if not is_troy_oz_commodity(cid):
+            renamed.append(comm)
+            continue
+        dest = troy_oz_id(cid)
+        already = comm.get("unit") == TROY_OZ_UNIT
+        if not already:
+            fallback = comm.get("unit") or ""
+            for point in comm.get("series") or []:
+                src_unit = published_unit_for_stored_point(cid, point, fallback)
+                if point.get("canada") is not None:
+                    point["canada"] = convert_number_to_troy_oz(point["canada"], src_unit)
+                if point.get("provinces"):
+                    point["provinces"] = {
+                        name: convert_number_to_troy_oz(val, src_unit)
+                        for name, val in point["provinces"].items()
+                    }
+        comm["id"] = dest
+        comm["name"] = display_name(dest, comm.get("name") or dest)
+        comm["unit"] = TROY_OZ_UNIT
+        comm["unit_label"] = TROY_OZ_UNIT_LABEL
+        if dest in seen:
+            continue
+        seen.add(dest)
+        renamed.append(comm)
+    payload["commodities"] = renamed
+    payload["unit_note"] = UNIT_NOTE
+    return payload
 
 
 def product_tokens(products: str) -> list[str]:
@@ -945,19 +1098,32 @@ def rows_to_commodities(
         series_src = prefer_statcan(grouped.get(cid) or [])
         series = []
         for row in series_src:
+            src_unit = row.get("unit") or unit_for.get(cid) or ""
+            canada = row["value"]
+            provinces = row.get("provinces") or None
+            if is_troy_oz_commodity(cid):
+                canada = convert_number_to_troy_oz(canada, src_unit)
+                if provinces:
+                    provinces = {
+                        name: convert_number_to_troy_oz(val, src_unit)
+                        for name, val in provinces.items()
+                    }
             point = {
                 "year": row["year"],
-                "canada": row["value"],
+                "canada": canada,
                 "source": row["source"],
             }
             if row.get("status"):
                 point["status"] = row["status"]
-            if row.get("provinces"):
-                point["provinces"] = row["provinces"]
+            if provinces:
+                point["provinces"] = provinces
             series.append(point)
         # attach StatCan provinces onto matching years when NRCan won the point
         # (already on the chosen row).
-        unit, unit_label = unit_norm(unit_for.get(cid) or "")
+        if is_troy_oz_commodity(cid):
+            unit, unit_label = TROY_OZ_UNIT, TROY_OZ_UNIT_LABEL
+        else:
+            unit, unit_label = unit_norm(unit_for.get(cid) or "")
         mine_rows = []
         seen_m: set[str] = set()
         for mine in mines_by_c.get(cid) or []:
@@ -969,8 +1135,11 @@ def rows_to_commodities(
         mine_rows.sort(key=lambda m: (m.get("province") or "", m.get("name") or ""))
         commodities.append(
             {
-                "id": cid,
-                "name": display_name(cid, raw_name.get(cid, cid)),
+                "id": troy_oz_id(cid) if is_troy_oz_commodity(cid) else cid,
+                "name": display_name(
+                    troy_oz_id(cid) if is_troy_oz_commodity(cid) else cid,
+                    raw_name.get(cid, cid),
+                ),
                 "kind": KIND_HINT.get(cid, "other"),
                 "unit": unit,
                 "unit_label": unit_label,
@@ -1174,6 +1343,7 @@ def build_payload(
             "producing operations, not every quarry or exploration project. "
             "Claims links open the existing Quebec / Ontario / BC overview-first map."
         ),
+        "unit_note": UNIT_NOTE,
         "blockers": blockers,
         "n_mines": len(linked),
         "n_linked": sum(1 for m in linked if m.get("claims_company")),
@@ -1197,6 +1367,8 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
         nums = [p for p in gold.get("series") or [] if p.get("canada") is not None]
         if len(nums) < 1:
             errors.append("gold series empty")
+        if gold.get("unit") != TROY_OZ_UNIT:
+            errors.append("gold unit must be troy oz")
         if not gold.get("mines"):
             errors.append("gold mines empty")
         for mine in gold.get("mines") or []:
@@ -1243,10 +1415,28 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--jev", action="store_true", help="Optional TypeSafe owner linker")
     p.add_argument("--offline", action="store_true", help="Rebuild from scripts/fixtures/canada/")
     p.add_argument("--check", action="store_true", help="Validate the committed JSON and exit")
+    p.add_argument(
+        "--convert-existing",
+        action="store_true",
+        help="Unit-convert precious metals in an already-built commodities.json to troy oz",
+    )
     p.add_argument("--years", type=int, default=REQUESTED_YEARS)
     args = p.parse_args(argv)
 
     out = args.out or (args.root / "canada" / "commodities.json")
+    if args.convert_existing:
+        payload = json.loads(out.read_text(encoding="utf-8"))
+        convert_payload_to_troy_oz(payload)
+        errors = validate_payload(payload)
+        write_json(out, payload)
+        print(
+            f"converted {out} commodities={len(payload.get('commodities') or [])} "
+            f"latest={payload.get('latest_year')}"
+        )
+        if errors:
+            print("validate: " + "; ".join(errors), file=sys.stderr)
+            return 1
+        return 0
     if args.check:
         payload = json.loads(out.read_text(encoding="utf-8"))
         errors = validate_payload(payload)

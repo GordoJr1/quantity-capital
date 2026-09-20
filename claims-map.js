@@ -5,7 +5,8 @@ const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
 const NEARBY_PAD_DEG = 0.35;
 const NEARBY_BUDGET_BYTES = 48 * 1024 * 1024;
-const NEARBY_MAX_COMPANIES = 16;
+const NEARBY_MAX_COMPANIES = 20;
+const NEARBY_MAX_PER_JURISDICTION = 8;
 const NEARBY_SINGLE_MAX_BYTES = 14 * 1024 * 1024;
 const CSV_FIELDS = [
   "company_id", "company", "role", "holder", "claim_id", "claim_name",
@@ -421,22 +422,30 @@ function paintLegend(company, features) {
     return;
   }
   hint.hidden = false;
-  hint.textContent = "This holder’s full titles, plus nearby titles within ~0.35°. Overview squares are only on the all-companies view.";
+  hint.textContent = "This holder’s titles, plus neighboring claims around them. Overview squares are only on the all-companies view.";
   box.hidden = false;
-  const seenN = {};
-  const nearbyRows = [];
+  const nearbyMap = {};
   (features || []).forEach((f) => {
     const p = f.properties || {};
-    if (p.role !== "neighbor" || !p.company_id || seenN[p.company_id]) return;
-    seenN[p.company_id] = 1;
-    const c = findIndexed(p.company_id);
-    nearbyRows.push({
-      id: p.company_id,
-      holder: (c && c.holder) || p.holder,
-      count: c ? visibleCounts(c).total : (p.claim_count || 0),
-      color: p.color || colorForId(p.company_id),
-    });
+    if (p.role !== "neighbor") return;
+    const holder = p.holder || p.company_id;
+    if (!holder) return;
+    let row = nearbyMap[holder];
+    if (!row) {
+      const hid = featuredIdForHolder(holder);
+      const cid = hid || (p.company_id && p.company_id !== company.id ? p.company_id : null);
+      row = {
+        id: cid,
+        holder: holder,
+        count: 0,
+        color: p.color || (cid ? colorForId(cid) : colorForId(slugName(holder))),
+      };
+      nearbyMap[holder] = row;
+    }
+    row.count += 1;
+    if (p.color && p.color !== "#e8b040" && p.color !== "#90a4ae") row.color = p.color;
   });
+  const nearbyRows = Object.keys(nearbyMap).map((k) => nearbyMap[k]);
   nearbyRows.sort((a, b) => (b.count || 0) - (a.count || 0));
   const shown = nearbyRows.slice(0, 12);
   const extra = nearbyRows.length > 12
@@ -490,7 +499,7 @@ function ensureCompanyLayers() {
     filter: ["==", ["get", "role"], "neighbor"],
     paint: {
       "fill-color": ["coalesce", ["get", "color"], "#90a4ae"],
-      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.28, 8, 0.18],
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.46, 8, 0.34],
     },
   });
   map.addLayer({
@@ -500,7 +509,7 @@ function ensureCompanyLayers() {
     filter: ["==", ["get", "role"], "neighbor"],
     paint: {
       "line-color": ["coalesce", ["get", "color"], "#90a4ae"],
-      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 8, 0.4],
+      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.8, 8, 0.7],
     },
   });
   map.addLayer({
@@ -644,7 +653,12 @@ async function loadOne(url) {
 }
 
 function walkCoords(geom, fn) {
-  if (!geom || !geom.coordinates) return;
+  if (!geom) return;
+  if (geom.type === "GeometryCollection") {
+    (geom.geometries || []).forEach((g) => walkCoords(g, fn));
+    return;
+  }
+  if (!geom.coordinates) return;
   const t = geom.type;
   const c = geom.coordinates;
   if (t === "Polygon") c.forEach((ring) => ring.forEach(fn));
@@ -877,31 +891,60 @@ function companyExtractBytes(company) {
   return 0;
 }
 
+function neighborColor(company, p, otherId) {
+  const holder = p && p.holder ? p.holder : "";
+  const rows = (company && company.neighbors) || [];
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].holder === holder && rows[i].color && rows[i].color !== "#e8b040") {
+      return rows[i].color;
+    }
+  }
+  const hid = featuredIdForHolder(holder) || otherId;
+  if (hid && (!company || hid !== company.id)) return colorForId(hid);
+  if (p && p.color && p.color !== "#e8b040" && p.color !== "#90a4ae") return p.color;
+  return colorForId(slugName(holder) || (p && p.company_id) || "neighbor");
+}
+
 function nearbyCandidateCompanies(company) {
   const pads = nearbyPadsForCompany(company);
-  const hits = {};
+  const byJ = { Quebec: {}, Ontario: {}, "British Columbia": {} };
   if (overviewFc && pads.length) {
     filterByProvince(overviewFc).features.forEach((f) => {
       const p = f.properties || {};
       if (!p.company_id || p.company_id === company.id) return;
       if (!hitsAnyPad(featureBbox(f), pads)) return;
-      hits[p.company_id] = (hits[p.company_id] || 0) + 1;
+      const j = p.jurisdiction || "Quebec";
+      if (!byJ[j]) byJ[j] = {};
+      byJ[j][p.company_id] = (byJ[j][p.company_id] || 0) + 1;
     });
   }
-  const rows = Object.keys(hits).map((id) => {
-    const c = findIndexed(id);
-    return { company: c, hits: hits[id], bytes: companyExtractBytes(c) };
-  }).filter((r) => r.company && hasAnyExtract(r.company));
-  rows.sort((a, b) => b.hits - a.hits || (a.bytes || 0) - (b.bytes || 0));
   const picked = [];
+  const seen = {};
   let used = 0;
-  rows.forEach((r) => {
+  function consider(r) {
+    if (!r.company || seen[r.company.id]) return;
     if (picked.length >= NEARBY_MAX_COMPANIES) return;
     const sz = r.bytes || 4 * 1024 * 1024;
     if (r.bytes && r.bytes > NEARBY_SINGLE_MAX_BYTES) return;
     if (used + sz > NEARBY_BUDGET_BYTES) return;
+    seen[r.company.id] = 1;
     picked.push(r.company);
     used += sz;
+  }
+  ["Ontario", "Quebec", "British Columbia"].forEach((j) => {
+    const hits = byJ[j] || {};
+    const rows = Object.keys(hits).map((id) => {
+      const c = findIndexed(id);
+      return { company: c, hits: hits[id], bytes: companyExtractBytes(c) };
+    }).filter((r) => r.company && hasAnyExtract(r.company));
+    rows.sort((a, b) => b.hits - a.hits || (a.bytes || 0) - (b.bytes || 0));
+    let n = 0;
+    rows.forEach((r) => {
+      if (n >= NEARBY_MAX_PER_JURISDICTION) return;
+      const before = picked.length;
+      consider(r);
+      if (picked.length > before) n += 1;
+    });
   });
   return picked;
 }
@@ -933,7 +976,7 @@ function companyPlusNearbyFc(company) {
     const role = p.role === "neighbor" ? "neighbor" : "focus";
     const props = Object.assign({}, p, {
       role: role,
-      color: role === "focus" ? "#e8b040" : "#90a4ae",
+      color: role === "focus" ? "#e8b040" : neighborColor(company, p),
       company_id: p.company_id || company.id,
     });
     features.push(Object.assign({}, f, { properties: props }));
@@ -953,7 +996,7 @@ function companyPlusNearbyFc(company) {
       seen[key] = 1;
       const props = Object.assign({}, p, {
         role: "neighbor",
-        color: "#90a4ae",
+        color: neighborColor(company, p, c.id),
         company_id: c.id,
       });
       features.push(Object.assign({}, f, { properties: props }));

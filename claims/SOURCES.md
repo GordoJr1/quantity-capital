@@ -23,7 +23,7 @@ That walk is stdlib-only, reads committed `claims/*.geojson` + `companies.json`,
 
 - REST (GeoJSON, paginated): [MLAS MapServer layer 1 (HOLDER)](https://ws.lioservices.lrc.gov.on.ca/arcgis1071a/rest/services/MLAS/mlas_op/MapServer/1)
 - Provincial note: unofficial viewing data, not legal title.
-- Files: `claims/<id>-ontario.geojson` (company tenures only; no neighbors).
+- Files: `claims/<id>-ontario.geojson` (featured producers include neighboring MLAS titles within ~3 km; other companies are tenure-only).
 - Holder match (`UPPER(HOLDER) LIKE`):
 
 | Company | Needles | Titles (2026-09-17) |
@@ -56,6 +56,7 @@ That walk is stdlib-only, reads committed `claims/*.geojson` + `companies.json`,
 - **Equinox**: matched via Greenstone / Musselwhite, not the word EQUINOX.
 - **Centerra / Artemis**: matched operating subsidiaries (Thompson Creek, BW Gold), not only the parent name.
 - **Newmont Quebec**: Éléonore was sold; no GESTIM extract. Red Chris / Brucejack / Galore Creek are BC only.
-- **Ontario/BC neighbors** are not drawn (payload).
+- **Ontario neighbors** around featured producers (IAMGOLD, Agnico, Alamos, Wesdome, Evolution, Equinox) are MLAS titles within ~3 km of that company’s cells. Rebuild with `python3 build_on_bc_extracts.py --neighbors-only`.
+- **BC neighbors** are not drawn (payload).
 - **Nationwide shapefiles** are not in git. Live ArcGIS from the browser is not used (static Pages + CORS).
 - Other Beta producers with no QC/ON/BC titles stay at zero until a holder match exists.

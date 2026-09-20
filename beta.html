@@ -1702,75 +1702,86 @@
         if (host) host.textContent = "Map library failed to load.";
       });
     }
-    function ensurePreviewLayers() {
-      if (!insetMap || insetMap.getSource("claims-preview")) return;
-      insetMap.addSource("claims-preview", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
-      insetMap.addLayer({
+    const PREVIEW_STYLE_LAYERS = [
+      {
         id: "preview-near-fill",
         type: "fill",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "nearby"],
         paint: {
-          "fill-color": ["coalesce", ["get", "color"], "#5b6b78"],
-          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.46, 8, 0.28]
+          "fill-color": "#90a4ae",
+          "fill-opacity": 0.35
         }
-      });
-      insetMap.addLayer({
+      },
+      {
         id: "preview-near-line",
         type: "line",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "nearby"],
-        paint: {
-          "line-color": ["coalesce", ["get", "color"], "#90a4ae"],
-          "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 8, 0.7]
-        }
-      });
-      insetMap.addLayer({
+        paint: { "line-color": "#90a4ae", "line-width": 1.4 }
+      },
+      {
         id: "preview-focus-fill",
         type: "fill",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "focus"],
-        paint: {
-          "fill-color": ["coalesce", ["get", "color"], "#e8b040"],
-          "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.88, 8, 0.55]
-        }
-      });
-      insetMap.addLayer({
+        paint: { "fill-color": "#e3b41a", "fill-opacity": 0.82 }
+      },
+      {
         id: "preview-focus-line",
         type: "line",
         source: "claims-preview",
         filter: ["==", ["get", "role"], "focus"],
-        paint: {
-          "line-color": "#f3d48a",
-          "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.4, 8, 1.0]
-        }
-      });
-      insetMap.addLayer({
+        paint: { "line-color": "#f3d48a", "line-width": 2.2 }
+      },
+      {
         id: "preview-near-dot",
         type: "circle",
         source: "claims-preview",
-        maxzoom: 6.8,
+        maxzoom: 7.2,
         filter: ["==", ["get", "role"], "nearby-dot"],
         paint: {
-          "circle-color": ["coalesce", ["get", "color"], "#90a4ae"],
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 6, 3.2],
-          "circle-stroke-width": 0.8,
+          "circle-color": "#90a4ae",
+          "circle-radius": 3,
+          "circle-stroke-width": 1,
           "circle-stroke-color": "#0b1016"
         }
-      });
-      insetMap.addLayer({
+      },
+      {
         id: "preview-focus-dot",
         type: "circle",
         source: "claims-preview",
-        maxzoom: 6.8,
+        maxzoom: 7.2,
         filter: ["==", ["get", "role"], "focus-dot"],
         paint: {
-          "circle-color": ["coalesce", ["get", "color"], "#e3b41a"],
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 3.4, 6, 5],
-          "circle-stroke-width": 1.2,
+          "circle-color": "#e3b41a",
+          "circle-radius": 5,
+          "circle-stroke-width": 1.4,
           "circle-stroke-color": "#1a1306"
         }
-      });
+      }
+    ];
+    function previewMapStyle() {
+      return {
+        version: 8,
+        sources: {
+          esri: {
+            type: "raster",
+            tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
+            tileSize: 256,
+            attribution: "Tiles © Esri",
+            maxzoom: 16
+          },
+          "claims-preview": {
+            type: "geojson",
+            data: { type: "FeatureCollection", features: [] }
+          }
+        },
+        layers: [
+          { id: "bg", type: "background", paint: { "background-color": "#0b1016" } },
+          { id: "basemap", type: "raster", source: "esri" }
+        ].concat(PREVIEW_STYLE_LAYERS)
+      };
     }
     function drawMinesInset() {
       const host = document.getElementById("mines-inset-map");
@@ -1778,6 +1789,7 @@
       if (!host || !window.maplibregl) return;
       const mines = mappedAssets();
       const foot = previewFootprint();
+      const pub = claimsPublicForProfile();
       const claimsId = previewCompanyId();
       const hasCells = foot.hasFocus;
       const catBox = catalogPreviewBox();
@@ -1792,38 +1804,26 @@
         host.classList.remove("is-empty");
         if (empty) { empty.hidden = true; empty.innerHTML = ""; }
       }
+      const head = document.getElementById("mines-inset-h");
+      if (head) {
+        const n = foot.focus.length;
+        if (n) head.textContent = "Claims · " + n + " block" + (n === 1 ? "" : "s");
+        else if (mines.length) head.textContent = "Mines";
+        else head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
+      }
       if (!insetMap) {
         insetMap = new maplibregl.Map({
           container: host,
-          style: {
-            version: 8,
-            sources: {
-              esri: {
-                type: "raster",
-                tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
-                tileSize: 256,
-                attribution: "Tiles © Esri",
-                maxzoom: 16
-              }
-            },
-            layers: [
-              { id: "bg", type: "background", paint: { "background-color": "#0b1016" } },
-              { id: "basemap", type: "raster", source: "esri" }
-            ]
-          },
+          style: previewMapStyle(),
           center: [-75, 50],
           zoom: 4.2,
           interactive: true,
           attributionControl: false
         });
         insetMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
-        insetMap.on("load", () => {
-          ensurePreviewLayers();
-          drawMinesInset();
-        });
+        insetMap.on("load", drawMinesInset);
       }
       if (!insetMap.loaded()) return;
-      ensurePreviewLayers();
       const src = insetMap.getSource("claims-preview");
       if (src) src.setData(foot.fc);
       insetMarks.forEach((m) => m.remove());

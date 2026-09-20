@@ -573,6 +573,16 @@
       .tabbar a.on, .tabbar a:hover { color: var(--caution); }
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
+    .qc-empty-filings-wrap { margin: 8px 0 0; }
+    .qc-empty-filings {
+      display: inline-flex; align-items: center;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 0.78rem; color: var(--caution);
+      background: rgba(227, 180, 26, 0.1);
+      border: 1px solid var(--caution);
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+    }
   </style>
   <link rel="stylesheet" href="shell.css?v=165" />
   <style id="qc-txn-v98">
@@ -651,6 +661,7 @@
       <div>
         <p class="kicker" id="kicker">Ticker</p>
         <h1 id="who">—</h1>
+        <p id="empty-filings" class="qc-empty-filings-wrap" hidden></p>
       </div>
       <div class="price-pill" id="price-pill" hidden>
         <b id="last-px">—</b>
@@ -679,7 +690,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=126"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -944,11 +955,18 @@
         const list = (file && file.companies) || [];
         for (let i = 0; i < list.length; i++) {
           const co = list[i] || {};
-          const all = [].concat(co.us || [], co.cad || [], co.other || [], co.all || []).map((s) => String(s).toUpperCase());
+          const all = QC.companySymbols(co);
           if (all.indexOf(T) >= 0) return Array.from(new Set(all));
         }
         return [T];
       })(ticker, companies);
+      const universeCo = ((companies && companies.companies) || []).find((co) => QC.companySymbols(co).indexOf(ticker) >= 0) || null;
+      if (universeCo && universeCo.name) {
+        document.getElementById("who").textContent = ticker;
+        document.title = ticker + " — " + universeCo.name + " — Quantity Capital";
+        const kick = document.getElementById("kicker");
+        if (kick && !filerId) kick.textContent = universeCo.name;
+      }
       const extraPx = await Promise.all(aliases.filter((a) => a !== ticker).map((a) =>
         fetch("prices/" + encodeURIComponent(a) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null)
       ));
@@ -998,22 +1016,35 @@
       let showAllTape = false;
       function paintMarks() {
         const page = QC.TAPE_PAGE;
+        const emptyMsg = universeCo
+          ? "No filings yet — this issuer is on the watchlist."
+          : "No stock trades on this ticker in the last three years.";
         document.getElementById("marks").innerHTML = QC.politicianTapeListHtml(tape, {
           tickerSelf: true,
           nameSelf: !!filerId,
           namePage: "insider.html",
           tickerPage: "insider-ticker.html",
-          empty: "No stock trades on this ticker in the last three years.",
+          empty: emptyMsg,
           limit: showAllTape ? 0 : page,
           showHoldings: true
         });
         const count = document.getElementById("tape-count");
         const moreRow = document.getElementById("tape-more-row");
         const moreBtn = document.getElementById("tape-more");
+        const badge = document.getElementById("empty-filings");
+        if (badge) {
+          if (!tape.length && universeCo) {
+            badge.hidden = false;
+            badge.innerHTML = QC.emptyFilingsBadgeHtml();
+          } else {
+            badge.hidden = true;
+            badge.innerHTML = "";
+          }
+        }
         if (count) {
           count.textContent = (!showAllTape && tape.length > page)
             ? "Showing " + page + " of " + tape.length + " trades"
-            : (tape.length ? tape.length + " trades" : "");
+            : (tape.length ? tape.length + " trades" : (!universeCo ? "" : "No filings yet"));
         }
         if (moreRow && moreBtn) {
           moreRow.hidden = tape.length <= page;

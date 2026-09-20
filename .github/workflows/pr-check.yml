@@ -31,7 +31,8 @@ jobs:
             traders.json \
             tells.json \
             backtest.json \
-            insider-follow.json
+            insider-follow.json \
+            insider-companies.json
           do
             echo "json $f"
             python3 -m json.tool "$f" > /dev/null
@@ -45,6 +46,22 @@ jobs:
             echo "node --check $f"
             node --check "$f"
           done
+
+      - name: Claims insider universe
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/merge_claims_insider_universe.py
+          python3 scripts/test_merge_claims_insider_universe.py
+          python3 scripts/merge_claims_insider_universe.py --check --no-extracts
+          test -s scripts/claims-insider-ticker-audit.csv
+          test -s scripts/claims-insider-ticker-audit.md
+          grep -q 'No filings yet' insiders.html
+          grep -q 'qc-empty-filings' insiders.html
+          grep -q 'qc-empty-filings' insider-ticker.html
+          grep -q 'emptyFilingsBadgeHtml' qc.js
+          grep -q 'probe-gold' insider-companies.json
+          grep -q 'g2-goldfields' insider-companies.json
+          echo "claims insider universe ok"
 
       - name: Confirm claims HUD hooks
         run: |

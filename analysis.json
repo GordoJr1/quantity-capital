@@ -1,71 +1,15 @@
 {
-  "generated": "2026-09-19T22:22:08.208480+00:00",
+  "generated": "2026-09-20T02:29:05.494194+00:00",
   "tapeCollected": "2026-09-19T22:20:18.546024+00:00",
   "priceAsof": "2026-09-18",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
     {
-      "code": "IBP",
-      "name": "Installed Building Products, Inc.",
-      "action": "buy-dip",
-      "score": 9.575,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 197.63,
-      "pxAsof": "2026-09-18",
-      "buyPx": 228.04,
-      "chgSinceBuy": -0.1334,
-      "lastBuy": "2026-09-08",
-      "nBuyers": 1,
-      "buyHigh": 30000,
-      "heatRank": 2,
-      "heat": 4.665,
-      "landed": true,
-      "landedAt": "2026-09-19T13:37:33.750514+00:00",
-      "lagDays": 11,
-      "conflict": true,
-      "conflictWhy": [
-        "Transportation / freight"
-      ],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        }
-      ],
-      "weekly": {
-        "rsi": 46.2,
-        "sma20": 222.96,
-        "sma40": 258.19,
-        "vs20": -11.4,
-        "ret4w": -19.9,
-        "ret13w": -9.4,
-        "fromHigh": -19.9,
-        "trend": "DOWN",
-        "recentLow": 197.63
-      },
-      "monthly": {
-        "rsi": 49.5,
-        "sma10": 253.22,
-        "vs10": -22.0,
-        "trend": "DOWN"
-      },
-      "invalidation": 185.77,
-      "flags": [
-        "Landed",
-        "Conflict",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
-    {
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
       "action": "buy-dip",
-      "score": 9.325,
+      "score": 9.3,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 146.39,
       "pxAsof": "2026-09-18",
@@ -75,7 +19,7 @@
       "nBuyers": 3,
       "buyHigh": 295000,
       "heatRank": 1,
-      "heat": 5.007,
+      "heat": 4.672,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 11,
@@ -121,182 +65,13 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 2
-    },
-    {
-      "code": "MTZ",
-      "name": "Mastec Inc",
-      "action": "buy-dip",
-      "score": 8.75,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 214.38,
-      "pxAsof": "2026-09-18",
-      "buyPx": 266.26,
-      "chgSinceBuy": -0.1948,
-      "lastBuy": "2026-08-21",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 22,
-      "heat": 1.082,
-      "landed": true,
-      "landedAt": "2026-09-15T11:20:21.799563+00:00",
-      "lagDays": 25,
-      "conflict": true,
-      "conflictWhy": [
-        "Energy / environment"
-      ],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Thomas H. Kean",
-          "id": "thomas-h-kean"
-        }
-      ],
-      "weekly": {
-        "rsi": 25.8,
-        "sma20": 326.93,
-        "sma40": 307.9,
-        "vs20": -34.4,
-        "ret4w": -19.5,
-        "ret13w": -43.5,
-        "fromHigh": -48.3,
-        "trend": "DOWN",
-        "recentLow": 214.38
-      },
-      "monthly": {
-        "rsi": 52.6,
-        "sma10": 298.33,
-        "vs10": -28.1,
-        "trend": "DOWN"
-      },
-      "invalidation": 201.52,
-      "flags": [
-        "Landed",
-        "Conflict",
-        "Weekly washout",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 3
-    },
-    {
-      "code": "PEP",
-      "name": "PepsiCo, Inc.",
-      "action": "buy-dip",
-      "score": 7.712,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 129.75,
-      "pxAsof": "2026-09-18",
-      "buyPx": 142.19,
-      "chgSinceBuy": -0.0875,
-      "lastBuy": "2026-08-26",
-      "nBuyers": 2,
-      "buyHigh": 45000,
-      "heatRank": 6,
-      "heat": 1.847,
-      "landed": true,
-      "landedAt": "2026-09-19T13:37:33.750514+00:00",
-      "lagDays": 24,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Scott Scott Franklin",
-          "id": "c-scott-franklin"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 29.2,
-        "sma20": 141.55,
-        "sma40": 148.08,
-        "vs20": -8.3,
-        "ret4w": -9.6,
-        "ret13w": -8.6,
-        "fromHigh": -16.1,
-        "trend": "DOWN",
-        "recentLow": 129.75
-      },
-      "monthly": {
-        "rsi": 46.4,
-        "sma10": 146.99,
-        "vs10": -11.7,
-        "trend": "DOWN"
-      },
-      "invalidation": 121.96,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 4
-    },
-    {
-      "code": "ESE",
-      "name": "ESCO Technologies Inc.",
-      "action": "buy-dip",
-      "score": 7.352,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 265.92,
-      "pxAsof": "2026-09-18",
-      "buyPx": 275.62,
-      "chgSinceBuy": -0.0352,
-      "lastBuy": "2026-08-24",
-      "nBuyers": 1,
-      "buyHigh": 45000,
-      "heatRank": 20,
-      "heat": 1.142,
-      "landed": true,
-      "landedAt": "2026-09-10T22:20:24.537067+00:00",
-      "lagDays": 17,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "April McClain Delaney",
-          "id": "april-mcclain-delaney"
-        }
-      ],
-      "weekly": {
-        "rsi": 31.0,
-        "sma20": 303.99,
-        "sma40": 281.56,
-        "vs20": -12.5,
-        "ret4w": -7.4,
-        "ret13w": -22.6,
-        "fromHigh": -22.6,
-        "trend": "DOWN",
-        "recentLow": 265.92
-      },
-      "monthly": {
-        "rsi": 60.2,
-        "sma10": 280.24,
-        "vs10": -5.1,
-        "trend": "DOWN"
-      },
-      "invalidation": 249.96,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 5
+      "rank": 1
     },
     {
       "code": "MRVL",
       "name": "Marvell Technology Inc",
       "action": "buy-dip",
-      "score": 7.221,
+      "score": 7.196,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 244.25,
       "pxAsof": "2026-09-18",
@@ -306,7 +81,7 @@
       "nBuyers": 3,
       "buyHigh": 95000,
       "heatRank": 51,
-      "heat": 0.673,
+      "heat": 0.628,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 32,
@@ -352,7 +127,77 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 6
+      "rank": 2
+    },
+    {
+      "code": "ACN",
+      "name": "Accenture plc",
+      "action": "watch",
+      "score": 6.801,
+      "why": "Landed \u00b7 Whale \u00b7 Cluster \u00b7 Monthly intact",
+      "last": 181.29,
+      "pxAsof": "2026-09-18",
+      "buyPx": 181.38,
+      "chgSinceBuy": -0.0005,
+      "lastBuy": "2026-08-26",
+      "nBuyers": 5,
+      "buyHigh": 1340000,
+      "heatRank": 3,
+      "heat": 2.603,
+      "landed": true,
+      "landedAt": "2026-09-19T13:37:33.750514+00:00",
+      "lagDays": 24,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": true,
+      "cluster": true,
+      "buyers": [
+        {
+          "name": "Donald J. Trump",
+          "id": "donald-j-trump"
+        },
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        },
+        {
+          "name": "Scott Scott Franklin",
+          "id": "c-scott-franklin"
+        },
+        {
+          "name": "Dan Newhouse",
+          "id": "dan-newhouse"
+        },
+        {
+          "name": "Gilbert Cisneros",
+          "id": "gilbert-cisneros"
+        }
+      ],
+      "weekly": {
+        "rsi": 54.7,
+        "sma20": 166.48,
+        "sma40": 196.76,
+        "vs20": 8.9,
+        "ret4w": -2.2,
+        "ret13w": 41.7,
+        "fromHigh": -4.4,
+        "trend": "MIX",
+        "recentLow": 165.92
+      },
+      "monthly": {
+        "rsi": 34.5,
+        "sma10": 196.61,
+        "vs10": -7.8,
+        "trend": "DOWN"
+      },
+      "invalidation": 165.92,
+      "flags": [
+        "Landed",
+        "Whale",
+        "Cluster",
+        "Monthly intact"
+      ],
+      "rank": 3
     }
   ],
   "avoid": [
@@ -360,7 +205,7 @@
       "code": "ATRC",
       "name": "- Select UMA Account # 1 AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.486,
+      "score": 1.461,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 58.1,
       "pxAsof": "2026-09-18",
@@ -370,7 +215,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 41,
-      "heat": 0.765,
+      "heat": 0.713,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,
@@ -413,7 +258,7 @@
       "code": "MRNA",
       "name": "TLH",
       "action": "avoid",
-      "score": 1.453,
+      "score": 1.428,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 154.04,
       "pxAsof": "2026-09-18",
@@ -423,7 +268,7 @@
       "nBuyers": 2,
       "buyHigh": 30000,
       "heatRank": 42,
-      "heat": 0.748,
+      "heat": 0.698,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -470,7 +315,7 @@
       "code": "CRM",
       "name": "Salesforce, Inc.",
       "action": "avoid",
-      "score": 1.135,
+      "score": 1.11,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 237.92,
       "pxAsof": "2026-09-18",
@@ -480,7 +325,7 @@
       "nBuyers": 2,
       "buyHigh": 45000,
       "heatRank": 56,
-      "heat": 0.535,
+      "heat": 0.499,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 29,
@@ -527,7 +372,7 @@
       "code": "DJP",
       "name": "Barclays Bank PLC Index-Linked Rate/Coupon: 0% Matures: 10/29/2027",
       "action": "avoid",
-      "score": 0.981,
+      "score": 0.956,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 52.7,
       "pxAsof": "2026-09-18",
@@ -537,7 +382,7 @@
       "nBuyers": 1,
       "buyHigh": 50000,
       "heatRank": 63,
-      "heat": 0.411,
+      "heat": 0.383,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 33,
@@ -580,7 +425,7 @@
       "code": "SNOW",
       "name": "Snowflake Inc Cl A",
       "action": "avoid",
-      "score": 0.961,
+      "score": 0.936,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 332.43,
       "pxAsof": "2026-09-18",
@@ -590,7 +435,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 76,
-      "heat": 0.31,
+      "heat": 0.29,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 35,

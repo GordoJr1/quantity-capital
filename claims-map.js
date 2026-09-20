@@ -1,8 +1,13 @@
 const CATALOG_URL = "claims/companies.json";
 const OVERVIEW_URL = "claims/overview.geojson";
+const EXTRACT_BYTES_URL = "claims/extract-bytes.json";
 const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
 const NEARBY_PAD_DEG = 0.35;
+const NEARBY_BUDGET_BYTES = 48 * 1024 * 1024;
+const NEARBY_MAX_COMPANIES = 20;
+const NEARBY_MAX_PER_JURISDICTION = 8;
+const NEARBY_SINGLE_MAX_BYTES = 14 * 1024 * 1024;
 const CSV_FIELDS = [
   "company_id", "company", "role", "holder", "claim_id", "claim_name",
   "status", "recorded_date", "anniversary_or_expiry", "area_ha",
@@ -51,6 +56,7 @@ let currentAssetId = null;
 let paintedFc = { type: "FeatureCollection", features: [] };
 let overviewFc = null;
 let overviewLoad = null;
+let extractBytes = {};
 
 // Same-holder needles as the first producer extract batch (GESTIM / MLAS / MTA).
 const FEATURED_NEEDLES = {
@@ -415,17 +421,42 @@ function paintLegend(company, features) {
     hint.textContent = "No titles in the provinces that are switched on.";
     return;
   }
-  hint.hidden = true;
+  hint.hidden = false;
+  hint.textContent = "This holder’s titles, plus neighboring claims around them. Overview squares are only on the all-companies view.";
   box.hidden = false;
-  const extra = (company.neighbors || []).length > 10 && provinceOn("ly-quebec")
-    ? "<p class=\"hint\">" + ((company.neighbors || []).length - 10) + " more Quebec neighbor holders share a gray.</p>"
+  const nearbyMap = {};
+  (features || []).forEach((f) => {
+    const p = f.properties || {};
+    if (p.role !== "neighbor") return;
+    const holder = p.holder || p.company_id;
+    if (!holder) return;
+    let row = nearbyMap[holder];
+    if (!row) {
+      const hid = featuredIdForHolder(holder);
+      const cid = hid || (p.company_id && p.company_id !== company.id ? p.company_id : null);
+      row = {
+        id: cid,
+        holder: holder,
+        count: 0,
+        color: p.color || (cid ? colorForId(cid) : colorForId(slugName(holder))),
+      };
+      nearbyMap[holder] = row;
+    }
+    row.count += 1;
+    if (p.color && p.color !== "#e8b040" && p.color !== "#90a4ae") row.color = p.color;
+  });
+  const nearbyRows = Object.keys(nearbyMap).map((k) => nearbyMap[k]);
+  nearbyRows.sort((a, b) => (b.count || 0) - (a.count || 0));
+  const shown = nearbyRows.slice(0, 12);
+  const extra = nearbyRows.length > 12
+    ? "<p class=\"hint\">" + (nearbyRows.length - 12) + " more nearby holders.</p>"
     : "";
   const rows = [
-    { holder: company.holder, count: vis.total, color: company.color, focus: true },
-  ].concat(provinceOn("ly-quebec") ? (company.neighbors || []).slice(0, 10) : []);
+    { holder: company.holder, count: vis.total, color: company.color || "#e8b040", focus: true },
+  ].concat(shown);
   box.innerHTML = "<h2>Holders</h2>" + rows.map((r) => {
     const on = r.focus || !hiddenHolders.has(r.holder);
-    return "<label class=\"swatch\"><input type=\"checkbox\" data-holder=\"" +
+    return "<label class=\"swatch\"" + (r.id ? " data-id=\"" + r.id + "\"" : "") + "><input type=\"checkbox\" data-holder=\"" +
       r.holder.replace(/"/g, "&quot;") + "\"" + (on ? " checked" : "") + (r.focus ? " disabled" : "") +
       "> <span class=\"chip\" style=\"background:" + r.color + "\"></span>" +
       "<span class=\"nm\">" + r.holder + "</span>" +
@@ -438,6 +469,14 @@ function paintLegend(company, features) {
       if (input.checked) hiddenHolders.delete(name);
       else hiddenHolders.add(name);
       applyHolderFilter();
+    });
+  });
+  box.querySelectorAll("label.swatch[data-id]").forEach((lab) => {
+    lab.addEventListener("click", (e) => {
+      if (e.target && e.target.closest && e.target.closest("input")) return;
+      e.preventDefault();
+      const id = lab.getAttribute("data-id");
+      if (id) selectCompany(id);
     });
   });
 }
@@ -460,7 +499,7 @@ function ensureCompanyLayers() {
     filter: ["==", ["get", "role"], "neighbor"],
     paint: {
       "fill-color": ["coalesce", ["get", "color"], "#90a4ae"],
-      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.7, 8, 0.38],
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.46, 8, 0.34],
     },
   });
   map.addLayer({
@@ -470,7 +509,7 @@ function ensureCompanyLayers() {
     filter: ["==", ["get", "role"], "neighbor"],
     paint: {
       "line-color": ["coalesce", ["get", "color"], "#90a4ae"],
-      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 8, 0.4],
+      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.8, 8, 0.7],
     },
   });
   map.addLayer({
@@ -521,7 +560,8 @@ function ensureCompanyLayers() {
     map.on("click", id, (e) => {
       if (!e.features || !e.features.length) return;
       const props = e.features[0].properties || {};
-      if (!currentCompany && isOverviewProps(props) && props.company_id) {
+      if (isOverviewProps(props) && props.company_id &&
+          (!currentCompany || currentCompany.id !== props.company_id)) {
         selectCompany(props.company_id);
         return;
       }
@@ -557,7 +597,7 @@ function visibleCounts(company) {
 
 function visibleBbox(company) {
   let b = null;
-  if (provinceOn("ly-quebec")) b = mergeBbox(b, company.bbox);
+  if (provinceOn("ly-quebec")) b = mergeBbox(b, company.quebec_bbox || company.bbox);
   if (provinceOn("ly-ontario")) b = mergeBbox(b, company.ontario_bbox);
   if (provinceOn("ly-bc")) b = mergeBbox(b, company.bc_bbox);
   return b;
@@ -613,7 +653,12 @@ async function loadOne(url) {
 }
 
 function walkCoords(geom, fn) {
-  if (!geom || !geom.coordinates) return;
+  if (!geom) return;
+  if (geom.type === "GeometryCollection") {
+    (geom.geometries || []).forEach((g) => walkCoords(g, fn));
+    return;
+  }
+  if (!geom.coordinates) return;
   const t = geom.type;
   const c = geom.coordinates;
   if (t === "Polygon") c.forEach((ring) => ring.forEach(fn));
@@ -644,8 +689,15 @@ function featureBbox(f) {
   return f.__b;
 }
 
-function claimKey(p) {
-  return String((p && p.jurisdiction) || "") + "|" + String((p && p.claim_id) || "");
+function claimKey(p, f) {
+  const j = String((p && p.jurisdiction) || "");
+  const id = String((p && p.claim_id) || "");
+  if (id) return j + "|" + id;
+  if (f && f.__k) return f.__k;
+  const b = f ? featureBbox(f) : null;
+  const k = j + "|xy|" + (b ? b.map((n) => Math.round(n * 1e5)).join(",") : "");
+  if (f) f.__k = k;
+  return k;
 }
 
 function filterToHolders(fc, company) {
@@ -707,7 +759,7 @@ async function loadExtract(company) {
     extractCache[company.id] = { type: "FeatureCollection", features: [] };
     return extractCache[company.id];
   }
-  const parts = await Promise.all(jobs);
+  const parts = await Promise.all(jobs.map((job) => job.catch(() => ({ type: "FeatureCollection", features: [] }))));
   const features = [];
   parts.forEach((p) => { (p.features || []).forEach((f) => features.push(f)); });
   const fc = { type: "FeatureCollection", features };
@@ -766,11 +818,12 @@ function catalogOverviewFc() {
 function loadOverview() {
   if (overviewFc) return Promise.resolve(overviewFc);
   if (overviewLoad) return overviewLoad;
-  overviewLoad = loadOne(OVERVIEW_URL).then((fc) => {
-    overviewFc = fc;
-    return fc;
-  }).catch(() => {
-    overviewFc = catalogOverviewFc();
+  overviewLoad = Promise.all([
+    loadOne(OVERVIEW_URL).catch(() => catalogOverviewFc()),
+    loadOne(EXTRACT_BYTES_URL).catch(() => ({ company_bytes: {} })),
+  ]).then((pair) => {
+    overviewFc = pair[0];
+    extractBytes = (pair[1] && pair[1].company_bytes) || overviewFc.company_bytes || {};
     return overviewFc;
   });
   return overviewLoad;
@@ -802,6 +855,113 @@ function overviewForCompany(company) {
   return filterByProvince({ type: "FeatureCollection", features });
 }
 
+function hitsAnyPad(box, pads) {
+  if (!box || !pads || !pads.length) return false;
+  for (let i = 0; i < pads.length; i++) {
+    if (bboxIntersects(box, pads[i])) return true;
+  }
+  return false;
+}
+
+function nearbyPadsForCompany(company) {
+  const pads = [];
+  const cells = overviewForCompany(company).features;
+  cells.forEach((f) => {
+    const b = featureBbox(f);
+    if (b) pads.push(expandBbox(b, NEARBY_PAD_DEG));
+  });
+  if (pads.length) return pads;
+  const own = extractCache[company.id];
+  if (own) {
+    filterByProvince(own).features.forEach((f) => {
+      const p = f.properties || {};
+      if (!isFocusFeature(f) || isOverviewProps(p)) return;
+      const b = featureBbox(f);
+      if (b) pads.push(expandBbox(b, NEARBY_PAD_DEG));
+    });
+  }
+  const vb = visibleBbox(company);
+  if (!pads.length && vb) pads.push(expandBbox(vb, NEARBY_PAD_DEG));
+  return pads;
+}
+
+function companyExtractBytes(company) {
+  if (!company) return 0;
+  if (extractBytes[company.id]) return extractBytes[company.id];
+  return 0;
+}
+
+function neighborColor(company, p, otherId) {
+  const holder = p && p.holder ? p.holder : "";
+  const rows = (company && company.neighbors) || [];
+  for (let i = 0; i < rows.length; i++) {
+    if (rows[i].holder === holder && rows[i].color && rows[i].color !== "#e8b040") {
+      return rows[i].color;
+    }
+  }
+  const hid = featuredIdForHolder(holder) || otherId;
+  if (hid && (!company || hid !== company.id)) return colorForId(hid);
+  if (p && p.color && p.color !== "#e8b040" && p.color !== "#90a4ae") return p.color;
+  return colorForId(slugName(holder) || (p && p.company_id) || "neighbor");
+}
+
+function nearbyCandidateCompanies(company) {
+  const pads = nearbyPadsForCompany(company);
+  const byJ = { Quebec: {}, Ontario: {}, "British Columbia": {} };
+  if (overviewFc && pads.length) {
+    filterByProvince(overviewFc).features.forEach((f) => {
+      const p = f.properties || {};
+      if (!p.company_id || p.company_id === company.id) return;
+      if (!hitsAnyPad(featureBbox(f), pads)) return;
+      const j = p.jurisdiction || "Quebec";
+      if (!byJ[j]) byJ[j] = {};
+      byJ[j][p.company_id] = (byJ[j][p.company_id] || 0) + 1;
+    });
+  }
+  const picked = [];
+  const seen = {};
+  let used = 0;
+  function consider(r) {
+    if (!r.company || seen[r.company.id]) return;
+    if (picked.length >= NEARBY_MAX_COMPANIES) return;
+    const sz = r.bytes || 4 * 1024 * 1024;
+    if (r.bytes && r.bytes > NEARBY_SINGLE_MAX_BYTES) return;
+    if (used + sz > NEARBY_BUDGET_BYTES) return;
+    seen[r.company.id] = 1;
+    picked.push(r.company);
+    used += sz;
+  }
+  ["Ontario", "Quebec", "British Columbia"].forEach((j) => {
+    const hits = byJ[j] || {};
+    const rows = Object.keys(hits).map((id) => {
+      const c = findIndexed(id);
+      return { company: c, hits: hits[id], bytes: companyExtractBytes(c) };
+    }).filter((r) => r.company && hasAnyExtract(r.company));
+    rows.sort((a, b) => b.hits - a.hits || (a.bytes || 0) - (b.bytes || 0));
+    let n = 0;
+    rows.forEach((r) => {
+      if (n >= NEARBY_MAX_PER_JURISDICTION) return;
+      const before = picked.length;
+      consider(r);
+      if (picked.length > before) n += 1;
+    });
+  });
+  return picked;
+}
+
+function loadNearbyExtracts(company) {
+  const targets = nearbyCandidateCompanies(company).filter((c) => !extractCache[c.id]);
+  let i = 0;
+  const workers = [];
+  function next() {
+    if (i >= targets.length) return Promise.resolve();
+    const c = targets[i++];
+    return loadExtract(c).catch(() => ({ type: "FeatureCollection", features: [] })).then(next);
+  }
+  for (let w = 0; w < 3; w++) workers.push(next());
+  return Promise.all(workers);
+}
+
 function companyPlusNearbyFc(company) {
   const own = extractCache[company.id] || { type: "FeatureCollection", features: [] };
   const ownVis = filterByProvince(own);
@@ -810,44 +970,38 @@ function companyPlusNearbyFc(company) {
   ownVis.features.forEach((f) => {
     const p = f.properties || {};
     if (isOverviewProps(p)) return;
-    const key = claimKey(p);
+    const key = claimKey(p, f);
     if (seen[key]) return;
     seen[key] = 1;
     const role = p.role === "neighbor" ? "neighbor" : "focus";
     const props = Object.assign({}, p, {
       role: role,
-      color: role === "focus" ? (company.color || p.color || "#e8b040") : (p.color || "#90a4ae"),
+      color: role === "focus" ? "#e8b040" : neighborColor(company, p),
       company_id: p.company_id || company.id,
     });
     features.push(Object.assign({}, f, { properties: props }));
   });
-  const focusOnly = {
-    type: "FeatureCollection",
-    features: ownVis.features.filter(isFocusFeature),
-  };
-  const box = expandBbox(bboxFromFc(focusOnly) || visibleBbox(company), NEARBY_PAD_DEG);
-  if (box) {
-    (catalog.companies || []).forEach((c) => {
-      if (c.id === company.id) return;
-      const fc = extractCache[c.id];
-      if (!fc) return;
-      filterByProvince(fc).features.forEach((f) => {
-        if (!isFocusFeature(f)) return;
-        const p = f.properties || {};
-        if (isOverviewProps(p)) return;
-        const key = claimKey(p);
-        if (seen[key]) return;
-        if (!bboxIntersects(featureBbox(f), box)) return;
-        seen[key] = 1;
-        const props = Object.assign({}, p, {
-          role: "neighbor",
-          color: c.color || p.color || "#90a4ae",
-          company_id: c.id,
-        });
-        features.push(Object.assign({}, f, { properties: props }));
+  const pads = nearbyPadsForCompany(company);
+  (catalog.companies || []).forEach((c) => {
+    if (c.id === company.id) return;
+    const fc = extractCache[c.id];
+    if (!fc) return;
+    filterByProvince(fc).features.forEach((f) => {
+      if (!isFocusFeature(f)) return;
+      const p = f.properties || {};
+      if (isOverviewProps(p)) return;
+      const key = claimKey(p, f);
+      if (seen[key]) return;
+      if (!hitsAnyPad(featureBbox(f), pads)) return;
+      seen[key] = 1;
+      const props = Object.assign({}, p, {
+        role: "neighbor",
+        color: neighborColor(company, p, c.id),
+        company_id: c.id,
       });
+      features.push(Object.assign({}, f, { properties: props }));
     });
-  }
+  });
   return { type: "FeatureCollection", features };
 }
 
@@ -902,6 +1056,7 @@ function paintAllClaims(fit) {
   setPainted(data);
   if (fit) fitFc(data, 5.2);
   paintLegend(null, data.features);
+  paintCamps(null);
   const holders = overviewCompanyCount(data.features);
   const titles = overviewTitleCount(data.features);
   setHud("All companies · overview");
@@ -912,13 +1067,83 @@ function paintAllClaims(fit) {
   setStatus(extra);
 }
 
+function canadaCamps(company) {
+  return (company.mines || []).filter((m) => {
+    if (!Number.isFinite(m.lat) || !Number.isFinite(m.lon)) return false;
+    const country = String(m.country || "");
+    const region = String(m.region || "");
+    return country === "Canada" || !!m.gestim || /Quebec|Ontario|British Columbia|\bBC\b/i.test(region);
+  });
+}
+
+function paintCamps(company) {
+  const el = document.getElementById("camps");
+  if (!el) return;
+  const camps = company ? canadaCamps(company) : [];
+  if (!camps.length) {
+    el.hidden = true;
+    el.innerHTML = "";
+    return;
+  }
+  el.hidden = false;
+  el.innerHTML = "<h2>Camps</h2>" + camps.map((m) => {
+    const where = m.region ? String(m.region).replace(/\s*\(.*\)\s*/g, "").trim() : "";
+    return "<button type=\"button\" class=\"camp\" data-id=\"" + m.id + "\">" +
+      m.name + (where ? " <span>" + where + "</span>" : "") + "</button>";
+  }).join("");
+  el.querySelectorAll("button.camp").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const m = camps.find((x) => x.id === btn.dataset.id);
+      if (!m) return;
+      currentAssetId = m.id;
+      fitCompany(company, m);
+    });
+  });
+}
+
+function fitCompanyTitles(company, asset) {
+  if (asset && Number.isFinite(asset.lat) && Number.isFinite(asset.lon)) {
+    fitCompany(company, asset);
+    return;
+  }
+  const camps = canadaCamps(company);
+  if (camps.length) {
+    let b = null;
+    camps.forEach((m) => {
+      b = mergeBbox(b, [m.lon - 0.55, m.lat - 0.35, m.lon + 0.55, m.lat + 0.35]);
+    });
+    if (b) {
+      map.fitBounds([[b[0], b[1]], [b[2], b[3]]], { padding: 64, duration: 1100, maxZoom: 8 });
+      return;
+    }
+  }
+  const own = extractCache[company.id];
+  if (own) {
+    const focus = filterByProvince(own).features.filter((f) => {
+      const p = f.properties || {};
+      return isFocusFeature(f) && !isOverviewProps(p);
+    });
+    if (focus.length) {
+      fitFc({ type: "FeatureCollection", features: focus }, 7);
+      return;
+    }
+  }
+  fitCompany(company, asset);
+}
+
 function paintCompanyPlusNearby(company, asset, opts) {
   ensureCompanyLayers();
   const data = companyPlusNearbyFc(company);
   setPainted(data);
-  if (!opts || opts.fit !== false) fitCompany(company, asset);
+  if (!opts || opts.fit !== false) fitCompanyTitles(company, asset);
   paintLegend(company, data.features);
-  setHud((company.holder || company.names[0]) + " · QC / ON / BC");
+  paintCamps(company);
+  const visHud = visibleCounts(company);
+  const hudBits = [];
+  if (visHud.qc) hudBits.push(visHud.qc.toLocaleString("en-CA") + " QC");
+  if (visHud.on) hudBits.push(visHud.on.toLocaleString("en-CA") + " ON");
+  if (visHud.bc) hudBits.push(visHud.bc.toLocaleString("en-CA") + " BC");
+  setHud((company.holder || company.names[0]) + (hudBits.length ? " · " + hudBits.join(" · ") : " · QC / ON / BC"));
   const vis = visibleCounts(company);
   const bits = [];
   if (vis.qc) bits.push(vis.qc.toLocaleString("en-CA") + " QC");
@@ -969,6 +1194,7 @@ function selectCompany(id, assetId) {
   document.getElementById("search").value = company.names[0] || company.holder;
   hiddenHolders = new Set();
   paintLegend(company);
+  paintCamps(company);
   setHud((company.holder || company.names[0]) + " · QC / ON / BC");
   const gen = ++viewGen;
   const asset = (company.mines || []).find((m) => m.id === assetId);
@@ -983,15 +1209,15 @@ function selectCompany(id, assetId) {
       setStatus(extra);
       return;
     }
-    const preview = overviewForCompany(company);
-    if (preview.features.length) {
-      setPainted(preview);
-      fitCompany(company, asset);
-    }
     setStatus("Loading <strong>" + company.holder + "</strong> claims…");
     loadExtract(company).then(() => {
       if (gen !== viewGen) return;
-      paintCompanyPlusNearby(company, asset, preview.features.length ? { fit: false } : undefined);
+      paintCompanyPlusNearby(company, asset);
+      setStatus("Loading nearby titles around <strong>" + company.holder + "</strong>…");
+      return loadNearbyExtracts(company).then(() => {
+        if (gen !== viewGen || currentCompany !== company) return;
+        paintCompanyPlusNearby(company, asset, { fit: false });
+      });
     }).catch(() => {
       if (gen !== viewGen) return;
       setStatus("Could not load company extract");

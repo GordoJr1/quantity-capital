@@ -26,6 +26,7 @@ jobs:
           for f in \
             claims/companies.json \
             claims/overview.geojson \
+            claims/extract-bytes.json \
             tickers.json \
             traders.json \
             tells.json \
@@ -55,6 +56,14 @@ jobs:
           grep -q 'claims/overview.geojson' claims-map.js
           grep -q 'function loadOverview' claims-map.js
           grep -q 'function overviewForCompany' claims-map.js
+          grep -q 'function nearbyPadsForCompany' claims-map.js
+          grep -q 'function fitCompanyTitles' claims-map.js
+          grep -q 'function loadNearbyExtracts' claims-map.js
+          grep -q 'function canadaCamps' claims-map.js
+          grep -q 'function claimKey' claims-map.js
+          grep -q '|xy|' claims-map.js
+          grep -q 'id="camps"' claims.html
+          grep -q 'claims/extract-bytes.json' claims-map.js
           grep -q 'NEARBY_PAD_DEG' claims-map.js
           grep -q 'downloadVisibleClaims' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js; then

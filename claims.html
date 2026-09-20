@@ -72,6 +72,14 @@
     .layers h2 { font-size: 11px; letter-spacing: 0.08em; color: #9aa8b8; margin: 8px 0 6px; }
     .layers h2:first-child { margin-top: 0; }
     .layers .hint { color: #9aa8b8; font-size: 12px; max-width: 220px; line-height: 1.4; }
+    #camps { margin: 6px 0 8px; display: flex; flex-direction: column; gap: 4px; }
+    #camps:not([hidden]) { display: flex; }
+    button.camp {
+      text-align: left; background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
+      border-radius: 6px; padding: 6px 8px; cursor: pointer; font: inherit; font-size: 12px;
+    }
+    button.camp:hover, button.camp:focus-visible { background: #1c2733; }
+    button.camp span { color: #9aa8b8; }
     .layers label.disabled { color: #66707c; }
     #legend { max-height: 42vh; overflow: auto; }
     .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; }
@@ -132,12 +140,13 @@
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
       <h2>Company</h2>
       <p class="hint" id="company-hint">Every company with QC / ON / BC extracts. Cells are a 0.2° overview — search or click a holder to load full claim polygons.</p>
+      <div id="camps" hidden></div>
       <div id="legend" hidden></div>
     </aside>
     <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies overview · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-  <script src="claims-map.js?v=11"></script>
+  <script src="claims-map.js?v=16"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

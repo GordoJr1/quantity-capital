@@ -289,13 +289,25 @@ function applyHolderFilter() {
   if (currentCompany) {
     map.setFilter("neighbor-fill", ["all", ["==", ["get", "role"], "neighbor"], notHidden]);
     map.setFilter("neighbor-line", ["all", ["==", ["get", "role"], "neighbor"], notHidden]);
+    if (map.getLayer("neighbor-dot")) {
+      map.setFilter("neighbor-dot", ["all", ["==", ["get", "role"], "neighbor"], notHidden]);
+    }
     map.setFilter("focus-fill", ["==", ["get", "role"], "focus"]);
     map.setFilter("focus-line", ["==", ["get", "role"], "focus"]);
+    if (map.getLayer("focus-dot")) {
+      map.setFilter("focus-dot", ["==", ["get", "role"], "focus"]);
+    }
   } else {
     map.setFilter("focus-fill", ["all", ["==", ["get", "role"], "focus"], notHidden]);
     map.setFilter("focus-line", ["all", ["==", ["get", "role"], "focus"], notHidden]);
+    if (map.getLayer("focus-dot")) {
+      map.setFilter("focus-dot", ["all", ["==", ["get", "role"], "focus"], notHidden]);
+    }
     map.setFilter("neighbor-fill", ["==", ["get", "role"], "neighbor"]);
     map.setFilter("neighbor-line", ["==", ["get", "role"], "neighbor"]);
+    if (map.getLayer("neighbor-dot")) {
+      map.setFilter("neighbor-dot", ["==", ["get", "role"], "neighbor"]);
+    }
   }
 }
 
@@ -391,35 +403,75 @@ function ensureCompanyLayers() {
     data: { type: "FeatureCollection", features: [] },
     tolerance: 0.75,
   });
+  map.addSource("company-dots", {
+    type: "geojson",
+    data: { type: "FeatureCollection", features: [] },
+  });
   map.addLayer({
     id: "neighbor-fill",
     type: "fill",
     source: "company",
     filter: ["==", ["get", "role"], "neighbor"],
-    paint: { "fill-color": ["coalesce", ["get", "color"], "#90a4ae"], "fill-opacity": 0.38 },
+    paint: {
+      "fill-color": ["coalesce", ["get", "color"], "#90a4ae"],
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.7, 8, 0.38],
+    },
   });
   map.addLayer({
     id: "neighbor-line",
     type: "line",
     source: "company",
     filter: ["==", ["get", "role"], "neighbor"],
-    paint: { "line-color": ["coalesce", ["get", "color"], "#90a4ae"], "line-width": 0.4 },
+    paint: {
+      "line-color": ["coalesce", ["get", "color"], "#90a4ae"],
+      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 8, 0.4],
+    },
   });
   map.addLayer({
     id: "focus-fill",
     type: "fill",
     source: "company",
     filter: ["==", ["get", "role"], "focus"],
-    paint: { "fill-color": ["coalesce", ["get", "color"], "#e8b040"], "fill-opacity": 0.55 },
+    paint: {
+      "fill-color": ["coalesce", ["get", "color"], "#e8b040"],
+      "fill-opacity": ["interpolate", ["linear"], ["zoom"], 3, 0.85, 8, 0.55],
+    },
   });
   map.addLayer({
     id: "focus-line",
     type: "line",
     source: "company",
     filter: ["==", ["get", "role"], "focus"],
-    paint: { "line-color": "#f3d48a", "line-width": 0.8 },
+    paint: {
+      "line-color": "#f3d48a",
+      "line-width": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 8, 0.8],
+    },
   });
-  ["focus-fill", "neighbor-fill"].forEach((id) => {
+  map.addLayer({
+    id: "neighbor-dot",
+    type: "circle",
+    source: "company-dots",
+    maxzoom: 6.5,
+    filter: ["==", ["get", "role"], "neighbor"],
+    paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 1.6, 6, 2.4],
+      "circle-color": ["coalesce", ["get", "color"], "#90a4ae"],
+      "circle-opacity": 0.55,
+    },
+  });
+  map.addLayer({
+    id: "focus-dot",
+    type: "circle",
+    source: "company-dots",
+    maxzoom: 6.5,
+    filter: ["==", ["get", "role"], "focus"],
+    paint: {
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 2.2, 6, 3.2],
+      "circle-color": ["coalesce", ["get", "color"], "#e8b040"],
+      "circle-opacity": 0.8,
+    },
+  });
+  ["focus-fill", "neighbor-fill", "focus-dot", "neighbor-dot"].forEach((id) => {
     map.on("click", id, (e) => {
       if (!e.features || !e.features.length) return;
       openProps(e.lngLat, e.features[0].properties);
@@ -707,10 +759,25 @@ function companyPlusNearbyFc(company) {
   return { type: "FeatureCollection", features };
 }
 
+function centroidsFc(fc) {
+  const features = [];
+  (fc.features || []).forEach((f) => {
+    const b = featureBbox(f);
+    if (!b) return;
+    features.push({
+      type: "Feature",
+      properties: f.properties || {},
+      geometry: { type: "Point", coordinates: [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2] },
+    });
+  });
+  return { type: "FeatureCollection", features };
+}
+
 function setPainted(fc) {
   paintedFc = fc;
   map.resize();
   map.getSource("company").setData(fc);
+  if (map.getSource("company-dots")) map.getSource("company-dots").setData(centroidsFc(fc));
   applyHolderFilter();
 }
 

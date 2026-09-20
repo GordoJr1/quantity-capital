@@ -1,11 +1,11 @@
 const CATALOG_URL = "claims/companies.json";
 const QUEBEC_CENTER = [-72.5, 51.5];
 const CANADA_CENTER = [-96, 56];
-const NEARBY_PAD_DEG = 0.2;
+const NEARBY_PAD_DEG = 0.35;
 const CSV_FIELDS = [
-  "holder", "claim_id", "claim_name", "status", "recorded_date",
-  "anniversary_or_expiry", "area_ha", "tenure_type", "jurisdiction",
-  "source", "as_of", "role", "company_id",
+  "company_id", "company", "role", "holder", "claim_id", "claim_name",
+  "status", "recorded_date", "anniversary_or_expiry", "area_ha",
+  "tenure_type", "jurisdiction", "source", "as_of", "lon", "lat",
 ];
 
 const map = new maplibregl.Map({
@@ -211,6 +211,11 @@ function openProps(lngLat, props) {
 function setHud(text) {
   const el = document.getElementById("hud-sub");
   if (el) el.textContent = text;
+}
+
+function setDownloadEnabled(on) {
+  const btn = document.getElementById("download-claims") || document.getElementById("download-data");
+  if (btn) btn.disabled = !on;
 }
 
 function setStatus(extra) {
@@ -779,6 +784,7 @@ function setPainted(fc) {
   map.getSource("company").setData(fc);
   if (map.getSource("company-dots")) map.getSource("company-dots").setData(centroidsFc(fc));
   applyHolderFilter();
+  setDownloadEnabled(!!(fc.features && fc.features.length));
 }
 
 function jurisdictionBits(features) {
@@ -909,6 +915,15 @@ function visibleDownloadRows() {
   });
 }
 
+function centroidLonLat(f) {
+  const b = featureBbox(f);
+  if (!b) return ["", ""];
+  return [
+    Math.round(((b[0] + b[2]) / 2) * 1e5) / 1e5,
+    Math.round(((b[1] + b[3]) / 2) * 1e5) / 1e5,
+  ];
+}
+
 function downloadVisibleClaims() {
   const rows = visibleDownloadRows();
   if (!rows.length) {
@@ -918,10 +933,14 @@ function downloadVisibleClaims() {
   const lines = [CSV_FIELDS.join(",")];
   rows.forEach((f) => {
     const p = f.properties || {};
-    lines.push(CSV_FIELDS.map((k) => csvEscape(p[k])).join(","));
+    const ll = centroidLonLat(f);
+    const company = (findIndexed(p.company_id) || {}).holder || p.company || p.company_id || "";
+    const row = Object.assign({}, p, { company: company, lon: ll[0], lat: ll[1] });
+    lines.push(CSV_FIELDS.map((k) => csvEscape(row[k])).join(","));
   });
   const blob = new Blob(["\uFEFF" + lines.join("\n") + "\n"], { type: "text/csv;charset=utf-8" });
-  const name = currentCompany ? "qc-claims-" + currentCompany.id + ".csv" : "qc-claims.csv";
+  const slug = currentCompany ? (currentCompany.id || slugName(currentCompany.holder)) : "";
+  const name = slug ? "qc-claims-" + slug + ".csv" : "qc-claims.csv";
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = name;
@@ -992,3 +1011,4 @@ fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
 window.qcSelectCompany = selectCompany;
 window.qcShowAllClaims = showAllClaims;
 window.qcDownloadClaims = downloadVisibleClaims;
+window.qcClaimsNearbyPadDeg = NEARBY_PAD_DEG;

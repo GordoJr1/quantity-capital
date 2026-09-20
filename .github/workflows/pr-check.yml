@@ -1,0 +1,56 @@
+# Cheap static-site check for pull requests. JSON + JS syntax only.
+# No province crawls, no qc.sqlite, no publish.
+name: pr-check
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pr-check-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate key JSON
+        run: |
+          set -euo pipefail
+          for f in \
+            claims/companies.json \
+            tickers.json \
+            traders.json \
+            tells.json \
+            backtest.json \
+            insider-follow.json
+          do
+            echo "json $f"
+            python3 -m json.tool "$f" > /dev/null
+          done
+
+      - name: Syntax-check JS
+        run: |
+          set -euo pipefail
+          for f in claims-map.js qc.js sw.js chart.js refresh.js
+          do
+            echo "node --check $f"
+            node --check "$f"
+          done
+
+      - name: Confirm claims HUD hooks
+        run: |
+          set -euo pipefail
+          grep -q 'Download data' claims.html
+          grep -E -q 'id="download-claims"|id="download-data"' claims.html
+          grep -q 'All claims' claims.html
+          grep -q 'function showAllClaims' claims-map.js
+          grep -q 'NEARBY_PAD_DEG' claims-map.js
+          grep -q 'downloadVisibleClaims' claims-map.js
+          echo "claims HUD hooks ok"

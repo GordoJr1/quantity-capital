@@ -27,6 +27,7 @@ jobs:
             claims/companies.json \
             claims/overview.geojson \
             claims/extract-bytes.json \
+            beta/claims-publics.json \
             tickers.json \
             traders.json \
             tells.json \
@@ -104,3 +105,27 @@ jobs:
 
       - name: Neighbor sheet matching
         run: node scripts/check_claims_neighbors.js
+
+      - name: Claims issuer profiles (Work B)
+        run: |
+          set -euo pipefail
+          python3 scripts/build_claims_beta_profiles.py --check
+          python3 scripts/test_build_claims_beta_profiles.py
+          python3 scripts/run_claims_beta_gate.py --packet-only
+          grep -q 'beta/claims-publics.json' beta.html
+          grep -q 'claims/overview.geojson' beta.html
+          grep -q 'function previewFootprint' beta.html
+          grep -q 'function loadClaimsOverview' beta.html
+          grep -q 'data-layer="claims"' beta.html
+          grep -q 'id="claims-line"' beta.html
+          grep -q 'PREVIEW_NEAR_MAX' beta.html
+          grep -q 'preview-focus-dot' beta.html
+          if grep -n 'loadAllExtracts' beta.html; then
+            echo "beta.html must not call loadAllExtracts" >&2
+            exit 1
+          fi
+          if grep -nE 'claims/[a-z0-9-]+(-ontario|-bc)?\.geojson' beta.html | grep -v 'claims/overview.geojson'; then
+            echo "beta.html must not fetch per-company extracts" >&2
+            exit 1
+          fi
+          echo "claims issuer profiles ok"

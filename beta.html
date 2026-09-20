@@ -252,10 +252,18 @@
       display: flex;
       flex-direction: column;
     }
-    .mines-inset h2 { margin: 0 0 8px; font-size: 1.15rem; }
+    .mines-inset h2 { margin: 0; font-size: 1.15rem; }
+    .mines-inset-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 8px; margin: 0 0 8px;
+    }
+    .mines-inset-head a { color: var(--caution); font-size: 0.82rem; text-decoration: none; }
+    .mines-inset-head a:hover { color: var(--white); }
     #mines-inset-map { height: 280px; width: 100%; border-radius: 4px; background: #0b1016; flex: 1; min-height: 260px; }
+    #mines-inset-map.is-empty { display: none; }
     .mine-pop { font-size: 13px; }
     .mine-pop a { color: #e3b41a; }
+    #claims-line a { color: var(--caution); }
     .issuer-chart-head {
       display: flex; justify-content: space-between; align-items: center;
       gap: 8px 12px; flex-wrap: wrap; margin: 0 0 10px; flex: 0 0 auto;
@@ -424,11 +432,13 @@
         <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
         <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
         <p class="asof" id="asof"></p>
+        <p class="quiet" id="claims-line" hidden></p>
         <p class="quiet" id="fy-note" hidden></p>
         <p class="quiet" id="basis-note" hidden></p>
         <div class="board-tabs" id="layer" role="tablist" aria-label="Issuer layer">
           <button type="button" data-layer="producers" class="on">Producers</button>
           <button type="button" data-layer="explorers">Explorers · watchlist</button>
+          <button type="button" data-layer="claims">Claims map</button>
         </div>
         <div class="picker">
           <label for="issuer" id="issuer-label">Issuer</label>
@@ -492,12 +502,16 @@
         <div class="pipe" id="pipeline"></div>
       </div>
       <section class="mines-inset" id="mines-inset" hidden>
-        <h2>Mines</h2>
+        <div class="mines-inset-head">
+          <h2 id="mines-inset-h">Claims</h2>
+          <a id="mines-inset-link" href="claims.html">Full map</a>
+        </div>
+        <p class="quiet" id="mines-inset-empty" hidden></p>
         <div id="mines-inset-map"></div>
       </section>
     </div>
-    <h2>Reserves &amp; resources</h2>
-    <div class="table-wrap">
+    <h2 id="rr-h">Reserves &amp; resources</h2>
+    <div class="table-wrap" id="rr-wrap">
       <table>
         <thead>
           <tr id="rr-head"></tr>
@@ -551,6 +565,9 @@
     let profile = null;
     let issuers = null;
     let explorers = null;
+    let claimsPublics = null;
+    let claimsCatalog = null;
+    let requestedId = null;
     const RANGES = ["1m", "3m", "6m", "1y", "3y"];
     let chartRange = "3m";
     let polTrades = [];
@@ -656,14 +673,48 @@
     function isExplorer() {
       return !!(profile && (profile.kind === "explorer" || state.layer === "explorers"));
     }
+    function isClaimsShell() {
+      const meta = (profile && profile.meta) || {};
+      if (meta.filing_backed === false) return true;
+      if (meta.layer === "mcap-watchlist" || meta.layer === "claims-public") return true;
+      const d = (profile && profile.disclaimer) || "";
+      return /do not invent ounces/i.test(d) && /watchlist shell|claims-map shell/i.test(d);
+    }
     function layerIndex() {
-      return state.layer === "explorers" ? explorers : issuers;
+      if (state.layer === "explorers") return explorers;
+      if (state.layer === "claims") return claimsPublics;
+      return issuers;
+    }
+    function claimsPublicRow(id) {
+      if (!id) return null;
+      return ((claimsPublics && claimsPublics.issuers) || []).find((r) => r.id === id) || null;
+    }
+    function claimsPublicForProfile() {
+      const id = (profile && profile.id) || "";
+      const rows = (claimsPublics && claimsPublics.issuers) || [];
+      if (requestedId) {
+        const hit = rows.find((r) => r.id === requestedId);
+        if (hit) return hit;
+      }
+      return rows.find((r) => r.id === id) ||
+        rows.find((r) => r.beta_id === id || r.alias_of === id) ||
+        null;
+    }
+    function claimsCompanyForProfile() {
+      const rows = (claimsCatalog && claimsCatalog.companies) || [];
+      const pub = claimsPublicForProfile();
+      if (pub) {
+        return rows.find((c) => c.id === pub.id) || rows.find((c) => c.id === pub.beta_id) || null;
+      }
+      const id = profile && profile.id;
+      return id ? rows.find((c) => c.id === id) || null : null;
     }
     function issuerRow() {
       const id = profile && profile.id;
       const exp = ((explorers && explorers.issuers) || []).find((r) => r.id === id);
       const prod = ((issuers && issuers.issuers) || []).find((r) => r.id === id);
-      return exp || prod || null;
+      const claim = claimsPublicForProfile();
+      return exp || prod || claim || null;
     }
     function periodTotal() {
       const attr = state.basis === "attr";
@@ -712,6 +763,34 @@
     function kpiCell(id, value, label) {
       if (value == null || value === DASH) return "";
       return "<div class=\"stat\"><b data-kpi=\"" + esc(id) + "\">" + esc(value) + "</b><span>" + esc(label) + "</span></div>";
+    }
+    function hasRrData() {
+      const rr = (profile && profile.reserves_resources) || {};
+      const totals = rr.totals || {};
+      if (totals.pp || totals.mi || totals.inf || totals.indicated || totals.measured || totals.proven || totals.probable) {
+        return true;
+      }
+      return ((rr.projects) || []).length > 0;
+    }
+    function paintClaimsLine() {
+      const el = document.getElementById("claims-line");
+      if (!el) return;
+      const co = claimsCompanyForProfile();
+      const pub = claimsPublicForProfile();
+      if (!co && !pub) {
+        el.hidden = true;
+        el.innerHTML = "";
+        return;
+      }
+      const n = (co && co.claim_count) || (pub && pub.claim_count) || 0;
+      const cid = (co && co.id) || (pub && pub.id) || "";
+      const bits = [];
+      if (n) bits.push(Number(n).toLocaleString("en-US") + " titles on the claims map");
+      if (pub && pub.has_overview) bits.push("overview cells");
+      else if (pub && !pub.has_overview) bits.push("no Quebec / Ontario / BC footprint");
+      el.hidden = false;
+      el.innerHTML = bits.join(" · ") +
+        (cid ? " · <a href=\"claims.html?company=" + encodeURIComponent(cid) + "\">Open claims map</a>" : "");
     }
     function paintKpis() {
       const k = (profile && profile.kpis) || {};
@@ -861,6 +940,17 @@
     }
     function paintRr() {
       const rr = (profile && profile.reserves_resources) || {};
+      const head = document.getElementById("rr-h");
+      const wrap = document.getElementById("rr-wrap");
+      const note = document.getElementById("rr-note");
+      const showRr = hasRrData();
+      if (head) head.hidden = !showRr;
+      if (wrap) wrap.hidden = !showRr;
+      if (!showRr) {
+        if (note) note.textContent = "";
+        document.getElementById("rr").innerHTML = "";
+        return;
+      }
       const attr = state.basis === "attr";
       const show = rrShowCols();
       const cols = 2 + (attr ? 1 : 0) + (show.kt ? 1 : 0) + (show.gt ? 1 : 0);
@@ -998,7 +1088,12 @@
       const comm = (iss.commodity || (row && row.commodity) || "gold");
       const nAssets = ((profile && profile.assets) || []).length;
       const stage = (profile && profile.stage) || (row && row.stage) || "";
-      if (isExplorer()) {
+      if (isClaimsShell()) {
+        const role = isExplorer() ? (stage === "developer" ? "developer" : "explorer") : "issuer";
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " " + role +
+          ". Claims-map public. No production or reserves until a filing pass.";
+      } else if (isExplorer()) {
         const role = stage === "developer" ? "developer" : "explorer";
         document.getElementById("lede").textContent =
           comm.charAt(0).toUpperCase() + comm.slice(1) + " " + role +
@@ -1011,6 +1106,7 @@
           (nMines ? nMines + " operating mine" + (nMines === 1 ? "" : "s") + ". " : "") +
           "Filing-backed, not a terminal dump.";
       }
+      paintClaimsLine();
       const rr = (profile && profile.reserves_resources) || {};
       const ytd = (profile && profile.kpis && profile.kpis.ytd_through) || "";
       document.getElementById("asof").textContent = [
@@ -1047,12 +1143,16 @@
         if (s.url) return "<li><a href=\"" + esc(s.url) + "\" rel=\"noopener\">" + esc(title) + "</a></li>";
         return "<li>" + esc(title) + "</li>";
       }).join("");
-      const idx = isExplorer() ? explorers : issuers;
+      const idx = layerIndex();
       document.getElementById("universe").textContent = (idx && idx.universe_note) || "";
       const periodBar = document.getElementById("period");
-      if (periodBar) periodBar.hidden = isExplorer();
+      if (periodBar) periodBar.hidden = isExplorer() || isClaimsShell();
+      const basisBar = document.getElementById("basis");
+      if (basisBar) basisBar.hidden = isClaimsShell() && !hasRrData();
       const label = document.getElementById("issuer-label");
-      if (label) label.textContent = isExplorer() ? "Explorer" : "Issuer";
+      if (label) {
+        label.textContent = state.layer === "claims" ? "Claims issuer" : (isExplorer() ? "Explorer" : "Issuer");
+      }
       const disc = (profile && profile.disclaimer) || "";
       document.getElementById("disclaimer").textContent = disc;
       const closed = ((profile && profile.assets) || []).filter((a) => a.stage === "closed").map((a) => ({
@@ -1399,75 +1499,357 @@
     }
     let insetMap = null;
     let insetMarks = [];
+    let overviewFc = null;
+    let overviewLoad = null;
+    let previewFitToken = 0;
+    const OVERVIEW_URL = "claims/overview.geojson";
+    const PREVIEW_NEAR_PAD = 0.35;
+    const PREVIEW_NEAR_MAX = 80;
     function loadMapLibre() {
       if (window.maplibregl) return Promise.resolve();
-      return new Promise((resolve, reject) => {
+      const srcs = [
+        "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js",
+        "https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+      ];
+      const cssHrefs = [
+        "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css",
+        "https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+      ];
+      function addCss(href) {
         const css = document.createElement("link");
         css.rel = "stylesheet";
-        css.href = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css";
+        css.href = href;
         document.head.appendChild(css);
-        const s = document.createElement("script");
-        s.src = "https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js";
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
+      }
+      function tryScript(i) {
+        return new Promise((resolve, reject) => {
+          addCss(cssHrefs[i] || cssHrefs[0]);
+          const s = document.createElement("script");
+          s.src = srcs[i];
+          s.onload = () => window.maplibregl ? resolve() : reject(new Error("maplibre missing"));
+          s.onerror = () => reject(new Error("maplibre script"));
+          document.head.appendChild(s);
+        });
+      }
+      return tryScript(0).catch(() => tryScript(1));
+    }
+    function loadClaimsOverview() {
+      if (overviewFc) return Promise.resolve(overviewFc);
+      if (overviewLoad) return overviewLoad;
+      overviewLoad = fetch(OVERVIEW_URL).then((r) => {
+        if (!r.ok) throw new Error("overview missing");
+        return r.json();
+      }).then((fc) => {
+        overviewFc = fc;
+        return fc;
+      }).catch(() => {
+        overviewFc = { type: "FeatureCollection", features: [] };
+        return overviewFc;
       });
+      return overviewLoad;
     }
     function mappedAssets() {
-      return ((profile && profile.assets) || []).filter((a) =>
-        a.stage !== "closed" && Number.isFinite(a.lat) && Number.isFinite(a.lon)
-      );
+      const seen = {};
+      const out = [];
+      function add(a) {
+        if (!a || a.stage === "closed") return;
+        if (!Number.isFinite(a.lat) || !Number.isFinite(a.lon)) return;
+        const key = a.id || (a.name + ":" + a.lat + ":" + a.lon);
+        if (seen[key]) return;
+        seen[key] = 1;
+        out.push(a);
+      }
+      ((profile && profile.assets) || []).forEach(add);
+      const co = claimsCompanyForProfile();
+      ((co && co.mines) || []).forEach(add);
+      return out;
     }
     function desktopMinesMap() {
       return window.matchMedia("(min-width: 961px)").matches;
     }
+    function previewCompanyId() {
+      const pub = claimsPublicForProfile();
+      if (pub) return pub.id;
+      return profile && profile.id;
+    }
+    function featureBbox(f) {
+      const g = f && f.geometry;
+      if (!g) return null;
+      let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity, n = 0;
+      function take(xy) {
+        if (!xy || xy.length < 2) return;
+        n += 1;
+        if (xy[0] < minx) minx = xy[0];
+        if (xy[1] < miny) miny = xy[1];
+        if (xy[0] > maxx) maxx = xy[0];
+        if (xy[1] > maxy) maxy = xy[1];
+      }
+      function walk(geom) {
+        if (!geom) return;
+        const t = geom.type;
+        const c = geom.coordinates;
+        if (t === "Polygon") (c || []).forEach((ring) => ring.forEach(take));
+        else if (t === "MultiPolygon") (c || []).forEach((poly) => poly.forEach((ring) => ring.forEach(take)));
+        else if (t === "Point") take(c);
+        else if (t === "MultiPoint" || t === "LineString") (c || []).forEach(take);
+        else if (t === "MultiLineString") (c || []).forEach((line) => line.forEach(take));
+        else if (t === "GeometryCollection") (geom.geometries || []).forEach(walk);
+      }
+      walk(g);
+      return n ? [minx, miny, maxx, maxy] : null;
+    }
+    function expandBbox(box, pad) {
+      if (!box) return null;
+      return [box[0] - pad, box[1] - pad, box[2] + pad, box[3] + pad];
+    }
+    function bboxIntersects(a, b) {
+      if (!a || !b) return false;
+      return a[0] <= b[2] && a[2] >= b[0] && a[1] <= b[3] && a[3] >= b[1];
+    }
+    function mergeBoxes(boxes) {
+      let minx = Infinity, miny = Infinity, maxx = -Infinity, maxy = -Infinity, n = 0;
+      boxes.forEach((b) => {
+        if (!b) return;
+        n += 1;
+        if (b[0] < minx) minx = b[0];
+        if (b[1] < miny) miny = b[1];
+        if (b[2] > maxx) maxx = b[2];
+        if (b[3] > maxy) maxy = b[3];
+      });
+      return n ? [minx, miny, maxx, maxy] : null;
+    }
+    function overviewForCompanyId(cid) {
+      const src = overviewFc || { type: "FeatureCollection", features: [] };
+      const features = (src.features || []).filter((f) => (f.properties || {}).company_id === cid);
+      return { type: "FeatureCollection", features: features };
+    }
+    function previewFootprint() {
+      const cid = previewCompanyId();
+      const focus = cid ? overviewForCompanyId(cid) : { type: "FeatureCollection", features: [] };
+      const pads = [];
+      focus.features.forEach((f) => {
+        const box = featureBbox(f);
+        if (box) pads.push(expandBbox(box, PREVIEW_NEAR_PAD));
+      });
+      const pub = claimsPublicForProfile();
+      if (!pads.length && pub && pub.bbox) pads.push(expandBbox(pub.bbox, PREVIEW_NEAR_PAD));
+      const nearby = [];
+      if (pads.length && overviewFc) {
+        (overviewFc.features || []).forEach((f) => {
+          const p = f.properties || {};
+          if (p.company_id === cid) return;
+          const box = featureBbox(f);
+          if (!box) return;
+          for (let i = 0; i < pads.length; i++) {
+            if (bboxIntersects(box, pads[i])) {
+              nearby.push(Object.assign({}, f, {
+                properties: Object.assign({}, p, { role: "nearby", color: "#5b6b78" })
+              }));
+              return;
+            }
+          }
+        });
+      }
+      const near = nearby.slice(0, PREVIEW_NEAR_MAX).map((f) => {
+        const p = f.properties || {};
+        return Object.assign({}, f, { properties: Object.assign({}, p, { role: "nearby", color: p.color || "#5b6b78" }) });
+      });
+      const focusPainted = focus.features.map((f) => {
+        const p = f.properties || {};
+        const color = (p.color && p.color !== "#e8b040") ? p.color : "#e3b41a";
+        return Object.assign({}, f, { properties: Object.assign({}, p, { role: "focus", color: color }) });
+      });
+      function asDot(f, role) {
+        const box = featureBbox(f);
+        if (!box) return null;
+        const p = f.properties || {};
+        return {
+          type: "Feature",
+          properties: Object.assign({}, p, { role: role, color: p.color || (role === "focus-dot" ? "#e3b41a" : "#90a4ae") }),
+          geometry: { type: "Point", coordinates: [(box[0] + box[2]) / 2, (box[1] + box[3]) / 2] }
+        };
+      }
+      const dots = focusPainted.map((f) => asDot(f, "focus-dot")).concat(near.map((f) => asDot(f, "nearby-dot"))).filter(Boolean);
+      return {
+        fc: { type: "FeatureCollection", features: near.concat(focusPainted, dots) },
+        focus: focusPainted,
+        hasFocus: focusPainted.length > 0
+      };
+    }
+    function catalogPreviewBox() {
+      const pub = claimsPublicForProfile();
+      if (pub && pub.bbox) return pub.bbox;
+      const co = claimsCompanyForProfile();
+      if (!co) return null;
+      return mergeBoxes([co.bbox, co.quebec_bbox, co.ontario_bbox, co.bc_bbox].filter(Boolean));
+    }
+    function shouldShowPreview() {
+      if (!profile || !desktopMinesMap()) return false;
+      if (mappedAssets().length) return true;
+      if (claimsCompanyForProfile() || claimsPublicForProfile()) return true;
+      return false;
+    }
     function paintMinesInset() {
       const box = document.getElementById("mines-inset");
       const row = document.getElementById("pipe-row");
+      const pipeCol = document.querySelector(".pipe-col");
       if (!box) return;
-      const show = profile && profile.kind !== "explorer" && desktopMinesMap() && mappedAssets().length > 0;
+      const show = shouldShowPreview();
       box.hidden = !show;
-      if (row) row.classList.toggle("split", show);
+      const pipeEmpty = pipeCol && pipeCol.hidden;
+      if (row) {
+        row.hidden = !show && pipeEmpty;
+        row.classList.toggle("split", show && !pipeEmpty);
+      }
       if (!show) return;
-      loadMapLibre().then(drawMinesInset).catch(() => {
+      const pub = claimsPublicForProfile();
+      const cid = previewCompanyId();
+      const head = document.getElementById("mines-inset-h");
+      const link = document.getElementById("mines-inset-link");
+      if (head) head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
+      if (link) {
+        link.href = cid ? ("claims.html?company=" + encodeURIComponent(cid)) : "claims.html";
+        link.textContent = "Full map";
+      }
+      loadMapLibre().then(() => loadClaimsOverview()).then(drawMinesInset).catch(() => {
+        if (insetMap) return;
         const host = document.getElementById("mines-inset-map");
-        if (host) host.textContent = "Map library failed to load.";
+        if (host && !host.querySelector("canvas")) host.textContent = "Map library failed to load.";
       });
+    }
+    const PREVIEW_STYLE_LAYERS = [
+      {
+        id: "preview-near-fill",
+        type: "fill",
+        source: "claims-preview",
+        filter: ["==", ["get", "role"], "nearby"],
+        paint: {
+          "fill-color": "#90a4ae",
+          "fill-opacity": 0.35
+        }
+      },
+      {
+        id: "preview-near-line",
+        type: "line",
+        source: "claims-preview",
+        filter: ["==", ["get", "role"], "nearby"],
+        paint: { "line-color": "#90a4ae", "line-width": 1.4 }
+      },
+      {
+        id: "preview-focus-fill",
+        type: "fill",
+        source: "claims-preview",
+        filter: ["==", ["get", "role"], "focus"],
+        paint: { "fill-color": "#e3b41a", "fill-opacity": 0.82 }
+      },
+      {
+        id: "preview-focus-line",
+        type: "line",
+        source: "claims-preview",
+        filter: ["==", ["get", "role"], "focus"],
+        paint: { "line-color": "#f3d48a", "line-width": 2.2 }
+      },
+      {
+        id: "preview-near-dot",
+        type: "circle",
+        source: "claims-preview",
+        maxzoom: 7.2,
+        filter: ["==", ["get", "role"], "nearby-dot"],
+        paint: {
+          "circle-color": "#90a4ae",
+          "circle-radius": 3,
+          "circle-stroke-width": 1,
+          "circle-stroke-color": "#0b1016"
+        }
+      },
+      {
+        id: "preview-focus-dot",
+        type: "circle",
+        source: "claims-preview",
+        maxzoom: 7.2,
+        filter: ["==", ["get", "role"], "focus-dot"],
+        paint: {
+          "circle-color": "#e3b41a",
+          "circle-radius": 5,
+          "circle-stroke-width": 1.4,
+          "circle-stroke-color": "#1a1306"
+        }
+      }
+    ];
+    function previewMapStyle() {
+      return {
+        version: 8,
+        sources: {
+          esri: {
+            type: "raster",
+            tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
+            tileSize: 256,
+            attribution: "Tiles © Esri",
+            maxzoom: 16
+          },
+          "claims-preview": {
+            type: "geojson",
+            data: { type: "FeatureCollection", features: [] }
+          }
+        },
+        layers: [
+          { id: "bg", type: "background", paint: { "background-color": "#0b1016" } },
+          { id: "basemap", type: "raster", source: "esri" }
+        ].concat(PREVIEW_STYLE_LAYERS)
+      };
     }
     function drawMinesInset() {
       const host = document.getElementById("mines-inset-map");
+      const empty = document.getElementById("mines-inset-empty");
       if (!host || !window.maplibregl) return;
       const mines = mappedAssets();
-      if (!insetMap) {
-        insetMap = new maplibregl.Map({
-          container: host,
-          style: {
-            version: 8,
-            sources: {
-              esri: {
-                type: "raster",
-                tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"],
-                tileSize: 256,
-                attribution: "Tiles © Esri",
-                maxzoom: 16
-              }
-            },
-            layers: [
-              { id: "bg", type: "background", paint: { "background-color": "#0b1016" } },
-              { id: "basemap", type: "raster", source: "esri" }
-            ]
-          },
-          center: [-40, 30],
-          zoom: 2.2,
-          interactive: true,
-          attributionControl: false
-        });
-        insetMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+      const foot = previewFootprint();
+      const pub = claimsPublicForProfile();
+      const claimsId = previewCompanyId();
+      const hasCells = foot.hasFocus;
+      const catBox = catalogPreviewBox();
+      if (!hasCells && !mines.length && !catBox) {
+        host.classList.add("is-empty");
+        if (empty) {
+          empty.hidden = false;
+          empty.innerHTML = "No mapped claims footprint in Quebec / Ontario / BC." +
+            (claimsId ? " <a href=\"claims.html?company=" + encodeURIComponent(claimsId) + "\">Open the claims map</a>." : "");
+        }
+      } else {
+        host.classList.remove("is-empty");
+        if (empty) { empty.hidden = true; empty.innerHTML = ""; }
       }
+      const head = document.getElementById("mines-inset-h");
+      if (head) {
+        const n = foot.focus.length;
+        if (n) head.textContent = "Claims · " + n + " block" + (n === 1 ? "" : "s");
+        else if (mines.length) head.textContent = "Mines";
+        else head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
+      }
+      if (!insetMap) {
+        try {
+          insetMap = new maplibregl.Map({
+            container: host,
+            style: previewMapStyle(),
+            center: [-75, 50],
+            zoom: 4.2,
+            interactive: true,
+            attributionControl: false
+          });
+        } catch (err) {
+          host.textContent = "Map preview needs WebGL.";
+          return;
+        }
+        insetMap.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+        insetMap.on("load", drawMinesInset);
+      }
+      if (!insetMap.loaded()) return;
+      const src = insetMap.getSource("claims-preview");
+      if (src) src.setData(foot.fc);
       insetMarks.forEach((m) => m.remove());
       insetMarks = [];
       mines.forEach((a) => {
-        const canada = a.country === "Canada";
+        const canada = a.country === "Canada" || !a.country;
         const producing = !!a.in_production;
         const el = document.createElement("button");
         el.type = "button";
@@ -1475,29 +1857,57 @@
         const fill = producing ? "#e3b41a" : "#36999d";
         el.style.cssText = "width:12px;height:12px;border-radius:50%;border:2px solid #1a1306;background:" + fill + ";padding:0;" + (canada ? "cursor:pointer;" : "cursor:default;");
         el.title = a.name;
-        if (canada) {
+        const hrefCompany = claimsId || (profile && profile.id) || "";
+        if (canada && hrefCompany) {
           el.addEventListener("click", () => {
-            location.href = "claims.html?company=" + encodeURIComponent(profile.id) + "&asset=" + encodeURIComponent(a.id);
+            location.href = "claims.html?company=" + encodeURIComponent(hrefCompany) + (a.id ? "&asset=" + encodeURIComponent(a.id) : "");
           });
         }
         const marker = new maplibregl.Marker({ element: el }).setLngLat([a.lon, a.lat]).addTo(insetMap);
         let html = "<div class=\"mine-pop\"><strong>" + esc(a.name) + "</strong><br>" +
           esc(a.region || a.country || "");
-        if (canada) {
-          html += "<br><a href=\"claims.html?company=" + encodeURIComponent(profile.id) + "&asset=" + encodeURIComponent(a.id) + "\">Quebec claims around this asset</a>";
-        } else {
-          html += "<br><span class=\"quiet\">Not Quebec GESTIM</span>";
+        if (canada && hrefCompany) {
+          html += "<br><a href=\"claims.html?company=" + encodeURIComponent(hrefCompany) + (a.id ? "&asset=" + encodeURIComponent(a.id) : "") + "\">Claims around this asset</a>";
+        } else if (!canada) {
+          html += "<br><span class=\"quiet\">Not Quebec / Ontario / BC GESTIM</span>";
         }
         html += "</div>";
         marker.setPopup(new maplibregl.Popup({ closeButton: false, offset: 12 }).setHTML(html));
         insetMarks.push(marker);
       });
-      if (mines.length) {
+      const boxes = [];
+      foot.focus.forEach((f) => {
+        const box = featureBbox(f);
+        if (box) boxes.push(box);
+      });
+      if (!boxes.length && catBox) boxes.push(catBox);
+      const inViewMines = [];
+      const focusBox = mergeBoxes(boxes);
+      const padBox = expandBbox(focusBox, 0.6);
+      mines.forEach((a) => {
+        if (!padBox || bboxIntersects(padBox, [a.lon, a.lat, a.lon, a.lat])) inViewMines.push(a);
+      });
+      const fitMines = boxes.length ? inViewMines : mines;
+      const fitToken = ++previewFitToken;
+      function fitPreview() {
+        if (fitToken !== previewFitToken || !insetMap || !window.maplibregl) return;
+        insetMap.resize();
+        if (!boxes.length && !fitMines.length) return;
         const b = new maplibregl.LngLatBounds();
-        mines.forEach((a) => b.extend([a.lon, a.lat]));
-        insetMap.fitBounds(b, { padding: 28, maxZoom: 3.1, duration: 0 });
+        boxes.forEach((box) => {
+          b.extend([box[0], box[1]]);
+          b.extend([box[2], box[3]]);
+        });
+        fitMines.forEach((a) => b.extend([a.lon, a.lat]));
+        if (b.isEmpty()) return;
+        const maxZoom = boxes.length ? 6.4 : 3.1;
+        insetMap.fitBounds(b, { padding: 36, maxZoom: maxZoom, duration: 0 });
       }
-      requestAnimationFrame(() => { if (insetMap) insetMap.resize(); });
+      requestAnimationFrame(() => {
+        fitPreview();
+        requestAnimationFrame(fitPreview);
+      });
+      insetMap.once("idle", fitPreview);
     }
     function paint() {
       if (!profile) return;
@@ -1511,6 +1921,11 @@
       paintMinesInset();
     }
     function pickerRows() {
+      if (state.layer === "claims") {
+        return ((claimsPublics && claimsPublics.issuers) || []).slice().sort((a, b) => {
+          return String(a.name || "").localeCompare(String(b.name || ""));
+        });
+      }
       if (state.layer === "explorers") {
         return ((explorers && explorers.issuers) || []).slice();
       }
@@ -1525,6 +1940,10 @@
       });
     }
     function pickerLabel(r) {
+      if (state.layer === "claims") {
+        const n = num(r.claim_count);
+        return n != null && n > 0 ? r.name + " · " + n.toLocaleString("en-US") + " titles" : r.name;
+      }
       if (state.layer === "explorers") {
         const mi = num(r.attr_mi_incl_koz);
         return mi != null ? r.name + " · " + fmtMoz(mi) : r.name;
@@ -1536,27 +1955,42 @@
       const sel = document.getElementById("issuer");
       const fallback = state.layer === "explorers"
         ? [{ id: "new-found-gold", name: "New Found Gold Corp.", file: "beta/new-found-gold.json" }]
+        : state.layer === "claims"
+          ? [{ id: "probe-gold", name: "Probe Gold", file: "beta/probe-gold.json" }]
         : [{ id: "newmont", name: "Newmont Corporation", file: "beta/newmont.json", attr_koz_2025: null }];
       const list = pickerRows().length ? pickerRows() : fallback;
       const keep = sel.value;
       sel.innerHTML = list.map((r) => {
-        return "<option value=\"" + esc(r.file) + "\">" + esc(pickerLabel(r)) + "</option>";
+        return "<option value=\"" + esc(r.file) + "\" data-id=\"" + esc(r.id) + "\">" + esc(pickerLabel(r)) + "</option>";
       }).join("");
       const still = list.some((r) => r.file === keep);
       if (still) sel.value = keep;
       else {
-        const def = list.find((r) => r.id === (state.layer === "explorers" ? "new-found-gold" : "newmont")) || list[0];
+        const defId = state.layer === "explorers" ? "new-found-gold" : (state.layer === "claims" ? "probe-gold" : "newmont");
+        const def = list.find((r) => r.id === defId) || list[0];
         if (def) sel.value = def.file;
       }
-      sel.onchange = () => loadProfile(sel.value);
+      sel.onchange = () => {
+        const opt = sel.options[sel.selectedIndex];
+        loadProfile(sel.value, { claimsId: opt && opt.getAttribute("data-id") });
+      };
     }
-    function loadProfile(file) {
+    function loadProfile(file, opts) {
+      opts = opts || {};
+      if (Object.prototype.hasOwnProperty.call(opts, "claimsId")) requestedId = opts.claimsId || null;
       return fetch(file).then((r) => {
         if (!r.ok) throw new Error("missing");
         return r.json();
       }).then((json) => {
         profile = json;
-        state.layer = (profile && profile.kind === "explorer") ? "explorers" : "producers";
+        if (state.layer !== "claims") {
+          state.layer = (profile && profile.kind === "explorer") ? "explorers" : "producers";
+        }
+        if (!requestedId && profile && profile.id) {
+          const hit = claimsPublicRow(profile.id) ||
+            ((claimsPublics && claimsPublics.issuers) || []).find((r) => r.beta_id === profile.id || r.file === file);
+          if (hit) requestedId = hit.id;
+        }
         const layerBar = document.getElementById("layer");
         if (layerBar) setOn(layerBar, "data-layer", state.layer);
         fillPicker();
@@ -1572,19 +2006,24 @@
     function syncUrl() {
       const u = new URL(location.href);
       if (state.layer === "explorers") u.searchParams.set("layer", "explorers");
+      else if (state.layer === "claims") u.searchParams.set("layer", "claims");
       else u.searchParams.delete("layer");
-      if (profile && profile.id) u.searchParams.set("id", profile.id);
+      let id = profile && profile.id;
+      const pub = claimsPublicRow(requestedId);
+      if (pub && (pub.id === id || pub.beta_id === id || pub.alias_of === id)) id = pub.id;
+      if (id) u.searchParams.set("id", id);
       else u.searchParams.delete("id");
       history.replaceState(null, "", u.pathname + u.search + u.hash);
     }
     function setLayer(layer) {
       if (state.layer === layer) return;
-      state.layer = layer === "explorers" ? "explorers" : "producers";
+      state.layer = (layer === "explorers" || layer === "claims") ? layer : "producers";
       const layerBar = document.getElementById("layer");
       if (layerBar) setOn(layerBar, "data-layer", state.layer);
       fillPicker();
       const sel = document.getElementById("issuer");
-      loadProfile(sel.value);
+      const opt = sel && sel.options[sel.selectedIndex];
+      loadProfile(sel.value, { claimsId: opt && opt.getAttribute("data-id") });
     }
     if (typeof ResizeObserver !== "undefined") {
       const info = document.querySelector(".issuer-info");
@@ -1630,38 +2069,47 @@
     });
     Promise.all([
       fetch("beta/issuers.json").then((r) => r.ok ? r.json() : null).catch(() => null),
-      fetch("beta/explorers.json").then((r) => r.ok ? r.json() : null).catch(() => null)
-    ]).then(([prod, exp]) => {
+      fetch("beta/explorers.json").then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch("beta/claims-publics.json").then((r) => r.ok ? r.json() : null).catch(() => null),
+      fetch("claims/companies.json").then((r) => r.ok ? r.json() : null).catch(() => null)
+    ]).then(([prod, exp, claimsIdx, claimsCat]) => {
       issuers = prod;
       explorers = exp;
+      claimsPublics = claimsIdx;
+      claimsCatalog = claimsCat;
       const q = new URLSearchParams(location.search);
       if (q.get("layer") === "explorers") state.layer = "explorers";
+      if (q.get("layer") === "claims") state.layer = "claims";
       const wantId = q.get("id");
       const layerBar = document.getElementById("layer");
+      const claimHit = wantId ? claimsPublicRow(wantId) : null;
+      const targetId = (claimHit && claimHit.beta_id) || wantId;
       if (wantId) {
-        const inExp = ((explorers && explorers.issuers) || []).some((r) => r.id === wantId);
-        const inProd = ((issuers && issuers.issuers) || []).some((r) => r.id === wantId);
+        const inExp = ((explorers && explorers.issuers) || []).some((r) => r.id === wantId || r.id === targetId);
+        const inProd = ((issuers && issuers.issuers) || []).some((r) => r.id === wantId || r.id === targetId);
         if (inExp && !inProd) state.layer = "explorers";
         else if (inProd && !inExp) state.layer = "producers";
+        else if (claimHit && !inExp && !inProd) state.layer = "claims";
       }
       if (layerBar) setOn(layerBar, "data-layer", state.layer);
       fillPicker();
       let file = null;
       if (wantId) {
         const all = ((issuers && issuers.issuers) || []).concat((explorers && explorers.issuers) || []);
-        const hit = all.find((r) => r.id === wantId);
+        const hit = all.find((r) => r.id === wantId) || all.find((r) => r.id === targetId);
         if (hit) file = hit.file;
+        if (!file && claimHit) file = claimHit.file;
       }
       if (!file) {
         const list = pickerRows();
-        const defId = state.layer === "explorers" ? "new-found-gold" : "newmont";
+        const defId = state.layer === "explorers" ? "new-found-gold" : (state.layer === "claims" ? "probe-gold" : "newmont");
         const def = list.find((r) => r.id === defId) || list[0];
         file = (def && def.file) || (state.layer === "explorers" ? "beta/new-found-gold.json" : "beta/newmont.json");
       }
-      return loadProfile(file);
+      return loadProfile(file, { claimsId: wantId || (claimHit && claimHit.id) || null });
     }).catch(() => {
       fillPicker();
-      return loadProfile("beta/newmont.json");
+      return loadProfile("beta/newmont.json", { claimsId: null });
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
     window.matchMedia("(min-width: 961px)").addEventListener("change", () => {

@@ -54,6 +54,7 @@ jobs:
           python3 scripts/test_merge_claims_insider_universe.py
           python3 scripts/merge_claims_insider_universe.py --check --no-extracts
           python3 scripts/test_run_pr_merge_gate.py
+          # Cloud Agents have no TYPESAFE_API_KEY. QC box runs --require-jev.
           python3 scripts/run_pr_merge_gate.py --packet-only
           test -s scripts/claims-insider-ticker-audit.csv
           test -s scripts/claims-insider-ticker-audit.md

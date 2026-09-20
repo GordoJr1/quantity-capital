@@ -4,24 +4,26 @@
 This is the in-repo packet compatible with QC's box gate. It talks to the
 TypeSafe Jev API directly (Choice / Noul / Score via typesafe-sdk), not Jev Bot.
 
-Cloud agents often have no TYPESAFE_API_KEY. On the QC box:
+Cloud Agents do **not** have TYPESAFE_API_KEY. CI is packet-only. The QC
+box runs the API:
 
     # Linux shared tree
     set -a
     source /home/box/shared/typesafe/env          # or ~/.grok/typesafe.env
     set +a
     python3 -m pip install -q typesafe-sdk
-    python3 scripts/run_pr_merge_gate.py
+    python3 scripts/run_pr_merge_gate.py --require-jev
 
     # Windows Groks box
     # TYPESAFE_API_KEY from %USERPROFILE%\\.grok\\typesafe.env
-    python scripts\\run_pr_merge_gate.py
+    python scripts\\run_pr_merge_gate.py --require-jev
 
 Writes:
   scripts/claims-insider-jev-packet.json      — states + question specs + audit
   scripts/claims-insider-jev-judgments.json   — API answers when a key exists
 
-`--packet-only` never calls the network (used by pr-check).
+`--packet-only` never calls the network (pr-check / Cloud Agents).
+`--require-jev` fails if the TypeSafe API did not run (QC box).
 """
 from __future__ import annotations
 
@@ -457,6 +459,15 @@ def main() -> int:
     print(f"wrote {PACKET.name} calls={len(packet['calls'])} audit_n={packet['audit']['n']}")
 
     if args.packet_only:
+        existing = root / "scripts" / JUDGMENTS.name
+        if existing.exists():
+            try:
+                prev = json.loads(existing.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                prev = {}
+            if prev.get("ran"):
+                print("packet-only: left existing ran:true judgments in place")
+                return 0
         placeholder = {
             "ran": False,
             "reason": "packet_only",
@@ -464,7 +475,7 @@ def main() -> int:
             "calls": [],
             "generated": utc_now(),
         }
-        write_json(root / "scripts" / JUDGMENTS.name, placeholder)
+        write_json(existing, placeholder)
         print("packet-only: TypeSafe Jev API not called")
         return 0
 

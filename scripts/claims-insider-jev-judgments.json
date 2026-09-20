@@ -1,12 +1,117 @@
 {
-  "ran": false,
-  "reason": "no_typesafe_key_or_sdk",
-  "model": null,
-  "calls": [],
-  "environment": {
-    "typesafe_sdk": false,
-    "key_present": false,
-    "box_typesafe_dir": "/home/box/shared/typesafe",
-    "box_typesafe_dir_exists": false
-  }
+  "ran": true,
+  "reason": null,
+  "model": "jev-1.13.0",
+  "n": 9,
+  "errors": 0,
+  "source": "QC box TypeSafe Jev API (Cloud Agent VM had no TYPESAFE_API_KEY). Outcomes transcribed from the box run; full SDK payload not attached.",
+  "generated": "2026-09-20T18:34:00Z",
+  "calls": [
+    {
+      "id": "policy:empty_badge_copy",
+      "label": "claims_insider_empty_badge_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "empty_badge_copy": {
+          "type": "choice",
+          "choice": "no_filings_yet",
+          "confidence": 0.54
+        }
+      }
+    },
+    {
+      "id": "policy:empty_row_policy",
+      "label": "claims_insider_empty_row_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "empty_row_policy": {
+          "type": "choice",
+          "choice": "keep_with_badge",
+          "confidence": 0.99
+        }
+      }
+    },
+    {
+      "id": "policy:private_filter",
+      "label": "claims_insider_private_filter_v1",
+      "model": "jev-1.13.0",
+      "answers": {
+        "private_filter": {
+          "type": "noul",
+          "noul": 0.79
+        }
+      }
+    },
+    {
+      "id": "issuer:probe-gold",
+      "label": "claims_insider_on_universe_v1:probe-gold",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.75
+        }
+      }
+    },
+    {
+      "id": "issuer:g2-goldfields",
+      "label": "claims_insider_on_universe_v1:g2-goldfields",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.74
+        }
+      }
+    },
+    {
+      "id": "issuer:newmont",
+      "label": "claims_insider_on_universe_v1:newmont",
+      "model": "jev-1.13.0",
+      "answers": {
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.94
+        }
+      }
+    },
+    {
+      "id": "issuer:gold-fields",
+      "label": "claims_insider_same_issuer_v1:gold-fields",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.29
+        },
+        "on_universe": {
+          "type": "noul",
+          "noul": 0.62
+        }
+      },
+      "gate": "FAIL same_listed_issuer 1.29 < 1.4 (Windfall holder vs Gold Fields / GFI). Pending Gordo: keep map or unmap."
+    },
+    {
+      "id": "issuer:harmony",
+      "label": "claims_insider_same_issuer_v1:harmony",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.97
+        }
+      }
+    },
+    {
+      "id": "issuer:thesis-gold",
+      "label": "claims_insider_same_issuer_v1:thesis-gold",
+      "model": "jev-1.13.0",
+      "answers": {
+        "same_listed_issuer": {
+          "type": "score",
+          "score": 1.89
+        }
+      }
+    }
+  ]
 }

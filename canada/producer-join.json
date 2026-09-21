@@ -1,6 +1,6 @@
 {
   "schema": "qc-canada-producer-join-v1",
-  "generated": "2026-09-21T02:05:10Z",
+  "generated": "2026-09-21T02:54:22Z",
   "year": 2025,
   "disclaimer": "From company filings where disclosed; StatCan/NRCan do not publish mine-level output. Stored in qc.sqlite; Pages reads the thin export.",
   "unit_note": "Canada table reads canada/producer-join.json commodities exported from qc.sqlite. Gold/silver/PGM are troy ounces. Other commodities keep the source unit. Existing beta/<issuer>.json pages still store gold in each file's units.gold (usually koz).",
@@ -9,6 +9,7 @@
   "n_mines": 171,
   "n_linked": 48,
   "n_with_figure": 46,
+  "n_with_ytd": 18,
   "n_blank": 125,
   "mines": {
     "acton-vale": {
@@ -79,6 +80,22 @@
           "value": 493314,
           "unit": "troy oz",
           "quote": "Gold production decreased by 2.3% to 493,314 ounces in 2025"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 214027,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374"
+          }
         }
       }
     },
@@ -204,6 +221,22 @@
           "unit": "troy oz",
           "quote": "bringing full year 2025 production to 192,808 ounces of gold"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q2-2026-production-results",
+        "source_title": "Artemis Gold Announces Record Q2 2026 Production Results",
+        "as_of": "2026-07-13",
+        "commodities": {
+          "gold": {
+            "value": 135986,
+            "unit": "troy oz",
+            "quote": "Year to date, Blackwater has produced 135,986 ounces of gold"
+          }
+        }
       }
     },
     "bloom-lake": {
@@ -295,6 +328,22 @@
           "value": 231000,
           "unit": "troy oz",
           "quote": "Brucejack, Canada. Gold production decreased 10%"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000034/newmontq22026earningsrelea.htm",
+        "source_title": "Newmont Reports Second Quarter 2026 Results (Exhibit 99.1)",
+        "as_of": "2026-07-23",
+        "commodities": {
+          "gold": {
+            "value": 112000,
+            "unit": "troy oz",
+            "quote": "Brucejack 41 50 79 61 231 59 53 112"
+          }
         }
       }
     },
@@ -539,6 +588,22 @@
           "unit": "troy oz",
           "quote": "399,800 ounces | 100%"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "source_title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "commodities": {
+          "gold": {
+            "value": 170900,
+            "unit": "troy oz",
+            "quote": "119,600 attributable ounces YTD (170,900 ounces | 100%)"
+          }
+        }
       }
     },
     "creighton-sudbury-operations": {
@@ -567,6 +632,22 @@
           "value": 692675,
           "unit": "troy oz",
           "quote": "Gold production at Detour Lake increased by 3.1% to 692,675 ounces in 2025"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 384298,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034"
+          }
         }
       }
     },
@@ -661,6 +742,22 @@
           "value": 112767,
           "unit": "troy oz",
           "quote": "112,767"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "source_title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "commodities": {
+          "gold": {
+            "value": 49644,
+            "unit": "troy oz",
+            "quote": "Eagle River produced 49,644 ounces in the first half of 2026"
+          }
         }
       }
     },
@@ -924,6 +1021,22 @@
           "unit": "troy oz",
           "quote": "125,501 ounces in 2025, compared with 130,813 ounces in 2024 at Goldex"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 58649,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965"
+          }
+        }
       }
     },
     "goose-back-river": {
@@ -942,6 +1055,22 @@
           "value": 53170,
           "unit": "troy oz",
           "quote": "14,554 ounces of pre-commercial production from the Goose Mine"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1429937/000142993726000010/exhibit992-63026.htm",
+        "source_title": "B2Gold MD&A for the quarter ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-08-06",
+        "commodities": {
+          "gold": {
+            "value": 55766,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 12,890 692 55,766 692"
+          }
         }
       }
     },
@@ -994,6 +1123,22 @@
           "value": 223843,
           "unit": "troy oz",
           "quote": "223,843"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "source_title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "commodities": {
+          "gold": {
+            "value": 124993,
+            "unit": "troy oz",
+            "quote": "124,993 ounces from Greenstone"
+          }
         }
       }
     },
@@ -1180,6 +1325,22 @@
           "unit": "troy oz",
           "quote": "72,808"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "source_title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "commodities": {
+          "gold": {
+            "value": 39483,
+            "unit": "troy oz",
+            "quote": "Production in the first half of 2026 totaled 39,483 ounces"
+          }
+        }
       }
     },
     "kootenay-west": {
@@ -1242,6 +1403,22 @@
           "unit": "troy oz",
           "quote": "Lamaque Complex"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.eldoradogold.com/investors/news-releases/eldorado-gold-reports-solid-q2-2026-financial-and-operational-results",
+        "source_title": "Eldorado Gold Reports Solid Q2 2026 Financial and Operational Results",
+        "as_of": "2026-07-31",
+        "commodities": {
+          "gold": {
+            "value": 94646,
+            "unit": "troy oz",
+            "quote": "Lamaque Gold produced (oz) 52,340 50,640 94,646"
+          }
+        }
       }
     },
     "lanigan": {
@@ -1279,6 +1456,22 @@
           "value": 344555,
           "unit": "troy oz",
           "quote": "Gold production at LaRonde increased by 12.3% to 344,555 ounces in 2025"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 162857,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965"
+          }
         }
       }
     },
@@ -1328,6 +1521,22 @@
           "value": 312729,
           "unit": "troy oz",
           "quote": "Gold production at Macassa increased by 11.9% to 312,729 ounces in 2025"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 135736,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034"
+          }
         }
       }
     },
@@ -1440,6 +1649,22 @@
           "unit": "troy oz",
           "quote": "Gold production decreased by 0.7% to 376,346 ounces in 2025"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "source_title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 191347,
+            "unit": "troy oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374"
+          }
+        }
       }
     },
     "mitsue": {
@@ -1493,6 +1718,27 @@
           "value": 147581,
           "unit": "troy oz",
           "quote": "147,581 ounces of gold from Mount Milligan"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1854640/000162828026050229/exh992_20260630.htm",
+        "source_title": "Centerra Gold MD&A for the three and six months ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-07-29",
+        "commodities": {
+          "copper": {
+            "value": 27.3,
+            "unit": "Mlb",
+            "quote": "67,747 ounces of gold and 27.3 million pounds of copper"
+          },
+          "gold": {
+            "value": 67747,
+            "unit": "troy oz",
+            "quote": "the Mount Milligan Mine produced 67,747 ounces of gold and 27.3 million pounds of copper"
+          }
         }
       }
     },
@@ -2091,6 +2337,22 @@
           "unit": "troy oz",
           "quote": "23,816 ounces from Valentine"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "source_title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "commodities": {
+          "gold": {
+            "value": 59681,
+            "unit": "troy oz",
+            "quote": "59,681 ounces from Valentine"
+          }
+        }
       }
     },
     "vanscoy": {
@@ -2168,6 +2430,22 @@
           "unit": "troy oz",
           "quote": "Westwood produced 37,900 ounces in the fourth quarter and 113,900 ounces in 2025"
         }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "source_title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "commodities": {
+          "gold": {
+            "value": 68600,
+            "unit": "troy oz",
+            "quote": "Westwood produced 32,400 ounces in the second quarter and 68,600 ounces YTD"
+          }
+        }
       }
     },
     "willow-creek": {
@@ -2216,6 +2494,22 @@
           "value": 153400,
           "unit": "troy oz",
           "quote": "Young-Davidson"
+        }
+      },
+      "ytd": {
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000081/ex99206302026mda.htm",
+        "source_title": "Alamos Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-07-30",
+        "commodities": {
+          "gold": {
+            "value": 63000,
+            "unit": "troy oz",
+            "quote": "Young-Davidson 33,000 38,700 63,000 74,100"
+          }
         }
       }
     }

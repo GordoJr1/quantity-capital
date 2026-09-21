@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy). VBM Pt/Pd are Vale Base Metals company-wide 2025 totals, not Canadian mine splits.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -40,7 +40,9 @@
     "market_cap_cur": "USD",
     "shares": 4255762795,
     "px": 14.21,
-    "price_asof": "2026-09-18"
+    "price_asof": "2026-09-18",
+    "platinum_koz_2025_vbm": 98,
+    "palladium_koz_2025_vbm": 120
   },
   "guidance_2026": {
     "basis": "none — mcap watchlist shell",

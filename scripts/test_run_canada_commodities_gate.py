@@ -21,6 +21,7 @@ class Packet(unittest.TestCase):
         self.assertEqual(packet["model"], "jev-latest")
         ids = {c["id"] for c in packet["calls"]}
         self.assertIn("policy:mine_tonnes", ids)
+        self.assertIn("policy:mine_production", ids)
         self.assertIn("policy:overview_first", ids)
         self.assertIn("policy:refresh_cadence", ids)
         for spec in QUESTION_SPECS.values():

@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Build static Canadian commodity production + Map 900A mine roster JSON.
 
-National (and optional provincial) aggregates only. Mine-level tonnes are
-not published and are never invented.
+National (and optional provincial) aggregates only. Mine-level tonnes from
+StatCan/NRCan are not published and are never invented. Optional 2025
+mine production is overlaid from canada/mine-production.json (company
+filings only).
 
 Precious metals (gold, silver, platinum, palladium, rhodium, and the
 platinum-group aggregate) are converted at ingest to troy ounces using
@@ -355,7 +357,9 @@ UNIT_NOTE = (
     "Gold, silver, platinum, palladium, rhodium, and platinum-group totals "
     "are troy ounces converted at ingest from the published StatCan/NRCan "
     "mass unit for that year (1 troy oz = 31.1034768 grams). Other "
-    "commodities keep their source units. Mine-level quantities are not shown."
+    "commodities keep their source units. Mine-level 2025 production is "
+    "attached only from a cited company filing (see canada/mine-production.json); "
+    "StatCan/NRCan do not publish mine-level output."
 )
 
 
@@ -1180,6 +1184,22 @@ def rows_to_commodities(
     return commodities
 
 
+def overlay_mine_production(mines: list[dict[str, Any]], root: Path) -> int:
+    """Attach cited 2025 figures from canada/mine-production.json. Never invent."""
+    path = root / "canada" / "mine-production.json"
+    if not path.exists():
+        return 0
+    try:
+        from ingest_canada_mine_production import overlay_mines
+    except ImportError:
+        return 0
+    try:
+        book = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return 0
+    return overlay_mines(mines, book)
+
+
 def attach_statcan_provinces(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Fold province GEO rows onto Canada quantity rows for the same year/product."""
     provinces: dict[tuple[int, str], dict[str, float]] = defaultdict(dict)
@@ -1309,6 +1329,7 @@ def build_payload(
     linked = [
         link_mine(m, catalog, name_idx, mine_idx, use_jev=use_jev) for m in mines_raw
     ]
+    overlay_mine_production(linked, root)
 
     years_have = sorted({r["year"] for r in production_rows if r.get("geo") == "Canada"})
     if years_have:
@@ -1336,12 +1357,15 @@ def build_payload(
         "years_available": (max(years_have) - min(years_have) + 1) if years_have else 0,
         "sources": sources,
         "disclaimer": (
-            "Not legal title. Not investment advice. Production figures are "
-            "national (and provincial) aggregates from StatCan table 16-10-0022 "
-            "and NRCan annual mineral production tables. Mine-level tonnes are "
-            "not published and are not shown. Map 900A lists significant "
-            "producing operations, not every quarry or exploration project. "
-            "Claims links open the existing Quebec / Ontario / BC overview-first map."
+            "Not legal title. Not investment advice. National (and provincial) "
+            "aggregates are from StatCan table 16-10-0022 and NRCan annual "
+            "mineral production tables. Mine-level 2025 production is shown "
+            "only where a public company report states that mine's output for "
+            "the selected commodity, with a URL. StatCan/NRCan do not publish "
+            "mine-level output. Blank cells are undisclosed — not zero and not "
+            "an estimate. Map 900A lists significant producing operations, not "
+            "every quarry or exploration project. Claims links open the existing "
+            "Quebec / Ontario / BC overview-first map."
         ),
         "unit_note": UNIT_NOTE,
         "blockers": blockers,
@@ -1375,6 +1399,16 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
             for banned in ("tonnes", "koz", "quantity", "production_t", "mine_tonnes"):
                 if banned in mine:
                     errors.append(f"invented mine field {banned}")
+            prod = mine.get("production_2025")
+            if prod:
+                if not (mine.get("production_source") or "").startswith("http"):
+                    errors.append(f"{mine.get('id')}: production_2025 without URL")
+                if "gold" in prod and (mine.get("production_unit") or {}).get("gold") not in {
+                    None, TROY_OZ_UNIT,
+                }:
+                    errors.append(f"{mine.get('id')}: gold production_2025 must be troy oz")
+                if any(k in prod for k in ("aueq", "gold-equivalent", "geo")):
+                    errors.append(f"{mine.get('id')}: AuEq stored as production")
             href = mine.get("claims_href")
             if href and not href.startswith("claims.html?company="):
                 errors.append(f"bad claims href {href}")

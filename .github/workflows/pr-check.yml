@@ -34,7 +34,9 @@ jobs:
             backtest.json \
             insider-follow.json \
             insider-companies.json \
-            canada/commodities.json
+            canada/commodities.json \
+            canada/mine-production.json \
+            scripts/canada-mine-production-sources.json
           do
             echo "json $f"
             python3 -m json.tool "$f" > /dev/null
@@ -135,18 +137,26 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/build_canada_commodities.py
+          python3 -m py_compile scripts/ingest_canada_mine_production.py
           python3 scripts/test_canada_commodities.py
+          python3 scripts/test_canada_mine_production.py
           python3 scripts/test_run_canada_commodities_gate.py
           python3 scripts/run_canada_commodities_gate.py --packet-only
           python3 scripts/build_canada_commodities.py --check
+          python3 scripts/ingest_canada_mine_production.py --check
           test -s scripts/canada-commodities-jev-packet.json
           grep -q 'qc-pr-merge-gate-v1' scripts/canada-commodities-jev-packet.json
           grep -q 'never_invent' scripts/canada-commodities-jev-packet.json
+          grep -q 'company_filing_cited' scripts/canada-commodities-jev-packet.json
           grep -q 'canada.html' beta.html
           grep -q 'canada.html' claims.html
           grep -q './canada.html' sw.js
           grep -q 'canada.html' qc.js
           grep -q 'qc-canada-commodities-v1' canada/commodities.json
+          grep -q 'production_2025' canada/commodities.json
+          grep -q 'qc-canada-mine-production-v1' canada/mine-production.json
+          grep -q '2025 prod' canada.html
+          grep -q 'From company filings where disclosed' canada.html
           grep -q 'claims.html?company=' canada/commodities.json
           grep -q 'function showAllClaims' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js canada.html; then

@@ -29,6 +29,7 @@ python3 build-backtest.py               # stdlib only, ~2.4s, idempotent apart f
 python3 build-insider-repeatable.py     # stdlib only; 30/90/180-day open-market copy ranks
 python3 build-insider-follow.py         # stdlib only; follow list + alerts since last tape
 python3 scripts/build_canada_commodities.py  # monthly; StatCan + NRCan + Map 900A → canada/commodities.json
+python3 scripts/ingest_canada_mine_production.py --apply  # monthly; cited 2025 mine production overlay
 ```
 
 Canadian production is a **monthly** desktop/Cloud job, not a morning/evening bat and not `daily-update`. Optional `--sqlite /path/to/qc.sqlite` (gitignored) and `--jev` (TypeSafe; skipped when the key is absent). `--offline` rebuilds from `scripts/fixtures/canada/`. Gold / silver / platinum / palladium / rhodium (plus platinum-group) are stored as troy ounces (`1 troy oz = 31.1034768 g`).
@@ -64,7 +65,7 @@ When testing changes, do a hard reload or clear the site's caches; a stale servi
 
 - Pages: `index.html`, `politician.html`, `ticker.html`, `signals.html`, `landed.html`, `tells.html`, `paper.html`, `canada.html`, and the `insider*.html` set. Beta chrome: `beta.html` (Mines), `claims.html` (Claims), `canada.html` (Canada).
 - Scripts: `qc.js` (shared app logic), `chart.js`, `refresh.js`, `sw.js`.
-- Data: `trades*.json`, `bios.json`, `tickers.json`, `traders.json`, `analysis.json`, `tells.json`, `backtest.json`, `insider-*.json`, `canada/commodities.json`, and per-ticker `prices/<TICKER>.json`.
+- Data: `trades*.json`, `bios.json`, `tickers.json`, `traders.json`, `analysis.json`, `tells.json`, `backtest.json`, `insider-*.json`, `canada/commodities.json`, `canada/mine-production.json`, and per-ticker `prices/<TICKER>.json`.
 
 ## Data collection
 

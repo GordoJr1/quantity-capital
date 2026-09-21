@@ -1,6 +1,6 @@
 # Canadian commodity production
 
-Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes are confidential and are never stored.
+Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** on a mine row is company-disclosed actuals only (cited URL). Blank / — when not disclosed.
 
 ## Monthly refresh
 
@@ -12,6 +12,11 @@ python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite
 python3 scripts/build_canada_commodities.py --jev
 python3 scripts/build_canada_commodities.py --offline
 python3 scripts/build_canada_commodities.py --check
+python3 scripts/ingest_canada_mine_production.py              # fetch IR / EDGAR; write canada/mine-production.json
+python3 scripts/ingest_canada_mine_production.py --apply      # overlay onto canada/commodities.json
+python3 scripts/ingest_canada_mine_production.py --apply-only # overlay the committed sidecar (no fetch)
+python3 scripts/ingest_canada_mine_production.py --offline
+python3 scripts/ingest_canada_mine_production.py --check
 ```
 
 `--sqlite` is optional (`qc.sqlite` is gitignored). The monthly ingest is deterministic. Jev is only for leftover fuzzy owner→claims-company pairs, via a **one-shot** merge gate (not during every ingest, not in morning/evening bats):
@@ -45,6 +50,19 @@ If a live source is blocked, the builder records a `blockers` entry and can fini
 ## Troy ounces
 
 Gold, silver, platinum, palladium, rhodium, and platinum-group national (and provincial) totals are converted at ingest to troy ounces. Factor: **1 troy ounce = 31.1034768 grams**. Each year uses that year’s published StatCan/NRCan mass unit (NRCan silver is tonnes through 2018, then kilograms; gold is kilograms; PGMs are kilograms on NRCan through 2018 and grams on StatCan). Other commodities keep their source units. `--convert-existing` applies the same conversion to an already-built `canada/commodities.json` without refetching Map 900A. Do not invent mine-level ounces.
+
+## Mine-level 2025 production
+
+`scripts/canada-mine-production-sources.json` is the curated issuer list (IR news, MD&A, AIF, annual, ops update, NI 43-101 **actuals**). The ingest fetches each URL (Quantity Capital User-Agent, 0.2s sleep) and keeps a figure only when the stored quote / `must_contain` strings appear on the page. Coverage is patchy on purpose.
+
+- Precious-metal **oz / ounces** in company reports are stored as **troy oz** (mining ounce = troy ounce). **koz → ×1,000**. kg uses `1 troy oz = 31.1034768 g`.
+- Other commodities keep the source unit (`t`, `Mlb`, …) and the table labels it.
+- Gold is blank when the report only gives AuEq / GEO, or only a complex total (Island Gold District, Canadian Malartic, Porcupine, Snow Lake, Timmins).
+- SEDAR+ is paywalled — do not point this job at it. Use the issuer IR page or an EDGAR exhibit.
+- Jev is optional and only for leftover owner→claims matches / filing-text→mine; deterministic quotes first.
+- Do not commit `qc.sqlite` or secrets. Claims crawls stay out of daily bats.
+
+Typical blockers (also on source rows): paywalled SEDAR+, no mine breakout, pre-production / ramp-up without ounces, fiscal year ≠ calendar 2025, private operator, PGM concentrate without payable gold.
 
 ## Claims links
 

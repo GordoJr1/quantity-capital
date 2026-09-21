@@ -50,7 +50,8 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         "criteria": {
             "never_invent": (
                 "Name, location, owners, products, optional claims deep link. "
-                "Never invent per-mine tonnes, koz, or production."
+                "Never invent per-mine tonnes, koz, or split AuEq. Company-"
+                "disclosed 2025 production may be stored only with a filing URL."
             ),
             "split_national": (
                 "Divide the Canada total equally across Map 900A mines."
@@ -88,13 +89,31 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
             ),
         },
     },
+    "mine_production": {
+        "type": "Choice",
+        "instructions": (
+            "When may a principal-mine row show a 2025 production figure?"
+        ),
+        "criteria": {
+            "company_filing_cited": (
+                "Only when a public company report (MD&A, AIF, annual, ops "
+                "update, NI 43-101 actuals) states that mine's output for the "
+                "selected commodity, with URL/citation. Blank if not disclosed "
+                "or only AuEq / a complex total."
+            ),
+            "split_or_guess": (
+                "Split Canada totals, convert AuEq to gold, or guess ounces."
+            ),
+        },
+    },
     "refresh_cadence": {
         "type": "Choice",
         "instructions": "How should this book refresh?",
         "criteria": {
             "monthly_script": (
-                "python3 scripts/build_canada_commodities.py on a monthly job. "
-                "Not a morning/evening tape bat. Not daily-update."
+                "python3 scripts/build_canada_commodities.py and "
+                "python3 scripts/ingest_canada_mine_production.py --apply "
+                "on a monthly job. Not a morning/evening tape bat. Not daily-update."
             ),
             "morning_bat": (
                 "Add the NRCan/StatCan crawl to the twice-daily Windows bats."
@@ -233,6 +252,15 @@ def build_calls(root: Path) -> list[dict[str, Any]]:
             "state": {"locked_decision": "claims_catalog_only"},
         },
         {
+            "id": "policy:mine_production",
+            "label": "canada_mine_production_v1",
+            "questions": ["mine_production"],
+            "state": {
+                "locked_decision": "company_filing_cited",
+                "do_not": ["invent ounces", "split AuEq", "split complex totals"],
+            },
+        },
+        {
             "id": "policy:refresh_cadence",
             "label": "canada_refresh_cadence_v1",
             "questions": ["refresh_cadence"],
@@ -282,6 +310,7 @@ def build_packet(root: Path) -> dict[str, Any]:
         "gate": {
             "pass_if": [
                 "mine_tonnes choice is never_invent (if Jev ran)",
+                "mine_production choice is company_filing_cited (if Jev ran)",
                 "map_fields choice is name_location_owners_products (if Jev ran)",
                 "claims_href choice is claims_catalog_only (if Jev ran)",
                 "refresh_cadence choice is monthly_script (if Jev ran)",
@@ -431,6 +460,11 @@ def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str
         "mine_tonnes",
         choice("policy:mine_tonnes", "mine_tonnes") in {None, "never_invent"},
         f"choice={choice('policy:mine_tonnes', 'mine_tonnes')}",
+    )
+    add(
+        "mine_production",
+        choice("policy:mine_production", "mine_production") in {None, "company_filing_cited"},
+        f"choice={choice('policy:mine_production', 'mine_production')}",
     )
     add(
         "map_fields",

@@ -163,6 +163,12 @@ jobs:
           grep -q '"brucejack"' beta/newmont.json
           grep -q 'producer-join.json' canada.html
           grep -q 'figureFromJoin' canada.html
+          grep -q 'function ownersHtml' canada.html
+          grep -q 'function splitOwners' canada.html
+          grep -q 'beta.html?id=' canada.html
+          grep -q 'SERIES_PREVIEW' canada.html
+          grep -q 'Show last 5 years' canada.html
+          grep -q 'seriesNewestFirst' canada.html
           grep -q 'qc.sqlite' canada.html
           grep -q '2025 prod' canada.html
           grep -q 'From company filings where disclosed' canada.html

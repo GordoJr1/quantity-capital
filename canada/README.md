@@ -58,7 +58,7 @@ Gold, silver, platinum, palladium, rhodium, and platinum-group national (and pro
 
 **Source of truth is `qc.sqlite`** (`canada_mines`, `canada_mine_production`, `canada_mine_sources`). Export then updates existing Newmont-shaped `beta/<issuer>.json` files (`production[]` / `by_asset` / `assets[]`) and writes `canada/producer-join.json` (mapping + cited commodities for the table). Examples: Blackwater → Artemis Gold; Brucejack → Newmont; Copper Mountain → Hudbay; Dome Mountain → Blue Lagoon (no 2025 ounces disclosed); Elk / Mount Polley stay on the join export only — do not mint `beta/gold-mountain-mining.json` or `beta/imperial-metals.json`.
 
-`canada.html` reads the 2025 column from the sqlite export (`producer-join.json` commodities). Do not hand-maintain a parallel canada-only ounce store. Do not invent dozens of new JSON files.
+`canada.html` reads the 2025 column from the sqlite export (`producer-join.json` commodities). Owner names that resolve to an existing `beta/<issuer>.json` page link to `beta.html?id=…` (same producer page as Mines). Multiple owners split on `/`, `;`, or ` + `; unresolved names stay plain text. The national production-by-year table shows the last 5 years, newest first (2025 at the top), with a control to expand the full series. Do not hand-maintain a parallel canada-only ounce store. Do not invent dozens of new JSON files.
 
 - Precious-metal **oz / ounces** in company reports are troy ounces (mining ounce = troy ounce). Beta pages keep each file's `units.gold` convention (**koz** on Newmont and most producers). The Canada table converts koz → troy oz (×1,000). kg uses `1 troy oz = 31.1034768 g`.
 - Other commodities keep the source unit on by_asset (`copper_t`, `copper_mlb`, `silver_koz`) and the table labels it.

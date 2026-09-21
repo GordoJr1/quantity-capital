@@ -540,6 +540,30 @@
   <script src="chart.js?v=122"></script>
   <script>
     const DASH = "—";
+    const EXTRA_PROD = [
+      ["nickel_kt", "kt Ni"],
+      ["nickel_t", "t Ni"],
+      ["copper_mlb", "Mlb Cu"],
+      ["copper_t", "t Cu"],
+      ["molybdenum_mlb", "Mlb Mo"],
+      ["uranium_mlb", "Mlb U3O8"],
+      ["potash_mt", "Mt KCl"],
+      ["iron_mt", "Mt"],
+      ["diamonds_kct", "kct"],
+      ["silver_koz", "koz Ag"],
+      ["silver_oz", "oz Ag"]
+    ];
+    function extraProdLabel(prod) {
+      if (!prod) return "";
+      return EXTRA_PROD.map(([key, unit]) => {
+        if (prod[key] == null || prod[key] === "") return "";
+        const n = Number(prod[key]);
+        const num = isFinite(n)
+          ? n.toLocaleString("en-CA", { maximumFractionDigits: 2 })
+          : String(prod[key]);
+        return num + " " + unit;
+      }).filter(Boolean).join(" · ");
+    }
     const CLASS_ORDER = [
       ["proven", "Proven"],
       ["probable", "Probable"],
@@ -667,6 +691,13 @@
       if (state.period === "2026-guide") return fmtRange(guideRow(assetId, attr));
       const rec = periodRec(state.period);
       return fmtKoz(kozField(rec && rec.by_asset && rec.by_asset[assetId], attr));
+    }
+    function periodFigure(assetId) {
+      const koz = periodKoz(assetId);
+      if (koz && koz !== DASH) return koz;
+      const rec = periodRec(state.period);
+      const extra = extraProdLabel(rec && rec.by_asset && rec.by_asset[assetId]);
+      return extra || koz;
     }
     function producingIds() {
       return ((profile && profile.assets) || []).filter((a) => a.in_production).map((a) => a.id);
@@ -851,7 +882,7 @@
           "<td>" + ownershipHtml(a) + "</td>" +
           "<td>" + esc(a.operator || DASH) + "</td>" +
           "<td>" + esc(a.mine_type || DASH) + "</td>" +
-          "<td class=\"num\" data-mine=\"" + esc(a.id) + "\" data-koz>" + esc(periodKoz(a.id)) + "</td>" +
+          "<td class=\"num\" data-mine=\"" + esc(a.id) + "\" data-koz>" + esc(periodFigure(a.id)) + "</td>" +
           "<td class=\"num\">" + esc(fmtRange(guideRow(a.id, attr))) + "</td>" +
         "</tr>";
       }).join("");
@@ -1054,7 +1085,9 @@
       }
       document.getElementById("cards").innerHTML = assets.map((a) => {
         const prod = rec && rec.by_asset && rec.by_asset[a.id];
+        const extra = extraProdLabel(prod);
         const bits = [
+          extra ? "<span>2025 " + esc(extra) + "</span>" : "",
           millLine(prod, "mill_kt", "2025 mill", fmtKt),
           millLine(prod, "head_grade_gt", "grade", fmtGt),
           millLine(prod, "recovery_pct", "recovery", fmtPct),
@@ -1094,7 +1127,9 @@
         document.getElementById("lede").textContent =
           comm.charAt(0).toUpperCase() + comm.slice(1) + " producer shell. " +
           (nMines ? nMines + " Map 900A operation" + (nMines === 1 ? "" : "s") + ". " : "") +
-          "No production or reserves until a filing pass. Do not invent ounces.";
+          (meta.filing_backed === true
+            ? "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces."
+            : "No production or reserves until a filing pass. Do not invent ounces.");
       } else if (isClaimsShell()) {
         const role = isExplorer() ? (stage === "developer" ? "developer" : "explorer") : "issuer";
         document.getElementById("lede").textContent =

@@ -1,0 +1,86 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "imperial-metals",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Imperial Metals Corporation",
+    "short": "Imperial Metals",
+    "tickers": [
+      {
+        "symbol": "III.TO",
+        "exchange": "TSX",
+        "chart": "ticker.html?t=III.TO"
+      }
+    ],
+    "hq": "Vancouver, British Columbia, Canada",
+    "commodity": "copper",
+    "website": "https://www.imperialmetals.com"
+  },
+  "method": {
+    "production_basis": "Company-disclosed mine actuals. Gold in koz (troy). Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": 37.555,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": null,
+    "total_koz": null
+  },
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "mount-polley": {
+          "ownership_pct": 100,
+          "koz_100pct": 37.555,
+          "attr_koz": 37.555,
+          "copper_mlb": 30.715,
+          "note": "37,555 ounces of gold"
+        }
+      },
+      "attr_koz": 37.555
+    }
+  ],
+  "assets": [
+    {
+      "id": "mount-polley",
+      "name": "Mount Polley",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "copper",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Imperial Reports 2025 Financial Results",
+      "date": "2026-03-26",
+      "url": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "what": "37,555 ounces of gold"
+    }
+  ],
+  "meta": {
+    "layer": "canada-mine-production",
+    "filing_backed": true
+  }
+}

@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
-"""Ingest company-disclosed 2025 mine production for canada.html.
+"""Ingest company-disclosed 2025 mine production onto beta producer pages.
 
 National StatCan/NRCan totals stay in build_canada_commodities.py.
-This job only attaches **cited** mine-level actuals from public issuer
-reports (news/ops update, MD&A, AIF, annual, NI 43-101 actuals).
+This job fetches curated issuer IR / EDGAR URLs and writes **cited**
+mine-level actuals onto beta/<issuer>.json (Newmont shape: production[]
+period 2025 + by_asset + assets[]). canada.html joins that book.
 
-    python3 scripts/ingest_canada_mine_production.py            # fetch + write sidecar
-    python3 scripts/ingest_canada_mine_production.py --apply    # also overlay commodities.json
+    python3 scripts/ingest_canada_mine_production.py            # fetch + write beta + join
+    python3 scripts/ingest_canada_mine_production.py --apply    # also strip canada overlay
     python3 scripts/ingest_canada_mine_production.py --offline  # fixtures only
     python3 scripts/ingest_canada_mine_production.py --check
     python3 scripts/ingest_canada_mine_production.py --apply-only
 
 Never invent ounces. Never split AuEq / GEO into gold. Never split a
-complex total across Map 900A pits. Leave the cell blank when the filing
-does not name that mine's selected commodity.
+complex total across Map 900A pits. Leave by_asset blank when the filing
+does not name that mine's selected commodity. Match each producer file's
+units.gold (koz on Newmont and most pages).
 
 Not a morning/evening tape bat. Not daily-update. SEDAR+ is paywalled —
 use the issuer IR / EDGAR HTML (or PDF) URLs in the sources book.
@@ -36,16 +38,18 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 import build_canada_commodities as b
+import canada_beta_production as beta
 
 SOURCES = HERE / "canada-mine-production-sources.json"
 OUT = ROOT / "canada" / "mine-production.json"
+JOIN = ROOT / "canada" / "producer-join.json"
 FIXTURES = HERE / "fixtures" / "canada"
 SCHEMA = "qc-canada-mine-production-v1"
 YEAR = 2025
 SLEEP_S = 0.2
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
-    "mine-level output."
+    "mine-level output. Figures live on beta producer pages."
 )
 UNIT_NOTE = (
     "Company reports of gold, silver, platinum, palladium, and rhodium "
@@ -277,7 +281,10 @@ def ingest(
 
 
 def overlay_mines(mines: list[dict[str, Any]], book: dict[str, Any]) -> int:
-    """Attach production fields onto Map 900A mine dicts. Returns hits."""
+    """Attach join pointers only. Figures live on beta/<issuer>.json."""
+    if book.get("schema") == beta.JOIN_SCHEMA:
+        return beta.attach_join_pointers(mines, book)
+    # Legacy sidecar (tests): keep cited overlay for unit tests.
     by_id = book.get("mines") or {}
     hits = 0
     for mine in mines:
@@ -285,16 +292,7 @@ def overlay_mines(mines: list[dict[str, Any]], book: dict[str, Any]) -> int:
         if not rec:
             continue
         comms = rec.get("commodities") or {}
-        # Drop unsourced leftovers if we re-overlay a blank mine.
-        for key in (
-            "production_2025",
-            "production_unit",
-            "production_source",
-            "production_source_title",
-            "production_as_of",
-            "production_quote",
-            "production_blocker",
-        ):
+        for key in beta.PROD_KEYS:
             mine.pop(key, None)
         if comms:
             mine["production_2025"] = {
@@ -319,7 +317,9 @@ def overlay_mines(mines: list[dict[str, Any]], book: dict[str, Any]) -> int:
     return hits
 
 
-def overlay_payload(payload: dict[str, Any], book: dict[str, Any]) -> int:
+def overlay_payload(payload: dict[str, Any], join: dict[str, Any]) -> int:
+    """Strip parallel canada-only figures; attach beta join pointers."""
+    beta.strip_commodities_overlay(payload)
     seen: set[int] = set()
     hits = 0
     groups = [payload.get("mines") or []]
@@ -331,26 +331,18 @@ def overlay_payload(payload: dict[str, Any], book: dict[str, Any]) -> int:
             if ident in seen:
                 continue
             seen.add(ident)
-            before = "production_2025" in mine
-            overlay_mines([mine], book)
-            if "production_2025" in mine or (not before and mine.get("production_blocker")):
+            before = mine.get("beta_id")
+            overlay_mines([mine], join)
+            if mine.get("beta_id") and mine.get("beta_id") != before:
                 hits += 1
     payload["mine_production"] = {
-        "year": book.get("year") or YEAR,
-        "schema": book.get("schema"),
-        "n_with_figure": book.get("n_with_figure"),
-        "n_blank": book.get("n_blank"),
+        "year": join.get("year") or YEAR,
+        "schema": join.get("schema"),
+        "n_linked": join.get("n_linked"),
+        "n_blank": join.get("n_blank"),
         "note": FOOTNOTE,
+        "source": "beta producer pages via canada/producer-join.json",
     }
-    if FOOTNOTE not in (payload.get("disclaimer") or ""):
-        extra = (
-            " Mine-level 2025 production is from company filings where disclosed; "
-            "StatCan/NRCan do not publish mine-level output. Blank is not zero."
-        )
-        payload["disclaimer"] = ((payload.get("disclaimer") or "").rstrip() + extra).strip()
-    note = payload.get("unit_note") or ""
-    if "company filings" not in note.lower():
-        payload["unit_note"] = (note.rstrip() + " " + UNIT_NOTE).strip()
     return hits
 
 
@@ -389,24 +381,25 @@ def validate_book(book: dict[str, Any]) -> list[str]:
 
 
 def validate_overlay(payload: dict[str, Any]) -> list[str]:
+    """Commodities book must not be a parallel figure store."""
     errors: list[str] = []
     gold = next((c for c in payload.get("commodities") or [] if c.get("id") == "gold"), None)
     if not gold:
         return ["gold missing"]
-    n = 0
+    n_beta = 0
     for mine in gold.get("mines") or []:
         prod = mine.get("production_2025")
-        if not prod:
-            continue
-        n += 1
-        if not (mine.get("production_source") or "").startswith("http"):
-            errors.append(f"{mine.get('id')}: overlay without URL")
-        if "gold" in prod and mine.get("production_unit", {}).get("gold") != b.TROY_OZ_UNIT:
-            errors.append(f"{mine.get('id')}: gold overlay not troy oz")
-        if "aueq" in prod or "gold-equivalent" in prod:
-            errors.append(f"{mine.get('id')}: AuEq stored")
-    if n < 5:
-        errors.append(f"gold table needs several cited 2025 figures, have {n}")
+        if prod:
+            errors.append(
+                f"{mine.get('id')}: production_2025 belongs on beta/"
+                " not canada/commodities.json"
+            )
+            if "aueq" in prod or "gold-equivalent" in prod:
+                errors.append(f"{mine.get('id')}: AuEq stored")
+        if mine.get("beta_id"):
+            n_beta += 1
+    if n_beta < 5:
+        errors.append(f"gold table needs several beta join pointers, have {n_beta}")
     return errors
 
 
@@ -417,47 +410,63 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     tmp.replace(path)
 
 
+def write_beta_and_join(
+    book: dict[str, Any],
+    sources_path: Path,
+    *,
+    root: Path,
+    join_path: Path,
+) -> dict[str, Any]:
+    sources_book = load_sources(sources_path)
+    stats = beta.write_beta_profiles(book, sources_book, root=root)
+    join = beta.build_join(book, sources_book)
+    write_json(join_path, join)
+    return {"stats": stats, "join": join}
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", type=Path, default=ROOT)
     p.add_argument("--out", type=Path, default=None)
+    p.add_argument("--join", type=Path, default=None)
     p.add_argument("--sources", type=Path, default=SOURCES)
     p.add_argument("--offline", action="store_true")
     p.add_argument("--check", action="store_true")
-    p.add_argument("--apply", action="store_true", help="Overlay canada/commodities.json after ingest")
-    p.add_argument("--apply-only", action="store_true", help="Overlay from the committed sidecar; no fetch")
+    p.add_argument("--apply", action="store_true", help="Strip canada overlay; write beta + join")
+    p.add_argument("--apply-only", action="store_true", help="Write beta + join from curated quotes; no fetch")
     p.add_argument("--no-fetch", action="store_true", help="Use curated quotes without re-fetching")
     args = p.parse_args(argv)
 
     out = args.out or (args.root / "canada" / "mine-production.json")
+    join_path = args.join or (args.root / "canada" / "producer-join.json")
     comm_path = args.root / "canada" / "commodities.json"
 
     if args.check:
-        book = json.loads(out.read_text(encoding="utf-8"))
-        errors = validate_book(book)
+        errors: list[str] = []
+        if out.exists():
+            book = json.loads(out.read_text(encoding="utf-8"))
+            errors.extend(validate_book(book))
+        if join_path.exists():
+            join = json.loads(join_path.read_text(encoding="utf-8"))
+            errors.extend(beta.validate_join(join, root=args.root))
+        else:
+            errors.append("missing canada/producer-join.json")
         if comm_path.exists():
             payload = json.loads(comm_path.read_text(encoding="utf-8"))
             errors.extend(validate_overlay(payload))
         if errors:
             print("canada mine production check FAIL: " + "; ".join(errors), file=sys.stderr)
             return 1
+        join = json.loads(join_path.read_text(encoding="utf-8"))
         print(
-            f"canada mine production ok schema={book.get('schema')} "
-            f"figures={book.get('n_with_figure')} blank={book.get('n_blank')}"
+            f"canada mine production ok join={join.get('schema')} "
+            f"linked={join.get('n_linked')} blank={join.get('n_blank')}"
         )
         return 0
 
     if args.apply_only:
-        book = json.loads(out.read_text(encoding="utf-8"))
-        payload = json.loads(comm_path.read_text(encoding="utf-8"))
-        hits = overlay_payload(payload, book)
-        errors = validate_book(book) + validate_overlay(payload)
-        write_json(comm_path, payload)
-        print(f"overlaid {hits} mine rows from {out}")
-        if errors:
-            print("validate: " + "; ".join(errors), file=sys.stderr)
-            return 1
-        return 0
+        args.no_fetch = True
+        args.apply = True
 
     book = ingest(
         root=args.root,
@@ -471,17 +480,27 @@ def main(argv: list[str] | None = None) -> int:
         f"wrote {out} figures={book['n_with_figure']} blank={book['n_blank']} "
         f"sources={book['n_sources']}"
     )
+    written = write_beta_and_join(
+        book, args.sources, root=args.root, join_path=join_path,
+    )
+    join = written["join"]
+    stats = written["stats"]
+    print(
+        f"wrote {join_path} linked={join['n_linked']} blank={join['n_blank']} "
+        f"beta={stats['n_written']} created={stats['created']}"
+    )
+    errors.extend(beta.validate_join(join, root=args.root))
     if book.get("blockers"):
         print("blockers: " + " | ".join(book["blockers"][:8]))
         if len(book["blockers"]) > 8:
             print(f"... {len(book['blockers']) - 8} more")
 
-    if args.apply:
+    if args.apply and comm_path.exists():
         payload = json.loads(comm_path.read_text(encoding="utf-8"))
-        hits = overlay_payload(payload, book)
+        hits = overlay_payload(payload, join)
         errors.extend(validate_overlay(payload))
         write_json(comm_path, payload)
-        print(f"overlaid {hits} mine rows on {comm_path}")
+        print(f"joined {hits} mine rows on {comm_path} (figures stay on beta/)")
 
     if errors:
         print("validate: " + "; ".join(errors), file=sys.stderr)

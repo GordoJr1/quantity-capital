@@ -2,7 +2,7 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "C",
   "pr_topic": "canadian commodity production + Map 900A mines",
-  "generated": "2026-09-21T00:15:52Z",
+  "generated": "2026-09-21T00:30:36Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
@@ -47,7 +47,7 @@
       "type": "Choice",
       "instructions": "When may a principal-mine row show a 2025 production figure?",
       "criteria": {
-        "company_filing_cited": "Only when a public company report (MD&A, AIF, annual, ops update, NI 43-101 actuals) states that mine's output for the selected commodity, with URL/citation. Blank if not disclosed or only AuEq / a complex total.",
+        "company_filing_cited": "Only when a public company report (MD&A, AIF, annual, ops update, NI 43-101 actuals) states that mine's output for the selected commodity, written onto the issuer's beta/<company>.json (Newmont-shaped production[] / by_asset) with URL/citation. Canada table joins that page. Blank if not disclosed or only AuEq / a complex total.",
         "split_or_guess": "Split Canada totals, convert AuEq to gold, or guess ounces."
       }
     },
@@ -55,7 +55,7 @@
       "type": "Choice",
       "instructions": "How should this book refresh?",
       "criteria": {
-        "monthly_script": "python3 scripts/build_canada_commodities.py and python3 scripts/ingest_canada_mine_production.py --apply on a monthly job. Not a morning/evening tape bat. Not daily-update.",
+        "monthly_script": "python3 scripts/build_canada_commodities.py and python3 scripts/ingest_canada_mine_production.py --apply (writes beta/<issuer>.json + canada/producer-join.json) on a monthly job. Not a morning/evening tape bat. Not daily-update.",
         "morning_bat": "Add the NRCan/StatCan crawl to the twice-daily Windows bats."
       }
     },

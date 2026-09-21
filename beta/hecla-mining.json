@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,11 +27,11 @@
     "watchlist_type": "Producer, Mid-tier"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
-    "attr_koz_2025": null,
+    "attr_koz_2025": 91.16,
     "attr_pp_koz": null,
     "attr_mi_incl_koz": null,
     "attr_inf_koz": null,
@@ -46,8 +46,32 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "casa-berardi": {
+          "ownership_pct": 100,
+          "koz_100pct": 91.16,
+          "attr_koz": 91.16
+        }
+      },
+      "attr_koz": 91.16
+    }
+  ],
+  "assets": [
+    {
+      "id": "casa-berardi",
+      "name": "Casa Berardi",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -57,6 +81,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)",
+      "date": "2026-02-12",
+      "url": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+      "what": "Casa Berardi, ounces"
     }
   ],
   "meta": {
@@ -65,6 +95,6 @@
     "mcap_rank": 75,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true
   }
 }

@@ -98,8 +98,10 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
             "company_filing_cited": (
                 "Only when a public company report (MD&A, AIF, annual, ops "
                 "update, NI 43-101 actuals) states that mine's output for the "
-                "selected commodity, with URL/citation. Blank if not disclosed "
-                "or only AuEq / a complex total."
+                "selected commodity, written onto the issuer's beta/"
+                "<company>.json (Newmont-shaped production[] / by_asset) "
+                "with URL/citation. Canada table joins that page. Blank if "
+                "not disclosed or only AuEq / a complex total."
             ),
             "split_or_guess": (
                 "Split Canada totals, convert AuEq to gold, or guess ounces."
@@ -113,6 +115,7 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
             "monthly_script": (
                 "python3 scripts/build_canada_commodities.py and "
                 "python3 scripts/ingest_canada_mine_production.py --apply "
+                "(writes beta/<issuer>.json + canada/producer-join.json) "
                 "on a monthly job. Not a morning/evening tape bat. Not daily-update."
             ),
             "morning_bat": (

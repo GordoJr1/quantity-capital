@@ -2,9 +2,9 @@
 """Build static Canadian commodity production + Map 900A mine roster JSON.
 
 National (and optional provincial) aggregates only. Mine-level tonnes from
-StatCan/NRCan are not published and are never invented. Optional 2025
-mine production is overlaid from canada/mine-production.json (company
-filings only).
+StatCan/NRCan are not published and are never invented. Mine-level 2025
+production lives on beta/<issuer>.json (company filings). This builder
+only attaches a thin join pointer.
 
 Precious metals (gold, silver, platinum, palladium, rhodium, and the
 platinum-group aggregate) are converted at ingest to troy ounces using
@@ -358,7 +358,7 @@ UNIT_NOTE = (
     "are troy ounces converted at ingest from the published StatCan/NRCan "
     "mass unit for that year (1 troy oz = 31.1034768 grams). Other "
     "commodities keep their source units. Mine-level 2025 production is "
-    "attached only from a cited company filing (see canada/mine-production.json); "
+    "read from beta producer pages (see canada/producer-join.json); "
     "StatCan/NRCan do not publish mine-level output."
 )
 
@@ -1185,8 +1185,8 @@ def rows_to_commodities(
 
 
 def overlay_mine_production(mines: list[dict[str, Any]], root: Path) -> int:
-    """Attach cited 2025 figures from canada/mine-production.json. Never invent."""
-    path = root / "canada" / "mine-production.json"
+    """Attach beta join pointers. Figures stay on beta/<issuer>.json."""
+    path = root / "canada" / "producer-join.json"
     if not path.exists():
         return 0
     try:

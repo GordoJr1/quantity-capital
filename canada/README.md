@@ -1,6 +1,6 @@
 # Canadian commodity production
 
-Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** on a mine row is company-disclosed actuals only (cited URL). Blank / — when not disclosed.
+Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** is company-disclosed actuals on the matching `beta/<issuer>.json` producer page (Newmont shape). The Canada table joins that book. Blank / — when not disclosed.
 
 ## Monthly refresh
 
@@ -12,9 +12,9 @@ python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite
 python3 scripts/build_canada_commodities.py --jev
 python3 scripts/build_canada_commodities.py --offline
 python3 scripts/build_canada_commodities.py --check
-python3 scripts/ingest_canada_mine_production.py              # fetch IR / EDGAR; write canada/mine-production.json
-python3 scripts/ingest_canada_mine_production.py --apply      # overlay onto canada/commodities.json
-python3 scripts/ingest_canada_mine_production.py --apply-only # overlay the committed sidecar (no fetch)
+python3 scripts/ingest_canada_mine_production.py              # fetch IR / EDGAR; write beta pages + join
+python3 scripts/ingest_canada_mine_production.py --apply      # also strip canada-only figure overlay
+python3 scripts/ingest_canada_mine_production.py --apply-only # curated quotes, no fetch; write beta + join
 python3 scripts/ingest_canada_mine_production.py --offline
 python3 scripts/ingest_canada_mine_production.py --check
 ```
@@ -36,7 +36,7 @@ TypeSafe key locations (never commit or paste the key):
 - Desktop: `C:\Users\gordo\.grok\typesafe.env` (also `~/.grok/typesafe.env`)
 - Box: `source /home/box/shared/typesafe/env`
 
-Writes `canada/commodities.json`. User-Agent: `Quantity Capital gordojr@proton.me`. Sleeps 0.15s between NRCan year pages.
+Writes `canada/commodities.json` (national + Map 900A roster). Mine-level 2025 ounces are written to `beta/<issuer>.json` and joined via `canada/producer-join.json`. User-Agent: `Quantity Capital gordojr@proton.me`. Sleeps 0.15s between NRCan year pages.
 
 ## Sources
 
@@ -55,9 +55,14 @@ Gold, silver, platinum, palladium, rhodium, and platinum-group national (and pro
 
 `scripts/canada-mine-production-sources.json` is the curated issuer list (IR news, MD&A, AIF, annual, ops update, NI 43-101 **actuals**). The ingest fetches each URL (Quantity Capital User-Agent, 0.2s sleep) and keeps a figure only when the stored quote / `must_contain` strings appear on the page. Coverage is patchy on purpose.
 
-- Precious-metal **oz / ounces** in company reports are stored as **troy oz** (mining ounce = troy ounce). **koz → ×1,000**. kg uses `1 troy oz = 31.1034768 g`.
-- Other commodities keep the source unit (`t`, `Mlb`, …) and the table labels it.
-- Gold is blank when the report only gives AuEq / GEO, or only a complex total (Island Gold District, Canadian Malartic, Porcupine, Snow Lake, Timmins).
+**Source of truth is the beta producer page**, same shape as `beta/newmont.json`: `production[]` with `period: "2025"`, `kind: "annual"`, `attr_koz`, and `by_asset` per mine id, plus `assets[]`. Examples: Blackwater → Artemis Gold; Brucejack → Newmont; Copper Mountain → Hudbay; Dome Mountain → Blue Lagoon (asset only — no 2025 ounces disclosed); Elk → Gold Mountain (FY ≠ calendar 2025, no by_asset).
+
+`canada/producer-join.json` maps Map 900A `mine_id` → `beta_id` / `asset_id`. `canada.html` reads the 2025 column from those producer files. Do not hand-maintain a parallel canada-only ounce store.
+
+- Precious-metal **oz / ounces** in company reports are troy ounces (mining ounce = troy ounce). Beta pages keep each file's `units.gold` convention (**koz** on Newmont and most producers). The Canada table converts koz → troy oz (×1,000). kg uses `1 troy oz = 31.1034768 g`.
+- Other commodities keep the source unit on by_asset (`copper_t`, `copper_mlb`, `silver_koz`) and the table labels it.
+- Gold is blank when the report only gives AuEq / GEO, or only a complex total (Island Gold District, Canadian Malartic, Porcupine, Snow Lake, Timmins). Complex totals already on a producer page (e.g. Alamos `island-gold-district`) are not copied onto Map 900A pit rows.
+- Existing filing-backed by_asset rows are not overwritten. Missing Canadian assets / 2025 slots are added.
 - SEDAR+ is paywalled — do not point this job at it. Use the issuer IR page or an EDGAR exhibit.
 - Jev is optional and only for leftover owner→claims matches / filing-text→mine; deterministic quotes first.
 - Do not commit `qc.sqlite` or secrets. Claims crawls stay out of daily bats.

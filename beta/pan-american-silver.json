@@ -52,7 +52,19 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "timmins",
+      "name": "Timmins",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "Ontario",
+      "location_note": "Pan American reports Timmins (Bell Creek + Timmins West) 103,600 oz. No mine split."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []

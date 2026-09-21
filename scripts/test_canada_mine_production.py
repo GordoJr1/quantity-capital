@@ -13,6 +13,7 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 import build_canada_commodities as b
+import canada_beta_production as beta
 import ingest_canada_mine_production as ing
 
 ROOT = HERE.parent
@@ -178,6 +179,151 @@ class BuildOverlayHook(unittest.TestCase):
         self.assertEqual(valentine["production_2025"]["gold"], 23816)
         errors = b.validate_payload(payload)
         self.assertEqual(errors, [])
+
+
+class BetaProducerTests(unittest.TestCase):
+    def test_koz_roundtrip(self) -> None:
+        profile = {"units": {"gold": "koz"}}
+        koz = beta.troy_to_profile_gold(192808, profile)
+        self.assertEqual(koz, 192.808)
+        self.assertEqual(beta.profile_gold_to_troy(koz, profile), 192808)
+
+    def test_figure_prefers_100pct(self) -> None:
+        profile = {
+            "units": {"gold": "koz"},
+            "production": [{
+                "period": "2025",
+                "kind": "annual",
+                "by_asset": {
+                    "red-chris": {"attr_koz": 62, "koz_100pct": 89, "ownership_pct": 70},
+                },
+            }],
+        }
+        fig = beta.figure_for_table(profile, "red-chris", "gold")
+        self.assertEqual(fig["value"], 89000)
+        self.assertEqual(fig["unit"], "troy oz")
+
+    def test_write_does_not_overwrite_newmont_brucejack(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            newmont = json.loads((ROOT / "beta" / "newmont.json").read_text(encoding="utf-8"))
+            (root / "beta" / "newmont.json").write_text(
+                json.dumps(newmont), encoding="utf-8"
+            )
+            book = {
+                "mines": {
+                    "brucejack": {
+                        "mine_name": "Brucejack",
+                        "commodities": {
+                            "gold": {"value": 231000, "unit": "troy oz", "quote": "231"}
+                        },
+                        "production_source": "https://example.test/nem",
+                        "production_source_title": "Newmont stats",
+                    }
+                }
+            }
+            sources = {"mines": [{
+                "mine_id": "brucejack",
+                "mine_name": "Brucejack",
+                "beta_id": "newmont",
+                "asset_id": "brucejack",
+                "url": "https://example.test/nem",
+                "title": "Newmont stats",
+            }]}
+            beta.write_beta_profiles(book, sources, root=root)
+            after = json.loads((root / "beta" / "newmont.json").read_text(encoding="utf-8"))
+            rec = beta.annual_2025(after)
+            self.assertEqual(rec["by_asset"]["brucejack"]["attr_koz"], 231)
+            self.assertIn("lihir", rec["by_asset"])
+            self.assertEqual(rec["attr_koz"], newmont["production"][0]["attr_koz"])
+
+    def test_write_fills_empty_shell(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            shell = json.loads((ROOT / "beta" / "hudbay-minerals.json").read_text(encoding="utf-8"))
+            (root / "beta" / "hudbay-minerals.json").write_text(
+                json.dumps(shell), encoding="utf-8"
+            )
+            book = {
+                "mines": {
+                    "copper-mountain": {
+                        "mine_name": "Copper Mountain",
+                        "commodities": {
+                            "gold": {"value": 20001, "unit": "troy oz", "quote": "20,001"},
+                            "copper": {"value": 23784, "unit": "t", "quote": "23,784"},
+                        },
+                        "production_source": "https://example.test/hbm",
+                        "production_source_title": "Hudbay 2025",
+                    }
+                }
+            }
+            sources = {"mines": [{
+                "mine_id": "copper-mountain",
+                "mine_name": "Copper Mountain",
+                "url": "https://example.test/hbm",
+                "title": "Hudbay 2025",
+            }]}
+            beta.write_beta_profiles(book, sources, root=root)
+            after = json.loads((root / "beta" / "hudbay-minerals.json").read_text(encoding="utf-8"))
+            rec = beta.annual_2025(after)
+            row = rec["by_asset"]["copper-mountain"]
+            self.assertEqual(row["attr_koz"], 20.001)
+            self.assertEqual(row["copper_t"], 23784)
+            self.assertTrue(any(a["id"] == "copper-mountain" for a in after["assets"]))
+            fig = beta.figure_for_table(after, "copper-mountain", "gold")
+            self.assertEqual(fig["value"], 20001)
+            self.assertEqual(beta.figure_for_table(after, "copper-mountain", "copper")["unit"], "t")
+
+    def test_join_has_no_ounces(self) -> None:
+        book = {
+            "mines": {
+                "blackwater": {
+                    "mine_name": "Blackwater",
+                    "commodities": {"gold": {"value": 192808, "unit": "troy oz"}},
+                    "production_source": "https://example.test/artg",
+                },
+                "elk": {"mine_name": "Elk", "blocker": "fiscal year", "commodities": {}},
+            }
+        }
+        sources = {"mines": [
+            {"mine_id": "blackwater", "mine_name": "Blackwater", "url": "https://example.test/artg"},
+            {"mine_id": "elk", "mine_name": "Elk", "blocker": "fiscal year"},
+        ]}
+        join = beta.build_join(book, sources)
+        self.assertEqual(join["schema"], beta.JOIN_SCHEMA)
+        self.assertEqual(join["mines"]["blackwater"]["beta_id"], "artemis-gold")
+        self.assertEqual(join["mines"]["blackwater"]["asset_id"], "blackwater")
+        self.assertNotIn("attr_koz", join["mines"]["blackwater"])
+        self.assertNotIn("value", join["mines"]["blackwater"])
+        self.assertTrue(join["mines"]["elk"]["blocker"])
+
+    def test_complex_total_not_written_to_pit(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            alamos = json.loads((ROOT / "beta" / "alamos-gold.json").read_text(encoding="utf-8"))
+            (root / "beta" / "alamos-gold.json").write_text(json.dumps(alamos), encoding="utf-8")
+            book = {
+                "mines": {
+                    "island-gold-island-gold-district": {
+                        "mine_name": "Island Gold",
+                        "blocker": "complex total",
+                        "commodities": {},
+                    }
+                }
+            }
+            sources = {"mines": [{
+                "mine_id": "island-gold-island-gold-district",
+                "mine_name": "Island Gold",
+                "blocker": "complex total",
+            }]}
+            beta.write_beta_profiles(book, sources, root=root)
+            after = json.loads((root / "beta" / "alamos-gold.json").read_text(encoding="utf-8"))
+            rec = beta.annual_2025(after)
+            self.assertNotIn("island-gold-island-gold-district", rec["by_asset"])
+            self.assertIn("island-gold-district", rec["by_asset"])
 
 
 if __name__ == "__main__":

@@ -2100,6 +2100,7 @@
         const hit = all.find((r) => r.id === wantId) || all.find((r) => r.id === targetId);
         if (hit) file = hit.file;
         if (!file && claimHit) file = claimHit.file;
+        if (!file && wantId && /^[a-z0-9-]+$/.test(wantId)) file = "beta/" + wantId + ".json";
       }
       if (!file) {
         const list = pickerRows();

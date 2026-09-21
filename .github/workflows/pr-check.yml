@@ -140,12 +140,15 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/build_canada_commodities.py
+          python3 -m py_compile scripts/build_canada_owner_beta_shells.py
           python3 -m py_compile scripts/ingest_canada_mine_production.py scripts/canada_beta_production.py scripts/qc_sqlite/canada_mines.py
           python3 scripts/test_canada_commodities.py
+          python3 scripts/test_build_canada_owner_beta_shells.py
           python3 scripts/test_canada_mine_production.py
           python3 scripts/test_run_canada_commodities_gate.py
           python3 scripts/run_canada_commodities_gate.py --packet-only
           python3 scripts/build_canada_commodities.py --check
+          python3 scripts/build_canada_owner_beta_shells.py --check
           python3 scripts/ingest_canada_mine_production.py --check
           test -s scripts/canada-commodities-jev-packet.json
           grep -q 'qc-pr-merge-gate-v1' scripts/canada-commodities-jev-packet.json
@@ -176,8 +179,17 @@ jobs:
           grep -q 'CREATE TABLE IF NOT EXISTS canada_mine_production' scripts/qc_sqlite/schema.sql
           grep -q 'qc.sqlite' .gitignore
           test ! -e canada/mine-production.json
-          test ! -e beta/gold-mountain-mining.json
-          test ! -e beta/imperial-metals.json
+          test -e beta/gold-mountain-mining.json
+          test -e beta/imperial-metals.json
+          test -e beta/vale.json
+          test -e beta/amrize.json
+          test -e beta/canada-owners.json
+          grep -q 'Vale Canada Limited' scripts/canada-owner-aliases.json
+          grep -q '"vale"' scripts/canada-owner-aliases.json
+          grep -q 'beta/canada-owners.json' canada.html
+          grep -q 'beta/mcap.json' canada.html
+          grep -q 'qc-beta-canada-owners-v1' beta/canada-owners.json
+          grep -q 'beta.html?id=vale' canada/commodities.json
           grep -q 'claims.html?company=' canada/commodities.json
           grep -q 'function showAllClaims' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js canada.html; then

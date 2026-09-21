@@ -32,6 +32,8 @@ python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite  # optio
 python3 scripts/build_canada_commodities.py --jev        # optional one-shot TypeSafe; key from env / ~/.grok/typesafe.env / box typesafe/env
 python3 scripts/build_canada_commodities.py --offline    # fixtures only (CI / blocked network)
 python3 scripts/build_canada_commodities.py --check
+python3 scripts/build_canada_owner_beta_shells.py              # owner aliases + Vale-style beta shells
+python3 scripts/build_canada_owner_beta_shells.py --check
 python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply   # cited 2025 mine ounces → sqlite → thin export
 python3 scripts/ingest_canada_mine_production.py --check
 ```

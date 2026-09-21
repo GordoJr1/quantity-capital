@@ -1,0 +1,106 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "st-marys-cement",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "St. Marys Cement Inc.",
+    "short": "St. Marys Cement Inc.",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "limestone",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "mcinnis",
+      "name": "McInnis",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Port-Daniel–Gascons",
+      "location_note": "Port-Daniel–Gascons, Quebec",
+      "lat": 48.186869,
+      "lon": -64.918672,
+      "operator": "St. Marys Cement Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "bowmanville",
+      "name": "Bowmanville",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Bowmanville",
+      "location_note": "Bowmanville, Ontario",
+      "lat": 43.8845,
+      "lon": -78.6946,
+      "operator": "St Marys CBM (Canada) Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "st-marys",
+      "name": "St Marys",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "St. Marys",
+      "location_note": "St. Marys, Ontario",
+      "lat": 43.2483,
+      "lon": -81.1588,
+      "operator": "St Marys CBM (Canada) Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

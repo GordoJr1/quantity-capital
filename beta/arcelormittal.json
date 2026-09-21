@@ -1,0 +1,102 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "arcelormittal",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "ArcelorMittal S.A.",
+    "short": "ArcelorMittal S.A.",
+    "tickers": [
+      {
+        "symbol": "MT",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=MT"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "iron-ore",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 54574585041,
+    "market_cap_usd": 54574585041,
+    "market_cap_cur": "USD",
+    "shares": 752441542,
+    "px": 72.53,
+    "price_asof": "2026-09-18"
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "mont-wright",
+      "name": "Mont-Wright",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "iron-ore",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Fermont",
+      "location_note": "Fermont, Quebec",
+      "lat": 52.757053,
+      "lon": -67.330058,
+      "operator": "ArcelorMittal S.A.",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "fire-lake",
+      "name": "Fire Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "iron-ore",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Fermont",
+      "location_note": "Fermont, Quebec",
+      "lat": 52.352998,
+      "lon": -67.363935,
+      "operator": "ArcelorMittal S.A.",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

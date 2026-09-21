@@ -1,0 +1,90 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "tata-steel-minerals",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Tata Steel Minerals Canada Limited",
+    "short": "Tata Steel Minerals Canada Limited",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "iron-ore",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "dso-3-and-4",
+      "name": "DSO (3 and 4)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "iron-ore",
+      "country": "Canada",
+      "region": "Newfoundland and Labrador",
+      "nearest": "Menihek",
+      "location_note": "Menihek, Newfoundland and Labrador",
+      "lat": 54.890828,
+      "lon": -67.081916,
+      "operator": "Tata Steel Minerals Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "dso-goodwood",
+      "name": "DSO (Goodwood)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "iron-ore",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Schefferville",
+      "location_note": "Schefferville, Quebec",
+      "lat": 55.09939,
+      "lon": -67.34778,
+      "operator": "Tata Steel Minerals Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

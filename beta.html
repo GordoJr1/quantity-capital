@@ -1089,7 +1089,13 @@
       const comm = (iss.commodity || (row && row.commodity) || "gold");
       const nAssets = ((profile && profile.assets) || []).length;
       const stage = (profile && profile.stage) || (row && row.stage) || "";
-      if (isClaimsShell()) {
+      const meta = (profile && profile.meta) || {};
+      if (meta.layer === "canada-owner" || meta.layer === "mcap-top200" || meta.layer === "mcap-watchlist") {
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " producer shell. " +
+          (nMines ? nMines + " Map 900A operation" + (nMines === 1 ? "" : "s") + ". " : "") +
+          "No production or reserves until a filing pass. Do not invent ounces.";
+      } else if (isClaimsShell()) {
         const role = isExplorer() ? (stage === "developer" ? "developer" : "explorer") : "issuer";
         document.getElementById("lede").textContent =
           comm.charAt(0).toUpperCase() + comm.slice(1) + " " + role +

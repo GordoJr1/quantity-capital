@@ -1,0 +1,198 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "amrize",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Amrize Ltd.",
+    "short": "Amrize Ltd.",
+    "tickers": [
+      {
+        "symbol": "AMRZ",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=AMRZ"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "limestone",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 20531588676,
+    "market_cap_usd": 20531588676,
+    "market_cap_cur": "USD",
+    "shares": 546925644,
+    "px": 37.54,
+    "price_asof": "2026-09-18"
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "brookfield",
+      "name": "Brookfield",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Nova Scotia",
+      "nearest": "Brookfield",
+      "location_note": "Brookfield, Nova Scotia",
+      "lat": 45.2399,
+      "lon": -63.3352,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "saint-constant",
+      "name": "Saint-Constant",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Saint-Constant",
+      "location_note": "Saint-Constant, Quebec",
+      "lat": 45.343972,
+      "lon": -73.524931,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "bath",
+      "name": "Bath",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Bath",
+      "location_note": "Bath, Ontario",
+      "lat": 44.17086,
+      "lon": -76.809138,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "dundas",
+      "name": "Dundas",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Dundas",
+      "location_note": "Dundas, Ontario",
+      "lat": 43.291518,
+      "lon": -80.008396,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "meldrum-bay",
+      "name": "Meldrum Bay",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Manitoulin Island",
+      "location_note": "Manitoulin Island, Ontario",
+      "lat": 45.909662,
+      "lon": -83.220727,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "exshaw",
+      "name": "Exshaw",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Alberta",
+      "nearest": "Exshaw",
+      "location_note": "Exshaw, Alberta",
+      "lat": 51.059442,
+      "lon": -115.171606,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "falkland",
+      "name": "Falkland",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gypsum",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Falkland",
+      "location_note": "Falkland, British Columbia",
+      "lat": 50.510392,
+      "lon": -119.552465,
+      "operator": "Amrize Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "texada",
+      "name": "Texada",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Texada Island",
+      "location_note": "Texada Island, British Columbia",
+      "lat": 49.718975,
+      "lon": -124.568565,
+      "operator": "Texada Quarrying Ltd. (Amrize AG)",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

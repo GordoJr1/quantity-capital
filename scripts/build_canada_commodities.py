@@ -1200,6 +1200,49 @@ def overlay_mine_production(mines: list[dict[str, Any]], root: Path) -> int:
     return overlay_mines(mines, book)
 
 
+def apply_beta_owner_links(mines: list[dict[str, Any]], root: Path) -> int:
+    """Attach beta.html?id= owner links without minting claims hrefs."""
+    idx = load_owner_aliases()
+    canada_owners = root / "beta" / "canada-owners.json"
+    if canada_owners.exists():
+        try:
+            extra = json.loads(canada_owners.read_text(encoding="utf-8-sig"))
+        except json.JSONDecodeError:
+            extra = {}
+        for row in extra.get("issuers") or []:
+            cid = row.get("id")
+            if not cid:
+                continue
+            for name in [row.get("name"), cid.replace("-", " ")] + list(row.get("names") or []):
+                if not name:
+                    continue
+                idx.setdefault(fold(name), cid)
+                ck = core_key(name)
+                if ck and len(ck.split()) >= 2:
+                    idx.setdefault(ck, cid)
+    n = 0
+    for mine in mines:
+        raw = mine.get("owners") or ""
+        parts = split_owners(raw) or ([raw] if raw else [])
+        links = []
+        first = mine.get("beta_id")
+        for part in parts:
+            cid, _how = match_owner(part, idx, {})
+            if cid and not (root / "beta" / f"{cid}.json").exists():
+                cid = None
+            href = f"beta.html?id={cid}" if cid else None
+            links.append({"name": part, "beta_id": cid, "href": href})
+            if cid and not first:
+                first = cid
+        if first and (root / "beta" / f"{first}.json").exists():
+            mine.setdefault("beta_id", first)
+            mine.setdefault("beta_href", f"beta.html?id={first}")
+            n += 1
+        if links:
+            mine["owner_links"] = links
+    return n
+
+
 def attach_statcan_provinces(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Fold province GEO rows onto Canada quantity rows for the same year/product."""
     provinces: dict[tuple[int, str], dict[str, float]] = defaultdict(dict)
@@ -1330,6 +1373,7 @@ def build_payload(
         link_mine(m, catalog, name_idx, mine_idx, use_jev=use_jev) for m in mines_raw
     ]
     overlay_mine_production(linked, root)
+    apply_beta_owner_links(linked, root)
 
     years_have = sorted({r["year"] for r in production_rows if r.get("geo") == "Canada"})
     if years_have:
@@ -1371,6 +1415,7 @@ def build_payload(
         "blockers": blockers,
         "n_mines": len(linked),
         "n_linked": sum(1 for m in linked if m.get("claims_company")),
+        "n_beta_linked": sum(1 for m in linked if m.get("beta_href")),
         "mines": linked,
         "commodities": commodities,
     }
@@ -1431,6 +1476,12 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
                 errors.append(f"claims href for non-catalog id {cid}")
             if mine.get("owners") == "Vale Canada Limited" and mine.get("claims_company") == "canada-nickel":
                 errors.append("Vale Canada must not link to canada-nickel")
+            if mine.get("owners") == "Vale Canada Limited":
+                if mine.get("beta_id") != "vale" or mine.get("beta_href") != "beta.html?id=vale":
+                    errors.append("Vale Canada Limited must link to beta.html?id=vale")
+            href = mine.get("beta_href")
+            if href and not href.startswith("beta.html?id="):
+                errors.append(f"bad beta href {href}")
     return errors
 
 

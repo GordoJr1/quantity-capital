@@ -1,5 +1,374 @@
 {
   "schema": "qc-canada-owner-aliases-v1",
-  "note": "Deterministic extras plus one-shot Jev same_entity rows. Do not put secrets here.",
-  "aliases": []
+  "note": "Deterministic Map 900A operator → beta id. Includes Canada subsidiaries (Vale Canada Limited → vale) and minted stubs. Do not put secrets here.",
+  "aliases": [
+    {
+      "owner": "Agnico Eagle Mines Limited",
+      "company_id": "agnico-eagle"
+    },
+    {
+      "owner": "Alamos Gold Inc.",
+      "company_id": "alamos-gold"
+    },
+    {
+      "owner": "Amrize Ltd.",
+      "company_id": "amrize"
+    },
+    {
+      "owner": "ArcelorMittal S.A.",
+      "company_id": "arcelormittal"
+    },
+    {
+      "owner": "Artemis Gold Inc.",
+      "company_id": "artemis-gold"
+    },
+    {
+      "owner": "B2Gold Corp.",
+      "company_id": "b2gold"
+    },
+    {
+      "owner": "Baffinland Iron Mines Corporation",
+      "company_id": "baffinland"
+    },
+    {
+      "owner": "Barrick Gold Corporation",
+      "company_id": "barrick"
+    },
+    {
+      "owner": "Baymag Inc.",
+      "company_id": "baymag"
+    },
+    {
+      "owner": "Blue Lagoon Resources Inc.",
+      "company_id": "blue-lagoon-resources"
+    },
+    {
+      "owner": "Boreal Agrominerals Inc.",
+      "company_id": "boreal-agrominerals"
+    },
+    {
+      "owner": "Brookville Manufacturing Company",
+      "company_id": "brookville-manufacturing"
+    },
+    {
+      "owner": "Burgundy Diamond Mines",
+      "company_id": "burgundy-diamond"
+    },
+    {
+      "owner": "BURNCO Rock Products Ltd.",
+      "company_id": "burnco"
+    },
+    {
+      "owner": "Béton Provincial Ltée",
+      "company_id": "beton-provincial"
+    },
+    {
+      "owner": "Cameco Corporation",
+      "company_id": "cameco"
+    },
+    {
+      "owner": "Canadian Royalties Inc.",
+      "company_id": "canadian-royalties"
+    },
+    {
+      "owner": "Canadian Wollastonite",
+      "company_id": "canadian-wollastonite"
+    },
+    {
+      "owner": "Carmeuse Lime (Canada) Limited",
+      "company_id": "carmeuse"
+    },
+    {
+      "owner": "Carrière d’Acton Vale Ltée",
+      "company_id": "carriere-d-acton-vale"
+    },
+    {
+      "owner": "Centerra Gold Inc.",
+      "company_id": "centerra-gold"
+    },
+    {
+      "owner": "CertainTeed Gypsum Canada Inc.",
+      "company_id": "certainteed-gypsum"
+    },
+    {
+      "owner": "CGC Inc.",
+      "company_id": "cgc"
+    },
+    {
+      "owner": "Champion Iron Ltd.",
+      "company_id": "champion-iron"
+    },
+    {
+      "owner": "Ciment Québec inc.",
+      "company_id": "ciment-quebec"
+    },
+    {
+      "owner": "Coalspur Mines Limited",
+      "company_id": "coalspur"
+    },
+    {
+      "owner": "Compass Minerals Canada Corporation",
+      "company_id": "compass-minerals"
+    },
+    {
+      "owner": "Conuma Coal Resources Ltd.",
+      "company_id": "conuma-coal"
+    },
+    {
+      "owner": "Covia Canada Ltd.",
+      "company_id": "covia"
+    },
+    {
+      "owner": "CRH Canada Group Inc.",
+      "company_id": "crh"
+    },
+    {
+      "owner": "CST Canada Coal Limited",
+      "company_id": "cst-canada-coal"
+    },
+    {
+      "owner": "De Beers Canada Inc.",
+      "company_id": "anglo-american"
+    },
+    {
+      "owner": "Demix Agrégats",
+      "company_id": "demix-agregats"
+    },
+    {
+      "owner": "Dhilmar Ltd.",
+      "company_id": "dhilmar"
+    },
+    {
+      "owner": "Discovery Silver Corp.",
+      "company_id": "discovery-mining"
+    },
+    {
+      "owner": "E.C. King Contracting Ltd. (Miller Paving Co.)",
+      "company_id": "miller-paving"
+    },
+    {
+      "owner": "Eldorado Gold Corporation",
+      "company_id": "eldorado-gold"
+    },
+    {
+      "owner": "Elevra Lithium Limited",
+      "company_id": "elevra-lithium"
+    },
+    {
+      "owner": "Elmtree Resources Ltd.",
+      "company_id": "elmtree-resources"
+    },
+    {
+      "owner": "Equinox Gold Corp.",
+      "company_id": "equinox-gold"
+    },
+    {
+      "owner": "ERCO Worldwide LP",
+      "company_id": "erco-worldwide"
+    },
+    {
+      "owner": "Evolution Mining Ltd.",
+      "company_id": "evolution"
+    },
+    {
+      "owner": "Fireside Minerals Ltd.",
+      "company_id": "fireside-minerals"
+    },
+    {
+      "owner": "Glencore Canada Corporation",
+      "company_id": "glencore"
+    },
+    {
+      "owner": "Gold Bond Canada Ltd.",
+      "company_id": "gold-bond-canada"
+    },
+    {
+      "owner": "Gold Mountain Mining Corp.",
+      "company_id": "gold-mountain-mining"
+    },
+    {
+      "owner": "Graymont Inc.",
+      "company_id": "graymont"
+    },
+    {
+      "owner": "Hammond River Holdings Ltd.",
+      "company_id": "hammond-river-holdings"
+    },
+    {
+      "owner": "Hecla Mining Company",
+      "company_id": "hecla-mining"
+    },
+    {
+      "owner": "Heidelberg Materials Canada Limited",
+      "company_id": "heidelberg-materials"
+    },
+    {
+      "owner": "Hudbay Minerals Inc.",
+      "company_id": "hudbay-minerals"
+    },
+    {
+      "owner": "IAMGOLD Corporation",
+      "company_id": "iamgold"
+    },
+    {
+      "owner": "Impala Canada Ltd.",
+      "company_id": "impala-platinum-holdings"
+    },
+    {
+      "owner": "Imperial Limestone Co. Ltd.",
+      "company_id": "imperial-limestone"
+    },
+    {
+      "owner": "Imperial Metals Corporation",
+      "company_id": "imperial-metals"
+    },
+    {
+      "owner": "Iron Ore Company of Canada Inc.",
+      "company_id": "iron-ore-company-of-canada"
+    },
+    {
+      "owner": "K+S Potash Canada GP",
+      "company_id": "k-s-potash-canada"
+    },
+    {
+      "owner": "Magna Mining Inc.",
+      "company_id": "magna-mining"
+    },
+    {
+      "owner": "Magris Performance Materials Inc.",
+      "company_id": "magris"
+    },
+    {
+      "owner": "McEwen Mining Inc.",
+      "company_id": "mcewen"
+    },
+    {
+      "owner": "New Gold Inc.",
+      "company_id": "new-gold"
+    },
+    {
+      "owner": "Newmont Corporation",
+      "company_id": "newmont"
+    },
+    {
+      "owner": "Northern Graphite Corporation",
+      "company_id": "northern-graphite"
+    },
+    {
+      "owner": "Nova Construction Ltd.",
+      "company_id": "nova-construction"
+    },
+    {
+      "owner": "Nutrien Ltd.",
+      "company_id": "nutrien"
+    },
+    {
+      "owner": "OMYA (Canada) Inc.",
+      "company_id": "omya"
+    },
+    {
+      "owner": "Orano Canada Inc.",
+      "company_id": "orano"
+    },
+    {
+      "owner": "Orla Mining Ltd.",
+      "company_id": "orla-mining"
+    },
+    {
+      "owner": "Owen Sound Ledgerock Ltd.",
+      "company_id": "owen-sound-ledgerock"
+    },
+    {
+      "owner": "Pan American Silver Corp.",
+      "company_id": "pan-american-silver"
+    },
+    {
+      "owner": "Progressive Planet Solutions Inc.",
+      "company_id": "progressive-planet"
+    },
+    {
+      "owner": "Rio Tinto Canada Inc.",
+      "company_id": "rio-tinto"
+    },
+    {
+      "owner": "Rio Tinto Iron and Titanium Canada Inc.",
+      "company_id": "rio-tinto"
+    },
+    {
+      "owner": "Saskatchewan Mining and Minerals Inc.",
+      "company_id": "saskatchewan-mining-and-minerals"
+    },
+    {
+      "owner": "Sinomine Resource Grp Co. Ltd.",
+      "company_id": "sinomine"
+    },
+    {
+      "owner": "SSR Mining Inc.",
+      "company_id": "ssr-mining"
+    },
+    {
+      "owner": "St Marys CBM (Canada) Inc.",
+      "company_id": "st-marys-cement"
+    },
+    {
+      "owner": "St. Marys Cement Inc.",
+      "company_id": "st-marys-cement"
+    },
+    {
+      "owner": "Stone Canyon Industries Holding",
+      "company_id": "stone-canyon-industries"
+    },
+    {
+      "owner": "Tacora Resources Inc.",
+      "company_id": "tacora"
+    },
+    {
+      "owner": "Taseko Mines Limited",
+      "company_id": "taseko-mines"
+    },
+    {
+      "owner": "Tata Steel Minerals Canada Limited",
+      "company_id": "tata-steel-minerals"
+    },
+    {
+      "owner": "Teck Resources Limited",
+      "company_id": "teck-resources"
+    },
+    {
+      "owner": "Texada Quarrying Ltd. (Amrize AG)",
+      "company_id": "amrize"
+    },
+    {
+      "owner": "The Mosaic Company",
+      "company_id": "mosaic-company"
+    },
+    {
+      "owner": "Tiger Calcium Services Inc.",
+      "company_id": "tiger-calcium"
+    },
+    {
+      "owner": "Trinity Performance Minerals",
+      "company_id": "trinity-performance-minerals"
+    },
+    {
+      "owner": "Vale Canada Limited",
+      "company_id": "vale"
+    },
+    {
+      "owner": "Ward Chemical Incorporated",
+      "company_id": "ward-chemical"
+    },
+    {
+      "owner": "Wesdome Gold Mines Ltd.",
+      "company_id": "wesdome-gold-mines"
+    },
+    {
+      "owner": "Westmoreland Mining Holdings LLC",
+      "company_id": "westmoreland"
+    },
+    {
+      "owner": "Windsor Salt Ltd.",
+      "company_id": "windsor-salt"
+    }
+  ]
 }

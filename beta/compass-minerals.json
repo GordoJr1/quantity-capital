@@ -1,0 +1,134 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "compass-minerals",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Compass Minerals Canada Corporation",
+    "short": "Compass Minerals Canada Corporation",
+    "tickers": [
+      {
+        "symbol": "CMP",
+        "exchange": "US",
+        "chart": "insider-ticker.html?t=CMP"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "salt",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 1002083462,
+    "market_cap_usd": 1002083462,
+    "market_cap_cur": "USD",
+    "shares": 41980874,
+    "px": 23.87,
+    "price_asof": "2026-09-18"
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "amherst-nappan",
+      "name": "Amherst (Nappan)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Nova Scotia",
+      "nearest": "Amherst",
+      "location_note": "Amherst, Nova Scotia",
+      "lat": 45.7829,
+      "lon": -64.2339,
+      "operator": "Compass Minerals Canada Corporation",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "goderich",
+      "name": "Goderich",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Goderich",
+      "location_note": "Goderich, Ontario",
+      "lat": 43.743733,
+      "lon": -81.724754,
+      "operator": "Compass Minerals Canada Corporation",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "wynyard-big-quill",
+      "name": "Wynyard (Big Quill)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Wynyard",
+      "location_note": "Wynyard, Saskatchewan",
+      "lat": 51.780628,
+      "lon": -104.319916,
+      "operator": "Compass Minerals Canada Corporation",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "unity",
+      "name": "Unity",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Unity",
+      "location_note": "Unity, Saskatchewan",
+      "lat": 52.4233,
+      "lon": -109.11,
+      "operator": "Compass Minerals Canada Corporation",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

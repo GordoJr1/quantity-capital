@@ -52,7 +52,24 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "gahcho-kue",
+      "name": "Gahcho Kué",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "diamonds",
+      "country": "Canada",
+      "region": "Northwest Territories",
+      "nearest": "Lac de Gras",
+      "location_note": "Lac de Gras, Northwest Territories",
+      "lat": 63.44528,
+      "lon": -109.21194,
+      "operator": "De Beers Canada Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -70,6 +87,7 @@
     "mcap_rank": 32,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": false,
+    "map_900a_assets": true
   }
 }

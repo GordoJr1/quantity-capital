@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Mid-tier"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,8 +51,38 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "gibraltar": {
+          "ownership_pct": 100.0,
+          "copper_mlb": 98.1,
+          "molybdenum_mlb": 1.9,
+          "note": "Copper production was 98.1 million pounds in 2025"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "gibraltar",
+      "name": "Gibraltar",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "copper",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "north of Williams Lake",
+      "location_note": "north of Williams Lake, British Columbia",
+      "lat": 52.528495,
+      "lon": -122.28716,
+      "operator": "Taseko Mines Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -62,6 +92,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Taseko Announces Strong Fourth Quarter Financial Results",
+      "date": "2026-02-18",
+      "url": "https://www.globenewswire.com/news-release/2026/02/18/3240702/0/en/Taseko-Announces-Strong-Fourth-Quarter-Financial-Results-and-Commencement-of-Copper-Production-at-Florence-Copper.html",
+      "what": "Copper production was 98.1 million pounds in 2025"
     }
   ],
   "meta": {
@@ -70,6 +106,7 @@
     "mcap_rank": 144,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true,
+    "map_900a_assets": true
   }
 }

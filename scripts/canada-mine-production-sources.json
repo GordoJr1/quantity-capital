@@ -1,13 +1,19 @@
 {
   "schema": "qc-canada-mine-production-sources-v1",
   "year": 2025,
-  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
+  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. 2025 = calendar-year actuals. Optional ytd = 2026 period actuals only (H1 / Q2 YTD), labeled with period/kind/through/period_label — never a full year. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
   "blockers_global": [
     "SEDAR+ document viewer is paywalled / login-gated; use issuer IR HTML or EDGAR exhibits.",
     "StatCan table 16-10-0022 and NRCan annual tables do not publish mine-level output.",
     "Evolution Mining reports Red Lake on an Australian fiscal year (30 June), not calendar 2025.",
     "Vale Sudbury / Thompson and Glencore Sudbury INO / Raglan do not break out payable gold by Map 900A shaft.",
-    "Claims crawls stay out of this job and out of daily bats."
+    "Claims crawls stay out of this job and out of daily bats.",
+    "Vale reports Sudbury finished nickel as a complex (35.2 kt); do not copy onto Map 900A shafts.",
+    "Glencore INO (Sudbury/Raglan/Nikkelverk) and Elk Valley coal are complex totals.",
+    "ArcelorMittal Canada iron ore 25.6 Mt is Mont-Wright + Fire Lake combined.",
+    "Champion Iron Bloom Lake is fiscal year ended 31 March, not calendar 2025.",
+    "Cameco McArthur River/Key Lake 15.1 Mlb is one operation; Key Lake mill stays blank.",
+    "De Beers Gahcho Kué carats are disclosed on a 51% attributable basis."
   ],
   "mines": [
     {
@@ -29,33 +35,76 @@
       "beta_id": "artemis-gold",
       "asset_id": "blackwater",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q2-2026-production-results",
+        "title": "Artemis Gold Announces Record Q2 2026 Production Results",
+        "as_of": "2026-07-13",
+        "extract": {
+          "gold": {
+            "source_value": 135986,
+            "source_unit": "oz",
+            "quote": "Year to date, Blackwater has produced 135,986 ounces of gold",
+            "must_contain": [
+              "Blackwater",
+              "135,986",
+              "June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "brucejack",
       "mine_name": "Brucejack",
       "owner": "Newmont Corporation",
       "year": 2025,
-      "kind": "ops-update",
-      "url": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
-      "title": "Newmont Fourth Quarter 2025 Operating Statistics",
+      "kind": "10-k",
+      "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000010/nem-20251231.htm",
+      "title": "Newmont Form 10-K year ended 31 December 2025 — gold operating statistics",
       "as_of": "2026-02-19",
       "extract": {
         "gold": {
           "source_value": 231,
           "source_unit": "koz",
-          "quote": "Brucejack",
+          "quote": "Brucejack, Canada. Gold production decreased 10%",
           "must_contain": [
             "Brucejack",
             "231",
-            "Gold ounces produced (thousands)"
+            "ounces in thousands"
           ]
         }
       },
       "beta_id": "newmont",
       "asset_id": "brucejack",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000034/newmontq22026earningsrelea.htm",
+        "title": "Newmont Reports Second Quarter 2026 Results (Exhibit 99.1)",
+        "as_of": "2026-07-23",
+        "extract": {
+          "gold": {
+            "source_value": 112,
+            "source_unit": "koz",
+            "quote": "Brucejack 41 50 79 61 231 59 53 112",
+            "must_contain": [
+              "Brucejack",
+              "112"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "copper-mountain",
@@ -158,7 +207,39 @@
       "beta_id": "centerra-gold",
       "asset_id": "mount-milligan",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1854640/000162828026050229/exh992_20260630.htm",
+        "title": "Centerra Gold MD&A for the three and six months ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-07-29",
+        "extract": {
+          "gold": {
+            "source_value": 67747,
+            "source_unit": "oz",
+            "quote": "the Mount Milligan Mine produced 67,747 ounces of gold and 27.3 million pounds of copper",
+            "must_contain": [
+              "Mount Milligan",
+              "67,747",
+              "six months ended June 30, 2026"
+            ]
+          },
+          "copper": {
+            "source_value": 27.3,
+            "source_unit": "Mlb",
+            "quote": "67,747 ounces of gold and 27.3 million pounds of copper",
+            "must_contain": [
+              "Mount Milligan",
+              "27.3 million pounds",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "mount-polley",
@@ -264,8 +345,8 @@
       "owner": "Equinox Gold Corp.",
       "year": 2025,
       "kind": "md&a",
-      "url": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
-      "title": "Equinox Gold MD&A for the year ended 31 December 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1756607/000162828026022120/eqx-20251231mda.htm",
+      "title": "Equinox Gold MD&A for the year ended 31 December 2025 (EDGAR HTML)",
       "as_of": "2026-02-18",
       "extract": {
         "gold": {
@@ -281,7 +362,29 @@
       "beta_id": "equinox-gold",
       "asset_id": "valentine",
       "ownership_pct": 100,
-      "region": "Newfoundland and Labrador"
+      "region": "Newfoundland and Labrador",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "extract": {
+          "gold": {
+            "source_value": 59681,
+            "source_unit": "oz",
+            "quote": "59,681 ounces from Valentine",
+            "must_contain": [
+              "Valentine",
+              "59,681",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "amaruq-meadowbank",
@@ -306,16 +409,38 @@
       "beta_id": "agnico-eagle",
       "asset_id": "meadowbank",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 214027,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374",
+            "must_contain": [
+              "Meadowbank",
+              "214,027",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "goose-back-river",
       "mine_name": "Goose (Back River)",
       "owner": "B2Gold Corp.",
       "year": 2025,
-      "kind": "md&a",
-      "url": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
-      "title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)",
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1429937/000117184326000905/exh_991.htm",
+      "title": "B2Gold 2025 production results (Exhibit 99.1)",
       "as_of": "2026-02-19",
       "extract": {
         "gold": {
@@ -325,14 +450,37 @@
           "must_contain": [
             "Goose Mine",
             "14,554",
-            "38,616"
+            "38,616",
+            "53,170"
           ]
         }
       },
       "beta_id": "b2gold",
       "asset_id": "goose",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1429937/000142993726000010/exhibit992-63026.htm",
+        "title": "B2Gold MD&A for the quarter ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 55766,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 12,890 692 55,766 692",
+            "must_contain": [
+              "Goose",
+              "55,766",
+              "June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "meliadine",
@@ -357,7 +505,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "meliadine",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 191347,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374",
+            "must_contain": [
+              "Meliadine",
+              "191,347",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "cote-gold",
@@ -382,7 +552,28 @@
       "beta_id": "iamgold",
       "asset_id": "cote-gold",
       "ownership_pct": 70,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 170900,
+            "source_unit": "oz",
+            "quote": "119,600 attributable ounces YTD (170,900 ounces | 100%)",
+            "must_contain": [
+              "Côté",
+              "170,900"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "detour-lake",
@@ -403,7 +594,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "detour-lake",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 384298,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034",
+            "must_contain": [
+              "Detour Lake",
+              "384,298",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "eagle-river",
@@ -411,9 +624,9 @@
       "owner": "Wesdome Gold Mines Ltd.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "url": "https://www.nasdaq.com/press-release/wesdome-delivers-record-annual-gold-production-and-provides-2026-guidance-2026-01-20",
       "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
-      "as_of": "2026-01-14",
+      "as_of": "2026-01-20",
       "extract": {
         "gold": {
           "source_value": 112767,
@@ -428,7 +641,29 @@
       "beta_id": "wesdome-gold-mines",
       "asset_id": "eagle-river",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "extract": {
+          "gold": {
+            "source_value": 49644,
+            "source_unit": "oz",
+            "quote": "Eagle River produced 49,644 ounces in the first half of 2026",
+            "must_contain": [
+              "Eagle River",
+              "49,644",
+              "first half of 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "greenstone",
@@ -453,7 +688,29 @@
       "beta_id": "equinox-gold",
       "asset_id": "greenstone",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "extract": {
+          "gold": {
+            "source_value": 124993,
+            "source_unit": "oz",
+            "quote": "124,993 ounces from Greenstone",
+            "must_contain": [
+              "Greenstone",
+              "124,993",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "hemlo-williams",
@@ -495,7 +752,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "macassa",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 135736,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034",
+            "must_contain": [
+              "Macassa",
+              "135,736",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "musselwhite",
@@ -566,7 +845,29 @@
       "beta_id": "alamos-gold",
       "asset_id": "young-davidson",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000081/ex99206302026mda.htm",
+        "title": "Alamos Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 63000,
+            "source_unit": "oz",
+            "quote": "Young-Davidson 33,000 38,700 63,000 74,100",
+            "must_contain": [
+              "Young-Davidson",
+              "63,000",
+              "Six Months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "casa-berardi",
@@ -612,7 +913,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "goldex",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 58649,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965",
+            "must_contain": [
+              "Goldex",
+              "58,649",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "laronde",
@@ -633,7 +956,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "laronde",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 162857,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965",
+            "must_contain": [
+              "LaRonde",
+              "162,857",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "lamaque",
@@ -658,7 +1003,29 @@
       "beta_id": "eldorado-gold",
       "asset_id": "lamaque",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.eldoradogold.com/investors/news-releases/eldorado-gold-reports-solid-q2-2026-financial-and-operational-results",
+        "title": "Eldorado Gold Reports Solid Q2 2026 Financial and Operational Results",
+        "as_of": "2026-07-31",
+        "extract": {
+          "gold": {
+            "source_value": 94646,
+            "source_unit": "oz",
+            "quote": "Lamaque Gold produced (oz) 52,340 50,640 94,646",
+            "must_contain": [
+              "Lamaque",
+              "94,646",
+              "Six months ended"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "kiena",
@@ -666,9 +1033,9 @@
       "owner": "Wesdome Gold Mines Ltd.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "url": "https://www.nasdaq.com/press-release/wesdome-delivers-record-annual-gold-production-and-provides-2026-guidance-2026-01-20",
       "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
-      "as_of": "2026-01-14",
+      "as_of": "2026-01-20",
       "extract": {
         "gold": {
           "source_value": 72808,
@@ -683,7 +1050,28 @@
       "beta_id": "wesdome-gold-mines",
       "asset_id": "kiena",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "extract": {
+          "gold": {
+            "source_value": 39483,
+            "source_unit": "oz",
+            "quote": "Production in the first half of 2026 totaled 39,483 ounces",
+            "must_contain": [
+              "Kiena operating results",
+              "39,483"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "westwood-westwood",
@@ -704,7 +1092,28 @@
       "beta_id": "iamgold",
       "asset_id": "westwood",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 68600,
+            "source_unit": "oz",
+            "quote": "Westwood produced 32,400 ounces in the second quarter and 68,600 ounces YTD",
+            "must_contain": [
+              "Westwood",
+              "68,600 ounces YTD"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "santoy-seabee",
@@ -712,14 +1121,18 @@
       "owner": "SSR Mining Inc.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
-      "title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance",
+      "url": "https://www.sec.gov/Archives/edgar/data/921638/000092163826000036/ssrminingreportsfull-year2.htm",
+      "title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance (Exhibit 99.1)",
       "as_of": "2026-02-17",
       "extract": {
         "gold": {
           "source_value": 54986,
           "source_unit": "oz",
-          "quote": "Seabee produced 54,986 ounces of gold"
+          "quote": "Seabee produced 54,986 ounces of gold",
+          "must_contain": [
+            "Seabee",
+            "54,986"
+          ]
         }
       },
       "beta_id": "ssr-mining",
@@ -980,6 +1393,1864 @@
       "blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite.",
       "omit_figure": true,
       "region": "Ontario"
+    },
+    {
+      "mine_id": "gibraltar",
+      "mine_name": "Gibraltar",
+      "owner": "Taseko Mines Limited",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "taseko-mines",
+      "asset_id": "gibraltar",
+      "ownership_pct": 100,
+      "kind": "news-release",
+      "url": "https://www.globenewswire.com/news-release/2026/02/18/3240702/0/en/Taseko-Announces-Strong-Fourth-Quarter-Financial-Results-and-Commencement-of-Copper-Production-at-Florence-Copper.html",
+      "title": "Taseko Announces Strong Fourth Quarter Financial Results",
+      "as_of": "2026-02-18",
+      "extract": {
+        "copper": {
+          "source_value": 98.1,
+          "source_unit": "Mlb",
+          "quote": "Copper production was 98.1 million pounds in 2025",
+          "must_contain": [
+            "Gibraltar",
+            "98.1"
+          ]
+        },
+        "molybdenum": {
+          "source_value": 1.9,
+          "source_unit": "Mlb",
+          "quote": "1.9 million pounds of molybdenum",
+          "must_contain": [
+            "Gibraltar",
+            "1.9"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "highland-valley-copper",
+      "mine_name": "Highland Valley Copper",
+      "owner": "Teck Resources Limited",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "teck-resources",
+      "asset_id": "highland-valley-copper",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/886986/000095014226000440/eh250741011_ex9902.htm",
+      "title": "Teck 2025 Fourth Quarter News Release (Exhibit 99.2) — production guidance table",
+      "as_of": "2026-02-12",
+      "extract": {
+        "copper": {
+          "source_value": 127.1,
+          "source_unit": "kt",
+          "quote": "Highland Valley Copper",
+          "must_contain": [
+            "Highland Valley Copper",
+            "127.1",
+            "000’s tonnes"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "cigar-lake",
+      "mine_name": "Cigar Lake",
+      "owner": "Cameco Corporation",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "cameco",
+      "asset_id": "cigar-lake",
+      "ownership_pct": 54.547,
+      "kind": "md&a",
+      "url": "https://www.cameco.com/invest/financial-information/quarterly-reports/2025/q4",
+      "title": "Cameco 2025 Q4 / year-end report",
+      "as_of": "2026-02-12",
+      "extract": {
+        "uranium": {
+          "source_value": 19.1,
+          "source_unit": "Mlb",
+          "quote": "At Cigar Lake, we produced 19.1 million pounds (100% basis)"
+        }
+      }
+    },
+    {
+      "mine_id": "mcarthur-river",
+      "mine_name": "McArthur River",
+      "owner": "Cameco Corporation",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "cameco",
+      "asset_id": "mcarthur-river",
+      "ownership_pct": 69.805,
+      "kind": "md&a",
+      "url": "https://www.cameco.com/invest/financial-information/quarterly-reports/2025/q4",
+      "title": "Cameco 2025 Q4 / year-end report",
+      "as_of": "2026-02-12",
+      "extract": {
+        "uranium": {
+          "source_value": 15.1,
+          "source_unit": "Mlb",
+          "quote": "At McArthur River/Key Lake, we produced 15.1 million pounds (100% basis)"
+        }
+      }
+    },
+    {
+      "mine_id": "keno-hill-silver-district",
+      "mine_name": "Keno Hill Silver District",
+      "owner": "Hecla Mining Company",
+      "year": 2025,
+      "region": "Yukon",
+      "beta_id": "hecla-mining",
+      "asset_id": "keno-hill-silver-district",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+      "title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "silver": {
+          "source_value": 3018490,
+          "source_unit": "oz",
+          "quote": "Keno Hill",
+          "must_contain": [
+            "Keno Hill",
+            "3,018,490"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "voisey-s-bay",
+      "mine_name": "Voisey’s Bay",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Newfoundland and Labrador",
+      "beta_id": "vale",
+      "asset_id": "voisey-s-bay",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm",
+      "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
+      "as_of": "2026-01-27",
+      "extract": {
+        "nickel": {
+          "source_value": 33.2,
+          "source_unit": "kt",
+          "quote": "Voisey's Bay",
+          "must_contain": [
+            "Voisey's Bay",
+            "33.2"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "thompson-t-1-and-t-3",
+      "mine_name": "Thompson (T-1 and T-3)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "vale",
+      "asset_id": "thompson-t-1-and-t-3",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm",
+      "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
+      "as_of": "2026-01-27",
+      "extract": {
+        "nickel": {
+          "source_value": 12.0,
+          "source_unit": "kt",
+          "quote": "Thompson",
+          "must_contain": [
+            "Thompson",
+            "12.0"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "gahcho-kue",
+      "mine_name": "Gahcho Kué",
+      "owner": "De Beers Canada Inc.",
+      "year": 2025,
+      "region": "Northwest Territories",
+      "beta_id": "anglo-american",
+      "asset_id": "gahcho-kue",
+      "ownership_pct": 51,
+      "kind": "ops-update",
+      "url": "https://www.debeersgroup.com/news-insights/latest-group-news/2026/production-report-for-the-fourth-quarter-of-2025",
+      "title": "De Beers Production Report for the Fourth Quarter of 2025",
+      "as_of": "2026-01-29",
+      "extract": {
+        "diamonds": {
+          "source_value": 2210,
+          "source_unit": "000 carats",
+          "quote": "Gahcho Kué (51% basis)",
+          "must_contain": [
+            "Gahcho Kué",
+            "2,210"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "diavik",
+      "mine_name": "Diavik",
+      "owner": "Rio Tinto Canada Inc.",
+      "year": 2025,
+      "region": "Northwest Territories",
+      "beta_id": "rio-tinto",
+      "asset_id": "diavik",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/863064/000086306426000006/ex1_2025-q4results.htm",
+      "title": "Rio Tinto fourth quarter 2025 production results (Exhibit 99.1)",
+      "as_of": "2026-01-21",
+      "extract": {
+        "diamonds": {
+          "source_value": 4429,
+          "source_unit": "000 carats",
+          "quote": "Diavik",
+          "must_contain": [
+            "Diavik",
+            "4,429"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "carol-lake",
+      "mine_name": "Carol Lake",
+      "owner": "Iron Ore Company of Canada Inc.",
+      "year": 2025,
+      "region": "Newfoundland and Labrador",
+      "beta_id": "iron-ore-company-of-canada",
+      "asset_id": "carol-lake",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/863064/000086306426000006/ex1_2025-q4results.htm",
+      "title": "Rio Tinto fourth quarter 2025 production results (Exhibit 99.1)",
+      "as_of": "2026-01-21",
+      "extract": {
+        "iron-ore": {
+          "source_value": 15.9,
+          "source_unit": "Mt",
+          "quote": "Iron ore pellets and concentrate (100%)",
+          "must_contain": [
+            "IOC",
+            "15.9"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "kidd-creek",
+      "mine_name": "Kidd Creek",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "glencore",
+      "asset_id": "kidd-creek",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+      "title": "Glencore Full Year 2025 Production Report",
+      "as_of": "2026-01-29",
+      "omit_figure": true,
+      "blocker": "Glencore FY 2025 production report names Kidd; the 41.5 kt zinc-in-concentrate table is PDF-only (compressed) and is not on the HTML news page. Do not invent. Leave blank."
+    },
+    {
+      "mine_id": "rocanville",
+      "mine_name": "Rocanville",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "rocanville",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 4.64,
+          "source_unit": "Mt",
+          "quote": "Rocanville",
+          "must_contain": [
+            "Rocanville",
+            "4.64"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "allan",
+      "mine_name": "Allan",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "allan",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 2.51,
+          "source_unit": "Mt",
+          "quote": "Allan",
+          "must_contain": [
+            "Allan",
+            "2.51"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "lanigan",
+      "mine_name": "Lanigan",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "lanigan",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 3.43,
+          "source_unit": "Mt",
+          "quote": "Lanigan",
+          "must_contain": [
+            "Lanigan",
+            "3.43"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "vanscoy",
+      "mine_name": "Vanscoy",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "vanscoy",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 1.08,
+          "source_unit": "Mt",
+          "quote": "Vanscoy",
+          "must_contain": [
+            "Vanscoy",
+            "1.08"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "cory",
+      "mine_name": "Cory",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "cory",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 2.09,
+          "source_unit": "Mt",
+          "quote": "Cory",
+          "must_contain": [
+            "Cory",
+            "2.09"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "patience-lake",
+      "mine_name": "Patience Lake",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "nutrien",
+      "asset_id": "patience-lake",
+      "ownership_pct": 100,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "as_of": "2026-02-20",
+      "extract": {
+        "potash": {
+          "source_value": 0.22,
+          "source_unit": "Mt",
+          "quote": "Patience Lake",
+          "must_contain": [
+            "Patience Lake",
+            "0.22"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "esterhazy-k-3",
+      "mine_name": "Esterhazy (K-3)",
+      "owner": "The Mosaic Company",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "mosaic-company",
+      "asset_id": "esterhazy-k-3",
+      "ownership_pct": 100,
+      "kind": "10-k",
+      "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+      "title": "Mosaic Form 10-K year ended 31 December 2025 — potash finished product",
+      "as_of": "2026-02-27",
+      "extract": {
+        "potash": {
+          "source_value": 4.7,
+          "source_unit": "Mt",
+          "quote": "Esterhazy",
+          "must_contain": [
+            "Esterhazy",
+            "4.7"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "belle-plaine",
+      "mine_name": "Belle Plaine",
+      "owner": "The Mosaic Company",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "mosaic-company",
+      "asset_id": "belle-plaine",
+      "ownership_pct": 100,
+      "kind": "10-k",
+      "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+      "title": "Mosaic Form 10-K year ended 31 December 2025 — potash finished product",
+      "as_of": "2026-02-27",
+      "extract": {
+        "potash": {
+          "source_value": 3.0,
+          "source_unit": "Mt",
+          "quote": "Belle Plaine",
+          "must_contain": [
+            "Belle Plaine",
+            "3.0"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "colonsay",
+      "mine_name": "Colonsay",
+      "owner": "The Mosaic Company",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "mosaic-company",
+      "asset_id": "colonsay",
+      "ownership_pct": 100,
+      "kind": "10-k",
+      "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+      "title": "Mosaic Form 10-K year ended 31 December 2025 — potash finished product",
+      "as_of": "2026-02-27",
+      "extract": {
+        "potash": {
+          "source_value": 0.8,
+          "source_unit": "Mt",
+          "quote": "Colonsay",
+          "must_contain": [
+            "Colonsay",
+            "0.8"
+          ]
+        }
+      }
+    },
+    {
+      "mine_id": "key-lake-mill",
+      "mine_name": "Key Lake mill",
+      "owner": "Cameco Corporation",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "cameco",
+      "asset_id": "key-lake-mill",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Cameco reports McArthur River/Key Lake 15.1 Mlb U3O8 (100%) as one operation. Key Lake is the mill; ounces/pounds sit on McArthur River. Do not copy the complex total onto the mill row.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "garson-sudbury-operations",
+      "mine_name": "Garson (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "garson-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale reports Sudbury finished nickel 35.2 kt (2025) as a complex. No Map 900A shaft split.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "stobie-sudbury-operations",
+      "mine_name": "Stobie (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "stobie-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale reports Sudbury finished nickel 35.2 kt as a complex. Stobie is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "clarabelle-mill-sudbury-operations",
+      "mine_name": "Clarabelle Mill (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "clarabelle-mill-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale Sudbury 35.2 kt finished nickel is a complex total. Clarabelle is the mill, not a mine split.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "copper-cliff-sudbury-operations",
+      "mine_name": "Copper Cliff (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "copper-cliff-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale Sudbury 35.2 kt finished nickel is a complex total. Copper Cliff is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "creighton-sudbury-operations",
+      "mine_name": "Creighton (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "creighton-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale Sudbury 35.2 kt finished nickel is a complex total. Creighton is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "coleman-sudbury-operations",
+      "mine_name": "Coleman (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "coleman-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale Sudbury 35.2 kt finished nickel is a complex total. Coleman is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "totten-sudbury-operations",
+      "mine_name": "Totten (Sudbury Operations)",
+      "owner": "Vale Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "vale",
+      "asset_id": "totten-sudbury-operations",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Vale Sudbury 35.2 kt finished nickel is a complex total. Totten is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "raglan",
+      "mine_name": "Raglan",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "glencore",
+      "asset_id": "raglan",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Glencore reports Integrated Nickel Operations (Sudbury + Raglan + Nikkelverk) 39.8 kt nickel metal. Raglan is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "fraser-sudbury-ino",
+      "mine_name": "Fraser (Sudbury INO)",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "glencore",
+      "asset_id": "fraser-sudbury-ino",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Glencore INO 39.8 kt nickel metal combines Sudbury, Raglan and Nikkelverk. Fraser is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "strathcona-mill-sudbury-ino",
+      "mine_name": "Strathcona Mill (Sudbury INO)",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "glencore",
+      "asset_id": "strathcona-mill-sudbury-ino",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Glencore INO is a complex total. Strathcona mill is not a separate payable-nickel figure.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "elkview",
+      "mine_name": "Elkview",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "glencore",
+      "asset_id": "elkview",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Glencore reports Elk Valley Resources 25.2 Mt steelmaking coal. Elkview / Fording / Greenhills / Line Creek are not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "fording-river",
+      "mine_name": "Fording River",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "glencore",
+      "asset_id": "fording-river",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Elk Valley Resources 25.2 Mt steelmaking coal is a complex total. Fording River is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "greenhills",
+      "mine_name": "Greenhills",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "glencore",
+      "asset_id": "greenhills",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Elk Valley Resources 25.2 Mt steelmaking coal is a complex total. Greenhills is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "line-creek",
+      "mine_name": "Line Creek",
+      "owner": "Glencore Canada Corporation",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "glencore",
+      "asset_id": "line-creek",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Elk Valley Resources 25.2 Mt steelmaking coal is a complex total. Line Creek is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bloom-lake",
+      "mine_name": "Bloom Lake",
+      "owner": "Champion Iron Ltd.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "champion-iron",
+      "asset_id": "bloom-lake",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Champion Iron reports Bloom Lake on a fiscal year ended 31 March (13.8 Mwmt FY2025), not calendar 2025. Leave blank.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mont-wright",
+      "mine_name": "Mont-Wright",
+      "owner": "ArcelorMittal S.A.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "arcelormittal",
+      "asset_id": "mont-wright",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "ArcelorMittal reports Canada (Mont-Wright) 25.6 Mt iron ore including Fire Lake. No pit split. Do not copy the complex total onto Mont-Wright.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "fire-lake",
+      "mine_name": "Fire Lake",
+      "owner": "ArcelorMittal S.A.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "arcelormittal",
+      "asset_id": "fire-lake",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "ArcelorMittal Canada 25.6 Mt includes Fire Lake feed. Fire Lake is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mccreedy-west",
+      "mine_name": "McCreedy West",
+      "owner": "Magna Mining Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "magna-mining",
+      "asset_id": "mccreedy-west",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Magna reports McCreedy West from the 28 Feb 2025 acquisition (10 months; 6.039 Mlb Cu payable). Full calendar-2025 mine output is not disclosed.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "ekati",
+      "mine_name": "Ekati",
+      "owner": "Burgundy Diamond Mines",
+      "year": 2025,
+      "region": "Northwest Territories",
+      "beta_id": "burgundy-diamond",
+      "asset_id": "ekati",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Burgundy Diamond reports quarterly Ekati carats; no verified calendar-2025 mine total found on public IR (Point Lake suspended mid-year).",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "lac-tio",
+      "mine_name": "Lac Tio",
+      "owner": "Rio Tinto Iron and Titanium Canada Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "rio-tinto",
+      "asset_id": "lac-tio",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Rio Tinto reports titanium dioxide slag as a combined Quebec + Richards Bay figure (975 kt). Lac Tio is not broken out.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "stall-concentrator-snow-lake",
+      "mine_name": "Stall concentrator (Snow Lake)",
+      "owner": "Hudbay Minerals Inc.",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "hudbay-minerals",
+      "asset_id": "stall-concentrator-snow-lake",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Hudbay reports Snow Lake / Manitoba 17,646 t zinc and 9,249 t copper (Lalor + Stall + New Britannia). Stall is not a separate payable figure.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "nunavik-nickel",
+      "mine_name": "Nunavik Nickel",
+      "owner": "Canadian Royalties Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "canadian-royalties",
+      "asset_id": "nunavik-nickel",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Canadian Royalties / Nunavik Nickel: no public mine-level 2025 payable nickel/copper table found (private IR / SEDAR+ skipped).",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mcclean-lake",
+      "mine_name": "McClean Lake",
+      "owner": "Orano Canada Inc.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "orano",
+      "asset_id": "mcclean-lake",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Orano McClean Lake is the mill for Cigar Lake ore. Cameco discloses Cigar Lake 19.1 Mlb (100%); McClean Lake has no separate 2025 U3O8 mine figure.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bethune",
+      "mine_name": "Bethune",
+      "owner": "K+S Potash Canada GP",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "k-s-potash-canada",
+      "asset_id": "bethune",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "K+S community materials cite ~2.2 Mt loaded/shipped and a projected saleable total — not a verified calendar-2025 mine actual we can quote.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mary-river",
+      "mine_name": "Mary River",
+      "owner": "Baffinland Iron Mines Corporation",
+      "year": 2025,
+      "region": "Nunavut",
+      "beta_id": "baffinland",
+      "asset_id": "mary-river",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Baffinland Mary River: no public calendar-2025 iron-ore tonne actual found on issuer IR (private / consortium).",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "scully",
+      "mine_name": "Scully",
+      "owner": "Tacora Resources Inc.",
+      "year": 2025,
+      "region": "Newfoundland and Labrador",
+      "beta_id": "tacora",
+      "asset_id": "scully",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Tacora Scully: no public calendar-2025 iron-ore tonne actual found (restructuring / private IR).",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "dso-3-and-4",
+      "mine_name": "DSO (3 and 4)",
+      "owner": "Tata Steel Minerals Canada Limited",
+      "year": 2025,
+      "region": "Newfoundland and Labrador",
+      "beta_id": "tata-steel-minerals",
+      "asset_id": "dso-3-and-4",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Tata Steel Minerals DSO: no public 2025 mine-level iron-ore actual found.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "dso-goodwood",
+      "mine_name": "DSO (Goodwood)",
+      "owner": "Tata Steel Minerals Canada Limited",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "tata-steel-minerals",
+      "asset_id": "dso-goodwood",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Tata Steel Minerals DSO (Goodwood): no public 2025 mine-level iron-ore actual found.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "north-american-lithium",
+      "mine_name": "North American Lithium",
+      "owner": "Elevra Lithium Limited",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "elevra-lithium",
+      "asset_id": "north-american-lithium",
+      "ownership_pct": 100,
+      "kind": "ops-update",
+      "blocker": "Elevra Lithium / North American Lithium: no public calendar-2025 spodumene tonne actual used (fiscal-year / ramp disclosures only).",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "niobec",
+      "mine_name": "Niobec",
+      "owner": "Magris Performance Materials Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "magris",
+      "asset_id": "niobec",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Magris Performance Materials Inc.); no mine-level calendar-2025 niobium actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "tanco",
+      "mine_name": "Tanco",
+      "owner": "Sinomine Resource Grp Co. Ltd.",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "sinomine",
+      "asset_id": "tanco",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Sinomine Resource Grp Co. Ltd.); no mine-level calendar-2025 cesium, lithium, tantalum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "conception-bay-south",
+      "mine_name": "Conception Bay South",
+      "owner": "Trinity Performance Minerals",
+      "year": 2025,
+      "region": "Newfoundland and Labrador",
+      "beta_id": "trinity-performance-minerals",
+      "asset_id": "conception-bay-south",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Trinity Performance Minerals); no mine-level calendar-2025 pyrophyllite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "brierly-brook",
+      "mine_name": "Brierly Brook",
+      "owner": "Nova Construction Ltd.",
+      "year": 2025,
+      "region": "Nova Scotia",
+      "beta_id": "nova-construction",
+      "asset_id": "brierly-brook",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Nova Construction Ltd.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "brookfield",
+      "mine_name": "Brookfield",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Nova Scotia",
+      "beta_id": "amrize",
+      "asset_id": "brookfield",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "east-milford",
+      "mine_name": "East Milford",
+      "owner": "Gold Bond Canada Ltd.",
+      "year": 2025,
+      "region": "Nova Scotia",
+      "beta_id": "gold-bond-canada",
+      "asset_id": "east-milford",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Gold Bond Canada Ltd.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "pugwash",
+      "mine_name": "Pugwash",
+      "owner": "Windsor Salt Ltd.",
+      "year": 2025,
+      "region": "Nova Scotia",
+      "beta_id": "windsor-salt",
+      "asset_id": "pugwash",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Windsor Salt Ltd.); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "amherst-nappan",
+      "mine_name": "Amherst (Nappan)",
+      "owner": "Compass Minerals Canada Corporation",
+      "year": 2025,
+      "region": "Nova Scotia",
+      "beta_id": "compass-minerals",
+      "asset_id": "amherst-nappan",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Compass Minerals Canada Corporation); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "glenvale",
+      "mine_name": "Glenvale",
+      "owner": "Hammond River Holdings Ltd.",
+      "year": 2025,
+      "region": "New Brunswick",
+      "beta_id": "hammond-river-holdings",
+      "asset_id": "glenvale",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Hammond River Holdings Ltd.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "havelock-hicksville-samp-hill-springhill",
+      "mine_name": "Havelock (Hicksville, Samp Hill, Springhill)",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "New Brunswick",
+      "beta_id": "graymont",
+      "asset_id": "havelock-hicksville-samp-hill-springhill",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "picadilly",
+      "mine_name": "Picadilly",
+      "owner": "Nutrien Ltd.",
+      "year": 2025,
+      "region": "New Brunswick",
+      "beta_id": "nutrien",
+      "asset_id": "picadilly",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Nutrien Ltd.); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "brookville",
+      "mine_name": "Brookville",
+      "owner": "Brookville Manufacturing Company",
+      "year": 2025,
+      "region": "New Brunswick",
+      "beta_id": "brookville-manufacturing",
+      "asset_id": "brookville",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Brookville Manufacturing Company); no mine-level calendar-2025 dolomitic-lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "sormany",
+      "mine_name": "Sormany",
+      "owner": "Elmtree Resources Ltd.",
+      "year": 2025,
+      "region": "New Brunswick",
+      "beta_id": "elmtree-resources",
+      "asset_id": "sormany",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Private or no public mine-level 2025 limestone disclosure (Elmtree Resources Ltd.). Stay blank.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "seleine",
+      "mine_name": "Seleine",
+      "owner": "Stone Canyon Industries Holding",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "stone-canyon-industries",
+      "asset_id": "seleine",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Stone Canyon Industries Holding); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mcinnis",
+      "mine_name": "McInnis",
+      "owner": "St. Marys Cement Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "st-marys-cement",
+      "asset_id": "mcinnis",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (St. Marys Cement Inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "verreault-beauport",
+      "mine_name": "Verreault Beauport",
+      "owner": "Ciment Québec inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "ciment-quebec",
+      "asset_id": "verreault-beauport",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Ciment Québec inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "marbleton",
+      "mine_name": "Marbleton",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "graymont",
+      "asset_id": "marbleton",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "saint-basile",
+      "mine_name": "Saint-Basile",
+      "owner": "Ciment Québec inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "ciment-quebec",
+      "asset_id": "saint-basile",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Ciment Québec inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "les-carrieres-calco",
+      "mine_name": "Les Carrières Calco",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "graymont",
+      "asset_id": "les-carrieres-calco",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 calcium-carbonate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "acton-vale",
+      "mine_name": "Acton Vale",
+      "owner": "Carrière d’Acton Vale Ltée",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "carriere-d-acton-vale",
+      "asset_id": "acton-vale",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Carrière d’Acton Vale Ltée); no mine-level calendar-2025 calcium-carbonate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bedford",
+      "mine_name": "Bedford",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "graymont",
+      "asset_id": "bedford",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "saint-armand",
+      "mine_name": "Saint-Armand",
+      "owner": "OMYA (Canada) Inc.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "omya",
+      "asset_id": "saint-armand",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (OMYA (Canada) Inc.); no mine-level calendar-2025 calcium-carbonate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "joliette",
+      "mine_name": "Joliette",
+      "owner": "Béton Provincial Ltée",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "beton-provincial",
+      "asset_id": "joliette",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Béton Provincial Ltée); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "saint-constant",
+      "mine_name": "Saint-Constant",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "amrize",
+      "asset_id": "saint-constant",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "laval",
+      "mine_name": "Laval",
+      "owner": "Demix Agrégats",
+      "year": 2025,
+      "region": "Quebec",
+      "beta_id": "demix-agregats",
+      "asset_id": "laval",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Demix Agrégats); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "st-lawrence",
+      "mine_name": "St. Lawrence",
+      "owner": "Canadian Wollastonite",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "canadian-wollastonite",
+      "asset_id": "st-lawrence",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Canadian Wollastonite); no mine-level calendar-2025 wollastonite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "tatlock",
+      "mine_name": "Tatlock",
+      "owner": "OMYA (Canada) Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "omya",
+      "asset_id": "tatlock",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (OMYA (Canada) Inc.); no mine-level calendar-2025 calcium-carbonate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bath",
+      "mine_name": "Bath",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "amrize",
+      "asset_id": "bath",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "picton",
+      "mine_name": "Picton",
+      "owner": "Heidelberg Materials Canada Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "heidelberg-materials",
+      "asset_id": "picton",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Heidelberg Materials Canada Limited); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "ogden-point",
+      "mine_name": "Ogden Point",
+      "owner": "CRH Canada Group Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "crh",
+      "asset_id": "ogden-point",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (CRH Canada Group Inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "blue-mountain",
+      "mine_name": "Blue Mountain",
+      "owner": "Covia Canada Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "covia",
+      "asset_id": "blue-mountain",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Covia Canada Ltd.); no mine-level calendar-2025 nepheline-syenite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bowmanville",
+      "mine_name": "Bowmanville",
+      "owner": "St Marys CBM (Canada) Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "st-marys-cement",
+      "asset_id": "bowmanville",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (St Marys CBM (Canada) Inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "dundas",
+      "mine_name": "Dundas",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "amrize",
+      "asset_id": "dundas",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Carmeuse Lime (Canada) Limited); no mine-level calendar-2025 dolomitic-lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "hagersville",
+      "mine_name": "Hagersville",
+      "owner": "CGC Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "cgc",
+      "asset_id": "hagersville",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (CGC Inc.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "beachville",
+      "mine_name": "Beachville",
+      "owner": "Carmeuse Lime (Canada) Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "carmeuse",
+      "asset_id": "beachville",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Carmeuse Lime (Canada) Limited); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "sydenham",
+      "mine_name": "Sydenham",
+      "owner": "E.C. King Contracting Ltd. (Miller Paving Co.)",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "miller-paving",
+      "asset_id": "sydenham",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (E.C. King Contracting Ltd. (Miller Paving Co.)); no mine-level calendar-2025 dolomite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "owen-sound",
+      "mine_name": "Owen Sound",
+      "owner": "Owen Sound Ledgerock Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "owen-sound-ledgerock",
+      "asset_id": "owen-sound",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Owen Sound Ledgerock Ltd.); no mine-level calendar-2025 dolomite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "st-marys",
+      "mine_name": "St Marys",
+      "owner": "St Marys CBM (Canada) Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "st-marys-cement",
+      "asset_id": "st-marys",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (St Marys CBM (Canada) Inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "spanish-river-carbonite",
+      "mine_name": "Spanish River Carbonite",
+      "owner": "Boreal Agrominerals Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "boreal-agrominerals",
+      "asset_id": "spanish-river-carbonite",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Boreal Agrominerals Inc.); no mine-level calendar-2025 carbonatite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "goderich",
+      "mine_name": "Goderich",
+      "owner": "Compass Minerals Canada Corporation",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "compass-minerals",
+      "asset_id": "goderich",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Compass Minerals Canada Corporation); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "penhorwood",
+      "mine_name": "Penhorwood",
+      "owner": "Magris Performance Materials Inc.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "magris",
+      "asset_id": "penhorwood",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Magris Performance Materials Inc.); no mine-level calendar-2025 talc actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "northern-operation",
+      "mine_name": "Northern Operation",
+      "owner": "Carmeuse Lime (Canada) Limited",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "carmeuse",
+      "asset_id": "northern-operation",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Carmeuse Lime (Canada) Limited); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "windsor",
+      "mine_name": "Windsor",
+      "owner": "Windsor Salt Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "windsor-salt",
+      "asset_id": "windsor",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Windsor Salt Ltd.); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "ojibway",
+      "mine_name": "Ojibway",
+      "owner": "Windsor Salt Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "windsor-salt",
+      "asset_id": "ojibway",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Windsor Salt Ltd.); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "meldrum-bay",
+      "mine_name": "Meldrum Bay",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Ontario",
+      "beta_id": "amrize",
+      "asset_id": "meldrum-bay",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 limestone, dolomite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "faulkner",
+      "mine_name": "Faulkner",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "graymont",
+      "asset_id": "faulkner",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "amaranth",
+      "mine_name": "Amaranth",
+      "owner": "CertainTeed Gypsum Canada Inc.",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "certainteed-gypsum",
+      "asset_id": "amaranth",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (CertainTeed Gypsum Canada Inc.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "hargrave",
+      "mine_name": "Hargrave",
+      "owner": "ERCO Worldwide LP",
+      "year": 2025,
+      "region": "Manitoba",
+      "beta_id": "erco-worldwide",
+      "asset_id": "hargrave",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (ERCO Worldwide LP); no mine-level calendar-2025 sodium-chlorate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "wynyard-big-quill",
+      "mine_name": "Wynyard (Big Quill)",
+      "owner": "Compass Minerals Canada Corporation",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "compass-minerals",
+      "asset_id": "wynyard-big-quill",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Compass Minerals Canada Corporation); no mine-level calendar-2025 potash actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "saskatoon-facility",
+      "mine_name": "Saskatoon facility",
+      "owner": "ERCO Worldwide LP",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "erco-worldwide",
+      "asset_id": "saskatoon-facility",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (ERCO Worldwide LP); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "chaplin-lake",
+      "mine_name": "Chaplin Lake",
+      "owner": "Saskatchewan Mining and Minerals Inc.",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "saskatchewan-mining-and-minerals",
+      "asset_id": "chaplin-lake",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Saskatchewan Mining and Minerals Inc.); no mine-level calendar-2025 sodium-sulphate actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "unity",
+      "mine_name": "Unity",
+      "owner": "Compass Minerals Canada Corporation",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "compass-minerals",
+      "asset_id": "unity",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Compass Minerals Canada Corporation); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "hammerstone-quarry",
+      "mine_name": "Hammerstone Quarry",
+      "owner": "BURNCO Rock Products Ltd.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "burnco",
+      "asset_id": "hammerstone-quarry",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (BURNCO Rock Products Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "muskeg",
+      "mine_name": "Muskeg",
+      "owner": "BURNCO Rock Products Ltd.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "burnco",
+      "asset_id": "muskeg",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (BURNCO Rock Products Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "calling-lake",
+      "mine_name": "Calling Lake",
+      "owner": "Ward Chemical Incorporated",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "ward-chemical",
+      "asset_id": "calling-lake",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Ward Chemical Incorporated); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mitsue",
+      "mine_name": "Mitsue",
+      "owner": "Tiger Calcium Services Inc.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "tiger-calcium",
+      "asset_id": "mitsue",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Tiger Calcium Services Inc.); no mine-level calendar-2025 salt actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "exshaw",
+      "mine_name": "Exshaw",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "amrize",
+      "asset_id": "exshaw",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "exshaw-gap",
+      "mine_name": "Exshaw (Gap)",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "graymont",
+      "asset_id": "exshaw-gap",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone, lime actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "clearwater",
+      "mine_name": "Clearwater",
+      "owner": "BURNCO Rock Products Ltd.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "burnco",
+      "asset_id": "clearwater",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (BURNCO Rock Products Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "fish-creek",
+      "mine_name": "Fish Creek",
+      "owner": "Graymont Inc.",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "graymont",
+      "asset_id": "fish-creek",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Graymont Inc.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "cadomin",
+      "mine_name": "Cadomin",
+      "owner": "Heidelberg Materials Canada Limited",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "heidelberg-materials",
+      "asset_id": "cadomin",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Heidelberg Materials Canada Limited); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "mount-brussilof",
+      "mine_name": "Mount Brussilof",
+      "owner": "Baymag Inc.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "baymag",
+      "asset_id": "mount-brussilof",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Baymag Inc.); no mine-level calendar-2025 magnesite, magnesia actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "kootenay-west",
+      "mine_name": "Kootenay West",
+      "owner": "CertainTeed Gypsum Canada Inc.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "certainteed-gypsum",
+      "asset_id": "kootenay-west",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (CertainTeed Gypsum Canada Inc.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "falkland",
+      "mine_name": "Falkland",
+      "owner": "Amrize Ltd.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "amrize",
+      "asset_id": "falkland",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Amrize Ltd.); no mine-level calendar-2025 gypsum actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "bud",
+      "mine_name": "Bud",
+      "owner": "Progressive Planet Solutions Inc.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "progressive-planet",
+      "asset_id": "bud",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Progressive Planet Solutions Inc.); no mine-level calendar-2025 zeolite, bentonite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "imperial-limestone",
+      "mine_name": "Imperial Limestone",
+      "owner": "Imperial Limestone Co. Ltd.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "imperial-limestone",
+      "asset_id": "imperial-limestone",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Imperial Limestone Co. Ltd.); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "texada",
+      "mine_name": "Texada",
+      "owner": "Texada Quarrying Ltd. (Amrize AG)",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "amrize",
+      "asset_id": "texada",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Texada Quarrying Ltd. (Amrize AG)); no mine-level calendar-2025 limestone actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "fireside",
+      "mine_name": "Fireside",
+      "owner": "Fireside Minerals Ltd.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "fireside-minerals",
+      "asset_id": "fireside",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Fireside Minerals Ltd.); no mine-level calendar-2025 barite actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "estevan",
+      "mine_name": "Estevan",
+      "owner": "Westmoreland Mining Holdings LLC",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "westmoreland",
+      "asset_id": "estevan",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Westmoreland Mining Holdings LLC); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "poplar-river",
+      "mine_name": "Poplar River",
+      "owner": "Westmoreland Mining Holdings LLC",
+      "year": 2025,
+      "region": "Saskatchewan",
+      "beta_id": "westmoreland",
+      "asset_id": "poplar-river",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Westmoreland Mining Holdings LLC); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "coal-valley",
+      "mine_name": "Coal Valley",
+      "owner": "Westmoreland Mining Holdings LLC",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "westmoreland",
+      "asset_id": "coal-valley",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Westmoreland Mining Holdings LLC); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "vista",
+      "mine_name": "Vista",
+      "owner": "Coalspur Mines Limited",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "coalspur",
+      "asset_id": "vista",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Coalspur Mines Limited); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "grande-cache",
+      "mine_name": "Grande Cache",
+      "owner": "CST Canada Coal Limited",
+      "year": 2025,
+      "region": "Alberta",
+      "beta_id": "cst-canada-coal",
+      "asset_id": "grande-cache",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (CST Canada Coal Limited); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "quintette",
+      "mine_name": "Quintette",
+      "owner": "Conuma Coal Resources Ltd.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "conuma-coal",
+      "asset_id": "quintette",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Conuma Coal Resources Ltd.); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
+    },
+    {
+      "mine_id": "willow-creek",
+      "mine_name": "Willow Creek",
+      "owner": "Conuma Coal Resources Ltd.",
+      "year": 2025,
+      "region": "British Columbia",
+      "beta_id": "conuma-coal",
+      "asset_id": "willow-creek",
+      "ownership_pct": 100,
+      "kind": "blocker",
+      "blocker": "Public owner (Conuma Coal Resources Ltd.); no mine-level calendar-2025 coal actual found on issuer IR / EDGAR. SEDAR+ skipped. Blank is not zero.",
+      "omit_figure": true
     }
   ]
 }

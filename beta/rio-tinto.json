@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,8 +51,52 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "diavik": {
+          "ownership_pct": 100.0,
+          "diamonds_kct": 4429
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "lac-tio",
+      "name": "Lac Tio",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "titanium",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Havre-Saint-Pierre",
+      "location_note": "Havre-Saint-Pierre, Quebec",
+      "lat": 50.5541,
+      "lon": -63.416,
+      "operator": "Rio Tinto Iron and Titanium Canada Inc.",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "diavik",
+      "name": "Diavik",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "diamonds",
+      "country": "Canada",
+      "region": "Northwest Territories",
+      "nearest": "Lac de Gras",
+      "location_note": "Lac de Gras, Northwest Territories",
+      "lat": 64.495,
+      "lon": -110.272,
+      "operator": "Rio Tinto Canada Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -62,6 +106,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Rio Tinto fourth quarter 2025 production results (Exhibit 99.1)",
+      "date": "2026-01-21",
+      "url": "https://www.sec.gov/Archives/edgar/data/863064/000086306426000006/ex1_2025-q4results.htm",
+      "what": "Diavik"
     }
   ],
   "meta": {
@@ -70,6 +120,7 @@
     "mcap_rank": 19,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true,
+    "map_900a_assets": true
   }
 }

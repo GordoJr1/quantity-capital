@@ -197,6 +197,56 @@ class TempRootTests(unittest.TestCase):
             vale_row = next(m for m in book["mines"] if m["owners"] == "Vale Canada Limited")
             self.assertEqual(vale_row["beta_href"], "beta.html?id=vale")
 
+    def test_check_allows_filing_backed_production(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            (root / "canada").mkdir()
+            (root / "scripts").mkdir()
+            (root / "beta" / "vale.json").write_text(
+                json.dumps({
+                    "schema": "qc-issuer-profile-v1",
+                    "id": "vale",
+                    "kind": "producer",
+                    "production": [{"year": 2025, "nickel_kt": 33.2, "asset_id": "voiseys-bay"}],
+                    "assets": [{"id": "voiseys-bay", "name": "Voisey's Bay", "nickel_kt": 33.2}],
+                    "meta": {
+                        "layer": "mcap-top200",
+                        "filing_backed": True,
+                        "map_900a_assets": True,
+                        "watchlist": "canada-map-900a",
+                    },
+                }),
+                encoding="utf-8",
+            )
+            (root / "canada" / "commodities.json").write_text(
+                json.dumps({
+                    "schema": "qc-canada-commodities-v1",
+                    "mines": [{
+                        "id": "voisey-s-bay",
+                        "name": "Voisey's Bay",
+                        "owners": "Vale Canada Limited",
+                        "beta_id": "vale",
+                        "beta_href": "beta.html?id=vale",
+                        "products": ["nickel"],
+                    }],
+                    "commodities": [],
+                }),
+                encoding="utf-8",
+            )
+            (root / "scripts" / "canada-owner-aliases.json").write_text(
+                json.dumps({
+                    "schema": "qc-canada-owner-aliases-v1",
+                    "aliases": [{"owner": "Vale Canada Limited", "company_id": "vale"}],
+                }),
+                encoding="utf-8",
+            )
+            errors = s.check(root)
+            self.assertFalse(
+                any("has production" in e or "invented" in e for e in errors),
+                errors,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

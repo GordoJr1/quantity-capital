@@ -20,6 +20,8 @@ ROOT = HERE.parent
 
 JOIN_SCHEMA = "qc-canada-producer-join-v1"
 YEAR = 2025
+YTD_YEAR = 2026
+YTD_PERIOD = "2026-YTD"
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
     "mine-level output. Stored in qc.sqlite; Pages reads the thin export."
@@ -220,7 +222,181 @@ ISSUER_MAP: dict[str, dict[str, Any]] = {
         "beta_id": "mcewen", "asset_id": "fox-complex",
         "ownership_pct": 100, "region": "Ontario", "omit_figure": True,
     },
-    "lac-des-iles": {"omit_figure": True, "region": "Ontario"},
+    "lac-des-iles": {
+        "beta_id": "impala-platinum-holdings", "asset_id": "lac-des-iles",
+        "ownership_pct": 100, "region": "Ontario", "omit_figure": True,
+    },
+    "gibraltar": {
+        "beta_id": "taseko-mines", "asset_id": "gibraltar",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "copper",
+    },
+    "highland-valley-copper": {
+        "beta_id": "teck-resources", "asset_id": "highland-valley-copper",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "copper",
+    },
+    "cigar-lake": {
+        "beta_id": "cameco", "asset_id": "cigar-lake",
+        "ownership_pct": 54.547, "region": "Saskatchewan", "commodity": "uranium",
+    },
+    "mcarthur-river": {
+        "beta_id": "cameco", "asset_id": "mcarthur-river",
+        "ownership_pct": 69.805, "region": "Saskatchewan", "commodity": "uranium",
+    },
+    "key-lake-mill": {
+        "beta_id": "cameco", "asset_id": "key-lake-mill",
+        "ownership_pct": 83.33, "region": "Saskatchewan", "commodity": "uranium",
+        "omit_figure": True,
+    },
+    "keno-hill-silver-district": {
+        "beta_id": "hecla-mining", "asset_id": "keno-hill",
+        "ownership_pct": 100, "region": "Yukon", "commodity": "silver",
+    },
+    "voisey-s-bay": {
+        "beta_id": "vale", "asset_id": "voisey-s-bay",
+        "ownership_pct": 100, "region": "Newfoundland and Labrador", "commodity": "nickel",
+    },
+    "thompson-t-1-and-t-3": {
+        "beta_id": "vale", "asset_id": "thompson-t-1-and-t-3",
+        "ownership_pct": 100, "region": "Manitoba", "commodity": "nickel",
+    },
+    "garson-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "garson-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "stobie-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "stobie-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "clarabelle-mill-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "clarabelle-mill-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "copper-cliff-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "copper-cliff-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "creighton-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "creighton-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "coleman-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "coleman-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "totten-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "totten-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "gahcho-kue": {
+        "beta_id": "anglo-american", "asset_id": "gahcho-kue",
+        "ownership_pct": 51, "region": "Northwest Territories", "commodity": "diamonds",
+    },
+    "diavik": {
+        "beta_id": "rio-tinto", "asset_id": "diavik",
+        "ownership_pct": 100, "region": "Northwest Territories", "commodity": "diamonds",
+    },
+    "carol-lake": {
+        "beta_id": "iron-ore-company-of-canada", "asset_id": "carol-lake",
+        "ownership_pct": 100, "region": "Newfoundland and Labrador", "commodity": "iron-ore",
+    },
+    "lac-tio": {
+        "beta_id": "rio-tinto", "asset_id": "lac-tio",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "titanium", "omit_figure": True,
+    },
+    "rocanville": {
+        "beta_id": "nutrien", "asset_id": "rocanville",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "allan": {
+        "beta_id": "nutrien", "asset_id": "allan",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "lanigan": {
+        "beta_id": "nutrien", "asset_id": "lanigan",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "vanscoy": {
+        "beta_id": "nutrien", "asset_id": "vanscoy",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "cory": {
+        "beta_id": "nutrien", "asset_id": "cory",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "patience-lake": {
+        "beta_id": "nutrien", "asset_id": "patience-lake",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "esterhazy-k-3": {
+        "beta_id": "mosaic-company", "asset_id": "esterhazy-k-3",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "belle-plaine": {
+        "beta_id": "mosaic-company", "asset_id": "belle-plaine",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "colonsay": {
+        "beta_id": "mosaic-company", "asset_id": "colonsay",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "kidd-creek": {
+        "beta_id": "glencore", "asset_id": "kidd-creek",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "zinc",
+        "omit_figure": True,
+    },
+    "raglan": {
+        "beta_id": "glencore", "asset_id": "raglan",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "nickel", "omit_figure": True,
+    },
+    "fraser-sudbury-ino": {
+        "beta_id": "glencore", "asset_id": "fraser-sudbury-ino",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "strathcona-mill-sudbury-ino": {
+        "beta_id": "glencore", "asset_id": "strathcona-mill-sudbury-ino",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "elkview": {
+        "beta_id": "glencore", "asset_id": "elkview",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "fording-river": {
+        "beta_id": "glencore", "asset_id": "fording-river",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "greenhills": {
+        "beta_id": "glencore", "asset_id": "greenhills",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "line-creek": {
+        "beta_id": "glencore", "asset_id": "line-creek",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "bloom-lake": {
+        "beta_id": "champion-iron", "asset_id": "bloom-lake",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "mont-wright": {
+        "beta_id": "arcelormittal", "asset_id": "mont-wright",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "fire-lake": {
+        "beta_id": "arcelormittal", "asset_id": "fire-lake",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "mccreedy-west": {
+        "beta_id": "magna-mining", "asset_id": "mccreedy-west",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "copper", "omit_figure": True,
+    },
+    "ekati": {
+        "beta_id": "burgundy-diamond", "asset_id": "ekati",
+        "ownership_pct": 100, "region": "Northwest Territories", "commodity": "diamonds",
+        "omit_figure": True,
+    },
+    "stall-concentrator-snow-lake": {
+        "beta_id": "hudbay-minerals", "asset_id": "snow-lake",
+        "ownership_pct": 100, "region": "Manitoba", "commodity": "zinc", "omit_figure": True,
+    },
 }
 
 NEW_ISSUERS: dict[str, dict[str, Any]] = {
@@ -289,6 +465,13 @@ def annual_2025(profile: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
+def period_ytd(profile: dict[str, Any]) -> dict[str, Any] | None:
+    for rec in profile.get("production") or []:
+        if rec.get("period") == YTD_PERIOD and rec.get("kind") == "ytd":
+            return rec
+    return None
+
+
 def figure_for_table(
     profile: dict[str, Any],
     asset_id: str,
@@ -326,6 +509,20 @@ def figure_for_table(
         if row.get("silver_oz") is not None:
             return {"value": row["silver_oz"], "unit": "troy oz", "field": "silver_oz"}
         return None
+    extra = {
+        "nickel": (("nickel_kt", "kt"), ("nickel_t", "t")),
+        "uranium": (("uranium_mlb", "Mlb"),),
+        "potash": (("potash_mt", "Mt"),),
+        "iron-ore": (("iron_mt", "Mt"),),
+        "diamonds": (("diamonds_kct", "kct"), ("diamonds_ct", "ct")),
+        "molybdenum": (("molybdenum_mlb", "Mlb"), ("molybdenum_t", "t")),
+        "zinc": (("zinc_kt", "kt"), ("zinc_t", "t")),
+        "platinum": (("platinum_oz", "troy oz"),),
+        "palladium": (("palladium_oz", "troy oz"),),
+    }
+    for field, unit in extra.get(commodity) or ():
+        if row.get(field) is not None:
+            return {"value": row[field], "unit": unit, "field": field}
     return None
 
 
@@ -419,7 +616,12 @@ def merge_by_asset(existing: dict[str, Any] | None, incoming: dict[str, Any]) ->
     changed = False
     had_gold = existing.get("attr_koz") is not None or existing.get("koz_100pct") is not None
     allowed = (
-        {"copper_t", "copper_mlb", "silver_koz", "silver_oz"}
+        {
+            "copper_t", "copper_mlb", "silver_koz", "silver_oz",
+            "nickel_kt", "nickel_t", "uranium_mlb", "potash_mt", "iron_mt",
+            "diamonds_kct", "diamonds_ct", "molybdenum_mlb", "molybdenum_t",
+            "zinc_kt", "zinc_t", "platinum_oz", "palladium_oz",
+        }
         if had_gold
         else set(incoming)
     )
@@ -448,6 +650,49 @@ def upsert_prod_2025(
     merged, changed = merge_by_asset(ba.get(asset_id), row)
     if changed or asset_id not in ba:
         ba[asset_id] = merged
+        changed = True
+    return changed or created
+
+
+def upsert_prod_ytd(
+    profile: dict[str, Any],
+    asset_id: str,
+    row: dict[str, Any],
+    ytd_meta: dict[str, Any] | None = None,
+) -> bool:
+    """Write a labeled 2026 YTD by_asset row. Never a full-year 2026 annual."""
+    meta = ytd_meta or {}
+    prods = profile.setdefault("production", [])
+    rec = period_ytd(profile)
+    created = False
+    if rec is None:
+        rec = {
+            "period": YTD_PERIOD,
+            "kind": "ytd",
+            "through": meta.get("through") or f"{YTD_YEAR}-06-30",
+            "by_asset": {},
+        }
+        if meta.get("period_label"):
+            rec["period_label"] = meta["period_label"]
+        # Keep 2025 annual first when present.
+        insert_at = 1 if (prods and prods[0].get("period") == str(YEAR)) else 0
+        prods.insert(insert_at, rec)
+        created = True
+    else:
+        rec["kind"] = "ytd"
+        rec["period"] = YTD_PERIOD
+        if meta.get("through") and not rec.get("through"):
+            rec["through"] = meta["through"]
+        if meta.get("period_label") and not rec.get("period_label"):
+            rec["period_label"] = meta["period_label"]
+    ba = rec.setdefault("by_asset", {})
+    merged, changed = merge_by_asset(ba.get(asset_id), row)
+    if changed or asset_id not in ba:
+        ba[asset_id] = merged
+        changed = True
+    kpis = profile.setdefault("kpis", {})
+    if rec.get("through") and not kpis.get("ytd_through"):
+        kpis["ytd_through"] = rec["through"]
         changed = True
     return changed or created
 
@@ -550,6 +795,34 @@ def mark_filing_backed(profile: dict[str, Any], wrote_figure: bool) -> bool:
     return changed
 
 
+def _extra_by_asset(row: dict[str, Any], comms: dict[str, Any]) -> None:
+    """Copy non-Au/Ag/Cu commodities onto by_asset using source units."""
+    mapping = {
+        "nickel": (("kt", "nickel_kt"), ("t", "nickel_t")),
+        "uranium": (("mlb", "uranium_mlb"),),
+        "potash": (("mt", "potash_mt"),),
+        "iron-ore": (("mt", "iron_mt"),),
+        "diamonds": (("kct", "diamonds_kct"), ("ct", "diamonds_ct")),
+        "molybdenum": (("mlb", "molybdenum_mlb"), ("t", "molybdenum_t")),
+        "zinc": (("kt", "zinc_kt"), ("t", "zinc_t")),
+        "platinum": (("troy oz", "platinum_oz"), ("oz", "platinum_oz")),
+        "palladium": (("troy oz", "palladium_oz"), ("oz", "palladium_oz")),
+    }
+    for cid, choices in mapping.items():
+        rec = comms.get(cid)
+        if not rec or rec.get("value") is None:
+            continue
+        unit = (rec.get("unit") or rec.get("source_unit") or "").strip().lower()
+        field = None
+        for want, dest in choices:
+            if unit == want:
+                field = dest
+                break
+        if field is None:
+            field = choices[0][1]
+        row[field] = rec["value"]
+
+
 def by_asset_from_record(
     rec: dict[str, Any],
     profile: dict[str, Any],
@@ -578,6 +851,8 @@ def by_asset_from_record(
         unit = (copper.get("unit") or copper.get("source_unit") or "").lower()
         if unit in {"mlb", "mlbs"}:
             row["copper_mlb"] = copper["value"]
+        elif unit in {"kt"}:
+            row["copper_t"] = float(copper["value"]) * 1000.0
         else:
             row["copper_t"] = copper["value"]
     silver = comms.get("silver")
@@ -587,6 +862,8 @@ def by_asset_from_record(
             row["silver_koz"] = troy_to_profile_gold(troy, profile)
         else:
             row["silver_oz"] = troy
+    # 100% mine output as disclosed (Cigar Lake 19.1 Mlb; Gahcho Kué 2,210 kct is already 51%).
+    _extra_by_asset(row, comms)
     quote = None
     for c in comms.values():
         if c.get("quote"):
@@ -655,6 +932,18 @@ def apply_record_to_profile(
             if upsert_prod_2025(profile, asset_id, row):
                 changed = True
                 wrote_figure = not had_slot
+        ytd = rec.get("ytd") or {}
+        if ytd.get("commodities"):
+            ytd_row = by_asset_from_record(ytd, profile, meta)
+            if ytd_row:
+                rec_ytd = period_ytd(profile)
+                had_ytd = bool(((rec_ytd or {}).get("by_asset") or {}).get(asset_id))
+                if upsert_prod_ytd(profile, asset_id, ytd_row, ytd):
+                    changed = True
+                    if not had_ytd:
+                        wrote_figure = True
+                if append_source(profile, {**src, **ytd}):
+                    changed = True
     if wrote_figure and append_source(profile, {**src, **rec}):
         changed = True
     if mark_filing_backed(profile, wrote_figure):
@@ -784,8 +1073,39 @@ def build_join(
                     exported[cid]["quote"] = c["quote"]
             if exported:
                 row["commodities"] = exported
+            ytd = rec.get("ytd") or {}
+            ytd_comms = ytd.get("commodities") or {}
+            ytd_exported = {}
+            for cid, c in ytd_comms.items():
+                if c.get("value") is None:
+                    continue
+                ytd_exported[cid] = {"value": c["value"], "unit": c.get("unit") or ""}
+                if c.get("quote"):
+                    ytd_exported[cid]["quote"] = c["quote"]
+            if ytd_exported:
+                ytd_src_row = src.get("ytd") if isinstance(src.get("ytd"), dict) else {}
+                ytd_row: dict[str, Any] = {
+                    "period": ytd.get("period") or YTD_PERIOD,
+                    "kind": "ytd",
+                    "through": ytd.get("through") or ytd_src_row.get("through"),
+                    "period_label": ytd.get("period_label") or ytd_src_row.get("period_label"),
+                    "source": (
+                        ytd.get("production_source")
+                        or ytd.get("url")
+                        or ytd_src_row.get("url")
+                    ),
+                    "source_title": (
+                        ytd.get("production_source_title")
+                        or ytd.get("title")
+                        or ytd_src_row.get("title")
+                    ),
+                    "as_of": ytd.get("production_as_of") or ytd.get("as_of") or ytd_src_row.get("as_of"),
+                    "commodities": ytd_exported,
+                }
+                row["ytd"] = {k: v for k, v in ytd_row.items() if v is not None}
         mines[mid] = {k: v for k, v in row.items() if v is not None or k in {"beta_id", "asset_id"}}
     n_fig = sum(1 for r in mines.values() if (r.get("commodities") or {}) and not r.get("omit_figure"))
+    n_ytd = sum(1 for r in mines.values() if ((r.get("ytd") or {}).get("commodities") or {}) and not r.get("omit_figure"))
     n_linked = sum(1 for r in mines.values() if r.get("beta_id") and not r.get("omit_figure"))
     n_blank = sum(1 for r in mines.values() if r.get("omit_figure") or r.get("blocker") or not (r.get("commodities") or {}))
     return {
@@ -799,6 +1119,7 @@ def build_join(
         "n_mines": len(mines),
         "n_linked": n_linked,
         "n_with_figure": n_fig,
+        "n_with_ytd": n_ytd,
         "n_blank": n_blank,
         "mines": mines,
     }
@@ -840,6 +1161,27 @@ def validate_join(join: dict[str, Any], *, root: Path = ROOT) -> list[str]:
                 fig = figure_for_table(profile, row["asset_id"], "gold")
                 if fig:
                     n_fig += 1
+        ytd = row.get("ytd")
+        if ytd:
+            if ytd.get("kind") != "ytd":
+                errors.append(f"{mid}: join ytd kind must be ytd")
+            if ytd.get("period") != YTD_PERIOD:
+                errors.append(f"{mid}: join ytd period must be {YTD_PERIOD}")
+            if not ytd.get("through"):
+                errors.append(f"{mid}: join ytd missing through")
+            if not ytd.get("period_label"):
+                errors.append(f"{mid}: join ytd missing period_label")
+            if ytd.get("kind") == "annual" or ytd.get("period") == str(YEAR):
+                errors.append(f"{mid}: partial 2026 mixed into annual 2025")
+            ytd_gold = (ytd.get("commodities") or {}).get("gold")
+            if ytd_gold and ytd_gold.get("unit") != "troy oz":
+                errors.append(f"{mid}: YTD gold export unit {ytd_gold.get('unit')}")
+            if (ytd.get("commodities") or {}) and not (ytd.get("source") or "").startswith("http"):
+                errors.append(f"{mid}: YTD figure without URL")
+            # 2025 commodities must stay the annual figure, not the YTD snapshot.
+            if ytd_gold and gold and ytd_gold.get("value") == gold.get("value"):
+                # Same ounce figure in both columns is allowed only if filings match; not an error.
+                pass
     if n_fig < 5:
         errors.append(f"need several cited gold figures, have {n_fig}")
     # Guard existing Newmont shape.

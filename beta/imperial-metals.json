@@ -27,11 +27,11 @@
     "watchlist_type": null
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
-    "attr_koz_2025": null,
+    "attr_koz_2025": 37.555,
     "attr_pp_koz": null,
     "attr_mi_incl_koz": null,
     "attr_inf_koz": null
@@ -40,7 +40,22 @@
     "basis": "none — canada owner shell",
     "total_koz": null
   },
-  "production": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "mount-polley": {
+          "ownership_pct": 100.0,
+          "koz_100pct": 37.555,
+          "attr_koz": 37.555,
+          "copper_mlb": 30.715,
+          "note": "30.715 million pounds of copper"
+        }
+      },
+      "attr_koz": 37.555
+    }
+  ],
   "assets": [
     {
       "id": "mount-polley",
@@ -68,12 +83,18 @@
       "title": "NRCan Map 900A principal producing sites",
       "date": "2026-09-21",
       "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    },
+    {
+      "title": "Imperial Reports 2025 Financial Results",
+      "date": "2026-03-26",
+      "url": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "what": "30.715 million pounds of copper"
     }
   ],
   "meta": {
     "layer": "canada-owner",
     "watchlist": "canada-map-900a",
-    "filing_backed": false,
+    "filing_backed": true,
     "map_900a_assets": true,
     "alerts": []
   }

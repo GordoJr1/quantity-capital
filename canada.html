@@ -161,7 +161,7 @@
   <div class="wrap" id="main">
     <p class="kicker">Beta</p>
     <h1>Canadian production</h1>
-    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. The 2025 production column is a sqlite export of company filings — blank when the filing does not break out that mine.</p>
+    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. 2025 production is calendar-year actuals from company filings; 2026 YTD is the labeled period (H1 unless the filing says otherwise), never a full year. Blank when not disclosed.</p>
     <p class="asof" id="asof">Loading production book…</p>
     <div class="pickers">
       <div class="picker">
@@ -213,14 +213,15 @@
                 <th>Mine</th>
                 <th>Location</th>
                 <th>Owner(s)</th>
-                <th class="num" id="prod-col" title="From company filings where disclosed; StatCan/NRCan do not publish mine-level output.">2025 prod.</th>
+                <th class="num" id="prod-col" title="Calendar-year 2025 actuals from company filings where disclosed; StatCan/NRCan do not publish mine-level output.">2025 prod.</th>
+                <th class="num" id="ytd-col" title="2026 year-to-date actuals for the period the filing states (H1 / Q2 YTD). Not a full year.">2026 YTD</th>
                 <th>Claims</th>
               </tr>
             </thead>
             <tbody id="mines"></tbody>
           </table>
         </div>
-        <p class="quiet" id="mines-prod-note">From company filings where disclosed; StatCan/NRCan do not publish mine-level output.</p>
+        <p class="quiet" id="mines-prod-note">From company filings where disclosed; StatCan/NRCan do not publish mine-level output. 2025 is a full calendar year. 2026 YTD is the labeled period only.</p>
       </div>
     </div>
   </div>
@@ -561,8 +562,22 @@
       return { value: row.value, unit: row.unit || "" };
     }
 
+    function figureFromJoinYtd(link, commodityId) {
+      if (!link || link.omit_figure || !link.ytd) return null;
+      const row = (link.ytd.commodities || {})[commodityId];
+      if (!row || row.value == null || !isFinite(row.value)) return null;
+      return {
+        value: row.value,
+        unit: row.unit || "",
+        through: link.ytd.through || "",
+        period_label: link.ytd.period_label || "2026 YTD",
+        source: link.ytd.source || "",
+        quote: row.quote || ""
+      };
+    }
+
     function prodCell(c, m) {
-      const note = "From company filings where disclosed; StatCan/NRCan do not publish mine-level output.";
+      const note = "Calendar-year 2025 actuals from company filings where disclosed; StatCan/NRCan do not publish mine-level output.";
       const allOps = c && c.id === "all";
       const link = joinRow(m);
       const omit = link && link.omit_figure;
@@ -584,6 +599,29 @@
       return "<span title=\"" + esc(tip) + "\">" + esc(label) + "</span>";
     }
 
+    function prodYtdCell(c, m) {
+      const note = "2026 year-to-date actuals for the period the filing states. Not a full year.";
+      const allOps = c && c.id === "all";
+      const link = joinRow(m);
+      const omit = link && link.omit_figure;
+      const fig = (!allOps && !omit) ? figureFromJoinYtd(link, c.id) : null;
+      const val = fig && fig.value;
+      const unit = (fig && fig.unit) || prodUnit(c, m);
+      const period = (fig && fig.period_label) || (link && link.ytd && link.ytd.period_label) || "2026 YTD";
+      const quote = fig && fig.quote;
+      const tip = [note, period, fig && fig.through ? ("through " + fig.through) : "", quote].filter(Boolean).join(" ");
+      if (val == null || !isFinite(val) || omit) {
+        return "<span class=\"quiet\" title=\"" + esc(tip) + "\">—</span>";
+      }
+      const src = (fig && fig.source) || (link && link.ytd && link.ytd.source);
+      const label = fmt(val, unit);
+      if (src) {
+        return "<a class=\"claim\" href=\"" + esc(src) + "\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"" +
+          esc(tip) + "\">" + esc(label) + "</a>";
+      }
+      return "<span title=\"" + esc(tip) + "\">" + esc(label) + "</span>";
+    }
+
     function paintMines(c) {
       const mines = (c && c.mines) || [];
       const allOps = c && c.id === "all";
@@ -591,13 +629,16 @@
       document.getElementById("prod-col").textContent = allOps
         ? "2025 prod."
         : (unit ? ("2025 prod. (" + unit + ")") : "2025 prod.");
+      document.getElementById("ytd-col").textContent = allOps
+        ? "2026 YTD"
+        : (unit ? ("2026 YTD (" + unit + ")") : "2026 YTD");
       document.getElementById("mines-h").textContent = allOps
         ? "All principal mines"
         : ("Principal mines · " + ((c && c.name) || "commodity"));
       document.getElementById("mines-note").textContent = mines.length
         ? (allOps
-          ? "Every Map 900A principal operation. Owner names open that issuer’s Mines page (beta.html?id=). Claims Open is only set when we already have that company. 2025 production stays on the commodity tables."
-          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Linked owners open that issuer’s producer page. 2025 production is the selected commodity only, exported from qc.sqlite (company filings); — means not disclosed (or only AuEq / a complex total)."))
+          ? "Every Map 900A principal operation. Owner names open that issuer’s Mines page (beta.html?id=). Claims Open is only set when we already have that company. 2025 and 2026 YTD stay on the commodity tables."
+          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Linked owners open that issuer’s producer page. 2025 is calendar-year actuals; 2026 YTD is the labeled period from the filing (not a full year). — means not disclosed (or only AuEq / a complex total)."))
         : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
       document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
         const href = m.claims_href;
@@ -610,8 +651,9 @@
         const products = m.products_raw ? "<div class=\"quiet\">" + esc(m.products_raw) + "</div>" : "";
         const link = joinRow(m);
         return "<tr><td>" + name + products + "</td><td>" + esc(m.location || "—") + "</td><td>" +
-          ownersHtml(m, link) + "</td><td class=\"num\">" + prodCell(c, m) + "</td><td>" + claim + "</td></tr>";
-      }).join("") : "<tr><td colspan=\"5\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
+          ownersHtml(m, link) + "</td><td class=\"num\">" + prodCell(c, m) +
+          "</td><td class=\"num\">" + prodYtdCell(c, m) + "</td><td>" + claim + "</td></tr>";
+      }).join("") : "<tr><td colspan=\"6\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
     }
 
     function paint() {
@@ -672,12 +714,12 @@
       return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     }
 
-    fetch("canada/commodities.json?v=5").then(function (r) {
+    fetch("canada/commodities.json?v=6").then(function (r) {
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
     }).then(function (data) {
       return Promise.all([
-        fetchJson("canada/producer-join.json?v=3"),
+        fetchJson("canada/producer-join.json?v=5"),
         fetchJson("beta/issuers.json"),
         fetchJson("beta/claims-publics.json"),
         fetchJson("beta/mcap.json"),

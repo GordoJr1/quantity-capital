@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,8 +51,74 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "cigar-lake": {
+          "ownership_pct": 54.547,
+          "uranium_mlb": 19.1,
+          "note": "At Cigar Lake, we produced 19.1 million pounds (100% basis)"
+        },
+        "mcarthur-river": {
+          "ownership_pct": 69.805,
+          "uranium_mlb": 15.1,
+          "note": "At McArthur River/Key Lake, we produced 15.1 million pounds (100% basis)"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "cigar-lake",
+      "name": "Cigar Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "uranium",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Waterbury Lake",
+      "location_note": "Waterbury Lake, Saskatchewan",
+      "lat": 58.06819,
+      "lon": -104.54123,
+      "operator": "Cameco Corporation",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "mcarthur-river",
+      "name": "McArthur River",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "uranium",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "north of Key Lake",
+      "location_note": "north of Key Lake, Saskatchewan",
+      "lat": 57.7637,
+      "lon": -105.053,
+      "operator": "Cameco Corporation",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "key-lake-mill",
+      "name": "Key Lake mill",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "uranium",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "north of Highrock Lake",
+      "location_note": "north of Highrock Lake, Saskatchewan",
+      "lat": 57.207,
+      "lon": -105.647,
+      "operator": "Cameco Corporation",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -62,6 +128,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Cameco 2025 Q4 / year-end report",
+      "date": "2026-02-12",
+      "url": "https://www.cameco.com/invest/financial-information/quarterly-reports/2025/q4",
+      "what": "At Cigar Lake, we produced 19.1 million pounds (100% basis)"
     }
   ],
   "meta": {
@@ -70,6 +142,7 @@
     "mcap_rank": 39,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true,
+    "map_900a_assets": true
   }
 }

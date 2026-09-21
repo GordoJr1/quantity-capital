@@ -59,6 +59,24 @@ class ConvertTests(unittest.TestCase):
         self.assertEqual(mlb, 50.1)
         self.assertEqual(mlb_unit, "Mlb")
 
+    def test_keeps_kt_mt_kct_scale(self) -> None:
+        kt, kt_unit, kt_err = ing.convert_reported(33.2, "kt", "nickel")
+        self.assertIsNone(kt_err)
+        self.assertEqual(kt, 33.2)
+        self.assertEqual(kt_unit, "kt")
+        mt, mt_unit, mt_err = ing.convert_reported(4.64, "million tonnes", "potash")
+        self.assertIsNone(mt_err)
+        self.assertEqual(mt, 4.64)
+        self.assertEqual(mt_unit, "Mt")
+        kct, kct_unit, kct_err = ing.convert_reported(2210, "000 carats", "diamonds")
+        self.assertIsNone(kct_err)
+        self.assertEqual(kct, 2210)
+        self.assertEqual(kct_unit, "kct")
+        mct, mct_unit, mct_err = ing.convert_reported(4.4, "million carats", "diamonds")
+        self.assertIsNone(mct_err)
+        self.assertEqual(mct, 4400)
+        self.assertEqual(mct_unit, "kct")
+
 
 class VerifyTests(unittest.TestCase):
     def test_quote_must_appear(self) -> None:
@@ -71,6 +89,29 @@ class VerifyTests(unittest.TestCase):
         self.assertTrue(ok, why)
         bad, _why = ing.verify_extract(text, {"quote": "invented 999,999 ounces of gold"})
         self.assertFalse(bad)
+
+    def test_pdf_object_soup_is_unusable(self) -> None:
+        soup = "1 0 obj /Type /Page /Contents 2 0 R endobj 2 0 obj (stream)"
+        self.assertTrue(ing.extract_looks_unusable(soup))
+        rec = ing.record_for_source(
+            {
+                "mine_id": "brucejack",
+                "mine_name": "Brucejack",
+                "url": "https://example.test/brucejack.pdf",
+                "extract": {
+                    "gold": {
+                        "source_value": 231,
+                        "source_unit": "koz",
+                        "quote": "Brucejack, Canada. Gold production decreased 10%",
+                    }
+                },
+            },
+            text=soup,
+            fetch_ok=False,
+            fetch_error="unusable_extract",
+        )
+        self.assertEqual(rec["commodities"]["gold"]["value"], 231000)
+        self.assertNotIn("gold", {s.get("commodity") for s in rec.get("skipped") or []})
 
 
 class OverlayTests(unittest.TestCase):
@@ -124,6 +165,22 @@ class SourcesBookTests(unittest.TestCase):
             if row.get("blocker") and row.get("extract"):
                 self.fail(f"{row['mine_id']} has both extract and blocker")
         self.assertGreaterEqual(n_extract, 8)
+        n_ytd = 0
+        for row in data["mines"]:
+            ytd = row.get("ytd")
+            if not ytd:
+                continue
+            n_ytd += 1
+            self.assertEqual(ytd.get("year"), 2026, row["mine_id"])
+            self.assertEqual(ytd.get("kind"), "ytd", row["mine_id"])
+            self.assertEqual(ytd.get("period"), "2026-YTD", row["mine_id"])
+            self.assertTrue(ytd.get("through"), row["mine_id"])
+            self.assertTrue(ytd.get("period_label"), row["mine_id"])
+            self.assertNotEqual(ytd.get("period_label"), "2026", row["mine_id"])
+            if ytd.get("extract"):
+                self.assertTrue(str(ytd.get("url") or "").startswith("http"), row["mine_id"])
+                self.assertNotIn("aueq", ytd["extract"])
+        self.assertGreaterEqual(n_ytd, 8)
 
 
 class OfflineIngestTests(unittest.TestCase):
@@ -497,6 +554,211 @@ class SqliteStoreTests(unittest.TestCase):
             self.assertEqual(join["schema"], beta.JOIN_SCHEMA)
             self.assertGreaterEqual(join["n_with_figure"], 5)
             self.assertEqual(join["built_from"], "qc.sqlite")
+
+
+class YtdPipelineTests(unittest.TestCase):
+    def test_validate_book_requires_through_and_period_label(self) -> None:
+        book = {
+            "schema": ing.SCHEMA,
+            "year": 2025,
+            "mines": {
+                f"mine-{i}": {
+                    "commodities": {
+                        "gold": {"value": 1000 * (i + 1), "unit": "troy oz", "quote": "x"}
+                    },
+                    "production_source": f"https://example.test/{i}",
+                    "production_source_title": "t",
+                }
+                for i in range(5)
+            },
+        }
+        book["mines"]["mine-0"]["ytd"] = {
+            "year": 2026,
+            "period": "2026-YTD",
+            "kind": "ytd",
+            "commodities": {
+                "gold": {"value": 500, "unit": "troy oz", "quote": "H1"}
+            },
+            "production_source": "https://example.test/ytd",
+        }
+        errors = ing.validate_book(book)
+        self.assertTrue(any("through" in e for e in errors))
+        self.assertTrue(any("period_label" in e for e in errors))
+
+    def test_ytd_not_mixed_into_2025_sqlite_or_join(self) -> None:
+        mines = {}
+        src_rows = []
+        for i in range(5):
+            mid = f"mine-{i}"
+            mines[mid] = {
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "year": 2025,
+                "kind": "ops-update",
+                "production_source": f"https://example.test/{mid}",
+                "production_source_title": f"{mid} 2025",
+                "commodities": {
+                    "gold": {
+                        "value": 10000 + i,
+                        "unit": "troy oz",
+                        "source_value": 10000 + i,
+                        "source_unit": "oz",
+                        "quote": f"{10000 + i} ounces of gold",
+                    }
+                },
+                "fetch_ok": True,
+            }
+            src_rows.append({
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "url": f"https://example.test/{mid}",
+                "title": f"{mid} 2025",
+                "beta_id": "artemis-gold" if i == 0 else None,
+                "asset_id": "blackwater" if i == 0 else mid,
+            })
+        for i in range(5):
+            mid = f"blank-{i}"
+            mines[mid] = {
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "year": 2025,
+                "commodities": {},
+                "blocker": "not disclosed",
+            }
+            src_rows.append({"mine_id": mid, "mine_name": mid.title(), "blocker": "not disclosed"})
+        mines["mine-0"]["ytd"] = {
+            "year": 2026,
+            "period": "2026-YTD",
+            "kind": "ytd",
+            "through": "2026-06-30",
+            "period_label": "H1 2026",
+            "production_source": "https://example.test/mine-0-ytd",
+            "production_source_title": "H1 2026",
+            "commodities": {
+                "gold": {
+                    "value": 49644,
+                    "unit": "troy oz",
+                    "source_value": 49644,
+                    "source_unit": "oz",
+                    "quote": "49,644 ounces in the first half of 2026",
+                }
+            },
+        }
+        src_rows[0]["ytd"] = {
+            "year": 2026,
+            "period": "2026-YTD",
+            "kind": "ytd",
+            "through": "2026-06-30",
+            "period_label": "H1 2026",
+            "url": "https://example.test/mine-0-ytd",
+        }
+        book = {"schema": ing.SCHEMA, "year": 2025, "mines": mines}
+        self.assertEqual(ing.validate_book(book), [])
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            (root / "canada").mkdir()
+            artemis = json.loads((ROOT / "beta" / "artemis-gold.json").read_text(encoding="utf-8"))
+            (root / "beta" / "artemis-gold.json").write_text(json.dumps(artemis), encoding="utf-8")
+            db = root / "qc.sqlite"
+            con = cmsql.connect(db)
+            try:
+                cmsql.store_book(con, book, {"year": 2025, "mines": src_rows})
+                errors = cmsql.validate_db(con)
+                self.assertEqual(errors, [])
+                years = {
+                    r[0]
+                    for r in con.execute("SELECT DISTINCT year FROM canada_mine_production")
+                }
+                self.assertEqual(years, {2025, 2026})
+                ytd_kind = con.execute(
+                    "SELECT kind, through, period_label, period FROM canada_mine_sources WHERE mine_id=? AND year=?",
+                    ("mine-0", 2026),
+                ).fetchone()
+                self.assertEqual(ytd_kind[0], "ytd")
+                self.assertEqual(ytd_kind[1], "2026-06-30")
+                self.assertEqual(ytd_kind[2], "H1 2026")
+                self.assertEqual(ytd_kind[3], "2026-YTD")
+                rebuilt = cmsql.book_from_db(con)
+                self.assertEqual(rebuilt["mines"]["mine-0"]["commodities"]["gold"]["value"], 10000)
+                self.assertEqual(rebuilt["mines"]["mine-0"]["ytd"]["commodities"]["gold"]["value"], 49644)
+                self.assertNotIn("ytd", rebuilt["mines"]["mine-0"]["commodities"])
+                exported = cmsql.export_pages(con, root=root)
+            finally:
+                con.close()
+            join = exported["join"]
+            self.assertEqual(join["year"], 2025)
+            self.assertEqual(join["mines"]["mine-0"]["commodities"]["gold"]["value"], 10000)
+            ytd = join["mines"]["mine-0"]["ytd"]
+            self.assertEqual(ytd["kind"], "ytd")
+            self.assertEqual(ytd["period"], "2026-YTD")
+            self.assertEqual(ytd["through"], "2026-06-30")
+            self.assertEqual(ytd["period_label"], "H1 2026")
+            self.assertEqual(ytd["commodities"]["gold"]["value"], 49644)
+            self.assertNotEqual(ytd["commodities"]["gold"]["value"], join["mines"]["mine-0"]["commodities"]["gold"]["value"])
+            after = json.loads((root / "beta" / "artemis-gold.json").read_text(encoding="utf-8"))
+            rec2025 = beta.annual_2025(after)
+            rec_ytd = beta.period_ytd(after)
+            self.assertEqual(rec2025["by_asset"]["blackwater"]["attr_koz"], 192.8)
+            # Existing 2026-YTD gold is not overwritten (136.0 vs incoming 49.644).
+            self.assertEqual(rec_ytd["by_asset"]["blackwater"]["attr_koz"], 136.0)
+            self.assertEqual(rec_ytd["kind"], "ytd")
+            self.assertEqual(rec_ytd["period"], "2026-YTD")
+
+    def test_cote_ytd_keeps_100pct_without_inventing_attr(self) -> None:
+        profile = {"units": {"gold": "koz"}, "production": [], "assets": [], "sources": []}
+        rec = {
+            "mine_name": "Côté Gold",
+            "commodities": {},
+            "ytd": {
+                "year": 2026,
+                "period": "2026-YTD",
+                "kind": "ytd",
+                "through": "2026-06-30",
+                "period_label": "H1 2026",
+                "production_source": "https://example.test/img",
+                "production_source_title": "IAMGOLD Q2 2026",
+                "commodities": {
+                    "gold": {
+                        "value": 170900,
+                        "unit": "troy oz",
+                        "quote": "170,900 ounces | 100%",
+                    }
+                },
+            },
+        }
+        meta = {"asset_id": "cote-gold", "ownership_pct": 70, "commodity": "gold", "region": "Ontario"}
+        src = {"mine_name": "Côté Gold"}
+        self.assertTrue(beta.apply_record_to_profile(profile, rec, meta, src))
+        ytd = beta.period_ytd(profile)
+        row = ytd["by_asset"]["cote-gold"]
+        self.assertEqual(row["koz_100pct"], 170.9)
+        self.assertNotIn("attr_koz", row)
+        self.assertIsNone(beta.annual_2025(profile))
+
+    def test_upsert_ytd_does_not_write_2025_annual(self) -> None:
+        profile = {
+            "units": {"gold": "koz"},
+            "production": [{
+                "period": "2025",
+                "kind": "annual",
+                "by_asset": {"eagle-river": {"attr_koz": 112.767, "koz_100pct": 112.767}},
+            }],
+        }
+        beta.upsert_prod_ytd(
+            profile,
+            "eagle-river",
+            {"attr_koz": 49.644, "koz_100pct": 49.644, "ownership_pct": 100},
+            {"through": "2026-06-30", "period_label": "H1 2026"},
+        )
+        rec2025 = beta.annual_2025(profile)
+        rec_ytd = beta.period_ytd(profile)
+        self.assertEqual(rec2025["by_asset"]["eagle-river"]["attr_koz"], 112.767)
+        self.assertEqual(rec_ytd["by_asset"]["eagle-river"]["attr_koz"], 49.644)
+        self.assertEqual(rec_ytd["kind"], "ytd")
+        self.assertEqual(rec_ytd["period"], "2026-YTD")
+        self.assertEqual(rec_ytd["through"], "2026-06-30")
+        self.assertEqual(rec_ytd["period_label"], "H1 2026")
 
 
 if __name__ == "__main__":

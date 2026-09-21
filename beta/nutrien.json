@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,8 +51,152 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "allan": {
+          "ownership_pct": 100.0,
+          "potash_mt": 2.51
+        },
+        "cory": {
+          "ownership_pct": 100.0,
+          "potash_mt": 2.09
+        },
+        "lanigan": {
+          "ownership_pct": 100.0,
+          "potash_mt": 3.43
+        },
+        "patience-lake": {
+          "ownership_pct": 100.0,
+          "potash_mt": 0.22
+        },
+        "rocanville": {
+          "ownership_pct": 100.0,
+          "potash_mt": 4.64
+        },
+        "vanscoy": {
+          "ownership_pct": 100.0,
+          "potash_mt": 1.08
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "picadilly",
+      "name": "Picadilly",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "New Brunswick",
+      "nearest": "Sussex",
+      "location_note": "Sussex, New Brunswick",
+      "lat": 45.7515,
+      "lon": -65.4162,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "rocanville",
+      "name": "Rocanville",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Rocanville",
+      "location_note": "Rocanville, Saskatchewan",
+      "lat": 50.471916,
+      "lon": -101.544281,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "lanigan",
+      "name": "Lanigan",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Lanigan",
+      "location_note": "Lanigan, Saskatchewan",
+      "lat": 51.853044,
+      "lon": -105.205794,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "allan",
+      "name": "Allan",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Allan",
+      "location_note": "Allan, Saskatchewan",
+      "lat": 51.93062,
+      "lon": -106.068974,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "patience-lake",
+      "name": "Patience Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Blucher",
+      "location_note": "Blucher, Saskatchewan",
+      "lat": 52.089362,
+      "lon": -106.376992,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "cory",
+      "name": "Cory",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Cory",
+      "location_note": "Cory, Saskatchewan",
+      "lat": 52.092027,
+      "lon": -106.859358,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "vanscoy",
+      "name": "Vanscoy",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "potash",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Vanscoy",
+      "location_note": "Vanscoy, Saskatchewan",
+      "lat": 52.01,
+      "lon": -107.08,
+      "operator": "Nutrien Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -62,6 +206,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Nutrien 2025 MD&A (Exhibit 99.2) — potash production by mine",
+      "date": "2026-02-20",
+      "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+      "what": "Allan"
     }
   ],
   "meta": {
@@ -70,6 +220,7 @@
     "mcap_rank": 41,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true,
+    "map_900a_assets": true
   }
 }

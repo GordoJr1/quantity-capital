@@ -220,7 +220,181 @@ ISSUER_MAP: dict[str, dict[str, Any]] = {
         "beta_id": "mcewen", "asset_id": "fox-complex",
         "ownership_pct": 100, "region": "Ontario", "omit_figure": True,
     },
-    "lac-des-iles": {"omit_figure": True, "region": "Ontario"},
+    "lac-des-iles": {
+        "beta_id": "impala-platinum-holdings", "asset_id": "lac-des-iles",
+        "ownership_pct": 100, "region": "Ontario", "omit_figure": True,
+    },
+    "gibraltar": {
+        "beta_id": "taseko-mines", "asset_id": "gibraltar",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "copper",
+    },
+    "highland-valley-copper": {
+        "beta_id": "teck-resources", "asset_id": "highland-valley-copper",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "copper",
+    },
+    "cigar-lake": {
+        "beta_id": "cameco", "asset_id": "cigar-lake",
+        "ownership_pct": 54.547, "region": "Saskatchewan", "commodity": "uranium",
+    },
+    "mcarthur-river": {
+        "beta_id": "cameco", "asset_id": "mcarthur-river",
+        "ownership_pct": 69.805, "region": "Saskatchewan", "commodity": "uranium",
+    },
+    "key-lake-mill": {
+        "beta_id": "cameco", "asset_id": "key-lake-mill",
+        "ownership_pct": 83.33, "region": "Saskatchewan", "commodity": "uranium",
+        "omit_figure": True,
+    },
+    "keno-hill-silver-district": {
+        "beta_id": "hecla-mining", "asset_id": "keno-hill",
+        "ownership_pct": 100, "region": "Yukon", "commodity": "silver",
+    },
+    "voisey-s-bay": {
+        "beta_id": "vale", "asset_id": "voisey-s-bay",
+        "ownership_pct": 100, "region": "Newfoundland and Labrador", "commodity": "nickel",
+    },
+    "thompson-t-1-and-t-3": {
+        "beta_id": "vale", "asset_id": "thompson-t-1-and-t-3",
+        "ownership_pct": 100, "region": "Manitoba", "commodity": "nickel",
+    },
+    "garson-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "garson-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "stobie-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "stobie-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "clarabelle-mill-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "clarabelle-mill-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "copper-cliff-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "copper-cliff-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "creighton-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "creighton-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "coleman-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "coleman-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "totten-sudbury-operations": {
+        "beta_id": "vale", "asset_id": "totten-sudbury-operations",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "gahcho-kue": {
+        "beta_id": "anglo-american", "asset_id": "gahcho-kue",
+        "ownership_pct": 51, "region": "Northwest Territories", "commodity": "diamonds",
+    },
+    "diavik": {
+        "beta_id": "rio-tinto", "asset_id": "diavik",
+        "ownership_pct": 100, "region": "Northwest Territories", "commodity": "diamonds",
+    },
+    "carol-lake": {
+        "beta_id": "iron-ore-company-of-canada", "asset_id": "carol-lake",
+        "ownership_pct": 100, "region": "Newfoundland and Labrador", "commodity": "iron-ore",
+    },
+    "lac-tio": {
+        "beta_id": "rio-tinto", "asset_id": "lac-tio",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "titanium", "omit_figure": True,
+    },
+    "rocanville": {
+        "beta_id": "nutrien", "asset_id": "rocanville",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "allan": {
+        "beta_id": "nutrien", "asset_id": "allan",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "lanigan": {
+        "beta_id": "nutrien", "asset_id": "lanigan",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "vanscoy": {
+        "beta_id": "nutrien", "asset_id": "vanscoy",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "cory": {
+        "beta_id": "nutrien", "asset_id": "cory",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "patience-lake": {
+        "beta_id": "nutrien", "asset_id": "patience-lake",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "esterhazy-k-3": {
+        "beta_id": "mosaic-company", "asset_id": "esterhazy-k-3",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "belle-plaine": {
+        "beta_id": "mosaic-company", "asset_id": "belle-plaine",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "colonsay": {
+        "beta_id": "mosaic-company", "asset_id": "colonsay",
+        "ownership_pct": 100, "region": "Saskatchewan", "commodity": "potash",
+    },
+    "kidd-creek": {
+        "beta_id": "glencore", "asset_id": "kidd-creek",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "zinc",
+        "omit_figure": True,
+    },
+    "raglan": {
+        "beta_id": "glencore", "asset_id": "raglan",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "nickel", "omit_figure": True,
+    },
+    "fraser-sudbury-ino": {
+        "beta_id": "glencore", "asset_id": "fraser-sudbury-ino",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "strathcona-mill-sudbury-ino": {
+        "beta_id": "glencore", "asset_id": "strathcona-mill-sudbury-ino",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "nickel", "omit_figure": True,
+    },
+    "elkview": {
+        "beta_id": "glencore", "asset_id": "elkview",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "fording-river": {
+        "beta_id": "glencore", "asset_id": "fording-river",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "greenhills": {
+        "beta_id": "glencore", "asset_id": "greenhills",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "line-creek": {
+        "beta_id": "glencore", "asset_id": "line-creek",
+        "ownership_pct": 100, "region": "British Columbia", "commodity": "coal", "omit_figure": True,
+    },
+    "bloom-lake": {
+        "beta_id": "champion-iron", "asset_id": "bloom-lake",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "mont-wright": {
+        "beta_id": "arcelormittal", "asset_id": "mont-wright",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "fire-lake": {
+        "beta_id": "arcelormittal", "asset_id": "fire-lake",
+        "ownership_pct": 100, "region": "Quebec", "commodity": "iron-ore", "omit_figure": True,
+    },
+    "mccreedy-west": {
+        "beta_id": "magna-mining", "asset_id": "mccreedy-west",
+        "ownership_pct": 100, "region": "Ontario", "commodity": "copper", "omit_figure": True,
+    },
+    "ekati": {
+        "beta_id": "burgundy-diamond", "asset_id": "ekati",
+        "ownership_pct": 100, "region": "Northwest Territories", "commodity": "diamonds",
+        "omit_figure": True,
+    },
+    "stall-concentrator-snow-lake": {
+        "beta_id": "hudbay-minerals", "asset_id": "snow-lake",
+        "ownership_pct": 100, "region": "Manitoba", "commodity": "zinc", "omit_figure": True,
+    },
 }
 
 NEW_ISSUERS: dict[str, dict[str, Any]] = {
@@ -326,6 +500,20 @@ def figure_for_table(
         if row.get("silver_oz") is not None:
             return {"value": row["silver_oz"], "unit": "troy oz", "field": "silver_oz"}
         return None
+    extra = {
+        "nickel": (("nickel_kt", "kt"), ("nickel_t", "t")),
+        "uranium": (("uranium_mlb", "Mlb"),),
+        "potash": (("potash_mt", "Mt"),),
+        "iron-ore": (("iron_mt", "Mt"),),
+        "diamonds": (("diamonds_kct", "kct"), ("diamonds_ct", "ct")),
+        "molybdenum": (("molybdenum_mlb", "Mlb"), ("molybdenum_t", "t")),
+        "zinc": (("zinc_kt", "kt"), ("zinc_t", "t")),
+        "platinum": (("platinum_oz", "troy oz"),),
+        "palladium": (("palladium_oz", "troy oz"),),
+    }
+    for field, unit in extra.get(commodity) or ():
+        if row.get(field) is not None:
+            return {"value": row[field], "unit": unit, "field": field}
     return None
 
 
@@ -419,7 +607,12 @@ def merge_by_asset(existing: dict[str, Any] | None, incoming: dict[str, Any]) ->
     changed = False
     had_gold = existing.get("attr_koz") is not None or existing.get("koz_100pct") is not None
     allowed = (
-        {"copper_t", "copper_mlb", "silver_koz", "silver_oz"}
+        {
+            "copper_t", "copper_mlb", "silver_koz", "silver_oz",
+            "nickel_kt", "nickel_t", "uranium_mlb", "potash_mt", "iron_mt",
+            "diamonds_kct", "diamonds_ct", "molybdenum_mlb", "molybdenum_t",
+            "zinc_kt", "zinc_t", "platinum_oz", "palladium_oz",
+        }
         if had_gold
         else set(incoming)
     )
@@ -550,6 +743,34 @@ def mark_filing_backed(profile: dict[str, Any], wrote_figure: bool) -> bool:
     return changed
 
 
+def _extra_by_asset(row: dict[str, Any], comms: dict[str, Any]) -> None:
+    """Copy non-Au/Ag/Cu commodities onto by_asset using source units."""
+    mapping = {
+        "nickel": (("kt", "nickel_kt"), ("t", "nickel_t")),
+        "uranium": (("mlb", "uranium_mlb"),),
+        "potash": (("mt", "potash_mt"),),
+        "iron-ore": (("mt", "iron_mt"),),
+        "diamonds": (("kct", "diamonds_kct"), ("ct", "diamonds_ct")),
+        "molybdenum": (("mlb", "molybdenum_mlb"), ("t", "molybdenum_t")),
+        "zinc": (("kt", "zinc_kt"), ("t", "zinc_t")),
+        "platinum": (("troy oz", "platinum_oz"), ("oz", "platinum_oz")),
+        "palladium": (("troy oz", "palladium_oz"), ("oz", "palladium_oz")),
+    }
+    for cid, choices in mapping.items():
+        rec = comms.get(cid)
+        if not rec or rec.get("value") is None:
+            continue
+        unit = (rec.get("unit") or rec.get("source_unit") or "").strip().lower()
+        field = None
+        for want, dest in choices:
+            if unit == want:
+                field = dest
+                break
+        if field is None:
+            field = choices[0][1]
+        row[field] = rec["value"]
+
+
 def by_asset_from_record(
     rec: dict[str, Any],
     profile: dict[str, Any],
@@ -578,6 +799,8 @@ def by_asset_from_record(
         unit = (copper.get("unit") or copper.get("source_unit") or "").lower()
         if unit in {"mlb", "mlbs"}:
             row["copper_mlb"] = copper["value"]
+        elif unit in {"kt"}:
+            row["copper_t"] = float(copper["value"]) * 1000.0
         else:
             row["copper_t"] = copper["value"]
     silver = comms.get("silver")
@@ -587,6 +810,8 @@ def by_asset_from_record(
             row["silver_koz"] = troy_to_profile_gold(troy, profile)
         else:
             row["silver_oz"] = troy
+    # 100% mine output as disclosed (Cigar Lake 19.1 Mlb; Gahcho Kué 2,210 kct is already 51%).
+    _extra_by_asset(row, comms)
     quote = None
     for c in comms.values():
         if c.get("quote"):

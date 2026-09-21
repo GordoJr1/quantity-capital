@@ -59,6 +59,24 @@ class ConvertTests(unittest.TestCase):
         self.assertEqual(mlb, 50.1)
         self.assertEqual(mlb_unit, "Mlb")
 
+    def test_keeps_kt_mt_kct_scale(self) -> None:
+        kt, kt_unit, kt_err = ing.convert_reported(33.2, "kt", "nickel")
+        self.assertIsNone(kt_err)
+        self.assertEqual(kt, 33.2)
+        self.assertEqual(kt_unit, "kt")
+        mt, mt_unit, mt_err = ing.convert_reported(4.64, "million tonnes", "potash")
+        self.assertIsNone(mt_err)
+        self.assertEqual(mt, 4.64)
+        self.assertEqual(mt_unit, "Mt")
+        kct, kct_unit, kct_err = ing.convert_reported(2210, "000 carats", "diamonds")
+        self.assertIsNone(kct_err)
+        self.assertEqual(kct, 2210)
+        self.assertEqual(kct_unit, "kct")
+        mct, mct_unit, mct_err = ing.convert_reported(4.4, "million carats", "diamonds")
+        self.assertIsNone(mct_err)
+        self.assertEqual(mct, 4400)
+        self.assertEqual(mct_unit, "kct")
+
 
 class VerifyTests(unittest.TestCase):
     def test_quote_must_appear(self) -> None:

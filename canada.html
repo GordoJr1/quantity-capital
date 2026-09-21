@@ -672,12 +672,12 @@
       return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     }
 
-    fetch("canada/commodities.json?v=5").then(function (r) {
+    fetch("canada/commodities.json?v=6").then(function (r) {
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
     }).then(function (data) {
       return Promise.all([
-        fetchJson("canada/producer-join.json?v=3"),
+        fetchJson("canada/producer-join.json?v=4"),
         fetchJson("beta/issuers.json"),
         fetchJson("beta/claims-publics.json"),
         fetchJson("beta/mcap.json"),

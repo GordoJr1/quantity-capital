@@ -128,6 +128,22 @@ def convert_reported(
         return _num(float(value)), "Mlb", None
     if unit_l in {"lb", "lbs", "pound", "pounds"}:
         return _num(float(value)), "lb", None
+    # Keep scale prefixes. unit_norm("million tonnes") collapses to "t".
+    if unit_l in {
+        "mt", "million tonnes", "million t", "million metric tonnes",
+        "million tonnes kcl", "wmt",
+    }:
+        return _num(float(value)), "Mt", None
+    if unit_l in {"kt", "000 t", "000t", "thousand tonnes", "thousand t"}:
+        return _num(float(value)), "kt", None
+    if unit_l in {
+        "kct", "000 carats", "000 cts", "thousand carats", "'000 carats",
+    }:
+        return _num(float(value)), "kct", None
+    if unit_l in {"million carats", "mct", "m cts", "m carats"}:
+        return _num(float(value) * 1000.0), "kct", None
+    if unit_l in {"carat", "carats", "ct", "cts"}:
+        return _num(float(value)), "ct", None
     return _num(float(value)), code or unit_l or "t", None
 
 

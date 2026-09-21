@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,11 +32,11 @@
     "watchlist_type": "Producer, Junior"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
+    "production_basis": "Not gathered. Do not invent ounces.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
-    "attr_koz_2025": 236.908,
+    "attr_koz_2025": null,
     "attr_pp_koz": null,
     "attr_mi_incl_koz": null,
     "attr_inf_koz": null,
@@ -51,33 +51,8 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [
-    {
-      "period": "2025",
-      "kind": "annual",
-      "by_asset": {
-        "musselwhite": {
-          "ownership_pct": 100,
-          "koz_100pct": 236.908,
-          "attr_koz": 236.908,
-          "note": "Musselwhite produced 236,908 ounces of gold in full-year 2025"
-        }
-      },
-      "attr_koz": 236.908
-    }
-  ],
-  "assets": [
-    {
-      "id": "musselwhite",
-      "name": "Musselwhite",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "gold",
-      "country": "Canada",
-      "ownership_pct": 100,
-      "region": "Ontario"
-    }
-  ],
+  "production": [],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -87,20 +62,14 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
-    },
-    {
-      "title": "Orla Mining 2025 production results (Exhibit 99.1)",
-      "date": "2026-01-20",
-      "url": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
-      "what": "Musselwhite produced 236,908 ounces of gold in full-year 2025"
     }
   ],
   "meta": {
     "layer": "mcap-watchlist",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 828,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 829,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": true
+    "filing_backed": false
   }
 }

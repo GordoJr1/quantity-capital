@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,11 +32,11 @@
     "watchlist_type": "Producer, Junior"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
+    "production_basis": "Not gathered. Do not invent ounces.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
-    "attr_koz_2025": 353.772,
+    "attr_koz_2025": null,
     "attr_pp_koz": null,
     "attr_mi_incl_koz": null,
     "attr_inf_koz": null,
@@ -51,50 +51,8 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [
-    {
-      "period": "2025",
-      "kind": "annual",
-      "by_asset": {
-        "new-afton": {
-          "ownership_pct": 100,
-          "koz_100pct": 63.536,
-          "attr_koz": 63.536,
-          "copper_mlb": 50.1,
-          "note": "Full year production was 63,536 ounces of gold"
-        },
-        "rainy-river": {
-          "ownership_pct": 100,
-          "koz_100pct": 290.236,
-          "attr_koz": 290.236,
-          "note": "Full year production was 290,236 ounces of gold"
-        }
-      },
-      "attr_koz": 353.772
-    }
-  ],
-  "assets": [
-    {
-      "id": "new-afton",
-      "name": "New Afton",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "copper",
-      "country": "Canada",
-      "ownership_pct": 100,
-      "region": "British Columbia"
-    },
-    {
-      "id": "rainy-river",
-      "name": "Rainy River",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "gold",
-      "country": "Canada",
-      "ownership_pct": 100,
-      "region": "Ontario"
-    }
-  ],
+  "production": [],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -104,20 +62,14 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
-    },
-    {
-      "title": "New Gold Achieves 2025 Production Guidance",
-      "date": "2026-01-15",
-      "url": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
-      "what": "Full year production was 63,536 ounces of gold"
     }
   ],
   "meta": {
     "layer": "mcap-watchlist",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 827,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 828,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": true
+    "filing_backed": false
   }
 }

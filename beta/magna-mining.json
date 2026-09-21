@@ -41,7 +41,7 @@
     "attr_mi_incl_koz": null,
     "attr_inf_koz": null,
     "market_cap": 852312438,
-    "market_cap_usd": 607700300,
+    "market_cap_usd": 608794600,
     "market_cap_cur": "CAD",
     "shares": 313350161,
     "px": 2.72,
@@ -52,24 +52,7 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [
-    {
-      "id": "mccreedy-west",
-      "name": "McCreedy West",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "copper",
-      "country": "Canada",
-      "region": "Ontario",
-      "nearest": "Sudbury",
-      "location_note": "Sudbury, Ontario",
-      "lat": 46.638059,
-      "lon": -81.39894,
-      "operator": "Magna Mining Inc.",
-      "mine_type": "metals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -84,10 +67,9 @@
   "meta": {
     "layer": "mcap-watchlist",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 265,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 266,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

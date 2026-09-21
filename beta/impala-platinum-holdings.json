@@ -52,24 +52,7 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [
-    {
-      "id": "lac-des-iles",
-      "name": "Lac des Iles",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "platinum-group",
-      "country": "Canada",
-      "region": "Ontario",
-      "nearest": "Thunder Bay",
-      "location_note": "Thunder Bay, Ontario",
-      "lat": 49.1691,
-      "lon": -89.6105,
-      "operator": "Impala Canada Ltd.",
-      "mine_type": "metals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -84,10 +67,9 @@
   "meta": {
     "layer": "mcap-watchlist",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 74,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 76,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

@@ -47,56 +47,7 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [
-    {
-      "id": "esterhazy-k-3",
-      "name": "Esterhazy (K-3)",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Esterhazy",
-      "location_note": "Esterhazy, Saskatchewan",
-      "lat": 50.6452,
-      "lon": -101.9941,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    },
-    {
-      "id": "belle-plaine",
-      "name": "Belle Plaine",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Belle Plaine",
-      "location_note": "Belle Plaine, Saskatchewan",
-      "lat": 50.435626,
-      "lon": -105.181423,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    },
-    {
-      "id": "colonsay",
-      "name": "Colonsay",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Colonsay",
-      "location_note": "Colonsay, Saskatchewan",
-      "lat": 51.934163,
-      "lon": -105.765382,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -111,10 +62,9 @@
   "meta": {
     "layer": "mcap-top200",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 95,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 96,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

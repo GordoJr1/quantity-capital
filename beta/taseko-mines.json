@@ -52,24 +52,7 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [
-    {
-      "id": "gibraltar",
-      "name": "Gibraltar",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "copper",
-      "country": "Canada",
-      "region": "British Columbia",
-      "nearest": "north of Williams Lake",
-      "location_note": "north of Williams Lake, British Columbia",
-      "lat": 52.528495,
-      "lon": -122.28716,
-      "operator": "Taseko Mines Limited",
-      "mine_type": "metals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -84,10 +67,9 @@
   "meta": {
     "layer": "mcap-top200",
     "watchlist": "insiders-mcap",
-    "mcap_rank": 143,
-    "mcap_updated": "2026-09-20",
+    "mcap_rank": 144,
+    "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

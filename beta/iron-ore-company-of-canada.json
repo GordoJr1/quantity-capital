@@ -21,7 +21,7 @@
     "watchlist_type": null
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -34,7 +34,19 @@
     "basis": "none — canada owner shell",
     "total_koz": null
   },
-  "production": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "carol-lake": {
+          "ownership_pct": 100.0,
+          "iron_mt": 15.9,
+          "note": "Iron ore pellets and concentrate (100%)"
+        }
+      }
+    }
+  ],
   "assets": [
     {
       "id": "carol-lake",
@@ -62,12 +74,18 @@
       "title": "NRCan Map 900A principal producing sites",
       "date": "2026-09-21",
       "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    },
+    {
+      "title": "Rio Tinto fourth quarter 2025 production results (Exhibit 99.1)",
+      "date": "2026-01-21",
+      "url": "https://www.sec.gov/Archives/edgar/data/863064/000086306426000006/ex1_2025-q4results.htm",
+      "what": "Iron ore pellets and concentrate (100%)"
     }
   ],
   "meta": {
     "layer": "canada-owner",
     "watchlist": "canada-map-900a",
-    "filing_backed": false,
+    "filing_backed": true,
     "map_900a_assets": true,
     "alerts": []
   }

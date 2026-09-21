@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,7 +51,18 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "gahcho-kue": {
+          "ownership_pct": 51.0,
+          "diamonds_kct": 2210
+        }
+      }
+    }
+  ],
   "assets": [
     {
       "id": "gahcho-kue",
@@ -79,6 +90,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "De Beers Production Report for the Fourth Quarter of 2025",
+      "date": "2026-01-29",
+      "url": "https://www.debeersgroup.com/news-insights/latest-group-news/2026/production-report-for-the-fourth-quarter-of-2025",
+      "what": "Gahcho Kué (51% basis)"
     }
   ],
   "meta": {
@@ -87,7 +104,7 @@
     "mcap_rank": 32,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false,
+    "filing_backed": true,
     "map_900a_assets": true
   }
 }

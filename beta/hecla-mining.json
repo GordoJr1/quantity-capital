@@ -55,6 +55,10 @@
           "ownership_pct": 100,
           "koz_100pct": 91.16,
           "attr_koz": 91.16
+        },
+        "keno-hill-silver-district": {
+          "ownership_pct": 100.0,
+          "silver_koz": 3018.49
         }
       },
       "attr_koz": 91.16
@@ -70,6 +74,16 @@
       "country": "Canada",
       "ownership_pct": 100,
       "region": "Quebec"
+    },
+    {
+      "id": "keno-hill-silver-district",
+      "name": "Keno Hill Silver District",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "silver",
+      "country": "Canada",
+      "ownership_pct": 100.0,
+      "region": "Yukon"
     }
   ],
   "reserves_resources": {

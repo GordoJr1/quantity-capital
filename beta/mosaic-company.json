@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -46,7 +46,26 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "belle-plaine": {
+          "ownership_pct": 100.0,
+          "potash_mt": 3
+        },
+        "colonsay": {
+          "ownership_pct": 100.0,
+          "potash_mt": 0.8
+        },
+        "esterhazy-k-3": {
+          "ownership_pct": 100.0,
+          "potash_mt": 4.7
+        }
+      }
+    }
+  ],
   "assets": [
     {
       "id": "esterhazy-k-3",
@@ -106,6 +125,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Mosaic Form 10-K year ended 31 December 2025 — potash finished product",
+      "date": "2026-02-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+      "what": "Belle Plaine"
     }
   ],
   "meta": {
@@ -114,7 +139,7 @@
     "mcap_rank": 95,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false,
+    "filing_backed": true,
     "map_900a_assets": true
   }
 }

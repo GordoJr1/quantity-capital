@@ -1,6 +1,6 @@
 # Canadian commodity production
 
-Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** is company-disclosed actuals stored in `qc.sqlite` (`canada_mines` / `canada_mine_production` / `canada_mine_sources`), then exported to existing `beta/<issuer>.json` pages (Newmont shape) and a thin `canada/producer-join.json`. The Canada table reads that export. Blank / — when not disclosed. Never commit `qc.sqlite`.
+Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** (calendar-year actuals) and **2026 YTD** (labeled H1 / Q2 YTD period actuals — never a full year) are company-disclosed figures stored in `qc.sqlite` (`canada_mines` / `canada_mine_production` / `canada_mine_sources`), then exported to existing `beta/<issuer>.json` pages (Newmont shape) and a thin `canada/producer-join.json`. The Canada table reads 2025 from `commodities` and 2026 YTD from the `ytd` sidecar. Blank / — when not disclosed. Never commit `qc.sqlite`.
 
 ## Monthly refresh
 

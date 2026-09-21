@@ -26,6 +26,8 @@ if str(SCRIPTS) not in sys.path:
 import canada_beta_production as beta
 
 YEAR = 2025
+YTD_YEAR = 2026
+YTD_PERIOD = "2026-YTD"
 
 DDL = """
 CREATE TABLE IF NOT EXISTS canada_mines (
@@ -51,6 +53,9 @@ CREATE TABLE IF NOT EXISTS canada_mine_sources (
   blocker TEXT,
   fetch_ok INTEGER,
   fetch_error TEXT,
+  period TEXT,
+  through TEXT,
+  period_label TEXT,
   PRIMARY KEY (mine_id, year)
 );
 
@@ -79,6 +84,10 @@ def connect(path: Path) -> sqlite3.Connection:
 
 def apply_schema(con: sqlite3.Connection) -> None:
     con.executescript(DDL)
+    cols = {r[1] for r in con.execute("PRAGMA table_info(canada_mine_sources)")}
+    for col, typ in (("period", "TEXT"), ("through", "TEXT"), ("period_label", "TEXT")):
+        if col not in cols:
+            con.execute(f"ALTER TABLE canada_mine_sources ADD COLUMN {col} {typ}")
 
 
 def _meta(mid: str, src: dict[str, Any]) -> dict[str, Any]:
@@ -97,6 +106,70 @@ def _meta(mid: str, src: dict[str, Any]) -> dict[str, Any]:
     if src.get("region"):
         meta["region"] = src["region"]
     return meta
+
+
+def _insert_source(
+    con: sqlite3.Connection,
+    mid: str,
+    *,
+    year: int,
+    rec: dict[str, Any],
+    src: dict[str, Any],
+) -> None:
+    con.execute(
+        """
+        INSERT INTO canada_mine_sources(
+          mine_id, year, url, title, as_of, kind, blocker, fetch_ok, fetch_error,
+          period, through, period_label
+        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+        """,
+        (
+            mid,
+            year,
+            rec.get("production_source") or src.get("url"),
+            rec.get("production_source_title") or src.get("title"),
+            rec.get("production_as_of") or src.get("as_of"),
+            rec.get("kind") or src.get("kind"),
+            rec.get("blocker") or src.get("blocker"),
+            1 if rec.get("fetch_ok") else 0,
+            rec.get("fetch_blocker") or rec.get("fetch_error"),
+            rec.get("period") or src.get("period"),
+            rec.get("through") or src.get("through"),
+            rec.get("period_label") or src.get("period_label"),
+        ),
+    )
+
+
+def _insert_commodities(
+    con: sqlite3.Connection,
+    mid: str,
+    year: int,
+    comms: dict[str, Any],
+) -> int:
+    n = 0
+    for cid, row in (comms or {}).items():
+        if row.get("value") is None:
+            continue
+        con.execute(
+            """
+            INSERT INTO canada_mine_production(
+              mine_id, year, commodity, value, unit,
+              source_value, source_unit, quote
+            ) VALUES (?,?,?,?,?,?,?,?)
+            """,
+            (
+                mid,
+                year,
+                cid,
+                float(row["value"]),
+                row.get("unit") or "",
+                row.get("source_value"),
+                row.get("source_unit"),
+                row.get("quote"),
+            ),
+        )
+        n += 1
+    return n
 
 
 def store_book(
@@ -134,55 +207,91 @@ def store_book(
             ),
         )
         n_mines += 1
-        con.execute(
-            """
-            INSERT INTO canada_mine_sources(
-              mine_id, year, url, title, as_of, kind, blocker, fetch_ok, fetch_error
-            ) VALUES (?,?,?,?,?,?,?,?,?)
-            """,
-            (
-                mid,
-                int(rec.get("year") or YEAR),
-                rec.get("production_source") or src.get("url"),
-                rec.get("production_source_title") or src.get("title"),
-                rec.get("production_as_of") or src.get("as_of"),
-                rec.get("kind") or src.get("kind"),
-                rec.get("blocker") or src.get("blocker"),
-                1 if rec.get("fetch_ok") else 0,
-                rec.get("fetch_blocker") or rec.get("fetch_error"),
-            ),
-        )
+        _insert_source(con, mid, year=int(rec.get("year") or YEAR), rec=rec, src=src)
         n_src += 1
-        if meta.get("omit_figure"):
-            continue
-        for cid, row in (rec.get("commodities") or {}).items():
-            if row.get("value") is None:
-                continue
-            con.execute(
-                """
-                INSERT INTO canada_mine_production(
-                  mine_id, year, commodity, value, unit,
-                  source_value, source_unit, quote
-                ) VALUES (?,?,?,?,?,?,?,?)
-                """,
-                (
-                    mid,
-                    int(rec.get("year") or YEAR),
-                    cid,
-                    float(row["value"]),
-                    row.get("unit") or "",
-                    row.get("source_value"),
-                    row.get("source_unit"),
-                    row.get("quote"),
-                ),
+        if not meta.get("omit_figure"):
+            n_prod += _insert_commodities(
+                con, mid, int(rec.get("year") or YEAR), rec.get("commodities") or {}
             )
-            n_prod += 1
+        ytd = rec.get("ytd") or {}
+        ytd_src = src.get("ytd") if isinstance(src.get("ytd"), dict) else {}
+        ytd_comms = ytd.get("commodities") or {}
+        if ytd_comms or ytd.get("production_source") or ytd_src.get("url"):
+            ytd_year = int(ytd.get("year") or ytd_src.get("year") or YTD_YEAR)
+            if ytd_year == YEAR:
+                continue
+            ytd_rec = {
+                **ytd,
+                "kind": "ytd",
+                "period": ytd.get("period") or YTD_PERIOD,
+                "through": ytd.get("through") or ytd_src.get("through"),
+                "period_label": ytd.get("period_label") or ytd_src.get("period_label"),
+            }
+            _insert_source(con, mid, year=ytd_year, rec=ytd_rec, src=ytd_src)
+            n_src += 1
+            if not meta.get("omit_figure"):
+                n_prod += _insert_commodities(con, mid, ytd_year, ytd_comms)
     con.commit()
     return {"n_mines": n_mines, "n_production": n_prod, "n_sources": n_src}
 
 
+def _comms_from_rows(rows: list[sqlite3.Row]) -> dict[str, Any]:
+    comms: dict[str, Any] = {}
+    for prod in rows:
+        val = prod["value"]
+        if isinstance(val, float) and val.is_integer():
+            val = int(val)
+        comms[prod["commodity"]] = {
+            "value": val,
+            "unit": prod["unit"],
+            "source_value": prod["source_value"],
+            "source_unit": prod["source_unit"],
+            "quote": prod["quote"],
+        }
+    return comms
+
+
+def _ytd_from_db(con: sqlite3.Connection, mid: str, omit: bool) -> dict[str, Any] | None:
+    src = con.execute(
+        "SELECT * FROM canada_mine_sources WHERE mine_id=? AND year=?",
+        (mid, YTD_YEAR),
+    ).fetchone()
+    if not src:
+        return None
+    comms: dict[str, Any] = {}
+    if not omit:
+        comms = _comms_from_rows(
+            list(
+                con.execute(
+                    "SELECT * FROM canada_mine_production WHERE mine_id=? AND year=?",
+                    (mid, YTD_YEAR),
+                )
+            )
+        )
+    if not comms and not src["url"]:
+        return None
+    side: dict[str, Any] = {
+        "year": YTD_YEAR,
+        "period": src["period"] or YTD_PERIOD,
+        "kind": src["kind"] or "ytd",
+        "through": src["through"],
+        "period_label": src["period_label"],
+        "production_source": src["url"],
+        "production_source_title": src["title"],
+        "production_as_of": src["as_of"],
+        "commodities": comms,
+        "blocker": src["blocker"],
+        "fetch_ok": bool(src["fetch_ok"]),
+    }
+    return {k: v for k, v in side.items() if v is not None or k in {"commodities"}}
+
+
 def book_from_db(con: sqlite3.Connection, year: int = YEAR) -> dict[str, Any]:
-    """Rebuild the ingest-shaped book from sqlite (export input)."""
+    """Rebuild the ingest-shaped book from sqlite (export input).
+
+    2025 annual rows stay on rec.commodities. A labeled 2026 YTD snapshot,
+    when present, is rec.ytd — never mixed into the 2025 figure.
+    """
     mines: dict[str, Any] = {}
     for row in con.execute("SELECT * FROM canada_mines ORDER BY mine_id"):
         mid = row["mine_id"]
@@ -192,20 +301,14 @@ def book_from_db(con: sqlite3.Connection, year: int = YEAR) -> dict[str, Any]:
         ).fetchone()
         comms: dict[str, Any] = {}
         if not row["omit_figure"]:
-            for prod in con.execute(
-                "SELECT * FROM canada_mine_production WHERE mine_id=? AND year=?",
-                (mid, year),
-            ):
-                comms[prod["commodity"]] = {
-                    "value": prod["value"] if float(prod["value"]).is_integer() else prod["value"],
-                    "unit": prod["unit"],
-                    "source_value": prod["source_value"],
-                    "source_unit": prod["source_unit"],
-                    "quote": prod["quote"],
-                }
-                val = comms[prod["commodity"]]["value"]
-                if isinstance(val, float) and val.is_integer():
-                    comms[prod["commodity"]]["value"] = int(val)
+            comms = _comms_from_rows(
+                list(
+                    con.execute(
+                        "SELECT * FROM canada_mine_production WHERE mine_id=? AND year=?",
+                        (mid, year),
+                    )
+                )
+            )
         mines[mid] = {
             "mine_id": mid,
             "mine_name": row["name"],
@@ -223,11 +326,16 @@ def book_from_db(con: sqlite3.Connection, year: int = YEAR) -> dict[str, Any]:
             "ownership_pct": row["ownership_pct"],
             "region": row["region"],
         }
+        ytd = _ytd_from_db(con, mid, bool(row["omit_figure"]))
+        if ytd:
+            mines[mid]["ytd"] = ytd
     n_fig = sum(1 for r in mines.values() if r.get("commodities"))
+    n_ytd = sum(1 for r in mines.values() if (r.get("ytd") or {}).get("commodities"))
     return {
         "schema": "qc-canada-mine-production-v1",
         "year": year,
         "n_with_figure": n_fig,
+        "n_with_ytd": n_ytd,
         "n_blank": len(mines) - n_fig,
         "n_sources": len(mines),
         "mines": mines,
@@ -259,6 +367,22 @@ def sources_from_db(con: sqlite3.Connection, year: int = YEAR) -> dict[str, Any]
                 "kind": src["kind"],
                 "blocker": src["blocker"],
             })
+        ytd_src = con.execute(
+            "SELECT * FROM canada_mine_sources WHERE mine_id=? AND year=?",
+            (mine["mine_id"], YTD_YEAR),
+        ).fetchone()
+        if ytd_src:
+            rec["ytd"] = {
+                "year": YTD_YEAR,
+                "period": ytd_src["period"] or YTD_PERIOD,
+                "kind": ytd_src["kind"] or "ytd",
+                "through": ytd_src["through"],
+                "period_label": ytd_src["period_label"],
+                "url": ytd_src["url"],
+                "title": ytd_src["title"],
+                "as_of": ytd_src["as_of"],
+                "blocker": ytd_src["blocker"],
+            }
         rows.append(rec)
     return {"year": year, "mines": rows}
 
@@ -285,11 +409,14 @@ def validate_db(con: sqlite3.Connection) -> list[str]:
     n = con.execute("SELECT COUNT(*) FROM canada_mines").fetchone()[0]
     if n < 10:
         errors.append(f"canada_mines too small: {n}")
-    n_fig = con.execute("SELECT COUNT(DISTINCT mine_id) FROM canada_mine_production").fetchone()[0]
+    n_fig = con.execute(
+        "SELECT COUNT(DISTINCT mine_id) FROM canada_mine_production WHERE year=?",
+        (YEAR,),
+    ).fetchone()[0]
     if n_fig < 5:
         errors.append(f"canada_mine_production need several cited mines, have {n_fig}")
     for row in con.execute(
-        "SELECT mine_id, commodity, value, unit FROM canada_mine_production"
+        "SELECT mine_id, year, commodity, value, unit FROM canada_mine_production"
     ):
         if row["commodity"] in {"aueq", "gold-equivalent", "geo"}:
             errors.append(f"{row['mine_id']}: AuEq stored")
@@ -298,9 +425,20 @@ def validate_db(con: sqlite3.Connection) -> list[str]:
         if row["value"] is None or float(row["value"]) <= 0:
             errors.append(f"{row['mine_id']}: non-positive {row['commodity']}")
         src = con.execute(
-            "SELECT url FROM canada_mine_sources WHERE mine_id=?",
-            (row["mine_id"],),
+            "SELECT url, kind, through, period_label, period FROM canada_mine_sources WHERE mine_id=? AND year=?",
+            (row["mine_id"], row["year"]),
         ).fetchone()
         if not src or not (src["url"] or "").startswith("http"):
-            errors.append(f"{row['mine_id']}: figure without URL")
+            errors.append(f"{row['mine_id']} {row['year']}: figure without URL")
+        if row["year"] == YTD_YEAR:
+            if (src["kind"] if src else None) != "ytd":
+                errors.append(f"{row['mine_id']}: 2026 production must be kind=ytd")
+            if not (src and src["through"]):
+                errors.append(f"{row['mine_id']}: 2026 YTD missing through")
+            if not (src and src["period_label"]):
+                errors.append(f"{row['mine_id']}: 2026 YTD missing period_label")
+            if src and (src["period"] in {"2025", "annual"} or src["kind"] == "annual"):
+                errors.append(f"{row['mine_id']}: partial 2026 stored as a full year")
+        if row["year"] == YEAR and src and src["kind"] == "ytd":
+            errors.append(f"{row['mine_id']}: YTD mixed into 2025")
     return errors

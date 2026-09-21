@@ -1,7 +1,7 @@
 {
   "schema": "qc-canada-mine-production-sources-v1",
   "year": 2025,
-  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
+  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. 2025 = calendar-year actuals. Optional ytd = 2026 period actuals only (H1 / Q2 YTD), labeled with period/kind/through/period_label — never a full year. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
   "blockers_global": [
     "SEDAR+ document viewer is paywalled / login-gated; use issuer IR HTML or EDGAR exhibits.",
     "StatCan table 16-10-0022 and NRCan annual tables do not publish mine-level output.",
@@ -35,7 +35,29 @@
       "beta_id": "artemis-gold",
       "asset_id": "blackwater",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q2-2026-production-results",
+        "title": "Artemis Gold Announces Record Q2 2026 Production Results",
+        "as_of": "2026-07-13",
+        "extract": {
+          "gold": {
+            "source_value": 135986,
+            "source_unit": "oz",
+            "quote": "Year to date, Blackwater has produced 135,986 ounces of gold",
+            "must_contain": [
+              "Blackwater",
+              "135,986",
+              "June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "brucejack",
@@ -61,7 +83,28 @@
       "beta_id": "newmont",
       "asset_id": "brucejack",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000034/newmontq22026earningsrelea.htm",
+        "title": "Newmont Reports Second Quarter 2026 Results (Exhibit 99.1)",
+        "as_of": "2026-07-23",
+        "extract": {
+          "gold": {
+            "source_value": 112,
+            "source_unit": "koz",
+            "quote": "Brucejack 41 50 79 61 231 59 53 112",
+            "must_contain": [
+              "Brucejack",
+              "112"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "copper-mountain",
@@ -164,7 +207,39 @@
       "beta_id": "centerra-gold",
       "asset_id": "mount-milligan",
       "ownership_pct": 100,
-      "region": "British Columbia"
+      "region": "British Columbia",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1854640/000162828026050229/exh992_20260630.htm",
+        "title": "Centerra Gold MD&A for the three and six months ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-07-29",
+        "extract": {
+          "gold": {
+            "source_value": 67747,
+            "source_unit": "oz",
+            "quote": "the Mount Milligan Mine produced 67,747 ounces of gold and 27.3 million pounds of copper",
+            "must_contain": [
+              "Mount Milligan",
+              "67,747",
+              "six months ended June 30, 2026"
+            ]
+          },
+          "copper": {
+            "source_value": 27.3,
+            "source_unit": "Mlb",
+            "quote": "67,747 ounces of gold and 27.3 million pounds of copper",
+            "must_contain": [
+              "Mount Milligan",
+              "27.3 million pounds",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "mount-polley",
@@ -287,7 +362,29 @@
       "beta_id": "equinox-gold",
       "asset_id": "valentine",
       "ownership_pct": 100,
-      "region": "Newfoundland and Labrador"
+      "region": "Newfoundland and Labrador",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "extract": {
+          "gold": {
+            "source_value": 59681,
+            "source_unit": "oz",
+            "quote": "59,681 ounces from Valentine",
+            "must_contain": [
+              "Valentine",
+              "59,681",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "amaruq-meadowbank",
@@ -312,7 +409,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "meadowbank",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 214027,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374",
+            "must_contain": [
+              "Meadowbank",
+              "214,027",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "goose-back-river",
@@ -339,7 +458,29 @@
       "beta_id": "b2gold",
       "asset_id": "goose",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1429937/000142993726000010/exhibit992-63026.htm",
+        "title": "B2Gold MD&A for the quarter ended 30 June 2026 (Exhibit 99.2)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 55766,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 12,890 692 55,766 692",
+            "must_contain": [
+              "Goose",
+              "55,766",
+              "June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "meliadine",
@@ -364,7 +505,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "meliadine",
       "ownership_pct": 100,
-      "region": "Nunavut"
+      "region": "Nunavut",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 191347,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 191,347 214,027 405,374",
+            "must_contain": [
+              "Meliadine",
+              "191,347",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "cote-gold",
@@ -389,7 +552,28 @@
       "beta_id": "iamgold",
       "asset_id": "cote-gold",
       "ownership_pct": 70,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 170900,
+            "source_unit": "oz",
+            "quote": "119,600 attributable ounces YTD (170,900 ounces | 100%)",
+            "must_contain": [
+              "Côté",
+              "170,900"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "detour-lake",
@@ -410,7 +594,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "detour-lake",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 384298,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034",
+            "must_contain": [
+              "Detour Lake",
+              "384,298",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "eagle-river",
@@ -435,7 +641,29 @@
       "beta_id": "wesdome-gold-mines",
       "asset_id": "eagle-river",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "extract": {
+          "gold": {
+            "source_value": 49644,
+            "source_unit": "oz",
+            "quote": "Eagle River produced 49,644 ounces in the first half of 2026",
+            "must_contain": [
+              "Eagle River",
+              "49,644",
+              "first half of 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "greenstone",
@@ -460,7 +688,29 @@
       "beta_id": "equinox-gold",
       "asset_id": "greenstone",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1756607/000175660726000004/eqx-20260630mda.htm",
+        "title": "Equinox Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-08-07",
+        "extract": {
+          "gold": {
+            "source_value": 124993,
+            "source_unit": "oz",
+            "quote": "124,993 ounces from Greenstone",
+            "must_contain": [
+              "Greenstone",
+              "124,993",
+              "six months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "hemlo-williams",
@@ -502,7 +752,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "macassa",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 135736,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 384,298 135,736 520,034",
+            "must_contain": [
+              "Macassa",
+              "135,736",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "musselwhite",
@@ -573,7 +845,29 @@
       "beta_id": "alamos-gold",
       "asset_id": "young-davidson",
       "ownership_pct": 100,
-      "region": "Ontario"
+      "region": "Ontario",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000081/ex99206302026mda.htm",
+        "title": "Alamos Gold MD&A for the three and six months ended 30 June 2026",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 63000,
+            "source_unit": "oz",
+            "quote": "Young-Davidson 33,000 38,700 63,000 74,100",
+            "must_contain": [
+              "Young-Davidson",
+              "63,000",
+              "Six Months ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "casa-berardi",
@@ -619,7 +913,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "goldex",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 58649,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965",
+            "must_contain": [
+              "Goldex",
+              "58,649",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "laronde",
@@ -640,7 +956,29 @@
       "beta_id": "agnico-eagle",
       "asset_id": "laronde",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926088794/tm2619289d4_ex99-1.htm",
+        "title": "Agnico Eagle Q2 2026 results — six months ended 30 June 2026 (Exhibit 99.1)",
+        "as_of": "2026-07-30",
+        "extract": {
+          "gold": {
+            "source_value": 162857,
+            "source_unit": "oz",
+            "quote": "Gold production (ounces) 162,857 301,459 58,649 522,965",
+            "must_contain": [
+              "LaRonde",
+              "162,857",
+              "Six Months Ended June 30, 2026"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "lamaque",
@@ -665,7 +1003,29 @@
       "beta_id": "eldorado-gold",
       "asset_id": "lamaque",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.eldoradogold.com/investors/news-releases/eldorado-gold-reports-solid-q2-2026-financial-and-operational-results",
+        "title": "Eldorado Gold Reports Solid Q2 2026 Financial and Operational Results",
+        "as_of": "2026-07-31",
+        "extract": {
+          "gold": {
+            "source_value": 94646,
+            "source_unit": "oz",
+            "quote": "Lamaque Gold produced (oz) 52,340 50,640 94,646",
+            "must_contain": [
+              "Lamaque",
+              "94,646",
+              "Six months ended"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "kiena",
@@ -690,7 +1050,28 @@
       "beta_id": "wesdome-gold-mines",
       "asset_id": "kiena",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://investingnews.com/wesdome-reports-strong-second-quarter-2026-results-and-reaffirms-full-year-production-and-cost-guidance/",
+        "title": "Wesdome Reports Strong Second Quarter 2026 Results",
+        "as_of": "2026-08-13",
+        "extract": {
+          "gold": {
+            "source_value": 39483,
+            "source_unit": "oz",
+            "quote": "Production in the first half of 2026 totaled 39,483 ounces",
+            "must_contain": [
+              "Kiena operating results",
+              "39,483"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "westwood-westwood",
@@ -711,7 +1092,28 @@
       "beta_id": "iamgold",
       "asset_id": "westwood",
       "ownership_pct": 100,
-      "region": "Quebec"
+      "region": "Quebec",
+      "ytd": {
+        "year": 2026,
+        "period": "2026-YTD",
+        "kind": "ytd",
+        "through": "2026-06-30",
+        "period_label": "H1 2026",
+        "url": "https://www.sec.gov/Archives/edgar/data/1203464/000106299326004088/exhibit99-1.htm",
+        "title": "IAMGOLD Q2 2026 operating results (Exhibit 99.1)",
+        "as_of": "2026-08-06",
+        "extract": {
+          "gold": {
+            "source_value": 68600,
+            "source_unit": "oz",
+            "quote": "Westwood produced 32,400 ounces in the second quarter and 68,600 ounces YTD",
+            "must_contain": [
+              "Westwood",
+              "68,600 ounces YTD"
+            ]
+          }
+        }
+      }
     },
     {
       "mine_id": "santoy-seabee",

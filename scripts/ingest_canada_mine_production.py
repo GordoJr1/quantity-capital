@@ -47,6 +47,8 @@ DEFAULT_SQLITE = ROOT / "qc.sqlite"
 FIXTURES = HERE / "fixtures" / "canada"
 SCHEMA = "qc-canada-mine-production-v1"
 YEAR = 2025
+YTD_YEAR = 2026
+YTD_PERIOD = "2026-YTD"
 SLEEP_S = 0.2
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
@@ -199,6 +201,9 @@ def record_for_source(
         "owner": src.get("owner"),
         "year": int(src.get("year") or YEAR),
         "kind": src.get("kind"),
+        "period": src.get("period"),
+        "through": src.get("through"),
+        "period_label": src.get("period_label"),
         "production_source": src.get("url"),
         "production_source_title": src.get("title"),
         "production_as_of": src.get("as_of"),
@@ -252,7 +257,85 @@ def record_for_source(
         rec["blocker"] = None
     elif not rec.get("blocker"):
         rec["blocker"] = "not_disclosed_or_unverified"
+    rec = {k: v for k, v in rec.items() if v is not None or k in {"commodities", "blocker", "fetch_ok"}}
     return rec
+
+
+def ytd_block_as_src(src: dict[str, Any]) -> dict[str, Any] | None:
+    """Optional 2026 YTD sidecar. Never treated as a full calendar year."""
+    ytd = src.get("ytd")
+    if not isinstance(ytd, dict):
+        return None
+    if not (ytd.get("extract") or ytd.get("blocker")):
+        return None
+    out = {
+        "mine_id": src["mine_id"],
+        "mine_name": src.get("mine_name") or src["mine_id"],
+        "owner": src.get("owner"),
+        "year": int(ytd.get("year") or YTD_YEAR),
+        "kind": ytd.get("kind") or "ytd",
+        "period": ytd.get("period") or YTD_PERIOD,
+        "through": ytd.get("through"),
+        "period_label": ytd.get("period_label"),
+        "url": ytd.get("url"),
+        "title": ytd.get("title"),
+        "as_of": ytd.get("as_of"),
+        "extract": ytd.get("extract"),
+        "blocker": ytd.get("blocker"),
+    }
+    return out
+
+
+def _fetch_url_text(
+    url: str,
+    *,
+    cache: dict[str, tuple[str | None, bool, str | None]],
+    fetch_live: bool,
+    offline: bool,
+    fixture_text: str,
+) -> tuple[str | None, bool, str | None]:
+    if not url:
+        return None, False, None
+    if url in cache:
+        return cache[url]
+    if offline:
+        cache[url] = (fixture_text, bool(fixture_text), None)
+        return cache[url]
+    if not fetch_live:
+        cache[url] = (None, False, None)
+        return cache[url]
+    try:
+        time.sleep(SLEEP_S)
+        text = fetch_source_text(url)
+        if extract_looks_unusable(text):
+            cache[url] = (None, False, "unusable_extract")
+        else:
+            cache[url] = (text, True, None)
+    except Exception as exc:
+        cache[url] = (None, False, f"{type(exc).__name__}: {exc}")
+    return cache[url]
+
+
+def _ytd_sidecar(ytd_rec: dict[str, Any], ytd_src: dict[str, Any]) -> dict[str, Any]:
+    side: dict[str, Any] = {
+        "year": int(ytd_rec.get("year") or ytd_src.get("year") or YTD_YEAR),
+        "period": ytd_src.get("period") or YTD_PERIOD,
+        "kind": "ytd",
+        "through": ytd_src.get("through") or ytd_rec.get("through"),
+        "period_label": ytd_src.get("period_label") or ytd_rec.get("period_label"),
+        "production_source": ytd_rec.get("production_source") or ytd_src.get("url"),
+        "production_source_title": ytd_rec.get("production_source_title") or ytd_src.get("title"),
+        "production_as_of": ytd_rec.get("production_as_of") or ytd_src.get("as_of"),
+        "commodities": ytd_rec.get("commodities") or {},
+        "fetch_ok": ytd_rec.get("fetch_ok"),
+    }
+    if ytd_rec.get("fetch_blocker"):
+        side["fetch_blocker"] = ytd_rec["fetch_blocker"]
+    if ytd_rec.get("blocker") and not side["commodities"]:
+        side["blocker"] = ytd_rec["blocker"]
+    elif side["commodities"]:
+        side["blocker"] = None
+    return {k: v for k, v in side.items() if v is not None or k in {"commodities"}}
 
 
 def ingest(
@@ -272,29 +355,39 @@ def ingest(
         fixture_text = fixture.read_text(encoding="utf-8") if fixture.exists() else ""
     else:
         fixture_text = ""
+    cache: dict[str, tuple[str | None, bool, str | None]] = {}
 
     for src in rows:
         mid = src["mine_id"]
-        text = None
-        fetch_ok = False
-        fetch_error = None
-        if offline:
-            text = fixture_text
-            fetch_ok = bool(text)
-        elif fetch_live and src.get("url") and src.get("extract"):
-            try:
-                time.sleep(SLEEP_S)
-                text = fetch_source_text(src["url"])
-                if extract_looks_unusable(text):
-                    fetch_error = "unusable_extract"
-                    fetch_ok = False
-                    text = None
-                else:
-                    fetch_ok = True
-            except Exception as exc:
-                fetch_error = f"{type(exc).__name__}: {exc}"
-                fetch_ok = False
+        text, fetch_ok, fetch_error = None, False, None
+        if src.get("url") and (src.get("extract") or offline):
+            text, fetch_ok, fetch_error = _fetch_url_text(
+                src["url"],
+                cache=cache,
+                fetch_live=fetch_live,
+                offline=offline,
+                fixture_text=fixture_text,
+            )
         rec = record_for_source(src, text=text, fetch_ok=fetch_ok, fetch_error=fetch_error)
+        ytd_src = ytd_block_as_src(src)
+        if ytd_src:
+            ytd_text, ytd_ok, ytd_err = None, False, None
+            if ytd_src.get("url") and (ytd_src.get("extract") or offline):
+                ytd_text, ytd_ok, ytd_err = _fetch_url_text(
+                    ytd_src["url"],
+                    cache=cache,
+                    fetch_live=fetch_live,
+                    offline=offline,
+                    fixture_text=fixture_text,
+                )
+            ytd_rec = record_for_source(
+                ytd_src, text=ytd_text, fetch_ok=ytd_ok, fetch_error=ytd_err
+            )
+            rec["ytd"] = _ytd_sidecar(ytd_rec, ytd_src)
+            if rec["ytd"].get("fetch_blocker"):
+                blockers.append(f"{mid} 2026-YTD: {rec['ytd']['fetch_blocker']}")
+            if rec["ytd"].get("blocker") and not rec["ytd"].get("commodities"):
+                blockers.append(f"{mid} 2026-YTD: {rec['ytd']['blocker']}")
         mines[mid] = rec
         if rec.get("fetch_blocker"):
             blockers.append(f"{mid}: {rec['fetch_blocker']}")
@@ -302,6 +395,7 @@ def ingest(
             blockers.append(f"{mid}: {rec['blocker']}")
 
     n_fig = sum(1 for r in mines.values() if r.get("commodities"))
+    n_ytd = sum(1 for r in mines.values() if (r.get("ytd") or {}).get("commodities"))
     return {
         "schema": SCHEMA,
         "generated": utc_now(),
@@ -311,6 +405,7 @@ def ingest(
         "sources_file": "scripts/canada-mine-production-sources.json",
         "n_sources": len(rows),
         "n_with_figure": n_fig,
+        "n_with_ytd": n_ytd,
         "n_blank": len(mines) - n_fig,
         "blockers": blockers,
         "mines": mines,
@@ -399,6 +494,10 @@ def validate_book(book: dict[str, Any]) -> list[str]:
             n_fig += 1
             if not (rec.get("production_source") or "").startswith("http"):
                 errors.append(f"{mid}: figure without URL")
+            if rec.get("year") not in (None, YEAR, str(YEAR)):
+                errors.append(f"{mid}: annual rec year must be 2025")
+            if rec.get("kind") == "ytd":
+                errors.append(f"{mid}: 2025 rec must not be kind=ytd")
             for cid, row in comms.items():
                 if AUEQ.search(cid):
                     errors.append(f"{mid}: stored AuEq as {cid}")
@@ -412,8 +511,37 @@ def validate_book(book: dict[str, Any]) -> list[str]:
         for key in banned:
             if key in rec:
                 errors.append(f"{mid}: banned field {key}")
+        ytd = rec.get("ytd")
+        if ytd:
+            errors.extend(_validate_ytd(mid, ytd))
     if n_fig < 5:
         errors.append(f"need several cited figures, have {n_fig}")
+    return errors
+
+
+def _validate_ytd(mid: str, ytd: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if int(ytd.get("year") or 0) != YTD_YEAR:
+        errors.append(f"{mid}: YTD year must be 2026")
+    if (ytd.get("kind") or "ytd") != "ytd":
+        errors.append(f"{mid}: YTD kind must be ytd, not a full year")
+    if (ytd.get("period") or YTD_PERIOD) != YTD_PERIOD:
+        errors.append(f"{mid}: YTD period must be {YTD_PERIOD}")
+    if not ytd.get("through"):
+        errors.append(f"{mid}: YTD missing through")
+    if not ytd.get("period_label"):
+        errors.append(f"{mid}: YTD missing period_label")
+    comms = ytd.get("commodities") or {}
+    if comms:
+        if not (ytd.get("production_source") or "").startswith("http"):
+            errors.append(f"{mid}: YTD figure without URL")
+        for cid, row in comms.items():
+            if AUEQ.search(cid):
+                errors.append(f"{mid}: YTD stored AuEq as {cid}")
+            if row.get("value") is None:
+                errors.append(f"{mid}: YTD {cid} missing value")
+            if cid in b.TROY_OZ_CANONICAL and row.get("unit") != b.TROY_OZ_UNIT:
+                errors.append(f"{mid}: YTD {cid} must be troy oz")
     return errors
 
 
@@ -487,7 +615,8 @@ def main(argv: list[str] | None = None) -> int:
         join = json.loads(join_path.read_text(encoding="utf-8"))
         print(
             f"canada mine production ok join={join.get('schema')} "
-            f"figures={join.get('n_with_figure')} blank={join.get('n_blank')} "
+            f"figures={join.get('n_with_figure')} ytd={join.get('n_with_ytd')} "
+            f"blank={join.get('n_blank')} "
             f"sqlite={'yes' if db_path.exists() else 'export-only'}"
         )
         return 0
@@ -511,7 +640,8 @@ def main(argv: list[str] | None = None) -> int:
         stats = exported["stats"]
         print(
             f"exported {join_path} figures={join.get('n_with_figure')} "
-            f"blank={join.get('n_blank')} beta={stats['n_written']}"
+            f"ytd={join.get('n_with_ytd')} blank={join.get('n_blank')} "
+            f"beta={stats['n_written']}"
         )
         errors.extend(beta.validate_join(join, root=args.root))
         if comm_path.exists() and args.apply:
@@ -548,7 +678,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(
         f"exported {join_path} figures={join.get('n_with_figure')} "
-        f"blank={join.get('n_blank')} beta={stats['n_written']} "
+        f"ytd={join.get('n_with_ytd')} blank={join.get('n_blank')} "
+        f"beta={stats['n_written']} "
         f"skipped_new={stats['skipped'] and len(stats['skipped'])}"
     )
     errors.extend(db_errors)

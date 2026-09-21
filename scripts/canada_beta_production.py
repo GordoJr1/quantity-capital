@@ -20,6 +20,8 @@ ROOT = HERE.parent
 
 JOIN_SCHEMA = "qc-canada-producer-join-v1"
 YEAR = 2025
+YTD_YEAR = 2026
+YTD_PERIOD = "2026-YTD"
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
     "mine-level output. Stored in qc.sqlite; Pages reads the thin export."
@@ -463,6 +465,13 @@ def annual_2025(profile: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
+def period_ytd(profile: dict[str, Any]) -> dict[str, Any] | None:
+    for rec in profile.get("production") or []:
+        if rec.get("period") == YTD_PERIOD and rec.get("kind") == "ytd":
+            return rec
+    return None
+
+
 def figure_for_table(
     profile: dict[str, Any],
     asset_id: str,
@@ -641,6 +650,49 @@ def upsert_prod_2025(
     merged, changed = merge_by_asset(ba.get(asset_id), row)
     if changed or asset_id not in ba:
         ba[asset_id] = merged
+        changed = True
+    return changed or created
+
+
+def upsert_prod_ytd(
+    profile: dict[str, Any],
+    asset_id: str,
+    row: dict[str, Any],
+    ytd_meta: dict[str, Any] | None = None,
+) -> bool:
+    """Write a labeled 2026 YTD by_asset row. Never a full-year 2026 annual."""
+    meta = ytd_meta or {}
+    prods = profile.setdefault("production", [])
+    rec = period_ytd(profile)
+    created = False
+    if rec is None:
+        rec = {
+            "period": YTD_PERIOD,
+            "kind": "ytd",
+            "through": meta.get("through") or f"{YTD_YEAR}-06-30",
+            "by_asset": {},
+        }
+        if meta.get("period_label"):
+            rec["period_label"] = meta["period_label"]
+        # Keep 2025 annual first when present.
+        insert_at = 1 if (prods and prods[0].get("period") == str(YEAR)) else 0
+        prods.insert(insert_at, rec)
+        created = True
+    else:
+        rec["kind"] = "ytd"
+        rec["period"] = YTD_PERIOD
+        if meta.get("through") and not rec.get("through"):
+            rec["through"] = meta["through"]
+        if meta.get("period_label") and not rec.get("period_label"):
+            rec["period_label"] = meta["period_label"]
+    ba = rec.setdefault("by_asset", {})
+    merged, changed = merge_by_asset(ba.get(asset_id), row)
+    if changed or asset_id not in ba:
+        ba[asset_id] = merged
+        changed = True
+    kpis = profile.setdefault("kpis", {})
+    if rec.get("through") and not kpis.get("ytd_through"):
+        kpis["ytd_through"] = rec["through"]
         changed = True
     return changed or created
 
@@ -880,6 +932,18 @@ def apply_record_to_profile(
             if upsert_prod_2025(profile, asset_id, row):
                 changed = True
                 wrote_figure = not had_slot
+        ytd = rec.get("ytd") or {}
+        if ytd.get("commodities"):
+            ytd_row = by_asset_from_record(ytd, profile, meta)
+            if ytd_row:
+                rec_ytd = period_ytd(profile)
+                had_ytd = bool(((rec_ytd or {}).get("by_asset") or {}).get(asset_id))
+                if upsert_prod_ytd(profile, asset_id, ytd_row, ytd):
+                    changed = True
+                    if not had_ytd:
+                        wrote_figure = True
+                if append_source(profile, {**src, **ytd}):
+                    changed = True
     if wrote_figure and append_source(profile, {**src, **rec}):
         changed = True
     if mark_filing_backed(profile, wrote_figure):
@@ -1009,8 +1073,39 @@ def build_join(
                     exported[cid]["quote"] = c["quote"]
             if exported:
                 row["commodities"] = exported
+            ytd = rec.get("ytd") or {}
+            ytd_comms = ytd.get("commodities") or {}
+            ytd_exported = {}
+            for cid, c in ytd_comms.items():
+                if c.get("value") is None:
+                    continue
+                ytd_exported[cid] = {"value": c["value"], "unit": c.get("unit") or ""}
+                if c.get("quote"):
+                    ytd_exported[cid]["quote"] = c["quote"]
+            if ytd_exported:
+                ytd_src_row = src.get("ytd") if isinstance(src.get("ytd"), dict) else {}
+                ytd_row: dict[str, Any] = {
+                    "period": ytd.get("period") or YTD_PERIOD,
+                    "kind": "ytd",
+                    "through": ytd.get("through") or ytd_src_row.get("through"),
+                    "period_label": ytd.get("period_label") or ytd_src_row.get("period_label"),
+                    "source": (
+                        ytd.get("production_source")
+                        or ytd.get("url")
+                        or ytd_src_row.get("url")
+                    ),
+                    "source_title": (
+                        ytd.get("production_source_title")
+                        or ytd.get("title")
+                        or ytd_src_row.get("title")
+                    ),
+                    "as_of": ytd.get("production_as_of") or ytd.get("as_of") or ytd_src_row.get("as_of"),
+                    "commodities": ytd_exported,
+                }
+                row["ytd"] = {k: v for k, v in ytd_row.items() if v is not None}
         mines[mid] = {k: v for k, v in row.items() if v is not None or k in {"beta_id", "asset_id"}}
     n_fig = sum(1 for r in mines.values() if (r.get("commodities") or {}) and not r.get("omit_figure"))
+    n_ytd = sum(1 for r in mines.values() if ((r.get("ytd") or {}).get("commodities") or {}) and not r.get("omit_figure"))
     n_linked = sum(1 for r in mines.values() if r.get("beta_id") and not r.get("omit_figure"))
     n_blank = sum(1 for r in mines.values() if r.get("omit_figure") or r.get("blocker") or not (r.get("commodities") or {}))
     return {
@@ -1024,6 +1119,7 @@ def build_join(
         "n_mines": len(mines),
         "n_linked": n_linked,
         "n_with_figure": n_fig,
+        "n_with_ytd": n_ytd,
         "n_blank": n_blank,
         "mines": mines,
     }
@@ -1065,6 +1161,27 @@ def validate_join(join: dict[str, Any], *, root: Path = ROOT) -> list[str]:
                 fig = figure_for_table(profile, row["asset_id"], "gold")
                 if fig:
                     n_fig += 1
+        ytd = row.get("ytd")
+        if ytd:
+            if ytd.get("kind") != "ytd":
+                errors.append(f"{mid}: join ytd kind must be ytd")
+            if ytd.get("period") != YTD_PERIOD:
+                errors.append(f"{mid}: join ytd period must be {YTD_PERIOD}")
+            if not ytd.get("through"):
+                errors.append(f"{mid}: join ytd missing through")
+            if not ytd.get("period_label"):
+                errors.append(f"{mid}: join ytd missing period_label")
+            if ytd.get("kind") == "annual" or ytd.get("period") == str(YEAR):
+                errors.append(f"{mid}: partial 2026 mixed into annual 2025")
+            ytd_gold = (ytd.get("commodities") or {}).get("gold")
+            if ytd_gold and ytd_gold.get("unit") != "troy oz":
+                errors.append(f"{mid}: YTD gold export unit {ytd_gold.get('unit')}")
+            if (ytd.get("commodities") or {}) and not (ytd.get("source") or "").startswith("http"):
+                errors.append(f"{mid}: YTD figure without URL")
+            # 2025 commodities must stay the annual figure, not the YTD snapshot.
+            if ytd_gold and gold and ytd_gold.get("value") == gold.get("value"):
+                # Same ounce figure in both columns is allowed only if filings match; not an error.
+                pass
     if n_fig < 5:
         errors.append(f"need several cited gold figures, have {n_fig}")
     # Guard existing Newmont shape.

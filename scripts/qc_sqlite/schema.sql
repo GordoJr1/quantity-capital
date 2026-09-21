@@ -494,6 +494,9 @@ CREATE TABLE IF NOT EXISTS canada_mine_sources (
   blocker TEXT,
   fetch_ok INTEGER,
   fetch_error TEXT,
+  period TEXT,
+  through TEXT,
+  period_label TEXT,
   PRIMARY KEY (mine_id, year)
 );
 CREATE TABLE IF NOT EXISTS canada_mine_production (

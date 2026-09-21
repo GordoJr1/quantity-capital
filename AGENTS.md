@@ -30,7 +30,7 @@ python3 build-insider-repeatable.py     # stdlib only; 30/90/180-day open-market
 python3 build-insider-follow.py         # stdlib only; follow list + alerts since last tape
 python3 scripts/build_canada_commodities.py  # monthly; StatCan + NRCan + Map 900A → canada/commodities.json
 python3 scripts/build_canada_owner_beta_shells.py  # Map 900A owner aliases + Vale-style beta shells
-python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply  # monthly; cited 2025 mine production → qc.sqlite → thin export
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply  # monthly; cited 2025 + labeled 2026 YTD mine production → qc.sqlite → thin export
 ```
 
 Canadian production is a **monthly** desktop/Cloud job, not a morning/evening bat and not `daily-update`. `--sqlite` defaults to `./qc.sqlite` (gitignored; never commit it). `--jev` (TypeSafe) is optional and skipped when the key is absent. `--offline` rebuilds from `scripts/fixtures/canada/`. Gold / silver / platinum / palladium / rhodium (plus platinum-group) are stored as troy ounces (`1 troy oz = 31.1034768 g`). Ingest writes `canada_mines` / `canada_mine_production` / `canada_mine_sources`, then exports existing `beta/<issuer>.json` plus `canada/producer-join.json`. Owner-coverage shells (empty production, Map 900A assets only) come from `build_canada_owner_beta_shells.py`. Do not invent ounces.

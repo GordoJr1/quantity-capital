@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
+    "production_basis": "Not gathered. Do not invent ounces.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -46,36 +46,8 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [
-    {
-      "period": "2025",
-      "kind": "annual",
-      "by_asset": {
-        "highland-valley-copper": {
-          "ownership_pct": 100.0,
-          "copper_t": 127100.0
-        }
-      }
-    }
-  ],
-  "assets": [
-    {
-      "id": "highland-valley-copper",
-      "name": "Highland Valley Copper",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "copper",
-      "country": "Canada",
-      "region": "British Columbia",
-      "nearest": "Logan Lake",
-      "location_note": "Logan Lake, British Columbia",
-      "lat": 50.4855,
-      "lon": -121.0483,
-      "operator": "Teck Resources Limited",
-      "mine_type": "metals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "production": [],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -85,12 +57,6 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
-    },
-    {
-      "title": "Teck 2025 Fourth Quarter News Release (Exhibit 99.2) — production guidance table",
-      "date": "2026-02-12",
-      "url": "https://www.sec.gov/Archives/edgar/data/886986/000095014226000440/eh250741011_ex9902.htm",
-      "what": "Highland Valley Copper"
     }
   ],
   "meta": {
@@ -99,7 +65,6 @@
     "mcap_rank": 45,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": true,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

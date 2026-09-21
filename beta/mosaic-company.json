@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
+    "production_basis": "Not gathered. Do not invent ounces.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -46,76 +46,8 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [
-    {
-      "period": "2025",
-      "kind": "annual",
-      "by_asset": {
-        "belle-plaine": {
-          "ownership_pct": 100.0,
-          "potash_mt": 3
-        },
-        "colonsay": {
-          "ownership_pct": 100.0,
-          "potash_mt": 0.8
-        },
-        "esterhazy-k-3": {
-          "ownership_pct": 100.0,
-          "potash_mt": 4.7
-        }
-      }
-    }
-  ],
-  "assets": [
-    {
-      "id": "esterhazy-k-3",
-      "name": "Esterhazy (K-3)",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Esterhazy",
-      "location_note": "Esterhazy, Saskatchewan",
-      "lat": 50.6452,
-      "lon": -101.9941,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    },
-    {
-      "id": "belle-plaine",
-      "name": "Belle Plaine",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Belle Plaine",
-      "location_note": "Belle Plaine, Saskatchewan",
-      "lat": 50.435626,
-      "lon": -105.181423,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    },
-    {
-      "id": "colonsay",
-      "name": "Colonsay",
-      "stage": "producing",
-      "in_production": true,
-      "commodity": "potash",
-      "country": "Canada",
-      "region": "Saskatchewan",
-      "nearest": "Colonsay",
-      "location_note": "Colonsay, Saskatchewan",
-      "lat": 51.934163,
-      "lon": -105.765382,
-      "operator": "The Mosaic Company",
-      "mine_type": "nonmetals",
-      "note": "Map 900A principal operation. No mine-level tonnes published."
-    }
-  ],
+  "production": [],
+  "assets": [],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -125,12 +57,6 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
-    },
-    {
-      "title": "Mosaic Form 10-K year ended 31 December 2025 — potash finished product",
-      "date": "2026-02-27",
-      "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
-      "what": "Belle Plaine"
     }
   ],
   "meta": {
@@ -139,7 +65,6 @@
     "mcap_rank": 96,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": true,
-    "map_900a_assets": true
+    "filing_backed": false
   }
 }

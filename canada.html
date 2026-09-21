@@ -155,7 +155,7 @@
   <div class="wrap" id="main">
     <p class="kicker">Beta</p>
     <h1>Canadian production</h1>
-    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. The 2025 production column is read from beta producer pages (company filings) — blank when the filing does not break out that mine.</p>
+    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. The 2025 production column is a sqlite export of company filings — blank when the filing does not break out that mine.</p>
     <p class="asof" id="asof">Loading production book…</p>
     <div class="pickers">
       <div class="picker">
@@ -220,13 +220,13 @@
   <footer>
     <div class="wrap">
       <p id="disclaimer"></p>
-      <p class="quiet">Sources: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1610002201">StatCan 16-10-0022</a> · <a href="https://mmsd.nrcan-rncan.gc.ca/prod-prod/ann-ann-eng.aspx">NRCan annual production</a> · <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720">Map 900A</a> · mine 2025 from <a href="beta.html">beta producer pages</a> (see cell links)</p>
+      <p class="quiet">Sources: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1610002201">StatCan 16-10-0022</a> · <a href="https://mmsd.nrcan-rncan.gc.ca/prod-prod/ann-ann-eng.aspx">NRCan annual production</a> · <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720">Map 900A</a> · mine 2025 from qc.sqlite export (company filings; see cell links)</p>
       <p class="legal">Not investment advice. Not legal title. © Quantity Capital</p>
     </div>
   </footer>
   <script src="qc.js?v=128"></script>
   <script>
-    const state = { data: null, commodity: "gold", year: null, join: null, profiles: {} };
+    const state = { data: null, commodity: "gold", year: null, join: null };
 
     function esc(s) {
       return QC && QC.esc ? QC.esc(s) : String(s == null ? "" : s)
@@ -405,44 +405,6 @@
       return (book && m && book[m.id]) || null;
     }
 
-    function annual2025(profile) {
-      return ((profile && profile.production) || []).find(function (p) {
-        return p.period === "2025" && p.kind === "annual";
-      }) || null;
-    }
-
-    function goldUnit(profile) {
-      const unit = ((profile && profile.units) || {}).gold || "koz";
-      return String(unit).toLowerCase() === "koz" ? "koz" : unit;
-    }
-
-    function figureFromBeta(profile, assetId, commodityId) {
-      const rec = annual2025(profile);
-      const row = rec && rec.by_asset && rec.by_asset[assetId];
-      if (!row) return null;
-      if (commodityId === "gold") {
-        const koz = row.koz_100pct != null ? row.koz_100pct : row.attr_koz;
-        if (koz == null || !isFinite(koz)) return null;
-        const troy = goldUnit(profile) === "koz" ? koz * 1000 : koz;
-        return { value: troy, unit: "troy oz" };
-      }
-      if (commodityId === "copper") {
-        if (row.copper_t != null && isFinite(row.copper_t)) return { value: row.copper_t, unit: "t" };
-        if (row.copper_mlb != null && isFinite(row.copper_mlb)) return { value: row.copper_mlb, unit: "Mlb" };
-        return null;
-      }
-      if (commodityId === "silver") {
-        if (row.silver_koz != null && isFinite(row.silver_koz)) {
-          return { value: row.silver_koz * 1000, unit: "troy oz" };
-        }
-        if (row.silver_oz != null && isFinite(row.silver_oz)) {
-          return { value: row.silver_oz, unit: "troy oz" };
-        }
-        return null;
-      }
-      return null;
-    }
-
     function prodUnit(c, mine) {
       const units = mine && mine.production_unit;
       if (units && c && units[c.id]) return units[c.id];
@@ -451,21 +413,23 @@
       return unitText(c);
     }
 
+    function figureFromJoin(link, commodityId) {
+      if (!link || link.omit_figure) return null;
+      const row = (link.commodities || {})[commodityId];
+      if (!row || row.value == null || !isFinite(row.value)) return null;
+      return { value: row.value, unit: row.unit || "" };
+    }
+
     function prodCell(c, m) {
       const note = "From company filings where disclosed; StatCan/NRCan do not publish mine-level output.";
       const allOps = c && c.id === "all";
       const link = joinRow(m);
       const omit = link && link.omit_figure;
-      const profile = link && link.beta_id ? state.profiles[link.beta_id] : null;
-      const fig = (!allOps && !omit && profile) ? figureFromBeta(profile, link.asset_id, c.id) : null;
-      const map = m.production_2025 || {};
-      const fallback = allOps ? null : map[c.id];
-      const val = fig ? fig.value : fallback;
-      const unit = fig ? fig.unit : prodUnit(c, m);
+      const fig = (!allOps && !omit) ? figureFromJoin(link, c.id) : null;
+      const val = fig && fig.value;
+      const unit = (fig && fig.unit) || prodUnit(c, m);
       const blocker = (link && link.blocker) || m.production_blocker;
-      const quote = (profile && annual2025(profile) && annual2025(profile).by_asset &&
-        link && annual2025(profile).by_asset[link.asset_id] &&
-        annual2025(profile).by_asset[link.asset_id].note) || m.production_quote;
+      const quote = (link && link.commodities && c && link.commodities[c.id] && link.commodities[c.id].quote) || m.production_quote;
       const tip = [note, quote, blocker].filter(Boolean).join(" ");
       if (val == null || !isFinite(val) || omit) {
         return "<span class=\"quiet\" title=\"" + esc(tip) + "\">—</span>";
@@ -492,7 +456,7 @@
       document.getElementById("mines-note").textContent = mines.length
         ? (allOps
           ? "Every Map 900A principal operation, including owners not in the QC claims catalog. Claims Open is only set when we already have that company. 2025 production stays on the commodity tables."
-          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". 2025 production is the selected commodity only, from the issuer's beta producer page; — means not disclosed (or only AuEq / a complex total)."))
+          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". 2025 production is the selected commodity only, exported from qc.sqlite (company filings); — means not disclosed (or only AuEq / a complex total)."))
         : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
       document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
         const href = m.claims_href;
@@ -570,29 +534,14 @@
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
     }).then(function (data) {
-      return fetch("canada/producer-join.json?v=1").then(function (r) {
+      return fetch("canada/producer-join.json?v=3").then(function (r) {
         if (!r.ok) return { data: data, join: null };
         return r.json().then(function (join) { return { data: data, join: join }; });
       }).catch(function () { return { data: data, join: null }; });
     }).then(function (pack) {
       state.join = pack.join;
-      const ids = {};
-      const mines = (pack.join && pack.join.mines) || {};
-      Object.keys(mines).forEach(function (mid) {
-        const row = mines[mid];
-        if (row && row.beta_id) ids[row.beta_id] = row.file || ("beta/" + row.beta_id + ".json");
-      });
-      const keys = Object.keys(ids);
-      if (!keys.length) return pack;
-      return Promise.all(keys.map(function (id) {
-        return fetch(ids[id]).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
-      })).then(function (profiles) {
-        keys.forEach(function (id, i) {
-          if (profiles[i]) state.profiles[id] = profiles[i];
-        });
-        return pack;
-      });
-    }).then(function (pack) { boot(pack.data); }).catch(function (err) {
+      boot(pack.data);
+    }).catch(function (err) {
       document.getElementById("asof").textContent = "Could not load canada/commodities.json. Serve the repo over HTTP.";
       document.getElementById("disclaimer").textContent = String(err && err.message || err);
     });

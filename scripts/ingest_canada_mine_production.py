@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
-"""Ingest company-disclosed 2025 mine production onto beta producer pages.
+"""Ingest company-disclosed 2025 mine production into qc.sqlite, then export.
 
+SQLite is the store (canada_mines / canada_mine_production /
+canada_mine_sources). Pages only gets a thin export: existing
+beta/<issuer>.json production/by_asset plus canada/producer-join.json.
 National StatCan/NRCan totals stay in build_canada_commodities.py.
-This job fetches curated issuer IR / EDGAR URLs and writes **cited**
-mine-level actuals onto beta/<issuer>.json (Newmont shape: production[]
-period 2025 + by_asset + assets[]). canada.html joins that book.
 
-    python3 scripts/ingest_canada_mine_production.py            # fetch + write beta + join
-    python3 scripts/ingest_canada_mine_production.py --apply    # also strip canada overlay
-    python3 scripts/ingest_canada_mine_production.py --offline  # fixtures only
+    python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite
+    python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply
+    python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --export-only
+    python3 scripts/ingest_canada_mine_production.py --offline --sqlite /tmp/qc-test.sqlite
     python3 scripts/ingest_canada_mine_production.py --check
-    python3 scripts/ingest_canada_mine_production.py --apply-only
 
-Never invent ounces. Never split AuEq / GEO into gold. Never split a
-complex total across Map 900A pits. Leave by_asset blank when the filing
-does not name that mine's selected commodity. Match each producer file's
-units.gold (koz on Newmont and most pages).
-
-Not a morning/evening tape bat. Not daily-update. SEDAR+ is paywalled —
-use the issuer IR / EDGAR HTML (or PDF) URLs in the sources book.
+Never invent ounces. Never commit qc.sqlite. Never mint new issuer JSON.
+Never split AuEq / GEO or a complex total. Match each producer file's
+units.gold (koz on Newmont). SEDAR+ is paywalled — use IR / EDGAR URLs.
 """
 from __future__ import annotations
 
@@ -40,16 +36,21 @@ if str(HERE) not in sys.path:
 import build_canada_commodities as b
 import canada_beta_production as beta
 
+SQ_DIR = HERE / "qc_sqlite"
+if str(SQ_DIR) not in sys.path:
+    sys.path.insert(0, str(SQ_DIR))
+import canada_mines as cmsql  # noqa: E402
+
 SOURCES = HERE / "canada-mine-production-sources.json"
-OUT = ROOT / "canada" / "mine-production.json"
 JOIN = ROOT / "canada" / "producer-join.json"
+DEFAULT_SQLITE = ROOT / "qc.sqlite"
 FIXTURES = HERE / "fixtures" / "canada"
 SCHEMA = "qc-canada-mine-production-v1"
 YEAR = 2025
 SLEEP_S = 0.2
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
-    "mine-level output. Figures live on beta producer pages."
+    "mine-level output. Stored in qc.sqlite; Pages reads the thin export."
 )
 UNIT_NOTE = (
     "Company reports of gold, silver, platinum, palladium, and rhodium "
@@ -341,7 +342,7 @@ def overlay_payload(payload: dict[str, Any], join: dict[str, Any]) -> int:
         "n_linked": join.get("n_linked"),
         "n_blank": join.get("n_blank"),
         "note": FOOTNOTE,
-        "source": "beta producer pages via canada/producer-join.json",
+        "source": "qc.sqlite via canada/producer-join.json",
     }
     return hits
 
@@ -410,47 +411,37 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
     tmp.replace(path)
 
 
-def write_beta_and_join(
-    book: dict[str, Any],
-    sources_path: Path,
-    *,
-    root: Path,
-    join_path: Path,
-) -> dict[str, Any]:
-    sources_book = load_sources(sources_path)
-    stats = beta.write_beta_profiles(book, sources_book, root=root)
-    join = beta.build_join(book, sources_book)
-    write_json(join_path, join)
-    return {"stats": stats, "join": join}
-
-
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", type=Path, default=ROOT)
-    p.add_argument("--out", type=Path, default=None)
+    p.add_argument("--sqlite", type=Path, default=None, help="qc.sqlite path (gitignored; default ./qc.sqlite)")
     p.add_argument("--join", type=Path, default=None)
     p.add_argument("--sources", type=Path, default=SOURCES)
     p.add_argument("--offline", action="store_true")
     p.add_argument("--check", action="store_true")
-    p.add_argument("--apply", action="store_true", help="Strip canada overlay; write beta + join")
-    p.add_argument("--apply-only", action="store_true", help="Write beta + join from curated quotes; no fetch")
+    p.add_argument("--apply", action="store_true", help="Export from sqlite; strip canada overlay")
+    p.add_argument("--apply-only", action="store_true", help="Curated quotes → sqlite → export; no fetch")
+    p.add_argument("--export-only", action="store_true", help="Export Pages JSON from an existing sqlite")
     p.add_argument("--no-fetch", action="store_true", help="Use curated quotes without re-fetching")
     args = p.parse_args(argv)
 
-    out = args.out or (args.root / "canada" / "mine-production.json")
+    db_path = args.sqlite or (args.root / "qc.sqlite")
     join_path = args.join or (args.root / "canada" / "producer-join.json")
     comm_path = args.root / "canada" / "commodities.json"
 
     if args.check:
         errors: list[str] = []
-        if out.exists():
-            book = json.loads(out.read_text(encoding="utf-8"))
-            errors.extend(validate_book(book))
         if join_path.exists():
             join = json.loads(join_path.read_text(encoding="utf-8"))
             errors.extend(beta.validate_join(join, root=args.root))
         else:
             errors.append("missing canada/producer-join.json")
+        if db_path.exists():
+            con = cmsql.connect(db_path)
+            try:
+                errors.extend(cmsql.validate_db(con))
+            finally:
+                con.close()
         if comm_path.exists():
             payload = json.loads(comm_path.read_text(encoding="utf-8"))
             errors.extend(validate_overlay(payload))
@@ -460,13 +451,43 @@ def main(argv: list[str] | None = None) -> int:
         join = json.loads(join_path.read_text(encoding="utf-8"))
         print(
             f"canada mine production ok join={join.get('schema')} "
-            f"linked={join.get('n_linked')} blank={join.get('n_blank')}"
+            f"figures={join.get('n_with_figure')} blank={join.get('n_blank')} "
+            f"sqlite={'yes' if db_path.exists() else 'export-only'}"
         )
         return 0
 
     if args.apply_only:
         args.no_fetch = True
         args.apply = True
+
+    if args.export_only:
+        if not db_path.exists():
+            print(f"missing sqlite {db_path}", file=sys.stderr)
+            return 1
+        con = cmsql.connect(db_path)
+        try:
+            cmsql.apply_schema(con)
+            exported = cmsql.export_pages(con, root=args.root, join_path=join_path)
+            errors = cmsql.validate_db(con)
+        finally:
+            con.close()
+        join = exported["join"]
+        stats = exported["stats"]
+        print(
+            f"exported {join_path} figures={join.get('n_with_figure')} "
+            f"blank={join.get('n_blank')} beta={stats['n_written']}"
+        )
+        errors.extend(beta.validate_join(join, root=args.root))
+        if comm_path.exists() and args.apply:
+            payload = json.loads(comm_path.read_text(encoding="utf-8"))
+            hits = overlay_payload(payload, join)
+            write_json(comm_path, payload)
+            errors.extend(validate_overlay(payload))
+            print(f"joined {hits} mine rows on {comm_path}")
+        if errors:
+            print("validate: " + "; ".join(errors), file=sys.stderr)
+            return 1
+        return 0
 
     book = ingest(
         root=args.root,
@@ -475,20 +496,26 @@ def main(argv: list[str] | None = None) -> int:
         fetch_live=not args.no_fetch,
     )
     errors = validate_book(book)
-    write_json(out, book)
+    sources_book = load_sources(args.sources)
+    con = cmsql.connect(db_path)
+    try:
+        counts = cmsql.store_book(con, book, sources_book)
+        exported = cmsql.export_pages(con, root=args.root, join_path=join_path)
+        db_errors = cmsql.validate_db(con)
+    finally:
+        con.close()
+    join = exported["join"]
+    stats = exported["stats"]
     print(
-        f"wrote {out} figures={book['n_with_figure']} blank={book['n_blank']} "
-        f"sources={book['n_sources']}"
+        f"sqlite {db_path} mines={counts['n_mines']} "
+        f"production={counts['n_production']} sources={counts['n_sources']}"
     )
-    written = write_beta_and_join(
-        book, args.sources, root=args.root, join_path=join_path,
-    )
-    join = written["join"]
-    stats = written["stats"]
     print(
-        f"wrote {join_path} linked={join['n_linked']} blank={join['n_blank']} "
-        f"beta={stats['n_written']} created={stats['created']}"
+        f"exported {join_path} figures={join.get('n_with_figure')} "
+        f"blank={join.get('n_blank')} beta={stats['n_written']} "
+        f"skipped_new={stats['skipped'] and len(stats['skipped'])}"
     )
+    errors.extend(db_errors)
     errors.extend(beta.validate_join(join, root=args.root))
     if book.get("blockers"):
         print("blockers: " + " | ".join(book["blockers"][:8]))
@@ -500,7 +527,7 @@ def main(argv: list[str] | None = None) -> int:
         hits = overlay_payload(payload, join)
         errors.extend(validate_overlay(payload))
         write_json(comm_path, payload)
-        print(f"joined {hits} mine rows on {comm_path} (figures stay on beta/)")
+        print(f"joined {hits} mine rows on {comm_path} (figures from sqlite export)")
 
     if errors:
         print("validate: " + "; ".join(errors), file=sys.stderr)

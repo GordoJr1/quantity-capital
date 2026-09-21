@@ -31,7 +31,7 @@
       "n": 175
     }
   ],
-  "disclaimer": "Not legal title. Not investment advice. Production figures are national (and provincial) aggregates from StatCan table 16-10-0022 and NRCan annual mineral production tables. Mine-level tonnes are not published and are not shown. Map 900A lists significant producing operations, not every quarry or exploration project. Claims links open the existing Quebec / Ontario / BC overview-first map. Mine-level 2025 production is from beta producer pages (company filings) where disclosed; StatCan/NRCan do not publish mine-level output. Blank is not zero.",
+  "disclaimer": "Not legal title. Not investment advice. Production figures are national (and provincial) aggregates from StatCan table 16-10-0022 and NRCan annual mineral production tables. Mine-level tonnes are not published and are not shown. Map 900A lists significant producing operations, not every quarry or exploration project. Claims links open the existing Quebec / Ontario / BC overview-first map. Mine-level 2025 production is stored in qc.sqlite and exported to canada/producer-join.json (and existing beta/<issuer>.json) from company filings where disclosed; StatCan/NRCan do not publish mine-level output. Blank is not zero.",
   "blockers": [],
   "n_mines": 175,
   "n_linked": 48,
@@ -1640,7 +1640,6 @@
       "link": null,
       "beta_id": "gold-mountain-mining",
       "beta_asset_id": "elk",
-      "beta_href": "beta.html?id=gold-mountain-mining",
       "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
       "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
       "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
@@ -1744,7 +1743,6 @@
       "link": null,
       "beta_id": "imperial-metals",
       "beta_asset_id": "mount-polley",
-      "beta_href": "beta.html?id=imperial-metals",
       "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
       "production_source_title": "Imperial Reports 2025 Financial Results"
     },
@@ -4321,7 +4319,6 @@
           "link": null,
           "beta_id": "gold-mountain-mining",
           "beta_asset_id": "elk",
-          "beta_href": "beta.html?id=gold-mountain-mining",
           "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
           "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
           "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
@@ -4602,7 +4599,6 @@
           "link": null,
           "beta_id": "imperial-metals",
           "beta_asset_id": "mount-polley",
-          "beta_href": "beta.html?id=imperial-metals",
           "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
           "production_source_title": "Imperial Reports 2025 Financial Results"
         },
@@ -8326,7 +8322,6 @@
           "link": null,
           "beta_id": "gold-mountain-mining",
           "beta_asset_id": "elk",
-          "beta_href": "beta.html?id=gold-mountain-mining",
           "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
           "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
           "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
@@ -8381,7 +8376,6 @@
           "link": null,
           "beta_id": "imperial-metals",
           "beta_asset_id": "mount-polley",
-          "beta_href": "beta.html?id=imperial-metals",
           "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
           "production_source_title": "Imperial Reports 2025 Financial Results"
         },
@@ -10438,7 +10432,6 @@
           "link": null,
           "beta_id": "imperial-metals",
           "beta_asset_id": "mount-polley",
-          "beta_href": "beta.html?id=imperial-metals",
           "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
           "production_source_title": "Imperial Reports 2025 Financial Results"
         },
@@ -13037,7 +13030,6 @@
           "link": null,
           "beta_id": "imperial-metals",
           "beta_asset_id": "mount-polley",
-          "beta_href": "beta.html?id=imperial-metals",
           "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
           "production_source_title": "Imperial Reports 2025 Financial Results"
         },
@@ -29321,13 +29313,13 @@
       "mines": []
     }
   ],
-  "unit_note": "Gold, silver, platinum, palladium, rhodium, and platinum-group totals are troy ounces converted at ingest from the published StatCan/NRCan mass unit for that year (1 troy oz = 31.1034768 grams). Other commodities keep their source units. Mine-level quantities are not shown. Company reports of gold, silver, platinum, palladium, and rhodium ounces are troy ounces (mining 'oz' = troy oz). koz is ×1,000. Kilograms convert at 1 troy oz = 31.1034768 g. Other commodities keep the source unit and label it. AuEq / GEO is never stored as gold. Company reports of gold, silver, platinum, palladium, and rhodium ounces are troy ounces (mining 'oz' = troy oz). koz is ×1,000. Kilograms convert at 1 troy oz = 31.1034768 g. Other commodities keep the source unit and label it. AuEq / GEO is never stored as gold. Company reports of gold, silver, platinum, palladium, and rhodium ounces are troy ounces (mining 'oz' = troy oz). koz is ×1,000. Kilograms convert at 1 troy oz = 31.1034768 g. Other commodities keep the source unit and label it. AuEq / GEO is never stored as gold. Beta gold follows each producer file's units.gold (almost always koz). The Canada table converts koz → troy oz (×1,000). Mining ounces are troy ounces. Other commodities keep the by_asset unit (copper_t, copper_mlb, silver_koz). Beta gold follows each producer file's units.gold (almost always koz). The Canada table converts koz → troy oz (×1,000). Mining ounces are troy ounces. Other commodities keep the by_asset unit (copper_t, copper_mlb, silver_koz). Beta gold follows each producer file's units.gold (almost always koz). The Canada table converts koz → troy oz (×1,000). Mining ounces are troy ounces. Other commodities keep the by_asset unit (copper_t, copper_mlb, silver_koz). Beta gold follows each producer file's units.gold (almost always koz). The Canada table converts koz → troy oz (×1,000). Mining ounces are troy ounces. Other commodities keep the by_asset unit (copper_t, copper_mlb, silver_koz).",
+  "unit_note": "Gold, silver, platinum, palladium, rhodium, and platinum-group totals are troy ounces converted at ingest from the published StatCan/NRCan mass unit for that year (1 troy oz = 31.1034768 grams). Other commodities keep their source units. Mine-level quantities are not shown. Canada table reads canada/producer-join.json commodities exported from qc.sqlite. Gold/silver/PGM are troy ounces. Other commodities keep the source unit. Existing beta/<issuer>.json pages still store gold in each file's units.gold (usually koz).",
   "mine_production": {
     "year": 2025,
     "schema": "qc-canada-producer-join-v1",
     "n_linked": 29,
     "n_blank": 19,
-    "note": "From company filings where disclosed; StatCan/NRCan do not publish mine-level output. Figures live on beta producer pages.",
-    "source": "beta producer pages via canada/producer-join.json"
+    "note": "From company filings where disclosed; StatCan/NRCan do not publish mine-level output. Stored in qc.sqlite; Pages reads the thin export.",
+    "source": "qc.sqlite via canada/producer-join.json"
   }
 }

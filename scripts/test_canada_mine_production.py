@@ -7,6 +7,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
@@ -15,6 +16,11 @@ if str(HERE) not in sys.path:
 import build_canada_commodities as b
 import canada_beta_production as beta
 import ingest_canada_mine_production as ing
+
+SQ_DIR = HERE / "qc_sqlite"
+if str(SQ_DIR) not in sys.path:
+    sys.path.insert(0, str(SQ_DIR))
+import canada_mines as cmsql  # noqa: E402
 
 ROOT = HERE.parent
 
@@ -324,6 +330,173 @@ class BetaProducerTests(unittest.TestCase):
             rec = beta.annual_2025(after)
             self.assertNotIn("island-gold-island-gold-district", rec["by_asset"])
             self.assertIn("island-gold-district", rec["by_asset"])
+
+    def test_join_export_carries_sqlite_commodities(self) -> None:
+        book = {
+            "mines": {
+                "blackwater": {
+                    "mine_name": "Blackwater",
+                    "commodities": {
+                        "gold": {"value": 192808, "unit": "troy oz", "quote": "192,808"}
+                    },
+                    "production_source": "https://example.test/artg",
+                },
+                "elk": {"mine_name": "Elk", "blocker": "fiscal year", "commodities": {}},
+            }
+        }
+        sources = {"mines": [
+            {"mine_id": "blackwater", "mine_name": "Blackwater", "url": "https://example.test/artg"},
+            {"mine_id": "elk", "mine_name": "Elk", "blocker": "fiscal year"},
+        ]}
+        join = beta.build_join(book, sources, include_figures=True)
+        gold = join["mines"]["blackwater"]["commodities"]["gold"]
+        self.assertEqual(gold["value"], 192808)
+        self.assertEqual(gold["unit"], "troy oz")
+        self.assertNotIn("attr_koz", join["mines"]["blackwater"])
+        self.assertNotIn("commodities", join["mines"]["elk"])
+
+    def test_write_does_not_mint_missing_issuer(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            book = {
+                "mines": {
+                    "elk": {
+                        "mine_name": "Elk",
+                        "blocker": "fiscal year",
+                        "commodities": {},
+                    }
+                }
+            }
+            sources = {"mines": [{
+                "mine_id": "elk",
+                "mine_name": "Elk",
+                "beta_id": "gold-mountain-mining",
+                "asset_id": "elk",
+                "blocker": "fiscal year",
+            }]}
+            stats = beta.write_beta_profiles(book, sources, root=root, create=False)
+            self.assertIn("elk", stats["skipped"])
+            self.assertFalse((root / "beta" / "gold-mountain-mining.json").exists())
+
+
+class SqliteStoreTests(unittest.TestCase):
+    def _book(self, n_fig: int = 5, n_blank: int = 5) -> tuple[dict, dict]:
+        mines: dict[str, Any] = {}
+        src_rows: list[dict] = []
+        for i in range(n_fig):
+            mid = f"mine-{i}"
+            mines[mid] = {
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "year": 2025,
+                "kind": "ops-update",
+                "production_source": f"https://example.test/{mid}",
+                "production_source_title": f"{mid} 2025",
+                "production_as_of": "2026-02-01",
+                "commodities": {
+                    "gold": {
+                        "value": 1000 * (i + 1),
+                        "unit": "troy oz",
+                        "source_value": 1000 * (i + 1),
+                        "source_unit": "oz",
+                        "quote": f"{1000 * (i + 1)} ounces of gold",
+                    }
+                },
+                "fetch_ok": True,
+            }
+            src_rows.append({
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "beta_id": "artemis-gold" if i == 0 else None,
+                "asset_id": "blackwater" if i == 0 else mid,
+                "url": f"https://example.test/{mid}",
+                "title": f"{mid} 2025",
+                "as_of": "2026-02-01",
+                "kind": "ops-update",
+            })
+        for i in range(n_blank):
+            mid = f"blank-{i}"
+            mines[mid] = {
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "year": 2025,
+                "commodities": {},
+                "blocker": "not disclosed",
+                "fetch_ok": False,
+            }
+            src_rows.append({
+                "mine_id": mid,
+                "mine_name": mid.title(),
+                "blocker": "not disclosed",
+            })
+        book = {
+            "schema": ing.SCHEMA,
+            "year": 2025,
+            "mines": mines,
+            "n_with_figure": n_fig,
+            "n_blank": n_blank,
+            "n_sources": n_fig + n_blank,
+        }
+        return book, {"year": 2025, "mines": src_rows}
+
+    def test_store_roundtrip_and_export(self) -> None:
+        book, sources = self._book()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            (root / "canada").mkdir()
+            artemis = json.loads((ROOT / "beta" / "artemis-gold.json").read_text(encoding="utf-8"))
+            (root / "beta" / "artemis-gold.json").write_text(json.dumps(artemis), encoding="utf-8")
+            db = root / "qc.sqlite"
+            con = cmsql.connect(db)
+            try:
+                counts = cmsql.store_book(con, book, sources)
+                self.assertEqual(counts["n_mines"], 10)
+                self.assertEqual(counts["n_production"], 5)
+                errors = cmsql.validate_db(con)
+                self.assertEqual(errors, [])
+                exported = cmsql.export_pages(con, root=root)
+            finally:
+                con.close()
+            join = exported["join"]
+            self.assertEqual(join["built_from"], "qc.sqlite")
+            self.assertEqual(join["mines"]["mine-0"]["commodities"]["gold"]["value"], 1000)
+            self.assertEqual(join["mines"]["mine-0"]["commodities"]["gold"]["unit"], "troy oz")
+            self.assertTrue((root / "canada" / "producer-join.json").exists())
+            # Existing issuer updated; no new issuer files.
+            self.assertTrue((root / "beta" / "artemis-gold.json").exists())
+            self.assertEqual(len(list((root / "beta").glob("*.json"))), 1)
+            again = cmsql.connect(db)
+            try:
+                rebuilt = cmsql.book_from_db(again)
+            finally:
+                again.close()
+            self.assertEqual(rebuilt["mines"]["mine-0"]["commodities"]["gold"]["value"], 1000)
+            self.assertFalse(rebuilt["mines"]["blank-0"].get("commodities"))
+
+    def test_cli_export_only_from_sqlite(self) -> None:
+        book, sources = self._book()
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "beta").mkdir()
+            (root / "canada").mkdir()
+            db = root / "qc.sqlite"
+            con = cmsql.connect(db)
+            try:
+                cmsql.store_book(con, book, sources)
+            finally:
+                con.close()
+            rc = ing.main([
+                "--root", str(root),
+                "--sqlite", str(db),
+                "--export-only",
+            ])
+            self.assertEqual(rc, 0)
+            join = json.loads((root / "canada" / "producer-join.json").read_text(encoding="utf-8"))
+            self.assertEqual(join["schema"], beta.JOIN_SCHEMA)
+            self.assertGreaterEqual(join["n_with_figure"], 5)
+            self.assertEqual(join["built_from"], "qc.sqlite")
 
 
 if __name__ == "__main__":

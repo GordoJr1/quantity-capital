@@ -32,10 +32,10 @@ python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite  # optio
 python3 scripts/build_canada_commodities.py --jev        # optional one-shot TypeSafe; key from env / ~/.grok/typesafe.env / box typesafe/env
 python3 scripts/build_canada_commodities.py --offline    # fixtures only (CI / blocked network)
 python3 scripts/build_canada_commodities.py --check
-python3 scripts/ingest_canada_mine_production.py --apply   # cited 2025 mine ounces → beta/<issuer>.json + join
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply   # cited 2025 mine ounces → sqlite → thin export
 python3 scripts/ingest_canada_mine_production.py --check
 ```
 
-Writes `canada/commodities.json`, `canada/producer-join.json`, and updates matching `beta/<issuer>.json` producer pages. No secrets. Do not commit `qc.sqlite`. Mine-level tonnes from StatCan/NRCan are not published and are never invented. Optional 2025 mine production is company-disclosed only (IR / EDGAR / MD&A), stored on beta pages in each file's gold units (usually koz). See `canada/README.md`.
+Writes `canada/commodities.json` and `canada/producer-join.json`, and updates matching existing `beta/<issuer>.json` producer pages from `qc.sqlite`. No secrets. Do not commit `qc.sqlite`. Mine-level tonnes from StatCan/NRCan are not published and are never invented. Optional 2025 mine production is company-disclosed only (IR / EDGAR / MD&A). SQLite stores troy oz for precious metals; export matches each producer file's gold units (usually koz). See `canada/README.md`.
 
 GitHub Action `daily-update` runs Form 4 enrich plus backtest / Repeatable / follow rebuilds daily at 23:30 UTC and commits those artifacts to `main` when data changed. It does not fetch or commit `prices/` — Yahoo daily closes stay morning-only from the off-repo collect bats. `follow-alerts.yml` does the Form 4 + follow rebuild when the tape is pushed. `morning-check` fails ~07:40 ET if today's off-repo politician (~07:22 ET) or insiders (~07:05 ET) tape stamp is missing. New Senate/House/OGE/SEDI filings still depend on the off-repo collector; do not mix those JSON files into feature commits.

@@ -140,7 +140,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/build_canada_commodities.py
-          python3 -m py_compile scripts/ingest_canada_mine_production.py scripts/canada_beta_production.py
+          python3 -m py_compile scripts/ingest_canada_mine_production.py scripts/canada_beta_production.py scripts/qc_sqlite/canada_mines.py
           python3 scripts/test_canada_commodities.py
           python3 scripts/test_canada_mine_production.py
           python3 scripts/test_run_canada_commodities_gate.py
@@ -157,12 +157,21 @@ jobs:
           grep -q 'canada.html' qc.js
           grep -q 'qc-canada-commodities-v1' canada/commodities.json
           grep -q 'qc-canada-producer-join-v1' canada/producer-join.json
+          grep -q 'built_from' canada/producer-join.json
+          grep -q 'qc.sqlite' canada/producer-join.json
           grep -q 'beta/newmont.json' canada/producer-join.json
           grep -q '"brucejack"' beta/newmont.json
           grep -q 'producer-join.json' canada.html
-          grep -q 'figureFromBeta' canada.html
+          grep -q 'figureFromJoin' canada.html
+          grep -q 'qc.sqlite' canada.html
           grep -q '2025 prod' canada.html
           grep -q 'From company filings where disclosed' canada.html
+          grep -q 'CREATE TABLE IF NOT EXISTS canada_mines' scripts/qc_sqlite/schema.sql
+          grep -q 'CREATE TABLE IF NOT EXISTS canada_mine_production' scripts/qc_sqlite/schema.sql
+          grep -q 'qc.sqlite' .gitignore
+          test ! -e canada/mine-production.json
+          test ! -e beta/gold-mountain-mining.json
+          test ! -e beta/imperial-metals.json
           grep -q 'claims.html?company=' canada/commodities.json
           grep -q 'function showAllClaims' claims-map.js
           if grep -n 'loadAllExtracts' claims-map.js canada.html; then

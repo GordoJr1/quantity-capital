@@ -1,6 +1,6 @@
 # Canadian commodity production
 
-Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** is company-disclosed actuals on the matching `beta/<issuer>.json` producer page (Newmont shape). The Canada table joins that book. Blank / — when not disclosed.
+Static book for `canada.html` (beta → **Canada**). National aggregates plus Map 900A principal mines. Mine-level tonnes from StatCan/NRCan are confidential and are never stored. Optional **2025 production** is company-disclosed actuals stored in `qc.sqlite` (`canada_mines` / `canada_mine_production` / `canada_mine_sources`), then exported to existing `beta/<issuer>.json` pages (Newmont shape) and a thin `canada/producer-join.json`. The Canada table reads that export. Blank / — when not disclosed. Never commit `qc.sqlite`.
 
 ## Monthly refresh
 
@@ -12,14 +12,15 @@ python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite
 python3 scripts/build_canada_commodities.py --jev
 python3 scripts/build_canada_commodities.py --offline
 python3 scripts/build_canada_commodities.py --check
-python3 scripts/ingest_canada_mine_production.py              # fetch IR / EDGAR; write beta pages + join
-python3 scripts/ingest_canada_mine_production.py --apply      # also strip canada-only figure overlay
-python3 scripts/ingest_canada_mine_production.py --apply-only # curated quotes, no fetch; write beta + join
-python3 scripts/ingest_canada_mine_production.py --offline
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite              # fetch IR / EDGAR → sqlite → export
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply      # also strip canada-only figure overlay
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply-only # curated quotes, no fetch
+python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --export-only
+python3 scripts/ingest_canada_mine_production.py --offline --sqlite /tmp/qc-test.sqlite
 python3 scripts/ingest_canada_mine_production.py --check
 ```
 
-`--sqlite` is optional (`qc.sqlite` is gitignored). The monthly ingest is deterministic. Jev is only for leftover fuzzy owner→claims-company pairs, via a **one-shot** merge gate (not during every ingest, not in morning/evening bats):
+`--sqlite` defaults to `./qc.sqlite` (gitignored). The monthly ingest is deterministic. Jev is only for leftover fuzzy owner→claims-company pairs, via a **one-shot** merge gate (not during every ingest, not in morning/evening bats):
 
 ```
 python3 scripts/run_canada_commodities_gate.py --packet-only   # CI / Cloud Agent
@@ -36,7 +37,7 @@ TypeSafe key locations (never commit or paste the key):
 - Desktop: `C:\Users\gordo\.grok\typesafe.env` (also `~/.grok/typesafe.env`)
 - Box: `source /home/box/shared/typesafe/env`
 
-Writes `canada/commodities.json` (national + Map 900A roster). Mine-level 2025 ounces are written to `beta/<issuer>.json` and joined via `canada/producer-join.json`. User-Agent: `Quantity Capital gordojr@proton.me`. Sleeps 0.15s between NRCan year pages.
+Writes `canada/commodities.json` (national + Map 900A roster). Mine-level 2025 ounces go into `qc.sqlite`, then a thin export updates existing `beta/<issuer>.json` and `canada/producer-join.json`. Do not mint new issuer JSON. User-Agent: `Quantity Capital gordojr@proton.me`. Sleeps 0.15s between NRCan year pages.
 
 ## Sources
 
@@ -53,11 +54,11 @@ Gold, silver, platinum, palladium, rhodium, and platinum-group national (and pro
 
 ## Mine-level 2025 production
 
-`scripts/canada-mine-production-sources.json` is the curated issuer list (IR news, MD&A, AIF, annual, ops update, NI 43-101 **actuals**). The ingest fetches each URL (Quantity Capital User-Agent, 0.2s sleep) and keeps a figure only when the stored quote / `must_contain` strings appear on the page. Coverage is patchy on purpose.
+`scripts/canada-mine-production-sources.json` is the curated issuer URL book (IR news, MD&A, AIF, annual, ops update, NI 43-101 **actuals**) — not the figure store. The ingest fetches each URL (Quantity Capital User-Agent, 0.2s sleep) and keeps a figure only when the stored quote / `must_contain` strings appear on the page. Coverage is patchy on purpose.
 
-**Source of truth is the beta producer page**, same shape as `beta/newmont.json`: `production[]` with `period: "2025"`, `kind: "annual"`, `attr_koz`, and `by_asset` per mine id, plus `assets[]`. Examples: Blackwater → Artemis Gold; Brucejack → Newmont; Copper Mountain → Hudbay; Dome Mountain → Blue Lagoon (asset only — no 2025 ounces disclosed); Elk → Gold Mountain (FY ≠ calendar 2025, no by_asset).
+**Source of truth is `qc.sqlite`** (`canada_mines`, `canada_mine_production`, `canada_mine_sources`). Export then updates existing Newmont-shaped `beta/<issuer>.json` files (`production[]` / `by_asset` / `assets[]`) and writes `canada/producer-join.json` (mapping + cited commodities for the table). Examples: Blackwater → Artemis Gold; Brucejack → Newmont; Copper Mountain → Hudbay; Dome Mountain → Blue Lagoon (no 2025 ounces disclosed); Elk / Mount Polley stay on the join export only — do not mint `beta/gold-mountain-mining.json` or `beta/imperial-metals.json`.
 
-`canada/producer-join.json` maps Map 900A `mine_id` → `beta_id` / `asset_id`. `canada.html` reads the 2025 column from those producer files. Do not hand-maintain a parallel canada-only ounce store.
+`canada.html` reads the 2025 column from the sqlite export (`producer-join.json` commodities). Do not hand-maintain a parallel canada-only ounce store. Do not invent dozens of new JSON files.
 
 - Precious-metal **oz / ounces** in company reports are troy ounces (mining ounce = troy ounce). Beta pages keep each file's `units.gold` convention (**koz** on Newmont and most producers). The Canada table converts koz → troy oz (×1,000). kg uses `1 troy oz = 31.1034768 g`.
 - Other commodities keep the source unit on by_asset (`copper_t`, `copper_mlb`, `silver_koz`) and the table labels it.

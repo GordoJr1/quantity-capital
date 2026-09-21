@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""Write cited Canadian mine production onto beta producer pages.
+"""Export cited Canadian mine production from qc.sqlite onto Pages JSON.
 
-Source of truth is beta/<issuer>.json in the Newmont shape:
-  production[] period "2025" kind "annual" + by_asset[asset_id]
-  assets[] id, name, stage, in_production, commodity, country, ownership_pct
-
-canada/producer-join.json is a thin Map 900A → beta_id/asset_id map.
-The Canada table reads figures from the producer pages. Never invent.
-Never copy a complex total onto a pit row. Match each file's units.gold
-(Newmont / most producers = koz).
+SQLite is the store (canada_mines / canada_mine_production /
+canada_mine_sources). This module updates existing Newmont-shaped
+beta/<issuer>.json files and writes the thin canada/producer-join.json
+export. Never invent. Never mint new issuer JSON. Never copy a complex
+total onto a pit row. Match each file's units.gold (koz on Newmont).
 """
 from __future__ import annotations
 
@@ -24,13 +21,13 @@ JOIN_SCHEMA = "qc-canada-producer-join-v1"
 YEAR = 2025
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
-    "mine-level output. Figures live on beta producer pages."
+    "mine-level output. Stored in qc.sqlite; Pages reads the thin export."
 )
 UNIT_NOTE = (
-    "Beta gold follows each producer file's units.gold (almost always koz). "
-    "The Canada table converts koz → troy oz (×1,000). Mining ounces are "
-    "troy ounces. Other commodities keep the by_asset unit (copper_t, "
-    "copper_mlb, silver_koz)."
+    "Canada table reads canada/producer-join.json commodities exported from "
+    "qc.sqlite. Gold/silver/PGM are troy ounces. Other commodities keep the "
+    "source unit. Existing beta/<issuer>.json pages still store gold in each "
+    "file's units.gold (usually koz)."
 )
 
 # Map 900A mine_id → beta producer page + asset id.
@@ -383,10 +380,17 @@ def empty_profile(beta_id: str, spec: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def load_or_create_profile(root: Path, beta_id: str) -> dict[str, Any]:
+def load_existing_profile(root: Path, beta_id: str) -> dict[str, Any] | None:
     path = root / "beta" / f"{beta_id}.json"
-    if path.exists():
-        return json.loads(path.read_text(encoding="utf-8"))
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_or_create_profile(root: Path, beta_id: str) -> dict[str, Any]:
+    existing = load_existing_profile(root, beta_id)
+    if existing is not None:
+        return existing
     spec = NEW_ISSUERS.get(beta_id)
     if not spec:
         raise FileNotFoundError(f"no beta profile for {beta_id}")
@@ -669,8 +673,9 @@ def write_beta_profiles(
     sources_book: dict[str, Any],
     *,
     root: Path = ROOT,
+    create: bool = False,
 ) -> dict[str, Any]:
-    """Create/update beta producer pages. Returns write stats."""
+    """Update existing beta producer pages from the sqlite book. No new files."""
     by_mine_src = {row["mine_id"]: row for row in (sources_book.get("mines") or [])}
     written: list[str] = []
     skipped: list[str] = []
@@ -682,18 +687,30 @@ def write_beta_profiles(
         src = by_mine_src.get(mid) or {}
         if src.get("beta_id"):
             meta["beta_id"] = src["beta_id"]
-        if src.get("asset_id"):
-            meta["asset_id"] = src["asset_id"]
+        if rec.get("company_id"):
+            meta["beta_id"] = rec["company_id"]
+        if src.get("asset_id") or rec.get("asset_id"):
+            meta["asset_id"] = src.get("asset_id") or rec.get("asset_id")
         if src.get("ownership_pct") is not None:
             meta["ownership_pct"] = src["ownership_pct"]
+        elif rec.get("ownership_pct") is not None:
+            meta["ownership_pct"] = rec["ownership_pct"]
+        if rec.get("omit_figure"):
+            meta["omit_figure"] = True
         beta_id = meta.get("beta_id")
         if not beta_id:
             skipped.append(mid)
             continue
+        path = root / "beta" / f"{beta_id}.json"
+        if not path.exists() and not create:
+            skipped.append(mid)
+            continue
         if beta_id not in dirty:
-            path = root / "beta" / f"{beta_id}.json"
             existed = path.exists()
-            profile = load_or_create_profile(root, beta_id)
+            profile = load_or_create_profile(root, beta_id) if create else load_existing_profile(root, beta_id)
+            if profile is None:
+                skipped.append(mid)
+                continue
             dirty[beta_id] = {
                 "profile": profile,
                 "was_empty": (not existed) or (
@@ -728,43 +745,59 @@ def write_beta_profiles(
 def build_join(
     book: dict[str, Any],
     sources_book: dict[str, Any],
+    *,
+    include_figures: bool = False,
+    root: Path | None = None,
 ) -> dict[str, Any]:
     mines: dict[str, Any] = {}
     by_src = {row["mine_id"]: row for row in (sources_book.get("mines") or [])}
+    site = root or ROOT
     for mid, rec in (book.get("mines") or {}).items():
         meta = dict(ISSUER_MAP.get(mid) or {})
         src = by_src.get(mid) or {}
-        beta_id = src.get("beta_id") or meta.get("beta_id")
-        asset_id = src.get("asset_id") or meta.get("asset_id")
-        omit = bool(meta.get("omit_figure") or src.get("omit_figure"))
+        beta_id = rec.get("company_id") or src.get("beta_id") or meta.get("beta_id")
+        asset_id = rec.get("asset_id") or src.get("asset_id") or meta.get("asset_id")
+        omit = bool(rec.get("omit_figure") or meta.get("omit_figure") or src.get("omit_figure"))
+        has_file = bool(beta_id and (site / "beta" / f"{beta_id}.json").exists())
         row: dict[str, Any] = {
             "mine_id": mid,
             "mine_name": rec.get("mine_name") or src.get("mine_name") or mid,
             "beta_id": beta_id,
             "asset_id": asset_id,
-            "file": f"beta/{beta_id}.json" if beta_id else None,
-            "page": f"beta.html?id={beta_id}" if beta_id else None,
+            "file": f"beta/{beta_id}.json" if has_file else None,
+            "page": f"beta.html?id={beta_id}" if has_file else None,
             "omit_figure": omit,
             "source": rec.get("production_source") or src.get("url"),
             "source_title": rec.get("production_source_title") or src.get("title"),
             "as_of": rec.get("production_as_of") or src.get("as_of"),
             "blocker": rec.get("blocker") or src.get("blocker"),
         }
+        if include_figures and not omit:
+            comms = rec.get("commodities") or {}
+            exported = {}
+            for cid, c in comms.items():
+                if c.get("value") is None:
+                    continue
+                exported[cid] = {"value": c["value"], "unit": c.get("unit") or ""}
+                if c.get("quote"):
+                    exported[cid]["quote"] = c["quote"]
+            if exported:
+                row["commodities"] = exported
         mines[mid] = {k: v for k, v in row.items() if v is not None or k in {"beta_id", "asset_id"}}
+    n_fig = sum(1 for r in mines.values() if (r.get("commodities") or {}) and not r.get("omit_figure"))
     n_linked = sum(1 for r in mines.values() if r.get("beta_id") and not r.get("omit_figure"))
-    n_blank = sum(
-        1 for r in mines.values()
-        if r.get("omit_figure") or r.get("blocker") or not r.get("beta_id")
-    )
+    n_blank = sum(1 for r in mines.values() if r.get("omit_figure") or r.get("blocker") or not (r.get("commodities") or {}))
     return {
         "schema": JOIN_SCHEMA,
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "year": YEAR,
         "disclaimer": FOOTNOTE,
         "unit_note": UNIT_NOTE,
+        "built_from": book.get("built_from") or "qc.sqlite",
         "sources_file": "scripts/canada-mine-production-sources.json",
         "n_mines": len(mines),
         "n_linked": n_linked,
+        "n_with_figure": n_fig,
         "n_blank": n_blank,
         "mines": mines,
     }
@@ -779,28 +812,35 @@ def validate_join(join: dict[str, Any], *, root: Path = ROOT) -> list[str]:
     mines = join.get("mines") or {}
     if len(mines) < 10:
         errors.append("join missing mines")
-    banned = ("value", "attr_koz", "production_2025", "koz", "tonnes")
+    banned = ("attr_koz", "production_2025", "koz", "tonnes")
     n_fig = 0
     for mid, row in mines.items():
         for key in banned:
             if key in row and row[key] not in (None, False):
                 errors.append(f"{mid}: join must not store {key}")
-        if row.get("omit_figure") or row.get("blocker") or not row.get("beta_id"):
-            continue
-        path = root / "beta" / f"{row['beta_id']}.json"
-        if not path.exists():
-            errors.append(f"{mid}: missing {path.name}")
-            continue
-        profile = json.loads(path.read_text(encoding="utf-8"))
-        fig = figure_for_table(profile, row["asset_id"], "gold")
-        if fig:
+        comms = row.get("commodities") or {}
+        if "aueq" in comms or "gold-equivalent" in comms:
+            errors.append(f"{mid}: AuEq on join export")
+        gold = comms.get("gold")
+        if gold and not row.get("omit_figure"):
             n_fig += 1
-            if fig["unit"] != "troy oz":
-                errors.append(f"{mid}: gold table unit {fig['unit']}")
-            if fig["value"] <= 0:
+            if gold.get("unit") != "troy oz":
+                errors.append(f"{mid}: gold export unit {gold.get('unit')}")
+            if gold.get("value") is None or float(gold["value"]) <= 0:
                 errors.append(f"{mid}: non-positive gold")
+            if not (row.get("source") or "").startswith("http"):
+                errors.append(f"{mid}: figure without URL")
+        elif row.get("omit_figure") or row.get("blocker"):
+            continue
+        elif row.get("file"):
+            path = root / row["file"]
+            if path.exists() and row.get("asset_id"):
+                profile = json.loads(path.read_text(encoding="utf-8"))
+                fig = figure_for_table(profile, row["asset_id"], "gold")
+                if fig:
+                    n_fig += 1
     if n_fig < 5:
-        errors.append(f"need several cited beta gold figures, have {n_fig}")
+        errors.append(f"need several cited gold figures, have {n_fig}")
     # Guard existing Newmont shape.
     nem = root / "beta" / "newmont.json"
     if nem.exists():
@@ -837,30 +877,45 @@ def strip_commodities_overlay(payload: dict[str, Any]) -> int:
     payload.pop("mine_production", None)
     disc = payload.get("disclaimer") or ""
     extra = (
-        " Mine-level 2025 production is from beta producer pages "
-        "(company filings) where disclosed; StatCan/NRCan do not publish "
+        " Mine-level 2025 production is stored in qc.sqlite and exported to "
+        "canada/producer-join.json (and existing beta/<issuer>.json) from "
+        "company filings where disclosed; StatCan/NRCan do not publish "
         "mine-level output. Blank is not zero."
     )
     # Collapse duplicated footnotes from earlier overlays.
-    while "Mine-level 2025 production is from company filings" in disc:
-        start = disc.find(" Mine-level 2025 production is from company filings")
-        if start < 0:
-            start = disc.find("Mine-level 2025 production is from company filings")
-        if start < 0:
+    markers = (
+        "Mine-level 2025 production is from company filings",
+        "Mine-level 2025 production is from beta producer pages",
+        "Mine-level 2025 production is stored in qc.sqlite",
+    )
+    changed = True
+    while changed:
+        changed = False
+        for marker in markers:
+            start = disc.find(" " + marker)
+            if start < 0:
+                start = disc.find(marker)
+            if start < 0:
+                continue
+            rest = disc[start + (1 if disc[start] == " " else 0):]
+            end = rest.find("Blank is not zero.")
+            if end < 0:
+                disc = disc[:start].rstrip()
+            else:
+                disc = (disc[:start] + rest[end + len("Blank is not zero."):]).strip()
+            changed = True
             break
-        rest = disc[start + 1:]
-        end = rest.find("Blank is not zero.")
-        if end < 0:
-            disc = disc[:start].rstrip()
-            break
-        disc = (disc[:start] + rest[end + len("Blank is not zero."):]).strip()
-    if "beta producer pages" not in disc:
-        payload["disclaimer"] = (disc.rstrip() + extra).strip()
-    else:
-        payload["disclaimer"] = disc
+    payload["disclaimer"] = (disc.rstrip() + extra).strip()
     note = payload.get("unit_note") or ""
-    if "beta producer" not in note.lower():
-        payload["unit_note"] = (note.rstrip() + " " + UNIT_NOTE).strip()
+    for marker in (
+        " Company reports of gold",
+        " Beta gold follows",
+        " Canada table reads",
+    ):
+        cut = note.find(marker)
+        if cut > 0:
+            note = note[:cut].rstrip()
+    payload["unit_note"] = (note + " " + UNIT_NOTE).strip()
     return n
 
 
@@ -874,7 +929,10 @@ def attach_join_pointers(mines: list[dict[str, Any]], join: dict[str, Any]) -> i
         if rec.get("beta_id"):
             mine["beta_id"] = rec["beta_id"]
             mine["beta_asset_id"] = rec.get("asset_id")
-            mine["beta_href"] = rec.get("page")
+            if rec.get("page"):
+                mine["beta_href"] = rec["page"]
+            else:
+                mine.pop("beta_href", None)
             hits += 1
         if rec.get("blocker"):
             mine["production_blocker"] = rec["blocker"]

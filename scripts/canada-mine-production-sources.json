@@ -1,7 +1,7 @@
 {
   "schema": "qc-canada-mine-production-sources-v1",
   "year": 2025,
-  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines. Ingest fetches and requires the quote (or must_contain) to appear, then writes beta/<issuer>.json (Newmont-shaped production[] / assets[]) plus canada/producer-join.json. Never invent. Never split AuEq or a complex total across pits.",
+  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
   "blockers_global": [
     "SEDAR+ document viewer is paywalled / login-gated; use issuer IR HTML or EDGAR exhibits.",
     "StatCan table 16-10-0022 and NRCan annual tables do not publish mine-level output.",

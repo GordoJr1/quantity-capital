@@ -94,6 +94,12 @@
     a.mine:hover { color: var(--teal); }
     a.claim { color: var(--caution); text-decoration: none; }
     a.claim:hover { color: var(--white); }
+    .series-more {
+      display: inline-block; margin: 0 0 10px; background: #151b24;
+      border: 1px solid #4a5563; color: var(--caution); font: inherit;
+      font-size: 0.82rem; padding: 8px 12px; min-height: 40px; cursor: pointer;
+    }
+    .series-more:hover { color: var(--white); border-color: var(--caution); }
     .layout {
       display: grid; grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
       gap: 12px 28px; align-items: start;
@@ -155,7 +161,7 @@
   <div class="wrap" id="main">
     <p class="kicker">Beta</p>
     <h1>Canadian production</h1>
-    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. Mine-level tonnes are confidential and are not shown.</p>
+    <p class="lede">National mineral output from StatCan and NRCan. Principal mines from Map 900A. The 2025 production column is a sqlite export of company filings — blank when the filing does not break out that mine.</p>
     <p class="asof" id="asof">Loading production book…</p>
     <div class="pickers">
       <div class="picker">
@@ -187,6 +193,7 @@
             <tbody id="series"></tbody>
           </table>
         </div>
+        <button type="button" class="series-more" id="series-more" hidden>Show all years</button>
         <p class="quiet" id="series-note"></p>
         <h2 id="prov-h" hidden>Provinces · <span id="prov-year"></span></h2>
         <div class="table-wrap" id="prov-wrap" hidden>
@@ -206,25 +213,34 @@
                 <th>Mine</th>
                 <th>Location</th>
                 <th>Owner(s)</th>
+                <th class="num" id="prod-col" title="From company filings where disclosed; StatCan/NRCan do not publish mine-level output.">2025 prod.</th>
                 <th>Claims</th>
               </tr>
             </thead>
             <tbody id="mines"></tbody>
           </table>
         </div>
+        <p class="quiet" id="mines-prod-note">From company filings where disclosed; StatCan/NRCan do not publish mine-level output.</p>
       </div>
     </div>
   </div>
   <footer>
     <div class="wrap">
       <p id="disclaimer"></p>
-      <p class="quiet">Sources: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1610002201">StatCan 16-10-0022</a> · <a href="https://mmsd.nrcan-rncan.gc.ca/prod-prod/ann-ann-eng.aspx">NRCan annual production</a> · <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720">Map 900A</a></p>
+      <p class="quiet">Sources: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=1610002201">StatCan 16-10-0022</a> · <a href="https://mmsd.nrcan-rncan.gc.ca/prod-prod/ann-ann-eng.aspx">NRCan annual production</a> · <a href="https://open.canada.ca/data/en/dataset/000183ed-8864-42f0-ae43-c4313a860720">Map 900A</a> · mine 2025 from qc.sqlite export (company filings; see cell links)</p>
       <p class="legal">Not investment advice. Not legal title. © Quantity Capital</p>
     </div>
   </footer>
   <script src="qc.js?v=128"></script>
   <script>
-    const state = { data: null, commodity: "gold", year: null };
+    const state = { data: null, commodity: "gold", year: null, join: null, seriesOpen: false, ownerPages: {}, ownerSkip: {} };
+    const SERIES_PREVIEW = 5;
+    const OWNER_STOP = {
+      INC: 1, INCORPORATED: 1, CORP: 1, CORPORATION: 1, LTD: 1, LIMITED: 1,
+      LLC: 1, LLP: 1, LP: 1, PLC: 1, CO: 1, COMPANY: 1, THE: 1, AND: 1, OF: 1,
+      MINES: 1, MINE: 1, MINING: 1, ULC: 1, SA: 1, NV: 1, RESOURCES: 1,
+      RESOURCE: 1, GOLD: 1, CANADA: 1, CANADIAN: 1, HOLDINGS: 1, GROUP: 1
+    };
 
     function esc(s) {
       return QC && QC.esc ? QC.esc(s) : String(s == null ? "" : s)
@@ -284,7 +300,7 @@
 
     function fillYear(c) {
       const sel = document.getElementById("year");
-      const years = (c.series || []).map((p) => p.year);
+      const years = (c.series || []).map((p) => p.year).slice().sort(function (a, b) { return b - a; });
       if (!years.length) {
         sel.innerHTML = "<option value=\"\">—</option>";
         return;
@@ -352,10 +368,32 @@
       };
     }
 
+    function seriesNewestFirst(c) {
+      return ((c && c.series) || []).slice().sort(function (a, b) { return b.year - a.year; });
+    }
+
+    function ensureSeriesShowsYear(c) {
+      const rows = seriesNewestFirst(c);
+      if (rows.length <= SERIES_PREVIEW || state.year == null) return;
+      const preview = rows.slice(0, SERIES_PREVIEW);
+      if (!preview.some(function (p) { return p.year === state.year; })) {
+        state.seriesOpen = true;
+      }
+    }
+
+    function visibleSeries(c) {
+      const rows = seriesNewestFirst(c);
+      if (state.seriesOpen || rows.length <= SERIES_PREVIEW) {
+        return { rows: rows, clipped: false, total: rows.length };
+      }
+      return { rows: rows.slice(0, SERIES_PREVIEW), clipped: true, total: rows.length };
+    }
+
     function paintSeries(c) {
       const unit = unitText(c);
       document.getElementById("qty-col").textContent = unit ? ("Quantity (" + unit + ")") : "Quantity";
-      document.getElementById("series").innerHTML = ((c && c.series) || []).map((p) => {
+      const vis = visibleSeries(c);
+      document.getElementById("series").innerHTML = vis.rows.map((p) => {
         const on = p.year === state.year ? " class=\"on\"" : "";
         const qty = p.canada == null ? (p.status === "x" ? "x" : "—") : fmt(p.canada);
         return "<tr" + on + " data-year=\"" + p.year + "\"><td>" + p.year + "</td><td class=\"num\">" + esc(qty) + "</td><td>" + esc(p.source || "") + (p.status === "p" ? " · prelim." : "") + (p.status === "x" ? " · confidential" : "") + "</td></tr>";
@@ -367,12 +405,26 @@
           paint();
         }
       };
+      const more = document.getElementById("series-more");
+      const canToggle = vis.total > SERIES_PREVIEW && c && c.id !== "all";
+      more.hidden = !canToggle;
+      more.textContent = state.seriesOpen
+        ? "Show last 5 years"
+        : ("Show all " + vis.total + " years");
+      more.onclick = function () {
+        state.seriesOpen = !state.seriesOpen;
+        paint();
+      };
       const n = ((c && c.series) || []).filter((p) => p.canada != null).length;
       const troy = unit === "troy oz";
+      const windowNote = vis.clipped
+        ? " Showing " + SERIES_PREVIEW + " most recent years (2025 at the top)."
+        : (vis.total > SERIES_PREVIEW ? " Full series, newest first." : "");
       document.getElementById("series-note").textContent = (c && c.id === "all")
         ? "All operations has no national production series — pick a commodity for StatCan / NRCan totals."
         : (n
           ? n + " published Canada totals. StatCan 16-10-0022 from 2019; earlier years from NRCan annual tables." +
+            windowNote +
             (troy ? " Figures are troy ounces (1 troy oz = 31.1034768 g), converted from the published mass unit." : "")
           : "No Canada quantity published for this commodity in the requested window.");
     }
@@ -398,16 +450,154 @@
       ).join("");
     }
 
+    function foldName(s) {
+      return String(s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase().replace(/[^A-Z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+    }
+
+    function coreName(s) {
+      const toks = foldName(s).split(" ").filter(function (t) { return t && !OWNER_STOP[t] && !/^\d+$/.test(t); });
+      return toks.length ? toks.join(" ") : foldName(s);
+    }
+
+    function splitOwners(raw) {
+      return String(raw || "").split(/\s*\/\s*|\s*;\s*|\s+\+\s+/).map(function (p) {
+        return p.trim();
+      }).filter(Boolean);
+    }
+
+    function registerOwnerPage(name, href) {
+      if (!name || !href) return;
+      [foldName(name), coreName(name)].forEach(function (key) {
+        if (!key) return;
+        if (state.ownerSkip[key]) return;
+        if (state.ownerPages[key] && state.ownerPages[key] !== href) {
+          state.ownerSkip[key] = true;
+          delete state.ownerPages[key];
+          return;
+        }
+        state.ownerPages[key] = href;
+      });
+    }
+
+    function ingestIssuerRows(rows) {
+      (rows || []).forEach(function (row) {
+        const id = row.id || row.beta_id || row.alias_of;
+        const file = row.file;
+        if (!id || !file) return;
+        const href = "beta.html?id=" + encodeURIComponent(id);
+        registerOwnerPage(row.name, href);
+        registerOwnerPage(id.replace(/-/g, " "), href);
+        (row.names || []).forEach(function (n) { registerOwnerPage(n, href); });
+      });
+    }
+
+    function buildOwnerPages(data, join, catalogs) {
+      state.ownerPages = {};
+      state.ownerSkip = {};
+      const groups = [data && data.mines].concat(((data && data.commodities) || []).map(function (c) { return c.mines; }));
+      groups.forEach(function (mines) {
+        (mines || []).forEach(function (m) {
+          if (m.beta_href && (m.beta_id || m.owners)) {
+            registerOwnerPage(m.owners, m.beta_href);
+            if (m.beta_id) registerOwnerPage(m.beta_id.replace(/-/g, " "), m.beta_href);
+          }
+        });
+      });
+      Object.keys((join && join.mines) || {}).forEach(function (mid) {
+        const row = join.mines[mid];
+        if (row && row.page && row.beta_id) {
+          registerOwnerPage(row.beta_id.replace(/-/g, " "), row.page);
+        }
+      });
+      (catalogs || []).forEach(function (pack) {
+        if (pack && pack.issuers) ingestIssuerRows(pack.issuers);
+      });
+    }
+
+    function pageForOwner(name, mine, link) {
+      const folded = foldName(name);
+      const core = coreName(name);
+      if (folded && state.ownerPages[folded]) return state.ownerPages[folded];
+      if (core && state.ownerPages[core]) return state.ownerPages[core];
+      const parts = splitOwners(mine && mine.owners);
+      if (parts.length <= 1) {
+        if (mine && mine.beta_href) return mine.beta_href;
+        if (link && link.page) return link.page;
+      }
+      return null;
+    }
+
+    function ownersHtml(mine, link) {
+      const raw = (mine && mine.owners) || "";
+      if (!raw) return "—";
+      const parts = splitOwners(raw);
+      const names = parts.length ? parts : [raw];
+      return names.map(function (name) {
+        const href = pageForOwner(name, mine, link);
+        return href
+          ? "<a class=\"mine\" href=\"" + esc(href) + "\">" + esc(name) + "</a>"
+          : esc(name);
+      }).join(" / ");
+    }
+
+    function joinRow(m) {
+      const book = state.join && state.join.mines;
+      return (book && m && book[m.id]) || null;
+    }
+
+    function prodUnit(c, mine) {
+      const units = mine && mine.production_unit;
+      if (units && c && units[c.id]) return units[c.id];
+      const troy = { gold: 1, silver: 1, platinum: 1, palladium: 1, rhodium: 1, "platinum-group": 1 };
+      if (c && troy[c.id]) return "troy oz";
+      return unitText(c);
+    }
+
+    function figureFromJoin(link, commodityId) {
+      if (!link || link.omit_figure) return null;
+      const row = (link.commodities || {})[commodityId];
+      if (!row || row.value == null || !isFinite(row.value)) return null;
+      return { value: row.value, unit: row.unit || "" };
+    }
+
+    function prodCell(c, m) {
+      const note = "From company filings where disclosed; StatCan/NRCan do not publish mine-level output.";
+      const allOps = c && c.id === "all";
+      const link = joinRow(m);
+      const omit = link && link.omit_figure;
+      const fig = (!allOps && !omit) ? figureFromJoin(link, c.id) : null;
+      const val = fig && fig.value;
+      const unit = (fig && fig.unit) || prodUnit(c, m);
+      const blocker = (link && link.blocker) || m.production_blocker;
+      const quote = (link && link.commodities && c && link.commodities[c.id] && link.commodities[c.id].quote) || m.production_quote;
+      const tip = [note, quote, blocker].filter(Boolean).join(" ");
+      if (val == null || !isFinite(val) || omit) {
+        return "<span class=\"quiet\" title=\"" + esc(tip) + "\">—</span>";
+      }
+      const src = (link && link.source) || m.production_source;
+      const label = fmt(val, unit);
+      if (src) {
+        return "<a class=\"claim\" href=\"" + esc(src) + "\" target=\"_blank\" rel=\"noopener noreferrer\" title=\"" +
+          esc(tip) + "\">" + esc(label) + "</a>";
+      }
+      return "<span title=\"" + esc(tip) + "\">" + esc(label) + "</span>";
+    }
+
     function paintMines(c) {
       const mines = (c && c.mines) || [];
       const allOps = c && c.id === "all";
+      const unit = prodUnit(c, null);
+      document.getElementById("prod-col").textContent = allOps
+        ? "2025 prod."
+        : (unit ? ("2025 prod. (" + unit + ")") : "2025 prod.");
       document.getElementById("mines-h").textContent = allOps
         ? "All principal mines"
         : ("Principal mines · " + ((c && c.name) || "commodity"));
       document.getElementById("mines-note").textContent = mines.length
         ? (allOps
-          ? "Every Map 900A principal operation, including owners not in the QC claims catalog. Claims Open is only set when we already have that company."
-          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Uncatalogued owners still appear; Claims Open is only set when we have a company id."))
+          ? "Every Map 900A principal operation, including owners not in the QC claims catalog. Claims Open is only set when we already have that company. 2025 production stays on the commodity tables."
+          : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Linked owners open that issuer’s producer page. 2025 production is the selected commodity only, exported from qc.sqlite (company filings); — means not disclosed (or only AuEq / a complex total)."))
         : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
       document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
         const href = m.claims_href;
@@ -418,13 +608,16 @@
           ? "<a class=\"claim\" href=\"" + esc(href) + "\">Open</a>"
           : "<span class=\"quiet\">—</span>";
         const products = m.products_raw ? "<div class=\"quiet\">" + esc(m.products_raw) + "</div>" : "";
-        return "<tr><td>" + name + products + "</td><td>" + esc(m.location || "—") + "</td><td>" + esc(m.owners || "—") + "</td><td>" + claim + "</td></tr>";
-      }).join("") : "<tr><td colspan=\"4\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
+        const link = joinRow(m);
+        return "<tr><td>" + name + products + "</td><td>" + esc(m.location || "—") + "</td><td>" +
+          ownersHtml(m, link) + "</td><td class=\"num\">" + prodCell(c, m) + "</td><td>" + claim + "</td></tr>";
+      }).join("") : "<tr><td colspan=\"5\" class=\"quiet\">No significant Map 900A operations for this commodity.</td></tr>";
     }
 
     function paint() {
       const c = comm();
       if (!c) return;
+      ensureSeriesShowsYear(c);
       fillYear(c);
       paintKpis(c);
       paintChart(c);
@@ -475,10 +668,26 @@
       paint();
     });
 
-    fetch("canada/commodities.json?v=2").then(function (r) {
+    function fetchJson(url) {
+      return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    }
+
+    fetch("canada/commodities.json?v=4").then(function (r) {
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
-    }).then(boot).catch(function (err) {
+    }).then(function (data) {
+      return Promise.all([
+        fetchJson("canada/producer-join.json?v=3"),
+        fetchJson("beta/issuers.json"),
+        fetchJson("beta/claims-publics.json")
+      ]).then(function (extra) {
+        return { data: data, join: extra[0], issuers: extra[1], publics: extra[2] };
+      });
+    }).then(function (pack) {
+      state.join = pack.join;
+      buildOwnerPages(pack.data, pack.join, [pack.issuers, pack.publics]);
+      boot(pack.data);
+    }).catch(function (err) {
       document.getElementById("asof").textContent = "Could not load canada/commodities.json. Serve the repo over HTTP.";
       document.getElementById("disclaimer").textContent = String(err && err.message || err);
     });

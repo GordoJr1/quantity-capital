@@ -5,6 +5,7 @@ Usage (from the quantity-capital repo root):
   python scripts/qc_sqlite/rebuild.py --skip-jev
   python scripts/qc_sqlite/rebuild.py --skip-tells
   python scripts/qc_sqlite/rebuild.py --skip-analysis
+  python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply
   python scripts/qc_sqlite/tells.py
   python scripts/qc_sqlite/analysis.py
 """
@@ -1503,6 +1504,12 @@ def print_report(con: sqlite3.Connection) -> None:
         f"{n('SELECT COUNT(*) FROM trade_size_vs_cap WHERE jev_flag IS NOT NULL')}"
     )
     try:
+        cm = n("SELECT COUNT(*) FROM canada_mines")
+        cp = n("SELECT COUNT(*) FROM canada_mine_production")
+        log(f"  canada mines / production rows {cm} / {cp}")
+    except sqlite3.Error:
+        pass
+    try:
         ab = n("SELECT COUNT(*) FROM analysis_candidates WHERE shipped=1 AND list='book'")
         aa = n("SELECT COUNT(*) FROM analysis_candidates WHERE shipped=1 AND list='avoid'")
         log(f"  analysis shipped book/avoid {ab} / {aa}")
@@ -1520,6 +1527,35 @@ def print_report(con: sqlite3.Connection) -> None:
     log("  top size_bps:")
     for r in top:
         log(f"    {r[0]:8} {r[1][:22]:22} {r[2]:8} {r[3]:22} bps={r[4]} flag={r[5]}")
+
+
+def ingest_canada_production(con: sqlite3.Connection) -> None:
+    """Cited Map 900A mine actuals from the curated sources book (no IR fetch).
+
+    Full rebuild recreates qc.sqlite, so this re-loads canada_* tables from
+    scripts/canada-mine-production-sources.json. Pages export stays on the
+    monthly ingest --apply job.
+    """
+    scripts = HERE.parent
+    sources_path = scripts / "canada-mine-production-sources.json"
+    if not sources_path.exists():
+        log("Canada mines skipped (no sources book)")
+        return
+    if str(scripts) not in sys.path:
+        sys.path.insert(0, str(scripts))
+    try:
+        import canada_mines as cmsql
+        import ingest_canada_mine_production as ing
+    except ImportError as exc:
+        log(f"Canada mines skipped (import): {exc}")
+        return
+    book = ing.ingest(root=QC_ROOT, sources_path=sources_path, offline=False, fetch_live=False)
+    sources = ing.load_sources(sources_path)
+    counts = cmsql.store_book(con, book, sources)
+    log(
+        f"  canada mines={counts['n_mines']} "
+        f"production={counts['n_production']} sources={counts['n_sources']}"
+    )
 
 
 def refresh_tapes(con: sqlite3.Connection) -> None:
@@ -1657,6 +1693,8 @@ def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = Fals
         ingest_politician_trades(con)
         log("Insider trades…")
         ingest_insider_trades(con)
+        log("Canada mine production (cited filings, no fetch)…")
+        ingest_canada_production(con)
         log("Pilot calc trade_size_vs_cap…")
         materialize_calc(con)
         con.commit()

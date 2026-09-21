@@ -55,6 +55,9 @@ Daily bats (`Groks folder/collect/update-politicians.bat`, `update-insiders.bat`
 | `jev_decisions` | Raw Choice/Noul/Score answers |
 | `v_trade_size_vs_cap` | The calc as a view; the table is the materialized copy plus Jev flags |
 | `v_tell_hands` / `v_tell_now` | Ranked Tells export views |
+| `canada_mines` | Map 900A mine → company_id / asset_id (no FK; standalone ingest ok) |
+| `canada_mine_sources` | Filing URL / title / blocker per mine-year |
+| `canada_mine_production` | Cited 2025 actuals (gold in troy oz). Never invent. |
 
 ## Pilot calc: `size_vs_cap`
 
@@ -133,6 +136,7 @@ Local Groks `companies.json` may lag live Pages; rebuild overlays Quebec/ON/BC c
 - `paper.py` → `backtest.json` (paper.html). Jev scores the 12 largest |return| legs as artifact vs ordinary.
 - `insider_boards.py` runs `_upstream` builders (repeatable, follow, analysis) against the site root, stores JSON in sqlite, Jev-gates the follow list.
 - Form 4 sidecar: ingest `insider-form4.json` (do not re-scrape SEC from rebuild). Refresh with `collect/form4_enrich.py` separately.
+- Canada mine production: `python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply` (monthly; cited filings only). Full `rebuild.py` reloads `canada_*` tables from the curated sources book without fetching IR. Export of `canada/producer-join.json` + existing `beta/<issuer>.json` is the ingest `--apply` / `--export-only` job. Never commit `qc.sqlite`.
 
 ## Full-province claims
 

@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -32,7 +32,7 @@
     "watchlist_type": "Producer, Mid-tier"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -51,8 +51,44 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "copper-mountain": {
+          "ownership_pct": 100,
+          "koz_100pct": 20.001,
+          "attr_koz": 20.001,
+          "copper_t": 23784,
+          "silver_koz": 252.811
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "copper-mountain",
+      "name": "Copper Mountain",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "copper",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "id": "snow-lake",
+      "name": "Snow Lake",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "Manitoba",
+      "location_note": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -62,6 +98,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Hudbay Announces Preliminary 2025 Production Results",
+      "date": "2026-01-15",
+      "url": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+      "what": "20,001"
     }
   ],
   "meta": {
@@ -70,6 +112,6 @@
     "mcap_rank": 78,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true
   }
 }

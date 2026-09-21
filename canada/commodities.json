@@ -31,7 +31,7 @@
       "n": 175
     }
   ],
-  "disclaimer": "Not legal title. Not investment advice. Production figures are national (and provincial) aggregates from StatCan table 16-10-0022 and NRCan annual mineral production tables. Mine-level tonnes are not published and are not shown. Map 900A lists significant producing operations, not every quarry or exploration project. Claims links open the existing Quebec / Ontario / BC overview-first map.",
+  "disclaimer": "Not legal title. Not investment advice. Production figures are national (and provincial) aggregates from StatCan table 16-10-0022 and NRCan annual mineral production tables. Mine-level tonnes are not published and are not shown. Map 900A lists significant producing operations, not every quarry or exploration project. Claims links open the existing Quebec / Ontario / BC overview-first map. Mine-level 2025 production is stored in qc.sqlite and exported to canada/producer-join.json (and existing beta/<issuer>.json) from company filings where disclosed; StatCan/NRCan do not publish mine-level output. Blank is not zero.",
   "blockers": [],
   "n_mines": 175,
   "n_linked": 48,
@@ -54,7 +54,12 @@
       "claims_company": "equinox-gold",
       "claims_asset": "valentine",
       "claims_href": "claims.html?company=equinox-gold&asset=valentine",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "equinox-gold",
+      "beta_asset_id": "valentine",
+      "beta_href": "beta.html?id=equinox-gold",
+      "production_source": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
+      "production_source_title": "Equinox Gold MD&A for the year ended 31 December 2025"
     },
     {
       "id": "voisey-s-bay",
@@ -326,7 +331,8 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "production_blocker": "Private operator after the Newmont sale. No public mine-level 2025 ounce disclosure found."
     },
     {
       "id": "akasaba-west-goldex",
@@ -347,7 +353,13 @@
       "claims_company": "agnico-eagle",
       "claims_asset": null,
       "claims_href": "claims.html?company=agnico-eagle",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "goldex",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_blocker": "Goldex complex 125,501 oz includes Akasaba West feed. Akasaba is not broken out; ounces sit on Goldex.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
     },
     {
       "id": "lamaque",
@@ -367,7 +379,12 @@
       "claims_company": "eldorado-gold",
       "claims_asset": "lamaque",
       "claims_href": "claims.html?company=eldorado-gold&asset=lamaque",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "eldorado-gold",
+      "beta_asset_id": "lamaque",
+      "beta_href": "beta.html?id=eldorado-gold",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/918608/000165495426000499/ego_ex991.htm",
+      "production_source_title": "Eldorado Gold 2025 preliminary production (Exhibit 99.1)"
     },
     {
       "id": "north-american-lithium",
@@ -407,7 +424,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": null,
       "claims_href": "claims.html?company=agnico-eagle",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "goldex",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "kiena",
@@ -427,7 +449,12 @@
       "claims_company": "wesdome-gold-mines",
       "claims_asset": "kiena",
       "claims_href": "claims.html?company=wesdome-gold-mines&asset=kiena",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "wesdome-gold-mines",
+      "beta_asset_id": "kiena",
+      "beta_href": "beta.html?id=wesdome-gold-mines",
+      "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
     },
     {
       "id": "barnat-canadian-malartic",
@@ -448,7 +475,13 @@
       "claims_company": "agnico-eagle",
       "claims_asset": null,
       "claims_href": "claims.html?company=agnico-eagle",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "canadian-malartic",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz (Barnat + Odyssey). No pit/ug split. Do not copy the complex total onto Barnat.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
     },
     {
       "id": "odyssey-canadian-malartic",
@@ -469,7 +502,13 @@
       "claims_company": "agnico-eagle",
       "claims_asset": null,
       "claims_href": "claims.html?company=agnico-eagle",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "canadian-malartic",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz. Odyssey is not broken out.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
     },
     {
       "id": "laronde",
@@ -492,7 +531,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": "laronde",
       "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "laronde",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "westwood-westwood",
@@ -513,7 +557,12 @@
       "claims_company": "iamgold",
       "claims_asset": null,
       "claims_href": "claims.html?company=iamgold",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "iamgold",
+      "beta_asset_id": "westwood",
+      "beta_href": "beta.html?id=iamgold",
+      "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
     },
     {
       "id": "grand-duc-westwood",
@@ -533,7 +582,13 @@
       "claims_company": "iamgold",
       "claims_asset": null,
       "claims_href": "claims.html?company=iamgold",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "iamgold",
+      "beta_asset_id": "westwood",
+      "beta_href": "beta.html?id=iamgold",
+      "production_blocker": "IAMGOLD reports Westwood complex 113,900 oz (includes Grand Duc pit). Grand Duc is not broken out.",
+      "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "production_source_title": "IAMGOLD Preliminary 2025 Operating Results"
     },
     {
       "id": "casa-berardi",
@@ -554,7 +609,12 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "hecla-mining",
+      "beta_asset_id": "casa-berardi",
+      "beta_href": "beta.html?id=hecla-mining",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+      "production_source_title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)"
     },
     {
       "id": "detour-lake",
@@ -574,7 +634,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": "detour-lake",
       "claims_href": "claims.html?company=agnico-eagle&asset=detour-lake",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "detour-lake",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "macassa",
@@ -595,7 +660,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": "macassa",
       "claims_href": "claims.html?company=agnico-eagle&asset=macassa",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "macassa",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "black-fox-fox-complex",
@@ -615,7 +685,11 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "mcewen",
+      "beta_asset_id": "fox-complex",
+      "beta_href": "beta.html?id=mcewen",
+      "production_blocker": "McEwen reports Fox Complex / consolidated figures; no 2025 Black Fox-only ounce breakout used."
     },
     {
       "id": "young-davidson",
@@ -635,7 +709,12 @@
       "claims_company": "alamos-gold",
       "claims_asset": "young-davidson",
       "claims_href": "claims.html?company=alamos-gold&asset=young-davidson",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "alamos-gold",
+      "beta_asset_id": "young-davidson",
+      "beta_href": "beta.html?id=alamos-gold",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
     },
     {
       "id": "garson-sudbury-operations",
@@ -763,7 +842,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "discovery-mining",
+      "beta_asset_id": "porcupine",
+      "beta_href": "beta.html?id=discovery-mining",
+      "production_blocker": "Porcupine complex 234,702 oz; Hoyle Pond is not broken out.",
+      "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
     },
     {
       "id": "bell-creek",
@@ -783,7 +868,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "pan-american-silver",
+      "beta_asset_id": "timmins",
+      "beta_href": "beta.html?id=pan-american-silver",
+      "production_blocker": "Pan American reports Timmins (Bell Creek + Timmins West) 103,600 oz. No mine split.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+      "production_source_title": "Pan American Silver AIF 2025"
     },
     {
       "id": "creighton-sudbury-operations",
@@ -830,7 +921,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "discovery-mining",
+      "beta_asset_id": "porcupine",
+      "beta_href": "beta.html?id=discovery-mining",
+      "production_blocker": "Porcupine complex 234,702 oz; no mill-only gold split.",
+      "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
     },
     {
       "id": "coleman-sudbury-operations",
@@ -1003,7 +1100,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "pan-american-silver",
+      "beta_asset_id": "timmins",
+      "beta_href": "beta.html?id=pan-american-silver",
+      "production_blocker": "Timmins operation 103,600 oz combined. Timmins West is not broken out.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+      "production_source_title": "Pan American Silver AIF 2025"
     },
     {
       "id": "cote-gold",
@@ -1023,7 +1126,12 @@
       "claims_company": "iamgold",
       "claims_asset": "cote-gold",
       "claims_href": "claims.html?company=iamgold&asset=cote-gold",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "iamgold",
+      "beta_asset_id": "cote-gold",
+      "beta_href": "beta.html?id=iamgold",
+      "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
     },
     {
       "id": "borden-porcupine",
@@ -1043,7 +1151,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "discovery-mining",
+      "beta_asset_id": "porcupine",
+      "beta_href": "beta.html?id=discovery-mining",
+      "production_blocker": "Discovery reports Porcupine complex 234,702 oz calendar 2025. Borden / Dome Mill / Hoyle Pond are not broken out.",
+      "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
     },
     {
       "id": "island-gold-island-gold-district",
@@ -1063,7 +1177,13 @@
       "claims_company": "alamos-gold",
       "claims_asset": null,
       "claims_href": "claims.html?company=alamos-gold",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "alamos-gold",
+      "beta_asset_id": "island-gold-district",
+      "beta_href": "beta.html?id=alamos-gold",
+      "production_blocker": "Alamos reports Island Gold District (Island Gold + Magino) 250,400 oz combined. No mine split. Leave both rows blank.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
     },
     {
       "id": "magino-island-gold-district",
@@ -1084,7 +1204,13 @@
       "claims_company": "alamos-gold",
       "claims_asset": null,
       "claims_href": "claims.html?company=alamos-gold",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "alamos-gold",
+      "beta_asset_id": "island-gold-district",
+      "beta_href": "beta.html?id=alamos-gold",
+      "production_blocker": "Alamos reports Island Gold District 250,400 oz combined. Magino is not broken out.",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
     },
     {
       "id": "eagle-river",
@@ -1104,7 +1230,12 @@
       "claims_company": "wesdome-gold-mines",
       "claims_asset": "eagle-river",
       "claims_href": "claims.html?company=wesdome-gold-mines&asset=eagle-river",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "wesdome-gold-mines",
+      "beta_asset_id": "eagle-river",
+      "beta_href": "beta.html?id=wesdome-gold-mines",
+      "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
     },
     {
       "id": "hemlo-williams",
@@ -1124,7 +1255,12 @@
       "claims_company": "barrick",
       "claims_asset": null,
       "claims_href": "claims.html?company=barrick",
-      "link": "owner-core"
+      "link": "owner-core",
+      "beta_id": "hemlo-mining",
+      "beta_asset_id": "hemlo",
+      "beta_href": "beta.html?id=hemlo-mining",
+      "production_source": "https://www.prnewswire.com/news-releases/hemlo-mining-corp-announces-strong-2025-gold-production-of-143-458-ounces-including-20-192-ounces-in-december-and-provides-operational-update-302694252.html",
+      "production_source_title": "Hemlo Mining Corp. Announces Strong 2025 Gold Production of 143,458 Ounces"
     },
     {
       "id": "greenstone",
@@ -1144,7 +1280,12 @@
       "claims_company": "equinox-gold",
       "claims_asset": "greenstone",
       "claims_href": "claims.html?company=equinox-gold&asset=greenstone",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "equinox-gold",
+      "beta_asset_id": "greenstone",
+      "beta_href": "beta.html?id=equinox-gold",
+      "production_source": "https://www.equinoxgold.com/our-mines/greenstone-gold-mine/",
+      "production_source_title": "Equinox Gold — Greenstone Gold Mine (2025 actuals)"
     },
     {
       "id": "lac-des-iles",
@@ -1168,7 +1309,8 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
     },
     {
       "id": "musselwhite",
@@ -1189,7 +1331,12 @@
       "claims_company": "equinox-gold",
       "claims_asset": "musselwhite",
       "claims_href": "claims.html?company=equinox-gold&asset=musselwhite",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "orla-mining",
+      "beta_asset_id": "musselwhite",
+      "beta_href": "beta.html?id=orla-mining",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
+      "production_source_title": "Orla Mining 2025 production results (Exhibit 99.1)"
     },
     {
       "id": "red-lake",
@@ -1210,7 +1357,13 @@
       "claims_company": "evolution",
       "claims_asset": "red-lake",
       "claims_href": "claims.html?company=evolution&asset=red-lake",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "evolution",
+      "beta_asset_id": "red-lake",
+      "beta_href": "beta.html?id=evolution",
+      "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+      "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+      "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
     },
     {
       "id": "rainy-river",
@@ -1231,7 +1384,12 @@
       "claims_company": "new-gold",
       "claims_asset": null,
       "claims_href": "claims.html?company=new-gold",
-      "link": "owner-core"
+      "link": "owner-core",
+      "beta_id": "new-gold",
+      "beta_asset_id": "rainy-river",
+      "beta_href": "beta.html?id=new-gold",
+      "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+      "production_source_title": "New Gold Achieves 2025 Production Guidance"
     },
     {
       "id": "tanco",
@@ -1319,7 +1477,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "hudbay-minerals",
+      "beta_asset_id": "snow-lake",
+      "beta_href": "beta.html?id=hudbay-minerals",
+      "production_blocker": "Snow Lake gold is reported as a complex (173,453 oz). Mill row is not a separate gold output figure.",
+      "production_source": "https://hudbayminerals.com/canada/default.aspx",
+      "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
     },
     {
       "id": "lalor-lake-snow-lake",
@@ -1342,7 +1506,13 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "hudbay-minerals",
+      "beta_asset_id": "snow-lake",
+      "beta_href": "beta.html?id=hudbay-minerals",
+      "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+      "production_source": "https://hudbayminerals.com/canada/default.aspx",
+      "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
     },
     {
       "id": "santoy-seabee",
@@ -1362,7 +1532,12 @@
       "claims_company": "ssr-mining",
       "claims_asset": null,
       "claims_href": "claims.html?company=ssr-mining",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "ssr-mining",
+      "beta_asset_id": "seabee",
+      "beta_href": "beta.html?id=ssr-mining",
+      "production_source": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
+      "production_source_title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance"
     },
     {
       "id": "mcclean-lake",
@@ -1462,7 +1637,12 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "gold-mountain-mining",
+      "beta_asset_id": "elk",
+      "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
+      "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
+      "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
     },
     {
       "id": "new-afton",
@@ -1484,7 +1664,12 @@
       "claims_company": "new-gold",
       "claims_asset": null,
       "claims_href": "claims.html?company=new-gold",
-      "link": "owner-core"
+      "link": "owner-core",
+      "beta_id": "new-gold",
+      "beta_asset_id": "new-afton",
+      "beta_href": "beta.html?id=new-gold",
+      "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+      "production_source_title": "New Gold Achieves 2025 Production Guidance"
     },
     {
       "id": "copper-mountain",
@@ -1506,7 +1691,12 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "hudbay-minerals",
+      "beta_asset_id": "copper-mountain",
+      "beta_href": "beta.html?id=hudbay-minerals",
+      "production_source": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+      "production_source_title": "Hudbay Announces Preliminary 2025 Production Results"
     },
     {
       "id": "highland-valley-copper",
@@ -1550,7 +1740,11 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "beta_id": "imperial-metals",
+      "beta_asset_id": "mount-polley",
+      "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "production_source_title": "Imperial Reports 2025 Financial Results"
     },
     {
       "id": "gibraltar",
@@ -1594,7 +1788,12 @@
       "claims_company": "centerra-gold",
       "claims_asset": "mount-milligan",
       "claims_href": "claims.html?company=centerra-gold&asset=mount-milligan",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "centerra-gold",
+      "beta_asset_id": "mount-milligan",
+      "beta_href": "beta.html?id=centerra-gold",
+      "production_source": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+      "production_source_title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results"
     },
     {
       "id": "blackwater",
@@ -1615,7 +1814,12 @@
       "claims_company": "artemis-gold",
       "claims_asset": "blackwater",
       "claims_href": "claims.html?company=artemis-gold&asset=blackwater",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "artemis-gold",
+      "beta_asset_id": "blackwater",
+      "beta_href": "beta.html?id=artemis-gold",
+      "production_source": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q4-2025-production-results-and-2026-guidance",
+      "production_source_title": "Artemis Gold Announces Record Q4 2025 Production Results and 2026 Guidance"
     },
     {
       "id": "dome-mountain",
@@ -1636,7 +1840,13 @@
       "claims_company": "blue-lagoon-resources",
       "claims_asset": null,
       "claims_href": "claims.html?company=blue-lagoon-resources",
-      "link": "owner-core"
+      "link": "owner-core",
+      "beta_id": "blue-lagoon-resources",
+      "beta_asset_id": "dome-mountain",
+      "beta_href": "beta.html?id=blue-lagoon-resources",
+      "production_blocker": "Ramp-up in 2025 (first sale 30 Dec 2025 of ~1,000 t). No full-year gold ounces disclosed. Do not use the ~15,000 oz first-year guidance.",
+      "production_source": "https://bluelagoonresources.com/",
+      "production_source_title": "Blue Lagoon Resources — Dome Mountain"
     },
     {
       "id": "red-chris",
@@ -1658,7 +1868,12 @@
       "claims_company": "newmont",
       "claims_asset": "red-chris",
       "claims_href": "claims.html?company=newmont&asset=red-chris",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "newmont",
+      "beta_asset_id": "red-chris",
+      "beta_href": "beta.html?id=newmont",
+      "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "production_source_title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)"
     },
     {
       "id": "brucejack",
@@ -1679,7 +1894,12 @@
       "claims_company": "newmont",
       "claims_asset": "brucejack",
       "claims_href": "claims.html?company=newmont&asset=brucejack",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "newmont",
+      "beta_asset_id": "brucejack",
+      "beta_href": "beta.html?id=newmont",
+      "production_source": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
+      "production_source_title": "Newmont Fourth Quarter 2025 Operating Statistics"
     },
     {
       "id": "keno-hill-silver-district",
@@ -1741,7 +1961,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": "meliadine",
       "claims_href": "claims.html?company=agnico-eagle&asset=meliadine",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "meliadine",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "amaruq-meadowbank",
@@ -1761,7 +1986,12 @@
       "claims_company": "agnico-eagle",
       "claims_asset": null,
       "claims_href": "claims.html?company=agnico-eagle",
-      "link": "owner-exact"
+      "link": "owner-exact",
+      "beta_id": "agnico-eagle",
+      "beta_asset_id": "meadowbank",
+      "beta_href": "beta.html?id=agnico-eagle",
+      "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
     },
     {
       "id": "goose-back-river",
@@ -1781,7 +2011,12 @@
       "claims_company": "b2gold",
       "claims_asset": "goose",
       "claims_href": "claims.html?company=b2gold&asset=goose",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "b2gold",
+      "beta_asset_id": "goose",
+      "beta_href": "beta.html?id=b2gold",
+      "production_source": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
+      "production_source_title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)"
     },
     {
       "id": "conception-bay-south",
@@ -2264,7 +2499,8 @@
       "claims_company": null,
       "claims_asset": null,
       "claims_href": null,
-      "link": null
+      "link": null,
+      "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
     },
     {
       "id": "st-lawrence",
@@ -3335,7 +3571,13 @@
       "claims_company": "evolution",
       "claims_asset": "red-lake",
       "claims_href": "claims.html?company=evolution&asset=red-lake",
-      "link": "mine-name"
+      "link": "mine-name",
+      "beta_id": "evolution",
+      "beta_asset_id": "red-lake",
+      "beta_href": "beta.html?id=evolution",
+      "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+      "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+      "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
     },
     {
       "id": "imperial-limestone",
@@ -3948,7 +4190,12 @@
           "claims_company": "artemis-gold",
           "claims_asset": "blackwater",
           "claims_href": "claims.html?company=artemis-gold&asset=blackwater",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "artemis-gold",
+          "beta_asset_id": "blackwater",
+          "beta_href": "beta.html?id=artemis-gold",
+          "production_source": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q4-2025-production-results-and-2026-guidance",
+          "production_source_title": "Artemis Gold Announces Record Q4 2025 Production Results and 2026 Guidance"
         },
         {
           "id": "brucejack",
@@ -3969,7 +4216,12 @@
           "claims_company": "newmont",
           "claims_asset": "brucejack",
           "claims_href": "claims.html?company=newmont&asset=brucejack",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "brucejack",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
+          "production_source_title": "Newmont Fourth Quarter 2025 Operating Statistics"
         },
         {
           "id": "bud",
@@ -4012,7 +4264,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "copper-mountain",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_source": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+          "production_source_title": "Hudbay Announces Preliminary 2025 Production Results"
         },
         {
           "id": "dome-mountain",
@@ -4033,7 +4290,13 @@
           "claims_company": "blue-lagoon-resources",
           "claims_asset": null,
           "claims_href": "claims.html?company=blue-lagoon-resources",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "blue-lagoon-resources",
+          "beta_asset_id": "dome-mountain",
+          "beta_href": "beta.html?id=blue-lagoon-resources",
+          "production_blocker": "Ramp-up in 2025 (first sale 30 Dec 2025 of ~1,000 t). No full-year gold ounces disclosed. Do not use the ~15,000 oz first-year guidance.",
+          "production_source": "https://bluelagoonresources.com/",
+          "production_source_title": "Blue Lagoon Resources — Dome Mountain"
         },
         {
           "id": "elk",
@@ -4053,7 +4316,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "gold-mountain-mining",
+          "beta_asset_id": "elk",
+          "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
+          "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
+          "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
         },
         {
           "id": "elkview",
@@ -4301,7 +4569,12 @@
           "claims_company": "centerra-gold",
           "claims_asset": "mount-milligan",
           "claims_href": "claims.html?company=centerra-gold&asset=mount-milligan",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "centerra-gold",
+          "beta_asset_id": "mount-milligan",
+          "beta_href": "beta.html?id=centerra-gold",
+          "production_source": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+          "production_source_title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results"
         },
         {
           "id": "mount-polley",
@@ -4323,7 +4596,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "imperial-metals",
+          "beta_asset_id": "mount-polley",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results"
         },
         {
           "id": "new-afton",
@@ -4345,7 +4622,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "new-afton",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "quintette",
@@ -4387,7 +4669,12 @@
           "claims_company": "newmont",
           "claims_asset": "red-chris",
           "claims_href": "claims.html?company=newmont&asset=red-chris",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "red-chris",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)"
         },
         {
           "id": "red-lake",
@@ -4409,7 +4696,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         },
         {
           "id": "texada",
@@ -4533,7 +4826,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "new-britannia-mill-snow-lake",
@@ -4553,7 +4852,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Snow Lake gold is reported as a complex (173,453 oz). Mill row is not a separate gold output figure.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "stall-concentrator-snow-lake",
@@ -4822,7 +5127,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "valentine",
           "claims_href": "claims.html?company=equinox-gold&asset=valentine",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "equinox-gold",
+          "beta_asset_id": "valentine",
+          "beta_href": "beta.html?id=equinox-gold",
+          "production_source": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
+          "production_source_title": "Equinox Gold MD&A for the year ended 31 December 2025"
         },
         {
           "id": "voisey-s-bay",
@@ -5024,7 +5334,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "meadowbank",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "goose-back-river",
@@ -5044,7 +5359,12 @@
           "claims_company": "b2gold",
           "claims_asset": "goose",
           "claims_href": "claims.html?company=b2gold&asset=goose",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "b2gold",
+          "beta_asset_id": "goose",
+          "beta_href": "beta.html?id=b2gold",
+          "production_source": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
+          "production_source_title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)"
         },
         {
           "id": "mary-river",
@@ -5084,7 +5404,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "meliadine",
           "claims_href": "claims.html?company=agnico-eagle&asset=meliadine",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "meliadine",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "bath",
@@ -5145,7 +5470,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "pan-american-silver",
+          "beta_asset_id": "timmins",
+          "beta_href": "beta.html?id=pan-american-silver",
+          "production_blocker": "Pan American reports Timmins (Bell Creek + Timmins West) 103,600 oz. No mine split.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+          "production_source_title": "Pan American Silver AIF 2025"
         },
         {
           "id": "black-fox-fox-complex",
@@ -5165,7 +5496,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "mcewen",
+          "beta_asset_id": "fox-complex",
+          "beta_href": "beta.html?id=mcewen",
+          "production_blocker": "McEwen reports Fox Complex / consolidated figures; no 2025 Black Fox-only ounce breakout used."
         },
         {
           "id": "blue-mountain",
@@ -5205,7 +5540,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Discovery reports Porcupine complex 234,702 oz calendar 2025. Borden / Dome Mill / Hoyle Pond are not broken out.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "bowmanville",
@@ -5353,7 +5694,12 @@
           "claims_company": "iamgold",
           "claims_asset": "cote-gold",
           "claims_href": "claims.html?company=iamgold&asset=cote-gold",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "iamgold",
+          "beta_asset_id": "cote-gold",
+          "beta_href": "beta.html?id=iamgold",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
         },
         {
           "id": "detour-lake",
@@ -5373,7 +5719,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "detour-lake",
           "claims_href": "claims.html?company=agnico-eagle&asset=detour-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "detour-lake",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "dome-mill-porcupine",
@@ -5393,7 +5744,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Porcupine complex 234,702 oz; no mill-only gold split.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "dundas",
@@ -5453,7 +5810,12 @@
           "claims_company": "wesdome-gold-mines",
           "claims_asset": "eagle-river",
           "claims_href": "claims.html?company=wesdome-gold-mines&asset=eagle-river",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "wesdome-gold-mines",
+          "beta_asset_id": "eagle-river",
+          "beta_href": "beta.html?id=wesdome-gold-mines",
+          "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+          "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
         },
         {
           "id": "fraser-sudbury-ino",
@@ -5565,7 +5927,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "greenstone",
           "claims_href": "claims.html?company=equinox-gold&asset=greenstone",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "equinox-gold",
+          "beta_asset_id": "greenstone",
+          "beta_href": "beta.html?id=equinox-gold",
+          "production_source": "https://www.equinoxgold.com/our-mines/greenstone-gold-mine/",
+          "production_source_title": "Equinox Gold — Greenstone Gold Mine (2025 actuals)"
         },
         {
           "id": "hagersville",
@@ -5605,7 +5972,12 @@
           "claims_company": "barrick",
           "claims_asset": null,
           "claims_href": "claims.html?company=barrick",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "hemlo-mining",
+          "beta_asset_id": "hemlo",
+          "beta_href": "beta.html?id=hemlo-mining",
+          "production_source": "https://www.prnewswire.com/news-releases/hemlo-mining-corp-announces-strong-2025-gold-production-of-143-458-ounces-including-20-192-ounces-in-december-and-provides-operational-update-302694252.html",
+          "production_source_title": "Hemlo Mining Corp. Announces Strong 2025 Gold Production of 143,458 Ounces"
         },
         {
           "id": "hoyle-pond-porcupine",
@@ -5625,7 +5997,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Porcupine complex 234,702 oz; Hoyle Pond is not broken out.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "island-gold-island-gold-district",
@@ -5645,7 +6023,13 @@
           "claims_company": "alamos-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=alamos-gold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "island-gold-district",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_blocker": "Alamos reports Island Gold District (Island Gold + Magino) 250,400 oz combined. No mine split. Leave both rows blank.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "kidd-creek",
@@ -5693,7 +6077,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "macassa",
@@ -5714,7 +6099,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "macassa",
           "claims_href": "claims.html?company=agnico-eagle&asset=macassa",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "macassa",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "magino-island-gold-district",
@@ -5735,7 +6125,13 @@
           "claims_company": "alamos-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=alamos-gold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "island-gold-district",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_blocker": "Alamos reports Island Gold District 250,400 oz combined. Magino is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "mccreedy-west",
@@ -5802,7 +6198,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "musselwhite",
           "claims_href": "claims.html?company=equinox-gold&asset=musselwhite",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "orla-mining",
+          "beta_asset_id": "musselwhite",
+          "beta_href": "beta.html?id=orla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
+          "production_source_title": "Orla Mining 2025 production results (Exhibit 99.1)"
         },
         {
           "id": "northern-operation",
@@ -5943,7 +6344,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "rainy-river",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-lake",
@@ -5964,7 +6370,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         },
         {
           "id": "spanish-river-carbonite",
@@ -6138,7 +6550,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "pan-american-silver",
+          "beta_asset_id": "timmins",
+          "beta_href": "beta.html?id=pan-american-silver",
+          "production_blocker": "Timmins operation 103,600 oz combined. Timmins West is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+          "production_source_title": "Pan American Silver AIF 2025"
         },
         {
           "id": "totten-sudbury-operations",
@@ -6203,7 +6621,12 @@
           "claims_company": "alamos-gold",
           "claims_asset": "young-davidson",
           "claims_href": "claims.html?company=alamos-gold&asset=young-davidson",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "young-davidson",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "acton-vale",
@@ -6244,7 +6667,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "goldex",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Goldex complex 125,501 oz includes Akasaba West feed. Akasaba is not broken out; ounces sit on Goldex.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "barnat-canadian-malartic",
@@ -6265,7 +6694,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz (Barnat + Odyssey). No pit/ug split. Do not copy the complex total onto Barnat.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "bedford",
@@ -6327,7 +6762,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hecla-mining",
+          "beta_asset_id": "casa-berardi",
+          "beta_href": "beta.html?id=hecla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+          "production_source_title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)"
         },
         {
           "id": "dso-goodwood",
@@ -6387,7 +6827,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "goldex",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "grand-duc-westwood",
@@ -6407,7 +6852,13 @@
           "claims_company": "iamgold",
           "claims_asset": null,
           "claims_href": "claims.html?company=iamgold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "iamgold",
+          "beta_asset_id": "westwood",
+          "beta_href": "beta.html?id=iamgold",
+          "production_blocker": "IAMGOLD reports Westwood complex 113,900 oz (includes Grand Duc pit). Grand Duc is not broken out.",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Preliminary 2025 Operating Results"
         },
         {
           "id": "joliette",
@@ -6447,7 +6898,12 @@
           "claims_company": "wesdome-gold-mines",
           "claims_asset": "kiena",
           "claims_href": "claims.html?company=wesdome-gold-mines&asset=kiena",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "wesdome-gold-mines",
+          "beta_asset_id": "kiena",
+          "beta_href": "beta.html?id=wesdome-gold-mines",
+          "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+          "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
         },
         {
           "id": "laronde",
@@ -6470,7 +6926,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "laronde",
           "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "laronde",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "lac-tio",
@@ -6512,7 +6973,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "lamaque",
@@ -6532,7 +6994,12 @@
           "claims_company": "eldorado-gold",
           "claims_asset": "lamaque",
           "claims_href": "claims.html?company=eldorado-gold&asset=lamaque",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "eldorado-gold",
+          "beta_asset_id": "lamaque",
+          "beta_href": "beta.html?id=eldorado-gold",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/918608/000165495426000499/ego_ex991.htm",
+          "production_source_title": "Eldorado Gold 2025 preliminary production (Exhibit 99.1)"
         },
         {
           "id": "laval",
@@ -6717,7 +7184,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz. Odyssey is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "raglan",
@@ -6863,7 +7336,12 @@
           "claims_company": "iamgold",
           "claims_asset": null,
           "claims_href": "claims.html?company=iamgold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "iamgold",
+          "beta_asset_id": "westwood",
+          "beta_href": "beta.html?id=iamgold",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
         },
         {
           "id": "eleonore",
@@ -6883,7 +7361,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Private operator after the Newmont sale. No public mine-level 2025 ounce disclosure found."
         },
         {
           "id": "allan",
@@ -7225,7 +7704,12 @@
           "claims_company": "ssr-mining",
           "claims_asset": null,
           "claims_href": "claims.html?company=ssr-mining",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "ssr-mining",
+          "beta_asset_id": "seabee",
+          "beta_href": "beta.html?id=ssr-mining",
+          "production_source": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
+          "production_source_title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance"
         },
         {
           "id": "saskatoon-facility",
@@ -7730,7 +8214,12 @@
           "claims_company": "artemis-gold",
           "claims_asset": "blackwater",
           "claims_href": "claims.html?company=artemis-gold&asset=blackwater",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "artemis-gold",
+          "beta_asset_id": "blackwater",
+          "beta_href": "beta.html?id=artemis-gold",
+          "production_source": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q4-2025-production-results-and-2026-guidance",
+          "production_source_title": "Artemis Gold Announces Record Q4 2025 Production Results and 2026 Guidance"
         },
         {
           "id": "brucejack",
@@ -7751,7 +8240,12 @@
           "claims_company": "newmont",
           "claims_asset": "brucejack",
           "claims_href": "claims.html?company=newmont&asset=brucejack",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "brucejack",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
+          "production_source_title": "Newmont Fourth Quarter 2025 Operating Statistics"
         },
         {
           "id": "copper-mountain",
@@ -7773,7 +8267,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "copper-mountain",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_source": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+          "production_source_title": "Hudbay Announces Preliminary 2025 Production Results"
         },
         {
           "id": "dome-mountain",
@@ -7794,7 +8293,13 @@
           "claims_company": "blue-lagoon-resources",
           "claims_asset": null,
           "claims_href": "claims.html?company=blue-lagoon-resources",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "blue-lagoon-resources",
+          "beta_asset_id": "dome-mountain",
+          "beta_href": "beta.html?id=blue-lagoon-resources",
+          "production_blocker": "Ramp-up in 2025 (first sale 30 Dec 2025 of ~1,000 t). No full-year gold ounces disclosed. Do not use the ~15,000 oz first-year guidance.",
+          "production_source": "https://bluelagoonresources.com/",
+          "production_source_title": "Blue Lagoon Resources — Dome Mountain"
         },
         {
           "id": "elk",
@@ -7814,7 +8319,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "gold-mountain-mining",
+          "beta_asset_id": "elk",
+          "production_blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
+          "production_source": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
+          "production_source_title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results"
         },
         {
           "id": "mount-milligan",
@@ -7836,7 +8346,12 @@
           "claims_company": "centerra-gold",
           "claims_asset": "mount-milligan",
           "claims_href": "claims.html?company=centerra-gold&asset=mount-milligan",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "centerra-gold",
+          "beta_asset_id": "mount-milligan",
+          "beta_href": "beta.html?id=centerra-gold",
+          "production_source": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+          "production_source_title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results"
         },
         {
           "id": "mount-polley",
@@ -7858,7 +8373,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "imperial-metals",
+          "beta_asset_id": "mount-polley",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results"
         },
         {
           "id": "new-afton",
@@ -7880,7 +8399,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "new-afton",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-chris",
@@ -7902,7 +8426,12 @@
           "claims_company": "newmont",
           "claims_asset": "red-chris",
           "claims_href": "claims.html?company=newmont&asset=red-chris",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "red-chris",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)"
         },
         {
           "id": "lalor-lake-snow-lake",
@@ -7925,7 +8454,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "new-britannia-mill-snow-lake",
@@ -7945,7 +8480,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Snow Lake gold is reported as a complex (173,453 oz). Mill row is not a separate gold output figure.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "thompson-t-1-and-t-3",
@@ -7990,7 +8531,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "valentine",
           "claims_href": "claims.html?company=equinox-gold&asset=valentine",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "equinox-gold",
+          "beta_asset_id": "valentine",
+          "beta_href": "beta.html?id=equinox-gold",
+          "production_source": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
+          "production_source_title": "Equinox Gold MD&A for the year ended 31 December 2025"
         },
         {
           "id": "amaruq-meadowbank",
@@ -8010,7 +8556,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "meadowbank",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "goose-back-river",
@@ -8030,7 +8581,12 @@
           "claims_company": "b2gold",
           "claims_asset": "goose",
           "claims_href": "claims.html?company=b2gold&asset=goose",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "b2gold",
+          "beta_asset_id": "goose",
+          "beta_href": "beta.html?id=b2gold",
+          "production_source": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
+          "production_source_title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)"
         },
         {
           "id": "meliadine",
@@ -8050,7 +8606,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "meliadine",
           "claims_href": "claims.html?company=agnico-eagle&asset=meliadine",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "meliadine",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "bell-creek",
@@ -8070,7 +8631,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "pan-american-silver",
+          "beta_asset_id": "timmins",
+          "beta_href": "beta.html?id=pan-american-silver",
+          "production_blocker": "Pan American reports Timmins (Bell Creek + Timmins West) 103,600 oz. No mine split.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+          "production_source_title": "Pan American Silver AIF 2025"
         },
         {
           "id": "black-fox-fox-complex",
@@ -8090,7 +8657,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "mcewen",
+          "beta_asset_id": "fox-complex",
+          "beta_href": "beta.html?id=mcewen",
+          "production_blocker": "McEwen reports Fox Complex / consolidated figures; no 2025 Black Fox-only ounce breakout used."
         },
         {
           "id": "borden-porcupine",
@@ -8110,7 +8681,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Discovery reports Porcupine complex 234,702 oz calendar 2025. Borden / Dome Mill / Hoyle Pond are not broken out.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "clarabelle-mill-sudbury-operations",
@@ -8238,7 +8815,12 @@
           "claims_company": "iamgold",
           "claims_asset": "cote-gold",
           "claims_href": "claims.html?company=iamgold&asset=cote-gold",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "iamgold",
+          "beta_asset_id": "cote-gold",
+          "beta_href": "beta.html?id=iamgold",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
         },
         {
           "id": "detour-lake",
@@ -8258,7 +8840,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "detour-lake",
           "claims_href": "claims.html?company=agnico-eagle&asset=detour-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "detour-lake",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "dome-mill-porcupine",
@@ -8278,7 +8865,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Porcupine complex 234,702 oz; no mill-only gold split.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "eagle-river",
@@ -8298,7 +8891,12 @@
           "claims_company": "wesdome-gold-mines",
           "claims_asset": "eagle-river",
           "claims_href": "claims.html?company=wesdome-gold-mines&asset=eagle-river",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "wesdome-gold-mines",
+          "beta_asset_id": "eagle-river",
+          "beta_href": "beta.html?id=wesdome-gold-mines",
+          "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+          "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
         },
         {
           "id": "fraser-sudbury-ino",
@@ -8370,7 +8968,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "greenstone",
           "claims_href": "claims.html?company=equinox-gold&asset=greenstone",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "equinox-gold",
+          "beta_asset_id": "greenstone",
+          "beta_href": "beta.html?id=equinox-gold",
+          "production_source": "https://www.equinoxgold.com/our-mines/greenstone-gold-mine/",
+          "production_source_title": "Equinox Gold — Greenstone Gold Mine (2025 actuals)"
         },
         {
           "id": "hemlo-williams",
@@ -8390,7 +8993,12 @@
           "claims_company": "barrick",
           "claims_asset": null,
           "claims_href": "claims.html?company=barrick",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "hemlo-mining",
+          "beta_asset_id": "hemlo",
+          "beta_href": "beta.html?id=hemlo-mining",
+          "production_source": "https://www.prnewswire.com/news-releases/hemlo-mining-corp-announces-strong-2025-gold-production-of-143-458-ounces-including-20-192-ounces-in-december-and-provides-operational-update-302694252.html",
+          "production_source_title": "Hemlo Mining Corp. Announces Strong 2025 Gold Production of 143,458 Ounces"
         },
         {
           "id": "hoyle-pond-porcupine",
@@ -8410,7 +9018,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "discovery-mining",
+          "beta_asset_id": "porcupine",
+          "beta_href": "beta.html?id=discovery-mining",
+          "production_blocker": "Porcupine complex 234,702 oz; Hoyle Pond is not broken out.",
+          "production_source": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+          "production_source_title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025"
         },
         {
           "id": "island-gold-island-gold-district",
@@ -8430,7 +9044,13 @@
           "claims_company": "alamos-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=alamos-gold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "island-gold-district",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_blocker": "Alamos reports Island Gold District (Island Gold + Magino) 250,400 oz combined. No mine split. Leave both rows blank.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "lac-des-iles",
@@ -8454,7 +9074,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "macassa",
@@ -8475,7 +9096,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "macassa",
           "claims_href": "claims.html?company=agnico-eagle&asset=macassa",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "macassa",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "magino-island-gold-district",
@@ -8496,7 +9122,13 @@
           "claims_company": "alamos-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=alamos-gold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "island-gold-district",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_blocker": "Alamos reports Island Gold District 250,400 oz combined. Magino is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "mccreedy-west",
@@ -8542,7 +9174,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "musselwhite",
           "claims_href": "claims.html?company=equinox-gold&asset=musselwhite",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "orla-mining",
+          "beta_asset_id": "musselwhite",
+          "beta_href": "beta.html?id=orla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
+          "production_source_title": "Orla Mining 2025 production results (Exhibit 99.1)"
         },
         {
           "id": "rainy-river",
@@ -8563,7 +9200,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "rainy-river",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-lake",
@@ -8584,7 +9226,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         },
         {
           "id": "stobie-sudbury-operations",
@@ -8658,7 +9306,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "pan-american-silver",
+          "beta_asset_id": "timmins",
+          "beta_href": "beta.html?id=pan-american-silver",
+          "production_blocker": "Timmins operation 103,600 oz combined. Timmins West is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+          "production_source_title": "Pan American Silver AIF 2025"
         },
         {
           "id": "totten-sudbury-operations",
@@ -8703,7 +9357,12 @@
           "claims_company": "alamos-gold",
           "claims_asset": "young-davidson",
           "claims_href": "claims.html?company=alamos-gold&asset=young-davidson",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "young-davidson",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "akasaba-west-goldex",
@@ -8724,7 +9383,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "goldex",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Goldex complex 125,501 oz includes Akasaba West feed. Akasaba is not broken out; ounces sit on Goldex.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "barnat-canadian-malartic",
@@ -8745,7 +9410,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz (Barnat + Odyssey). No pit/ug split. Do not copy the complex total onto Barnat.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "casa-berardi",
@@ -8766,7 +9437,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hecla-mining",
+          "beta_asset_id": "casa-berardi",
+          "beta_href": "beta.html?id=hecla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+          "production_source_title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)"
         },
         {
           "id": "goldex-goldex",
@@ -8786,7 +9462,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "goldex",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "grand-duc-westwood",
@@ -8806,7 +9487,13 @@
           "claims_company": "iamgold",
           "claims_asset": null,
           "claims_href": "claims.html?company=iamgold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "iamgold",
+          "beta_asset_id": "westwood",
+          "beta_href": "beta.html?id=iamgold",
+          "production_blocker": "IAMGOLD reports Westwood complex 113,900 oz (includes Grand Duc pit). Grand Duc is not broken out.",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Preliminary 2025 Operating Results"
         },
         {
           "id": "kiena",
@@ -8826,7 +9513,12 @@
           "claims_company": "wesdome-gold-mines",
           "claims_asset": "kiena",
           "claims_href": "claims.html?company=wesdome-gold-mines&asset=kiena",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "wesdome-gold-mines",
+          "beta_asset_id": "kiena",
+          "beta_href": "beta.html?id=wesdome-gold-mines",
+          "production_source": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+          "production_source_title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance"
         },
         {
           "id": "laronde",
@@ -8849,7 +9541,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "laronde",
           "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "laronde",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "lamaque",
@@ -8869,7 +9566,12 @@
           "claims_company": "eldorado-gold",
           "claims_asset": "lamaque",
           "claims_href": "claims.html?company=eldorado-gold&asset=lamaque",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "eldorado-gold",
+          "beta_asset_id": "lamaque",
+          "beta_href": "beta.html?id=eldorado-gold",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/918608/000165495426000499/ego_ex991.htm",
+          "production_source_title": "Eldorado Gold 2025 preliminary production (Exhibit 99.1)"
         },
         {
           "id": "odyssey-canadian-malartic",
@@ -8890,7 +9592,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz. Odyssey is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "raglan",
@@ -8936,7 +9644,12 @@
           "claims_company": "iamgold",
           "claims_asset": null,
           "claims_href": "claims.html?company=iamgold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "iamgold",
+          "beta_asset_id": "westwood",
+          "beta_href": "beta.html?id=iamgold",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
         },
         {
           "id": "eleonore",
@@ -8956,7 +9669,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Private operator after the Newmont sale. No public mine-level 2025 ounce disclosure found."
         },
         {
           "id": "santoy-seabee",
@@ -8976,7 +9690,12 @@
           "claims_company": "ssr-mining",
           "claims_asset": null,
           "claims_href": "claims.html?company=ssr-mining",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "ssr-mining",
+          "beta_asset_id": "seabee",
+          "beta_href": "beta.html?id=ssr-mining",
+          "production_source": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
+          "production_source_title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance"
         }
       ]
     },
@@ -9612,7 +10331,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "copper-mountain",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_source": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+          "production_source_title": "Hudbay Announces Preliminary 2025 Production Results"
         },
         {
           "id": "gibraltar",
@@ -9678,7 +10402,12 @@
           "claims_company": "centerra-gold",
           "claims_asset": "mount-milligan",
           "claims_href": "claims.html?company=centerra-gold&asset=mount-milligan",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "centerra-gold",
+          "beta_asset_id": "mount-milligan",
+          "beta_href": "beta.html?id=centerra-gold",
+          "production_source": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+          "production_source_title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results"
         },
         {
           "id": "mount-polley",
@@ -9700,7 +10429,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "imperial-metals",
+          "beta_asset_id": "mount-polley",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results"
         },
         {
           "id": "new-afton",
@@ -9722,7 +10455,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "new-afton",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-chris",
@@ -9744,7 +10482,12 @@
           "claims_company": "newmont",
           "claims_asset": "red-chris",
           "claims_href": "claims.html?company=newmont&asset=red-chris",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "red-chris",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)"
         },
         {
           "id": "lalor-lake-snow-lake",
@@ -9767,7 +10510,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "stall-concentrator-snow-lake",
@@ -10043,7 +10792,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "mccreedy-west",
@@ -10168,7 +10918,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "goldex",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Goldex complex 125,501 oz includes Akasaba West feed. Akasaba is not broken out; ounces sit on Goldex.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "laronde",
@@ -10191,7 +10947,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "laronde",
           "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "laronde",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "nunavik-nickel",
@@ -11181,7 +11942,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "mccreedy-west",
@@ -12087,7 +12849,12 @@
           "claims_company": "artemis-gold",
           "claims_asset": "blackwater",
           "claims_href": "claims.html?company=artemis-gold&asset=blackwater",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "artemis-gold",
+          "beta_asset_id": "blackwater",
+          "beta_href": "beta.html?id=artemis-gold",
+          "production_source": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q4-2025-production-results-and-2026-guidance",
+          "production_source_title": "Artemis Gold Announces Record Q4 2025 Production Results and 2026 Guidance"
         },
         {
           "id": "brucejack",
@@ -12108,7 +12875,12 @@
           "claims_company": "newmont",
           "claims_asset": "brucejack",
           "claims_href": "claims.html?company=newmont&asset=brucejack",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "brucejack",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
+          "production_source_title": "Newmont Fourth Quarter 2025 Operating Statistics"
         },
         {
           "id": "copper-mountain",
@@ -12130,7 +12902,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "copper-mountain",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_source": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+          "production_source_title": "Hudbay Announces Preliminary 2025 Production Results"
         },
         {
           "id": "dome-mountain",
@@ -12151,7 +12928,13 @@
           "claims_company": "blue-lagoon-resources",
           "claims_asset": null,
           "claims_href": "claims.html?company=blue-lagoon-resources",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "blue-lagoon-resources",
+          "beta_asset_id": "dome-mountain",
+          "beta_href": "beta.html?id=blue-lagoon-resources",
+          "production_blocker": "Ramp-up in 2025 (first sale 30 Dec 2025 of ~1,000 t). No full-year gold ounces disclosed. Do not use the ~15,000 oz first-year guidance.",
+          "production_source": "https://bluelagoonresources.com/",
+          "production_source_title": "Blue Lagoon Resources — Dome Mountain"
         },
         {
           "id": "gibraltar",
@@ -12217,7 +13000,12 @@
           "claims_company": "centerra-gold",
           "claims_asset": "mount-milligan",
           "claims_href": "claims.html?company=centerra-gold&asset=mount-milligan",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "centerra-gold",
+          "beta_asset_id": "mount-milligan",
+          "beta_href": "beta.html?id=centerra-gold",
+          "production_source": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+          "production_source_title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results"
         },
         {
           "id": "mount-polley",
@@ -12239,7 +13027,11 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "imperial-metals",
+          "beta_asset_id": "mount-polley",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results"
         },
         {
           "id": "new-afton",
@@ -12261,7 +13053,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "new-afton",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-chris",
@@ -12283,7 +13080,12 @@
           "claims_company": "newmont",
           "claims_asset": "red-chris",
           "claims_href": "claims.html?company=newmont&asset=red-chris",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "newmont",
+          "beta_asset_id": "red-chris",
+          "beta_href": "beta.html?id=newmont",
+          "production_source": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+          "production_source_title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)"
         },
         {
           "id": "lalor-lake-snow-lake",
@@ -12306,7 +13108,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "thompson-t-1-and-t-3",
@@ -12536,7 +13344,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "macassa",
           "claims_href": "claims.html?company=agnico-eagle&asset=macassa",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "macassa",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "magino-island-gold-district",
@@ -12557,7 +13370,13 @@
           "claims_company": "alamos-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=alamos-gold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "alamos-gold",
+          "beta_asset_id": "island-gold-district",
+          "beta_href": "beta.html?id=alamos-gold",
+          "production_blocker": "Alamos reports Island Gold District 250,400 oz combined. Magino is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+          "production_source_title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production"
         },
         {
           "id": "mccreedy-west",
@@ -12603,7 +13422,12 @@
           "claims_company": "equinox-gold",
           "claims_asset": "musselwhite",
           "claims_href": "claims.html?company=equinox-gold&asset=musselwhite",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "orla-mining",
+          "beta_asset_id": "musselwhite",
+          "beta_href": "beta.html?id=orla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
+          "production_source_title": "Orla Mining 2025 production results (Exhibit 99.1)"
         },
         {
           "id": "rainy-river",
@@ -12624,7 +13448,12 @@
           "claims_company": "new-gold",
           "claims_asset": null,
           "claims_href": "claims.html?company=new-gold",
-          "link": "owner-core"
+          "link": "owner-core",
+          "beta_id": "new-gold",
+          "beta_asset_id": "rainy-river",
+          "beta_href": "beta.html?id=new-gold",
+          "production_source": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+          "production_source_title": "New Gold Achieves 2025 Production Guidance"
         },
         {
           "id": "red-lake",
@@ -12645,7 +13474,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         },
         {
           "id": "stobie-sudbury-operations",
@@ -12745,7 +13580,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz (Barnat + Odyssey). No pit/ug split. Do not copy the complex total onto Barnat.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "casa-berardi",
@@ -12766,7 +13607,12 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hecla-mining",
+          "beta_asset_id": "casa-berardi",
+          "beta_href": "beta.html?id=hecla-mining",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+          "production_source_title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)"
         },
         {
           "id": "laronde",
@@ -12789,7 +13635,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "laronde",
           "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "laronde",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "odyssey-canadian-malartic",
@@ -12810,7 +13661,13 @@
           "claims_company": "agnico-eagle",
           "claims_asset": null,
           "claims_href": "claims.html?company=agnico-eagle",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "canadian-malartic",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_blocker": "Agnico reports Canadian Malartic complex 642,612 oz. Odyssey is not broken out.",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025"
         },
         {
           "id": "raglan",
@@ -12856,7 +13713,12 @@
           "claims_company": "iamgold",
           "claims_asset": null,
           "claims_href": "claims.html?company=iamgold",
-          "link": "owner-exact"
+          "link": "owner-exact",
+          "beta_id": "iamgold",
+          "beta_asset_id": "westwood",
+          "beta_href": "beta.html?id=iamgold",
+          "production_source": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+          "production_source_title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance"
         },
         {
           "id": "keno-hill-silver-district",
@@ -13826,7 +14688,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         }
       ]
     },
@@ -15617,7 +16485,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "mccreedy-west",
@@ -16099,7 +16968,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         }
       ]
     },
@@ -16943,7 +17818,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         }
       ]
     },
@@ -18683,7 +19559,13 @@
           "claims_company": "evolution",
           "claims_asset": "red-lake",
           "claims_href": "claims.html?company=evolution&asset=red-lake",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "evolution",
+          "beta_asset_id": "red-lake",
+          "beta_href": "beta.html?id=evolution",
+          "production_blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+          "production_source": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+          "production_source_title": "Evolution Mining FY25 Red Lake fact sheet"
         }
       ]
     },
@@ -23333,7 +24215,8 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "production_blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite."
         },
         {
           "id": "mccreedy-west",
@@ -28224,7 +29107,13 @@
           "claims_company": null,
           "claims_asset": null,
           "claims_href": null,
-          "link": null
+          "link": null,
+          "beta_id": "hudbay-minerals",
+          "beta_asset_id": "snow-lake",
+          "beta_href": "beta.html?id=hudbay-minerals",
+          "production_blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+          "production_source": "https://hudbayminerals.com/canada/default.aspx",
+          "production_source_title": "Hudbay Canada — Snow Lake 2025 Performance"
         },
         {
           "id": "stall-concentrator-snow-lake",
@@ -28292,7 +29181,12 @@
           "claims_company": "agnico-eagle",
           "claims_asset": "laronde",
           "claims_href": "claims.html?company=agnico-eagle&asset=laronde",
-          "link": "mine-name"
+          "link": "mine-name",
+          "beta_id": "agnico-eagle",
+          "beta_asset_id": "laronde",
+          "beta_href": "beta.html?id=agnico-eagle",
+          "production_source": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+          "production_source_title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)"
         },
         {
           "id": "keno-hill-silver-district",
@@ -28419,5 +29313,13 @@
       "mines": []
     }
   ],
-  "unit_note": "Gold, silver, platinum, palladium, rhodium, and platinum-group totals are troy ounces converted at ingest from the published StatCan/NRCan mass unit for that year (1 troy oz = 31.1034768 grams). Other commodities keep their source units. Mine-level quantities are not shown."
+  "unit_note": "Gold, silver, platinum, palladium, rhodium, and platinum-group totals are troy ounces converted at ingest from the published StatCan/NRCan mass unit for that year (1 troy oz = 31.1034768 grams). Other commodities keep their source units. Mine-level quantities are not shown. Canada table reads canada/producer-join.json commodities exported from qc.sqlite. Gold/silver/PGM are troy ounces. Other commodities keep the source unit. Existing beta/<issuer>.json pages still store gold in each file's units.gold (usually koz).",
+  "mine_production": {
+    "year": 2025,
+    "schema": "qc-canada-producer-join-v1",
+    "n_linked": 29,
+    "n_blank": 19,
+    "note": "From company filings where disclosed; StatCan/NRCan do not publish mine-level output. Stored in qc.sqlite; Pages reads the thin export.",
+    "source": "qc.sqlite via canada/producer-join.json"
+  }
 }

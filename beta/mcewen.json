@@ -52,7 +52,19 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "fox-complex",
+      "name": "Fox Complex",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "Ontario",
+      "location_note": "McEwen reports Fox Complex / consolidated figures; no 2025 Black Fox-only ounce breakout used."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []

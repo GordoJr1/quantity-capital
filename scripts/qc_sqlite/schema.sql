@@ -469,3 +469,41 @@ CREATE TABLE IF NOT EXISTS insider_analysis_book (
   list TEXT,
   payload_json TEXT
 );
+
+-- Canadian Map 900A mine production (cited company filings only).
+-- Standalone: no FK to companies so a monthly ingest can use a fresh qc.sqlite.
+CREATE TABLE IF NOT EXISTS canada_mines (
+  mine_id TEXT PRIMARY KEY,
+  name TEXT,
+  company_id TEXT,
+  asset_id TEXT,
+  region TEXT,
+  country TEXT NOT NULL DEFAULT 'Canada',
+  ownership_pct REAL,
+  commodity TEXT,
+  omit_figure INTEGER NOT NULL DEFAULT 0,
+  map_900a INTEGER NOT NULL DEFAULT 1
+);
+CREATE TABLE IF NOT EXISTS canada_mine_sources (
+  mine_id TEXT NOT NULL,
+  year INTEGER NOT NULL,
+  url TEXT,
+  title TEXT,
+  as_of TEXT,
+  kind TEXT,
+  blocker TEXT,
+  fetch_ok INTEGER,
+  fetch_error TEXT,
+  PRIMARY KEY (mine_id, year)
+);
+CREATE TABLE IF NOT EXISTS canada_mine_production (
+  mine_id TEXT NOT NULL,
+  year INTEGER NOT NULL,
+  commodity TEXT NOT NULL,
+  value REAL NOT NULL,
+  unit TEXT NOT NULL,
+  source_value REAL,
+  source_unit TEXT,
+  quote TEXT,
+  PRIMARY KEY (mine_id, year, commodity)
+);

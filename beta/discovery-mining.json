@@ -52,7 +52,19 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "porcupine",
+      "name": "Porcupine",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "gold",
+      "country": "Canada",
+      "ownership_pct": 100,
+      "region": "Ontario",
+      "location_note": "Discovery reports Porcupine complex 234,702 oz calendar 2025. Borden / Dome Mill / Hoyle Pond are not broken out."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []

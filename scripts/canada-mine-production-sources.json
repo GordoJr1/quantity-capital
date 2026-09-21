@@ -1,0 +1,985 @@
+{
+  "schema": "qc-canada-mine-production-sources-v1",
+  "year": 2025,
+  "note": "Curated issuer IR / EDGAR / news URLs for Map 900A mines (not the figure store). Ingest fetches and requires the quote (or must_contain) to appear, then writes qc.sqlite (canada_mines / canada_mine_production / canada_mine_sources) and exports existing beta/<issuer>.json plus canada/producer-join.json. Never invent. Never mint new issuer JSON. Never split AuEq or a complex total across pits. Never commit qc.sqlite.",
+  "blockers_global": [
+    "SEDAR+ document viewer is paywalled / login-gated; use issuer IR HTML or EDGAR exhibits.",
+    "StatCan table 16-10-0022 and NRCan annual tables do not publish mine-level output.",
+    "Evolution Mining reports Red Lake on an Australian fiscal year (30 June), not calendar 2025.",
+    "Vale Sudbury / Thompson and Glencore Sudbury INO / Raglan do not break out payable gold by Map 900A shaft.",
+    "Claims crawls stay out of this job and out of daily bats."
+  ],
+  "mines": [
+    {
+      "mine_id": "blackwater",
+      "mine_name": "Blackwater",
+      "owner": "Artemis Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.artemisgoldinc.com/news/media-releases/artemis-gold-announces-record-q4-2025-production-results-and-2026-guidance",
+      "title": "Artemis Gold Announces Record Q4 2025 Production Results and 2026 Guidance",
+      "as_of": "2026-01-14",
+      "extract": {
+        "gold": {
+          "source_value": 192808,
+          "source_unit": "oz",
+          "quote": "bringing full year 2025 production to 192,808 ounces of gold"
+        }
+      },
+      "beta_id": "artemis-gold",
+      "asset_id": "blackwater",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "brucejack",
+      "mine_name": "Brucejack",
+      "owner": "Newmont Corporation",
+      "year": 2025,
+      "kind": "ops-update",
+      "url": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
+      "title": "Newmont Fourth Quarter 2025 Operating Statistics",
+      "as_of": "2026-02-19",
+      "extract": {
+        "gold": {
+          "source_value": 231,
+          "source_unit": "koz",
+          "quote": "Brucejack",
+          "must_contain": [
+            "Brucejack",
+            "231",
+            "Gold ounces produced (thousands)"
+          ]
+        }
+      },
+      "beta_id": "newmont",
+      "asset_id": "brucejack",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "copper-mountain",
+      "mine_name": "Copper Mountain",
+      "owner": "Hudbay Minerals Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://hudbayminerals.com/investors/press-releases/press-release-details/2026/Hudbay-Announces-Preliminary-2025-Production-Results-and-Achieves-2025-Consolidated-Copper-and-Gold-Production-Guidance/default.aspx",
+      "title": "Hudbay Announces Preliminary 2025 Production Results",
+      "as_of": "2026-01-15",
+      "extract": {
+        "gold": {
+          "source_value": 20001,
+          "source_unit": "oz",
+          "quote": "20,001",
+          "must_contain": [
+            "Copper Mountain",
+            "20,001"
+          ]
+        },
+        "copper": {
+          "source_value": 23784,
+          "source_unit": "t",
+          "quote": "23,784",
+          "must_contain": [
+            "Copper Mountain",
+            "23,784"
+          ]
+        },
+        "silver": {
+          "source_value": 252811,
+          "source_unit": "oz",
+          "quote": "252,811",
+          "must_contain": [
+            "Copper Mountain",
+            "252,811"
+          ]
+        }
+      },
+      "beta_id": "hudbay-minerals",
+      "asset_id": "copper-mountain",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "dome-mountain",
+      "mine_name": "Dome Mountain",
+      "owner": "Blue Lagoon Resources Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://bluelagoonresources.com/",
+      "title": "Blue Lagoon Resources — Dome Mountain",
+      "as_of": "2026-01-01",
+      "blocker": "Ramp-up in 2025 (first sale 30 Dec 2025 of ~1,000 t). No full-year gold ounces disclosed. Do not use the ~15,000 oz first-year guidance.",
+      "beta_id": "blue-lagoon-resources",
+      "asset_id": "dome-mountain",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "elk",
+      "mine_name": "Elk",
+      "owner": "Gold Mountain Mining Corp.",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.accessnewswire.com/newsroom/en/metals-and-mining/gold-mountain-reports-its-interim-q4-2025-financial-and-operating-results-1001121",
+      "title": "Gold Mountain Reports its Interim Q4 2025 Financial and Operating Results",
+      "as_of": "2025-03-01",
+      "blocker": "Issuer reports a fiscal year ended 31 Jan (1,070 oz sold in FY2025), not calendar-2025 ounces. Later 2025 status is receivership / sales process. Do not treat FY2025 as calendar 2025.",
+      "beta_id": "gold-mountain-mining",
+      "asset_id": "elk",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "mount-milligan",
+      "mine_name": "Mount Milligan",
+      "owner": "Centerra Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.globenewswire.com/news-release/2026/02/19/3241598/0/en/Centerra-Gold-Reports-Fourth-Quarter-and-Full-Year-2025-Results-Delivered-Robust-Annual-Production-and-Beat-Cost-Guidance-2026-Outlook-Remains-Strong-as-Centerra-Executes-its-Self-.html",
+      "title": "Centerra Gold Reports Fourth Quarter and Full Year 2025 Results",
+      "as_of": "2026-02-19",
+      "extract": {
+        "gold": {
+          "source_value": 147581,
+          "source_unit": "oz",
+          "quote": "147,581 ounces of gold from Mount Milligan"
+        },
+        "copper": {
+          "source_value": 50.5,
+          "source_unit": "Mlb",
+          "quote": "50.5 million pounds",
+          "must_contain": [
+            "Mount Milligan",
+            "50.5"
+          ]
+        }
+      },
+      "beta_id": "centerra-gold",
+      "asset_id": "mount-milligan",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "mount-polley",
+      "mine_name": "Mount Polley",
+      "owner": "Imperial Metals Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "title": "Imperial Reports 2025 Financial Results",
+      "as_of": "2026-03-26",
+      "extract": {
+        "gold": {
+          "source_value": 37555,
+          "source_unit": "oz",
+          "quote": "37,555 ounces of gold",
+          "must_contain": [
+            "Mount Polley",
+            "37,555"
+          ]
+        },
+        "copper": {
+          "source_value": 30.715,
+          "source_unit": "Mlb",
+          "quote": "30.715 million pounds of copper",
+          "must_contain": [
+            "Mount Polley",
+            "30.715"
+          ]
+        }
+      },
+      "beta_id": "imperial-metals",
+      "asset_id": "mount-polley",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "new-afton",
+      "mine_name": "New Afton",
+      "owner": "New Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+      "title": "New Gold Achieves 2025 Production Guidance",
+      "as_of": "2026-01-15",
+      "extract": {
+        "gold": {
+          "source_value": 63536,
+          "source_unit": "oz",
+          "quote": "Full year production was 63,536 ounces of gold",
+          "must_contain": [
+            "New Afton",
+            "63,536"
+          ]
+        },
+        "copper": {
+          "source_value": 50.1,
+          "source_unit": "Mlb",
+          "quote": "50.1 million pounds of copper",
+          "must_contain": [
+            "New Afton",
+            "50.1"
+          ]
+        }
+      },
+      "beta_id": "new-gold",
+      "asset_id": "new-afton",
+      "ownership_pct": 100,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "red-chris",
+      "mine_name": "Red Chris",
+      "owner": "Newmont Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://imperialmetals.com/imperial-reports-2025-financial-results/",
+      "title": "Imperial Reports 2025 Financial Results (Red Chris 100% basis)",
+      "as_of": "2026-03-26",
+      "extract": {
+        "gold": {
+          "source_value": 92429,
+          "source_unit": "oz",
+          "quote": "Red Chris metal production (100% basis) for 2025 was 93.101 million pounds copper and 92,429 ounces gold"
+        },
+        "copper": {
+          "source_value": 93.101,
+          "source_unit": "Mlb",
+          "quote": "93.101 million pounds copper",
+          "must_contain": [
+            "Red Chris",
+            "93.101"
+          ]
+        }
+      },
+      "beta_id": "newmont",
+      "asset_id": "red-chris",
+      "ownership_pct": 70,
+      "region": "British Columbia"
+    },
+    {
+      "mine_id": "valentine",
+      "mine_name": "Valentine",
+      "owner": "Equinox Gold Corp.",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
+      "title": "Equinox Gold MD&A for the year ended 31 December 2025",
+      "as_of": "2026-02-18",
+      "extract": {
+        "gold": {
+          "source_value": 23816,
+          "source_unit": "oz",
+          "quote": "23,816 ounces from Valentine",
+          "must_contain": [
+            "Valentine",
+            "23,816"
+          ]
+        }
+      },
+      "beta_id": "equinox-gold",
+      "asset_id": "valentine",
+      "ownership_pct": 100,
+      "region": "Newfoundland and Labrador"
+    },
+    {
+      "mine_id": "amaruq-meadowbank",
+      "mine_name": "Amaruq (Meadowbank)",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 493314,
+          "source_unit": "oz",
+          "quote": "Gold production decreased by 2.3% to 493,314 ounces in 2025",
+          "must_contain": [
+            "Meadowbank",
+            "493,314"
+          ]
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "meadowbank",
+      "ownership_pct": 100,
+      "region": "Nunavut"
+    },
+    {
+      "mine_id": "goose-back-river",
+      "mine_name": "Goose (Back River)",
+      "owner": "B2Gold Corp.",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
+      "title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)",
+      "as_of": "2026-02-19",
+      "extract": {
+        "gold": {
+          "source_value": 53170,
+          "source_unit": "oz",
+          "quote": "14,554 ounces of pre-commercial production from the Goose Mine",
+          "must_contain": [
+            "Goose Mine",
+            "14,554",
+            "38,616"
+          ]
+        }
+      },
+      "beta_id": "b2gold",
+      "asset_id": "goose",
+      "ownership_pct": 100,
+      "region": "Nunavut"
+    },
+    {
+      "mine_id": "meliadine",
+      "mine_name": "Meliadine",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 376346,
+          "source_unit": "oz",
+          "quote": "Gold production decreased by 0.7% to 376,346 ounces in 2025",
+          "must_contain": [
+            "Meliadine",
+            "376,346"
+          ]
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "meliadine",
+      "ownership_pct": 100,
+      "region": "Nunavut"
+    },
+    {
+      "mine_id": "cote-gold",
+      "mine_name": "Côté Gold",
+      "owner": "IAMGOLD Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance",
+      "as_of": "2026-01-20",
+      "extract": {
+        "gold": {
+          "source_value": 399800,
+          "source_unit": "oz",
+          "quote": "399,800 ounces | 100%",
+          "must_contain": [
+            "Côté",
+            "399,800"
+          ]
+        }
+      },
+      "beta_id": "iamgold",
+      "asset_id": "cote-gold",
+      "ownership_pct": 70,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "detour-lake",
+      "mine_name": "Detour Lake",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 692675,
+          "source_unit": "oz",
+          "quote": "Gold production at Detour Lake increased by 3.1% to 692,675 ounces in 2025"
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "detour-lake",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "eagle-river",
+      "mine_name": "Eagle River",
+      "owner": "Wesdome Gold Mines Ltd.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
+      "as_of": "2026-01-14",
+      "extract": {
+        "gold": {
+          "source_value": 112767,
+          "source_unit": "oz",
+          "quote": "112,767",
+          "must_contain": [
+            "Eagle River",
+            "112,767"
+          ]
+        }
+      },
+      "beta_id": "wesdome-gold-mines",
+      "asset_id": "eagle-river",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "greenstone",
+      "mine_name": "Greenstone",
+      "owner": "Equinox Gold Corp.",
+      "year": 2025,
+      "kind": "ops-page",
+      "url": "https://www.equinoxgold.com/our-mines/greenstone-gold-mine/",
+      "title": "Equinox Gold — Greenstone Gold Mine (2025 actuals)",
+      "as_of": "2026-02-18",
+      "extract": {
+        "gold": {
+          "source_value": 223843,
+          "source_unit": "oz",
+          "quote": "223,843",
+          "must_contain": [
+            "Greenstone",
+            "223,843"
+          ]
+        }
+      },
+      "beta_id": "equinox-gold",
+      "asset_id": "greenstone",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "hemlo-williams",
+      "mine_name": "Hemlo (Williams)",
+      "owner": "Barrick Gold Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.prnewswire.com/news-releases/hemlo-mining-corp-announces-strong-2025-gold-production-of-143-458-ounces-including-20-192-ounces-in-december-and-provides-operational-update-302694252.html",
+      "title": "Hemlo Mining Corp. Announces Strong 2025 Gold Production of 143,458 Ounces",
+      "as_of": "2026-01-21",
+      "extract": {
+        "gold": {
+          "source_value": 143458,
+          "source_unit": "oz",
+          "quote": "The Hemlo Mine produced 143,458 ounces of gold in 2025"
+        }
+      },
+      "beta_id": "hemlo-mining",
+      "asset_id": "hemlo",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "macassa",
+      "mine_name": "Macassa",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 312729,
+          "source_unit": "oz",
+          "quote": "Gold production at Macassa increased by 11.9% to 312,729 ounces in 2025"
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "macassa",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "musselwhite",
+      "mine_name": "Musselwhite",
+      "owner": "Orla Mining Ltd.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1680056/000127956926000047/ex991.htm",
+      "title": "Orla Mining 2025 production results (Exhibit 99.1)",
+      "as_of": "2026-01-20",
+      "extract": {
+        "gold": {
+          "source_value": 236908,
+          "source_unit": "oz",
+          "quote": "Musselwhite produced 236,908 ounces of gold in full-year 2025"
+        }
+      },
+      "beta_id": "orla-mining",
+      "asset_id": "musselwhite",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "rainy-river",
+      "mine_name": "Rainy River",
+      "owner": "New Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.newswire.ca/news-releases/new-gold-achieves-2025-production-guidance-854391452.html",
+      "title": "New Gold Achieves 2025 Production Guidance",
+      "as_of": "2026-01-15",
+      "extract": {
+        "gold": {
+          "source_value": 290236,
+          "source_unit": "oz",
+          "quote": "Full year production was 290,236 ounces of gold",
+          "must_contain": [
+            "Rainy River",
+            "290,236"
+          ]
+        }
+      },
+      "beta_id": "new-gold",
+      "asset_id": "rainy-river",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "young-davidson",
+      "mine_name": "Young-Davidson",
+      "owner": "Alamos Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production",
+      "as_of": "2026-01-15",
+      "extract": {
+        "gold": {
+          "source_value": 153400,
+          "source_unit": "oz",
+          "quote": "Young-Davidson",
+          "must_contain": [
+            "Young-Davidson",
+            "153,400"
+          ]
+        }
+      },
+      "beta_id": "alamos-gold",
+      "asset_id": "young-davidson",
+      "ownership_pct": 100,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "casa-berardi",
+      "mine_name": "Casa Berardi",
+      "owner": "Hecla Mining Company",
+      "year": 2025,
+      "kind": "ops-update",
+      "url": "https://www.sec.gov/Archives/edgar/data/719413/000119312526054862/hl-ex99_1.htm",
+      "title": "Hecla Mining 2025 year-end operating statistics (Exhibit 99.1)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 91160,
+          "source_unit": "oz",
+          "quote": "Casa Berardi, ounces",
+          "must_contain": [
+            "Casa Berardi",
+            "91,160"
+          ]
+        }
+      },
+      "beta_id": "hecla-mining",
+      "asset_id": "casa-berardi",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "goldex-goldex",
+      "mine_name": "Goldex (Goldex)",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 125501,
+          "source_unit": "oz",
+          "quote": "125,501 ounces in 2025, compared with 130,813 ounces in 2024 at Goldex"
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "goldex",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "laronde",
+      "mine_name": "LaRonde",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025 (Exhibit 99.3)",
+      "as_of": "2026-02-12",
+      "extract": {
+        "gold": {
+          "source_value": 344555,
+          "source_unit": "oz",
+          "quote": "Gold production at LaRonde increased by 12.3% to 344,555 ounces in 2025"
+        }
+      },
+      "beta_id": "agnico-eagle",
+      "asset_id": "laronde",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "lamaque",
+      "mine_name": "Lamaque",
+      "owner": "Eldorado Gold Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/918608/000165495426000499/ego_ex991.htm",
+      "title": "Eldorado Gold 2025 preliminary production (Exhibit 99.1)",
+      "as_of": "2026-01-15",
+      "extract": {
+        "gold": {
+          "source_value": 187208,
+          "source_unit": "oz",
+          "quote": "Lamaque Complex",
+          "must_contain": [
+            "Lamaque Complex",
+            "187,208"
+          ]
+        }
+      },
+      "beta_id": "eldorado-gold",
+      "asset_id": "lamaque",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "kiena",
+      "mine_name": "Kiena",
+      "owner": "Wesdome Gold Mines Ltd.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
+      "as_of": "2026-01-14",
+      "extract": {
+        "gold": {
+          "source_value": 72808,
+          "source_unit": "oz",
+          "quote": "72,808",
+          "must_contain": [
+            "Kiena",
+            "72,808"
+          ]
+        }
+      },
+      "beta_id": "wesdome-gold-mines",
+      "asset_id": "kiena",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "westwood-westwood",
+      "mine_name": "Westwood (Westwood)",
+      "owner": "IAMGOLD Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "title": "IAMGOLD Reports Preliminary 2025 Operating Results & 2026 Guidance",
+      "as_of": "2026-01-20",
+      "extract": {
+        "gold": {
+          "source_value": 113900,
+          "source_unit": "oz",
+          "quote": "Westwood produced 37,900 ounces in the fourth quarter and 113,900 ounces in 2025"
+        }
+      },
+      "beta_id": "iamgold",
+      "asset_id": "westwood",
+      "ownership_pct": 100,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "santoy-seabee",
+      "mine_name": "Santoy (Seabee)",
+      "owner": "SSR Mining Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
+      "title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance",
+      "as_of": "2026-02-17",
+      "extract": {
+        "gold": {
+          "source_value": 54986,
+          "source_unit": "oz",
+          "quote": "Seabee produced 54,986 ounces of gold"
+        }
+      },
+      "beta_id": "ssr-mining",
+      "asset_id": "seabee",
+      "ownership_pct": 100,
+      "region": "Saskatchewan"
+    },
+    {
+      "mine_id": "island-gold-island-gold-district",
+      "mine_name": "Island Gold (Island Gold District)",
+      "owner": "Alamos Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production",
+      "as_of": "2026-01-15",
+      "blocker": "Alamos reports Island Gold District (Island Gold + Magino) 250,400 oz combined. No mine split. Leave both rows blank.",
+      "beta_id": "alamos-gold",
+      "asset_id": "island-gold-district",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "magino-island-gold-district",
+      "mine_name": "Magino (Island Gold District)",
+      "owner": "Alamos Gold Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1178819/000117881926000004/ex991alamosgoldreportsfour.htm",
+      "title": "Alamos Gold Reports Fourth Quarter and Annual 2025 Production",
+      "as_of": "2026-01-15",
+      "blocker": "Alamos reports Island Gold District 250,400 oz combined. Magino is not broken out.",
+      "beta_id": "alamos-gold",
+      "asset_id": "island-gold-district",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "barnat-canadian-malartic",
+      "mine_name": "Barnat (Canadian Malartic)",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025",
+      "as_of": "2026-02-12",
+      "blocker": "Agnico reports Canadian Malartic complex 642,612 oz (Barnat + Odyssey). No pit/ug split. Do not copy the complex total onto Barnat.",
+      "beta_id": "agnico-eagle",
+      "asset_id": "canadian-malartic",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "odyssey-canadian-malartic",
+      "mine_name": "Odyssey (Canadian Malartic)",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025",
+      "as_of": "2026-02-12",
+      "blocker": "Agnico reports Canadian Malartic complex 642,612 oz. Odyssey is not broken out.",
+      "beta_id": "agnico-eagle",
+      "asset_id": "canadian-malartic",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "akasaba-west-goldex",
+      "mine_name": "Akasaba West (Goldex)",
+      "owner": "Agnico Eagle Mines Limited",
+      "year": 2025,
+      "kind": "md&a",
+      "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926014451/aem-20251231xex99d3.htm",
+      "title": "Agnico Eagle MD&A year ended 31 December 2025",
+      "as_of": "2026-02-12",
+      "blocker": "Goldex complex 125,501 oz includes Akasaba West feed. Akasaba is not broken out; ounces sit on Goldex.",
+      "beta_id": "agnico-eagle",
+      "asset_id": "goldex",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "grand-duc-westwood",
+      "mine_name": "Grand Duc (Westwood)",
+      "owner": "IAMGOLD Corporation",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://www.iamgold.com/English/investors/news-releases/news-releases-details/2026/IAMGOLD-Reports-Preliminary-2025-Operating-Results--2026-Guidance/default.aspx",
+      "title": "IAMGOLD Preliminary 2025 Operating Results",
+      "as_of": "2026-01-20",
+      "blocker": "IAMGOLD reports Westwood complex 113,900 oz (includes Grand Duc pit). Grand Duc is not broken out.",
+      "beta_id": "iamgold",
+      "asset_id": "westwood",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "lalor-lake-snow-lake",
+      "mine_name": "Lalor Lake (Snow Lake)",
+      "owner": "Hudbay Minerals Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://hudbayminerals.com/canada/default.aspx",
+      "title": "Hudbay Canada — Snow Lake 2025 Performance",
+      "as_of": "2026-01-15",
+      "blocker": "Hudbay reports Snow Lake gold 173,453 oz (Lalor + New Britannia). No mine split.",
+      "beta_id": "hudbay-minerals",
+      "asset_id": "snow-lake",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Manitoba"
+    },
+    {
+      "mine_id": "new-britannia-mill-snow-lake",
+      "mine_name": "New Britannia mill (Snow Lake)",
+      "owner": "Hudbay Minerals Inc.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://hudbayminerals.com/canada/default.aspx",
+      "title": "Hudbay Canada — Snow Lake 2025 Performance",
+      "as_of": "2026-01-15",
+      "blocker": "Snow Lake gold is reported as a complex (173,453 oz). Mill row is not a separate gold output figure.",
+      "beta_id": "hudbay-minerals",
+      "asset_id": "snow-lake",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Manitoba"
+    },
+    {
+      "mine_id": "borden-porcupine",
+      "mine_name": "Borden (Porcupine)",
+      "owner": "Discovery Silver Corp.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025",
+      "as_of": "2026-01-15",
+      "blocker": "Discovery reports Porcupine complex 234,702 oz calendar 2025. Borden / Dome Mill / Hoyle Pond are not broken out.",
+      "beta_id": "discovery-mining",
+      "asset_id": "porcupine",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "dome-mill-porcupine",
+      "mine_name": "Dome Mill (Porcupine)",
+      "owner": "Discovery Silver Corp.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025",
+      "as_of": "2026-01-15",
+      "blocker": "Porcupine complex 234,702 oz; no mill-only gold split.",
+      "beta_id": "discovery-mining",
+      "asset_id": "porcupine",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "hoyle-pond-porcupine",
+      "mine_name": "Hoyle Pond (Porcupine)",
+      "owner": "Discovery Silver Corp.",
+      "year": 2025,
+      "kind": "news-release",
+      "url": "https://discoverysilver.com/news-and-media/news/discovery-produces-66-718-ounces-of-gold-in-fourth-quarter-2025/",
+      "title": "Discovery Produces 66,718 Ounces of Gold in Fourth Quarter 2025",
+      "as_of": "2026-01-15",
+      "blocker": "Porcupine complex 234,702 oz; Hoyle Pond is not broken out.",
+      "beta_id": "discovery-mining",
+      "asset_id": "porcupine",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "bell-creek",
+      "mine_name": "Bell Creek",
+      "owner": "Pan American Silver Corp.",
+      "year": 2025,
+      "kind": "aif",
+      "url": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+      "title": "Pan American Silver AIF 2025",
+      "as_of": "2026-03-01",
+      "blocker": "Pan American reports Timmins (Bell Creek + Timmins West) 103,600 oz. No mine split.",
+      "beta_id": "pan-american-silver",
+      "asset_id": "timmins",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "timmins-west",
+      "mine_name": "Timmins West",
+      "owner": "Pan American Silver Corp.",
+      "year": 2025,
+      "kind": "aif",
+      "url": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/aif-2025ye.htm",
+      "title": "Pan American Silver AIF 2025",
+      "as_of": "2026-03-01",
+      "blocker": "Timmins operation 103,600 oz combined. Timmins West is not broken out.",
+      "beta_id": "pan-american-silver",
+      "asset_id": "timmins",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "red-lake",
+      "mine_name": "Red Lake",
+      "owner": "Evolution Mining Ltd.",
+      "year": 2025,
+      "kind": "fact-sheet",
+      "url": "https://evolutionmining.com/documents/fy25-red-lake-operations-fact-sheet/",
+      "title": "Evolution Mining FY25 Red Lake fact sheet",
+      "as_of": "2025-06-30",
+      "blocker": "Evolution reports FY25 (year ended 30 June 2025) 127,632 oz — not calendar 2025. Leave blank until a calendar-year actual is published.",
+      "beta_id": "evolution",
+      "asset_id": "red-lake",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "eleonore",
+      "mine_name": "Éléonore",
+      "owner": "Dhilmar Ltd.",
+      "year": 2025,
+      "blocker": "Private operator after the Newmont sale. No public mine-level 2025 ounce disclosure found.",
+      "omit_figure": true,
+      "region": "Quebec"
+    },
+    {
+      "mine_id": "black-fox-fox-complex",
+      "mine_name": "Black Fox (Fox Complex)",
+      "owner": "McEwen Mining Inc.",
+      "year": 2025,
+      "blocker": "McEwen reports Fox Complex / consolidated figures; no 2025 Black Fox-only ounce breakout used.",
+      "beta_id": "mcewen",
+      "asset_id": "fox-complex",
+      "ownership_pct": 100,
+      "omit_figure": true,
+      "region": "Ontario"
+    },
+    {
+      "mine_id": "lac-des-iles",
+      "mine_name": "Lac des Iles",
+      "owner": "Impala Canada Ltd.",
+      "year": 2025,
+      "blocker": "Impala reports PGM concentrate; payable gold ounces for Lac des Iles are not broken out in a public 2025 ops table we can cite.",
+      "omit_figure": true,
+      "region": "Ontario"
+    }
+  ]
+}

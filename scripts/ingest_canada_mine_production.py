@@ -65,6 +65,8 @@ AUEQ = re.compile(
 )
 TAG = re.compile(r"<[^>]+>")
 WS = re.compile(r"\s+")
+# Compressed-PDF string dumps look like object soup, not filing prose.
+PDF_SOUP = re.compile(r"\bendobj\b.*/Type\s*/Page", re.I | re.S)
 
 
 def utc_now() -> str:
@@ -91,6 +93,18 @@ def strip_markup(raw: bytes | str) -> str:
 def contains_all(haystack: str, needles: list[str]) -> bool:
     folded = haystack.lower()
     return all((n or "").lower() in folded for n in needles if n)
+
+
+def extract_looks_unusable(text: str | None) -> bool:
+    """True when fetch returned bytes but not searchable filing text."""
+    if text is None:
+        return True
+    stripped = text.strip()
+    if len(stripped) < 40:
+        return True
+    if PDF_SOUP.search(stripped[:20000]) or ("endobj" in stripped and "/Type /Page" in stripped):
+        return True
+    return False
 
 
 def convert_reported(
@@ -207,12 +221,13 @@ def record_for_source(
         quote = (ext.get("quote") or src.get("quote") or "").strip()
         ok = True
         why = "curated"
-        if text is not None:
+        usable = text is not None and not extract_looks_unusable(text)
+        if usable:
             ok, why = verify_extract(text, {**ext, "quote": quote or ext.get("quote")})
-        elif not fetch_ok:
+        elif not fetch_ok or extract_looks_unusable(text):
             # Keep a previously researched figure only when the source book
             # already carries a verbatim quote + URL. Monthly re-run should
-            # re-verify; a transient 403 does not invent a new number.
+            # re-verify; a transient 403 or compressed-PDF dump does not invent.
             ok = bool(quote and src.get("url") and ext.get("source_value") is not None)
             why = "cached_quoted" if ok else (fetch_error or "no_text")
         if not ok:
@@ -270,7 +285,12 @@ def ingest(
             try:
                 time.sleep(SLEEP_S)
                 text = fetch_source_text(src["url"])
-                fetch_ok = True
+                if extract_looks_unusable(text):
+                    fetch_error = "unusable_extract"
+                    fetch_ok = False
+                    text = None
+                else:
+                    fetch_ok = True
             except Exception as exc:
                 fetch_error = f"{type(exc).__name__}: {exc}"
                 fetch_ok = False

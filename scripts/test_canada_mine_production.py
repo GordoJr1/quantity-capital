@@ -90,6 +90,29 @@ class VerifyTests(unittest.TestCase):
         bad, _why = ing.verify_extract(text, {"quote": "invented 999,999 ounces of gold"})
         self.assertFalse(bad)
 
+    def test_pdf_object_soup_is_unusable(self) -> None:
+        soup = "1 0 obj /Type /Page /Contents 2 0 R endobj 2 0 obj (stream)"
+        self.assertTrue(ing.extract_looks_unusable(soup))
+        rec = ing.record_for_source(
+            {
+                "mine_id": "brucejack",
+                "mine_name": "Brucejack",
+                "url": "https://example.test/brucejack.pdf",
+                "extract": {
+                    "gold": {
+                        "source_value": 231,
+                        "source_unit": "koz",
+                        "quote": "Brucejack, Canada. Gold production decreased 10%",
+                    }
+                },
+            },
+            text=soup,
+            fetch_ok=False,
+            fetch_error="unusable_extract",
+        )
+        self.assertEqual(rec["commodities"]["gold"]["value"], 231000)
+        self.assertNotIn("gold", {s.get("commodity") for s in rec.get("skipped") or []})
+
 
 class OverlayTests(unittest.TestCase):
     def test_requires_url_and_skips_blank(self) -> None:

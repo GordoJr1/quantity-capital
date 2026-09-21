@@ -843,6 +843,9 @@ def check(root: Path) -> list[str]:
         if meta.get("layer") not in {"canada-owner", "mcap-watchlist", "mcap-top200"}:
             continue
         if meta.get("map_900a_assets") or meta.get("watchlist") == "canada-map-900a":
+            # A later filing pass may write cited production onto the shell.
+            if meta.get("filing_backed") is True:
+                continue
             if prof.get("production"):
                 errors.append(f"{path.stem}: canada owner shell has production")
             for key in BANNED_PROD:

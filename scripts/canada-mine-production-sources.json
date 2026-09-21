@@ -42,19 +42,19 @@
       "mine_name": "Brucejack",
       "owner": "Newmont Corporation",
       "year": 2025,
-      "kind": "ops-update",
-      "url": "https://s24.q4cdn.com/382246808/files/doc_earnings/2025/q4/generic/Newmont-Q4-2025-Operating-Statistics_Final.pdf",
-      "title": "Newmont Fourth Quarter 2025 Operating Statistics",
+      "kind": "10-k",
+      "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000010/nem-20251231.htm",
+      "title": "Newmont Form 10-K year ended 31 December 2025 — gold operating statistics",
       "as_of": "2026-02-19",
       "extract": {
         "gold": {
           "source_value": 231,
           "source_unit": "koz",
-          "quote": "Brucejack",
+          "quote": "Brucejack, Canada. Gold production decreased 10%",
           "must_contain": [
             "Brucejack",
             "231",
-            "Gold ounces produced (thousands)"
+            "ounces in thousands"
           ]
         }
       },
@@ -270,8 +270,8 @@
       "owner": "Equinox Gold Corp.",
       "year": 2025,
       "kind": "md&a",
-      "url": "https://www.equinoxgold.com/wp-content/uploads/2026/02/EQX-2025.12.31-MDA-Final.pdf",
-      "title": "Equinox Gold MD&A for the year ended 31 December 2025",
+      "url": "https://www.sec.gov/Archives/edgar/data/1756607/000162828026022120/eqx-20251231mda.htm",
+      "title": "Equinox Gold MD&A for the year ended 31 December 2025 (EDGAR HTML)",
       "as_of": "2026-02-18",
       "extract": {
         "gold": {
@@ -319,9 +319,9 @@
       "mine_name": "Goose (Back River)",
       "owner": "B2Gold Corp.",
       "year": 2025,
-      "kind": "md&a",
-      "url": "https://s204.q4cdn.com/324791784/files/doc_financials/2025/q4/BTG-12-31-25-Exhibit-99-2-FINAL.pdf",
-      "title": "B2Gold MD&A year ended 31 December 2025 (Exhibit 99.2)",
+      "kind": "news-release",
+      "url": "https://www.sec.gov/Archives/edgar/data/1429937/000117184326000905/exh_991.htm",
+      "title": "B2Gold 2025 production results (Exhibit 99.1)",
       "as_of": "2026-02-19",
       "extract": {
         "gold": {
@@ -331,7 +331,8 @@
           "must_contain": [
             "Goose Mine",
             "14,554",
-            "38,616"
+            "38,616",
+            "53,170"
           ]
         }
       },
@@ -417,9 +418,9 @@
       "owner": "Wesdome Gold Mines Ltd.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "url": "https://www.nasdaq.com/press-release/wesdome-delivers-record-annual-gold-production-and-provides-2026-guidance-2026-01-20",
       "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
-      "as_of": "2026-01-14",
+      "as_of": "2026-01-20",
       "extract": {
         "gold": {
           "source_value": 112767,
@@ -672,9 +673,9 @@
       "owner": "Wesdome Gold Mines Ltd.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.newsfilecorp.com/release/240123/Wesdome-Delivers-Record-Annual-Gold-Production-and-Provides-2026-Guidance",
+      "url": "https://www.nasdaq.com/press-release/wesdome-delivers-record-annual-gold-production-and-provides-2026-guidance-2026-01-20",
       "title": "Wesdome Delivers Record Annual Gold Production and Provides 2026 Guidance",
-      "as_of": "2026-01-14",
+      "as_of": "2026-01-20",
       "extract": {
         "gold": {
           "source_value": 72808,
@@ -718,14 +719,18 @@
       "owner": "SSR Mining Inc.",
       "year": 2025,
       "kind": "news-release",
-      "url": "https://www.ssrmining.com/_resources/news/nr-20260217.pdf",
-      "title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance",
+      "url": "https://www.sec.gov/Archives/edgar/data/921638/000092163826000036/ssrminingreportsfull-year2.htm",
+      "title": "SSR Mining Reports Full-Year 2025 Results and 2026 Operating Guidance (Exhibit 99.1)",
       "as_of": "2026-02-17",
       "extract": {
         "gold": {
           "source_value": 54986,
           "source_unit": "oz",
-          "quote": "Seabee produced 54,986 ounces of gold"
+          "quote": "Seabee produced 54,986 ounces of gold",
+          "must_contain": [
+            "Seabee",
+            "54,986"
+          ]
         }
       },
       "beta_id": "ssr-mining",

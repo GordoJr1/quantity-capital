@@ -27,6 +27,11 @@ class ParseTests(unittest.TestCase):
         self.assertEqual(gold[-1]["value"], 186923)
         self.assertEqual(gold[-1]["status"], "p")
         self.assertTrue(all("dollar" not in (r["product"] + r["unit"]).lower() for r in rows))
+        silver = [r for r in rows if r["commodity_id"] == "silver" and r["geo"] == "Canada"]
+        self.assertEqual(silver[-1]["value"], 356052)
+        plat = [r for r in rows if r["commodity_id"] == "platinum" and r["geo"] == "Canada"]
+        self.assertEqual(plat[-1]["value"], 5801459)
+        self.assertEqual(plat[-1]["unit"].lower(), "grams")
         shipped = [r for r in rows if "shipped" in (r.get("product") or "").lower()]
         self.assertEqual(shipped, [])
 
@@ -39,8 +44,11 @@ class ParseTests(unittest.TestCase):
         self.assertNotIn("tonnes", gold)
         copper = next(r for r in rows if r["commodity_id"] == "copper")
         self.assertEqual(copper["value"], 100)
+        silver = next(r for r in rows if r["commodity_id"] == "silver")
+        self.assertEqual(silver["value"], 970)
+        self.assertEqual(silver["unit"].lower(), "tonnes")
         # $000 rows dropped
-        self.assertEqual(len(rows), 2)
+        self.assertEqual(len(rows), 3)
 
     def test_nrcan_2025_skips_shipped_and_value(self) -> None:
         html = (FIXTURES / "nrcan_2025.html").read_text(encoding="utf-8")
@@ -133,8 +141,22 @@ class OfflineBuildTests(unittest.TestCase):
         self.assertEqual(errors, [])
         gold = next(c for c in payload["commodities"] if c["id"] == "gold")
         years = {p["year"]: p["canada"] for p in gold["series"] if p["canada"] is not None}
-        self.assertEqual(years[2006], 103513)
-        self.assertEqual(years[2025], 186923)
+        self.assertEqual(gold["unit"], "troy oz")
+        self.assertEqual(gold["unit_label"], "troy oz")
+        self.assertAlmostEqual(years[2006], b.to_troy_oz(103513, "kg"), places=3)
+        self.assertAlmostEqual(years[2025], b.to_troy_oz(186923, "kg"), places=3)
+        silver = next(c for c in payload["commodities"] if c["id"] == "silver")
+        sy = {p["year"]: p["canada"] for p in silver["series"] if p["canada"] is not None}
+        self.assertEqual(silver["unit"], "troy oz")
+        self.assertAlmostEqual(sy[2006], b.to_troy_oz(970, "t"), places=3)
+        self.assertAlmostEqual(sy[2025], b.to_troy_oz(356052, "kg"), places=3)
+        plat = next(c for c in payload["commodities"] if c["id"] == "platinum")
+        self.assertEqual(plat["unit"], "troy oz")
+        self.assertAlmostEqual(plat["series"][-1]["canada"], b.to_troy_oz(5801459, "g"), places=3)
+        copper = next(c for c in payload["commodities"] if c["id"] == "copper")
+        cy = {p["year"]: p["canada"] for p in copper["series"] if p["canada"] is not None}
+        self.assertEqual(copper["unit"], "t")
+        self.assertEqual(cy[2006], 100)
         self.assertGreaterEqual(len(gold["mines"]), 1)
         malartic = next(m for m in gold["mines"] if "Malartic" in m["name"])
         self.assertTrue(malartic["claims_href"].startswith("claims.html?company="))
@@ -158,6 +180,75 @@ class OfflineBuildTests(unittest.TestCase):
             b.write_json(out, payload)
             rc = b.main(["--check", "--out", str(out)])
             self.assertEqual(rc, 0)
+
+
+class TroyOzTests(unittest.TestCase):
+    def test_factor_and_mass_units(self) -> None:
+        self.assertEqual(b.TROY_OZ_GRAMS, 31.1034768)
+        self.assertAlmostEqual(b.to_troy_oz(31.1034768, "g"), 1.0, places=6)
+        self.assertAlmostEqual(b.to_troy_oz(0.0311034768, "kg"), 1.0, places=6)
+        self.assertAlmostEqual(b.to_troy_oz(31.1034768 / 1_000_000, "t"), 1.0, places=6)
+        self.assertEqual(b.to_troy_oz(None, "kg"), None)
+        self.assertEqual(b.to_troy_oz(12.5, "troy oz"), 12.5)
+
+    def test_nrcan_silver_tonnes_not_treated_as_kg(self) -> None:
+        self.assertEqual(b.published_unit_for_stored_point(
+            "silver", {"year": 2006, "source": "nrcan"}, "kg"
+        ), "t")
+        self.assertEqual(b.published_unit_for_stored_point(
+            "silver", {"year": 2025, "source": "statcan"}, "kg"
+        ), "kg")
+        self.assertEqual(b.published_unit_for_stored_point(
+            "platinum-group", {"year": 2018, "source": "nrcan"}, "g"
+        ), "kg")
+
+    def test_convert_payload_is_idempotent(self) -> None:
+        payload = {
+            "schema": b.SCHEMA,
+            "commodities": [
+                {
+                    "id": "silver",
+                    "name": "Silver",
+                    "unit": "kg",
+                    "unit_label": "kilograms",
+                    "series": [
+                        {"year": 2006, "canada": 970.0, "source": "nrcan", "provinces": {"Ontario": 178.0}},
+                        {"year": 2025, "canada": 356052.0, "source": "statcan"},
+                    ],
+                    "mines": [{"name": "Keno Hill"}],
+                },
+                {
+                    "id": "platinum-recoverable",
+                    "name": "Platinum",
+                    "unit": "g",
+                    "series": [{"year": 2025, "canada": 5801459.0, "source": "statcan"}],
+                    "mines": [],
+                },
+                {
+                    "id": "copper",
+                    "name": "Copper",
+                    "unit": "t",
+                    "series": [{"year": 2025, "canada": 499896.0, "source": "statcan"}],
+                    "mines": [],
+                },
+            ],
+        }
+        once = b.convert_payload_to_troy_oz(payload)
+        silver = next(c for c in once["commodities"] if c["id"] == "silver")
+        plat = next(c for c in once["commodities"] if c["id"] == "platinum")
+        copper = next(c for c in once["commodities"] if c["id"] == "copper")
+        self.assertEqual(silver["unit"], "troy oz")
+        self.assertAlmostEqual(silver["series"][0]["canada"], b.to_troy_oz(970, "t"), places=3)
+        self.assertAlmostEqual(silver["series"][0]["provinces"]["Ontario"], b.to_troy_oz(178, "t"), places=3)
+        self.assertAlmostEqual(silver["series"][1]["canada"], b.to_troy_oz(356052, "kg"), places=3)
+        self.assertEqual(plat["id"], "platinum")
+        self.assertAlmostEqual(plat["series"][0]["canada"], b.to_troy_oz(5801459, "g"), places=3)
+        self.assertEqual(copper["unit"], "t")
+        self.assertEqual(copper["series"][0]["canada"], 499896.0)
+        self.assertEqual(silver["mines"][0]["name"], "Keno Hill")
+        twice = b.convert_payload_to_troy_oz(once)
+        silver2 = next(c for c in twice["commodities"] if c["id"] == "silver")
+        self.assertEqual(silver2["series"][0]["canada"], silver["series"][0]["canada"])
 
 
 class LiveCatalogSmoke(unittest.TestCase):

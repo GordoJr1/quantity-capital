@@ -52,7 +52,40 @@
     "total_koz": null
   },
   "production": [],
-  "assets": [],
+  "assets": [
+    {
+      "id": "lac-tio",
+      "name": "Lac Tio",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "titanium",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Havre-Saint-Pierre",
+      "location_note": "Havre-Saint-Pierre, Quebec",
+      "lat": 50.5541,
+      "lon": -63.416,
+      "operator": "Rio Tinto Iron and Titanium Canada Inc.",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "diavik",
+      "name": "Diavik",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "diamonds",
+      "country": "Canada",
+      "region": "Northwest Territories",
+      "nearest": "Lac de Gras",
+      "location_note": "Lac de Gras, Northwest Territories",
+      "lat": 64.495,
+      "lon": -110.272,
+      "operator": "Rio Tinto Canada Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -70,6 +103,7 @@
     "mcap_rank": 11,
     "mcap_updated": "2026-09-20",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": false,
+    "map_900a_assets": true
   }
 }

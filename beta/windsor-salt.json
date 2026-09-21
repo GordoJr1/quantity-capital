@@ -1,0 +1,106 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "windsor-salt",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Windsor Salt Ltd.",
+    "short": "Windsor Salt Ltd.",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "salt",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "pugwash",
+      "name": "Pugwash",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Nova Scotia",
+      "nearest": "Pugwash",
+      "location_note": "Pugwash, Nova Scotia",
+      "lat": 45.843819,
+      "lon": -63.654914,
+      "operator": "Windsor Salt Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "windsor",
+      "name": "Windsor",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Windsor",
+      "location_note": "Windsor, Ontario",
+      "lat": 42.287093,
+      "lon": -83.091963,
+      "operator": "Windsor Salt Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "ojibway",
+      "name": "Ojibway",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "salt",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Windsor",
+      "location_note": "Windsor, Ontario",
+      "lat": 42.2558,
+      "lon": -83.1033,
+      "operator": "Windsor Salt Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

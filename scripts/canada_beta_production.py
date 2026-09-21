@@ -4,7 +4,8 @@
 SQLite is the store (canada_mines / canada_mine_production /
 canada_mine_sources). This module updates existing Newmont-shaped
 beta/<issuer>.json files and writes the thin canada/producer-join.json
-export. Never invent. Never mint new issuer JSON. Never copy a complex
+export. Never invent ounces. Owner-coverage shells are minted by
+`build_canada_owner_beta_shells.py` (empty production). Never copy a complex
 total onto a pit row. Match each file's units.gold (koz on Newmont).
 """
 from __future__ import annotations

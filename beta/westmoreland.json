@@ -1,0 +1,106 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "westmoreland",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Westmoreland Mining Holdings LLC",
+    "short": "Westmoreland Mining Holdings LLC",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "coal",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "estevan",
+      "name": "Estevan",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "coal",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Bienfait",
+      "location_note": "Bienfait, Saskatchewan",
+      "lat": 49.087329,
+      "lon": -102.864956,
+      "operator": "Westmoreland Mining Holdings LLC",
+      "mine_type": "coal",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "poplar-river",
+      "name": "Poplar River",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "coal",
+      "country": "Canada",
+      "region": "Saskatchewan",
+      "nearest": "Coronach",
+      "location_note": "Coronach, Saskatchewan",
+      "lat": 49.217566,
+      "lon": -105.472585,
+      "operator": "Westmoreland Mining Holdings LLC",
+      "mine_type": "coal",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "coal-valley",
+      "name": "Coal Valley",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "coal",
+      "country": "Canada",
+      "region": "Alberta",
+      "nearest": "Edson",
+      "location_note": "Edson, Alberta",
+      "lat": 53.072796,
+      "lon": -116.786616,
+      "operator": "Westmoreland Mining Holdings LLC",
+      "mine_type": "coal",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

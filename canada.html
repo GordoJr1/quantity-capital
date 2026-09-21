@@ -596,7 +596,7 @@
         : ("Principal mines · " + ((c && c.name) || "commodity"));
       document.getElementById("mines-note").textContent = mines.length
         ? (allOps
-          ? "Every Map 900A principal operation, including owners not in the QC claims catalog. Claims Open is only set when we already have that company. 2025 production stays on the commodity tables."
+          ? "Every Map 900A principal operation. Owner names open that issuer’s Mines page (beta.html?id=). Claims Open is only set when we already have that company. 2025 production stays on the commodity tables."
           : ("Map 900A significant operations that list " + (c.name || "this commodity") + ". Linked owners open that issuer’s producer page. 2025 production is the selected commodity only, exported from qc.sqlite (company filings); — means not disclosed (or only AuEq / a complex total)."))
         : "No Map 900A principal operation lists this commodity. National totals still come from StatCan / NRCan.";
       document.getElementById("mines").innerHTML = mines.length ? mines.map((m) => {
@@ -672,20 +672,29 @@
       return fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
     }
 
-    fetch("canada/commodities.json?v=4").then(function (r) {
+    fetch("canada/commodities.json?v=5").then(function (r) {
       if (!r.ok) throw new Error("commodities.json " + r.status);
       return r.json();
     }).then(function (data) {
       return Promise.all([
         fetchJson("canada/producer-join.json?v=3"),
         fetchJson("beta/issuers.json"),
-        fetchJson("beta/claims-publics.json")
+        fetchJson("beta/claims-publics.json"),
+        fetchJson("beta/mcap.json"),
+        fetchJson("beta/canada-owners.json")
       ]).then(function (extra) {
-        return { data: data, join: extra[0], issuers: extra[1], publics: extra[2] };
+        return {
+          data: data,
+          join: extra[0],
+          issuers: extra[1],
+          publics: extra[2],
+          mcap: extra[3],
+          canadaOwners: extra[4]
+        };
       });
     }).then(function (pack) {
       state.join = pack.join;
-      buildOwnerPages(pack.data, pack.join, [pack.issuers, pack.publics]);
+      buildOwnerPages(pack.data, pack.join, [pack.issuers, pack.publics, pack.mcap, pack.canadaOwners]);
       boot(pack.data);
     }).catch(function (err) {
       document.getElementById("asof").textContent = "Could not load canada/commodities.json. Serve the repo over HTTP.";

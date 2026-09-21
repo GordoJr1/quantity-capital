@@ -1,0 +1,74 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "imperial-limestone",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Imperial Limestone Co. Ltd.",
+    "short": "Imperial Limestone Co. Ltd.",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "limestone",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "imperial-limestone",
+      "name": "Imperial Limestone",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "British Columbia",
+      "nearest": "Texada Island",
+      "location_note": "Texada Island, British Columbia",
+      "lat": 49.7405,
+      "lon": -124.528,
+      "operator": "Imperial Limestone Co. Ltd.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

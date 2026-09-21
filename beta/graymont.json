@@ -1,0 +1,170 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "graymont",
+  "kind": "producer",
+  "stage": "producing",
+  "generated": "2026-09-21",
+  "disclaimer": "Map 900A owner stub. Private or no ticker in the QC watchlist / market-caps book. Assets are Map 900A names and locations only. No production or reserves. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Graymont Inc.",
+    "short": "Graymont Inc.",
+    "tickers": [],
+    "hq": "Canada",
+    "commodity": "limestone",
+    "country": "Canada",
+    "watchlist_type": null
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null
+  },
+  "guidance_2026": {
+    "basis": "none — canada owner shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [
+    {
+      "id": "havelock-hicksville-samp-hill-springhill",
+      "name": "Havelock (Hicksville, Samp Hill, Springhill)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "New Brunswick",
+      "nearest": "Havelock",
+      "location_note": "Havelock, New Brunswick",
+      "lat": 45.997467,
+      "lon": -65.304561,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "marbleton",
+      "name": "Marbleton",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Marbleton",
+      "location_note": "Marbleton, Quebec",
+      "lat": 45.6193,
+      "lon": -71.6075,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "les-carrieres-calco",
+      "name": "Les Carrières Calco",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "calcium-carbonate",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "St-Marc-des-Carrières",
+      "location_note": "St-Marc-des-Carrières, Quebec",
+      "lat": 46.677342,
+      "lon": -72.053428,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "bedford",
+      "name": "Bedford",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Quebec",
+      "nearest": "Bedford",
+      "location_note": "Bedford, Quebec",
+      "lat": 45.1127,
+      "lon": -73.0118,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "faulkner",
+      "name": "Faulkner",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Manitoba",
+      "nearest": "Faulkner",
+      "location_note": "Faulkner, Manitoba",
+      "lat": 51.413229,
+      "lon": -98.765438,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "exshaw-gap",
+      "name": "Exshaw (Gap)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Alberta",
+      "nearest": "Exshaw",
+      "location_note": "Exshaw, Alberta",
+      "lat": 51.066514,
+      "lon": -115.279459,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "fish-creek",
+      "name": "Fish Creek",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "limestone",
+      "country": "Canada",
+      "region": "Alberta",
+      "nearest": "Nordegg",
+      "location_note": "Nordegg, Alberta",
+      "lat": 52.4788,
+      "lon": -116.0571,
+      "operator": "Graymont Inc.",
+      "mine_type": "nonmetals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "NRCan Map 900A principal producing sites",
+      "date": "2026-09-21",
+      "what": "Canadian operation name, location, commodity. No mine-level tonnes."
+    }
+  ],
+  "meta": {
+    "layer": "canada-owner",
+    "watchlist": "canada-map-900a",
+    "filing_backed": false,
+    "map_900a_assets": true,
+    "alerts": []
+  }
+}

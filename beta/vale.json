@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Not gathered. Do not invent ounces.",
+    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy).",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -46,8 +46,168 @@
     "basis": "none — mcap watchlist shell",
     "total_koz": null
   },
-  "production": [],
-  "assets": [],
+  "production": [
+    {
+      "period": "2025",
+      "kind": "annual",
+      "by_asset": {
+        "voisey-s-bay": {
+          "ownership_pct": 100,
+          "nickel_kt": 33.2
+        },
+        "thompson-t-1-and-t-3": {
+          "ownership_pct": 100,
+          "nickel_kt": 12
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "id": "voisey-s-bay",
+      "name": "Voisey’s Bay",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Newfoundland and Labrador",
+      "nearest": "Voisey’s Bay",
+      "location_note": "Voisey’s Bay, Newfoundland and Labrador",
+      "lat": 56.331659,
+      "lon": -62.090855,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "garson-sudbury-operations",
+      "name": "Garson (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.568,
+      "lon": -80.857,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "stobie-sudbury-operations",
+      "name": "Stobie (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.5326,
+      "lon": -81.0011,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "clarabelle-mill-sudbury-operations",
+      "name": "Clarabelle Mill (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.495822,
+      "lon": -81.056782,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "copper-cliff-sudbury-operations",
+      "name": "Copper Cliff (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.491445,
+      "lon": -81.068205,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "creighton-sudbury-operations",
+      "name": "Creighton (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.474,
+      "lon": -81.1861,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "coleman-sudbury-operations",
+      "name": "Coleman (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Sudbury",
+      "location_note": "Sudbury, Ontario",
+      "lat": 46.6771,
+      "lon": -81.3397,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "totten-sudbury-operations",
+      "name": "Totten (Sudbury Operations)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Ontario",
+      "nearest": "Worthington",
+      "location_note": "Worthington, Ontario",
+      "lat": 46.381174,
+      "lon": -81.454839,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    },
+    {
+      "id": "thompson-t-1-and-t-3",
+      "name": "Thompson (T-1 and T-3)",
+      "stage": "producing",
+      "in_production": true,
+      "commodity": "nickel",
+      "country": "Canada",
+      "region": "Manitoba",
+      "nearest": "Thompson",
+      "location_note": "Thompson, Manitoba",
+      "lat": 55.7152,
+      "lon": -97.8444,
+      "operator": "Vale Canada Limited",
+      "mine_type": "metals",
+      "note": "Map 900A principal operation. No mine-level tonnes published."
+    }
+  ],
   "reserves_resources": {
     "as_of": null,
     "projects": []
@@ -57,6 +217,12 @@
       "title": "Quantity Capital market-caps.json",
       "date": "2026-09-14",
       "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    },
+    {
+      "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
+      "date": "2026-01-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm",
+      "what": "Voisey's Bay"
     }
   ],
   "meta": {
@@ -65,6 +231,7 @@
     "mcap_rank": 31,
     "mcap_updated": "2026-09-21",
     "alerts": [],
-    "filing_backed": false
+    "filing_backed": true,
+    "map_900a_assets": true
   }
 }

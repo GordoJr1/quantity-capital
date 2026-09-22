@@ -1543,6 +1543,15 @@
             "Voisey's Bay",
             "33.2"
           ]
+        },
+        "copper": {
+          "source_value": 18.6,
+          "source_unit": "kt",
+          "quote": "Voisey's Bay",
+          "must_contain": [
+            "Voisey's Bay",
+            "18.6"
+          ]
         }
       }
     },
@@ -1567,6 +1576,15 @@
           "must_contain": [
             "Thompson",
             "12.0"
+          ]
+        },
+        "copper": {
+          "source_value": 1.5,
+          "source_unit": "kt",
+          "quote": "Thompson",
+          "must_contain": [
+            "Thompson",
+            "1.5"
           ]
         }
       }

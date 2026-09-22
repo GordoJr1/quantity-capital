@@ -854,6 +854,8 @@
         }
         if (vs) cells.push(kpiCell("vs", vs, vsLabel));
       }
+      if (num(k.platinum_koz_2025_vbm) != null) cells.push(kpiCell("pt-vbm", fmtKoz(k.platinum_koz_2025_vbm), "Pt 2025 · VBM company-wide"));
+      if (num(k.palladium_koz_2025_vbm) != null) cells.push(kpiCell("pd-vbm", fmtKoz(k.palladium_koz_2025_vbm), "Pd 2025 · VBM company-wide"));
       if (num(pp) != null) cells.push(kpiCell("pp", fmtMoz(pp), attr ? "P&P attributable" : "P&P 100%"));
       if (num(mi) != null) cells.push(kpiCell("mi", fmtMoz(mi), (rrExclusive() ? "M&I excl. " : "M&I incl. ") + (attr ? "attributable" : "100%")));
       if (num(inf) != null) cells.push(kpiCell("inf", fmtMoz(inf), attr ? "Inferred attributable" : "Inferred 100%"));

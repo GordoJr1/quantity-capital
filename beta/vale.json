@@ -4,7 +4,7 @@
   "kind": "producer",
   "stage": "producing",
   "generated": "2026-09-14",
-  "disclaimer": "Filing-backed Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
+  "disclaimer": "Filing-backed Vale company totals plus Canadian mine production from public issuer reports. Do not invent ounces. Not S&P. Not investment advice.",
   "units": {
     "mass": "kt",
     "gold": "koz",
@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Company-disclosed mine actuals (Canada ingest). Gold in koz (troy). VBM Pt/Pd are Vale Base Metals company-wide 2025 totals, not Canadian mine splits.",
+    "production_basis": "Vale company-wide 2025 actuals (Ni 177.2 kt, Cu 382.4 kt, Fe 336.1 Mt; VBM Pt 98 koz, Pd 120 koz) plus cited Canadian mine splits (Voisey's Bay, Thompson). Sudbury complex totals not split. Gold in koz (troy). Do not invent ounces.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -42,7 +42,10 @@
     "px": 14.21,
     "price_asof": "2026-09-18",
     "platinum_koz_2025_vbm": 98,
-    "palladium_koz_2025_vbm": 120
+    "palladium_koz_2025_vbm": 120,
+    "nickel_kt_2025_company": 177.2,
+    "copper_kt_2025_company": 382.4,
+    "ironore_mt_2025_company": 336.075
   },
   "guidance_2026": {
     "basis": "none — mcap watchlist shell",
@@ -226,7 +229,7 @@
       "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
       "date": "2026-01-27",
       "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm",
-      "what": "Voisey's Bay"
+      "what": "Company totals Ni 177.2 kt / Cu 382.4 kt / Fe 336,075 thousand t (Production Summary) + VBM Pt 98 / Pd 120 koz (by-products table) + Voisey's Bay / Thompson mine splits"
     }
   ],
   "meta": {
@@ -236,6 +239,63 @@
     "mcap_updated": "2026-09-21",
     "alerts": [],
     "filing_backed": true,
-    "map_900a_assets": true
+    "map_900a_assets": true,
+    "company_totals": true
+  },
+  "company_production": {
+    "period": "2025",
+    "kind": "annual",
+    "basis": "Vale company-wide calendar-2025 actuals from the Production and Sales Form 6-K. PGMs are Vale Base Metals segment finished production (the only Vale source of Pt/Pd). Canadian mine rows stay regional.",
+    "filing": {
+      "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
+      "date": "2026-01-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm"
+    },
+    "lines": [
+      {
+        "metal": "nickel",
+        "value": 177.2,
+        "unit": "kt",
+        "scope": "company",
+        "label": "Ni 2025 · company",
+        "quote": "Nickel 46.2 45.5 1.5% 46.8 -1.3% 177.2 159.9 10.8% (Production Summary, 000' metric tons)"
+      },
+      {
+        "metal": "copper",
+        "value": 382.4,
+        "unit": "kt",
+        "scope": "company",
+        "label": "Cu 2025 · company",
+        "quote": "Copper 108.1 101.8 6.2% 90.8 19.1% 382.4 348.2 9.8% (Production Summary; detail rows sum 382.3 on rounding)"
+      },
+      {
+        "metal": "iron ore",
+        "value": 336.075,
+        "unit": "Mt",
+        "scope": "company",
+        "label": "Fe 2025 · company",
+        "quote": "Iron ore 90,403 85,279 6.0% 94,403 -4.2% 336,075 327,675 2.6% (Production Summary, 000' metric tons)"
+      },
+      {
+        "metal": "platinum",
+        "value": 98,
+        "unit": "koz",
+        "scope": "Vale Base Metals",
+        "label": "Pt 2025 · VBM",
+        "quote": "Platinum (000' oz troy) 25 36 -30.6% 21 19.0% 98 107 -8.4% (Vale Base Metals by-products - Finished production)"
+      },
+      {
+        "metal": "palladium",
+        "value": 120,
+        "unit": "koz",
+        "scope": "Vale Base Metals",
+        "label": "Pd 2025 · VBM",
+        "quote": "Palladium (000' oz troy) 31 38 -18.4% 25 24.0% 120 120 0.0% (Vale Base Metals by-products - Finished production)"
+      }
+    ],
+    "blank": "Rhodium: footnote mention only (inside Cu-eq total), no cited figure — omitted. Sudbury Ni 35.2 kt / Cu 63.8 kt are complex totals, not split across shafts.",
+    "region_label": "Canadian mines",
+    "mines_heading": "Canadian mines — regional figures, not company totals",
+    "scope_note": "Company row: Vale-wide 2025 actuals — Ni 177.2 kt, Cu 382.4 kt, Fe 336.1 Mt (company); Pt 98 koz, Pd 120 koz (Vale Base Metals segment). Mine rows below are Canadian operations only: Voisey's Bay and Thompson cited; Sudbury complex totals (35.2 kt Ni, 63.8 kt Cu) not split across shafts."
   }
 }

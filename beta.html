@@ -436,6 +436,7 @@
         <p class="quiet" id="claims-line" hidden></p>
         <p class="quiet" id="fy-note" hidden></p>
         <p class="quiet" id="basis-note" hidden></p>
+        <p class="quiet" id="scope-note" hidden></p>
         <div class="board-tabs" id="layer" role="tablist" aria-label="Issuer layer">
           <button type="button" data-layer="producers" class="on">Producers</button>
           <button type="button" data-layer="explorers">Explorers · watchlist</button>
@@ -636,6 +637,16 @@
       const n = num(v);
       if (n == null) return DASH;
       return Math.round(n).toLocaleString("en-US") + " kt";
+    }
+    function fmtKt1(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " kt";
+    }
+    function fmtMt1(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " Mt";
     }
     function fmtRange(arr) {
       if (!Array.isArray(arr) || arr.length < 2) return DASH;
@@ -854,6 +865,9 @@
         }
         if (vs) cells.push(kpiCell("vs", vs, vsLabel));
       }
+      if (num(k.nickel_kt_2025_company) != null) cells.push(kpiCell("ni-co", fmtKt1(k.nickel_kt_2025_company), "Ni 2025 · company"));
+      if (num(k.copper_kt_2025_company) != null) cells.push(kpiCell("cu-co", fmtKt1(k.copper_kt_2025_company), "Cu 2025 · company"));
+      if (num(k.ironore_mt_2025_company) != null) cells.push(kpiCell("fe-co", fmtMt1(k.ironore_mt_2025_company), "Fe 2025 · company"));
       if (num(k.platinum_koz_2025_vbm) != null) cells.push(kpiCell("pt-vbm", fmtKoz(k.platinum_koz_2025_vbm), "Pt 2025 · VBM company-wide"));
       if (num(k.palladium_koz_2025_vbm) != null) cells.push(kpiCell("pd-vbm", fmtKoz(k.palladium_koz_2025_vbm), "Pd 2025 · VBM company-wide"));
       if (num(pp) != null) cells.push(kpiCell("pp", fmtMoz(pp), attr ? "P&P attributable" : "P&P 100%"));
@@ -863,9 +877,23 @@
         ? "<div class=\"stats\" id=\"kpi-strip\">" + cells.join("") + "</div>"
         : "";
     }
+    function paintScopeNote() {
+      const el = document.getElementById("scope-note");
+      if (!el) return;
+      const cp = profile && profile.company_production;
+      if (cp && cp.scope_note) {
+        el.hidden = false;
+        el.textContent = cp.scope_note;
+      } else {
+        el.hidden = true;
+        el.textContent = "";
+      }
+    }
     function paintMines() {
       const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
       const head = document.getElementById("mines-h");
+      const cp = profile && profile.company_production;
+      if (head && cp && cp.mines_heading) head.textContent = cp.mines_heading;
       const wrap = document.getElementById("mines-wrap");
       if (head) head.hidden = !assets.length;
       if (wrap) wrap.hidden = !assets.length;
@@ -1125,7 +1153,14 @@
       const nAssets = ((profile && profile.assets) || []).length;
       const stage = (profile && profile.stage) || (row && row.stage) || "";
       const meta = (profile && profile.meta) || {};
-      if (meta.layer === "canada-owner" || meta.layer === "mcap-top200" || meta.layer === "mcap-watchlist") {
+      const cp = (profile && profile.company_production) || null;
+      if (cp) {
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " producer. " +
+          "Company-wide 2025 totals below; " +
+          (cp.region_label || "regional mines") + " listed separately below. " +
+          "Filing-backed, not a terminal dump.";
+      } else if (meta.layer === "canada-owner" || meta.layer === "mcap-top200" || meta.layer === "mcap-watchlist") {
         document.getElementById("lede").textContent =
           comm.charAt(0).toUpperCase() + comm.slice(1) + " producer shell. " +
           (nMines ? nMines + " Map 900A operation" + (nMines === 1 ? "" : "s") + ". " : "") +
@@ -1956,6 +1991,7 @@
     function paint() {
       if (!profile) return;
       paintChrome();
+      paintScopeNote();
       paintKpis();
       paintChart();
       paintMines();

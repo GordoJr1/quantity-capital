@@ -455,6 +455,7 @@
           <button type="button" data-period="2026-YTD">2026 YTD</button>
           <button type="button" data-period="2026-guide">2026 guidance</button>
         </div>
+        <div class="board-tabs" id="mine-tabs" role="tablist" aria-label="Mine profile" hidden></div>
         <div id="kpis"></div>
         <div id="company-series"></div>
         <div id="company-costs"></div>
@@ -483,6 +484,7 @@
       </section>
       </div>
     </div>
+    <section id="mine-profile" hidden></section>
     <h2 id="mines-h">Producing mines</h2>
     <div class="table-wrap" id="mines-wrap">
       <table>
@@ -589,7 +591,7 @@
     const CAMP_IDS = ["croteau-est", "lac-surprise", "muus", "anik"];
     const NELLIGAN_KIDS = ["nelligan", "monster-lake", "philibert", "chevrier"];
 
-    const state = { basis: "attr", period: "2025", layer: "producers" };
+    const state = { basis: "attr", period: "2025", layer: "producers", mine: null };
     let profile = null;
     let issuers = null;
     let explorers = null;
@@ -674,6 +676,26 @@
       const out = {};
       ((profile && profile.assets) || []).forEach((a) => { out[a.id] = a; });
       return out;
+    }
+    function mineProfiles() {
+      return (profile && profile.mine_profiles) || {};
+    }
+    function mineProfile() {
+      const mps = mineProfiles();
+      const id = state.mine;
+      return (id && mps[id]) || null;
+    }
+    function assetMineId(assetId) {
+      const mps = mineProfiles();
+      const ids = Object.keys(mps);
+      for (let i = 0; i < ids.length; i++) {
+        if (((mps[ids[i]] && mps[ids[i]].member_asset_ids) || []).indexOf(assetId) >= 0) return ids[i];
+      }
+      return null;
+    }
+    function mineHref(mid) {
+      const id = (profile && profile.id) || "";
+      return "beta.html?id=" + encodeURIComponent(id) + "&mine=" + encodeURIComponent(mid);
     }
     function rrProject(id) {
       return (((profile && profile.reserves_resources) || {}).projects || []).find((p) => p.asset_id === id) || null;
@@ -991,6 +1013,160 @@
       }
       host.innerHTML = html;
     }
+    function fmtMt(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return (Math.round(n * 10) / 10).toFixed(1) + " Mt";
+    }
+    function fmtOreKt(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return Math.round(n).toLocaleString("en-US") + " kt";
+    }
+    function fmtGradePct(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return (Math.round(n * 10) / 10).toFixed(1) + "%";
+    }
+    function fmtMetalCell(v, unit) {
+      const n = num(v);
+      if (n == null) return DASH;
+      if (unit === "koz") return Math.round(n).toLocaleString("en-US") + " koz";
+      if (unit === "t") return Math.round(n).toLocaleString("en-US") + " t";
+      return n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " " + unit;
+    }
+    function paintMineTabs() {
+      const bar = document.getElementById("mine-tabs");
+      if (!bar) return;
+      const mps = mineProfiles();
+      const ids = Object.keys(mps);
+      if (!ids.length) {
+        bar.hidden = true;
+        bar.innerHTML = "";
+        return;
+      }
+      bar.hidden = false;
+      bar.innerHTML = "<span class=\"quiet\">Mine profile:</span> " + ids.map((id) => {
+        return "<button type=\"button\" data-mine=\"" + esc(id) + "\" class=\"" +
+          (state.mine === id ? "on" : "") + "\">" + esc((mps[id] && mps[id].name) || id) + "</button>";
+      }).join("");
+    }
+    function paintMineProfile() {
+      const host = document.getElementById("mine-profile");
+      if (!host) return;
+      const mp = mineProfile();
+      if (!mp) {
+        host.hidden = true;
+        host.innerHTML = "";
+        return;
+      }
+      const cols = ((mp.production && mp.production.columns) || []);
+      const claimsId = (profile && profile.id) || "";
+      let html = "<h2>" + esc(mp.name || "Mine profile") + " <span class=\"stage\">mine profile · " +
+        esc(mp.kind || "mine") + "</span></h2>";
+      html += "<p class=\"lede\">" + esc(mp.location || "") +
+        (mp.operator ? " · operated by " + esc(mp.operator) : "") + "</p>";
+      if (mp.member_note) html += "<p class=\"quiet\">" + esc(mp.member_note) + "</p>";
+      if (mp.metals_note) html += "<p class=\"quiet\">Metals: " + esc((mp.metals || []).join(", ")) +
+        ". " + esc(mp.metals_note) + "</p>";
+      const rows = ((mp.production && mp.production.rows) || []);
+      if (rows.length && cols.length) {
+        html += "<h3>Finished production by ore source (complex total — not split across shafts)</h3>";
+        if (mp.production.basis) html += "<p class=\"quiet\">" + esc(mp.production.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Metal</th>";
+        cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+        html += "</tr></thead><tbody>";
+        rows.forEach((row) => {
+          html += "<tr><td>" + esc(row.metal) + " <span class=\"quiet\">" + esc(row.unit) + "</span></td>";
+          cols.forEach((c) => {
+            html += "<td class=\"num\">" + esc(fmtMetalCell((row.values || {})[c], row.unit)) + "</td>";
+          });
+          html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+        if (mp.production.site_note) html += "<p class=\"quiet\">" + esc(mp.production.site_note) + "</p>";
+      }
+      const shafts = ((mp.shaft_ore && mp.shaft_ore.shafts) || []);
+      if (shafts.length && cols.length) {
+        html += "<h3>Run-of-mine ore and grade by shaft (as split in the filing)</h3>";
+        if (mp.shaft_ore.basis) html += "<p class=\"quiet\">" + esc(mp.shaft_ore.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Shaft</th>";
+        cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + " ore</th><th class=\"num\">" + esc(c) + " Cu</th><th class=\"num\">" + esc(c) + " Ni</th>"; });
+        html += "</tr></thead><tbody>";
+        shafts.forEach((s) => {
+          html += "<tr><td>" + esc(s.name) + "</td>";
+          cols.forEach((c) => {
+            html += "<td class=\"num\">" + esc(fmtOreKt((s.ore_kt || {})[c])) + "</td>" +
+              "<td class=\"num\">" + esc(fmtGradePct((s.cu_pct || {})[c])) + "</td>" +
+              "<td class=\"num\">" + esc(fmtGradePct((s.ni_pct || {})[c])) + "</td>";
+          });
+          html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+        if (mp.shaft_ore.operations_note) html += "<p class=\"quiet\">" + esc(mp.shaft_ore.operations_note) + "</p>";
+      }
+      const rec = mp.recoveries || {};
+      if (rec.reserves) {
+        html += "<h3>Recoveries, cut-off and price assumptions</h3>";
+        if (rec.basis) html += "<p class=\"quiet\">" + esc(rec.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Use</th><th>Ni</th><th>Cu</th><th>Co</th><th>Pt</th><th>Pd</th><th>Au</th></tr></thead><tbody>";
+        ["reserves", "resources"].forEach((k) => {
+          const r = rec[k] || {};
+          html += "<tr><td>" + esc(k) + "</td>" + ["Ni", "Cu", "Co", "Pt", "Pd", "Au"].map((m) => {
+            return "<td class=\"num\">" + esc(r[m] || DASH) + "</td>";
+          }).join("") + "</tr>";
+        });
+        html += "</tbody></table></div>";
+        if (rec.cutoff) html += "<p class=\"quiet\">Cut-off: reserves " + esc(rec.cutoff.reserves || DASH) +
+          "; resources " + esc(rec.cutoff.resources || DASH) + ".</p>";
+        if (rec.price_assumptions) html += "<p class=\"quiet\">Reserve prices: " +
+          esc(rec.price_assumptions.reserves || DASH) + ". Resource prices: " +
+          esc(rec.price_assumptions.resources || DASH) + ".</p>";
+      }
+      const rr = mp.reserves_resources || {};
+      if (rr.reserves || rr.resources) {
+        html += "<h3>Reserves and resources (TRS, 31 Dec 2025)</h3>";
+        if (rr.basis) html += "<p class=\"quiet\">" + esc(rr.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Class</th><th class=\"num\">Mt</th>" +
+          "<th class=\"num\">Ni %</th><th class=\"num\">Cu %</th><th class=\"num\">Co %</th>" +
+          "<th class=\"num\">Pt g/t</th><th class=\"num\">Pd g/t</th><th class=\"num\">Au g/t</th></tr></thead><tbody>";
+        [["proven", "Proven"], ["probable", "Probable"], ["total", "Total"]].forEach(([k, label]) => {
+          const r = (rr.reserves || {})[k];
+          if (!r) return;
+          html += "<tr><td>" + esc(label) + "</td><td class=\"num\">" + esc(fmtMt(r.tonnage_mt)) + "</td>" +
+            ["ni", "cu", "co"].map((m) => "<td class=\"num\">" + esc(fmtGradePct(r[m])) + "</td>").join("") +
+            ["pt", "pd", "au"].map((m) => "<td class=\"num\">" + esc(fmtGt(r[m])) + "</td>").join("") + "</tr>";
+        });
+        [["measured", "Measured"], ["indicated", "Indicated"], ["measured_indicated", "M+I"], ["inferred", "Inferred"]].forEach(([k, label]) => {
+          const r = (rr.resources || {})[k];
+          if (!r) return;
+          html += "<tr><td>" + esc(label) + "</td><td class=\"num\">" + esc(fmtMt(r.tonnage_mt)) + "</td>" +
+            ["ni", "cu", "co"].map((m) => "<td class=\"num\">" + esc(fmtGradePct(r[m])) + "</td>").join("") +
+            ["pt", "pd", "au"].map((m) => "<td class=\"num\">" + esc(fmtGt(r[m])) + "</td>").join("") + "</tr>";
+        });
+        html += "</tbody></table></div>";
+        if (rr.stream_note) html += "<p class=\"quiet\">" + esc(rr.stream_note) + "</p>";
+      }
+      const blanks = ((mp.costs && mp.costs.blank) || []);
+      if (blanks.length) {
+        html += "<h3>Costs</h3>" + blanks.map((b) => "<p class=\"quiet\">" + esc(b) + "</p>").join("");
+      }
+      if (mp.life && mp.life.blank) html += "<h3>Mine life</h3><p class=\"quiet\">" + esc(mp.life.blank) + "</p>";
+      const members = (mp.member_asset_ids || []);
+      if (members.length) {
+        const am = assetMap();
+        html += "<h3>Map</h3><p class=\"quiet\">Member pins are highlighted on the claims preview map below — " +
+          "click a pin for claims around that asset.</p><p class=\"muted\">" + members.map((id) => {
+          const a = am[id];
+          const label = a ? a.name : id;
+          return "<a href=\"claims.html?company=" + encodeURIComponent(claimsId) +
+            "&asset=" + encodeURIComponent(id) + "\">" + esc(label) + "</a>";
+        }).join(" · ") + "</p>";
+        if (mp.claims_note) html += "<p class=\"quiet\">" + esc(mp.claims_note) + "</p>";
+      }
+      host.hidden = false;
+      host.innerHTML = html;
+    }
     function paintScopeNote() {      const el = document.getElementById("scope-note");
       if (!el) return;
       const cp = profile && profile.company_production;
@@ -1019,8 +1195,12 @@
         (state.period === "2026-guide" ? "2026 guidance" : state.period === "2026-YTD" ? "2026 YTD" : "2025") +
         (attr ? " attr" : " 100%");
       document.getElementById("mines").innerHTML = assets.map((a) => {
+        const mid = assetMineId(a.id);
+        const nameCell = mid
+          ? "<a class=\"mine\" href=\"" + esc(mineHref(mid)) + "\">" + esc(a.name) + "</a>"
+          : "<a class=\"mine\" href=\"#asset-" + esc(a.id) + "\">" + esc(a.name) + "</a>";
         return "<tr id=\"row-" + esc(a.id) + "\">" +
-          "<td><a class=\"mine\" href=\"#asset-" + esc(a.id) + "\">" + esc(a.name) + "</a></td>" +
+          "<td>" + nameCell + "</td>" +
           "<td>" + esc(loc(a)) + "</td>" +
           "<td>" + ownershipHtml(a) + "</td>" +
           "<td>" + esc(a.operator || DASH) + "</td>" +
@@ -1237,10 +1417,17 @@
           millLine(prod, "aisc", "AISC", (v) => fmtUsd(v) + "/oz")
         ].filter(Boolean);
         const chart = ((((profile && profile.issuer) || {}).tickers || [])[0] || {}).chart || "";
+        const mid = assetMineId(a.id);
+        const title = mid
+          ? "<a href=\"" + esc(mineHref(mid)) + "\">" + esc(a.name) + "</a>"
+          : (chart ? "<a href=\"" + esc(chart) + "\">" + esc(a.name) + "</a>" : esc(a.name));
+        const priceLink = (mid && chart)
+          ? " · <a href=\"" + esc(chart) + "\">Price</a>"
+          : "";
         return "<article class=\"card asset-card\" id=\"asset-" + esc(a.id) + "\">" +
-          "<h3>" + (chart ? "<a href=\"" + esc(chart) + "\">" + esc(a.name) + "</a>" : esc(a.name)) + "</h3>" +
+          "<h3>" + title + "</h3>" +
           "<p>" + esc(a.location_note || loc(a)) + "</p>" +
-          "<p class=\"muted\">" + esc(a.processing || DASH) + (a.mine_type ? " · " + esc(a.mine_type) : "") + "</p>" +
+          "<p class=\"muted\">" + esc(a.processing || DASH) + (a.mine_type ? " · " + esc(a.mine_type) : "") + priceLink + "</p>" +
           (bits.length ? "<p class=\"muted\">" + bits.join(" · ") + "</p>" : "") +
         "</article>";
       }).join("");
@@ -1994,7 +2181,9 @@
       const host = document.getElementById("mines-inset-map");
       const empty = document.getElementById("mines-inset-empty");
       if (!host || !window.maplibregl) return;
-      const mines = mappedAssets();
+      const minesAll = mappedAssets();
+      const mpf = mineProfile();
+      const mines = mpf ? minesAll.filter((a) => ((mpf.member_asset_ids) || []).indexOf(a.id) >= 0) : minesAll;
       const foot = previewFootprint();
       const pub = claimsPublicForProfile();
       const claimsId = previewCompanyId();
@@ -2015,7 +2204,7 @@
       if (head) {
         const n = foot.focus.length;
         if (n) head.textContent = "Claims · " + n + " block" + (n === 1 ? "" : "s");
-        else if (mines.length) head.textContent = "Mines";
+        else if (mines.length) head.textContent = mpf ? ("Mines · " + (mpf.name || "mine profile")) : "Mines";
         else head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
       }
       if (!insetMap) {
@@ -2107,6 +2296,8 @@
       paintScopeNote();
       paintCompanySeries();
       paintCompanyCosts();
+      paintMineTabs();
+      paintMineProfile();
       paintKpis();
       paintChart();
       paintMines();
@@ -2208,6 +2399,8 @@
       if (pub && (pub.id === id || pub.beta_id === id || pub.alias_of === id)) id = pub.id;
       if (id) u.searchParams.set("id", id);
       else u.searchParams.delete("id");
+      if (state.mine && mineProfiles()[state.mine]) u.searchParams.set("mine", state.mine);
+      else u.searchParams.delete("mine");
       history.replaceState(null, "", u.pathname + u.search + u.hash);
     }
     function setLayer(layer) {
@@ -2262,6 +2455,18 @@
       setOn(document.getElementById("period"), "data-period", state.period);
       paint();
     });
+    document.getElementById("mine-tabs").addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button[data-mine]");
+      if (!btn) return;
+      const id = btn.getAttribute("data-mine");
+      state.mine = (state.mine === id) ? null : id;
+      paint();
+      syncUrl();
+      if (state.mine) {
+        const sec = document.getElementById("mine-profile");
+        if (sec) sec.scrollIntoView();
+      }
+    });
     Promise.all([
       fetch("beta/issuers.json").then((r) => r.ok ? r.json() : null).catch(() => null),
       fetch("beta/explorers.json").then((r) => r.ok ? r.json() : null).catch(() => null),
@@ -2275,6 +2480,7 @@
       const q = new URLSearchParams(location.search);
       if (q.get("layer") === "explorers") state.layer = "explorers";
       if (q.get("layer") === "claims") state.layer = "claims";
+      if (q.get("mine")) state.mine = q.get("mine");
       const wantId = q.get("id");
       const layerBar = document.getElementById("layer");
       const claimHit = wantId ? claimsPublicRow(wantId) : null;
@@ -2288,8 +2494,7 @@
       }
       if (layerBar) setOn(layerBar, "data-layer", state.layer);
       fillPicker();
-      let file = null;
-      if (wantId) {
+      let file = null;      if (wantId) {
         const all = ((issuers && issuers.issuers) || []).concat((explorers && explorers.issuers) || []);
         const hit = all.find((r) => r.id === wantId) || all.find((r) => r.id === targetId);
         if (hit) file = hit.file;

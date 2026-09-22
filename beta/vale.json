@@ -27,7 +27,7 @@
     "watchlist_type": "Producer, Major"
   },
   "method": {
-    "production_basis": "Vale company-wide 2025 actuals (Ni 177.2 kt, Cu 382.4 kt, Fe 336.1 Mt; VBM Pt 98 koz, Pd 120 koz) plus cited Canadian mine splits (Voisey's Bay, Thompson). Sudbury complex totals not split. Gold in koz (troy). Do not invent ounces.",
+    "production_basis": "Vale company-wide 2025 actuals (Ni 177.2 kt, Cu 382.4 kt, Fe 336.1 Mt; VBM Pt 98 koz, Pd 120 koz) plus cited Canadian mine splits (Voisey's Bay, Thompson). Sudbury complex totals not split. Gold in koz (troy). Do not invent ounces. Sudbury mine_profiles.sudbury adds complex finished Ni/Cu/Co/Pt/Pd/Au 2023-2025, source-split shaft ore+grades, TRS recoveries and reserves/resources (20-F Ex. 96.3). Sudbury costs/life blank: no mine-level disclosure.",
     "resources_basis": "Not gathered. Do not invent ounces."
   },
   "kpis": {
@@ -650,5 +650,343 @@
       "Company mine/reserve life: no figure in 8 production 6-Ks, 2 earnings 6-Ks, or the 2025 20-F — block left blank.",
       "Cost-curve position: no quartile or rank stated in any reviewed filing (zero 'quartile' hits in the 2025 20-F) — block left blank."
     ]
+  },
+  "mine_profiles": {
+    "sudbury": {
+      "id": "sudbury",
+      "name": "Sudbury Operations",
+      "kind": "complex",
+      "location": "Greater Sudbury, Ontario, Canada (~330 km north-northeast of Toronto)",
+      "operator": "Vale Canada Limited",
+      "member_asset_ids": [
+        "garson-sudbury-operations",
+        "stobie-sudbury-operations",
+        "clarabelle-mill-sudbury-operations",
+        "copper-cliff-sudbury-operations",
+        "creighton-sudbury-operations",
+        "coleman-sudbury-operations",
+        "totten-sudbury-operations"
+      ],
+      "member_note": "One complex: Coleman, Copper Cliff, Creighton, Garson and Totten underground mines, Stobie open pit, plus Clarabelle Mill / Copper Cliff Smelter and Nickel Refinery and Port Colborne Nickel Refinery. Finished production is disclosed at complex level only and is not split across shafts.",
+      "metals": [
+        "nickel",
+        "copper",
+        "cobalt",
+        "platinum",
+        "palladium",
+        "gold"
+      ],
+      "metals_note": "Nickel sulfide ore bodies, which also contain copper, cobalt, PGMs, gold and silver (20-F mineralization text). Silver is named but no Sudbury silver figure is published, so silver stays blank.",
+      "production": {
+        "basis": "Finished production by ore source, contained metal (20-F nickel/copper/cobalt/PGM tables). 2025 6-K comparatives in parentheses: Ni 35.2 kt (2024: 36.6), Cu 63.8 kt (2024: 58.6).",
+        "columns": [
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "rows": [
+          {
+            "metal": "nickel",
+            "unit": "kt",
+            "values": {
+              "2023": 38.2,
+              "2024": 36.2,
+              "2025": 35.3
+            }
+          },
+          {
+            "metal": "copper",
+            "unit": "kt",
+            "values": {
+              "2023": 57.9,
+              "2024": 58.6,
+              "2025": 63.7
+            }
+          },
+          {
+            "metal": "cobalt",
+            "unit": "t",
+            "values": {
+              "2023": 365,
+              "2024": 331,
+              "2025": 388
+            }
+          },
+          {
+            "metal": "platinum",
+            "unit": "koz",
+            "values": {
+              "2023": 125,
+              "2024": 107,
+              "2025": 99
+            }
+          },
+          {
+            "metal": "palladium",
+            "unit": "koz",
+            "values": {
+              "2023": 149,
+              "2024": 120,
+              "2025": 120
+            }
+          },
+          {
+            "metal": "gold",
+            "unit": "koz",
+            "values": {
+              "2023": 45,
+              "2024": 38,
+              "2025": 46
+            }
+          }
+        ],
+        "site_note": "Finished nickel by site (Sudbury site processes Thompson/external feeds too): 2025 59.4 kt vs 2024 50.5 kt (4Q25 production 6-K). Q4 2025: Sudbury recorded its strongest ore production since 2016."
+      },
+      "shaft_ore": {
+        "basis": "Run-of-mine delivered from each operation to its mill (20-F section 2.1.2). Does not include adjustments due to beneficiation, smelting or refining. Attached per shaft only because the filing splits it; finished production is not split.",
+        "columns": [
+          "2023",
+          "2024",
+          "2025"
+        ],
+        "shafts": [
+          {
+            "name": "Copper Cliff",
+            "ore_kt": {
+              "2023": 985,
+              "2024": 1019,
+              "2025": 1080
+            },
+            "cu_pct": {
+              "2023": 1.3,
+              "2024": 1.6,
+              "2025": 1.3
+            },
+            "ni_pct": {
+              "2023": 1.1,
+              "2024": 1.1,
+              "2025": 0.9
+            }
+          },
+          {
+            "name": "Creighton",
+            "ore_kt": {
+              "2023": 406,
+              "2024": 491,
+              "2025": 717
+            },
+            "cu_pct": {
+              "2023": 2.2,
+              "2024": 2.0,
+              "2025": 2.0
+            },
+            "ni_pct": {
+              "2023": 2.9,
+              "2024": 2.5,
+              "2025": 2.3
+            }
+          },
+          {
+            "name": "Garson",
+            "ore_kt": {
+              "2023": 650,
+              "2024": 791,
+              "2025": 817
+            },
+            "cu_pct": {
+              "2023": 1.0,
+              "2024": 1.1,
+              "2025": 1.0
+            },
+            "ni_pct": {
+              "2023": 1.0,
+              "2024": 1.2,
+              "2025": 1.1
+            }
+          },
+          {
+            "name": "Coleman",
+            "ore_kt": {
+              "2023": 863,
+              "2024": 875,
+              "2025": 787
+            },
+            "cu_pct": {
+              "2023": 2.5,
+              "2024": 1.8,
+              "2025": 2.1
+            },
+            "ni_pct": {
+              "2023": 1.4,
+              "2024": 1.2,
+              "2025": 1.3
+            }
+          },
+          {
+            "name": "Stobie",
+            "ore_kt": {
+              "2023": 0,
+              "2024": 115,
+              "2025": 957
+            },
+            "cu_pct": {
+              "2023": 0.0,
+              "2024": 0.3,
+              "2025": 0.3
+            },
+            "ni_pct": {
+              "2023": 0.0,
+              "2024": 0.3,
+              "2025": 0.3
+            }
+          },
+          {
+            "name": "Totten",
+            "ore_kt": {
+              "2023": 518,
+              "2024": 558,
+              "2025": 589
+            },
+            "cu_pct": {
+              "2023": 1.9,
+              "2024": 1.5,
+              "2025": 1.3
+            },
+            "ni_pct": {
+              "2023": 1.3,
+              "2024": 1.1,
+              "2025": 1.0
+            }
+          }
+        ],
+        "ontario_total_ore_kt": {
+          "2023": 3422,
+          "2024": 3849,
+          "2025": 4947
+        },
+        "operations_note": "Nearly 5 Mt of ore milled in Sudbury in 2025 (+29% vs 2024) on the Copper Cliff Mine Capacity Replacement and Stobie Pit projects. Copper Cliff South rose from 40% to 49% of the Copper Cliff Mine Complex; Stobie Pit mined 900 kt, the complex's second largest ore producer. Sudbury also set a post-single-furnace (mid-2017) nickel record of 59.5 kt."
+      },
+      "recoveries": {
+        "basis": "TRS metallurgical recovery ranges (cut-off and recovery vary by orebody and estimate timing).",
+        "reserves": {
+          "Ni": "65-90%",
+          "Cu": "80-90%",
+          "Co": "20-35%",
+          "Pt": "65-75%",
+          "Pd": "75-90%",
+          "Au": "50-75%"
+        },
+        "resources": {
+          "Ni": "65-90%",
+          "Cu": "85-90%",
+          "Co": "20-35%",
+          "Pt": "65-75%",
+          "Pd": "75-90%",
+          "Au": "50-75%"
+        },
+        "cutoff": {
+          "reserves": "8.2-244 US$/ton (value-based, NPR)",
+          "resources": "33-198 US$/t (3.5% CuEq at Nickel Rim South only)"
+        },
+        "price_assumptions": {
+          "reserves": "Ni US$17,625/t, Cu US$9,950/t, Co US$39,125/t, Pt US$1,325/oz, Pd US$1,050/oz, Au US$2,650/oz",
+          "resources": "Ni US$13,376-20,882/t, Cu US$6,100-9,500/t, Co US$45,000-56,300/t, Pt US$1,124-1,350/oz, Pd US$925-1,450/oz, Au US$1,000-1,950/oz"
+        }
+      },
+      "reserves_resources": {
+        "basis": "S-K 1300 TRS as of 31 Dec 2025 (Exhibit 96.3). Adjusted to Vale's 90% ownership in VBM. Tonnage in Mt dry; Ni/Co/Cu in %, Pt/Pd/Au in g/t. Resources exclusive of reserves. Covers Coleman, Copper Cliff (incl. project), Creighton, Stobie, Garson, Totten, Nickel Rim South Extension and Ella Capre.",
+        "reserves": {
+          "proven": {
+            "tonnage_mt": 26.1,
+            "ni": 1.42,
+            "co": 0.03,
+            "cu": 1.77,
+            "pt": 1.21,
+            "pd": 1.18,
+            "au": 0.48
+          },
+          "probable": {
+            "tonnage_mt": 37.3,
+            "ni": 1.39,
+            "co": 0.04,
+            "cu": 1.37,
+            "pt": 0.92,
+            "pd": 1.21,
+            "au": 0.33
+          },
+          "total": {
+            "tonnage_mt": 63.4,
+            "ni": 1.4,
+            "co": 0.03,
+            "cu": 1.54,
+            "pt": 1.04,
+            "pd": 1.2,
+            "au": 0.39
+          }
+        },
+        "resources": {
+          "measured": {
+            "tonnage_mt": 14.5,
+            "ni": 1.04,
+            "co": 0.04,
+            "cu": 0.67,
+            "pt": 0.35,
+            "pd": 0.42,
+            "au": 0.1
+          },
+          "indicated": {
+            "tonnage_mt": 36.8,
+            "ni": 1.32,
+            "co": 0.04,
+            "cu": 2.04,
+            "pt": 0.83,
+            "pd": 1.03,
+            "au": 0.31
+          },
+          "measured_indicated": {
+            "tonnage_mt": 51.3,
+            "ni": 1.25,
+            "co": 0.04,
+            "cu": 1.65,
+            "pt": 0.69,
+            "pd": 0.86,
+            "au": 0.25
+          },
+          "inferred": {
+            "tonnage_mt": 73.3,
+            "ni": 0.9,
+            "co": 0.03,
+            "cu": 1.0,
+            "pt": 0.8,
+            "pd": 0.9,
+            "au": 0.3
+          }
+        },
+        "stream_note": "Reserve figures do not deduct streaming: Wheaton holds 70% of Sudbury by-product gold for 20 years (plus 75% of Salobo life-of-mine). Ongoing payments are the lesser of US$400/oz (1% annual inflation from 2019 under the Salobo contract) and market price."
+      },
+      "costs": {
+        "blank": [
+          "C1 cash cost: no Sudbury figure in the 20-F or the reviewed earnings 6-Ks (base-metals costs are disclosed at Vale Base Metals segment level only; segment Ni/Cu all-in sits on the company tab). Block left blank.",
+          "All-in sustaining cost: no Sudbury figure in any reviewed filing. Block left blank.",
+          "Cost-curve position: the 20-F contains zero quartile mentions. Block left blank."
+        ]
+      },
+      "life": {
+        "blank": "No stated mine-life years for Sudbury in the 20-F (only Salobo's ~20 years to 2045 is stated). The filing says Vale holds sufficient surface rights for the current life-of-mine. Block left blank."
+      },
+      "claims_note": "No Vale company row in the repo claims catalog (Quebec/GESTIM-centred plus listed-issuer Ontario/BC extracts), so the preview shows the seven Map 900A member pins. Each pin links to claims.html?company=vale&asset=<id>.",
+      "sources": [
+        {
+          "title": "Vale 2025 Form 20-F",
+          "date": "2026-03-27",
+          "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm"
+        },
+        {
+          "title": "Vale Production and Sales in 4Q25 and 2025 (Form 6-K)",
+          "date": "2026-01-27",
+          "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000189/vale20260127_6k.htm"
+        }
+      ]
+    }
   }
 }

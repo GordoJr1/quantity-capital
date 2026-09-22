@@ -456,6 +456,7 @@
           <button type="button" data-period="2026-guide">2026 guidance</button>
         </div>
         <div id="kpis"></div>
+        <div id="company-series"></div>
       </div>
       <div class="issuer-aside">
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
@@ -877,8 +878,53 @@
         ? "<div class=\"stats\" id=\"kpi-strip\">" + cells.join("") + "</div>"
         : "";
     }
-    function paintScopeNote() {
-      const el = document.getElementById("scope-note");
+    function fmtSeriesCell(v, unit) {
+      if (v == null) return DASH;
+      if (Array.isArray(v) && v.length >= 2) {
+        const a = num(v[0]);
+        const b = num(v[1]);
+        if (a == null || b == null) return DASH;
+        const f = unit === "koz"
+          ? (x) => Math.round(x).toLocaleString("en-US")
+          : (x) => (Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+        return f(a) + "–" + f(b);
+      }
+      const n = num(v);
+      if (n == null) return DASH;
+      return unit === "koz"
+        ? Math.round(n).toLocaleString("en-US")
+        : n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+    function paintCompanySeries() {
+      const host = document.getElementById("company-series");
+      if (!host) return;
+      const cs = profile && profile.company_series;
+      if (!cs || !Array.isArray(cs.rows) || !cs.rows.length) {
+        host.innerHTML = "";
+        return;
+      }
+      const cols = cs.columns || [];
+      const notes = cs.column_notes || {};
+      let html = "<h2>" + esc(cs.title || "Company production by year") + "</h2>";
+      html += "<div class=\"table-wrap\"><table><thead><tr><th>Metal</th>";
+      cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+      html += "</tr></thead><tbody>";
+      cs.rows.forEach((row) => {
+        const head = esc(row.metal) + " <span class=\"quiet\">" + esc(row.unit) + " · " + esc(row.scope) + "</span>";
+        html += "<tr><td>" + head + "</td>";
+        cols.forEach((c) => {
+          html += "<td class=\"num\">" + esc(fmtSeriesCell((row.values || {})[c], row.unit)) + "</td>";
+        });
+        html += "</tr>";
+      });
+      html += "</tbody></table></div>";
+      const bits = [];
+      Object.keys(notes).forEach((c) => { if (notes[c]) bits.push(esc(c) + ": " + esc(notes[c])); });
+      ((cs.gaps) || []).forEach((g) => bits.push(esc(g)));
+      if (bits.length) html += "<p class=\"quiet\">" + bits.join(" ") + "</p>";
+      host.innerHTML = html;
+    }
+    function paintScopeNote() {      const el = document.getElementById("scope-note");
       if (!el) return;
       const cp = profile && profile.company_production;
       if (cp && cp.scope_note) {
@@ -1992,6 +2038,7 @@
       if (!profile) return;
       paintChrome();
       paintScopeNote();
+      paintCompanySeries();
       paintKpis();
       paintChart();
       paintMines();

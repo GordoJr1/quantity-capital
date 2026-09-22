@@ -280,12 +280,13 @@ def main() -> int:
             srcs.append({"title": cand["title"], "date": cand["date"], "url": cand["url"],
                          "what": "Sudbury mine profile: complex production, shaft ore+grades, recoveries, TRS reserves/resources"})
     doc["sources"] = srcs
-    doc["method"]["production_basis"] = (
-        doc["method"].get("production_basis", "")
-        + " Sudbury mine_profiles.sudbury adds complex finished Ni/Cu/Co/Pt/Pd/Au 2023-2025, "
-        + "source-split shaft ore+grades, TRS recoveries and reserves/resources (20-F Ex. 96.3). "
-        + "Sudbury costs/life blank: no mine-level disclosure."
+    basis_add = (
+        " Sudbury mine_profiles.sudbury adds complex finished Ni/Cu/Co/Pt/Pd/Au 2023-2025, "
+        "source-split shaft ore+grades, TRS recoveries and reserves/resources (20-F Ex. 96.3). "
+        "Sudbury costs/life blank: no mine-level disclosure."
     )
+    if "mine_profiles.sudbury" not in doc["method"].get("production_basis", ""):
+        doc["method"]["production_basis"] = doc["method"].get("production_basis", "") + basis_add
     PROFILE.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     print(f"wrote mine_profiles.sudbury -> {PROFILE} ({stamp})")

@@ -436,6 +436,7 @@
         <p class="quiet" id="claims-line" hidden></p>
         <p class="quiet" id="fy-note" hidden></p>
         <p class="quiet" id="basis-note" hidden></p>
+        <p class="quiet" id="scope-note" hidden></p>
         <div class="board-tabs" id="layer" role="tablist" aria-label="Issuer layer">
           <button type="button" data-layer="producers" class="on">Producers</button>
           <button type="button" data-layer="explorers">Explorers · watchlist</button>
@@ -455,6 +456,8 @@
           <button type="button" data-period="2026-guide">2026 guidance</button>
         </div>
         <div id="kpis"></div>
+        <div id="company-series"></div>
+        <div id="company-costs"></div>
       </div>
       <div class="issuer-aside">
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
@@ -636,6 +639,16 @@
       const n = num(v);
       if (n == null) return DASH;
       return Math.round(n).toLocaleString("en-US") + " kt";
+    }
+    function fmtKt1(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " kt";
+    }
+    function fmtMt1(v) {
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " Mt";
     }
     function fmtRange(arr) {
       if (!Array.isArray(arr) || arr.length < 2) return DASH;
@@ -854,6 +867,9 @@
         }
         if (vs) cells.push(kpiCell("vs", vs, vsLabel));
       }
+      if (num(k.nickel_kt_2025_company) != null) cells.push(kpiCell("ni-co", fmtKt1(k.nickel_kt_2025_company), "Ni 2025 · company"));
+      if (num(k.copper_kt_2025_company) != null) cells.push(kpiCell("cu-co", fmtKt1(k.copper_kt_2025_company), "Cu 2025 · company"));
+      if (num(k.ironore_mt_2025_company) != null) cells.push(kpiCell("fe-co", fmtMt1(k.ironore_mt_2025_company), "Fe 2025 · company"));
       if (num(k.platinum_koz_2025_vbm) != null) cells.push(kpiCell("pt-vbm", fmtKoz(k.platinum_koz_2025_vbm), "Pt 2025 · VBM company-wide"));
       if (num(k.palladium_koz_2025_vbm) != null) cells.push(kpiCell("pd-vbm", fmtKoz(k.palladium_koz_2025_vbm), "Pd 2025 · VBM company-wide"));
       if (num(pp) != null) cells.push(kpiCell("pp", fmtMoz(pp), attr ? "P&P attributable" : "P&P 100%"));
@@ -863,9 +879,134 @@
         ? "<div class=\"stats\" id=\"kpi-strip\">" + cells.join("") + "</div>"
         : "";
     }
+    function fmtDir(newV, oldV) {
+      const a = num(newV);
+      const b = num(oldV);
+      if (a == null || b == null || b === 0 || Array.isArray(newV) || Array.isArray(oldV)) return DASH;
+      const pct = (a - b) / Math.abs(b) * 100;
+      const arrow = pct > 0.05 ? "▲ " : (pct < -0.05 ? "▼ " : "→ ");
+      const sign = pct > 0.05 ? "+" : "";
+      return arrow + sign + pct.toFixed(1) + "%";
+    }
+    function fmtSeriesCell(v, unit) {
+      if (v == null) return DASH;
+      if (Array.isArray(v) && v.length >= 2) {
+        const a = num(v[0]);
+        const b = num(v[1]);
+        if (a == null || b == null) return DASH;
+        const f = unit === "koz"
+          ? (x) => Math.round(x).toLocaleString("en-US")
+          : (x) => (Number.isInteger(x) ? x.toLocaleString("en-US") : x.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 }));
+        return f(a) + "–" + f(b);
+      }
+      const n = num(v);
+      if (n == null) return DASH;
+      return unit === "koz"
+        ? Math.round(n).toLocaleString("en-US")
+        : n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+    function paintCompanySeries() {
+      const host = document.getElementById("company-series");
+      if (!host) return;
+      const cs = profile && profile.company_series;
+      if (!cs || !Array.isArray(cs.rows) || !cs.rows.length) {
+        host.innerHTML = "";
+        return;
+      }
+      const cols = cs.columns || [];
+      const notes = cs.column_notes || {};
+      let html = "<h2>" + esc(cs.title || "Company production by year") + "</h2>";
+      html += "<div class=\"table-wrap\"><table><thead><tr><th>Metal</th>";
+      cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+      html += "<th class=\"num\">’25 vs ’24</th><th class=\"num\">’16→’25</th>";
+      html += "</tr></thead><tbody>";
+      cs.rows.forEach((row) => {
+        const head = esc(row.metal) + " <span class=\"quiet\">" + esc(row.unit) + " · " + esc(row.scope) + "</span>";
+        html += "<tr><td>" + head + "</td>";
+        cols.forEach((c) => {
+          html += "<td class=\"num\">" + esc(fmtSeriesCell((row.values || {})[c], row.unit)) + "</td>";
+        });
+        const vv = row.values || {};
+        html += "<td class=\"num\">" + esc(fmtDir(vv["2025"], vv["2024"])) + "</td>";
+        html += "<td class=\"num\">" + esc(fmtDir(vv["2025"], vv["2016"])) + "</td>";
+        html += "</tr>";
+      });
+      html += "</tbody></table></div>";
+      const bits = [];
+      Object.keys(notes).forEach((c) => { if (notes[c]) bits.push(esc(c) + ": " + esc(notes[c])); });
+      ((cs.gaps) || []).forEach((g) => bits.push(esc(g)));
+      if (bits.length) html += "<p class=\"quiet\">" + bits.join(" ") + "</p>";
+      html += "<p class=\"quiet\">Direction columns computed from cited annuals (’25 vs ’24, ’16→’25); 6M26 and guidance excluded.</p>";
+      host.innerHTML = html;
+    }
+    function fmtCostCell(v) {
+      if (v == null) return DASH;
+      if (Array.isArray(v) && v.length >= 2) {
+        const a = num(v[0]);
+        const b = num(v[1]);
+        if (a == null || b == null) return DASH;
+        const f = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 1 });
+        return f(a) + "–" + f(b);
+      }
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
+    }
+    function paintCompanyCosts() {
+      const host = document.getElementById("company-costs");
+      if (!host) return;
+      const cc = profile && profile.company_costs;
+      const cl = profile && profile.company_life;
+      if ((!cc || !Array.isArray(cc.rows) || !cc.rows.length) &&
+          (!cl || (!Array.isArray(cl.lines) || !cl.lines.length) && (!Array.isArray(cl.missing) || !cl.missing.length))) {
+        host.innerHTML = "";
+        return;
+      }
+      let html = "";
+      if (cc && Array.isArray(cc.rows) && cc.rows.length) {
+        const cols = cc.columns || [];
+        html += "<h2>" + esc(cc.title || "Cash costs and all-in costs") + "</h2>";
+        if (cc.basis) html += "<p class=\"quiet\">" + esc(cc.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Cost</th>";
+        cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+        html += "</tr></thead><tbody>";
+        cc.rows.forEach((row) => {
+          let head = esc(row.metric) + " <span class=\"quiet\">" + esc(row.unit) + " · " + esc(row.scope) + "</span>";
+          if (row.def) head += "<div class=\"quiet\">" + esc(row.def) + "</div>";
+          html += "<tr><td>" + head + "</td>";
+          cols.forEach((c) => {
+            html += "<td class=\"num\">" + esc(fmtCostCell((row.values || {})[c])) + "</td>";
+          });
+          html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+      }
+      if (cl && (((cl.lines) || []).length || ((cl.missing) || []).length)) {
+        html += "<h2>" + esc(cl.title || "Mine life and cost-curve position") + "</h2>";
+        ((cl.lines) || []).forEach((ln) => {
+          html += "<p class=\"muted\">" + esc(ln.asset || "") + " — " + esc(ln.life || "") +
+            " <span class=\"quiet\">(" + esc(ln.scope || "") + ")</span></p>";
+        });
+        ((cl.missing) || []).forEach((m) => { html += "<p class=\"quiet\">" + esc(m) + "</p>"; });
+      }
+      host.innerHTML = html;
+    }
+    function paintScopeNote() {      const el = document.getElementById("scope-note");
+      if (!el) return;
+      const cp = profile && profile.company_production;
+      if (cp && cp.scope_note) {
+        el.hidden = false;
+        el.textContent = cp.scope_note;
+      } else {
+        el.hidden = true;
+        el.textContent = "";
+      }
+    }
     function paintMines() {
       const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
       const head = document.getElementById("mines-h");
+      const cp = profile && profile.company_production;
+      if (head && cp && cp.mines_heading) head.textContent = cp.mines_heading;
       const wrap = document.getElementById("mines-wrap");
       if (head) head.hidden = !assets.length;
       if (wrap) wrap.hidden = !assets.length;
@@ -1125,7 +1266,14 @@
       const nAssets = ((profile && profile.assets) || []).length;
       const stage = (profile && profile.stage) || (row && row.stage) || "";
       const meta = (profile && profile.meta) || {};
-      if (meta.layer === "canada-owner" || meta.layer === "mcap-top200" || meta.layer === "mcap-watchlist") {
+      const cp = (profile && profile.company_production) || null;
+      if (cp) {
+        document.getElementById("lede").textContent =
+          comm.charAt(0).toUpperCase() + comm.slice(1) + " producer. " +
+          "Company-wide 2025 totals below; " +
+          (cp.region_label || "regional mines") + " listed separately below. " +
+          "Filing-backed, not a terminal dump.";
+      } else if (meta.layer === "canada-owner" || meta.layer === "mcap-top200" || meta.layer === "mcap-watchlist") {
         document.getElementById("lede").textContent =
           comm.charAt(0).toUpperCase() + comm.slice(1) + " producer shell. " +
           (nMines ? nMines + " Map 900A operation" + (nMines === 1 ? "" : "s") + ". " : "") +
@@ -1956,6 +2104,9 @@
     function paint() {
       if (!profile) return;
       paintChrome();
+      paintScopeNote();
+      paintCompanySeries();
+      paintCompanyCosts();
       paintKpis();
       paintChart();
       paintMines();

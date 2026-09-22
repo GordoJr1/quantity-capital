@@ -1,6 +1,6 @@
 {
-  "generated": "2026-09-22T22:09:33.456920+00:00",
-  "tapeCollected": "2026-09-22T11:20:18.301746+00:00",
+  "generated": "2026-09-22T22:23:39.561990+00:00",
+  "tapeCollected": "2026-09-22T22:20:17.861659+00:00",
   "priceAsof": "2026-09-21",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
@@ -68,68 +68,6 @@
       "rank": 1
     },
     {
-      "code": "MRVL",
-      "name": "Marvell Technology Inc",
-      "action": "buy-dip",
-      "score": 7.146,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 257.38,
-      "pxAsof": "2026-09-21",
-      "buyPx": 218.72,
-      "chgSinceBuy": 0.1768,
-      "lastBuy": "2026-08-07",
-      "nBuyers": 3,
-      "buyHigh": 95000,
-      "heatRank": 48,
-      "heat": 0.547,
-      "landed": true,
-      "landedAt": "2026-09-08T11:22:45.026760+00:00",
-      "lagDays": 32,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "Gilbert Cisneros",
-          "id": "gilbert-cisneros"
-        }
-      ],
-      "weekly": {
-        "rsi": 39.1,
-        "sma20": 230.3,
-        "sma40": 166.45,
-        "vs20": 11.8,
-        "ret4w": 18.8,
-        "ret13w": -3.5,
-        "fromHigh": -17.1,
-        "trend": "UP",
-        "recentLow": 216.62
-      },
-      "monthly": {
-        "rsi": 69.1,
-        "sma10": 166.93,
-        "vs10": 54.2,
-        "trend": "UP"
-      },
-      "invalidation": 216.62,
-      "flags": [
-        "Landed",
-        "Cluster",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 2
-    },
-    {
       "code": "BE",
       "name": "Bloom Energy Corporation",
       "action": "buy-dip",
@@ -181,7 +119,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 2
     }
   ],
   "avoid": [

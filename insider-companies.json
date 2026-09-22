@@ -1,7 +1,8 @@
 {
   "generated": "2026-09-21T11:00:01.947922+00:00",
   "source": "C:\\Users\\gordo\\Desktop\\Company List - Breakdown.xlsx",
-  "count": 841,
+  "claims_merged": "2026-09-22T11:40:37Z",
+  "count": 843,
   "companies": [
     {
       "name": "Talisker Resources",
@@ -14800,6 +14801,40 @@
         "MMN.V",
         "ORAGF"
       ]
+    },
+    {
+      "name": "G2 Goldfields",
+      "symbol_raw": "GTWO.TO",
+      "type": "Explorer",
+      "commodity": "Gold",
+      "country": "Canada",
+      "us": [],
+      "cad": [
+        "GTWO.TO"
+      ],
+      "other": [],
+      "all": [
+        "GTWO.TO"
+      ],
+      "claims_id": "g2-goldfields",
+      "source": "claims"
+    },
+    {
+      "name": "Probe Gold",
+      "symbol_raw": "PRB.TO",
+      "type": "Explorer",
+      "commodity": "Gold",
+      "country": "Canada",
+      "us": [],
+      "cad": [
+        "PRB.TO"
+      ],
+      "other": [],
+      "all": [
+        "PRB.TO"
+      ],
+      "claims_id": "probe-gold",
+      "source": "claims"
     }
   ]
 }

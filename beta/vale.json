@@ -272,6 +272,18 @@
       "date": "2026-07-30",
       "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426004002/valepr2q26_6k.htm",
       "what": "Company series narrowed Cu/Ni 2026 guidance"
+    },
+    {
+      "title": "Vale 4Q25 earnings (Form 6-K)",
+      "date": "2026-02-13",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000369/valepr4q25_6k.htm",
+      "what": "Costs: 2025 + 2024 costs"
+    },
+    {
+      "title": "Vale 2025 Form 20-F",
+      "date": "2026-03-27",
+      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
+      "what": "Salobo mine life; curve/life absence checked"
     }
   ],
   "meta": {
@@ -522,6 +534,121 @@
       "Pt/Pd 2026 guidance: not published in any filing — cells blank.",
       "4Q24 production 6-K tables are images (no text quotes) — 2024 cells verified against the 4Q25 comparative columns instead.",
       "2021 Fe/Ni/Pt: 4Q21 own-year figures (315.610/168.0/78) superseded by 4Q22 restated comparatives (312.901/168.3/79)."
+    ]
+  },
+  "company_costs": {
+    "title": "Cash costs and all-in costs",
+    "basis": "Iron ore C1 is ex-third-party purchase costs; iron ore all-in is fines+pellets ex-sustaining (cash break-even landed in China). Base-metals all-in moves with by-product revenues (copper negative in 2Q26). All-in premium (US$/t over benchmark) is a price premium, not a cost, and is not shown here.",
+    "columns": [
+      "2024",
+      "2025",
+      "6M26",
+      "2Q26",
+      "2026 guidance"
+    ],
+    "rows": [
+      {
+        "metric": "Iron ore C1 cash cost",
+        "unit": "US$/t",
+        "scope": "company",
+        "def": "ex-third-party purchase costs",
+        "values": {
+          "2024": 21.8,
+          "2025": 21.3,
+          "6M26": 23.9,
+          "2Q26": 24.1,
+          "2026 guidance": [
+            22.5,
+            23.5
+          ]
+        }
+      },
+      {
+        "metric": "Iron ore all-in",
+        "unit": "US$/dmt",
+        "scope": "company",
+        "def": "fines+pellets, ex-sustaining, break-even landed China",
+        "values": {
+          "2024": 55.9,
+          "2025": 54.2,
+          "6M26": null,
+          "2Q26": 61.6,
+          "2026 guidance": [
+            58,
+            62
+          ]
+        }
+      },
+      {
+        "metric": "Copper all-in",
+        "unit": "US$/t",
+        "scope": "Vale Base Metals",
+        "def": "net of by-product revenues (negative in 2Q26)",
+        "values": {
+          "2024": null,
+          "2025": 603,
+          "6M26": null,
+          "2Q26": -257,
+          "2026 guidance": [
+            0,
+            500
+          ]
+        }
+      },
+      {
+        "metric": "Nickel all-in",
+        "unit": "US$/t",
+        "scope": "Vale Base Metals",
+        "def": "EBITDA breakeven",
+        "values": {
+          "2024": 15420,
+          "2025": 12158,
+          "6M26": null,
+          "2Q26": 10340,
+          "2026 guidance": [
+            10000,
+            11500
+          ]
+        }
+      }
+    ],
+    "sources": [
+      {
+        "covers": "2025 + 2024 costs",
+        "title": "Vale 4Q25 earnings (Form 6-K)",
+        "date": "2026-02-13",
+        "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426000369/valepr4q25_6k.htm"
+      },
+      {
+        "covers": "6M26/2Q26 costs + 2026 cost guidance",
+        "title": "Vale 2Q26 earnings (Form 6-K)",
+        "date": "2026-07-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426004002/valepr2q26_6k.htm"
+      }
+    ],
+    "missing": [
+      "Cost-curve position: no quartile or rank stated in any reviewed filing — block left blank.",
+      "Mine/reserve life: no company figure in any reviewed filing (only an 8-year Sossego project extension, not company life) — block left blank."
+    ]
+  },
+  "company_life": {
+    "title": "Mine life and cost-curve position",
+    "lines": [
+      {
+        "asset": "Salobo (copper, Brazil)",
+        "scope": "one mine, not company",
+        "life": "planned open-pit mine life ~20 years, ending 2045; plant runs to 2054 on stockpiled material",
+        "source": {
+          "title": "Vale 2025 Form 20-F",
+          "date": "2026-03-27",
+          "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm"
+        },
+        "quote": "planned mine life of approximately 20 years, ending in 2045"
+      }
+    ],
+    "missing": [
+      "Company mine/reserve life: no figure in 8 production 6-Ks, 2 earnings 6-Ks, or the 2025 20-F — block left blank.",
+      "Cost-curve position: no quartile or rank stated in any reviewed filing (zero 'quartile' hits in the 2025 20-F) — block left blank."
     ]
   }
 }

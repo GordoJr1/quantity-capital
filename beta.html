@@ -457,6 +457,7 @@
         </div>
         <div id="kpis"></div>
         <div id="company-series"></div>
+        <div id="company-costs"></div>
       </div>
       <div class="issuer-aside">
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
@@ -878,6 +879,15 @@
         ? "<div class=\"stats\" id=\"kpi-strip\">" + cells.join("") + "</div>"
         : "";
     }
+    function fmtDir(newV, oldV) {
+      const a = num(newV);
+      const b = num(oldV);
+      if (a == null || b == null || b === 0 || Array.isArray(newV) || Array.isArray(oldV)) return DASH;
+      const pct = (a - b) / Math.abs(b) * 100;
+      const arrow = pct > 0.05 ? "▲ " : (pct < -0.05 ? "▼ " : "→ ");
+      const sign = pct > 0.05 ? "+" : "";
+      return arrow + sign + pct.toFixed(1) + "%";
+    }
     function fmtSeriesCell(v, unit) {
       if (v == null) return DASH;
       if (Array.isArray(v) && v.length >= 2) {
@@ -908,6 +918,7 @@
       let html = "<h2>" + esc(cs.title || "Company production by year") + "</h2>";
       html += "<div class=\"table-wrap\"><table><thead><tr><th>Metal</th>";
       cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+      html += "<th class=\"num\">’25 vs ’24</th><th class=\"num\">’16→’25</th>";
       html += "</tr></thead><tbody>";
       cs.rows.forEach((row) => {
         const head = esc(row.metal) + " <span class=\"quiet\">" + esc(row.unit) + " · " + esc(row.scope) + "</span>";
@@ -915,6 +926,9 @@
         cols.forEach((c) => {
           html += "<td class=\"num\">" + esc(fmtSeriesCell((row.values || {})[c], row.unit)) + "</td>";
         });
+        const vv = row.values || {};
+        html += "<td class=\"num\">" + esc(fmtDir(vv["2025"], vv["2024"])) + "</td>";
+        html += "<td class=\"num\">" + esc(fmtDir(vv["2025"], vv["2016"])) + "</td>";
         html += "</tr>";
       });
       html += "</tbody></table></div>";
@@ -922,6 +936,59 @@
       Object.keys(notes).forEach((c) => { if (notes[c]) bits.push(esc(c) + ": " + esc(notes[c])); });
       ((cs.gaps) || []).forEach((g) => bits.push(esc(g)));
       if (bits.length) html += "<p class=\"quiet\">" + bits.join(" ") + "</p>";
+      html += "<p class=\"quiet\">Direction columns computed from cited annuals (’25 vs ’24, ’16→’25); 6M26 and guidance excluded.</p>";
+      host.innerHTML = html;
+    }
+    function fmtCostCell(v) {
+      if (v == null) return DASH;
+      if (Array.isArray(v) && v.length >= 2) {
+        const a = num(v[0]);
+        const b = num(v[1]);
+        if (a == null || b == null) return DASH;
+        const f = (x) => x.toLocaleString("en-US", { maximumFractionDigits: 1 });
+        return f(a) + "–" + f(b);
+      }
+      const n = num(v);
+      if (n == null) return DASH;
+      return n.toLocaleString("en-US", { maximumFractionDigits: 1 });
+    }
+    function paintCompanyCosts() {
+      const host = document.getElementById("company-costs");
+      if (!host) return;
+      const cc = profile && profile.company_costs;
+      const cl = profile && profile.company_life;
+      if ((!cc || !Array.isArray(cc.rows) || !cc.rows.length) &&
+          (!cl || (!Array.isArray(cl.lines) || !cl.lines.length) && (!Array.isArray(cl.missing) || !cl.missing.length))) {
+        host.innerHTML = "";
+        return;
+      }
+      let html = "";
+      if (cc && Array.isArray(cc.rows) && cc.rows.length) {
+        const cols = cc.columns || [];
+        html += "<h2>" + esc(cc.title || "Cash costs and all-in costs") + "</h2>";
+        if (cc.basis) html += "<p class=\"quiet\">" + esc(cc.basis) + "</p>";
+        html += "<div class=\"table-wrap\"><table><thead><tr><th>Cost</th>";
+        cols.forEach((c) => { html += "<th class=\"num\">" + esc(c) + "</th>"; });
+        html += "</tr></thead><tbody>";
+        cc.rows.forEach((row) => {
+          let head = esc(row.metric) + " <span class=\"quiet\">" + esc(row.unit) + " · " + esc(row.scope) + "</span>";
+          if (row.def) head += "<div class=\"quiet\">" + esc(row.def) + "</div>";
+          html += "<tr><td>" + head + "</td>";
+          cols.forEach((c) => {
+            html += "<td class=\"num\">" + esc(fmtCostCell((row.values || {})[c])) + "</td>";
+          });
+          html += "</tr>";
+        });
+        html += "</tbody></table></div>";
+      }
+      if (cl && (((cl.lines) || []).length || ((cl.missing) || []).length)) {
+        html += "<h2>" + esc(cl.title || "Mine life and cost-curve position") + "</h2>";
+        ((cl.lines) || []).forEach((ln) => {
+          html += "<p class=\"muted\">" + esc(ln.asset || "") + " — " + esc(ln.life || "") +
+            " <span class=\"quiet\">(" + esc(ln.scope || "") + ")</span></p>";
+        });
+        ((cl.missing) || []).forEach((m) => { html += "<p class=\"quiet\">" + esc(m) + "</p>"; });
+      }
       host.innerHTML = html;
     }
     function paintScopeNote() {      const el = document.getElementById("scope-note");
@@ -2039,6 +2106,7 @@
       paintChrome();
       paintScopeNote();
       paintCompanySeries();
+      paintCompanyCosts();
       paintKpis();
       paintChart();
       paintMines();

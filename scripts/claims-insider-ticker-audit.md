@@ -1,6 +1,6 @@
 # Claims → Insiders ticker audit
 
-Generated `2026-09-20T23:07:50Z`.
+Generated `2026-09-22T00:03:07Z`.
 Source: `claims/companies.json` (~191) plus extract holder aliases and beta ticker catalogs.
 Private / unmatched holders are excluded from the Insiders universe.
 

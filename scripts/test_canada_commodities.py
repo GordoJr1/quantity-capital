@@ -109,7 +109,7 @@ class LinkerTests(unittest.TestCase):
         self.assertIsNone(linked["claims_company"])
         self.assertIsNone(linked["claims_href"])
 
-    def test_vale_canada_does_not_steal_canada_nickel(self) -> None:
+    def test_vale_canada_links_vale_not_canada_nickel(self) -> None:
         catalog = b.load_company_catalog(ROOT)
         name_idx, mine_idx = b.build_indexes(catalog)
         linked = b.link_mine(
@@ -126,7 +126,8 @@ class LinkerTests(unittest.TestCase):
             mine_idx,
         )
         self.assertNotEqual(linked.get("claims_company"), "canada-nickel")
-        self.assertIsNone(linked.get("claims_href"))
+        self.assertEqual(linked.get("claims_company"), "vale")
+        self.assertEqual(linked.get("claims_href"), "claims.html?company=vale")
 
     def test_builtin_alias(self) -> None:
         cid, how = b.match_owner("Equinox Gold Corp.", self.name_idx, self.catalog)

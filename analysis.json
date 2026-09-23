@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-22T22:23:39.561990+00:00",
+  "generated": "2026-09-23T11:12:50.691526+00:00",
   "tapeCollected": "2026-09-22T22:20:17.861659+00:00",
   "priceAsof": "2026-09-21",
   "windowDays": 90,
@@ -9,7 +9,7 @@
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
       "action": "buy-dip",
-      "score": 9.25,
+      "score": 9.225,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 146.08,
       "pxAsof": "2026-09-21",
@@ -19,7 +19,7 @@
       "nBuyers": 3,
       "buyHigh": 295000,
       "heatRank": 1,
-      "heat": 4.067,
+      "heat": 3.795,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 11,
@@ -81,7 +81,7 @@
       "nBuyers": 1,
       "buyHigh": 6000000,
       "heatRank": 57,
-      "heat": 0.396,
+      "heat": 0.369,
       "landed": true,
       "landedAt": "2026-08-25T11:17:22.724711+00:00",
       "lagDays": 28,
@@ -120,6 +120,64 @@
         "Monthly intact"
       ],
       "rank": 2
+    },
+    {
+      "code": "INTC",
+      "name": "Intel Corporation",
+      "action": "buy-dip",
+      "score": 6.433,
+      "why": "Just landed, weekly washed out, monthly still up",
+      "last": 121.78,
+      "pxAsof": "2026-09-21",
+      "buyPx": 92.32,
+      "chgSinceBuy": 0.3191,
+      "lastBuy": "2026-07-24",
+      "nBuyers": 2,
+      "buyHigh": 1015000,
+      "heatRank": 78,
+      "heat": 0.229,
+      "landed": true,
+      "landedAt": "2026-08-25T11:17:22.724711+00:00",
+      "lagDays": 32,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": true,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Nancy Pelosi",
+          "id": "nancy-pelosi"
+        },
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        }
+      ],
+      "weekly": {
+        "rsi": 44.0,
+        "sma20": 107.5,
+        "sma40": 81.55,
+        "vs20": 13.3,
+        "ret4w": 36.1,
+        "ret13w": -5.1,
+        "fromHigh": -9.1,
+        "trend": "UP",
+        "recentLow": 89.47
+      },
+      "monthly": {
+        "rsi": 73.8,
+        "sma10": 82.34,
+        "vs10": 47.9,
+        "trend": "UP"
+      },
+      "invalidation": 89.47,
+      "flags": [
+        "Landed",
+        "Whale",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 3
     }
   ],
   "avoid": [
@@ -127,17 +185,17 @@
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 3.546,
+      "score": 3.425,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 186.11,
       "pxAsof": "2026-09-21",
       "buyPx": 181.38,
       "chgSinceBuy": 0.0261,
       "lastBuy": "2026-08-26",
-      "nBuyers": 5,
-      "buyHigh": 340000,
+      "nBuyers": 4,
+      "buyHigh": 90000,
       "heatRank": 4,
-      "heat": 2.257,
+      "heat": 1.94,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -146,10 +204,6 @@
       "whale": false,
       "cluster": true,
       "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
         {
           "name": "Ro Khanna",
           "id": "ro-khanna"
@@ -197,29 +251,25 @@
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 3.059,
+      "score": 2.225,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 501.61,
       "pxAsof": "2026-09-21",
       "buyPx": 481.63,
       "chgSinceBuy": 0.0415,
       "lastBuy": "2026-08-18",
-      "nBuyers": 4,
-      "buyHigh": 730000,
-      "heatRank": 12,
-      "heat": 1.245,
+      "nBuyers": 3,
+      "buyHigh": 230000,
+      "heatRank": 16,
+      "heat": 0.893,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
       "conflict": false,
       "conflictWhy": [],
-      "whale": true,
+      "whale": false,
       "cluster": true,
       "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
         {
           "name": "Gilbert Cisneros",
           "id": "gilbert-cisneros"
@@ -253,7 +303,6 @@
       "invalidation": 483.24,
       "flags": [
         "Landed",
-        "Whale",
         "Cluster",
         "Monthly intact",
         "Weekly extended"
@@ -264,7 +313,7 @@
       "code": "MRK",
       "name": "Merck & Company, Inc.",
       "action": "avoid",
-      "score": 1.936,
+      "score": 1.911,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 149.5,
       "pxAsof": "2026-09-21",
@@ -274,7 +323,7 @@
       "nBuyers": 2,
       "buyHigh": 150000,
       "heatRank": 5,
-      "heat": 1.639,
+      "heat": 1.529,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -321,7 +370,7 @@
       "code": "SCHW",
       "name": "Charles Schwab Corporation (The)",
       "action": "avoid",
-      "score": 1.614,
+      "score": 1.589,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 106.88,
       "pxAsof": "2026-09-21",
@@ -330,8 +379,8 @@
       "lastBuy": "2026-08-18",
       "nBuyers": 1,
       "buyHigh": 265000,
-      "heatRank": 16,
-      "heat": 1.089,
+      "heatRank": 15,
+      "heat": 1.016,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 21,
@@ -374,7 +423,7 @@
       "code": "ATRC",
       "name": "- Select UMA Account # 1 AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.411,
+      "score": 1.386,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 58.32,
       "pxAsof": "2026-09-21",
@@ -383,8 +432,8 @@
       "lastBuy": "2026-08-20",
       "nBuyers": 1,
       "buyHigh": 15000,
-      "heatRank": 40,
-      "heat": 0.621,
+      "heatRank": 38,
+      "heat": 0.579,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,

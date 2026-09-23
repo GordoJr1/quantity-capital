@@ -15,7 +15,7 @@ Rebuild Ontario/BC extracts with `python3 build_on_bc_extracts.py` (stdlib only;
 
 - REST (GeoJSON, paginated): [MLAS MapServer layer 1 (HOLDER)](https://ws.lioservices.lrc.gov.on.ca/arcgis1071a/rest/services/MLAS/mlas_op/MapServer/1)
 - Provincial note: unofficial viewing data, not legal title.
-- Files: `claims/<id>-ontario.geojson` (company focus tenures plus neighboring MLAS titles in a ~3 km pad, `role=neighbor`).
+- Files: `claims/<id>-ontario.geojson` (company tenures only; no neighbors).
 - Holder match (`UPPER(HOLDER) LIKE`):
 
 | Company | Needles | Titles (2026-09-17) |
@@ -26,34 +26,8 @@ Rebuild Ontario/BC extracts with `python3 build_on_bc_extracts.py` (stdlib only;
 | Wesdome | WESDOME | 2270 |
 | Evolution | EVOLUTION | 3691 |
 | Equinox Gold | GREENSTONE, MUSSELWHITE | 2714 |
-| Vale | VALE CANADA LIMITED | 189 (2026-09-23) |
 
 `area_ha` is not mapped from this layer.
-
-Vale holder strings are Jev-gated (`--sweep-holders --judge-holders`): the
-distinct MLAS HOLDER values matching `%VALE%` are swept attributes-only, then
-TypeSafe Jev (Noul: is this holder Vale Canada Limited) approves each string
-once. Live sweep 2026-09-23: `(100) VALE CANADA LIMITED VALE CANADA LIMITEE`
-(98 titles, noul 0.88) and the 50/50
-`(50) GLENCORE CANADA CORPORATION, (50) VALE CANADA LIMITED VALE CANADA LIMITEE`
-(91 titles, noul 0.86, include-as-focus). Judgments cache to
-`claims/.cache/mlas/vale-holder-judgments.json` (gitignored) so reruns spend
-no tokens; Jev never invents tenures.
-
-## Ontario — full MLAS set (cache + holder index)
-
-- Build: `python3 build_on_bc_extracts.py --full-ontario` (stdlib only; OBJECTID
-  keyset resumption). The full download lives in the gitignored cache
-  `claims/.cache/mlas/tiles/` (41 tiles, `full-progress.json`); a rerun with a
-  complete cache downloads nothing. Tiles are never committed.
-- Committed: `claims/mlas/holders.json` — holder, tenure count, and bounding
-  box for every holder, built offline with
-  `python3 build_on_bc_extracts.py --holders-index` (no network).
-  No second UI reads it — it is the small committed index behind the
-  per-company extracts.
-- Full set 2026-09-23: **403,789** titles, **1,382** holders, tiles **244.6 MB**
-  in cache (layer `count` agrees: 403789). Vale-holder titles: 189, matching
-  `claims/vale-ontario.geojson` focus.
 
 ## British Columbia — MTA tenure
 

@@ -1,16 +1,16 @@
 # Claims → Insiders ticker audit
 
-Generated `2026-09-22T11:40:40Z`.
+Generated `2026-09-23T01:36:26Z`.
 Source: `claims/companies.json` (~191) plus extract holder aliases and beta ticker catalogs.
 Private / unmatched holders are excluded from the Insiders universe.
 
 | Status | Count |
 | --- | ---: |
-| matched | 191 |
+| matched | 192 |
 | missing-ticker | 0 |
 | ambiguous | 0 |
 | private-excluded | 0 |
-| **total** | 191 |
+| **total** | 192 |
 
 Empty-filings policy: publics stay on the issuer list/tape with a **no filings yet** badge.
 They are not hidden until SEDI / Form 4 prints land.
@@ -201,6 +201,7 @@ They are not hidden until SEDI / Form 4 prints land.
 | matched | `troilus-mining` | Troilus Mining | TLG.TO, CHXMF | Troilus Mining | already on insider-companies.json |
 | matched | `tudor-gold` | Tudor Gold | TUD.V, TDRRF | Tudor Gold | already on insider-companies.json |
 | matched | `united-states-antimony` | United States Antimony Corp. | UAMY | United States Antimony Corp. | already on insider-companies.json |
+| matched | `vale` | Vale Canada Limited | VALE | Vale S.A. | already on insider-companies.json |
 | matched | `vista-gold` | Vista Gold | VGZ, VGZ.TO | Vista Gold | already on insider-companies.json |
 | matched | `vr-resources` | VR Resources | VRR.V, VRRCF | VR Resources | already on insider-companies.json |
 | matched | `walker-lane-resources` | Walker Lane Resources | WLR.V, CMCXF | Walker Lane Resources | already on insider-companies.json |

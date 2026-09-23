@@ -106,7 +106,7 @@ class ResolveTests(unittest.TestCase):
 
 
 class CommoditiesLinkerTests(unittest.TestCase):
-    def test_vale_claims_still_unlinked(self) -> None:
+    def test_vale_claims_linked(self) -> None:
         catalog = b.load_company_catalog(ROOT)
         name_idx, mine_idx = b.build_indexes(catalog)
         linked = b.link_mine(
@@ -122,7 +122,7 @@ class CommoditiesLinkerTests(unittest.TestCase):
             name_idx,
             mine_idx,
         )
-        self.assertIsNone(linked.get("claims_href"))
+        self.assertEqual(linked.get("claims_href"), "claims.html?company=vale")
         b.apply_beta_owner_links([linked], ROOT)
         if (ROOT / "beta" / "vale.json").exists() and (HERE / "canada-owner-aliases.json").exists():
             aliases = json.loads((HERE / "canada-owner-aliases.json").read_text(encoding="utf-8"))

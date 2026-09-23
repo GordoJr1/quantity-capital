@@ -2,16 +2,16 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "A",
   "pr_topic": "claims publics onto Insiders tape universe",
-  "generated": "2026-09-20T23:07:50Z",
+  "generated": "2026-09-23T01:36:26Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
   "audit": {
     "csv": "scripts/claims-insider-ticker-audit.csv",
     "md": "scripts/claims-insider-ticker-audit.md",
-    "n": 191,
+    "n": 192,
     "counts": {
-      "matched": 191
+      "matched": 192
     },
     "new_publics": [
       {
@@ -117,7 +117,7 @@
       "state": {
         "locked_decision": "include on tape with a no filings yet badge; do not hide until data lands",
         "audit": {
-          "matched": 191
+          "matched": 192
         }
       }
     },
@@ -129,10 +129,10 @@
       ],
       "state": {
         "rule": "exclude numbered provincial corps, Crown/ministry, unmatched person-like holders",
-        "catalog_n": 191,
+        "catalog_n": 192,
         "private_excluded": 0,
         "missing_ticker": 0,
-        "matched": 191
+        "matched": 192
       }
     },
     {

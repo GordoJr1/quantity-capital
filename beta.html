@@ -1218,11 +1218,17 @@
       }
     }
     function paintMines() {
-      const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
       const head = document.getElementById("mines-h");
+      const wrap = document.getElementById("mines-wrap");
+      if (isValeCompany()) {
+        if (head) head.hidden = true;
+        if (wrap) wrap.hidden = true;
+        document.getElementById("mines").innerHTML = "";
+        return;
+      }
+      const assets = ((profile && profile.assets) || []).filter((a) => a.in_production);
       const cp = profile && profile.company_production;
       if (head && cp && cp.mines_heading) head.textContent = cp.mines_heading;
-      const wrap = document.getElementById("mines-wrap");
       if (head) head.hidden = !assets.length;
       if (wrap) wrap.hidden = !assets.length;
       if (!assets.length) {

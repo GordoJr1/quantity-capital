@@ -1,11 +1,11 @@
 {
   "schema": "qc-beta-claims-publics-v1",
-  "generated": "2026-09-20T18:48:02Z",
+  "generated": "2026-09-23T00:40:55Z",
   "disclaimer": "Claims-map publics using claims/companies.json ids. Deep link beta.html?id=<claims-id>. Map preview uses claims/overview.geojson cells + catalog mines — not per-company extracts. Shells already on disk are reused. Not legal title. Not investment advice.",
   "universe_note": "Every claims/companies.json issuer that resolves to a beta ticker and profile file. troilus-mining aliases to the filing-backed troilus shell. Do not invent ounces.",
-  "n": 191,
+  "n": 192,
   "counts": {
-    "matched": 191
+    "matched": 192
   },
   "aliases": {
     "troilus-mining": "troilus"
@@ -5055,6 +5055,33 @@
         46.74166666952586,
         -60.39166665860502,
         58.34166668099502
+      ],
+      "color": "#e8b040",
+      "note": null
+    },
+    {
+      "id": "vale",
+      "beta_id": "vale",
+      "alias_of": null,
+      "name": "Vale S.A.",
+      "file": "beta/vale.json",
+      "tickers": [
+        "VALE"
+      ],
+      "kind": "producer",
+      "stage": "producing",
+      "layer": "claims",
+      "in_issuers": false,
+      "in_explorers": false,
+      "filing_backed": false,
+      "claim_count": 189,
+      "has_overview": true,
+      "has_mines": false,
+      "bbox": [
+        -81.5625,
+        46.3292,
+        -80.8063,
+        46.7875
       ],
       "color": "#e8b040",
       "note": null

@@ -2,15 +2,15 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "B",
   "pr_topic": "claims-map issuer profiles + light map preview",
-  "generated": "2026-09-20T18:51:50Z",
+  "generated": "2026-09-23T01:36:26Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
   "index": {
     "json": "beta/claims-publics.json",
-    "n": 191,
+    "n": 192,
     "counts": {
-      "matched": 191
+      "matched": 192
     },
     "aliases": {
       "troilus-mining": "troilus"
@@ -127,7 +127,7 @@
         "locked_decision": "claims_id_tickers_no_ounces",
         "do_not": "invent ounces or regenerate existing shells",
         "index": {
-          "matched": 191
+          "matched": 192
         }
       }
     },

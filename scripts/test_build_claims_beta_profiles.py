@@ -22,13 +22,16 @@ class ClaimsBetaIndexTests(unittest.TestCase):
     def test_live_catalog_resolves_samples(self) -> None:
         payload = b.build_index(ROOT)
         by_id = {r["id"]: r for r in payload["issuers"]}
-        self.assertEqual(payload["n"], 191)
-        self.assertEqual(payload["counts"].get("matched"), 191)
+        self.assertEqual(payload["n"], 192)
+        self.assertEqual(payload["counts"].get("matched"), 192)
         self.assertEqual(by_id["iamgold"]["file"], "beta/iamgold.json")
         self.assertTrue(by_id["iamgold"]["in_issuers"])
         self.assertEqual(by_id["probe-gold"]["file"], "beta/probe-gold.json")
         self.assertTrue(by_id["probe-gold"]["in_explorers"])
         self.assertEqual(by_id["g2-goldfields"]["file"], "beta/g2-goldfields.json")
+        self.assertEqual(by_id["vale"]["file"], "beta/vale.json")
+        self.assertIn("VALE", by_id["vale"]["tickers"])
+        self.assertTrue(by_id["vale"]["has_overview"])
         self.assertEqual(by_id["troilus-mining"]["alias_of"], "troilus")
         self.assertEqual(by_id["troilus-mining"]["file"], "beta/troilus.json")
         self.assertIn("TLG.TO", by_id["troilus-mining"]["tickers"])

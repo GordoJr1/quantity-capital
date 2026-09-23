@@ -68,6 +68,14 @@
       align-items: start;
       margin: 0 0 22px;
     }
+    .vale-prod-row {
+      display: grid;
+      grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
+      gap: 12px 28px;
+      align-items: start;
+      margin: 0 0 22px;
+    }
+    .vale-prod-row > div { min-width: 0; }
     .issuer-info { min-width: 0; }
     .issuer-info .lede { margin-bottom: 8px; }
     .issuer-info .picker { max-width: 100%; }
@@ -399,6 +407,7 @@
     }
     @media (max-width: 960px) {
       .issuer-top { grid-template-columns: 1fr; align-items: start; gap: 16px; }
+      .vale-prod-row { grid-template-columns: 1fr; align-items: start; gap: 16px; }
       .issuer-chart { display: block; max-height: none; }
       .chart-wrap { min-height: 0; max-height: 260px; flex: none; padding: 10px 8px 10px 12px; }
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
@@ -2114,6 +2123,39 @@
       if (claimsCompanyForProfile() || claimsPublicForProfile()) return true;
       return false;
     }
+    let valeRow = null;
+    function paintValeLayout() {
+      const series = document.getElementById("company-series");
+      const box = document.getElementById("mines-inset");
+      const top = document.querySelector(".issuer-top");
+      if (!series || !box || !top) return;
+      if (!isValeCompany()) {
+        if (valeRow) {
+          if (valeRow._seriesParent) valeRow._seriesParent.insertBefore(series, valeRow._seriesNext);
+          if (valeRow._boxParent) valeRow._boxParent.insertBefore(box, valeRow._boxNext);
+          valeRow.remove();
+          valeRow = null;
+        }
+        return;
+      }
+      if (valeRow) return;
+      valeRow = document.createElement("div");
+      valeRow.id = "vale-prod-row";
+      valeRow.className = "vale-prod-row";
+      const left = document.createElement("div");
+      left.className = "vale-prod-col";
+      const right = document.createElement("div");
+      right.className = "vale-map-col";
+      valeRow.appendChild(left);
+      valeRow.appendChild(right);
+      valeRow._seriesParent = series.parentNode;
+      valeRow._seriesNext = series.nextSibling;
+      valeRow._boxParent = box.parentNode;
+      valeRow._boxNext = box.nextSibling;
+      top.parentNode.insertBefore(valeRow, top.nextSibling);
+      left.appendChild(series);
+      right.appendChild(box);
+    }
     function paintMinesInset() {
       const box = document.getElementById("mines-inset");
       const row = document.getElementById("pipe-row");
@@ -2123,8 +2165,12 @@
       box.hidden = !show;
       const pipeEmpty = pipeCol && pipeCol.hidden;
       if (row) {
-        row.hidden = !show && pipeEmpty;
-        row.classList.toggle("split", show && !pipeEmpty);
+        if (isValeCompany()) {
+          row.hidden = true;
+        } else {
+          row.hidden = !show && pipeEmpty;
+          row.classList.toggle("split", show && !pipeEmpty);
+        }
       }
       if (!show) return;
       const pub = claimsPublicForProfile();
@@ -2350,6 +2396,7 @@
       paintPipeline();
       paintRr();
       paintCards();
+      paintValeLayout();
       paintMinesInset();
     }
     function pickerRows() {

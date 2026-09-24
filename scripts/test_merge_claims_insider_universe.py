@@ -2,7 +2,10 @@
 """Matcher tests for claims → insider universe merge."""
 from __future__ import annotations
 
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
 from merge_claims_insider_universe import (
     classify_ticker,
@@ -12,6 +15,7 @@ from merge_claims_insider_universe import (
     norm_name,
     slugify,
     split_tickers,
+    sync_catalog_pins,
 )
 
 
@@ -119,6 +123,54 @@ class Match(unittest.TestCase):
             extract_aliases=[],
         )
         self.assertEqual(row["status"], "ambiguous")
+
+
+class CatalogPins(unittest.TestCase):
+    PIN = {"id": "vale", "holder": "Vale Canada Limited", "ontario_count": 189}
+
+    def _root(self, catalog: dict, pins: dict) -> Path:
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / "claims").mkdir()
+        (root / "claims" / "companies.json").write_text(json.dumps(catalog), encoding="utf-8")
+        (root / "claims" / "pinned-companies.json").write_text(json.dumps(pins), encoding="utf-8")
+        return root
+
+    def _read(self, root: Path, name: str) -> dict:
+        return json.loads((root / "claims" / name).read_text(encoding="utf-8"))
+
+    def test_stale_catalog_restores_row_and_meta(self):
+        root = self._root(
+            {"disclaimer": "old", "companies": [{"id": "newmont"}], "on_bc_built_at": "2026-09-20T00:00:00Z"},
+            {"on_bc_built_at": "2026-09-23T00:00:00Z", "meta": {"disclaimer": "new"}, "companies": [self.PIN]},
+        )
+        changes, problems = sync_catalog_pins(root, write=False)
+        self.assertEqual(changes, [])
+        self.assertTrue(any("vale" in p for p in problems))
+        self.assertEqual(self._read(root, "companies.json")["disclaimer"], "old")
+
+        changes, problems = sync_catalog_pins(root, write=True)
+        self.assertEqual(problems, [])
+        cat = self._read(root, "companies.json")
+        self.assertEqual([r["id"] for r in cat["companies"]], ["newmont", "vale"])
+        self.assertEqual(cat["disclaimer"], "new")
+        self.assertEqual(cat["on_bc_built_at"], "2026-09-23T00:00:00Z")
+        self.assertEqual(sync_catalog_pins(root, write=True), ([], []))
+
+    def test_fresher_catalog_refreshes_pins(self):
+        row = dict(self.PIN, ontario_count=200)
+        root = self._root(
+            {"disclaimer": "newer", "companies": [row], "on_bc_built_at": "2026-10-01T00:00:00Z"},
+            {"on_bc_built_at": "2026-09-23T00:00:00Z", "meta": {"disclaimer": "new"}, "companies": [self.PIN]},
+        )
+        changes, _ = sync_catalog_pins(root, write=True)
+        pins = self._read(root, "pinned-companies.json")
+        self.assertEqual(pins["companies"][0]["ontario_count"], 200)
+        self.assertEqual(pins["meta"]["disclaimer"], "newer")
+        self.assertEqual(pins["on_bc_built_at"], "2026-10-01T00:00:00Z")
+        self.assertEqual(self._read(root, "companies.json")["companies"], [row])
+        self.assertTrue(changes)
 
 
 if __name__ == "__main__":

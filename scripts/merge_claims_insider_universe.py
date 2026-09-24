@@ -5,6 +5,11 @@ Reads claims/companies.json (plus extract holder aliases and beta ticker
 catalogs). Resolves CAD/US tickers where possible. Appends missing publics to
 insider-companies.json. Writes a ticker audit (CSV + markdown).
 
+The off-repo collector pushes stale copies of claims/companies.json and
+insider-companies.json. Rows and on_bc metadata in claims/pinned-companies.json
+are re-applied to the catalog first, and follow-alerts.yml reruns this script
+after every collector push.
+
 Does not crawl provinces, does not touch qc.sqlite, does not rewrite the
 off-repo tape.
 
@@ -16,7 +21,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import io
 import json
+import sys
 import re
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -25,6 +32,8 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAIMS = ROOT / "claims"
+CATALOG_PINS = "pinned-companies.json"
+PIN_META_KEYS = ("disclaimer", "sources")
 INSIDER_COMPANIES = ROOT / "insider-companies.json"
 AUDIT_CSV = ROOT / "scripts" / "claims-insider-ticker-audit.csv"
 AUDIT_MD = ROOT / "scripts" / "claims-insider-ticker-audit.md"
@@ -400,23 +409,99 @@ def company_record(row: dict) -> dict:
     }
 
 
+def write_text_atomic(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_bytes(text.encode("utf-8"))
+    tmp.replace(path)
+
+
+def write_json_atomic(path: Path, data: Any) -> None:
+    write_text_atomic(path, json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+
+
+def sync_catalog_pins(root: Path, *, write: bool) -> tuple[list[str], list[str]]:
+    """Re-apply claims/pinned-companies.json to claims/companies.json.
+
+    Returns (changes, problems). With write=False nothing is written and every
+    needed catalog change is reported as a problem. A catalog whose
+    on_bc_built_at is newer than the pins refreshes the pins instead (including
+    unpinning rows it no longer has), so real rebuilds win.
+    """
+    pins_path = root / "claims" / CATALOG_PINS
+    catalog_path = root / "claims" / "companies.json"
+    if not pins_path.exists():
+        return [], []
+    pins = load_json(pins_path)
+    catalog = load_json(catalog_path)
+    pin_at = str(pins.get("on_bc_built_at") or "")
+    cat_at = str(catalog.get("on_bc_built_at") or "")
+    catalog_fresher = cat_at > pin_at
+    changes: list[str] = []
+    pins_changed = False
+
+    if cat_at < pin_at:
+        for key in PIN_META_KEYS:
+            if key in (pins.get("meta") or {}) and catalog.get(key) != pins["meta"][key]:
+                catalog[key] = pins["meta"][key]
+                changes.append(f"restored catalog {key}")
+        catalog["on_bc_built_at"] = pin_at
+        changes.append(f"restored on_bc_built_at {cat_at or '-'} -> {pin_at}")
+    elif catalog_fresher:
+        pins["meta"] = {k: catalog.get(k) for k in PIN_META_KEYS if k in catalog}
+        pins["on_bc_built_at"] = cat_at
+        pins_changed = True
+
+    rows = catalog.setdefault("companies", [])
+    by_id = {r.get("id"): i for i, r in enumerate(rows)}
+    kept_pins = []
+    for pin in pins.get("companies") or []:
+        cid = pin.get("id")
+        if cid in by_id:
+            if catalog_fresher and rows[by_id[cid]] != pin:
+                pin = rows[by_id[cid]]
+                pins_changed = True
+            kept_pins.append(pin)
+            continue
+        if catalog_fresher:
+            # A newer real rebuild dropped it on purpose; stop pinning it.
+            pins_changed = True
+            continue
+        kept_pins.append(pin)
+        rows.append(pin)
+        by_id[cid] = len(rows) - 1
+        changes.append(f"restored catalog row {cid}")
+    pins["companies"] = kept_pins
+
+    if not write:
+        return [], [f"claims/companies.json: {c} needed (run without --check)" for c in changes]
+    if changes:
+        write_json_atomic(catalog_path, catalog)
+    if pins_changed:
+        write_json_atomic(pins_path, pins)
+        changes.append("refreshed claims/pinned-companies.json from a newer catalog")
+    return changes, []
+
+
 def write_audit(rows: list[dict], path_csv: Path, path_md: Path) -> None:
     fields = ["status", "id", "name", "tickers", "insider_name", "note"]
-    path_csv.parent.mkdir(parents=True, exist_ok=True)
-    with path_csv.open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader()
-        for row in rows:
-            w.writerow(
-                {
-                    "status": row["status"],
-                    "id": row["id"],
-                    "name": row["name"],
-                    "tickers": " ".join(row.get("tickers") or []),
-                    "insider_name": row.get("insider_name") or "",
-                    "note": row.get("note") or "",
-                }
-            )
+    buf = io.StringIO(newline="")
+    w = csv.DictWriter(buf, fieldnames=fields)
+    w.writeheader()
+    for row in rows:
+        w.writerow(
+            {
+                "status": row["status"],
+                "id": row["id"],
+                "name": row["name"],
+                "tickers": " ".join(row.get("tickers") or []),
+                "insider_name": row.get("insider_name") or "",
+                "note": row.get("note") or "",
+            }
+        )
+    old_csv = path_csv.read_bytes().decode("utf-8") if path_csv.exists() else None
+    if old_csv != buf.getvalue():
+        write_text_atomic(path_csv, buf.getvalue())
 
     counts: dict[str, int] = defaultdict(int)
     for row in rows:
@@ -447,7 +532,13 @@ def write_audit(rows: list[dict], path_csv: Path, path_md: Path) -> None:
         lines.append(
             f"| {row['status']} | `{row['id']}` | {row['name']} | {tks} | {row.get('insider_name') or '—'} | {row.get('note') or ''} |"
         )
-    path_md.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    text = "\n".join(lines) + "\n"
+    if path_md.exists():
+        stamp = re.compile(r"^Generated `[^`]*`\.$", re.M)
+        old = path_md.read_text(encoding="utf-8")
+        if stamp.sub("", old) == stamp.sub("", text):
+            return
+    write_text_atomic(path_md, text)
 
 
 def append_companies(path: Path, new_rows: list[dict]) -> int:
@@ -494,7 +585,7 @@ def append_companies(path: Path, new_rows: list[dict]) -> int:
             f'"claims_merged": "{datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}",\n  "count":',
             1,
         )
-    path.write_text(text, encoding="utf-8")
+    write_text_atomic(path, text)
     return len(to_add)
 
 
@@ -541,17 +632,24 @@ def check_universe(root: Path, rows: list[dict]) -> list[str]:
     return errors
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Merge claims publics into insider-companies.json")
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--check", action="store_true", help="Verify matched publics are on the universe; do not write JSON")
     parser.add_argument("--no-extracts", action="store_true", help="Skip extract holder aliases (faster tests)")
     parser.add_argument("--no-write-json", action="store_true", help="Write audit only")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     root = args.root
+    write = not args.check and not args.no_write_json
+    pin_changes, pin_problems = sync_catalog_pins(root, write=write)
+    for change in pin_changes:
+        print(change)
     rows = classify_all(root, use_extracts=not args.no_extracts)
     new_rows = [r for r in rows if r.get("new")]
-    write_audit(rows, root / "scripts" / "claims-insider-ticker-audit.csv", root / "scripts" / "claims-insider-ticker-audit.md")
+    audit_csv = root / "scripts" / "claims-insider-ticker-audit.csv"
+    audit_md = root / "scripts" / "claims-insider-ticker-audit.md"
+    if not args.check and not write:
+        write_audit(rows, audit_csv, audit_md)
     counts = defaultdict(int)
     for r in rows:
         counts[r["status"]] += 1
@@ -568,16 +666,16 @@ def main() -> int:
             indent=2,
         )
     )
-    if not args.check and not args.no_write_json:
+    if write:
         added = append_companies(root / "insider-companies.json", new_rows)
         print(f"appended {added} insider-companies")
         rows = classify_all(root, use_extracts=not args.no_extracts)
-        write_audit(rows, root / "scripts" / "claims-insider-ticker-audit.csv", root / "scripts" / "claims-insider-ticker-audit.md")
-    errors = check_universe(root, rows)
+        write_audit(rows, audit_csv, audit_md)
+    errors = pin_problems + check_universe(root, rows)
     if errors:
-        print("check failed:", file=__import__("sys").stderr)
+        print("check failed:", file=sys.stderr)
         for e in errors:
-            print(" ", e, file=__import__("sys").stderr)
+            print(" ", e, file=sys.stderr)
         return 1
     print("universe check ok")
     return 0

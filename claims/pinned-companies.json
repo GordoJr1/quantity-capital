@@ -1,0 +1,44 @@
+{
+  "note": "Catalog rows and on_bc metadata that the off-repo collector's stale claims/companies.json copy keeps dropping. merge_claims_insider_universe.py re-inserts missing rows and restores metadata when the catalog's on_bc_built_at is older than this file's; a fresher catalog refreshes this file. To retire a company, remove it here first.",
+  "on_bc_built_at": "2026-09-23T00:40:28Z",
+  "meta": {
+    "disclaimer": "Not legal title. Quebec GESTIM, Ontario MLAS operational claims (unofficial viewing data), and BC MTA tenure. Neighbors on Quebec extracts are titles within ~2 km of the company cells. Ontario featured extracts also include neighboring MLAS titles within ~3 km. BC layers are the selected company's tenures only.",
+    "sources": {
+      "quebec": "GESTIM active titles",
+      "ontario": "Ontario MLAS operational claims (OGSEarth / LIO MapServer). Unofficial viewing data, not legal title.",
+      "british_columbia": "BC MTA Mineral, Placer and Coal Tenure Spatial View (BCGW). Open Government Licence – British Columbia. Not legal title.",
+      "as_of_on_bc": "2026-09-23"
+    }
+  },
+  "companies": [
+    {
+      "id": "vale",
+      "names": [
+        "Vale Canada Limited",
+        "Vale Canada Limitée",
+        "VALE CANADA LIMITED"
+      ],
+      "holder": "Vale Canada Limited",
+      "claim_count": 189,
+      "neighbor_count": 0,
+      "bbox": null,
+      "color": "#e8b040",
+      "extract": null,
+      "mines": [],
+      "neighbors": [],
+      "quebec_count": 0,
+      "ontario_count": 189,
+      "bc_count": 0,
+      "ontario_extract": "claims/vale-ontario.geojson",
+      "bc_extract": null,
+      "ontario_bbox": [
+        -81.5625,
+        46.3292,
+        -80.8063,
+        46.7875
+      ],
+      "bc_bbox": null,
+      "quebec_bbox": null
+    }
+  ]
+}

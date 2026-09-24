@@ -1,18 +1,27 @@
-# Rebuild Form 4 sidecar + follow list after the off-repo collector
-# pushes a new tape. Daily-update runs the same pair as an evening
-# backstop; prices stay morning-only and are not fetched there.
+# After the off-repo collector pushes a new tape: re-merge the claims →
+# insiders universe (the collector's stale copies of claims/companies.json
+# and insider-companies.json drop agent-added rows), enrich Form 4s, and
+# rebuild the follow list. Daily-update runs the same rebuild as an evening
+# backstop in the same concurrency group; prices stay morning-only.
 name: follow-alerts
 on:
   push:
     branches: [main]
     paths:
       - insider-trades-lite.json
+      - insider-companies.json
+      - claims/companies.json
+      - claims/pinned-companies.json
       - build-insider-follow.py
+      - build-insider-repeatable.py
       - collect/form4_enrich.py
+      - scripts/merge_claims_insider_universe.py
+      - .github/workflows/follow-alerts.yml
   workflow_dispatch:
 
+# Shared with daily-update: both commit insider-form4 / repeatable / follow.
 concurrency:
-  group: follow-alerts
+  group: derived-data
   cancel-in-progress: false
 
 permissions:
@@ -29,27 +38,69 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enrich Form 4s and rebuild follow list
-        run: |
-          set -euo pipefail
-          python3 collect/form4_enrich.py
-          python3 build-insider-repeatable.py
-          python3 build-insider-follow.py
-
-      - name: Commit and publish
+      - name: Rebuild on latest main and publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add insider-form4.json insider-repeatable.json insider-follow.json
-          if git diff --staged --quiet; then
-            echo "no follow-list changes"
-            exit 0
+          cache="$RUNNER_TEMP/insider-form4.json"
+          pushed=""
+          problems=""
+          # A collector push can land while this job runs. Each attempt resets
+          # to the new main and rebuilds, so derived data never lags the tape.
+          # The Form 4 sidecar is carried across attempts so SEC is hit once.
+          for attempt in 1 2 3 4; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            problems=""
+
+            if ! python3 scripts/merge_claims_insider_universe.py; then
+              problems="$problems merge"
+            fi
+            if ! python3 scripts/build_claims_beta_profiles.py --check > /dev/null; then
+              problems="$problems claims-beta"
+            fi
+
+            prev=()
+            if [ -f "$cache" ]; then prev=(--prev "$cache"); fi
+            if ! python3 collect/form4_enrich.py "${prev[@]}"; then
+              echo "::warning::form4_enrich fetched nothing new or SEC blocked; rebuilding from the cached sidecar"
+              problems="$problems form4"
+            fi
+            cp insider-form4.json "$cache"
+
+            python3 build-insider-repeatable.py
+            python3 build-insider-follow.py
+
+            git add insider-form4.json insider-repeatable.json insider-follow.json \
+              insider-companies.json claims/companies.json claims/pinned-companies.json \
+              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md
+            if git diff --staged --quiet; then
+              echo "no follow-list or universe changes"
+              pushed="none"
+              break
+            fi
+            git commit -q -m "Follow-list alerts $(TZ=America/New_York date +%F)"
+            if git push origin HEAD:main; then
+              pushed="yes"
+              break
+            fi
+            echo "push rejected (attempt $attempt); rebuilding on the new main"
+            sleep $((attempt * 10))
+          done
+
+          if [ -z "$pushed" ]; then
+            echo "::error::could not push after 4 rebuild attempts"
+            exit 1
           fi
-          git commit -m "Follow-list alerts $(date -u +%F)"
-          git pull --rebase origin main
-          git push
-          sleep 8
-          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+          if [ "$pushed" = "yes" ]; then
+            # GITHUB_TOKEN commits do not always start pages-build-deployment.
+            sleep 8
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+          fi
+          if [ -n "$problems" ]; then
+            echo "::error::published, but these steps failed:$problems"
+            exit 1
+          fi

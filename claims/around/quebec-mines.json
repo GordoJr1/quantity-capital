@@ -1,6 +1,6 @@
 {
  "dataset": "Quebec titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
- "generated_at": "2026-09-24T17:08:05Z",
+ "generated_at": "2026-09-24T19:25:19Z",
  "province": "Quebec",
  "province_id": "quebec",
  "radii_km": [
@@ -123,8 +123,8 @@
       {
        "holder": "(100) Abaxx Technologies Inc.",
        "count": 36,
-       "company_id": null,
-       "ticker": null
+       "company_id": "abaxx-technologies-inc",
+       "ticker": "ABXX.TO"
       },
       {
        "holder": "(100) Patricia Lafontaine",
@@ -139,8 +139,12 @@
        "count": 93
       },
       {
+       "company_id": "abaxx-technologies-inc",
+       "count": 36
+      },
+      {
        "company_id": null,
-       "count": 45
+       "count": 9
       }
      ]
     },
@@ -156,8 +160,8 @@
       {
        "holder": "(100) Abaxx Technologies Inc.",
        "count": 123,
-       "company_id": null,
-       "ticker": null
+       "company_id": "abaxx-technologies-inc",
+       "ticker": "ABXX.TO"
       },
       {
        "holder": "(100) Neil McCallum",
@@ -186,12 +190,16 @@
      ],
      "by_company": [
       {
-       "company_id": null,
-       "count": 206
-      },
-      {
        "company_id": "tata-steel-minerals",
        "count": 181
+      },
+      {
+       "company_id": "abaxx-technologies-inc",
+       "count": 123
+      },
+      {
+       "company_id": null,
+       "count": 83
       }
      ]
     }
@@ -218,14 +226,18 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 24,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       }
      ],
      "by_company": [
       {
        "company_id": null,
-       "count": 116
+       "count": 92
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 24
       }
      ]
     },
@@ -241,8 +253,8 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 92,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       },
       {
        "holder": "(100) Hydro-Québec",
@@ -254,7 +266,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 326
+       "count": 234
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 92
       }
      ]
     }
@@ -275,8 +291,8 @@
       {
        "holder": "(100) Nuvau Minerals Corp.",
        "count": 67,
-       "company_id": null,
-       "ticker": null
+       "company_id": "nuvau-minerals-inc",
+       "ticker": "NMC.V"
       },
       {
        "holder": "(56.66) SOQUEM inc.",
@@ -287,20 +303,28 @@
       {
        "holder": "(43.34) Nuvau Minerals Corp.",
        "count": 54,
-       "company_id": null,
-       "ticker": null
+       "company_id": "nuvau-minerals-inc",
+       "ticker": "NMC.V"
       },
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 14,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       }
      ],
      "by_company": [
       {
+       "company_id": "nuvau-minerals-inc",
+       "count": 121
+      },
+      {
        "company_id": null,
-       "count": 189
+       "count": 54
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 14
       }
      ]
     },
@@ -316,14 +340,14 @@
       {
        "holder": "(43.34) Nuvau Minerals Corp.",
        "count": 194,
-       "company_id": null,
-       "ticker": null
+       "company_id": "nuvau-minerals-inc",
+       "ticker": "NMC.V"
       },
       {
        "holder": "(100) Nuvau Minerals Corp.",
        "count": 186,
-       "company_id": null,
-       "ticker": null
+       "company_id": "nuvau-minerals-inc",
+       "ticker": "NMC.V"
       },
       {
        "holder": "(100) Eldorado Gold (Quebec) inc.",
@@ -334,8 +358,8 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 23,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       },
       {
        "holder": "(100) Patricia Lafontaine",
@@ -376,12 +400,20 @@
      ],
      "by_company": [
       {
+       "company_id": "nuvau-minerals-inc",
+       "count": 380
+      },
+      {
        "company_id": null,
-       "count": 610
+       "count": 207
       },
       {
        "company_id": "eldorado-gold",
        "count": 127
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 23
       },
       {
        "company_id": "fancamp-exploration",
@@ -516,8 +548,8 @@
       {
        "holder": "(100) Graphano Energy ltd.",
        "count": 31,
-       "company_id": null,
-       "ticker": null
+       "company_id": "graphano-energy-ltd",
+       "ticker": "GEL.V"
       },
       {
        "holder": "(100) Graphite Nordique inc.",
@@ -529,7 +561,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 87
+       "count": 56
+      },
+      {
+       "company_id": "graphano-energy-ltd",
+       "count": 31
       }
      ]
     },
@@ -545,8 +581,8 @@
       {
        "holder": "(100) Graphano Energy ltd.",
        "count": 37,
-       "company_id": null,
-       "ticker": null
+       "company_id": "graphano-energy-ltd",
+       "ticker": "GEL.V"
       },
       {
        "holder": "(100) Graphite Nordique inc.",
@@ -564,7 +600,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 107
+       "count": 70
+      },
+      {
+       "company_id": "graphano-energy-ltd",
+       "count": 37
       }
      ]
     }
@@ -758,8 +798,8 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 48,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       },
       {
        "holder": "(100) Probe Gold inc.",
@@ -819,7 +859,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 151
+       "count": 103
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 48
       },
       {
        "company_id": "probe-gold",
@@ -837,8 +881,8 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 98,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       },
       {
        "holder": "(100) SOQUEM inc.",
@@ -885,8 +929,8 @@
       {
        "holder": "(100) Nuvau Minerals Corp.",
        "count": 34,
-       "company_id": null,
-       "ticker": null
+       "company_id": "nuvau-minerals-inc",
+       "ticker": "NMC.V"
       },
       {
        "holder": "(100) North American Exploration Ltd",
@@ -934,7 +978,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 515
+       "count": 383
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 98
       },
       {
        "company_id": "abitibi-metals",
@@ -943,6 +991,10 @@
       {
        "company_id": "probe-gold",
        "count": 38
+      },
+      {
+       "company_id": "nuvau-minerals-inc",
+       "count": 34
       }
      ]
     }
@@ -1214,8 +1266,8 @@
       {
        "holder": "(100) Visible Gold Mines inc.",
        "count": 9,
-       "company_id": null,
-       "ticker": null
+       "company_id": "visible-gold-mines-inc",
+       "ticker": "VGD.V"
       },
       {
        "holder": "(100) Pierre Parent",
@@ -1226,14 +1278,14 @@
       {
        "holder": "(100) XXIX Metal Corp.",
        "count": 7,
-       "company_id": null,
-       "ticker": null
+       "company_id": "xxix-metal-corp",
+       "ticker": "XXIX.V"
       },
       {
        "holder": "(100) Val-d'Or Mining Corporation",
        "count": 7,
-       "company_id": null,
-       "ticker": null
+       "company_id": "val-d-or-mining-corporation",
+       "ticker": "VZZ.V"
       },
       {
        "holder": "(30) Jean Robert",
@@ -1347,11 +1399,23 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 677
+       "count": 654
+      },
+      {
+       "company_id": "visible-gold-mines-inc",
+       "count": 9
       },
       {
        "company_id": "iamgold",
        "count": 8
+      },
+      {
+       "company_id": "xxix-metal-corp",
+       "count": 7
+      },
+      {
+       "company_id": "val-d-or-mining-corporation",
+       "count": 7
       },
       {
        "company_id": "first-quantum-minerals",
@@ -1475,8 +1539,8 @@
       {
        "holder": "(100) Linear Minerals corp.",
        "count": 59,
-       "company_id": null,
-       "ticker": null
+       "company_id": "linear-minerals-corp",
+       "ticker": "LINE.CN"
       },
       {
        "holder": "(100) Lithium Amérique du Nord inc..",
@@ -1499,20 +1563,32 @@
       {
        "holder": "(100) Germanium Mining Corp.",
        "count": 6,
-       "company_id": null,
-       "ticker": null
+       "company_id": "germanium-mining-corp",
+       "ticker": "GMC.CN"
       },
       {
        "holder": "(100) St-Georges Eco-Mining corp.",
        "count": 1,
-       "company_id": null,
-       "ticker": null
+       "company_id": "st-georges-eco-mining-corp",
+       "ticker": "SX.CN"
       }
      ],
      "by_company": [
       {
        "company_id": null,
-       "count": 242
+       "count": 176
+      },
+      {
+       "company_id": "linear-minerals-corp",
+       "count": 59
+      },
+      {
+       "company_id": "germanium-mining-corp",
+       "count": 6
+      },
+      {
+       "company_id": "st-georges-eco-mining-corp",
+       "count": 1
       }
      ]
     },
@@ -1528,8 +1604,8 @@
       {
        "holder": "(100) Linear Minerals corp.",
        "count": 149,
-       "company_id": null,
-       "ticker": null
+       "company_id": "linear-minerals-corp",
+       "ticker": "LINE.CN"
       },
       {
        "holder": "(100) Lithium Amérique du Nord inc..",
@@ -1600,14 +1676,14 @@
       {
        "holder": "(100) BWR Exploration Inc",
        "count": 17,
-       "company_id": null,
-       "ticker": null
+       "company_id": "bwr-exploration-inc",
+       "ticker": "BWR.V"
       },
       {
        "holder": "(100) Val-d'Or Mining Corporation",
        "count": 14,
-       "company_id": null,
-       "ticker": null
+       "company_id": "val-d-or-mining-corporation",
+       "ticker": "VZZ.V"
       },
       {
        "holder": "(100) Ressources Yorbeau Inc. (Les)",
@@ -1636,14 +1712,14 @@
       {
        "holder": "(100) Germanium Mining Corp.",
        "count": 6,
-       "company_id": null,
-       "ticker": null
+       "company_id": "germanium-mining-corp",
+       "ticker": "GMC.CN"
       },
       {
        "holder": "(100) St-Georges Eco-Mining corp.",
        "count": 5,
-       "company_id": null,
-       "ticker": null
+       "company_id": "st-georges-eco-mining-corp",
+       "ticker": "SX.CN"
       },
       {
        "holder": "(100) Redevances Noranda Inc.",
@@ -1703,7 +1779,27 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 791
+       "count": 600
+      },
+      {
+       "company_id": "linear-minerals-corp",
+       "count": 149
+      },
+      {
+       "company_id": "bwr-exploration-inc",
+       "count": 17
+      },
+      {
+       "company_id": "val-d-or-mining-corporation",
+       "count": 14
+      },
+      {
+       "company_id": "germanium-mining-corp",
+       "count": 6
+      },
+      {
+       "company_id": "st-georges-eco-mining-corp",
+       "count": 5
       }
      ]
     }
@@ -1769,8 +1865,8 @@
       {
        "holder": "(100) Troubadour Resources inc.",
        "count": 47,
-       "company_id": null,
-       "ticker": null
+       "company_id": "troubadour-resources-inc",
+       "ticker": "TR.V"
       },
       {
        "holder": "(45) Glencore Canada Corporation",
@@ -1787,8 +1883,8 @@
       {
        "holder": "(100) Val-d'Or Mining Corporation",
        "count": 24,
-       "company_id": null,
-       "ticker": null
+       "company_id": "val-d-or-mining-corporation",
+       "ticker": "VZZ.V"
       },
       {
        "holder": "(100) 9511-2090 Québec inc.",
@@ -1863,16 +1959,24 @@
        "count": 443
       },
       {
-       "company_id": null,
-       "count": 212
-      },
-      {
        "company_id": "eldorado-gold",
        "count": 167
       },
       {
+       "company_id": null,
+       "count": 141
+      },
+      {
+       "company_id": "troubadour-resources-inc",
+       "count": 47
+      },
+      {
        "company_id": "glencore",
        "count": 44
+      },
+      {
+       "company_id": "val-d-or-mining-corporation",
+       "count": 24
       }
      ]
     }
@@ -2029,8 +2133,8 @@
       {
        "holder": "(100) Generic Gold corp.",
        "count": 5,
-       "company_id": null,
-       "ticker": null
+       "company_id": "generic-gold-corp",
+       "ticker": "GGC.CN"
       },
       {
        "holder": "(100) Glenn Griesbach",
@@ -2060,7 +2164,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 82
+       "count": 77
+      },
+      {
+       "company_id": "generic-gold-corp",
+       "count": 5
       }
      ]
     }
@@ -2547,8 +2655,8 @@
       {
        "holder": "(100) Exploration Midland inc.",
        "count": 33,
-       "company_id": null,
-       "ticker": null
+       "company_id": "midland-exploration",
+       "ticker": "MD.V"
       },
       {
        "holder": "(100) Hélène Niquay",
@@ -2595,8 +2703,8 @@
       {
        "holder": "(100) Val-d'Or Mining Corporation",
        "count": 4,
-       "company_id": null,
-       "ticker": null
+       "company_id": "val-d-or-mining-corporation",
+       "ticker": "VZZ.V"
       },
       {
        "holder": "(70) Pierre Parent",
@@ -2638,7 +2746,7 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 298
+       "count": 261
       },
       {
        "company_id": "agnico-eagle",
@@ -2647,6 +2755,14 @@
       {
        "company_id": "iamgold",
        "count": 112
+      },
+      {
+       "company_id": "midland-exploration",
+       "count": 33
+      },
+      {
+       "company_id": "val-d-or-mining-corporation",
+       "count": 4
       }
      ]
     }
@@ -2673,14 +2789,18 @@
       {
        "holder": "(100) Exploration Azimut inc.",
        "count": 5,
-       "company_id": null,
-       "ticker": null
+       "company_id": "azimut-exploration",
+       "ticker": "AZM.V"
       }
      ],
      "by_company": [
       {
        "company_id": null,
-       "count": 164
+       "count": 159
+      },
+      {
+       "company_id": "azimut-exploration",
+       "count": 5
       }
      ]
     },
@@ -2708,8 +2828,8 @@
       {
        "holder": "(100) Exploration Azimut inc.",
        "count": 20,
-       "company_id": null,
-       "ticker": null
+       "company_id": "azimut-exploration",
+       "ticker": "AZM.V"
       },
       {
        "holder": "(100) Ressources Sirios inc.",
@@ -2721,7 +2841,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 476
+       "count": 456
+      },
+      {
+       "company_id": "azimut-exploration",
+       "count": 20
       }
      ]
     }

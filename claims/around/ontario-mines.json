@@ -1,6 +1,6 @@
 {
  "dataset": "Ontario titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
- "generated_at": "2026-09-24T17:08:05Z",
+ "generated_at": "2026-09-24T19:25:19Z",
  "province": "Ontario",
  "province_id": "ontario",
  "radii_km": [
@@ -81,7 +81,7 @@
    "ticker": "EQX"
   }
  ],
- "seconds": 1.5,
+ "seconds": 1.6,
  "results": [
   {
    "mine_id": "clarabelle-mill-sudbury-operations",
@@ -1117,14 +1117,14 @@
       {
        "holder": "(100) VAL-D'OR MINING CORPORATION",
        "count": 20,
-       "company_id": null,
-       "ticker": null
+       "company_id": "val-d-or-mining-corporation",
+       "ticker": "VZZ.V"
       },
       {
        "holder": "(100) MCLAREN RESOURCES INC.",
        "count": 12,
-       "company_id": null,
-       "ticker": null
+       "company_id": "mclaren-resources-inc",
+       "ticker": "MCL.CN"
       },
       {
        "holder": "(25) CLAYTON LUCIEN LARCHE, (25) SARA MEAGAN WIGELSWORTH, (50) Charles  Gryba",
@@ -1196,7 +1196,7 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 410
+       "count": 378
       },
       {
        "company_id": "agnico-eagle",
@@ -1213,6 +1213,14 @@
       {
        "company_id": "canada-nickel",
        "count": 50
+      },
+      {
+       "company_id": "val-d-or-mining-corporation",
+       "count": 20
+      },
+      {
+       "company_id": "mclaren-resources-inc",
+       "count": 12
       },
       {
        "company_id": "nickel-creek-platinum",
@@ -1329,8 +1337,8 @@
       {
        "holder": "(100) Golden Rapture Mining Corporation",
        "count": 7,
-       "company_id": null,
-       "ticker": null
+       "company_id": "golden-rapture-mining-corporation",
+       "ticker": "GLDR.CN"
       },
       {
        "holder": "(50) EDWARD ANTHONY BARKAUSKAS, (50) SHERRIDON PATRICK JOHNSON",
@@ -1366,11 +1374,15 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 317
+       "count": 310
       },
       {
        "company_id": "nexgold",
        "count": 85
+      },
+      {
+       "company_id": "golden-rapture-mining-corporation",
+       "count": 7
       },
       {
        "company_id": "canada-nickel",
@@ -1698,8 +1710,8 @@
       {
        "holder": "(50) CHAMPION BEAR RESOURCES LTD., (50) URSA MAJOR MINERALS INCORPORATED",
        "count": 12,
-       "company_id": null,
-       "ticker": null
+       "company_id": "champion-bear-resources-ltd",
+       "ticker": "CBA.V"
       },
       {
        "holder": "(100) VCC RESOURCES, INC.",
@@ -1716,12 +1728,16 @@
      ],
      "by_company": [
       {
-       "company_id": null,
-       "count": 132
-      },
-      {
        "company_id": "major-drilling-group-international",
        "count": 121
+      },
+      {
+       "company_id": null,
+       "count": 120
+      },
+      {
+       "company_id": "champion-bear-resources-ltd",
+       "count": 12
       }
      ]
     }
@@ -1880,8 +1896,8 @@
       {
        "holder": "(100) MCLAREN RESOURCES INC.",
        "count": 16,
-       "company_id": null,
-       "ticker": null
+       "company_id": "mclaren-resources-inc",
+       "ticker": "MCL.CN"
       },
       {
        "holder": "(50) AGNICO EAGLE MINES LIMITED, (50) STLLR GOLD INC.",
@@ -1919,7 +1935,11 @@
       },
       {
        "company_id": null,
-       "count": 51
+       "count": 35
+      },
+      {
+       "company_id": "mclaren-resources-inc",
+       "count": 16
       }
      ]
     },
@@ -1959,8 +1979,8 @@
       {
        "holder": "(100) MCLAREN RESOURCES INC.",
        "count": 70,
-       "company_id": null,
-       "ticker": null
+       "company_id": "mclaren-resources-inc",
+       "ticker": "MCL.CN"
       },
       {
        "holder": "(100) Mayfair Gold Corp.",
@@ -2040,11 +2060,15 @@
       },
       {
        "company_id": null,
-       "count": 314
+       "count": 244
       },
       {
        "company_id": "nickel-creek-platinum",
        "count": 138
+      },
+      {
+       "company_id": "mclaren-resources-inc",
+       "count": 70
       },
       {
        "company_id": "mayfair-gold",

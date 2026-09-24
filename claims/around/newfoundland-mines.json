@@ -1,6 +1,6 @@
 {
  "dataset": "Newfoundland and Labrador titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
- "generated_at": "2026-09-24T17:08:05Z",
+ "generated_at": "2026-09-24T19:25:19Z",
  "province": "Newfoundland and Labrador",
  "province_id": "newfoundland",
  "radii_km": [
@@ -303,8 +303,8 @@
       {
        "holder": "Labrador Iron Mines Limited",
        "count": 4,
-       "company_id": null,
-       "ticker": null
+       "company_id": "labrador-gold",
+       "ticker": "LAB.V"
       },
       {
        "holder": "Iron Block 103 Corporation",
@@ -339,12 +339,16 @@
      ],
      "by_company": [
       {
-       "company_id": null,
-       "count": 10
-      },
-      {
        "company_id": "tata-steel-minerals",
        "count": 6
+      },
+      {
+       "company_id": null,
+       "count": 6
+      },
+      {
+       "company_id": "labrador-gold",
+       "count": 4
       }
      ]
     },
@@ -372,8 +376,8 @@
       {
        "holder": "Labrador Iron Mines Limited",
        "count": 4,
-       "company_id": null,
-       "ticker": null
+       "company_id": "labrador-gold",
+       "ticker": "LAB.V"
       },
       {
        "holder": "Matthew Stead",
@@ -403,11 +407,15 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 22
+       "count": 18
       },
       {
        "company_id": "tata-steel-minerals",
        "count": 6
+      },
+      {
+       "company_id": "labrador-gold",
+       "count": 4
       }
      ]
     }
@@ -509,8 +517,8 @@
       {
        "holder": "Sorrento Resources Ltd.",
        "count": 1,
-       "company_id": null,
-       "ticker": null
+       "company_id": "sorrento-resources-ltd",
+       "ticker": "SRS.CN"
       },
       {
        "holder": "Morgan Raffay",
@@ -528,7 +536,7 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 29
+       "count": 28
       },
       {
        "company_id": "vulcan-minerals",
@@ -536,6 +544,10 @@
       },
       {
        "company_id": "firefly-metals",
+       "count": 1
+      },
+      {
+       "company_id": "sorrento-resources-ltd",
        "count": 1
       }
      ]
@@ -563,8 +575,8 @@
       {
        "holder": "Metals Creek Resources Corp.",
        "count": 4,
-       "company_id": null,
-       "ticker": null
+       "company_id": "metals-creek-resources-corp",
+       "ticker": "MEK.V"
       },
       {
        "holder": "New Found Gold Corp.",
@@ -600,7 +612,11 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 14
+       "count": 10
+      },
+      {
+       "company_id": "metals-creek-resources-corp",
+       "count": 4
       },
       {
        "company_id": "new-found-gold",
@@ -620,8 +636,8 @@
       {
        "holder": "Metals Creek Resources Corp.",
        "count": 6,
-       "company_id": null,
-       "ticker": null
+       "company_id": "metals-creek-resources-corp",
+       "ticker": "MEK.V"
       },
       {
        "holder": "New Rock Mining Inc.",
@@ -705,11 +721,15 @@
      "by_company": [
       {
        "company_id": null,
-       "count": 23
+       "count": 17
       },
       {
        "company_id": "new-found-gold",
        "count": 13
+      },
+      {
+       "company_id": "metals-creek-resources-corp",
+       "count": 6
       },
       {
        "company_id": "exploits-discovery",

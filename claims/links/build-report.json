@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-24T17:08:06Z",
+ "generated_at": "2026-09-24T19:25:20Z",
  "cadence": "monthly",
  "hosting": "github-pages-split-by-province",
  "provinces": {
@@ -7,12 +7,12 @@
    "name": "Ontario",
    "titles": 403782,
    "holders": 1381,
-   "linked_titles": 182586,
-   "linked_holders": 270,
-   "coverage": 0.45219,
+   "linked_titles": 213452,
+   "linked_holders": 359,
+   "coverage": 0.528632,
    "by_method_titles": {
     "alias": 60574,
-    "catalog_name": 28581,
+    "catalog_name": 59447,
     "extract_holder": 93431
    }
   },
@@ -20,12 +20,12 @@
    "name": "Yukon",
    "titles": 168961,
    "holders": 349,
-   "linked_titles": 68456,
-   "linked_holders": 39,
-   "coverage": 0.405159,
+   "linked_titles": 90893,
+   "linked_holders": 66,
+   "coverage": 0.537953,
    "by_method_titles": {
-    "alias": 10476,
-    "catalog_name": 57676,
+    "alias": 23637,
+    "catalog_name": 66952,
     "extract_holder": 304
    }
   },
@@ -33,12 +33,12 @@
    "name": "Newfoundland and Labrador",
    "titles": 4694,
    "holders": 437,
-   "linked_titles": 705,
-   "linked_holders": 28,
-   "coverage": 0.150192,
+   "linked_titles": 1240,
+   "linked_holders": 64,
+   "coverage": 0.264167,
    "by_method_titles": {
     "alias": 141,
-    "catalog_name": 535,
+    "catalog_name": 1070,
     "extract_holder": 29
    }
   },
@@ -46,12 +46,12 @@
    "name": "Nunavut",
    "titles": 34551,
    "holders": 396,
-   "linked_titles": 6473,
-   "linked_holders": 35,
-   "coverage": 0.187346,
+   "linked_titles": 7580,
+   "linked_holders": 54,
+   "coverage": 0.219386,
    "by_method_titles": {
     "alias": 260,
-    "catalog_name": 5714,
+    "catalog_name": 6821,
     "extract_holder": 499
    }
   },
@@ -59,12 +59,12 @@
    "name": "Quebec",
    "titles": 255285,
    "holders": 1501,
-   "linked_titles": 52760,
-   "linked_holders": 96,
-   "coverage": 0.206671,
+   "linked_titles": 103422,
+   "linked_holders": 211,
+   "coverage": 0.405124,
    "by_method_titles": {
-    "alias": 7095,
-    "catalog_name": 45423,
+    "alias": 26984,
+    "catalog_name": 76196,
     "extract_holder": 242
    }
   },
@@ -72,20 +72,39 @@
    "name": "British Columbia",
    "titles": 31395,
    "holders": 1778,
-   "linked_titles": 5870,
-   "linked_holders": 89,
-   "coverage": 0.186972,
+   "linked_titles": 10686,
+   "linked_holders": 206,
+   "coverage": 0.340373,
    "by_method_titles": {
     "alias": 4,
-    "catalog_name": 5338,
+    "catalog_name": 10154,
     "extract_holder": 528
    }
   }
  },
  "titles": 898668,
- "linked_titles": 316850,
- "coverage": 0.352577,
+ "linked_titles": 427273,
+ "coverage": 0.475451,
  "watch": {
+  "newmont": {
+   "titles": 3799,
+   "holders": [
+    {
+     "province": "british-columbia",
+     "holder": "(100) NEWMONT SADDLE MINERALS LTD",
+     "count": 257,
+     "method": "catalog_name",
+     "ticker": "NEM"
+    },
+    {
+     "province": "yukon",
+     "holder": "Kaminak Gold Ltd. - 100%",
+     "count": 3542,
+     "method": "alias",
+     "ticker": "NEM"
+    }
+   ]
+  },
   "new-found-gold": {
    "titles": 141,
    "holders": [
@@ -119,6 +138,112 @@
      "count": 1155,
      "method": "alias",
      "ticker": "KGC"
+    }
+   ]
+  },
+  "azimut-exploration": {
+   "titles": 9813,
+   "holders": [
+    {
+     "province": "quebec",
+     "holder": "(100) Exploration Azimut inc.",
+     "count": 8900,
+     "method": "alias",
+     "ticker": "AZM.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(50) Exploration Azimut inc.",
+     "count": 665,
+     "method": "alias",
+     "ticker": "AZM.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(25) Exploration Azimut inc.",
+     "count": 248,
+     "method": "alias",
+     "ticker": "AZM.V"
+    }
+   ]
+  },
+  "midland-exploration": {
+   "titles": 10076,
+   "holders": [
+    {
+     "province": "quebec",
+     "holder": "(100) Exploration Midland inc.",
+     "count": 8075,
+     "method": "alias",
+     "ticker": "MD.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(50) Exploration Midland inc.",
+     "count": 1727,
+     "method": "alias",
+     "ticker": "MD.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(75.43) Exploration Midland inc.",
+     "count": 257,
+     "method": "alias",
+     "ticker": "MD.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(75.4) Exploration Midland inc.",
+     "count": 9,
+     "method": "alias",
+     "ticker": "MD.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(61) Exploration Midland inc.",
+     "count": 7,
+     "method": "alias",
+     "ticker": "MD.V"
+    },
+    {
+     "province": "quebec",
+     "holder": "(25) Exploration Midland inc.",
+     "count": 1,
+     "method": "alias",
+     "ticker": "MD.V"
+    }
+   ]
+  },
+  "hecla-mining": {
+   "titles": 9619,
+   "holders": [
+    {
+     "province": "yukon",
+     "holder": "Alexco Resource Corp. - 100%",
+     "count": 8768,
+     "method": "alias",
+     "ticker": "HL"
+    },
+    {
+     "province": "yukon",
+     "holder": "Alexco Keno Hill Mining Corp. - 100%",
+     "count": 773,
+     "method": "alias",
+     "ticker": "HL"
+    },
+    {
+     "province": "yukon",
+     "holder": "Alexco Exploration Canada Corp. - 100%",
+     "count": 75,
+     "method": "alias",
+     "ticker": "HL"
+    },
+    {
+     "province": "yukon",
+     "holder": "Strategic Metals Ltd. - 50%, Alexco Resource Corp. - 50%",
+     "count": 3,
+     "method": "alias",
+     "ticker": "HL"
     }
    ]
   },
@@ -163,41 +288,41 @@
  "sizes": {
   "sqlite_bytes": 442261504,
   "pmtiles_bytes": {
-   "ontario": 37590012,
-   "yukon": 23291116,
-   "newfoundland": 2795682,
-   "nunavut": 18892397,
-   "quebec": 28051285,
-   "british-columbia": 10674903
+   "ontario": 38333219,
+   "yukon": 23674811,
+   "newfoundland": 2915628,
+   "nunavut": 19394370,
+   "quebec": 28950027,
+   "british-columbia": 11163713
   },
   "pmtiles_files": {
-   "claims/tiles/on.pmtiles.png": 37590012,
-   "claims/tiles/yt.pmtiles.png": 23291116,
-   "claims/tiles/nl.pmtiles.png": 2795682,
-   "claims/tiles/nu.pmtiles.png": 18892397,
-   "claims/tiles/qc.pmtiles.png": 28051285,
-   "claims/tiles/bc.pmtiles.png": 10674903
+   "claims/tiles/on.pmtiles.png": 38333219,
+   "claims/tiles/yt.pmtiles.png": 23674811,
+   "claims/tiles/nl.pmtiles.png": 2915628,
+   "claims/tiles/nu.pmtiles.png": 19394370,
+   "claims/tiles/qc.pmtiles.png": 28950027,
+   "claims/tiles/bc.pmtiles.png": 11163713
   },
-  "links_bytes": 1473772,
-  "search_holders_bytes": 1456181,
+  "links_bytes": 1646395,
+  "search_holders_bytes": 1473411,
   "search_titles_bytes": 14473791,
-  "around_bytes": 163688,
+  "around_bytes": 170091,
   "tiles_index_bytes": 935,
-  "published_bytes": 138863762
+  "published_bytes": 142196391
  },
  "around": {
   "ontario": {
-   "bytes": 42191,
+   "bytes": 42867,
    "mines": 32,
    "unlocated": 10
   },
   "yukon": {
-   "bytes": 6247,
+   "bytes": 6628,
    "mines": 5,
    "unlocated": 0
   },
   "newfoundland": {
-   "bytes": 17502,
+   "bytes": 18011,
    "mines": 7,
    "unlocated": 1
   },
@@ -207,12 +332,12 @@
    "unlocated": 4
   },
   "quebec": {
-   "bytes": 55517,
+   "bytes": 58758,
    "mines": 29,
    "unlocated": 5
   },
   "british-columbia": {
-   "bytes": 40141,
+   "bytes": 41737,
    "mines": 17,
    "unlocated": 5
   }
@@ -243,28 +368,12 @@
   {
    "province": "quebec",
    "titles": 255285,
-   "holders": 1501,
-   "live_count": 255285,
-   "seconds": 13.3,
-   "pages": 1,
-   "unique_title_ids": 233724,
-   "dropped_status": {
-    "S": 2705,
-    "P": 17
-   },
-   "source_date": "2026-09-21",
-   "source": "https://diffusion.mern.gouv.qc.ca/public/GESTIM/telechargements/Province_shape/TITRES_ACTIFS_ACTIVE_TITLES.zip"
+   "cached": true
   },
   {
    "province": "british-columbia",
    "titles": 31395,
-   "holders": 1778,
-   "live_count": 31395,
-   "seconds": 49.8,
-   "pages": 32,
-   "registry_total": 42285,
-   "kept": "mineral claims and leases",
-   "source": "https://openmaps.gov.bc.ca/geo/pub/WHSE_MINERAL_TENURE.MTA_ACQUIRED_TENURE_SVW/wfs"
+   "cached": true
   }
  ],
  "range_probe": {

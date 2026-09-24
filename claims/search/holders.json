@@ -1,16 +1,16 @@
 {
- "generated_at": "2026-09-24T17:07:45Z",
+ "generated_at": "2026-09-24T19:24:25Z",
  "provinces": {
   "ontario": {
    "name": "Ontario",
    "titles": 403782,
    "holders": 1381,
-   "linked_titles": 182586,
-   "linked_holders": 270,
-   "coverage": 0.45219,
+   "linked_titles": 213452,
+   "linked_holders": 359,
+   "coverage": 0.528632,
    "by_method_titles": {
     "alias": 60574,
-    "catalog_name": 28581,
+    "catalog_name": 59447,
     "extract_holder": 93431
    }
   },
@@ -18,12 +18,12 @@
    "name": "Yukon",
    "titles": 168961,
    "holders": 349,
-   "linked_titles": 68456,
-   "linked_holders": 39,
-   "coverage": 0.405159,
+   "linked_titles": 90893,
+   "linked_holders": 66,
+   "coverage": 0.537953,
    "by_method_titles": {
-    "alias": 10476,
-    "catalog_name": 57676,
+    "alias": 23637,
+    "catalog_name": 66952,
     "extract_holder": 304
    }
   },
@@ -31,12 +31,12 @@
    "name": "Newfoundland and Labrador",
    "titles": 4694,
    "holders": 437,
-   "linked_titles": 705,
-   "linked_holders": 28,
-   "coverage": 0.150192,
+   "linked_titles": 1240,
+   "linked_holders": 64,
+   "coverage": 0.264167,
    "by_method_titles": {
     "alias": 141,
-    "catalog_name": 535,
+    "catalog_name": 1070,
     "extract_holder": 29
    }
   },
@@ -44,12 +44,12 @@
    "name": "Nunavut",
    "titles": 34551,
    "holders": 396,
-   "linked_titles": 6473,
-   "linked_holders": 35,
-   "coverage": 0.187346,
+   "linked_titles": 7580,
+   "linked_holders": 54,
+   "coverage": 0.219386,
    "by_method_titles": {
     "alias": 260,
-    "catalog_name": 5714,
+    "catalog_name": 6821,
     "extract_holder": 499
    }
   },
@@ -57,12 +57,12 @@
    "name": "Quebec",
    "titles": 255285,
    "holders": 1501,
-   "linked_titles": 52760,
-   "linked_holders": 96,
-   "coverage": 0.206671,
+   "linked_titles": 103422,
+   "linked_holders": 211,
+   "coverage": 0.405124,
    "by_method_titles": {
-    "alias": 7095,
-    "catalog_name": 45423,
+    "alias": 26984,
+    "catalog_name": 76196,
     "extract_holder": 242
    }
   },
@@ -70,19 +70,19 @@
    "name": "British Columbia",
    "titles": 31395,
    "holders": 1778,
-   "linked_titles": 5870,
-   "linked_holders": 89,
-   "coverage": 0.186972,
+   "linked_titles": 10686,
+   "linked_holders": 206,
+   "coverage": 0.340373,
    "by_method_titles": {
     "alias": 4,
-    "catalog_name": 5338,
+    "catalog_name": 10154,
     "extract_holder": 528
    }
   }
  },
  "titles": 898668,
- "linked_titles": 316850,
- "coverage": 0.352577,
+ "linked_titles": 427273,
+ "coverage": 0.475451,
  "disclaimer": "Not legal title. Generalized registry polygons for viewing.",
  "holders": [
   {
@@ -111,9 +111,9 @@
     -115.4323,
     50.3249
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ximen-mining-corp",
+   "company": "Ximen Mining Corp.",
+   "ticker": "XIM.V"
   },
   {
    "province": "british-columbia",
@@ -171,9 +171,9 @@
     -115.4698,
     49.875
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pjx-resources-inc",
+   "company": "PJX Resources Inc.",
+   "ticker": "PJX.V"
   },
   {
    "province": "british-columbia",
@@ -441,9 +441,9 @@
     -117.1761,
     57.579
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "west-mining-corp",
+   "company": "West Mining Corp.",
+   "ticker": "WEST.CN"
   },
   {
    "province": "british-columbia",
@@ -531,9 +531,9 @@
     -121.5211,
     53.775
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-cariboo-resources-ltd",
+   "company": "Golden Cariboo Resources Ltd.",
+   "ticker": "GCC.CN"
   },
   {
    "province": "british-columbia",
@@ -666,9 +666,9 @@
     -117.1574,
     49.2874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "phoenix-metals-corp",
+   "company": "Phoenix Metals Corp.",
+   "ticker": "PCA.TO"
   },
   {
    "province": "british-columbia",
@@ -681,9 +681,9 @@
     -124.5078,
     58.9164
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kingfisher-metals-corp",
+   "company": "Kingfisher Metals Corp.",
+   "ticker": "KFR.V"
   },
   {
    "province": "british-columbia",
@@ -696,9 +696,9 @@
     -126.1142,
     57.4082
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "finlay-minerals-ltd",
+   "company": "Finlay Minerals Ltd.",
+   "ticker": "FYL.V"
   },
   {
    "province": "british-columbia",
@@ -711,9 +711,9 @@
     -115.0823,
     57.5165
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "coast-copper-corp",
+   "company": "Coast Copper Corp.",
+   "ticker": "COCO.V"
   },
   {
    "province": "british-columbia",
@@ -801,8 +801,8 @@
     -127.0079,
     57.6623
    ],
-   "company_id": "thesis-gold",
-   "company": "Thesis Gold",
+   "company_id": "thesis-gold-silver-inc",
+   "company": "Thesis Gold & Silver Inc.",
    "ticker": "TAU.V"
   },
   {
@@ -816,9 +816,9 @@
     -115.9011,
     49.8666
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "dlp-resources-inc",
+   "company": "DLP Resources Inc.",
+   "ticker": "DLP.V"
   },
   {
    "province": "british-columbia",
@@ -846,9 +846,9 @@
     -114.9322,
     49.4624
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "grizzly-discoveries-inc",
+   "company": "Grizzly Discoveries Inc.",
+   "ticker": "GZD.V"
   },
   {
    "province": "british-columbia",
@@ -861,9 +861,9 @@
     -124.1516,
     56.604
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pacific-ridge-exploration-ltd",
+   "company": "Pacific Ridge Exploration Ltd.",
+   "ticker": "PEX.V"
   },
   {
    "province": "british-columbia",
@@ -996,9 +996,9 @@
     -117.1011,
     49.2291
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "apex-resources-inc",
+   "company": "Apex Resources Inc.",
+   "ticker": "APX.V"
   },
   {
    "province": "british-columbia",
@@ -1086,9 +1086,9 @@
     -121.2076,
     57.829
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "prospect-ridge-resources-corp",
+   "company": "Prospect Ridge Resources Corp.",
+   "ticker": "PRR.CN"
   },
   {
    "province": "british-columbia",
@@ -1101,9 +1101,9 @@
     -121.2076,
     52.0833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "engold-mines-ltd",
+   "company": "Engold Mines Ltd.",
+   "ticker": "EGM.V"
   },
   {
    "province": "british-columbia",
@@ -1146,9 +1146,9 @@
     -120.395,
     52.1874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fox-tungsten-ltd",
+   "company": "Fox Tungsten Ltd.",
+   "ticker": "FOXT.V"
   },
   {
    "province": "british-columbia",
@@ -1161,9 +1161,9 @@
     -120.4888,
     56.414
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cariboo-rose-resources-ltd",
+   "company": "Cariboo Rose Resources Ltd.",
+   "ticker": "CRB.V"
   },
   {
    "province": "british-columbia",
@@ -1431,9 +1431,9 @@
     -129.7517,
     59.6413
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldhaven-resources-corp",
+   "company": "GoldHaven Resources Corp.",
+   "ticker": "GOH.CN"
   },
   {
    "province": "british-columbia",
@@ -1446,9 +1446,9 @@
     -120.4637,
     58.3706
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "torr-metals-inc",
+   "company": "Torr Metals Inc.",
+   "ticker": "TMET.V"
   },
   {
    "province": "british-columbia",
@@ -1656,9 +1656,9 @@
     -115.576,
     54.0666
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kootenay-silver",
+   "company": "Kootenay Silver",
+   "ticker": "KTN.V"
   },
   {
    "province": "british-columbia",
@@ -1671,9 +1671,9 @@
     -121.3514,
     55.4356
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "eastfield-resources-ltd",
+   "company": "Eastfield Resources Ltd.",
+   "ticker": "ETF.V"
   },
   {
    "province": "british-columbia",
@@ -1716,9 +1716,9 @@
     -120.8638,
     50.2707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nicola-mining-inc",
+   "company": "Nicola Mining Inc.",
+   "ticker": "NIM.V"
   },
   {
    "province": "british-columbia",
@@ -1851,9 +1851,9 @@
     -117.0823,
     59.3956
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "trailbreaker-resources-ltd",
+   "company": "Trailbreaker Resources Ltd.",
+   "ticker": "TBK.V"
   },
   {
    "province": "british-columbia",
@@ -1866,9 +1866,9 @@
     -117.1761,
     54.404
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "copper-quest-exploration-inc",
+   "company": "Copper Quest Exploration Inc.",
+   "ticker": "CQX.CN"
   },
   {
    "province": "british-columbia",
@@ -1986,9 +1986,9 @@
     -131.177,
     56.9707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "etruscus-resources-corp",
+   "company": "Etruscus Resources Corp.",
+   "ticker": "ETR.CN"
   },
   {
    "province": "british-columbia",
@@ -2061,9 +2061,9 @@
     -117.9824,
     56.9499
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "selkirk-copper-mines",
+   "company": "Selkirk Copper Mines",
+   "ticker": "SCMI.V"
   },
   {
    "province": "british-columbia",
@@ -2226,9 +2226,9 @@
     -120.5638,
     57.3707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tower-resources-ltd",
+   "company": "Tower Resources Ltd.",
+   "ticker": "TWR.V"
   },
   {
    "province": "british-columbia",
@@ -2241,9 +2241,9 @@
     -134.0893,
     59.608
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "engineer-gold-mines-ltd",
+   "company": "Engineer Gold Mines Ltd.",
+   "ticker": "EAU.V"
   },
   {
    "province": "british-columbia",
@@ -2286,9 +2286,9 @@
     -120.7138,
     51.4082
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-sky-minerals-corp",
+   "company": "Golden Sky Minerals Corp.",
+   "ticker": "AUEN.V"
   },
   {
    "province": "british-columbia",
@@ -2361,9 +2361,9 @@
     -124.8141,
     56.3613
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "arcwest-exploration-inc",
+   "company": "ArcWest Exploration Inc.",
+   "ticker": "AWX.V"
   },
   {
    "province": "british-columbia",
@@ -2481,9 +2481,9 @@
     -120.3825,
     50.8749
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canada-one-mining-corp",
+   "company": "Canada One Mining Corp.",
+   "ticker": "CONE.V"
   },
   {
    "province": "british-columbia",
@@ -2556,9 +2556,9 @@
     -116.401,
     53.5667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "green-river-gold-corp",
+   "company": "Green River Gold Corp.",
+   "ticker": "CCR.CN"
   },
   {
    "province": "british-columbia",
@@ -2706,9 +2706,9 @@
     -117.1261,
     50.0458
    ],
-   "company_id": "klondike-silver",
-   "company": "Klondike Silver",
-   "ticker": "KS.V"
+   "company_id": null,
+   "company": null,
+   "ticker": null
   },
   {
    "province": "british-columbia",
@@ -2751,9 +2751,9 @@
     -115.2698,
     49.3541
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "aeonian-resources-corp",
+   "company": "Aeonian Resources Corp.",
+   "ticker": "ALTN.V"
   },
   {
    "province": "british-columbia",
@@ -2796,9 +2796,9 @@
     -117.8824,
     51.2499
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "affinity-metals-corp",
+   "company": "Affinity Metals Corp.",
+   "ticker": "AFF.CN"
   },
   {
    "province": "british-columbia",
@@ -2961,9 +2961,9 @@
     -120.7887,
     50.5124
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gsp-resource-corp",
+   "company": "GSP Resource Corp.",
+   "ticker": "GSPR.V"
   },
   {
    "province": "british-columbia",
@@ -3081,9 +3081,9 @@
     -117.3636,
     50.7333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "taranis-resources-inc",
+   "company": "Taranis Resources Inc.",
+   "ticker": "TRO.V"
   },
   {
    "province": "british-columbia",
@@ -3171,9 +3171,9 @@
     -124.7516,
     57.7373
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "zincx-resources-corp",
+   "company": "Zincx Resources Corp.",
+   "ticker": "ZNX.V"
   },
   {
    "province": "british-columbia",
@@ -3231,9 +3231,9 @@
     -118.5699,
     54.6125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "neotech-metals-corp",
+   "company": "Neotech Metals Corp.",
+   "ticker": "NTMC.CN"
   },
   {
    "province": "british-columbia",
@@ -3246,9 +3246,9 @@
     -126.0893,
     56.2624
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "quartz-mountain-resources-ltd",
+   "company": "Quartz Mountain Resources Ltd.",
+   "ticker": "QZM.V"
   },
   {
    "province": "british-columbia",
@@ -3261,9 +3261,9 @@
     -130.7713,
     57.1373
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sassy-gold-corp",
+   "company": "Sassy Gold Corp.",
+   "ticker": "SASY.CN"
   },
   {
    "province": "british-columbia",
@@ -3411,9 +3411,9 @@
     -120.37,
     49.2665
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bronco-resources-corp",
+   "company": "Bronco Resources Corp.",
+   "ticker": "BRON.V"
   },
   {
    "province": "british-columbia",
@@ -3711,9 +3711,9 @@
     -115.476,
     56.0206
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "stinger-resources-inc",
+   "company": "Stinger Resources Inc.",
+   "ticker": "STNG.CN"
   },
   {
    "province": "british-columbia",
@@ -3726,9 +3726,9 @@
     -117.7449,
     49.1624
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "west-high-yield-w-h-y-resources-ltd",
+   "company": "West High Yield (W.H.Y.) Resources Ltd.",
+   "ticker": "WHY.V"
   },
   {
    "province": "british-columbia",
@@ -3861,9 +3861,9 @@
     -118.4074,
     49.1999
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "belmont-resources-inc",
+   "company": "Belmont Resources Inc.",
+   "ticker": "BEA.V"
   },
   {
    "province": "british-columbia",
@@ -4011,9 +4011,9 @@
     -117.5199,
     57.2011
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "origen-resources-inc",
+   "company": "Origen Resources Inc.",
+   "ticker": "ORGN.CN"
   },
   {
    "province": "british-columbia",
@@ -4041,9 +4041,9 @@
     -126.5706,
     58.2665
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "star-copper-corp",
+   "company": "Star Copper Corp.",
+   "ticker": "STCU.CN"
   },
   {
    "province": "british-columbia",
@@ -4056,9 +4056,9 @@
     -134.6456,
     59.9414
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bessor-minerals-inc",
+   "company": "Bessor Minerals Inc.",
+   "ticker": "BST.V"
   },
   {
    "province": "british-columbia",
@@ -4116,9 +4116,9 @@
     -115.8636,
     56.1666
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "maxus-mining-inc",
+   "company": "Maxus Mining Inc.",
+   "ticker": "MAXM.CN"
   },
   {
    "province": "british-columbia",
@@ -4206,9 +4206,9 @@
     -121.689,
     54.5083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "apex-critical-metals-corp",
+   "company": "Apex Critical Metals Corp.",
+   "ticker": "APXC.CN"
   },
   {
    "province": "british-columbia",
@@ -4266,9 +4266,9 @@
     -121.3514,
     53.5958
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "inzinc-mining-ltd",
+   "company": "InZinc Mining Ltd.",
+   "ticker": "IZN.V"
   },
   {
    "province": "british-columbia",
@@ -4326,9 +4326,9 @@
     -121.0888,
     50.7791
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "district-metals",
+   "company": "District Metals",
+   "ticker": "DMX.V"
   },
   {
    "province": "british-columbia",
@@ -4611,9 +4611,9 @@
     -128.383,
     54.7748
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bcm-resources-corporation",
+   "company": "BCM Resources Corporation",
+   "ticker": "B.V"
   },
   {
    "province": "british-columbia",
@@ -4821,9 +4821,9 @@
     -121.8201,
     52.6249
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "inomin-mines-inc",
+   "company": "Inomin Mines Inc.",
+   "ticker": "MINE.V"
   },
   {
    "province": "british-columbia",
@@ -4896,9 +4896,9 @@
     -117.2636,
     49.1791
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "paradigm-gold-corporation",
+   "company": "Paradigm Gold Corporation",
+   "ticker": "PDQ.V"
   },
   {
    "province": "british-columbia",
@@ -5181,9 +5181,9 @@
     -122.0826,
     50.6249
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "dinero-ventures-ltd",
+   "company": "Dinero Ventures Ltd.",
+   "ticker": "DNO.V"
   },
   {
    "province": "british-columbia",
@@ -5316,9 +5316,9 @@
     -129.3832,
     56.7123
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "arcwest-exploration-inc",
+   "company": "ArcWest Exploration Inc.",
+   "ticker": "AWX.V"
   },
   {
    "province": "british-columbia",
@@ -5436,9 +5436,9 @@
     -126.058,
     56.0124
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "prosper-gold-corp",
+   "company": "Prosper Gold Corp.",
+   "ticker": "PGX.V"
   },
   {
    "province": "british-columbia",
@@ -5496,9 +5496,9 @@
     -119.9887,
     50.0874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cascade-copper-corp",
+   "company": "Cascade Copper Corp.",
+   "ticker": "CASC.CN"
   },
   {
    "province": "british-columbia",
@@ -5586,9 +5586,9 @@
     -123.8578,
     54.8541
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "orestone-mining-corp",
+   "company": "Orestone Mining Corp.",
+   "ticker": "ORS.V"
   },
   {
    "province": "british-columbia",
@@ -5616,9 +5616,9 @@
     -120.4262,
     49.5249
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sego-resources-inc",
+   "company": "Sego Resources Inc.",
+   "ticker": "SGZ.V"
   },
   {
    "province": "british-columbia",
@@ -5766,9 +5766,9 @@
     -126.6578,
     50.3248
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hawkeye-gold-diamond-inc",
+   "company": "Hawkeye Gold & Diamond Inc.",
+   "ticker": "HAWK.V"
   },
   {
    "province": "british-columbia",
@@ -5976,9 +5976,9 @@
     -115.4698,
     50.525
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "beyond-minerals-inc",
+   "company": "Beyond Minerals Inc.",
+   "ticker": "BY.CN"
   },
   {
    "province": "british-columbia",
@@ -6066,9 +6066,9 @@
     -130.902,
     56.7873
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldrea-resources-corp",
+   "company": "Goldrea Resources Corp.",
+   "ticker": "GOR.CN"
   },
   {
    "province": "british-columbia",
@@ -6156,9 +6156,9 @@
     -123.8576,
     54.1791
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nova-pacific-metals-corp",
+   "company": "Nova Pacific Metals Corp.",
+   "ticker": "NVPC.CN"
   },
   {
    "province": "british-columbia",
@@ -6696,9 +6696,9 @@
     -125.3767,
     55.8708
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "grid-battery-metals-inc",
+   "company": "Grid Battery Metals Inc.",
+   "ticker": "CELL.V"
   },
   {
    "province": "british-columbia",
@@ -6846,9 +6846,9 @@
     -127.6392,
     57.8332
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "omega-pacific-resources-inc",
+   "company": "Omega Pacific Resources Inc.",
+   "ticker": "OMGA.CN"
   },
   {
    "province": "british-columbia",
@@ -6876,9 +6876,9 @@
     -126.5829,
     54.6874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rockbridge-resources-inc",
+   "company": "Rockbridge Resources Inc.",
+   "ticker": "ROCB.CN"
   },
   {
    "province": "british-columbia",
@@ -6966,9 +6966,9 @@
     -127.4141,
     50.4831
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vulcan-minerals",
+   "company": "Vulcan Minerals",
+   "ticker": "VUL.V"
   },
   {
    "province": "british-columbia",
@@ -6981,9 +6981,9 @@
     -124.4078,
     58.1581
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "zimtu-capital-corp",
+   "company": "Zimtu Capital Corp.",
+   "ticker": "ZC.V"
   },
   {
    "province": "british-columbia",
@@ -7236,9 +7236,9 @@
     -124.4891,
     55.7708
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kestrel-gold-inc",
+   "company": "Kestrel Gold Inc.",
+   "ticker": "KGC.V"
   },
   {
    "province": "british-columbia",
@@ -7386,9 +7386,9 @@
     -117.4011,
     50.8333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "western-star-resources-inc",
+   "company": "Western Star Resources Inc.",
+   "ticker": "WSR.CN"
   },
   {
    "province": "british-columbia",
@@ -7506,9 +7506,9 @@
     -124.8764,
     50.3082
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "copper-one-resources-corp",
+   "company": "Copper One Resources Corp.",
+   "ticker": "CEXY.CN"
   },
   {
    "province": "british-columbia",
@@ -7581,9 +7581,9 @@
     -130.402,
     56.354
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hanstone-gold-corp",
+   "company": "Hanstone Gold Corp.",
+   "ticker": "HANS.V"
   },
   {
    "province": "british-columbia",
@@ -7701,9 +7701,9 @@
     -119.87,
     49.8207
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newterra-resources-inc",
+   "company": "Newterra Resources Inc.",
+   "ticker": "NT.CN"
   },
   {
    "province": "british-columbia",
@@ -7731,9 +7731,9 @@
     -122.114,
     54.5833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "power-one-resources-corp",
+   "company": "Power One Resources Corp.",
+   "ticker": "PWRO.V"
   },
   {
    "province": "british-columbia",
@@ -7791,9 +7791,9 @@
     -117.1824,
     49.4666
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "upside-gold-corp",
+   "company": "Upside Gold Corp.",
+   "ticker": "UG.CN"
   },
   {
    "province": "british-columbia",
@@ -8046,9 +8046,9 @@
     -117.3199,
     51.95
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ashley-gold-corp",
+   "company": "Ashley Gold Corp.",
+   "ticker": "ASHL.CN"
   },
   {
    "province": "british-columbia",
@@ -8061,9 +8061,9 @@
     -120.1387,
     49.904
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "barranco-gold-mining-corp",
+   "company": "Barranco Gold Mining Corp.",
+   "ticker": "BAR.CN"
   },
   {
    "province": "british-columbia",
@@ -8271,9 +8271,9 @@
     -126.1642,
     59.4914
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "geologica-resource-corp",
+   "company": "Geologica Resource Corp.",
+   "ticker": "GRCM.CN"
   },
   {
    "province": "british-columbia",
@@ -8286,9 +8286,9 @@
     -126.4081,
     56.9373
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ggl-resources-corp",
+   "company": "GGL Resources Corp.",
+   "ticker": "GGL.V"
   },
   {
    "province": "british-columbia",
@@ -8451,9 +8451,9 @@
     -120.3012,
     50.6374
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "new-tymbal-resources-ltd",
+   "company": "New Tymbal Resources Ltd.",
+   "ticker": "NTB.V"
   },
   {
    "province": "british-columbia",
@@ -8601,9 +8601,9 @@
     -127.508,
     54.9665
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "teako-minerals-corp",
+   "company": "Teako Minerals Corp.",
+   "ticker": "TMIN.CN"
   },
   {
    "province": "british-columbia",
@@ -8886,9 +8886,9 @@
     -120.4104,
     50.6505
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "discovery-corp-enterprises-inc",
+   "company": "Discovery-Corp Enterprises Inc.",
+   "ticker": "DCY.V"
   },
   {
    "province": "british-columbia",
@@ -8916,9 +8916,9 @@
     -120.095,
     49.8749
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "flow-metals-corp",
+   "company": "Flow Metals Corp.",
+   "ticker": "FWM.CN"
   },
   {
    "province": "british-columbia",
@@ -9291,9 +9291,9 @@
     -124.0828,
     55.1333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fjordland-exploration-inc",
+   "company": "Fjordland Exploration Inc.",
+   "ticker": "FEX.V"
   },
   {
    "province": "british-columbia",
@@ -9366,9 +9366,9 @@
     -130.9708,
     56.7832
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldrea-resources-corp",
+   "company": "Goldrea Resources Corp.",
+   "ticker": "GOR.CN"
   },
   {
    "province": "british-columbia",
@@ -9456,9 +9456,9 @@
     -115.4635,
     56.0748
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bonanza-mining-corporation",
+   "company": "Bonanza Mining Corporation",
+   "ticker": "BNZ.V"
   },
   {
    "province": "british-columbia",
@@ -9651,9 +9651,9 @@
     -126.2454,
     54.6332
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "general-copper-gold-corp",
+   "company": "General Copper Gold Corp.",
+   "ticker": "GGLD.CN"
   },
   {
    "province": "british-columbia",
@@ -9666,9 +9666,9 @@
     -126.2579,
     54.7707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldhills-holding-ltd",
+   "company": "Goldhills Holding Ltd.",
+   "ticker": "GHL.V"
   },
   {
    "province": "british-columbia",
@@ -10026,9 +10026,9 @@
     -124.3766,
     55.6874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "recyclico-battery-materials-inc",
+   "company": "Recyclico Battery Materials Inc.",
+   "ticker": "AMY.V"
   },
   {
    "province": "british-columbia",
@@ -10191,9 +10191,9 @@
     -124.8641,
     55.5332
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "twenty-mile-metals-inc",
+   "company": "Twenty Mile Metals Inc.",
+   "ticker": "MILE.V"
   },
   {
    "province": "british-columbia",
@@ -10401,9 +10401,9 @@
     -119.7825,
     51.1457
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "37-capital-inc",
+   "company": "37 Capital Inc.",
+   "ticker": "JJJ.CN"
   },
   {
    "province": "british-columbia",
@@ -10431,9 +10431,9 @@
     -125.4767,
     54.9874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ac-dc-battery-metals-inc",
+   "company": "AC/DC Battery Metals Inc.",
+   "ticker": "ACDC.V"
   },
   {
    "province": "british-columbia",
@@ -10446,9 +10446,9 @@
     -124.6514,
     49.3206
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "adonis-minerals-corp",
+   "company": "Adonis Minerals Corp.",
+   "ticker": "ADON.CN"
   },
   {
    "province": "british-columbia",
@@ -10701,9 +10701,9 @@
     -126.5329,
     54.4041
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "edgemont-gold-corp",
+   "company": "Edgemont Gold Corp.",
+   "ticker": "EDGM.CN"
   },
   {
    "province": "british-columbia",
@@ -10881,9 +10881,9 @@
     -119.7575,
     51.3458
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kobrea-exploration-corp",
+   "company": "Kobrea Exploration Corp.",
+   "ticker": "KBX.CN"
   },
   {
    "province": "british-columbia",
@@ -11061,9 +11061,9 @@
     -121.8092,
     59.3414
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pacific-bay-minerals-ltd",
+   "company": "Pacific Bay Minerals Ltd.",
+   "ticker": "PBM.V"
   },
   {
    "province": "british-columbia",
@@ -11181,9 +11181,9 @@
     -121.5701,
     52.8374
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "three-crowns-critical-metals-inc",
+   "company": "Three Crowns Critical Metals Inc.",
+   "ticker": "TCCM.V"
   },
   {
    "province": "british-columbia",
@@ -11646,9 +11646,9 @@
     -123.8201,
     57.2915
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "asiabasemetals-inc",
+   "company": "AsiaBaseMetals Inc.",
+   "ticker": "ABZ.V"
   },
   {
    "province": "british-columbia",
@@ -11661,9 +11661,9 @@
     -129.7767,
     59.2748
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bc-moly-ltd",
+   "company": "BC Moly Ltd.",
+   "ticker": "BM.V"
   },
   {
    "province": "british-columbia",
@@ -11751,9 +11751,9 @@
     -128.2892,
     54.8082
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "casa-minerals-inc",
+   "company": "Casa Minerals Inc.",
+   "ticker": "CASA.V"
   },
   {
    "province": "british-columbia",
@@ -11931,9 +11931,9 @@
     -130.455,
     57.236
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-ridge-resources-ltd",
+   "company": "Golden Ridge Resources Ltd.",
+   "ticker": "GLDN.V"
   },
   {
    "province": "british-columbia",
@@ -12381,9 +12381,9 @@
     -118.5324,
     50.0874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nation-gold-corp",
+   "company": "Nation Gold Corp.",
+   "ticker": "NATN.CN"
   },
   {
    "province": "british-columbia",
@@ -12636,9 +12636,9 @@
     -127.9829,
     50.6998
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sherpa-ii-holdings-corp",
+   "company": "Sherpa II Holdings Corp.",
+   "ticker": "SHRP.V"
   },
   {
    "province": "british-columbia",
@@ -12771,9 +12771,9 @@
     -126.3642,
     55.3707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "united-critical-minerals-corp",
+   "company": "United Critical Minerals Corp.",
+   "ticker": "UCM.CN"
   },
   {
    "province": "british-columbia",
@@ -13236,9 +13236,9 @@
     -122.6201,
     50.8874
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "big-bear-gold-corp",
+   "company": "Big Bear Gold Corp.",
+   "ticker": "BEAR.V"
   },
   {
    "province": "british-columbia",
@@ -13521,9 +13521,9 @@
     -127.033,
     57.1957
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "first-canadian-graphite-inc",
+   "company": "First Canadian Graphite Inc.",
+   "ticker": "FCI.V"
   },
   {
    "province": "british-columbia",
@@ -13626,9 +13626,9 @@
     -123.8515,
     52.9957
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldinxs-mining-corp",
+   "company": "GoldInxs Mining Corp.",
+   "ticker": "INXS.V"
   },
   {
    "province": "british-columbia",
@@ -13716,9 +13716,9 @@
     -124.8264,
     49.2498
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hm-exploration-corp",
+   "company": "HM Exploration Corp.",
+   "ticker": "HM.CN"
   },
   {
    "province": "british-columbia",
@@ -15816,9 +15816,9 @@
     -122.7952,
     51.0124
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gelum-resources-ltd",
+   "company": "Gelum Resources Ltd.",
+   "ticker": "GMR.CN"
   },
   {
    "province": "british-columbia",
@@ -15876,9 +15876,9 @@
     -120.1887,
     51.3207
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "grosvenor-resource-corporation",
+   "company": "Grosvenor Resource Corporation",
+   "ticker": "GVR.V"
   },
   {
    "province": "british-columbia",
@@ -16716,9 +16716,9 @@
     -120.0575,
     51.3833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newport-exploration-ltd",
+   "company": "Newport Exploration Ltd.",
+   "ticker": "NWX.V"
   },
   {
    "province": "british-columbia",
@@ -16806,9 +16806,9 @@
     -126.2704,
     55.2166
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pacific-booker-minerals-inc",
+   "company": "Pacific Booker Minerals Inc.",
+   "ticker": "BKM.V"
   },
   {
    "province": "british-columbia",
@@ -17271,9 +17271,9 @@
     -123.7763,
     50.204
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sasquatch-resources-corp",
+   "company": "Sasquatch Resources Corp.",
+   "ticker": "SASQ.CN"
   },
   {
    "province": "british-columbia",
@@ -18576,9 +18576,9 @@
     -124.8829,
     55.1833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "altius-minerals",
+   "company": "Altius Minerals",
+   "ticker": "ALS.TO"
   },
   {
    "province": "british-columbia",
@@ -18801,9 +18801,9 @@
     -122.6951,
     50.8707
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bathurst-metals-corp",
+   "company": "Bathurst Metals Corp.",
+   "ticker": "BMV.V"
   },
   {
    "province": "british-columbia",
@@ -20961,9 +20961,9 @@
     -120.8137,
     49.6165
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golcap-resources-corp",
+   "company": "Golcap Resources Corp",
+   "ticker": "GCP.CN"
   },
   {
    "province": "british-columbia",
@@ -25536,9 +25536,9 @@
     -127.7391,
     50.7915
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "xplore-resources-corp",
+   "company": "Xplore Resources Corp.",
+   "ticker": "XPLR.V"
   },
   {
    "province": "british-columbia",
@@ -26181,9 +26181,9 @@
     -118.8074,
     49.0416
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "grizzly-discoveries-inc",
+   "company": "Grizzly Discoveries Inc.",
+   "ticker": "GZD.V"
   },
   {
    "province": "british-columbia",
@@ -26856,9 +26856,9 @@
     -54.0619,
     54.9029
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "paradigm-gold-corporation",
+   "company": "Paradigm Gold Corporation",
+   "ticker": "PDQ.V"
   },
   {
    "province": "newfoundland",
@@ -26946,9 +26946,9 @@
     -54.9642,
     49.4963
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rocky-shore-gold-ltd",
+   "company": "Rocky Shore Gold Ltd.",
+   "ticker": "RSG.CN"
   },
   {
    "province": "newfoundland",
@@ -26976,9 +26976,9 @@
     -60.7404,
     54.5673
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "viridian-metals-inc",
+   "company": "Viridian Metals Inc.",
+   "ticker": "VRDN.CN"
   },
   {
    "province": "newfoundland",
@@ -27111,9 +27111,9 @@
     -55.2741,
     48.9246
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canstar-resources-inc",
+   "company": "Canstar Resources Inc.",
+   "ticker": "ROX.V"
   },
   {
    "province": "newfoundland",
@@ -27156,9 +27156,9 @@
     -56.7353,
     49.9556
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "magna-terra-minerals-inc",
+   "company": "Magna Terra Minerals Inc.",
+   "ticker": "MTT.V"
   },
   {
    "province": "newfoundland",
@@ -27366,9 +27366,9 @@
     -62.0165,
     57.3701
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "altius-minerals",
+   "company": "Altius Minerals",
+   "ticker": "ALS.TO"
   },
   {
    "province": "newfoundland",
@@ -27441,9 +27441,9 @@
     -56.791,
     49.9377
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gold-hunter-resources-inc",
+   "company": "Gold Hunter Resources Inc.",
+   "ticker": "HUNT.CN"
   },
   {
    "province": "newfoundland",
@@ -27456,9 +27456,9 @@
     -66.2951,
     54.9032
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "labrador-gold",
+   "company": "Labrador Gold",
+   "ticker": "LAB.V"
   },
   {
    "province": "newfoundland",
@@ -27486,9 +27486,9 @@
     -55.732,
     48.8652
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tru-precious-metals-corp",
+   "company": "TRU Precious Metals Corp.",
+   "ticker": "TRU.V"
   },
   {
    "province": "newfoundland",
@@ -27621,9 +27621,9 @@
     -54.4802,
     49.353
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "zonte-metals-inc",
+   "company": "Zonte Metals Inc.",
+   "ticker": "ZON.V"
   },
   {
    "province": "newfoundland",
@@ -27711,9 +27711,9 @@
     -54.4627,
     49.7038
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sorrento-resources-ltd",
+   "company": "Sorrento Resources Ltd.",
+   "ticker": "SRS.CN"
   },
   {
    "province": "newfoundland",
@@ -27906,9 +27906,9 @@
     -54.4407,
     48.8658
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "galloper-gold-corp",
+   "company": "Galloper Gold Corp.",
+   "ticker": "BOOM.CN"
   },
   {
    "province": "newfoundland",
@@ -27921,9 +27921,9 @@
     -55.4491,
     49.5263
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "great-atlantic-resources-corp",
+   "company": "Great Atlantic Resources Corp.",
+   "ticker": "GR.V"
   },
   {
    "province": "newfoundland",
@@ -27996,9 +27996,9 @@
     -54.56,
     55.4983
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "stockworks-gold-inc",
+   "company": "Stockworks Gold Inc.",
+   "ticker": "STW.V"
   },
   {
    "province": "newfoundland",
@@ -28071,9 +28071,9 @@
     -57.0691,
     54.9002
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "churchill-resources-inc",
+   "company": "Churchill Resources Inc.",
+   "ticker": "CRI.V"
   },
   {
    "province": "newfoundland",
@@ -28791,9 +28791,9 @@
     -54.9528,
     49.2855
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metals-creek-resources-corp",
+   "company": "Metals Creek Resources Corp.",
+   "ticker": "MEK.V"
   },
   {
    "province": "newfoundland",
@@ -29706,9 +29706,9 @@
     -63.0873,
     55.6685
    ],
-   "company_id": "gold-fields",
-   "company": "Gold Fields",
-   "ticker": "GFI"
+   "company_id": "windfall-geotek-inc",
+   "company": "Windfall Geotek Inc.",
+   "ticker": "WIN.CN"
   },
   {
    "province": "newfoundland",
@@ -29856,9 +29856,9 @@
     -55.4696,
     48.9746
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "district-metals",
+   "company": "District Metals",
+   "ticker": "DMX.V"
   },
   {
    "province": "newfoundland",
@@ -29961,9 +29961,9 @@
     -58.0665,
     49.3616
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-spike-resources-corp",
+   "company": "Golden Spike Resources Corp.",
+   "ticker": "GLDS.CN"
   },
   {
    "province": "newfoundland",
@@ -30066,9 +30066,9 @@
     -57.1826,
     48.4894
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "quadro-resources-ltd",
+   "company": "Quadro Resources Ltd.",
+   "ticker": "QRO.V"
   },
   {
    "province": "newfoundland",
@@ -30231,9 +30231,9 @@
     -66.9305,
     55.0969
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "abaxx-technologies-inc",
+   "company": "Abaxx Technologies Inc.",
+   "ticker": "ABXX.TO"
   },
   {
    "province": "newfoundland",
@@ -30261,9 +30261,9 @@
     -56.5802,
     54.7819
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "anteros-metals-inc",
+   "company": "Anteros Metals Inc.",
+   "ticker": "ANT.CN"
   },
   {
    "province": "newfoundland",
@@ -30426,9 +30426,9 @@
     -55.7702,
     51.1597
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-goose-resources-corp",
+   "company": "Golden Goose Resources Corp.",
+   "ticker": "GGR.CN"
   },
   {
    "province": "newfoundland",
@@ -30441,9 +30441,9 @@
     -54.2832,
     49.3275
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gossan-resources-limited",
+   "company": "Gossan Resources Limited",
+   "ticker": "GSS.V"
   },
   {
    "province": "newfoundland",
@@ -30621,9 +30621,9 @@
     -55.1993,
     48.7005
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newfoundland-discovery-corp",
+   "company": "Newfoundland Discovery Corp.",
+   "ticker": "NEWD.CN"
   },
   {
    "province": "newfoundland",
@@ -30801,9 +30801,9 @@
     -62.0719,
     54.2415
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ventra-metals-corp",
+   "company": "Ventra Metals Corp.",
+   "ticker": "VENT.V"
   },
   {
    "province": "newfoundland",
@@ -31011,9 +31011,9 @@
     -58.101,
     49.3479
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "aventis-energy-inc",
+   "company": "Aventis Energy Inc.",
+   "ticker": "AVE.CN"
   },
   {
    "province": "newfoundland",
@@ -31191,9 +31191,9 @@
     -55.0962,
     48.7305
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-ridge-resources-ltd",
+   "company": "Golden Ridge Resources Ltd.",
+   "ticker": "GLDN.V"
   },
   {
    "province": "newfoundland",
@@ -31206,9 +31206,9 @@
     -66.6408,
     53.2285
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "high-tide-resources-corp",
+   "company": "High Tide Resources Corp.",
+   "ticker": "HITI.V"
   },
   {
    "province": "newfoundland",
@@ -31386,9 +31386,9 @@
     -54.4399,
     48.9351
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mustang-minerals",
+   "company": "Mustang Minerals",
+   "ticker": "MMX.V"
   },
   {
    "province": "newfoundland",
@@ -31656,9 +31656,9 @@
     -57.4773,
     50.3056
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ubique-minerals-limited",
+   "company": "Ubique Minerals Limited",
+   "ticker": "UBQ.CN"
   },
   {
    "province": "newfoundland",
@@ -32091,9 +32091,9 @@
     -56.4321,
     51.416
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "clarity-metals-corp",
+   "company": "Clarity Metals Corp.",
+   "ticker": "CMET.CN"
   },
   {
    "province": "newfoundland",
@@ -32406,9 +32406,9 @@
     -55.7015,
     49.5125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hm-exploration-corp",
+   "company": "HM Exploration Corp.",
+   "ticker": "HM.CN"
   },
   {
    "province": "newfoundland",
@@ -32721,9 +32721,9 @@
     -59.8037,
     54.6478
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "labrador-gold",
+   "company": "Labrador Gold",
+   "ticker": "LAB.V"
   },
   {
    "province": "newfoundland",
@@ -33096,9 +33096,9 @@
     -62.1335,
     54.2189
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "search-minerals-inc",
+   "company": "Search Minerals Inc.",
+   "ticker": "SMY.V"
   },
   {
    "province": "newfoundland",
@@ -33141,9 +33141,9 @@
     -54.6831,
     48.9975
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "st-james-gold-corp",
+   "company": "St. James Gold Corp.",
+   "ticker": "LORD.V"
   },
   {
    "province": "newfoundland",
@@ -33261,9 +33261,9 @@
     -58.4293,
     48.3817
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vortex-energy-corp",
+   "company": "Vortex Energy Corp.",
+   "ticker": "VMS.V"
   },
   {
    "province": "newfoundland",
@@ -33696,9 +33696,9 @@
     -89.3957,
     68.4964
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "churchill-resources-inc",
+   "company": "Churchill Resources Inc.",
+   "ticker": "CRI.V"
   },
   {
    "province": "nunavut",
@@ -33891,9 +33891,9 @@
     -115.3219,
     67.492
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "future-fuels-inc",
+   "company": "Future Fuels Inc.",
+   "ticker": "FTUR.V"
   },
   {
    "province": "nunavut",
@@ -34071,9 +34071,9 @@
     -81.8961,
     67.9827
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "north-arrow-minerals-inc",
+   "company": "North Arrow Minerals Inc.",
+   "ticker": "NAR.V"
   },
   {
    "province": "nunavut",
@@ -34911,9 +34911,9 @@
     -108.8371,
     67.4546
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bathurst-metals-corp",
+   "company": "Bathurst Metals Corp.",
+   "ticker": "BMV.V"
   },
   {
    "province": "nunavut",
@@ -35046,9 +35046,9 @@
     -97.0861,
     62.392
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "new-break-resources-ltd",
+   "company": "New Break Resources Ltd.",
+   "ticker": "NBRK.CN"
   },
   {
    "province": "nunavut",
@@ -35121,9 +35121,9 @@
     -100.0313,
     60.6505
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bitterroot-resources-ltd",
+   "company": "Bitterroot Resources Ltd.",
+   "ticker": "BTT.V"
   },
   {
    "province": "nunavut",
@@ -35166,9 +35166,9 @@
     -94.4995,
     67.7476
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "full-metal-minerals-ltd",
+   "company": "Full Metal Minerals Ltd.",
+   "ticker": "FMM.V"
   },
   {
    "province": "nunavut",
@@ -35286,9 +35286,9 @@
     -94.4064,
     62.992
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canadian-north-resources-inc",
+   "company": "Canadian North Resources Inc.",
+   "ticker": "CNRI.V"
   },
   {
    "province": "nunavut",
@@ -35316,9 +35316,9 @@
     -96.5735,
     62.794
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canadian-north-resources-inc",
+   "company": "Canadian North Resources Inc.",
+   "ticker": "CNRI.V"
   },
   {
    "province": "nunavut",
@@ -35421,9 +35421,9 @@
     -115.9722,
     67.6167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gpm-metals-inc",
+   "company": "GPM Metals Inc.",
+   "ticker": "GPM.V"
   },
   {
    "province": "nunavut",
@@ -35526,9 +35526,9 @@
     -114.7124,
     67.1087
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "spc-nickel-corp",
+   "company": "SPC Nickel Corp.",
+   "ticker": "SPC.V"
   },
   {
    "province": "nunavut",
@@ -35541,9 +35541,9 @@
     -81.929,
     69.0381
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "strategx-elements-corp",
+   "company": "StrategX Elements Corp.",
+   "ticker": "STGX.CN"
   },
   {
    "province": "nunavut",
@@ -35811,9 +35811,9 @@
     -110.6497,
     67.6171
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "blue-star-gold-corp",
+   "company": "Blue Star Gold Corp.",
+   "ticker": "BAU.V"
   },
   {
    "province": "nunavut",
@@ -36201,9 +36201,9 @@
     -115.6109,
     67.6403
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "coppercorp-resources",
+   "company": "Coppercorp Resources Inc.",
+   "ticker": "CPER.V"
   },
   {
    "province": "nunavut",
@@ -36516,9 +36516,9 @@
     -93.7528,
     62.3586
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "borealis-mining",
+   "company": "Borealis Mining",
+   "ticker": "BOGO.V"
   },
   {
    "province": "nunavut",
@@ -36741,9 +36741,9 @@
     -115.1589,
     67.0504
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "equinox-gold",
+   "company": "Equinox Gold",
+   "ticker": "EQX"
   },
   {
    "province": "nunavut",
@@ -36771,9 +36771,9 @@
     -96.6956,
     61.6628
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "guardian-metal-resources",
+   "company": "Guardian Metal Resources",
+   "ticker": "GMTL"
   },
   {
    "province": "nunavut",
@@ -37776,9 +37776,9 @@
     -96.1293,
     65.2838
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mcchip-resources-inc",
+   "company": "McChip Resources Inc.",
+   "ticker": "MCS.V"
   },
   {
    "province": "nunavut",
@@ -38061,9 +38061,9 @@
     -94.8151,
     63.7727
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pacific-ridge-exploration-ltd",
+   "company": "Pacific Ridge Exploration Ltd.",
+   "ticker": "PEX.V"
   },
   {
    "province": "nunavut",
@@ -39396,9 +39396,9 @@
     -87.25,
     53.1833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fnx-inc",
+   "company": "FNX Inc.",
+   "ticker": "FNX.CN"
   },
   {
    "province": "ontario",
@@ -39681,9 +39681,9 @@
     -80.175,
     47.7583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "battery-mineral-resources-corp",
+   "company": "Battery Mineral Resources Corp.",
+   "ticker": "BMR.V"
   },
   {
    "province": "ontario",
@@ -39741,9 +39741,9 @@
     -89.3938,
     50.5458
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "lightning-resources-corp",
+   "company": "Lightning Resources Corp.",
+   "ticker": "LTNG.V"
   },
   {
    "province": "ontario",
@@ -39906,9 +39906,9 @@
     -88.6438,
     49.2792
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "winshear-metals-corp",
+   "company": "Winshear Metals Corp.",
+   "ticker": "WINS.V"
   },
   {
    "province": "ontario",
@@ -40101,9 +40101,9 @@
     -85.475,
     54.1417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bold-ventures-inc",
+   "company": "Bold Ventures Inc.",
+   "ticker": "BOL.V"
   },
   {
    "province": "ontario",
@@ -40251,9 +40251,9 @@
     -80.5438,
     48.4833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "new-break-resources-ltd",
+   "company": "New Break Resources Ltd.",
+   "ticker": "NBRK.CN"
   },
   {
    "province": "ontario",
@@ -40296,9 +40296,9 @@
     -79.5813,
     48.6
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "val-d-or-mining-corporation",
+   "company": "Val-D'Or Mining Corporation",
+   "ticker": "VZZ.V"
   },
   {
    "province": "ontario",
@@ -40311,9 +40311,9 @@
     -80.1063,
     49.725
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "conquest-resources-limited",
+   "company": "Conquest Resources Limited",
+   "ticker": "CQR.V"
   },
   {
    "province": "ontario",
@@ -40446,9 +40446,9 @@
     -81.6688,
     51.7958
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "argo-gold-inc",
+   "company": "Argo Gold Inc.",
+   "ticker": "ARQ.CN"
   },
   {
    "province": "ontario",
@@ -40566,9 +40566,9 @@
     -80.375,
     46.7208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canuc-resources-corporation",
+   "company": "Canuc Resources Corporation",
+   "ticker": "CDA.V"
   },
   {
    "province": "ontario",
@@ -40596,9 +40596,9 @@
     -80.0688,
     50.1208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "heritage-mining-ltd",
+   "company": "Heritage Mining Ltd.",
+   "ticker": "HML.CN"
   },
   {
    "province": "ontario",
@@ -40731,9 +40731,9 @@
     -89.7938,
     52.5083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "athena-gold-corporation",
+   "company": "Athena Gold Corporation",
+   "ticker": "ATHA.CN"
   },
   {
    "province": "ontario",
@@ -40746,9 +40746,9 @@
     -90.3188,
     49.3375
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "big-gold-inc",
+   "company": "Big Gold Inc.",
+   "ticker": "BG.CN"
   },
   {
    "province": "ontario",
@@ -41121,9 +41121,9 @@
     -87.4375,
     49.7458
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metalore-resources-limited",
+   "company": "Metalore Resources Limited",
+   "ticker": "MET.V"
   },
   {
    "province": "ontario",
@@ -41136,9 +41136,9 @@
     -79.5,
     47.4708
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rjk-explorations-ltd",
+   "company": "RJK Explorations Ltd.",
+   "ticker": "RJX.V"
   },
   {
    "province": "ontario",
@@ -41451,9 +41451,9 @@
     -81.4813,
     48.8833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "core-critical-metals-corp",
+   "company": "Core Critical Metals Corp.",
+   "ticker": "CCMC.V"
   },
   {
    "province": "ontario",
@@ -41496,9 +41496,9 @@
     -81.7563,
     49.9417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nortec-minerals-corp",
+   "company": "Nortec Minerals Corp.",
+   "ticker": "NVT.V"
   },
   {
    "province": "ontario",
@@ -41556,9 +41556,9 @@
     -81.7625,
     48.6667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mink-ventures-corporation",
+   "company": "Mink Ventures Corporation",
+   "ticker": "MINK.V"
   },
   {
    "province": "ontario",
@@ -41616,9 +41616,9 @@
     -87.6125,
     49.8417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "caprock-mining-corp",
+   "company": "Caprock Mining Corp.",
+   "ticker": "CAPR.CN"
   },
   {
    "province": "ontario",
@@ -41646,9 +41646,9 @@
     -86.525,
     49.0917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "plato-gold-corp",
+   "company": "Plato Gold Corp.",
+   "ticker": "PGC.V"
   },
   {
    "province": "ontario",
@@ -41706,9 +41706,9 @@
     -81.1813,
     48.7333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "loyalist-exploration-limited",
+   "company": "Loyalist Exploration Limited",
+   "ticker": "PNGC.CN"
   },
   {
    "province": "ontario",
@@ -41931,9 +41931,9 @@
     -87.7625,
     49.7583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metalore-resources-limited",
+   "company": "Metalore Resources Limited",
+   "ticker": "MET.V"
   },
   {
    "province": "ontario",
@@ -42081,9 +42081,9 @@
     -85.6,
     48.8
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newpath-resources-inc",
+   "company": "Newpath Resources Inc.",
+   "ticker": "PATH.CN"
   },
   {
    "province": "ontario",
@@ -42096,9 +42096,9 @@
     -89.6563,
     48.6542
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "thunder-gold-corp",
+   "company": "Thunder Gold Corp.",
+   "ticker": "TGOL.V"
   },
   {
    "province": "ontario",
@@ -42126,9 +42126,9 @@
     -87.7688,
     49.4625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "imagine-lithium-inc",
+   "company": "Imagine Lithium Inc.",
+   "ticker": "ILI.V"
   },
   {
    "province": "ontario",
@@ -42156,9 +42156,9 @@
     -91.2938,
     50.9792
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "xplore-resources-corp",
+   "company": "Xplore Resources Corp.",
+   "ticker": "XPLR.V"
   },
   {
    "province": "ontario",
@@ -42171,9 +42171,9 @@
     -79.5176,
     48.2042
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cadillac-mines-corporation",
+   "company": "Cadillac Mines Corporation",
+   "ticker": "CADY.TO"
   },
   {
    "province": "ontario",
@@ -42441,9 +42441,9 @@
     -90.45,
     52.5125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rockex-mining-corporation",
+   "company": "Rockex Mining Corporation",
+   "ticker": "RXM.CN"
   },
   {
    "province": "ontario",
@@ -42666,9 +42666,9 @@
     -87.7063,
     49.8042
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "laurion-mineral-exploration-inc",
+   "company": "Laurion Mineral Exploration Inc.",
+   "ticker": "LME.V"
   },
   {
    "province": "ontario",
@@ -42681,9 +42681,9 @@
     -92.4125,
     49.7417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-rapture-mining-corporation",
+   "company": "Golden Rapture Mining Corporation",
+   "ticker": "GLDR.CN"
   },
   {
    "province": "ontario",
@@ -42786,9 +42786,9 @@
     -79.8875,
     49.2375
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rt-minerals-corp",
+   "company": "RT Minerals Corp.",
+   "ticker": "RTM.V"
   },
   {
    "province": "ontario",
@@ -42861,9 +42861,9 @@
     -88.3125,
     50.4792
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "antler-gold-inc",
+   "company": "Antler Gold Inc.",
+   "ticker": "ANTL.V"
   },
   {
    "province": "ontario",
@@ -42876,9 +42876,9 @@
     -80.6625,
     50.5125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "falcon-gold",
+   "company": "Falcon Gold Corp.",
+   "ticker": "FG.V"
   },
   {
    "province": "ontario",
@@ -42891,9 +42891,9 @@
     -81.35,
     51.4208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metals-creek-resources-corp",
+   "company": "Metals Creek Resources Corp.",
+   "ticker": "MEK.V"
   },
   {
    "province": "ontario",
@@ -42906,9 +42906,9 @@
     -90.4625,
     48.6625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "trojan-gold-inc",
+   "company": "Trojan Gold Inc.",
+   "ticker": "TGII.CN"
   },
   {
    "province": "ontario",
@@ -42966,9 +42966,9 @@
     -83.3375,
     50.3625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fox-river-resources-corporation",
+   "company": "Fox River Resources Corporation",
+   "ticker": "FOX.CN"
   },
   {
    "province": "ontario",
@@ -43101,9 +43101,9 @@
     -79.7938,
     48.0083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ashley-gold-corp",
+   "company": "Ashley Gold Corp.",
+   "ticker": "ASHL.CN"
   },
   {
    "province": "ontario",
@@ -43131,9 +43131,9 @@
     -90.6375,
     50.2667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gossan-resources-limited",
+   "company": "Gossan Resources Limited",
+   "ticker": "GSS.V"
   },
   {
    "province": "ontario",
@@ -43206,9 +43206,9 @@
     -81.4563,
     48.5125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rainy-mountain-royalty-corp",
+   "company": "Rainy Mountain Royalty Corp.",
+   "ticker": "RMO.V"
   },
   {
    "province": "ontario",
@@ -43266,9 +43266,9 @@
     -91.925,
     50.0208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ashley-gold-corp",
+   "company": "Ashley Gold Corp.",
+   "ticker": "ASHL.CN"
   },
   {
    "province": "ontario",
@@ -43776,9 +43776,9 @@
     -82.6563,
     47.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "richmond-minerals-inc",
+   "company": "Richmond Minerals Inc.",
+   "ticker": "RMD.V"
   },
   {
    "province": "ontario",
@@ -44091,9 +44091,9 @@
     -80.1688,
     51.4542
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pelangio-exploration-inc",
+   "company": "Pelangio Exploration Inc.",
+   "ticker": "PX.V"
   },
   {
    "province": "ontario",
@@ -44121,9 +44121,9 @@
     -79.9,
     49.0083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sienna-resources-inc",
+   "company": "Sienna Resources Inc.",
+   "ticker": "SIEN.V"
   },
   {
    "province": "ontario",
@@ -44511,9 +44511,9 @@
     -79.6938,
     47.3667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "makenita-resources-inc",
+   "company": "Makenita Resources Inc.",
+   "ticker": "KENY.CN"
   },
   {
    "province": "ontario",
@@ -44646,9 +44646,9 @@
     -80.0,
     50.0292
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "egr-exploration-ltd",
+   "company": "EGR Exploration Ltd.",
+   "ticker": "EGR.V"
   },
   {
    "province": "ontario",
@@ -44961,9 +44961,9 @@
     -91.6125,
     48.6875
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "panther-minerals-inc",
+   "company": "Panther Minerals Inc.",
+   "ticker": "PURR.CN"
   },
   {
    "province": "ontario",
@@ -45261,9 +45261,9 @@
     -80.025,
     48.625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mclaren-resources-inc",
+   "company": "McLaren Resources Inc.",
+   "ticker": "MCL.CN"
   },
   {
    "province": "ontario",
@@ -45321,9 +45321,9 @@
     -81.6125,
     46.375
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ev-minerals-corporation",
+   "company": "EV Minerals Corporation",
+   "ticker": "EVM.CN"
   },
   {
    "province": "ontario",
@@ -45336,9 +45336,9 @@
     -93.0313,
     52.825
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "frontier-lithium-inc",
+   "company": "Frontier Lithium Inc.",
+   "ticker": "FL.V"
   },
   {
    "province": "ontario",
@@ -45351,9 +45351,9 @@
     -80.9813,
     47.675
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "orecap-invest-corp",
+   "company": "Orecap Invest Corp.",
+   "ticker": "OCI.V"
   },
   {
    "province": "ontario",
@@ -45456,9 +45456,9 @@
     -80.4438,
     48.4208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sky-gold-corp",
+   "company": "Sky Gold Corp.",
+   "ticker": "SKYG.V"
   },
   {
    "province": "ontario",
@@ -45741,9 +45741,9 @@
     -79.525,
     47.8125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "diagnamed-holdings-corp",
+   "company": "Diagnamed Holdings Corp.",
+   "ticker": "DMED.CN"
   },
   {
    "province": "ontario",
@@ -45996,9 +45996,9 @@
     -79.5188,
     51.0917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "copper-road-resources-inc",
+   "company": "Copper Road Resources Inc.",
+   "ticker": "CRD.V"
   },
   {
    "province": "ontario",
@@ -46011,9 +46011,9 @@
     -81.7875,
     46.325
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "graycliff-exploration-limited",
+   "company": "Graycliff Exploration Limited",
+   "ticker": "GRAY.CN"
   },
   {
    "province": "ontario",
@@ -46071,9 +46071,9 @@
     -93.175,
     50.7542
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "beyond-minerals-inc",
+   "company": "Beyond Minerals Inc.",
+   "ticker": "BY.CN"
   },
   {
    "province": "ontario",
@@ -46446,9 +46446,9 @@
     -93.6188,
     51.75
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "great-red-lake-gold-corp",
+   "company": "Great Red Lake Gold Corp.",
+   "ticker": "RLGC.CN"
   },
   {
    "province": "ontario",
@@ -46461,9 +46461,9 @@
     -85.725,
     48.9042
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "panther-minerals-inc",
+   "company": "Panther Minerals Inc.",
+   "ticker": "PURR.CN"
   },
   {
    "province": "ontario",
@@ -46521,9 +46521,9 @@
     -79.8688,
     47.3833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "edison-lithium-corp",
+   "company": "Edison Lithium Corp.",
+   "ticker": "EDDY.V"
   },
   {
    "province": "ontario",
@@ -47046,9 +47046,9 @@
     -79.5177,
     47.9917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sparton-resources-inc",
+   "company": "Sparton Resources Inc.",
+   "ticker": "SRI.V"
   },
   {
    "province": "ontario",
@@ -47226,9 +47226,9 @@
     -92.3688,
     50.9583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ares-strategic-mining-inc",
+   "company": "Ares Strategic Mining Inc.",
+   "ticker": "ARS.CN"
   },
   {
    "province": "ontario",
@@ -47376,9 +47376,9 @@
     -80.8563,
     48.05
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "prosper-gold-corp",
+   "company": "Prosper Gold Corp.",
+   "ticker": "PGX.V"
   },
   {
    "province": "ontario",
@@ -47436,9 +47436,9 @@
     -81.3438,
     48.4375
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metals-creek-resources-corp",
+   "company": "Metals Creek Resources Corp.",
+   "ticker": "MEK.V"
   },
   {
    "province": "ontario",
@@ -47616,9 +47616,9 @@
     -83.3563,
     50.2833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fox-river-resources-corporation",
+   "company": "Fox River Resources Corporation",
+   "ticker": "FOX.CN"
   },
   {
    "province": "ontario",
@@ -47871,9 +47871,9 @@
     -88.0813,
     50.475
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "falcon-gold",
+   "company": "Falcon Gold Corp.",
+   "ticker": "FG.V"
   },
   {
    "province": "ontario",
@@ -47991,9 +47991,9 @@
     -86.6938,
     49.0542
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nuinsco-resources-limited",
+   "company": "Nuinsco Resources Limited",
+   "ticker": "NWI.CN"
   },
   {
    "province": "ontario",
@@ -48096,9 +48096,9 @@
     -93.5375,
     49.1292
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kubera-gold-corp",
+   "company": "Kubera Gold Corp.",
+   "ticker": "KBRA.V"
   },
   {
    "province": "ontario",
@@ -48276,9 +48276,9 @@
     -80.7875,
     48.1083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cleghorn-minerals-ltd",
+   "company": "Cleghorn Minerals Ltd.",
+   "ticker": "CZZ.V"
   },
   {
    "province": "ontario",
@@ -48456,9 +48456,9 @@
     -88.65,
     48.8458
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "maximus-metals-inc",
+   "company": "Maximus Metals Inc.",
+   "ticker": "MM.CN"
   },
   {
    "province": "ontario",
@@ -48816,9 +48816,9 @@
     -90.85,
     48.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bold-ventures-inc",
+   "company": "Bold Ventures Inc.",
+   "ticker": "BOL.V"
   },
   {
    "province": "ontario",
@@ -49131,9 +49131,9 @@
     -94.1813,
     51.0792
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rockland-resources-ltd",
+   "company": "Rockland Resources Ltd.",
+   "ticker": "RKL.CN"
   },
   {
    "province": "ontario",
@@ -49161,9 +49161,9 @@
     -81.0,
     47.6917
    ],
-   "company_id": "mcfarlane-lake-mining",
-   "company": "McFarlane Lake Mining",
-   "ticker": "MLM.CN"
+   "company_id": "orecap-invest-corp",
+   "company": "Orecap Invest Corp.",
+   "ticker": "OCI.V"
   },
   {
    "province": "ontario",
@@ -49401,9 +49401,9 @@
     -81.85,
     46.1458
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "petrolympic-ltd",
+   "company": "Petrolympic Ltd.",
+   "ticker": "PCQ.V"
   },
   {
    "province": "ontario",
@@ -49491,9 +49491,9 @@
     -90.7313,
     50.4292
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fairchild-gold-corp",
+   "company": "Fairchild Gold Corp.",
+   "ticker": "FAIR.V"
   },
   {
    "province": "ontario",
@@ -49551,9 +49551,9 @@
     -93.4625,
     50.775
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "silver-dollar-resources-inc",
+   "company": "Silver Dollar Resources Inc.",
+   "ticker": "SLV.CN"
   },
   {
    "province": "ontario",
@@ -49716,9 +49716,9 @@
     -81.8188,
     48.2917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "renforth-resources-inc",
+   "company": "Renforth Resources Inc.",
+   "ticker": "RFR.CN"
   },
   {
    "province": "ontario",
@@ -50286,9 +50286,9 @@
     -84.425,
     47.125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "qcx-gold-corp",
+   "company": "QCX Gold Corp.",
+   "ticker": "QCX.V"
   },
   {
    "province": "ontario",
@@ -50301,9 +50301,9 @@
     -79.489,
     47.3333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "record-resources-inc",
+   "company": "Record Resources Inc.",
+   "ticker": "REC.V"
   },
   {
    "province": "ontario",
@@ -50601,9 +50601,9 @@
     -81.575,
     46.6167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "champion-bear-resources-ltd",
+   "company": "Champion Bear Resources Ltd.",
+   "ticker": "CBA.V"
   },
   {
    "province": "ontario",
@@ -50991,9 +50991,9 @@
     -91.3188,
     48.85
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "barranco-gold-mining-corp",
+   "company": "Barranco Gold Mining Corp.",
+   "ticker": "BAR.CN"
   },
   {
    "province": "ontario",
@@ -51456,9 +51456,9 @@
     -79.5188,
     48.0333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "churchill-resources-inc",
+   "company": "Churchill Resources Inc.",
+   "ticker": "CRI.V"
   },
   {
    "province": "ontario",
@@ -51816,9 +51816,9 @@
     -80.7688,
     48.4417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "selkirk-copper-mines",
+   "company": "Selkirk Copper Mines",
+   "ticker": "SCMI.V"
   },
   {
    "province": "ontario",
@@ -52596,9 +52596,9 @@
     -87.6438,
     51.7667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "slam-exploration-ltd",
+   "company": "SLAM Exploration Ltd.",
+   "ticker": "SXL.V"
   },
   {
    "province": "ontario",
@@ -54126,9 +54126,9 @@
     -80.6563,
     47.6833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ashley-gold-corp",
+   "company": "Ashley Gold Corp.",
+   "ticker": "ASHL.CN"
   },
   {
    "province": "ontario",
@@ -54201,9 +54201,9 @@
     -90.5063,
     48.5792
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bold-ventures-inc",
+   "company": "Bold Ventures Inc.",
+   "ticker": "BOL.V"
   },
   {
    "province": "ontario",
@@ -54936,9 +54936,9 @@
     -92.3,
     50.0625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cascade-copper-corp",
+   "company": "Cascade Copper Corp.",
+   "ticker": "CASC.CN"
   },
   {
    "province": "ontario",
@@ -56451,9 +56451,9 @@
     -92.6438,
     49.2208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "champion-bear-resources-ltd",
+   "company": "Champion Bear Resources Ltd.",
+   "ticker": "CBA.V"
   },
   {
    "province": "ontario",
@@ -56706,9 +56706,9 @@
     -83.15,
     46.4417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "colossus-resources-corp",
+   "company": "Colossus Resources Corp.",
+   "ticker": "CLUS.V"
   },
   {
    "province": "ontario",
@@ -58956,9 +58956,9 @@
     -92.0875,
     48.6208
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "proam-explorations-corporation",
+   "company": "ProAm Explorations Corporation",
+   "ticker": "PMX.V"
   },
   {
    "province": "ontario",
@@ -59781,9 +59781,9 @@
     -87.875,
     49.7625
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "laurion-mineral-exploration-inc",
+   "company": "Laurion Mineral Exploration Inc.",
+   "ticker": "LME.V"
   },
   {
    "province": "ontario",
@@ -59811,9 +59811,9 @@
     -80.65,
     47.9958
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "sparton-resources-inc",
+   "company": "Sparton Resources Inc.",
+   "ticker": "SRI.V"
   },
   {
    "province": "ontario",
@@ -59976,9 +59976,9 @@
     -65.725,
     60.525
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "azimut-exploration",
+   "company": "Azimut Exploration",
+   "ticker": "AZM.V"
   },
   {
    "province": "quebec",
@@ -59991,9 +59991,9 @@
     -66.15,
     58.4667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -60276,9 +60276,9 @@
     -77.425,
     49.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nuvau-minerals-inc",
+   "company": "Nuvau Minerals Inc.",
+   "ticker": "NMC.V"
   },
   {
    "province": "quebec",
@@ -60366,9 +60366,9 @@
     -67.225,
     58.325
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -60486,9 +60486,9 @@
     -66.9417,
     51.825
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "murchison-minerals-ltd",
+   "company": "Murchison Minerals Ltd.",
+   "ticker": "MUR.V"
   },
   {
    "province": "quebec",
@@ -60546,9 +60546,9 @@
     -65.8333,
     55.6417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cupani-metals-corp",
+   "company": "Cupani Metals Corp.",
+   "ticker": "CUPA.CN"
   },
   {
    "province": "quebec",
@@ -60741,9 +60741,9 @@
     -63.0333,
     61.2333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "neoterrex-minerals-inc",
+   "company": "Neoterrex Minerals Inc.",
+   "ticker": "NTX.V"
   },
   {
    "province": "quebec",
@@ -60816,9 +60816,9 @@
     -69.8,
     49.9667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "first-phosphate-corp",
+   "company": "First Phosphate Corp.",
+   "ticker": "PHOS.CN"
   },
   {
    "province": "quebec",
@@ -60831,9 +60831,9 @@
     -68.4667,
     57.05
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "srq-resources-inc",
+   "company": "SRQ Resources Inc.",
+   "ticker": "SRQ.V"
   },
   {
    "province": "quebec",
@@ -60846,9 +60846,9 @@
     -68.0833,
     56.1333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metalquest-mining-inc",
+   "company": "Metalquest Mining Inc.",
+   "ticker": "MQM.V"
   },
   {
    "province": "quebec",
@@ -60936,9 +60936,9 @@
     -69.625,
     60.5333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "oceanic-iron-ore-corp",
+   "company": "Oceanic Iron Ore Corp.",
+   "ticker": "FEO.V"
   },
   {
    "province": "quebec",
@@ -60981,9 +60981,9 @@
     -73.5,
     53.5667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "visible-gold-mines-inc",
+   "company": "Visible Gold Mines Inc.",
+   "ticker": "VGD.V"
   },
   {
    "province": "quebec",
@@ -60996,9 +60996,9 @@
     -75.4417,
     52.6583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "orezone-gold",
+   "company": "Orezone Gold",
+   "ticker": "ORE.V"
   },
   {
    "province": "quebec",
@@ -61011,9 +61011,9 @@
     -76.3833,
     50.6833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cdn-maverick-capital-corp",
+   "company": "CDN Maverick Capital Corp.",
+   "ticker": "CDN.CN"
   },
   {
    "province": "quebec",
@@ -61086,9 +61086,9 @@
     -71.2417,
     53.3
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "saga-metals-corp",
+   "company": "Saga Metals Corp.",
+   "ticker": "SAGA.V"
   },
   {
    "province": "quebec",
@@ -61131,9 +61131,9 @@
     -70.4583,
     49.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "coniagas-battery-metals-inc",
+   "company": "Coniagas Battery Metals Inc.",
+   "ticker": "COS.V"
   },
   {
    "province": "quebec",
@@ -61161,9 +61161,9 @@
     -62.6917,
     51.15
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "auriginal-mining-corp",
+   "company": "Auriginal Mining Corp.",
+   "ticker": "AUME.V"
   },
   {
    "province": "quebec",
@@ -61176,9 +61176,9 @@
     -69.2833,
     48.65
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "north-american-niobium-and-critical-minerals-corp",
+   "company": "North American Niobium and Critical Minerals Corp.",
+   "ticker": "NIOB.CN"
   },
   {
    "province": "quebec",
@@ -61191,9 +61191,9 @@
     -77.125,
     48.1917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "renforth-resources-inc",
+   "company": "Renforth Resources Inc.",
+   "ticker": "RFR.CN"
   },
   {
    "province": "quebec",
@@ -61341,9 +61341,9 @@
     -70.025,
     53.825
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "azimut-exploration",
+   "company": "Azimut Exploration",
+   "ticker": "AZM.V"
   },
   {
    "province": "quebec",
@@ -61656,9 +61656,9 @@
     -69.375,
     52.2583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "st-georges-eco-mining-corp",
+   "company": "St-Georges Eco-Mining Corp.",
+   "ticker": "SX.CN"
   },
   {
    "province": "quebec",
@@ -61716,9 +61716,9 @@
     -64.9583,
     48.4167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canadian-gold-resources-ltd",
+   "company": "Canadian Gold Resources Ltd.",
+   "ticker": "CAN.V"
   },
   {
    "province": "quebec",
@@ -61746,9 +61746,9 @@
     -72.25,
     53.5083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "metalex-ventures-ltd",
+   "company": "Metalex Ventures Ltd.",
+   "ticker": "MTX.V"
   },
   {
    "province": "quebec",
@@ -61776,9 +61776,9 @@
     -74.3417,
     53.5167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tomagold-corporation",
+   "company": "TomaGold Corporation",
+   "ticker": "LOT.V"
   },
   {
    "province": "quebec",
@@ -61926,9 +61926,9 @@
     -77.1,
     52.3333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "qcx-gold-corp",
+   "company": "QCX Gold Corp.",
+   "ticker": "QCX.V"
   },
   {
    "province": "quebec",
@@ -61971,9 +61971,9 @@
     -74.9833,
     52.075
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "linear-minerals-corp",
+   "company": "Linear Minerals Corp.",
+   "ticker": "LINE.CN"
   },
   {
    "province": "quebec",
@@ -62016,9 +62016,9 @@
     -78.925,
     49.0239
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "generic-gold-corp",
+   "company": "Generic Gold Corp.",
+   "ticker": "GGC.CN"
   },
   {
    "province": "quebec",
@@ -62136,9 +62136,9 @@
     -77.7417,
     49.8833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nuvau-minerals-inc",
+   "company": "Nuvau Minerals Inc.",
+   "ticker": "NMC.V"
   },
   {
    "province": "quebec",
@@ -62166,9 +62166,9 @@
     -70.4917,
     48.7
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "quebec-innovative-materials-corp",
+   "company": "Quebec Innovative Materials Corp.",
+   "ticker": "QIMC.CN"
   },
   {
    "province": "quebec",
@@ -62181,9 +62181,9 @@
     -69.5417,
     59.3083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "nickel-north-exploration-corp",
+   "company": "Nickel North Exploration Corp.",
+   "ticker": "NNX.V"
   },
   {
    "province": "quebec",
@@ -62286,9 +62286,9 @@
     -70.3583,
     45.9083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "leopard-lake-gold-corp",
+   "company": "Leopard Lake Gold Corp.",
+   "ticker": "LP.CN"
   },
   {
    "province": "quebec",
@@ -62346,9 +62346,9 @@
     -66.075,
     52.2
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vision-lithium-inc",
+   "company": "Vision Lithium inc.",
+   "ticker": "VLI.V"
   },
   {
    "province": "quebec",
@@ -62496,9 +62496,9 @@
     -66.8417,
     57.375
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mineral-road-discovery-inc",
+   "company": "Mineral Road Discovery Inc.",
+   "ticker": "ROAD.CN"
   },
   {
    "province": "quebec",
@@ -62601,9 +62601,9 @@
     -68.8583,
     51.1583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "first-canadian-graphite-inc",
+   "company": "First Canadian Graphite Inc.",
+   "ticker": "FCI.V"
   },
   {
    "province": "quebec",
@@ -62676,9 +62676,9 @@
     -74.3917,
     61.45
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "val-d-or-mining-corporation",
+   "company": "Val-D'Or Mining Corporation",
+   "ticker": "VZZ.V"
   },
   {
    "province": "quebec",
@@ -62736,9 +62736,9 @@
     -65.775,
     49.8333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rev-exploration-corp",
+   "company": "Rev Exploration Corp.",
+   "ticker": "REVX.V"
   },
   {
    "province": "quebec",
@@ -62781,9 +62781,9 @@
     -76.1,
     53.7
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "lux-metals-corp",
+   "company": "Lux Metals Corp.",
+   "ticker": "LXM.V"
   },
   {
    "province": "quebec",
@@ -62826,9 +62826,9 @@
     -67.375,
     55.8167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "abaxx-technologies-inc",
+   "company": "Abaxx Technologies Inc.",
+   "ticker": "ABXX.TO"
   },
   {
    "province": "quebec",
@@ -62856,9 +62856,9 @@
     -78.1746,
     49.5667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "emergent-metals-corp",
+   "company": "Emergent Metals Corp.",
+   "ticker": "EMR.V"
   },
   {
    "province": "quebec",
@@ -62916,9 +62916,9 @@
     -63.3917,
     51.5333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "go-metals-corp",
+   "company": "Go Metals Corp.",
+   "ticker": "GOCO.CN"
   },
   {
    "province": "quebec",
@@ -62961,9 +62961,9 @@
     -63.7083,
     56.2333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "quantum-critical-metals-corp",
+   "company": "Quantum Critical Metals Corp.",
+   "ticker": "LEAP.V"
   },
   {
    "province": "quebec",
@@ -63006,9 +63006,9 @@
     -76.325,
     52.1833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "megawatt-lithium-and-battery-metals-corp",
+   "company": "MegaWatt Lithium and Battery Metals Corp.",
+   "ticker": "MEGA.CN"
   },
   {
    "province": "quebec",
@@ -63051,9 +63051,9 @@
     -76.8333,
     49.8417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "route-109-resources-inc",
+   "company": "Route 109 Resources Inc.",
+   "ticker": "RTE.V"
   },
   {
    "province": "quebec",
@@ -63126,9 +63126,9 @@
     -77.0917,
     49.2667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -63156,9 +63156,9 @@
     -74.5833,
     49.875
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "xxix-metal-corp",
+   "company": "XXIX Metal Corp.",
+   "ticker": "XXIX.V"
   },
   {
    "province": "quebec",
@@ -63171,9 +63171,9 @@
     -75.6667,
     52.6833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "azimut-exploration",
+   "company": "Azimut Exploration",
+   "ticker": "AZM.V"
   },
   {
    "province": "quebec",
@@ -63186,9 +63186,9 @@
     -75.6667,
     52.6833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "molecule-holdings-inc",
+   "company": "Molecule Holdings Inc.",
+   "ticker": "MLCL.CN"
   },
   {
    "province": "quebec",
@@ -63201,9 +63201,9 @@
     -75.6667,
     52.6833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "orezone-gold",
+   "company": "Orezone Gold",
+   "ticker": "ORE.V"
   },
   {
    "province": "quebec",
@@ -63396,9 +63396,9 @@
     -78.4417,
     48.1333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vision-lithium-inc",
+   "company": "Vision Lithium inc.",
+   "ticker": "VLI.V"
   },
   {
    "province": "quebec",
@@ -63456,9 +63456,9 @@
     -64.3083,
     48.7333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "max-power-mining-corp",
+   "company": "Max Power Mining Corp.",
+   "ticker": "MAXX.CN"
   },
   {
    "province": "quebec",
@@ -63516,9 +63516,9 @@
     -77.3083,
     53.35
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rockland-resources-ltd",
+   "company": "Rockland Resources Ltd.",
+   "ticker": "RKL.CN"
   },
   {
    "province": "quebec",
@@ -63696,9 +63696,9 @@
     -67.125,
     52.6917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "focus-graphite-inc",
+   "company": "Focus Graphite Inc.",
+   "ticker": "FMS.V"
   },
   {
    "province": "quebec",
@@ -63771,9 +63771,9 @@
     -66.675,
     55.825
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mineral-road-discovery-inc",
+   "company": "Mineral Road Discovery Inc.",
+   "ticker": "ROAD.CN"
   },
   {
    "province": "quebec",
@@ -63846,9 +63846,9 @@
     -73.925,
     49.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vanadiumcorp-resource-inc",
+   "company": "VanadiumCorp Resource Inc.",
+   "ticker": "VRB.V"
   },
   {
    "province": "quebec",
@@ -64026,9 +64026,9 @@
     -72.0333,
     52.1917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "ptx-metals-inc",
+   "company": "PTX Metals Inc.",
+   "ticker": "PTX.V"
   },
   {
    "province": "quebec",
@@ -64041,9 +64041,9 @@
     -78.0833,
     48.4667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "linear-minerals-corp",
+   "company": "Linear Minerals Corp.",
+   "ticker": "LINE.CN"
   },
   {
    "province": "quebec",
@@ -64251,9 +64251,9 @@
     -68.425,
     57.125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "apex-critical-metals-corp",
+   "company": "Apex Critical Metals Corp.",
+   "ticker": "APXC.CN"
   },
   {
    "province": "quebec",
@@ -64311,9 +64311,9 @@
     -75.0,
     51.0083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "petrolympic-ltd",
+   "company": "Petrolympic Ltd.",
+   "ticker": "PCQ.V"
   },
   {
    "province": "quebec",
@@ -64371,9 +64371,9 @@
     -69.4167,
     50.0917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "temas-resources-corp",
+   "company": "Temas Resources Corp.",
+   "ticker": "TMAS.CN"
   },
   {
    "province": "quebec",
@@ -64401,9 +64401,9 @@
     -71.6333,
     54.0917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "lightning-resources-corp",
+   "company": "Lightning Resources Corp.",
+   "ticker": "LTNG.V"
   },
   {
    "province": "quebec",
@@ -64656,9 +64656,9 @@
     -76.8,
     49.675
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "infinico-metals-corp",
+   "company": "Infinico Metals Corp.",
+   "ticker": "INFM.V"
   },
   {
    "province": "quebec",
@@ -64791,9 +64791,9 @@
     -71.275,
     50.6333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "naughty-ventures-corp",
+   "company": "Naughty Ventures Corp.",
+   "ticker": "BAD.CN"
   },
   {
    "province": "quebec",
@@ -64806,9 +64806,9 @@
     -75.525,
     47.3167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "rush-rare-metals-corp",
+   "company": "Rush Rare Metals Corp.",
+   "ticker": "RSH.CN"
   },
   {
    "province": "quebec",
@@ -64866,9 +64866,9 @@
     -73.775,
     50.0583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "germanium-mining-corp",
+   "company": "Germanium Mining Corp.",
+   "ticker": "GMC.CN"
   },
   {
    "province": "quebec",
@@ -64881,9 +64881,9 @@
     -75.0583,
     46.6
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "graphano-energy-ltd",
+   "company": "Graphano Energy Ltd.",
+   "ticker": "GEL.V"
   },
   {
    "province": "quebec",
@@ -65001,9 +65001,9 @@
     -68.75,
     53.7
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "arbor-metals-corp",
+   "company": "Arbor Metals Corp.",
+   "ticker": "ABR.V"
   },
   {
    "province": "quebec",
@@ -65196,9 +65196,9 @@
     -77.8785,
     48.7167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kiboko-gold-inc",
+   "company": "Kiboko Gold Inc.",
+   "ticker": "KIB.V"
   },
   {
    "province": "quebec",
@@ -65541,9 +65541,9 @@
     -76.1417,
     52.1583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "quantum-battery-metals-corp",
+   "company": "Quantum Battery Metals Corp.",
+   "ticker": "QBAT.CN"
   },
   {
    "province": "quebec",
@@ -65556,9 +65556,9 @@
     -65.1083,
     48.6417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cleghorn-minerals-ltd",
+   "company": "Cleghorn Minerals Ltd.",
+   "ticker": "CZZ.V"
   },
   {
    "province": "quebec",
@@ -65571,9 +65571,9 @@
     -76.2417,
     49.125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "egr-exploration-ltd",
+   "company": "EGR Exploration Ltd.",
+   "ticker": "EGR.V"
   },
   {
    "province": "quebec",
@@ -65646,9 +65646,9 @@
     -67.8167,
     48.5
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "argyle-resources-corp",
+   "company": "Argyle Resources Corp.",
+   "ticker": "ARGL.CN"
   },
   {
    "province": "quebec",
@@ -65676,9 +65676,9 @@
     -74.5,
     49.4583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "auriginal-mining-corp",
+   "company": "Auriginal Mining Corp.",
+   "ticker": "AUME.V"
   },
   {
    "province": "quebec",
@@ -65736,9 +65736,9 @@
     -74.575,
     46.1833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "canada-carbon-inc",
+   "company": "Canada Carbon Inc.",
+   "ticker": "CCB.V"
   },
   {
    "province": "quebec",
@@ -65811,9 +65811,9 @@
     -65.0167,
     59.225
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "1844-resources-inc",
+   "company": "1844 Resources Inc.",
+   "ticker": "EFF.V"
   },
   {
    "province": "quebec",
@@ -65826,9 +65826,9 @@
     -76.5667,
     53.7917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "discovery-mining",
+   "company": "Discovery Mining",
+   "ticker": "DSV.TO"
   },
   {
    "province": "quebec",
@@ -65871,9 +65871,9 @@
     -75.0917,
     49.0583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "clarity-metals-corp",
+   "company": "Clarity Metals Corp.",
+   "ticker": "CMET.CN"
   },
   {
    "province": "quebec",
@@ -66231,9 +66231,9 @@
     -77.975,
     48.925
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "j2-metals-inc",
+   "company": "J2 Metals Inc.",
+   "ticker": "JTWO.V"
   },
   {
    "province": "quebec",
@@ -66291,9 +66291,9 @@
     -68.0583,
     52.15
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cartier-resources",
+   "company": "Cartier Resources",
+   "ticker": "ECR.V"
   },
   {
    "province": "quebec",
@@ -66336,9 +66336,9 @@
     -73.9083,
     49.9167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "adelayde-exploration-inc",
+   "company": "Adelayde Exploration Inc.",
+   "ticker": "ADDY.CN"
   },
   {
    "province": "quebec",
@@ -66756,9 +66756,9 @@
     -76.9417,
     51.9667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "stria-lithium-inc",
+   "company": "Stria Lithium Inc.",
+   "ticker": "SRA.V"
   },
   {
    "province": "quebec",
@@ -66831,9 +66831,9 @@
     -76.6083,
     46.825
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "fjordland-exploration-inc",
+   "company": "Fjordland Exploration Inc.",
+   "ticker": "FEX.V"
   },
   {
    "province": "quebec",
@@ -66891,9 +66891,9 @@
     -62.8,
     50.3833
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "velox-energy-materials-inc",
+   "company": "Velox Energy Materials Inc.",
+   "ticker": "VLX.V"
   },
   {
    "province": "quebec",
@@ -66981,9 +66981,9 @@
     -79.2917,
     47.6508
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tres-or-resources-ltd",
+   "company": "Tres-Or Resources Ltd.",
+   "ticker": "TRS.V"
   },
   {
    "province": "quebec",
@@ -67131,9 +67131,9 @@
     -76.3583,
     48.9583
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "harvest-gold-corp",
+   "company": "Harvest Gold Corp.",
+   "ticker": "HVG.V"
   },
   {
    "province": "quebec",
@@ -67161,9 +67161,9 @@
     -71.325,
     49.6333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "critical-metals",
+   "company": "Critical Metals",
+   "ticker": "CRML"
   },
   {
    "province": "quebec",
@@ -67206,9 +67206,9 @@
     -78.6496,
     48.2809
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "opawica-explorations-inc",
+   "company": "Opawica Explorations Inc.",
+   "ticker": "OPW.V"
   },
   {
    "province": "quebec",
@@ -67341,9 +67341,9 @@
     -77.3917,
     48.3
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "troubadour-resources-inc",
+   "company": "Troubadour Resources Inc.",
+   "ticker": "TR.V"
   },
   {
    "province": "quebec",
@@ -67506,9 +67506,9 @@
     -79.225,
     49.7917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "imetal-resources-inc",
+   "company": "iMetal Resources Inc.",
+   "ticker": "IMR.V"
   },
   {
    "province": "quebec",
@@ -67551,9 +67551,9 @@
     -77.4167,
     49.6083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "westmount-minerals-corp",
+   "company": "Westmount Minerals Corp.",
+   "ticker": "WMC.CN"
   },
   {
    "province": "quebec",
@@ -68331,9 +68331,9 @@
     -75.7117,
     49.0567
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "urbana-corporation",
+   "company": "Urbana Corporation",
+   "ticker": "URB.TO"
   },
   {
    "province": "quebec",
@@ -68526,9 +68526,9 @@
     -63.3333,
     50.6167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "formation-metals-inc",
+   "company": "Formation Metals Inc.",
+   "ticker": "FOMO.CN"
   },
   {
    "province": "quebec",
@@ -69111,9 +69111,9 @@
     -78.65,
     50.1083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newfoundland-discovery-corp",
+   "company": "Newfoundland Discovery Corp.",
+   "ticker": "NEWD.CN"
   },
   {
    "province": "quebec",
@@ -69261,9 +69261,9 @@
     -71.5333,
     49.2
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "vertical-exploration-inc",
+   "company": "Vertical Exploration Inc.",
+   "ticker": "VERT.V"
   },
   {
    "province": "quebec",
@@ -69486,9 +69486,9 @@
     -69.55,
     58.5167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "northern-shield-resources-inc",
+   "company": "Northern Shield Resources Inc.",
+   "ticker": "NRN.V"
   },
   {
    "province": "quebec",
@@ -69696,9 +69696,9 @@
     -78.0667,
     48.1
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "apollo-silver",
+   "company": "Apollo Silver",
+   "ticker": "APGO.V"
   },
   {
    "province": "quebec",
@@ -69741,9 +69741,9 @@
     -63.05,
     51.55
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "eureka-metals-corp",
+   "company": "Eureka Metals Corp.",
+   "ticker": "ERKA.CN"
   },
   {
    "province": "quebec",
@@ -70011,9 +70011,9 @@
     -65.9417,
     49.125
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "auq-gold-mining-inc",
+   "company": "AuQ Gold Mining Inc.",
+   "ticker": "AUQ.V"
   },
   {
    "province": "quebec",
@@ -70956,9 +70956,9 @@
     -65.95,
     48.8704
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "1844-resources-inc",
+   "company": "1844 Resources Inc.",
+   "ticker": "EFF.V"
   },
   {
    "province": "quebec",
@@ -71166,9 +71166,9 @@
     -77.6728,
     48.4158
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bwr-exploration-inc",
+   "company": "BWR Exploration Inc.",
+   "ticker": "BWR.V"
   },
   {
    "province": "quebec",
@@ -71286,9 +71286,9 @@
     -79.1083,
     48.5324
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "beyond-minerals-inc",
+   "company": "Beyond Minerals Inc.",
+   "ticker": "BY.CN"
   },
   {
    "province": "quebec",
@@ -71496,9 +71496,9 @@
     -71.2167,
     52.1667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "international-prospect-ventures-ltd",
+   "company": "International Prospect Ventures Ltd.",
+   "ticker": "IZZ.V"
   },
   {
    "province": "quebec",
@@ -71706,9 +71706,9 @@
     -75.225,
     52.8917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "dark-star-minerals-inc",
+   "company": "Dark Star Minerals Inc.",
+   "ticker": "BATT.CN"
   },
   {
    "province": "quebec",
@@ -71991,9 +71991,9 @@
     -77.6769,
     48.0757
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "future-mineral-resources-inc",
+   "company": "Future Mineral Resources Inc.",
+   "ticker": "FMR.TO"
   },
   {
    "province": "quebec",
@@ -72081,9 +72081,9 @@
     -67.0083,
     50.0
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "steadright-critical-minerals-inc",
+   "company": "Steadright Critical Minerals Inc.",
+   "ticker": "SCM.CN"
   },
   {
    "province": "quebec",
@@ -73191,9 +73191,9 @@
     -78.2583,
     49.4083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "bold-ventures-inc",
+   "company": "Bold Ventures Inc.",
+   "ticker": "BOL.V"
   },
   {
    "province": "quebec",
@@ -73251,9 +73251,9 @@
     -66.7502,
     52.3917
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "high-tide-resources-corp",
+   "company": "High Tide Resources Corp.",
+   "ticker": "HITI.V"
   },
   {
    "province": "quebec",
@@ -73536,9 +73536,9 @@
     -77.3583,
     49.1667
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -74076,9 +74076,9 @@
     -77.4949,
     48.4159
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "val-d-or-mining-corporation",
+   "company": "Val-D'Or Mining Corporation",
+   "ticker": "VZZ.V"
   },
   {
    "province": "quebec",
@@ -74571,9 +74571,9 @@
     -77.4083,
     49.175
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -76521,9 +76521,9 @@
     -77.2,
     51.3167
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "stria-lithium-inc",
+   "company": "Stria Lithium Inc.",
+   "ticker": "SRA.V"
   },
   {
    "province": "quebec",
@@ -76761,9 +76761,9 @@
     -77.9422,
     48.6929
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kiboko-gold-inc",
+   "company": "Kiboko Gold Inc.",
+   "ticker": "KIB.V"
   },
   {
    "province": "quebec",
@@ -77946,9 +77946,9 @@
     -77.15,
     52.1417
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "arctic-fox-lithium-corp",
+   "company": "Arctic Fox Lithium Corp.",
+   "ticker": "AFX.CN"
   },
   {
    "province": "quebec",
@@ -78066,9 +78066,9 @@
     -67.875,
     51.9333
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cotec-holdings-corp",
+   "company": "CoTec Holdings Corp.",
+   "ticker": "CTH.V"
   },
   {
    "province": "quebec",
@@ -78381,9 +78381,9 @@
     -66.1833,
     50.2037
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goat-industries-ltd",
+   "company": "GOAT Industries Ltd.",
+   "ticker": "GOAT.CN"
   },
   {
    "province": "quebec",
@@ -82191,9 +82191,9 @@
     -79.275,
     49.8083
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "midland-exploration",
+   "company": "Midland Exploration",
+   "ticker": "MD.V"
   },
   {
    "province": "quebec",
@@ -82521,9 +82521,9 @@
     -131.8992,
     64.4717
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hecla-mining",
+   "company": "Hecla Mining",
+   "ticker": "HL"
   },
   {
    "province": "yukon",
@@ -82626,9 +82626,9 @@
     -138.6961,
     62.9808
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "newmont",
+   "company": "Newmont",
+   "ticker": "NEM"
   },
   {
    "province": "yukon",
@@ -82776,9 +82776,9 @@
     -130.8356,
     64.0163
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gold-strike-resources-corp",
+   "company": "Gold Strike Resources Corp.",
+   "ticker": "GSR.V"
   },
   {
    "province": "yukon",
@@ -82881,9 +82881,9 @@
     -136.5101,
     62.7902
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "selkirk-copper-mines",
+   "company": "Selkirk Copper Mines",
+   "ticker": "SCMI.V"
   },
   {
    "province": "yukon",
@@ -83016,9 +83016,9 @@
     -138.8859,
     63.523
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "golden-sky-minerals-corp",
+   "company": "Golden Sky Minerals Corp.",
+   "ticker": "AUEN.V"
   },
   {
    "province": "yukon",
@@ -83076,9 +83076,9 @@
     -130.7528,
     64.5772
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "cantex-mine-development-corp",
+   "company": "Cantex Mine Development Corp.",
+   "ticker": "CD.V"
   },
   {
    "province": "yukon",
@@ -83136,9 +83136,9 @@
     -138.2642,
     63.5678
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "pacific-ridge-exploration-ltd",
+   "company": "Pacific Ridge Exploration Ltd.",
+   "ticker": "PEX.V"
   },
   {
    "province": "yukon",
@@ -83211,9 +83211,9 @@
     -135.1591,
     64.0203
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hecla-mining",
+   "company": "Hecla Mining",
+   "ticker": "HL"
   },
   {
    "province": "yukon",
@@ -83241,9 +83241,9 @@
     -134.7231,
     63.8993
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "mayo-lake-minerals-inc",
+   "company": "Mayo Lake Minerals Inc.",
+   "ticker": "MLKM.CN"
   },
   {
    "province": "yukon",
@@ -83391,9 +83391,9 @@
     -140.6342,
     64.1049
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "flow-metals-corp",
+   "company": "Flow Metals Corp.",
+   "ticker": "FWM.CN"
   },
   {
    "province": "yukon",
@@ -83511,9 +83511,9 @@
     -138.0885,
     63.5963
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "trifecta-gold-ltd",
+   "company": "Trifecta Gold Ltd.",
+   "ticker": "TG.V"
   },
   {
    "province": "yukon",
@@ -83856,9 +83856,9 @@
     -134.5023,
     64.4466
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "blende-silver-corp",
+   "company": "Blende Silver Corp.",
+   "ticker": "BAG.V"
   },
   {
    "province": "yukon",
@@ -84111,9 +84111,9 @@
     -135.3361,
     64.0661
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "zonte-metals-inc",
+   "company": "Zonte Metals Inc.",
+   "ticker": "ZON.V"
   },
   {
    "province": "yukon",
@@ -84156,9 +84156,9 @@
     -134.9219,
     64.1396
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "guardian-metal-resources",
+   "company": "Guardian Metal Resources",
+   "ticker": "GMTL"
   },
   {
    "province": "yukon",
@@ -84231,9 +84231,9 @@
     -139.8525,
     62.553
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "thunderbird-minerals-corp",
+   "company": "Thunderbird Minerals Corp.",
+   "ticker": "BIRD.V"
   },
   {
    "province": "yukon",
@@ -84351,9 +84351,9 @@
     -136.5832,
     64.0129
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "gold-strike-resources-corp",
+   "company": "Gold Strike Resources Corp.",
+   "ticker": "GSR.V"
   },
   {
    "province": "yukon",
@@ -84486,9 +84486,9 @@
     -137.8271,
     64.2328
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "naughty-ventures-corp",
+   "company": "Naughty Ventures Corp.",
+   "ticker": "BAD.CN"
   },
   {
    "province": "yukon",
@@ -84576,9 +84576,9 @@
     -132.5537,
     61.5986
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "silver-predator-corp",
+   "company": "Silver Predator Corp.",
+   "ticker": "SPD.V"
   },
   {
    "province": "yukon",
@@ -84711,9 +84711,9 @@
     -131.6229,
     63.2677
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hecla-mining",
+   "company": "Hecla Mining",
+   "ticker": "HL"
   },
   {
    "province": "yukon",
@@ -84741,9 +84741,9 @@
     -131.0586,
     63.3061
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "trailbreaker-resources-ltd",
+   "company": "Trailbreaker Resources Ltd.",
+   "ticker": "TBK.V"
   },
   {
    "province": "yukon",
@@ -84936,9 +84936,9 @@
     -138.9073,
     63.8993
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "kestrel-gold-inc",
+   "company": "Kestrel Gold Inc.",
+   "ticker": "KGC.V"
   },
   {
    "province": "yukon",
@@ -85131,9 +85131,9 @@
     -133.1071,
     64.0165
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "jade-leader-corp",
+   "company": "Jade Leader Corp.",
+   "ticker": "JADE.V"
   },
   {
    "province": "yukon",
@@ -85596,9 +85596,9 @@
     -133.7205,
     60.9969
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tintina-mines-ltd",
+   "company": "Tintina Mines Ltd.",
+   "ticker": "TTS.V"
   },
   {
    "province": "yukon",
@@ -85941,9 +85941,9 @@
     -138.884,
     63.9796
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "goldbank-mining-corporation",
+   "company": "Goldbank Mining Corporation",
+   "ticker": "GLB.V"
   },
   {
    "province": "yukon",
@@ -86106,9 +86106,9 @@
     -131.1437,
     61.1608
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "tintina-mines-ltd",
+   "company": "Tintina Mines Ltd.",
+   "ticker": "TTS.V"
   },
   {
    "province": "yukon",
@@ -86286,9 +86286,9 @@
     -138.5554,
     63.0344
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "eranova-metals-inc",
+   "company": "EraNova Metals Inc.",
+   "ticker": "NOVA.V"
   },
   {
    "province": "yukon",
@@ -86961,9 +86961,9 @@
     -133.2062,
     64.1376
    ],
-   "company_id": null,
-   "company": null,
-   "ticker": null
+   "company_id": "hecla-mining",
+   "company": "Hecla Mining",
+   "ticker": "HL"
   },
   {
    "province": "yukon",

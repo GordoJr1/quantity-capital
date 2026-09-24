@@ -604,40 +604,128 @@ def upsert_asset(profile: dict[str, Any], asset: dict[str, Any]) -> bool:
     return True
 
 
-def merge_by_asset(existing: dict[str, Any] | None, incoming: dict[str, Any]) -> tuple[dict[str, Any], bool]:
-    """Fill missing keys only. Never overwrite a filed gold number.
+BYPRODUCT_KEYS = frozenset({
+    "copper_t", "copper_mlb", "silver_koz", "silver_oz",
+    "nickel_kt", "nickel_t", "uranium_mlb", "potash_mt", "iron_mt",
+    "diamonds_kct", "diamonds_ct", "molybdenum_mlb", "molybdenum_t",
+    "zinc_kt", "zinc_t", "platinum_oz", "palladium_oz",
+})
+# Row bookkeeping, never a figure.
+META_KEYS = frozenset({"cited", "previous", "note", "ownership_pct"})
 
-    If the row already has gold ounces, only structured by-product fields
-    may be filled. Notes/sources stay on the existing filing-backed page.
+
+def _decimals(value: Any) -> int:
+    text = repr(float(value)) if isinstance(value, float) else str(value)
+    if "e" in text.lower() or "." not in text:
+        return 0
+    frac = text.split(".", 1)[1].rstrip("0")
+    return len(frac)
+
+
+def agrees_at_precision(filed: Any, cited: Any) -> bool:
+    """192.8 filed vs 192.808 cited agree; 89 vs 92.429 do not."""
+    if filed == cited:
+        return True
+    try:
+        f, c = float(filed), float(cited)
+    except (TypeError, ValueError):
+        return False
+    return round(c, _decimals(filed)) == f
+
+
+def merge_by_asset(
+    existing: dict[str, Any] | None,
+    incoming: dict[str, Any],
+    conflicts: list[str] | None = None,
+) -> tuple[dict[str, Any], bool]:
+    """Merge an ingest row onto an existing by_asset row.
+
+    Rows the ingest owns carry `cited` (quote + source values). When that
+    citation changes (a restatement), the new figures overwrite and the old
+    ones are kept under `previous`. Hand-filed rows without `cited` are
+    fill-only (by-products only once gold is filed) and are adopted only
+    when every filed figure matches the citation at the filed precision;
+    otherwise the filed figure stays and the mismatch is reported.
     """
     if not existing:
         return dict(incoming), True
     out = dict(existing)
+    new_cited = incoming.get("cited")
+    old_cited = existing.get("cited")
+
+    if old_cited is not None and new_cited is not None:
+        if old_cited == new_cited:
+            changed = False
+            for key, val in incoming.items():
+                if val is not None and out.get(key) is None:
+                    out[key] = val
+                    changed = True
+            return out, changed
+        previous: dict[str, Any] = {}
+        old_quote = (old_cited.get("quote") or "").strip()
+        for key, val in incoming.items():
+            if val is None or key in {"cited", "previous"}:
+                continue
+            if key == "note" and out.get("note") not in (None, old_quote):
+                continue
+            if out.get(key) != val:
+                if out.get(key) is not None:
+                    previous[key] = out[key]
+                out[key] = val
+        previous["cited"] = old_cited
+        out["previous"] = previous
+        out["cited"] = new_cited
+        return out, True
+
     changed = False
     had_gold = existing.get("attr_koz") is not None or existing.get("koz_100pct") is not None
-    allowed = (
-        {
-            "copper_t", "copper_mlb", "silver_koz", "silver_oz",
-            "nickel_kt", "nickel_t", "uranium_mlb", "potash_mt", "iron_mt",
-            "diamonds_kct", "diamonds_ct", "molybdenum_mlb", "molybdenum_t",
-            "zinc_kt", "zinc_t", "platinum_oz", "palladium_oz",
-        }
-        if had_gold
-        else set(incoming)
-    )
+    allowed = BYPRODUCT_KEYS if had_gold else set(incoming) - {"cited", "previous"}
+    mismatched = [
+        key for key, val in incoming.items()
+        if key not in META_KEYS and val is not None
+        and existing.get(key) is not None
+        and not agrees_at_precision(existing[key], val)
+    ]
     for key, val in incoming.items():
         if val is None or key not in allowed:
             continue
         if key not in out or out[key] is None:
             out[key] = val
             changed = True
+    if new_cited is not None:
+        if mismatched:
+            if conflicts is not None:
+                conflicts.extend(
+                    f"{key} filed {existing[key]} vs cited {incoming[key]}" for key in mismatched
+                )
+        else:
+            out["cited"] = new_cited
+            changed = True
     return out, changed
+
+
+def _merge_into(
+    ba: dict[str, Any],
+    asset_id: str,
+    row: dict[str, Any],
+    conflicts: list[str] | None,
+    label: str,
+) -> bool:
+    found: list[str] = []
+    merged, changed = merge_by_asset(ba.get(asset_id), row, found)
+    if conflicts is not None:
+        conflicts.extend(f"{label} {asset_id}: {line}" for line in found)
+    if changed or asset_id not in ba:
+        ba[asset_id] = merged
+        changed = True
+    return changed
 
 
 def upsert_prod_2025(
     profile: dict[str, Any],
     asset_id: str,
     row: dict[str, Any],
+    conflicts: list[str] | None = None,
 ) -> bool:
     prods = profile.setdefault("production", [])
     rec = annual_2025(profile)
@@ -647,10 +735,7 @@ def upsert_prod_2025(
         prods.insert(0, rec)
         created = True
     ba = rec.setdefault("by_asset", {})
-    merged, changed = merge_by_asset(ba.get(asset_id), row)
-    if changed or asset_id not in ba:
-        ba[asset_id] = merged
-        changed = True
+    changed = _merge_into(ba, asset_id, row, conflicts, f"{profile.get('id')} {YEAR}")
     return changed or created
 
 
@@ -659,6 +744,7 @@ def upsert_prod_ytd(
     asset_id: str,
     row: dict[str, Any],
     ytd_meta: dict[str, Any] | None = None,
+    conflicts: list[str] | None = None,
 ) -> bool:
     """Write a labeled 2026 YTD by_asset row. Never a full-year 2026 annual."""
     meta = ytd_meta or {}
@@ -686,10 +772,7 @@ def upsert_prod_ytd(
         if meta.get("period_label") and not rec.get("period_label"):
             rec["period_label"] = meta["period_label"]
     ba = rec.setdefault("by_asset", {})
-    merged, changed = merge_by_asset(ba.get(asset_id), row)
-    if changed or asset_id not in ba:
-        ba[asset_id] = merged
-        changed = True
+    changed = _merge_into(ba, asset_id, row, conflicts, f"{profile.get('id')} {YTD_PERIOD}")
     kpis = profile.setdefault("kpis", {})
     if rec.get("through") and not kpis.get("ytd_through"):
         kpis["ytd_through"] = rec["through"]
@@ -795,8 +878,12 @@ def mark_filing_backed(profile: dict[str, Any], wrote_figure: bool) -> bool:
     return changed
 
 
-def _extra_by_asset(row: dict[str, Any], comms: dict[str, Any]) -> None:
-    """Copy non-Au/Ag/Cu commodities onto by_asset using source units."""
+def _extra_by_asset(
+    row: dict[str, Any],
+    comms: dict[str, Any],
+    skipped: list[str] | None = None,
+) -> None:
+    """Copy non-Au/Ag/Cu commodities onto by_asset. A unit with no matching field is skipped."""
     mapping = {
         "nickel": (("kt", "nickel_kt"), ("t", "nickel_t")),
         "uranium": (("mlb", "uranium_mlb"),),
@@ -819,23 +906,42 @@ def _extra_by_asset(row: dict[str, Any], comms: dict[str, Any]) -> None:
                 field = dest
                 break
         if field is None:
-            field = choices[0][1]
+            if skipped is not None:
+                skipped.append(f"{cid} {rec['value']} {unit or '(no unit)'}")
+            continue
         row[field] = rec["value"]
+
+
+def cited_block(comms: dict[str, Any]) -> dict[str, Any]:
+    """What the ingest cited for this row; a change here is a restatement."""
+    quote = next((c["quote"].strip() for c in comms.values() if c.get("quote")), None)
+    values = {
+        cid: [c.get("source_value", c.get("value")), c.get("source_unit") or c.get("unit")]
+        for cid, c in sorted(comms.items())
+        if c.get("value") is not None
+    }
+    return {"quote": quote, "values": values}
 
 
 def by_asset_from_record(
     rec: dict[str, Any],
     profile: dict[str, Any],
     meta: dict[str, Any],
+    skipped: list[str] | None = None,
 ) -> dict[str, Any] | None:
     comms = rec.get("commodities") or {}
     if not comms:
         return None
     row: dict[str, Any] = {}
+    label = rec.get("mine_id") or meta.get("asset_id") or "?"
+    unit_skips: list[str] = []
     own = meta.get("ownership_pct")
     if own is not None:
         row["ownership_pct"] = own
     gold = comms.get("gold")
+    if gold and gold.get("value") is not None and (gold.get("unit") or "") != "troy oz":
+        unit_skips.append(f"gold {gold['value']} {gold.get('unit') or '(no unit)'}")
+        gold = None
     if gold and gold.get("value") is not None:
         koz = troy_to_profile_gold(gold["value"], profile)
         row["koz_100pct"] = koz
@@ -853,17 +959,24 @@ def by_asset_from_record(
             row["copper_mlb"] = copper["value"]
         elif unit in {"kt"}:
             row["copper_t"] = float(copper["value"]) * 1000.0
-        else:
+        elif unit in {"t", "tonnes"}:
             row["copper_t"] = copper["value"]
+        else:
+            unit_skips.append(f"copper {copper['value']} {unit or '(no unit)'}")
     silver = comms.get("silver")
     if silver and silver.get("value") is not None and own in (None, 100):
-        troy = silver["value"]
-        if gold_unit(profile) == "koz":
-            row["silver_koz"] = troy_to_profile_gold(troy, profile)
+        if (silver.get("unit") or "") != "troy oz":
+            unit_skips.append(f"silver {silver['value']} {silver.get('unit') or '(no unit)'}")
+        elif gold_unit(profile) == "koz":
+            row["silver_koz"] = troy_to_profile_gold(silver["value"], profile)
         else:
-            row["silver_oz"] = troy
+            row["silver_oz"] = silver["value"]
     # 100% mine output as disclosed (Cigar Lake 19.1 Mlb; Gahcho Kué 2,210 kct is already 51%).
-    _extra_by_asset(row, comms)
+    _extra_by_asset(row, comms, unit_skips)
+    if skipped is not None:
+        skipped.extend(f"{label}: {line}" for line in unit_skips)
+    if not row:
+        return None
     quote = None
     for c in comms.values():
         if c.get("quote"):
@@ -871,7 +984,8 @@ def by_asset_from_record(
             break
     if quote and len(quote.strip()) >= 24:
         row["note"] = quote.strip()
-    return row or None
+    row["cited"] = cited_block(comms)
+    return row
 
 
 def apply_record_to_profile(
@@ -879,7 +993,11 @@ def apply_record_to_profile(
     rec: dict[str, Any],
     meta: dict[str, Any],
     src: dict[str, Any],
+    log: dict[str, list[str]] | None = None,
 ) -> bool:
+    log = log if log is not None else {}
+    unit_skipped = log.setdefault("unit_skipped", [])
+    conflicts = log.setdefault("conflicts", [])
     asset_id = meta.get("asset_id")
     if not asset_id:
         return False
@@ -925,20 +1043,23 @@ def apply_record_to_profile(
     changed = upsert_asset(profile, {k: v for k, v in asset.items() if v is not None})
     wrote_figure = False
     if not meta.get("omit_figure"):
-        row = by_asset_from_record(rec, profile, meta)
+        row = by_asset_from_record(rec, profile, meta, unit_skipped)
         if row:
             rec2025 = annual_2025(profile)
             had_slot = bool(((rec2025 or {}).get("by_asset") or {}).get(asset_id))
-            if upsert_prod_2025(profile, asset_id, row):
+            if upsert_prod_2025(profile, asset_id, row, conflicts):
                 changed = True
                 wrote_figure = not had_slot
         ytd = rec.get("ytd") or {}
         if ytd.get("commodities"):
-            ytd_row = by_asset_from_record(ytd, profile, meta)
+            ytd_row = by_asset_from_record(
+                {**ytd, "mine_id": f"{rec.get('mine_id') or asset_id} {YTD_PERIOD}"},
+                profile, meta, unit_skipped,
+            )
             if ytd_row:
                 rec_ytd = period_ytd(profile)
                 had_ytd = bool(((rec_ytd or {}).get("by_asset") or {}).get(asset_id))
-                if upsert_prod_ytd(profile, asset_id, ytd_row, ytd):
+                if upsert_prod_ytd(profile, asset_id, ytd_row, ytd, conflicts):
                     changed = True
                     if not had_ytd:
                         wrote_figure = True
@@ -971,6 +1092,7 @@ def write_beta_profiles(
     skipped: list[str] = []
     created: list[str] = []
     dirty: dict[str, dict[str, Any]] = {}
+    log: dict[str, list[str]] = {"unit_skipped": [], "conflicts": []}
 
     for mid, rec in (book.get("mines") or {}).items():
         meta = dict(ISSUER_MAP.get(mid) or {})
@@ -1010,7 +1132,7 @@ def write_beta_profiles(
             }
             if not existed:
                 created.append(beta_id)
-        if apply_record_to_profile(dirty[beta_id]["profile"], rec, meta, src):
+        if apply_record_to_profile(dirty[beta_id]["profile"], rec, meta, src, log):
             if beta_id not in written:
                 written.append(beta_id)
 
@@ -1028,6 +1150,8 @@ def write_beta_profiles(
         "written": sorted(written),
         "created": sorted(set(created)),
         "skipped": skipped,
+        "unit_skipped": log["unit_skipped"],
+        "conflicts": log["conflicts"],
         "n_written": len(set(written)),
     }
 

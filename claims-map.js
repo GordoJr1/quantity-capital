@@ -1235,9 +1235,99 @@ function showAllClaims(opts) {
   });
 }
 
+function escHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (ch) => {
+    if (ch === "&") return "&amp;";
+    if (ch === "<") return "&lt;";
+    if (ch === ">") return "&gt;";
+    if (ch === "\"") return "&quot;";
+    return "&#39;";
+  });
+}
+
+let nameByIssuerId = null;
+let nameByIssuerLoad = null;
+
+function loadIssuerNames() {
+  if (nameByIssuerId) return Promise.resolve(nameByIssuerId);
+  if (nameByIssuerLoad) return nameByIssuerLoad;
+  nameByIssuerLoad = Promise.all([
+    fetch(assetUrl("beta/issuers.json")).then((r) => r.ok ? r.json() : {}).catch(() => ({})),
+    fetch(assetUrl("beta/explorers.json")).then((r) => r.ok ? r.json() : {}).catch(() => ({})),
+  ]).then((docs) => {
+    const map = {};
+    docs.forEach((doc) => {
+      (doc.issuers || []).forEach((row) => {
+        if (row && row.id && row.name && !map[row.id]) map[row.id] = row.name;
+      });
+    });
+    nameByIssuerId = map;
+    return map;
+  });
+  return nameByIssuerLoad;
+}
+
+function unmappedClaimsNote(label) {
+  return "<strong>" + escHtml(label) + "</strong> · no mapped claims for this company yet";
+}
+
+function showUnmappedCompany(label, lookupId) {
+  const gen = ++viewGen;
+  currentCompany = null;
+  currentAssetId = null;
+  setNeighborsDownloadEnabled(false);
+  hiddenHolders = new Set();
+  document.getElementById("search-results").hidden = true;
+  let shown = label || lookupId || "This company";
+  let written = null;
+  function applyNote() {
+    if (gen !== viewGen) return;
+    setHud(shown + " · no mapped claims");
+    setStatus(unmappedClaimsNote(shown));
+    const searchEl = document.getElementById("search");
+    if (searchEl && (written === null || searchEl.value === written)) {
+      searchEl.value = shown;
+      written = shown;
+    }
+  }
+  applyNote();
+  whenMapReady(() => {
+    if (gen !== viewGen) return;
+    ensureCompanyLayers();
+    const finish = () => {
+      if (gen !== viewGen) return;
+      paintAllClaims(true);
+      applyNote();
+    };
+    if (overviewFc) {
+      finish();
+      return;
+    }
+    setStatus("Loading <strong>all companies</strong> overview…");
+    loadOverview().then(finish).catch(() => {
+      if (gen !== viewGen) return;
+      setStatus("Could not load claims overview");
+    });
+  });
+  if (lookupId) {
+    loadIssuerNames().then((map) => {
+      const name = map[lookupId];
+      if (!name) return;
+      shown = name;
+      applyNote();
+    }).catch(() => {});
+  }
+}
+
 function selectCompany(id, assetId) {
   const company = findIndexed(id);
-  if (!company) return;
+  if (!company || !hasAnyExtract(company)) {
+    const label = company
+      ? (company.holder || (company.names && company.names[0]) || company.id)
+      : id;
+    showUnmappedCompany(label, company ? "" : id);
+    return;
+  }
   currentCompany = company;
   currentAssetId = assetId || null;
   setNeighborsDownloadEnabled(true);
@@ -1423,7 +1513,8 @@ fetch(CATALOG_URL).then((r) => r.json()).then((json) => {
   const companyId = params.get("company");
   const assetId = params.get("asset") || params.get("mine");
   if (companyId) {
-    loadOverview();
+    const indexed = findIndexed(companyId);
+    if (indexed && hasAnyExtract(indexed)) loadOverview();
     selectCompany(companyId, assetId);
   } else {
     showAllClaims({ fit: true });

@@ -217,6 +217,12 @@ class RepoTests(unittest.TestCase):
         self.assertIn("looksLikeGzip", viewer)
         self.assertIn("zoom: 3,", viewer)
         self.assertNotIn("claims-db", live)
+        for box in ("ly-yukon", "ly-nunavut", "ly-nl"):
+            self.assertIn(box, live)
+        script = (ROOT / "claims-map.js").read_text(encoding="utf-8")
+        self.assertIn('params.get("company")', script)
+        self.assertIn('".pmtiles.png"', script)
+        self.assertIn("ly-yukon", script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn("/claims/tiles/", sw)
         self.assertIn("qc-shell-v219", sw)

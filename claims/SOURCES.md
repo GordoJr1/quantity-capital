@@ -80,7 +80,7 @@ no tokens; Jev never invents tenures.
 
 ## Provincial claims database
 
-Not the live claims map. `claims.html` is unchanged.
+The Claims nav stays on `claims.html`. That page still draws Quebec, Ontario, and British Columbia from the company extracts, and `claims.html?company=` deep links are unchanged. Yukon, Nunavut, and Newfoundland and Labrador are extra checkboxes on that same filter, drawn from `claims/tiles/<code>.pmtiles.png`. The `.png` suffix keeps GitHub Pages from gzip-slicing Range requests. `claims-db.html` remains the full-registry viewer.
 
 Monthly, from the Windows desktop:
 

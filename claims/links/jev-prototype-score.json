@@ -1,34 +1,135 @@
 {
- "generated_at": "2026-09-24T15:05:01Z",
+ "generated_at": "2026-09-24T15:56:01Z",
  "model": "jev-1.13.0",
- "score": 1.53,
- "confidence": 0.3,
+ "score": 1.69,
+ "confidence": 0.53,
  "probabilities": {
-  "0": 0.01,
-  "1": 0.44,
-  "2": 0.55
+  "0": 0.02,
+  "1": 0.27,
+  "2": 0.71
  },
- "input_tokens": 622,
+ "input_tokens": 1417,
  "output_tokens": 17,
  "state": {
-  "province": "Ontario",
-  "titles": 403782,
-  "coverage": 0.45219,
-  "linked_titles": 182586,
-  "great_bear": [
-   {
-    "holder": "(100) GREAT BEAR RESOURCES LTD.",
-    "count": 1155,
-    "company_id": "kinross",
-    "method": "alias",
-    "ticker": "KGC"
+  "cadence": "monthly",
+  "hosting": "One PMTiles file per province committed under claims/tiles and served from GitHub Pages.",
+  "provinces": {
+   "ontario": {
+    "titles": 403782,
+    "coverage": 0.45219,
+    "pmtiles_mb": 37.03
+   },
+   "yukon": {
+    "titles": 168961,
+    "coverage": 0.405159,
+    "pmtiles_mb": 22.98
+   },
+   "newfoundland": {
+    "titles": 4694,
+    "coverage": 0.150192,
+    "pmtiles_mb": 2.71
+   },
+   "nunavut": {
+    "titles": 34551,
+    "coverage": 0.187346,
+    "pmtiles_mb": 18.04
    }
-  ],
-  "sqlite_mb": 166.0,
-  "pmtiles_mb": 31.1,
-  "published_json_mb": 5.63,
-  "ontario_under_100mb": true,
-  "projected_canada_mb": 59.2,
-  "design": "Full MLAS ingest in gitignored SQLite on the desktop. Deterministic holder links plus Jev only for ambiguous ties. Site publishes a holder index, sharded title lookup, mine-radius JSON, and a draft MapLibre page. PMTiles stay out of git."
+  },
+  "tiles_under_100mb": true,
+  "tiles_tool": "tippecanoe on PATH, otherwise `wsl tippecanoe` with wslpath. The build fails if neither works. go-pmtiles does not build the archive.",
+  "watch": {
+   "new-found-gold": {
+    "titles": 141,
+    "holders": [
+     {
+      "province": "newfoundland",
+      "holder": "New Found Gold Corp.",
+      "count": 141,
+      "method": "alias",
+      "ticker": "NFG.V"
+     }
+    ]
+   },
+   "b2gold": {
+    "titles": 260,
+    "holders": [
+     {
+      "province": "nunavut",
+      "holder": "B2GOLD BACK RIVER CORP. (100%)",
+      "count": 260,
+      "method": "alias",
+      "ticker": "BTG"
+     }
+    ]
+   },
+   "kinross": {
+    "titles": 1155,
+    "holders": [
+     {
+      "province": "ontario",
+      "holder": "(100) GREAT BEAR RESOURCES LTD.",
+      "count": 1155,
+      "method": "alias",
+      "ticker": "KGC"
+     }
+    ]
+   },
+   "banyan-gold": {
+    "titles": 6647,
+    "holders": [
+     {
+      "province": "yukon",
+      "holder": "Banyan Gold Corporation - 100%",
+      "count": 6647,
+      "method": "alias",
+      "ticker": "BYN.V"
+     }
+    ]
+   },
+   "sitka-gold": {
+    "titles": 2293,
+    "holders": [
+     {
+      "province": "yukon",
+      "holder": "Sitka Gold Corp. - 100%",
+      "count": 2293,
+      "method": "alias",
+      "ticker": "SIG.V"
+     }
+    ]
+   },
+   "seabridge-gold": {
+    "titles": 1536,
+    "holders": [
+     {
+      "province": "yukon",
+      "holder": "Seabridge Gold (Yukon) Inc. - 100%",
+      "count": 1536,
+      "method": "alias",
+      "ticker": "SEA.TO"
+     }
+    ]
+   }
+  },
+  "range_probe": {
+   "text": {
+    "status": 206,
+    "content_range": "bytes 0-99/216266",
+    "content_encoding": "gzip",
+    "content_type": "application/geo+json",
+    "body_starts_with_pmtiles_or_png": false,
+    "body_looks_gzip": true
+   },
+   "binary": {
+    "status": 206,
+    "content_range": "bytes 0-99/24497",
+    "content_encoding": null,
+    "content_type": "image/png",
+    "body_starts_with_pmtiles_or_png": true,
+    "body_looks_gzip": false
+   },
+   "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. Binary types (PNG) return the raw file. .pmtiles is not a text type. The viewer checks the PMTiles magic and, if the range is compressed, reads the whole archive in memory."
+  },
+  "sqlite_mb": 286.5
  }
 }

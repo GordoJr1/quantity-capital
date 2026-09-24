@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#1a1d26" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
-  <title>Ontario claims database — Quantity Capital</title>
-  <meta name="description" content="Draft Ontario MLAS claims database. Not legal title. Not investment advice." />
+  <title>Claims database — Quantity Capital</title>
+  <meta name="description" content="Draft provincial claims database. Not legal title. Not investment advice." />
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
   <link rel="stylesheet" href="shell.css?v=113" />
   <style>
@@ -88,11 +88,11 @@
     <div id="map"></div>
     <header class="hud">
       <div>
-        <h1>Ontario claims database</h1>
-        <p id="hud-sub">Draft. All MLAS titles. Not the live claims map.</p>
+        <h1>Claims database</h1>
+        <p id="hud-sub">Draft. Ontario, Yukon, Newfoundland and Labrador, Nunavut. Not the live claims map.</p>
       </div>
       <form id="search-form" autocomplete="off">
-        <input id="search" type="search" placeholder="Holder, company, ticker, or title id" aria-label="Search Ontario claims">
+        <input id="search" type="search" placeholder="Holder, company, ticker, or title id" aria-label="Search claims">
         <div id="search-results" hidden></div>
       </form>
     </header>
@@ -103,11 +103,11 @@
       <h2>Companies</h2>
       <div id="legend"></div>
     </aside>
-    <footer class="status" id="status">Loading the Ontario index…</footer>
+    <footer class="status" id="status">Loading the claims index…</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
-  <script src="claims-db.js?v=1"></script>
+  <script src="claims-db.js?v=2"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

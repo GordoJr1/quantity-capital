@@ -215,7 +215,7 @@ class RepoTests(unittest.TestCase):
         self.assertNotIn("claims-db", live)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn(".pmtiles", sw)
-        self.assertIn("qc-shell-v216", sw)
+        self.assertIn("qc-shell-v217", sw)
 
 
 if __name__ == "__main__":

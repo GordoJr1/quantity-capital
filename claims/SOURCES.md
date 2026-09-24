@@ -78,10 +78,14 @@ no tokens; Jev never invents tenures.
 - **Nationwide shapefiles** are not in git. Live ArcGIS from the browser is not used (static Pages + CORS).
 - Other Beta producers with no QC/ON/BC titles stay at zero until a holder match exists.
 
-## Ontario full-database prototype
+## Provincial claims database
 
 Not the live claims map. `claims.html` is unchanged.
 
-`python3 scripts/ontario_claims_db.py ingest` downloads every MLAS title (no company filter) into gitignored `claims/.db/ontario.sqlite`. Linking writes `claims/links/holders.json`. Search writes `claims/search/holders.json` and `claims/search/titles/*.json`. Mine radius groups write `claims/around/ontario-mines.json`. The PMTiles file stays in gitignored `claims/.build/ontario.pmtiles`. Draft viewer: `claims-db.html`.
+Monthly, from the Windows desktop:
 
-Measured 2026-09-24: 403,782 titles, 182,586 linked to a site company (45.2%). SQLite is 166 MB. PMTiles is 31.1 MB. Committed JSON is 5.6 MB.
+```
+py -3 scripts/claims_db.py --all --publish
+```
+
+That downloads Ontario, Yukon, Newfoundland and Labrador, and Nunavut into gitignored `claims/.db/claims.sqlite`, links holders, and commits one PMTiles file per province under `claims/tiles/` plus the search, link, and mine-radius JSON. `python3` on Windows is the Store stub; use `py -3` or `python`. Tiles use `tippecanoe` on PATH, then `wsl tippecanoe` (paths via `wslpath`). The build stops if neither is available. Draft viewer: `claims-db.html`.

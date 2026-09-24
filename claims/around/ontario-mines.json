@@ -1,21 +1,94 @@
 {
- "dataset": "Ontario MLAS titles within 5 km and 10 km of beta mine coordinates. Grouped by holder. Not legal title. Does not modify beta JSON.",
- "generated_at": "2026-09-24T15:04:26Z",
+ "dataset": "Ontario titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T15:52:50Z",
  "province": "Ontario",
+ "province_id": "ontario",
  "radii_km": [
   5,
   10
  ],
  "mines": 32,
  "sudbury_first": true,
- "seconds": 1.4,
+ "unlocated": [
+  {
+   "mine_id": "detour-lake",
+   "company_id": "agnico-eagle",
+   "name": "Detour Lake",
+   "region": "Ontario",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "macassa",
+   "company_id": "agnico-eagle",
+   "name": "Macassa",
+   "region": "Ontario",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "upper-beaver",
+   "company_id": "agnico-eagle",
+   "name": "Upper Beaver",
+   "region": "Ontario",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "hemlo",
+   "company_id": "barrick",
+   "name": "Hemlo",
+   "region": "Ontario",
+   "ticker": "B"
+  },
+  {
+   "mine_id": "red-lake",
+   "company_id": "evolution",
+   "name": "Red Lake",
+   "region": "Ontario",
+   "ticker": "EVN.AX"
+  },
+  {
+   "mine_id": "island-gold-district",
+   "company_id": "alamos-gold",
+   "name": "Island Gold District",
+   "region": "Ontario",
+   "ticker": "AGI"
+  },
+  {
+   "mine_id": "young-davidson",
+   "company_id": "alamos-gold",
+   "name": "Young-Davidson",
+   "region": "Ontario",
+   "ticker": "AGI"
+  },
+  {
+   "mine_id": "eagle-river",
+   "company_id": "wesdome-gold-mines",
+   "name": "Eagle River",
+   "region": "Ontario",
+   "ticker": "WDO.TO"
+  },
+  {
+   "mine_id": "greenstone",
+   "company_id": "equinox-gold",
+   "name": "Greenstone",
+   "region": "Ontario",
+   "ticker": "EQX"
+  },
+  {
+   "mine_id": "musselwhite",
+   "company_id": "equinox-gold",
+   "name": "Musselwhite",
+   "region": "Ontario",
+   "ticker": "EQX"
+  }
+ ],
+ "seconds": 1.5,
  "results": [
   {
    "mine_id": "clarabelle-mill-sudbury-operations",
    "company_id": "vale",
    "name": "Clarabelle Mill (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.495822,
    "lon": -81.056782,
    "km": {
@@ -71,8 +144,8 @@
    "mine_id": "coleman-sudbury-operations",
    "company_id": "vale",
    "name": "Coleman (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.6771,
    "lon": -81.3397,
    "km": {
@@ -156,8 +229,8 @@
    "mine_id": "copper-cliff-sudbury-operations",
    "company_id": "vale",
    "name": "Copper Cliff (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.491445,
    "lon": -81.068205,
    "km": {
@@ -233,8 +306,8 @@
    "mine_id": "creighton-sudbury-operations",
    "company_id": "vale",
    "name": "Creighton (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.474,
    "lon": -81.1861,
    "km": {
@@ -328,8 +401,8 @@
    "mine_id": "garson-sudbury-operations",
    "company_id": "vale",
    "name": "Garson (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.568,
    "lon": -80.857,
    "km": {
@@ -436,100 +509,11 @@
    }
   },
   {
-   "mine_id": "spanish-river-carbonite",
-   "company_id": "boreal-agrominerals",
-   "name": "Spanish River Carbonite",
-   "ticker": null,
-   "region": "Ontario",
-   "lat": 46.6268,
-   "lon": -81.7246,
-   "km": {
-    "5": {
-     "titles": 41,
-     "by_holder": [
-      {
-       "holder": "(100) SRC Agrominerals Inc.",
-       "count": 34,
-       "company_id": null,
-       "ticker": null
-      },
-      {
-       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
-       "count": 7,
-       "company_id": "major-drilling-group-international",
-       "ticker": "MDI.TO"
-      }
-     ],
-     "by_company": [
-      {
-       "company_id": null,
-       "count": 34
-      },
-      {
-       "company_id": "major-drilling-group-international",
-       "count": 7
-      }
-     ]
-    },
-    "10": {
-     "titles": 253,
-     "by_holder": [
-      {
-       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
-       "count": 121,
-       "company_id": "major-drilling-group-international",
-       "ticker": "MDI.TO"
-      },
-      {
-       "holder": "(100) JOHN GREGORY BRADY",
-       "count": 74,
-       "company_id": null,
-       "ticker": null
-      },
-      {
-       "holder": "(100) SRC Agrominerals Inc.",
-       "count": 34,
-       "company_id": null,
-       "ticker": null
-      },
-      {
-       "holder": "(50) CHAMPION BEAR RESOURCES LTD., (50) URSA MAJOR MINERALS INCORPORATED",
-       "count": 12,
-       "company_id": null,
-       "ticker": null
-      },
-      {
-       "holder": "(100) VCC RESOURCES, INC.",
-       "count": 11,
-       "company_id": null,
-       "ticker": null
-      },
-      {
-       "holder": "(100) Aaron  Elyk",
-       "count": 1,
-       "company_id": null,
-       "ticker": null
-      }
-     ],
-     "by_company": [
-      {
-       "company_id": null,
-       "count": 132
-      },
-      {
-       "company_id": "major-drilling-group-international",
-       "count": 121
-      }
-     ]
-    }
-   }
-  },
-  {
    "mine_id": "stobie-sudbury-operations",
    "company_id": "vale",
    "name": "Stobie (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.5326,
    "lon": -81.0011,
    "km": {
@@ -577,8 +561,8 @@
    "mine_id": "totten-sudbury-operations",
    "company_id": "vale",
    "name": "Totten (Sudbury Operations)",
-   "ticker": "VALE",
    "region": "Ontario",
+   "ticker": "VALE",
    "lat": 46.381174,
    "lon": -81.454839,
    "km": {
@@ -718,8 +702,8 @@
    "mine_id": "bath",
    "company_id": "amrize",
    "name": "Bath",
-   "ticker": "AMRZ",
    "region": "Ontario",
+   "ticker": "AMRZ",
    "lat": 44.17086,
    "lon": -76.809138,
    "km": {
@@ -739,8 +723,8 @@
    "mine_id": "beachville",
    "company_id": "carmeuse",
    "name": "Beachville",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 43.068367,
    "lon": -80.856803,
    "km": {
@@ -760,8 +744,8 @@
    "mine_id": "blue-mountain",
    "company_id": "covia",
    "name": "Blue Mountain",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 44.6775,
    "lon": -77.9491,
    "km": {
@@ -833,8 +817,8 @@
    "mine_id": "bowmanville",
    "company_id": "st-marys-cement",
    "name": "Bowmanville",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 43.8845,
    "lon": -78.6946,
    "km": {
@@ -854,8 +838,8 @@
    "mine_id": "cote-gold",
    "company_id": "iamgold",
    "name": "Côté Gold",
-   "ticker": "IAG",
    "region": "Ontario",
+   "ticker": "IAG",
    "lat": 47.548,
    "lon": -81.93,
    "km": {
@@ -979,8 +963,8 @@
    "mine_id": "dundas",
    "company_id": "amrize",
    "name": "Dundas",
-   "ticker": "AMRZ",
    "region": "Ontario",
+   "ticker": "AMRZ",
    "lat": 43.291518,
    "lon": -80.008396,
    "km": {
@@ -1000,8 +984,8 @@
    "mine_id": "dundas",
    "company_id": "carmeuse",
    "name": "Dundas",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 43.291782,
    "lon": -79.986394,
    "km": {
@@ -1021,8 +1005,8 @@
    "mine_id": "fenn-gib",
    "company_id": "mayfair-gold",
    "name": "Fenn-Gib",
-   "ticker": "MFG.V",
    "region": "Ontario",
+   "ticker": "MFG.V",
    "lat": 48.52,
    "lon": -80.25,
    "km": {
@@ -1246,8 +1230,8 @@
    "mine_id": "goderich",
    "company_id": "compass-minerals",
    "name": "Goderich",
-   "ticker": "CMP",
    "region": "Ontario",
+   "ticker": "CMP",
    "lat": 43.743733,
    "lon": -81.724754,
    "km": {
@@ -1267,8 +1251,8 @@
    "mine_id": "goliath",
    "company_id": "nexgold",
    "name": "Goliath-Goldlund-Miller",
-   "ticker": "NEXG.V",
    "region": "Ontario",
+   "ticker": "NEXG.V",
    "lat": 49.77,
    "lon": -92.7,
    "km": {
@@ -1404,8 +1388,8 @@
    "mine_id": "hagersville",
    "company_id": "cgc",
    "name": "Hagersville",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 43.012203,
    "lon": -80.016869,
    "km": {
@@ -1425,8 +1409,8 @@
    "mine_id": "meldrum-bay",
    "company_id": "amrize",
    "name": "Meldrum Bay",
-   "ticker": "AMRZ",
    "region": "Ontario",
+   "ticker": "AMRZ",
    "lat": 45.909662,
    "lon": -83.220727,
    "km": {
@@ -1446,8 +1430,8 @@
    "mine_id": "northern-operation",
    "company_id": "carmeuse",
    "name": "Northern Operation",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 46.1989,
    "lon": -82.6997,
    "km": {
@@ -1503,8 +1487,8 @@
    "mine_id": "ogden-point",
    "company_id": "crh",
    "name": "Ogden Point",
-   "ticker": "CRH",
    "region": "Ontario",
+   "ticker": "CRH",
    "lat": 43.9831,
    "lon": -77.8806,
    "km": {
@@ -1524,8 +1508,8 @@
    "mine_id": "ojibway",
    "company_id": "windsor-salt",
    "name": "Ojibway",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 42.2558,
    "lon": -83.1033,
    "km": {
@@ -1545,8 +1529,8 @@
    "mine_id": "owen-sound",
    "company_id": "owen-sound-ledgerock",
    "name": "Owen Sound",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 44.5899,
    "lon": -81.0456,
    "km": {
@@ -1566,8 +1550,8 @@
    "mine_id": "penhorwood",
    "company_id": "magris",
    "name": "Penhorwood",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 48.191813,
    "lon": -82.09848,
    "km": {
@@ -1637,8 +1621,8 @@
    "mine_id": "picton",
    "company_id": "heidelberg-materials",
    "name": "Picton",
-   "ticker": "HDELY",
    "region": "Ontario",
+   "ticker": "HDELY",
    "lat": 44.052965,
    "lon": -77.122714,
    "km": {
@@ -1655,11 +1639,100 @@
    }
   },
   {
+   "mine_id": "spanish-river-carbonite",
+   "company_id": "boreal-agrominerals",
+   "name": "Spanish River Carbonite",
+   "region": "Ontario",
+   "ticker": null,
+   "lat": 46.6268,
+   "lon": -81.7246,
+   "km": {
+    "5": {
+     "titles": 41,
+     "by_holder": [
+      {
+       "holder": "(100) SRC Agrominerals Inc.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 7,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 34
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 7
+      }
+     ]
+    },
+    "10": {
+     "titles": 253,
+     "by_holder": [
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 121,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) JOHN GREGORY BRADY",
+       "count": 74,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SRC Agrominerals Inc.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) CHAMPION BEAR RESOURCES LTD., (50) URSA MAJOR MINERALS INCORPORATED",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VCC RESOURCES, INC.",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Aaron  Elyk",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 132
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 121
+      }
+     ]
+    }
+   }
+  },
+  {
    "mine_id": "st-marys",
    "company_id": "st-marys-cement",
    "name": "St Marys",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 43.2483,
    "lon": -81.1588,
    "km": {
@@ -1679,8 +1752,8 @@
    "mine_id": "st-lawrence",
    "company_id": "canadian-wollastonite",
    "name": "St. Lawrence",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 44.462618,
    "lon": -76.246541,
    "km": {
@@ -1700,8 +1773,8 @@
    "mine_id": "sydenham",
    "company_id": "miller-paving",
    "name": "Sydenham",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 44.5669,
    "lon": -80.8607,
    "km": {
@@ -1721,8 +1794,8 @@
    "mine_id": "tatlock",
    "company_id": "omya",
    "name": "Tatlock",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 45.151,
    "lon": -76.4957,
    "km": {
@@ -1778,8 +1851,8 @@
    "mine_id": "tower-gold",
    "company_id": "stllr-gold",
    "name": "Tower Gold",
-   "ticker": "STLR.TO",
    "region": "Ontario",
+   "ticker": "STLR.TO",
    "lat": 48.53,
    "lon": -80.0,
    "km": {
@@ -1985,8 +2058,8 @@
    "mine_id": "windsor",
    "company_id": "windsor-salt",
    "name": "Windsor",
-   "ticker": null,
    "region": "Ontario",
+   "ticker": null,
    "lat": 42.287093,
    "lon": -83.091963,
    "km": {

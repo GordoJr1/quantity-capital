@@ -1,9 +1,10 @@
-/* Draft Ontario MLAS viewer. Does not change claims.html.
-   Tiles: claims/.build/ontario.pmtiles (gitignored) or ?tiles=<url>. */
+/* Draft claims viewer for the provincial PMTiles files.
+   Does not change claims.html.
+   Tiles: claims/tiles/<code>.pmtiles, listed in claims/tiles/index.json.
+   ?tiles=<url> loads one archive instead. */
 (function () {
   const params = new URLSearchParams(location.search);
-  const tilesRel = params.get("tiles") || "claims/.build/ontario.pmtiles";
-  const tilesUrl = new URL(tilesRel, location.href).href;
+  const tilesOverride = params.get("tiles");
   const statusEl = document.getElementById("status");
   const searchEl = document.getElementById("search");
   const resultsEl = document.getElementById("search-results");
@@ -34,18 +35,18 @@
         { id: "basemap", type: "raster", source: "esri" },
       ],
     },
-    center: [-84.5, 49.5],
-    zoom: 4.6,
+    center: [-96, 56],
+    zoom: 3.2,
   });
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "bottom-right");
   map.addControl(new maplibregl.ScaleControl({ maxWidth: 140, unit: "metric" }), "bottom-right");
 
   let holders = [];
-  let active = -1;
   let holderFilter = null;
   let companyFilter = null;
   let popup = null;
-  let tileNote = "";
+  let fillLayers = [];
+  const rangeModes = [];
 
   function setStatus(text) {
     statusEl.textContent = text;
@@ -55,19 +56,21 @@
     if (!companyId) return "#5c6b7a";
     let h = 0;
     for (let i = 0; i < companyId.length; i++) h = (h * 31 + companyId.charCodeAt(i)) >>> 0;
-    const hue = h % 360;
-    return "hsl(" + hue + ", 62%, 58%)";
+    return "hsl(" + (h % 360) + ", 62%, 58%)";
   }
 
   function applyFilter() {
-    if (!map.getLayer("claims-fill")) return;
     const parts = ["all"];
     if (linkedOnlyEl.checked) parts.push(["!=", ["get", "company"], "unlinked"]);
     if (holderFilter) parts.push(["==", ["get", "holder"], holderFilter]);
     if (companyFilter) parts.push(["==", ["get", "company"], companyFilter]);
     const filter = parts.length === 1 ? null : parts;
-    map.setFilter("claims-fill", filter);
-    map.setFilter("claims-line", filter);
+    fillLayers.forEach((id) => {
+      if (!map.getLayer(id)) return;
+      map.setFilter(id, filter);
+      const line = id.replace("claims-fill-", "claims-line-");
+      if (map.getLayer(line)) map.setFilter(line, filter);
+    });
   }
 
   function showPopup(feature, lngLat) {
@@ -80,6 +83,7 @@
       "<dt>Company</dt><dd class=\"v-company\"></dd>" +
       "<dt>Ticker</dt><dd class=\"v-ticker\"></dd>" +
       "<dt>Title</dt><dd class=\"v-title\"></dd>" +
+      "<dt>Province</dt><dd class=\"v-prov\"></dd>" +
       "</dl></div>";
     if (popup) popup.remove();
     popup = new maplibregl.Popup({ closeButton: true, maxWidth: "320px" })
@@ -92,6 +96,7 @@
     root.querySelector(".v-company").textContent = company;
     root.querySelector(".v-ticker").textContent = ticker;
     root.querySelector(".v-title").textContent = p.id || "—";
+    root.querySelector(".v-prov").textContent = p.province || "—";
   }
 
   function fitHolder(row) {
@@ -101,24 +106,24 @@
     if (row.bbox && row.bbox.length === 4) {
       map.fitBounds([[row.bbox[0], row.bbox[1]], [row.bbox[2], row.bbox[3]]], { padding: 48, maxZoom: 11, duration: 600 });
     }
-    setStatus(row.name + " · " + row.count.toLocaleString() + " titles" + (row.ticker ? " · " + row.ticker : ""));
+    const where = row.code ? row.code.toUpperCase() + " · " : "";
+    setStatus(where + row.name + " · " + row.count.toLocaleString() + " titles" + (row.ticker ? " · " + row.ticker : ""));
   }
 
   async function lookupTitle(id) {
     const shard = id.slice(0, 2);
-    const res = await fetch("claims/search/titles/" + shard + ".json");
-    if (!res.ok) {
-      setStatus("No title shard for " + id);
+    const codes = Array.from(new Set(holders.map((row) => row.code).filter(Boolean)));
+    for (const code of codes) {
+      const res = await fetch("claims/search/titles/" + code + "/" + shard + ".json");
+      if (!res.ok) continue;
+      const table = await res.json();
+      const idx = table[id];
+      if (idx == null || !holders[idx]) continue;
+      searchEl.value = holders[idx].name;
+      fitHolder(holders[idx]);
       return;
     }
-    const table = await res.json();
-    const idx = table[id];
-    if (idx == null || !holders[idx]) {
-      setStatus("Title " + id + " is not in the Ontario index");
-      return;
-    }
-    searchEl.value = holders[idx].name;
-    fitHolder(holders[idx]);
+    setStatus("Title " + id + " is not in the index");
   }
 
   function renderResults(query) {
@@ -128,19 +133,18 @@
       resultsEl.hidden = true;
       return;
     }
-    if (/^\d{4,}$/.test(q)) {
-      resultsEl.hidden = true;
-      lookupTitle(q).catch(() => setStatus("Title lookup failed"));
-      return;
-    }
     const hits = [];
     for (let i = 0; i < holders.length && hits.length < 12; i++) {
       const row = holders[i];
-      const blob = (row.name + " " + (row.company || "") + " " + (row.company_id || "") + " " + (row.ticker || "")).toLowerCase();
+      const blob = (row.name + " " + (row.company || "") + " " + (row.company_id || "") + " " + (row.ticker || "") + " " + (row.code || "")).toLowerCase();
       if (blob.includes(q)) hits.push(row);
     }
     if (!hits.length) {
       resultsEl.hidden = true;
+      if (/\d/.test(q) && !q.includes(" ")) {
+        lookupTitle(q).catch(() => setStatus("Title lookup failed"));
+        return;
+      }
       setStatus("No holder match");
       return;
     }
@@ -150,7 +154,9 @@
       btn.className = "hit";
       btn.innerHTML = '<div class="who"></div><div class="meta"></div>';
       btn.querySelector(".who").textContent = row.name;
-      const bits = [row.count.toLocaleString() + " titles"];
+      const bits = [];
+      if (row.code) bits.push(row.code.toUpperCase());
+      bits.push(row.count.toLocaleString() + " titles");
       if (row.company_id) bits.push(row.company_id);
       if (row.ticker) bits.push(row.ticker);
       btn.querySelector(".meta").textContent = bits.join(" · ");
@@ -190,12 +196,13 @@
     });
   }
 
-  map.on("load", () => {
-    map.addSource("on-claims", { type: "vector", url: "pmtiles://" + tilesUrl });
+  function addLayers(sourceId) {
+    const fillId = "claims-fill-" + sourceId;
+    const lineId = "claims-line-" + sourceId;
     map.addLayer({
-      id: "claims-fill",
+      id: fillId,
       type: "fill",
-      source: "on-claims",
+      source: sourceId,
       "source-layer": "claims",
       paint: {
         "fill-color": ["coalesce", ["get", "color"], "#5c6b7a"],
@@ -203,29 +210,73 @@
       },
     });
     map.addLayer({
-      id: "claims-line",
+      id: lineId,
       type: "line",
-      source: "on-claims",
+      source: sourceId,
       "source-layer": "claims",
       paint: {
         "line-color": ["coalesce", ["get", "color"], "#c5d0dc"],
         "line-width": 0.4,
       },
     });
-    map.on("click", "claims-fill", (ev) => {
+    fillLayers.push(fillId);
+    map.on("click", fillId, (ev) => {
       const feature = ev.features && ev.features[0];
       if (feature) showPopup(feature, ev.lngLat);
     });
-    map.on("mouseenter", "claims-fill", () => { map.getCanvas().style.cursor = "pointer"; });
-    map.on("mouseleave", "claims-fill", () => { map.getCanvas().style.cursor = ""; });
-  });
+    map.on("mouseenter", fillId, () => { map.getCanvas().style.cursor = "pointer"; });
+    map.on("mouseleave", fillId, () => { map.getCanvas().style.cursor = ""; });
+  }
 
-  map.on("error", (ev) => {
-    const msg = (ev && ev.error && ev.error.message) || "tile error";
-    if (!tileNote && /pmtiles|fetch|ajax|404|Failed/i.test(msg)) {
-      tileNote = " Tile archive not loaded (" + tilesRel + "). It is gitignored; pass ?tiles= to a hosted PMTiles URL.";
-      setStatus((statusEl.textContent || "") + tileNote);
+  async function openArchive(sourceId, url) {
+    const absolute = new URL(url, location.href).href;
+    const probe = await fetch(absolute, { headers: { Range: "bytes=0-15" } });
+    const headBuf = await probe.arrayBuffer();
+    const magic = new TextDecoder().decode(new Uint8Array(headBuf).subarray(0, 7));
+    if (probe.status === 206 && magic === "PMTiles") {
+      map.addSource(sourceId, { type: "vector", url: "pmtiles://" + absolute });
+      rangeModes.push("range");
+      return;
     }
+    const archiveBytes = probe.status === 200 && magic === "PMTiles"
+      ? headBuf
+      : await (await fetch(absolute)).arrayBuffer();
+    const source = {
+      getKey() { return absolute; },
+      getBytes(offset, length) {
+        return Promise.resolve({ data: archiveBytes.slice(offset, offset + length) });
+      },
+    };
+    protocol.add(new pmtiles.PMTiles(source));
+    map.addSource(sourceId, { type: "vector", url: "pmtiles://" + absolute });
+    rangeModes.push("buffer");
+  }
+
+  async function loadTiles() {
+    let files = [];
+    if (tilesOverride) {
+      files = [{ code: "one", file: tilesOverride }];
+    } else {
+      const res = await fetch("claims/tiles/index.json");
+      if (!res.ok) throw new Error("claims/tiles/index.json " + res.status);
+      const index = await res.json();
+      files = index.provinces || [];
+    }
+    for (const row of files) {
+      await openArchive(row.code || row.file, row.file);
+      addLayers(row.code || row.file);
+    }
+    applyFilter();
+    const mode = rangeModes.every((item) => item === "range") ? "range requests" : "full-file read";
+    return files.length + " tile archives via " + mode;
+  }
+
+  map.on("load", () => {
+    loadTiles().then((note) => {
+      setStatus((statusEl.textContent || "Index") + " " + note + ".");
+    }).catch((err) => {
+      setStatus((statusEl.textContent || "") + " Tiles not loaded (" + err.message + ").");
+    });
   });
 
   linkedOnlyEl.addEventListener("change", applyFilter);
@@ -233,7 +284,9 @@
   document.getElementById("search-form").addEventListener("submit", (ev) => {
     ev.preventDefault();
     const q = searchEl.value.trim();
-    if (/^\d{4,}$/.test(q)) lookupTitle(q).catch(() => setStatus("Title lookup failed"));
+    if (/^[a-z0-9]{4,}$/i.test(q) && /\d/.test(q) && !q.includes(" ")) {
+      lookupTitle(q).catch(() => setStatus("Title lookup failed"));
+    }
   });
 
   const t0 = performance.now();
@@ -246,8 +299,14 @@
       holders = data.holders || [];
       const ms = Math.round(performance.now() - t0);
       const cov = data.coverage != null ? Math.round(data.coverage * 1000) / 10 + "%" : "—";
+      const provinces = data.provinces || {};
+      const bits = Object.keys(provinces).map((key) => {
+        const slot = provinces[key];
+        const pct = slot.coverage != null ? Math.round(slot.coverage * 1000) / 10 + "%" : "—";
+        return (slot.name || key) + " " + pct;
+      });
       subEl.textContent = "Draft · " + (data.titles || 0).toLocaleString() + " titles · " + cov + " linked · index " + ms + " ms";
-      setStatus("Ontario MLAS · " + holders.length.toLocaleString() + " holders · " + cov + " of titles linked to a site company. Not legal title.");
+      setStatus((bits.join(" · ") || "Claims") + ". Not legal title.");
       renderLegend();
     })
     .catch((err) => setStatus("Index failed: " + err.message));

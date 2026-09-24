@@ -22,8 +22,10 @@ class ClaimsBetaIndexTests(unittest.TestCase):
     def test_live_catalog_resolves_samples(self) -> None:
         payload = b.build_index(ROOT)
         by_id = {r["id"]: r for r in payload["issuers"]}
-        self.assertEqual(payload["n"], 192)
-        self.assertEqual(payload["counts"].get("matched"), 192)
+        catalog_n = len(json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))["companies"])
+        self.assertGreater(catalog_n, 0)
+        self.assertEqual(payload["n"], catalog_n)
+        self.assertEqual(payload["counts"].get("matched"), catalog_n)
         self.assertEqual(by_id["iamgold"]["file"], "beta/iamgold.json")
         self.assertTrue(by_id["iamgold"]["in_issuers"])
         self.assertEqual(by_id["probe-gold"]["file"], "beta/probe-gold.json")

@@ -9,15 +9,24 @@ changing claims/*.geojson or claims/companies.json:
     python3 scripts/build_claims_overview.py
 
 Stdlib only. Does not talk to GESTIM / MLAS / MTA. Does not write qc.sqlite.
+Refuses to write (exit 1) when an extract named in the catalog is missing or
+the result has no blocks; pass --allow-missing to build around missing files.
 """
 from __future__ import annotations
 
 import argparse
 import json
 import math
+import sys
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+from qc_io import atomic_write_json, atomic_write_text  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAIMS = ROOT / "claims"
@@ -255,6 +264,7 @@ def build(grid: float) -> dict:
     titles = 0
     used = 0
     company_bytes = {}
+    missing = []
     for company in companies:
         extracts = company_extracts(company)
         if not extracts:
@@ -266,6 +276,8 @@ def build(grid: float) -> dict:
             files += 1
             if path.is_file():
                 total += path.stat().st_size
+            else:
+                missing.append(rel)
             titles += accumulate_file(path, company, jurisdiction, grid, buckets)
         company_bytes[company["id"]] = total
     features = []
@@ -309,6 +321,7 @@ def build(grid: float) -> dict:
         "extract_files": files,
         "source_titles": titles,
         "company_bytes": company_bytes,
+        "missing_extracts": missing,
         "features": features,
     }
 
@@ -317,11 +330,24 @@ def main() -> int:
     ap = argparse.ArgumentParser(description="Build claims/overview.geojson from committed extracts")
     ap.add_argument("--grid", type=float, default=DEFAULT_GRID, help="raster cell size in degrees (default 0.02)")
     ap.add_argument("-o", "--out", type=Path, default=OUT)
+    ap.add_argument("--allow-missing", action="store_true",
+                    help="Write even when catalog extracts are missing (they are listed in missing_extracts)")
     args = ap.parse_args()
     if args.grid <= 0:
         raise SystemExit("--grid must be > 0")
     fc = build(args.grid)
-    args.out.write_text(json.dumps(fc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    missing = fc.get("missing_extracts") or []
+    if missing:
+        print("%d catalog extracts missing: %s" % (len(missing), ", ".join(missing[:12])), file=sys.stderr)
+        if not args.allow_missing:
+            print("refusing to write %s (use --allow-missing)" % args.out.name, file=sys.stderr)
+            return 1
+    else:
+        fc.pop("missing_extracts", None)
+    if not fc["features"]:
+        print("refusing to write %s: 0 claim blocks" % args.out.name, file=sys.stderr)
+        return 1
+    atomic_write_text(args.out, json.dumps(fc, ensure_ascii=False, separators=(",", ":")) + "\n")
     bytes_payload = {
         "generated_at": fc["generated_at"],
         "company_bytes": fc.get("company_bytes") or {},
@@ -333,14 +359,14 @@ def main() -> int:
         except json.JSONDecodeError:
             prev = {}
     if prev != bytes_payload["company_bytes"]:
-        BYTES_OUT.write_text(json.dumps(bytes_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        atomic_write_json(BYTES_OUT, bytes_payload)
         print("Wrote %s · %d company byte totals" % (BYTES_OUT.relative_to(ROOT), len(bytes_payload["company_bytes"])))
     else:
         print("Unchanged %s" % BYTES_OUT.relative_to(ROOT))
     kb = args.out.stat().st_size / 1024
     print(
         "Wrote %s · %d blocks · %d companies · %d source titles · %.1f KB · grid %s°"
-        % (args.out.relative_to(ROOT), len(fc["features"]), fc["companies"], fc["source_titles"], kb, args.grid)
+        % (args.out, len(fc["features"]), fc["companies"], fc["source_titles"], kb, args.grid)
     )
     return 0
 

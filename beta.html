@@ -68,17 +68,8 @@
       align-items: start;
       margin: 0 0 22px;
     }
-    .vale-map-row {
-      display: grid;
-      grid-template-columns: minmax(280px, 1fr) minmax(0, 1fr);
-      gap: 12px 28px;
-      align-items: start;
-      margin: 0 0 22px;
-    }
-    .vale-map-row > div { min-width: 0; }
-    .vale-map-spacer { min-width: 0; }
-    #vale-map-row #mines-inset-map { height: 340px; min-height: 320px; }
-    .vale-prod-block { margin: 0 0 22px; min-width: 0; }
+    .issuer-aside > #mines-inset.vale-chart-map { margin-top: 12px; }
+    #mines-inset.vale-chart-map #mines-inset-map { height: 340px; min-height: 320px; }
     .issuer-info { min-width: 0; }
     .issuer-info .lede { margin-bottom: 8px; }
     .issuer-info .picker { max-width: 100%; }
@@ -410,8 +401,6 @@
     }
     @media (max-width: 960px) {
       .issuer-top { grid-template-columns: 1fr; align-items: start; gap: 16px; }
-      .vale-map-row { grid-template-columns: 1fr; align-items: start; gap: 16px; }
-      .vale-map-spacer { display: none; }
       .issuer-chart { display: block; max-height: none; }
       .chart-wrap { min-height: 0; max-height: 260px; flex: none; padding: 10px 8px 10px 12px; }
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
@@ -2127,51 +2116,26 @@
       if (claimsCompanyForProfile() || claimsPublicForProfile()) return true;
       return false;
     }
-    let valeMapRow = null;
-    let valeProdRow = null;
+    let valeMapHome = null;
     function paintValeLayout() {
-      const series = document.getElementById("company-series");
       const box = document.getElementById("mines-inset");
-      const top = document.querySelector(".issuer-top");
-      if (!series || !box || !top) return;
+      const chart = document.getElementById("issuer-chart");
+      const aside = document.querySelector(".issuer-aside");
+      if (!box || !chart || !aside) return;
       if (!isValeCompany()) {
-        if (valeMapRow) {
-          if (valeMapRow._boxParent) valeMapRow._boxParent.insertBefore(box, valeMapRow._boxNext);
-          valeMapRow.remove();
-          valeMapRow = null;
-        }
-        if (valeProdRow) {
-          if (valeProdRow._seriesParent) valeProdRow._seriesParent.insertBefore(series, valeProdRow._seriesNext);
-          valeProdRow.remove();
-          valeProdRow = null;
+        if (valeMapHome) {
+          valeMapHome.parent.insertBefore(box, valeMapHome.next);
+          box.classList.remove("vale-chart-map");
+          valeMapHome = null;
+        } else {
+          box.classList.remove("vale-chart-map");
         }
         return;
       }
-      if (!valeMapRow) {
-        valeMapRow = document.createElement("div");
-        valeMapRow.id = "vale-map-row";
-        valeMapRow.className = "vale-map-row";
-        const spacer = document.createElement("div");
-        spacer.className = "vale-map-spacer";
-        spacer.setAttribute("aria-hidden", "true");
-        const cell = document.createElement("div");
-        cell.className = "vale-map-col";
-        valeMapRow.appendChild(spacer);
-        valeMapRow.appendChild(cell);
-        valeMapRow._boxParent = box.parentNode;
-        valeMapRow._boxNext = box.nextSibling;
-        top.parentNode.insertBefore(valeMapRow, top.nextSibling);
-        cell.appendChild(box);
-      }
-      if (!valeProdRow) {
-        valeProdRow = document.createElement("div");
-        valeProdRow.id = "vale-prod-block";
-        valeProdRow.className = "vale-prod-block";
-        valeProdRow._seriesParent = series.parentNode;
-        valeProdRow._seriesNext = series.nextSibling;
-        valeMapRow.parentNode.insertBefore(valeProdRow, valeMapRow.nextSibling);
-        valeProdRow.appendChild(series);
-      }
+      if (valeMapHome) return;
+      valeMapHome = { parent: box.parentNode, next: box.nextSibling };
+      aside.insertBefore(box, chart.nextSibling);
+      box.classList.add("vale-chart-map");
     }
     function paintMinesInset() {
       const box = document.getElementById("mines-inset");

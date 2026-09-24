@@ -1,0 +1,2006 @@
+{
+ "dataset": "Ontario MLAS titles within 5 km and 10 km of beta mine coordinates. Grouped by holder. Not legal title. Does not modify beta JSON.",
+ "generated_at": "2026-09-24T15:04:26Z",
+ "province": "Ontario",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 32,
+ "sudbury_first": true,
+ "seconds": 1.4,
+ "results": [
+  {
+   "mine_id": "clarabelle-mill-sudbury-operations",
+   "company_id": "vale",
+   "name": "Clarabelle Mill (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.495822,
+   "lon": -81.056782,
+   "km": {
+    "5": {
+     "titles": 6,
+     "by_holder": [
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 6
+      }
+     ]
+    },
+    "10": {
+     "titles": 10,
+     "by_holder": [
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BEN ERIC HAAVISTO",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) STEVEN DEAN ANDERSON",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 10
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "coleman-sudbury-operations",
+   "company_id": "vale",
+   "name": "Coleman (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.6771,
+   "lon": -81.3397,
+   "km": {
+    "5": {
+     "titles": 15,
+     "by_holder": [
+      {
+       "holder": "(50) GLENCORE CANADA CORPORATION, (50) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 10,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      },
+      {
+       "holder": "(100) VCC RESOURCES, INC.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "glencore",
+       "count": 10
+      },
+      {
+       "company_id": null,
+       "count": 5
+      }
+     ]
+    },
+    "10": {
+     "titles": 317,
+     "by_holder": [
+      {
+       "holder": "(100) VCC RESOURCES, INC.",
+       "count": 199,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) GLENCORE CANADA CORPORATION, (50) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 71,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 43,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) Errington Metals Inc.",
+       "count": 4,
+       "company_id": "metal-energy",
+       "ticker": "MERG.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 199
+      },
+      {
+       "company_id": "glencore",
+       "count": 71
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 43
+      },
+      {
+       "company_id": "metal-energy",
+       "count": 4
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "copper-cliff-sudbury-operations",
+   "company_id": "vale",
+   "name": "Copper Cliff (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.491445,
+   "lon": -81.068205,
+   "km": {
+    "5": {
+     "titles": 8,
+     "by_holder": [
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 8
+      }
+     ]
+    },
+    "10": {
+     "titles": 14,
+     "by_holder": [
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 3,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 1,
+       "company_id": "vale",
+       "ticker": "VALE"
+      },
+      {
+       "holder": "(100) BEN ERIC HAAVISTO",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) STEVEN DEAN ANDERSON",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 10
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 3
+      },
+      {
+       "company_id": "vale",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "creighton-sudbury-operations",
+   "company_id": "vale",
+   "name": "Creighton (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.474,
+   "lon": -81.1861,
+   "km": {
+    "5": {
+     "titles": 24,
+     "by_holder": [
+      {
+       "holder": "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 14,
+       "company_id": "vale",
+       "ticker": "VALE"
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 10,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "vale",
+       "count": 14
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 10
+      }
+     ]
+    },
+    "10": {
+     "titles": 45,
+     "by_holder": [
+      {
+       "holder": "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 19,
+       "company_id": "vale",
+       "ticker": "VALE"
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 19,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) Errington Metals Inc.",
+       "count": 5,
+       "company_id": "metal-energy",
+       "ticker": "MERG.V"
+      },
+      {
+       "holder": "(100) GLENCORE CANADA CORPORATION",
+       "count": 1,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      },
+      {
+       "holder": "(100) MARIETTA RAUHALA KOSOVSKY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "vale",
+       "count": 19
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 19
+      },
+      {
+       "company_id": "metal-energy",
+       "count": 5
+      },
+      {
+       "company_id": "glencore",
+       "count": 1
+      },
+      {
+       "company_id": null,
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "garson-sudbury-operations",
+   "company_id": "vale",
+   "name": "Garson (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.568,
+   "lon": -80.857,
+   "km": {
+    "5": {
+     "titles": 62,
+     "by_holder": [
+      {
+       "holder": "(100) Errington Metals Inc.",
+       "count": 60,
+       "company_id": "metal-energy",
+       "ticker": "MERG.V"
+      },
+      {
+       "holder": "(100) DOUGLAS  STYLES",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "metal-energy",
+       "count": 60
+      },
+      {
+       "company_id": null,
+       "count": 2
+      }
+     ]
+    },
+    "10": {
+     "titles": 213,
+     "by_holder": [
+      {
+       "holder": "(100) Errington Metals Inc.",
+       "count": 122,
+       "company_id": "metal-energy",
+       "ticker": "MERG.V"
+      },
+      {
+       "holder": "(100) 407043 ONTARIO LIMITED",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CBLT INC.",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MARK ANTHONY BRAZEAU",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) WESLEY DONALD FUDGE",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SCOT HAROLD HALLADAY",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Gravel Ridge Resources Ltd.",
+       "count": 7,
+       "company_id": "big-ridge-gold",
+       "ticker": "BRAU.V"
+      },
+      {
+       "holder": "(100) DOUGLAS  STYLES",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) STEVEN DEAN ANDERSON",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "metal-energy",
+       "count": 122
+      },
+      {
+       "company_id": null,
+       "count": 84
+      },
+      {
+       "company_id": "big-ridge-gold",
+       "count": 7
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "spanish-river-carbonite",
+   "company_id": "boreal-agrominerals",
+   "name": "Spanish River Carbonite",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 46.6268,
+   "lon": -81.7246,
+   "km": {
+    "5": {
+     "titles": 41,
+     "by_holder": [
+      {
+       "holder": "(100) SRC Agrominerals Inc.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 7,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 34
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 7
+      }
+     ]
+    },
+    "10": {
+     "titles": 253,
+     "by_holder": [
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 121,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) JOHN GREGORY BRADY",
+       "count": 74,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SRC Agrominerals Inc.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) CHAMPION BEAR RESOURCES LTD., (50) URSA MAJOR MINERALS INCORPORATED",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VCC RESOURCES, INC.",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Aaron  Elyk",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 132
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 121
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "stobie-sudbury-operations",
+   "company_id": "vale",
+   "name": "Stobie (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.5326,
+   "lon": -81.0011,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 45,
+     "by_holder": [
+      {
+       "holder": "(100) Errington Metals Inc.",
+       "count": 31,
+       "company_id": "metal-energy",
+       "ticker": "MERG.V"
+      },
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) WESLEY DONALD FUDGE",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "metal-energy",
+       "count": 31
+      },
+      {
+       "company_id": null,
+       "count": 14
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "totten-sudbury-operations",
+   "company_id": "vale",
+   "name": "Totten (Sudbury Operations)",
+   "ticker": "VALE",
+   "region": "Ontario",
+   "lat": 46.381174,
+   "lon": -81.454839,
+   "km": {
+    "5": {
+     "titles": 83,
+     "by_holder": [
+      {
+       "holder": "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 32,
+       "company_id": "vale",
+       "ticker": "VALE"
+      },
+      {
+       "holder": "(100) SOUTH SHORE PARTNERSHIP INC.",
+       "count": 25,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 20,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) Michael Frederick Walsh",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GLENCORE CANADA CORPORATION",
+       "count": 2,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "vale",
+       "count": 32
+      },
+      {
+       "company_id": null,
+       "count": 29
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 20
+      },
+      {
+       "company_id": "glencore",
+       "count": 2
+      }
+     ]
+    },
+    "10": {
+     "titles": 231,
+     "by_holder": [
+      {
+       "holder": "(100) URSA MAJOR MINERALS INCORPORATED",
+       "count": 64,
+       "company_id": "major-drilling-group-international",
+       "ticker": "MDI.TO"
+      },
+      {
+       "holder": "(100) SOUTH SHORE PARTNERSHIP INC.",
+       "count": 53,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+       "count": 37,
+       "company_id": "vale",
+       "ticker": "VALE"
+      },
+      {
+       "holder": "(100) BEN ERIC HAAVISTO",
+       "count": 26,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PHILLIP ARTHUR MARTEL",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GLENCORE CANADA CORPORATION",
+       "count": 14,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      },
+      {
+       "holder": "(100) STEVEN DEAN ANDERSON",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Michael Frederick Walsh",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SKEAD HOLDINGS LTD.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 116
+      },
+      {
+       "company_id": "major-drilling-group-international",
+       "count": 64
+      },
+      {
+       "company_id": "vale",
+       "count": 37
+      },
+      {
+       "company_id": "glencore",
+       "count": 14
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "bath",
+   "company_id": "amrize",
+   "name": "Bath",
+   "ticker": "AMRZ",
+   "region": "Ontario",
+   "lat": 44.17086,
+   "lon": -76.809138,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "beachville",
+   "company_id": "carmeuse",
+   "name": "Beachville",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 43.068367,
+   "lon": -80.856803,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "blue-mountain",
+   "company_id": "covia",
+   "name": "Blue Mountain",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 44.6775,
+   "lon": -77.9491,
+   "km": {
+    "5": {
+     "titles": 5,
+     "by_holder": [
+      {
+       "holder": "(100) Covia Canada Ltd.",
+       "count": 5,
+       "company_id": "canada-nickel",
+       "ticker": "CNC.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "canada-nickel",
+       "count": 5
+      }
+     ]
+    },
+    "10": {
+     "titles": 33,
+     "by_holder": [
+      {
+       "holder": "(100) TRIGAN RESOURCES INC.",
+       "count": 21,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Alvin  Kuepfer",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Covia Canada Ltd.",
+       "count": 5,
+       "company_id": "canada-nickel",
+       "ticker": "CNC.V"
+      },
+      {
+       "holder": "(100) DAVID CHRISTOPHER WATSON",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BLAZERS Explorations LTD.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 28
+      },
+      {
+       "company_id": "canada-nickel",
+       "count": 5
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "bowmanville",
+   "company_id": "st-marys-cement",
+   "name": "Bowmanville",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 43.8845,
+   "lon": -78.6946,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "cote-gold",
+   "company_id": "iamgold",
+   "name": "Côté Gold",
+   "ticker": "IAG",
+   "region": "Ontario",
+   "lat": 47.548,
+   "lon": -81.93,
+   "km": {
+    "5": {
+     "titles": 258,
+     "by_holder": [
+      {
+       "holder": "(70) IAMGOLD CORPORATION, (30) SMM GOLD COTE INC",
+       "count": 200,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(30) SMM GOLD COTE INC, (70) 2294167 Ontario Inc.",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(31) JOHN ROBERT LITTLE, (35) BERNARD JAMES BRYAN, (34) JEFFREY ALLAN BRYAN",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(42) IAMGOLD CORPORATION, (30) SMM GOLD COTE INC, (28) 2294167 Ontario Inc.",
+       "count": 12,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(25) NORMAND  COLLINS, (25) 1571925 ONTARIO LTD., (25) YVAN DENIS VERONNEAU, (25) CHAD MICHEAL GLOSTER",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "iamgold",
+       "count": 212
+      },
+      {
+       "company_id": null,
+       "count": 46
+      }
+     ]
+    },
+    "10": {
+     "titles": 1301,
+     "by_holder": [
+      {
+       "holder": "(70) IAMGOLD CORPORATION, (30) SMM GOLD COTE INC",
+       "count": 1014,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(30) SMM GOLD COTE INC, (70) 2294167 Ontario Inc.",
+       "count": 133,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) IAMGOLD CORPORATION",
+       "count": 62,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(33) JOHN  DER WEDUWEN, (67) ROBERT JOSEPH LAVIOLETTE",
+       "count": 40,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SHARON ELIZABETH ALLAN",
+       "count": 16,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(31) JOHN ROBERT LITTLE, (35) BERNARD JAMES BRYAN, (34) JEFFREY ALLAN BRYAN",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(42) IAMGOLD CORPORATION, (30) SMM GOLD COTE INC, (28) 2294167 Ontario Inc.",
+       "count": 12,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(25) NORMAND  COLLINS, (25) 1571925 ONTARIO LTD., (25) YVAN DENIS VERONNEAU, (25) CHAD MICHEAL GLOSTER",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Marc Robert Brunette",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "iamgold",
+       "count": 1088
+      },
+      {
+       "company_id": null,
+       "count": 213
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "dundas",
+   "company_id": "amrize",
+   "name": "Dundas",
+   "ticker": "AMRZ",
+   "region": "Ontario",
+   "lat": 43.291518,
+   "lon": -80.008396,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "dundas",
+   "company_id": "carmeuse",
+   "name": "Dundas",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 43.291782,
+   "lon": -79.986394,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "fenn-gib",
+   "company_id": "mayfair-gold",
+   "name": "Fenn-Gib",
+   "ticker": "MFG.V",
+   "region": "Ontario",
+   "lat": 48.52,
+   "lon": -80.25,
+   "km": {
+    "5": {
+     "titles": 242,
+     "by_holder": [
+      {
+       "holder": "(100) Epica Gold Inc.",
+       "count": 95,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mayfair Gold Corp.",
+       "count": 64,
+       "company_id": "mayfair-gold",
+       "ticker": "MFG.V"
+      },
+      {
+       "holder": "(100) AGNICO EAGLE MINES LIMITED",
+       "count": 50,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) STLLR GOLD INC.",
+       "count": 27,
+       "company_id": "stllr-gold",
+       "ticker": "STLR.TO"
+      },
+      {
+       "holder": "(75) AGNICO EAGLE MINES LIMITED, (25) STLLR GOLD INC.",
+       "count": 6,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 95
+      },
+      {
+       "company_id": "mayfair-gold",
+       "count": 64
+      },
+      {
+       "company_id": "agnico-eagle",
+       "count": 56
+      },
+      {
+       "company_id": "stllr-gold",
+       "count": 27
+      }
+     ]
+    },
+    "10": {
+     "titles": 930,
+     "by_holder": [
+      {
+       "holder": "(100) Epica Gold Inc.",
+       "count": 290,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AGNICO EAGLE MINES LIMITED",
+       "count": 168,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) Mayfair Gold Corp.",
+       "count": 143,
+       "company_id": "mayfair-gold",
+       "ticker": "MFG.V"
+      },
+      {
+       "holder": "(100) STLLR GOLD INC.",
+       "count": 123,
+       "company_id": "stllr-gold",
+       "ticker": "STLR.TO"
+      },
+      {
+       "holder": "(100) 10393444 CANADA INC.",
+       "count": 50,
+       "company_id": "canada-nickel",
+       "ticker": "CNC.V"
+      },
+      {
+       "holder": "(100) Dome Mine Ltd.",
+       "count": 26,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Lamella Gold Corp.",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(75) AGNICO EAGLE MINES LIMITED, (25) STLLR GOLD INC.",
+       "count": 23,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) VAL-D'OR MINING CORPORATION",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MCLAREN RESOURCES INC.",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) CLAYTON LUCIEN LARCHE, (25) SARA MEAGAN WIGELSWORTH, (50) Charles  Gryba",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAST TIMMINS NICKEL LTD.",
+       "count": 8,
+       "company_id": "nickel-creek-platinum",
+       "ticker": "NCP.V"
+      },
+      {
+       "holder": "(100) KENNETH WALTER TIMMINS",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DH EXPLORATION INC.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sudeep  Mathew",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PATRICK ALBERT CULHANE",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) STEVEN DEAN ANDERSON",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Melba Mining Company Limited",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) AGNICO EAGLE MINES LIMITED, (60) Dome Mine Ltd.",
+       "count": 3,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(40) Epica Gold Inc., (60) Dome Mine Ltd.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) McFarlane Lake Mining Limited",
+       "count": 2,
+       "company_id": "mcfarlane-lake-mining",
+       "ticker": "MLM.CN"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 410
+      },
+      {
+       "company_id": "agnico-eagle",
+       "count": 194
+      },
+      {
+       "company_id": "mayfair-gold",
+       "count": 143
+      },
+      {
+       "company_id": "stllr-gold",
+       "count": 123
+      },
+      {
+       "company_id": "canada-nickel",
+       "count": 50
+      },
+      {
+       "company_id": "nickel-creek-platinum",
+       "count": 8
+      },
+      {
+       "company_id": "mcfarlane-lake-mining",
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "goderich",
+   "company_id": "compass-minerals",
+   "name": "Goderich",
+   "ticker": "CMP",
+   "region": "Ontario",
+   "lat": 43.743733,
+   "lon": -81.724754,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "goliath",
+   "company_id": "nexgold",
+   "name": "Goliath-Goldlund-Miller",
+   "ticker": "NEXG.V",
+   "region": "Ontario",
+   "lat": 49.77,
+   "lon": -92.7,
+   "km": {
+    "5": {
+     "titles": 64,
+     "by_holder": [
+      {
+       "holder": "(100) Canada Critical Resources Corp.",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) NEXGOLD MINING CORP.",
+       "count": 25,
+       "company_id": "nexgold",
+       "ticker": "NEXG.V"
+      },
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Gravel Ridge Resources Ltd.",
+       "count": 1,
+       "company_id": "big-ridge-gold",
+       "ticker": "BRAU.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 38
+      },
+      {
+       "company_id": "nexgold",
+       "count": 25
+      },
+      {
+       "company_id": "big-ridge-gold",
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 405,
+     "by_holder": [
+      {
+       "holder": "(100) Canada Critical Resources Corp.",
+       "count": 241,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) NEXGOLD MINING CORP.",
+       "count": 85,
+       "company_id": "nexgold",
+       "ticker": "NEXG.V"
+      },
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 45,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) M  Wood",
+       "count": 18,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Golden Rapture Mining Corporation",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) EDWARD ANTHONY BARKAUSKAS, (50) SHERRIDON PATRICK JOHNSON",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KG Exploration (Canada) Inc.",
+       "count": 2,
+       "company_id": "canada-nickel",
+       "ticker": "CNC.V"
+      },
+      {
+       "holder": "(100) BRADLEY STUART WILSON",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Gravel Ridge Resources Ltd.",
+       "count": 1,
+       "company_id": "big-ridge-gold",
+       "ticker": "BRAU.V"
+      },
+      {
+       "holder": "(100) Sudeep  Mathew",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 317
+      },
+      {
+       "company_id": "nexgold",
+       "count": 85
+      },
+      {
+       "company_id": "canada-nickel",
+       "count": 2
+      },
+      {
+       "company_id": "big-ridge-gold",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "hagersville",
+   "company_id": "cgc",
+   "name": "Hagersville",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 43.012203,
+   "lon": -80.016869,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "meldrum-bay",
+   "company_id": "amrize",
+   "name": "Meldrum Bay",
+   "ticker": "AMRZ",
+   "region": "Ontario",
+   "lat": 45.909662,
+   "lon": -83.220727,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "northern-operation",
+   "company_id": "carmeuse",
+   "name": "Northern Operation",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 46.1989,
+   "lon": -82.6997,
+   "km": {
+    "5": {
+     "titles": 53,
+     "by_holder": [
+      {
+       "holder": "(100) DARIEN AGGREGATES INC.",
+       "count": 50,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) JOERG MARTIN KLEINBOECK",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 53
+      }
+     ]
+    },
+    "10": {
+     "titles": 64,
+     "by_holder": [
+      {
+       "holder": "(100) DARIEN AGGREGATES INC.",
+       "count": 61,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) JOERG MARTIN KLEINBOECK",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 64
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "ogden-point",
+   "company_id": "crh",
+   "name": "Ogden Point",
+   "ticker": "CRH",
+   "region": "Ontario",
+   "lat": 43.9831,
+   "lon": -77.8806,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "ojibway",
+   "company_id": "windsor-salt",
+   "name": "Ojibway",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 42.2558,
+   "lon": -83.1033,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "owen-sound",
+   "company_id": "owen-sound-ledgerock",
+   "name": "Owen Sound",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 44.5899,
+   "lon": -81.0456,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "penhorwood",
+   "company_id": "magris",
+   "name": "Penhorwood",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 48.191813,
+   "lon": -82.09848,
+   "km": {
+    "5": {
+     "titles": 378,
+     "by_holder": [
+      {
+       "holder": "(100) GFG RESOURCES INC.",
+       "count": 378,
+       "company_id": "gfg-resources",
+       "ticker": "GFG.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "gfg-resources",
+       "count": 378
+      }
+     ]
+    },
+    "10": {
+     "titles": 1143,
+     "by_holder": [
+      {
+       "holder": "(100) GFG RESOURCES INC.",
+       "count": 1078,
+       "company_id": "gfg-resources",
+       "ticker": "GFG.V"
+      },
+      {
+       "holder": "(100) CANADA NICKEL COMPANY INC.",
+       "count": 51,
+       "company_id": "canada-nickel",
+       "ticker": "CNC.V"
+      },
+      {
+       "holder": "(100) MICHAEL JOHN THOMPSON",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) JONATHAN  PAUL CAMILLERI",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "gfg-resources",
+       "count": 1078
+      },
+      {
+       "company_id": "canada-nickel",
+       "count": 51
+      },
+      {
+       "company_id": null,
+       "count": 14
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "picton",
+   "company_id": "heidelberg-materials",
+   "name": "Picton",
+   "ticker": "HDELY",
+   "region": "Ontario",
+   "lat": 44.052965,
+   "lon": -77.122714,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "st-marys",
+   "company_id": "st-marys-cement",
+   "name": "St Marys",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 43.2483,
+   "lon": -81.1588,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "st-lawrence",
+   "company_id": "canadian-wollastonite",
+   "name": "St. Lawrence",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 44.462618,
+   "lon": -76.246541,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "sydenham",
+   "company_id": "miller-paving",
+   "name": "Sydenham",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 44.5669,
+   "lon": -80.8607,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "tatlock",
+   "company_id": "omya",
+   "name": "Tatlock",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 45.151,
+   "lon": -76.4957,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 75,
+     "by_holder": [
+      {
+       "holder": "(100) Michael R Sculland",
+       "count": 46,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Adam Neil Mogil",
+       "count": 25,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VERNON NEIL RAMPTON",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Neil  Lefebvre",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pam J. Sangster",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 75
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "tower-gold",
+   "company_id": "stllr-gold",
+   "name": "Tower Gold",
+   "ticker": "STLR.TO",
+   "region": "Ontario",
+   "lat": 48.53,
+   "lon": -80.0,
+   "km": {
+    "5": {
+     "titles": 278,
+     "by_holder": [
+      {
+       "holder": "(100) STLLR GOLD INC.",
+       "count": 141,
+       "company_id": "stllr-gold",
+       "ticker": "STLR.TO"
+      },
+      {
+       "holder": "(100) AGNICO EAGLE MINES LIMITED",
+       "count": 71,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) Robert  Vien",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MCLAREN RESOURCES INC.",
+       "count": 16,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) AGNICO EAGLE MINES LIMITED, (50) STLLR GOLD INC.",
+       "count": 15,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) SOLID GOLD RESOURCES CORP.",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Epica Gold Inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) GILLES ANDRE ALLAIRE, (50) DOUGLAS JOSEPH LALONDE",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "stllr-gold",
+       "count": 141
+      },
+      {
+       "company_id": "agnico-eagle",
+       "count": 86
+      },
+      {
+       "company_id": null,
+       "count": 51
+      }
+     ]
+    },
+    "10": {
+     "titles": 1280,
+     "by_holder": [
+      {
+       "holder": "(100) STLLR GOLD INC.",
+       "count": 409,
+       "company_id": "stllr-gold",
+       "ticker": "STLR.TO"
+      },
+      {
+       "holder": "(100) AGNICO EAGLE MINES LIMITED",
+       "count": 273,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) SOLID GOLD RESOURCES CORP.",
+       "count": 178,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAST TIMMINS NICKEL LTD.",
+       "count": 138,
+       "company_id": "nickel-creek-platinum",
+       "ticker": "NCP.V"
+      },
+      {
+       "holder": "(50) AGNICO EAGLE MINES LIMITED, (50) STLLR GOLD INC.",
+       "count": 112,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) MCLAREN RESOURCES INC.",
+       "count": 70,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mayfair Gold Corp.",
+       "count": 26,
+       "company_id": "mayfair-gold",
+       "ticker": "MFG.V"
+      },
+      {
+       "holder": "(100) Robert  Vien",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Dome Mine Ltd.",
+       "count": 18,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Epica Gold Inc.",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) AGNICO EAGLE MINES LIMITED, (75) STLLR GOLD INC.",
+       "count": 8,
+       "company_id": "stllr-gold",
+       "ticker": "STLR.TO"
+      },
+      {
+       "holder": "(100) CLAYTON LUCIEN LARCHE",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DH EXPLORATION INC.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) S  Sullivan, (25) Dean  Windsor, (50) Edwards Peter Jason",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sudeep  Mathew",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) GILLES ANDRE ALLAIRE, (50) DOUGLAS JOSEPH LALONDE",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ryan  Smith",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "stllr-gold",
+       "count": 417
+      },
+      {
+       "company_id": "agnico-eagle",
+       "count": 385
+      },
+      {
+       "company_id": null,
+       "count": 314
+      },
+      {
+       "company_id": "nickel-creek-platinum",
+       "count": 138
+      },
+      {
+       "company_id": "mayfair-gold",
+       "count": 26
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "windsor",
+   "company_id": "windsor-salt",
+   "name": "Windsor",
+   "ticker": null,
+   "region": "Ontario",
+   "lat": 42.287093,
+   "lon": -83.091963,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  }
+ ]
+}

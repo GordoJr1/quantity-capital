@@ -1,0 +1,15 @@
+{
+  "note": "Curated registry phrase → site company. Phrases are compared after normalize_name() strips accents, punctuation, and legal suffixes. Not legal title.",
+  "aliases": [
+    {
+      "phrase": "great bear resources",
+      "company_id": "kinross",
+      "note": "Kinross Gold acquired Great Bear Resources. Ontario MLAS still records GREAT BEAR RESOURCES LTD. The live KINROSS needle matches nothing."
+    },
+    {
+      "phrase": "kenorland",
+      "company_id": "kenorland-minerals",
+      "note": "Ontario titles are held by Kenorland Exploration. The catalog name is Kenorland Minerals."
+    }
+  ]
+}

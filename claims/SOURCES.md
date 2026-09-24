@@ -77,3 +77,11 @@ no tokens; Jev never invents tenures.
 - **Ontario/BC neighbors** are not drawn (payload).
 - **Nationwide shapefiles** are not in git. Live ArcGIS from the browser is not used (static Pages + CORS).
 - Other Beta producers with no QC/ON/BC titles stay at zero until a holder match exists.
+
+## Ontario full-database prototype
+
+Not the live claims map. `claims.html` is unchanged.
+
+`python3 scripts/ontario_claims_db.py ingest` downloads every MLAS title (no company filter) into gitignored `claims/.db/ontario.sqlite`. Linking writes `claims/links/holders.json`. Search writes `claims/search/holders.json` and `claims/search/titles/*.json`. Mine radius groups write `claims/around/ontario-mines.json`. The PMTiles file stays in gitignored `claims/.build/ontario.pmtiles`. Draft viewer: `claims-db.html`.
+
+Measured 2026-09-24: 403,782 titles, 182,586 linked to a site company (45.2%). SQLite is 166 MB. PMTiles is 31.1 MB. Committed JSON is 5.6 MB.

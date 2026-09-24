@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <title>Ontario claims database — Quantity Capital</title>
+  <meta name="description" content="Draft Ontario MLAS claims database. Not legal title. Not investment advice." />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <link rel="stylesheet" href="shell.css?v=113" />
+  <style>
+    html { height: 100%; overflow: hidden; }
+    body { display: flex; flex-direction: column; height: 100%; min-height: 100vh; overflow: hidden; background: #0b1016; }
+    .map-stage { position: relative; flex: 1; min-height: 0; }
+    #map { position: absolute; inset: 0; background: #0b1016; }
+    .hud, .layers, .status {
+      position: absolute; z-index: 2; background: rgba(12, 16, 22, 0.88);
+      border: 1px solid #2a3340; backdrop-filter: blur(8px);
+    }
+    .hud {
+      top: 12px; left: 12px; right: 12px; display: flex; gap: 16px; align-items: center;
+      padding: 10px 14px; border-radius: 10px; max-width: 1100px; margin: 0 auto;
+    }
+    .hud h1 { font-size: 15px; margin: 0; }
+    .hud p { margin: 0; color: #9aa8b8; font-size: 12px; letter-spacing: 0; text-transform: none; }
+    #search-form { position: relative; flex: 1; }
+    #search {
+      width: 100%; background: #141a22; color: #e8eef6; border: 1px solid #2a3340;
+      border-radius: 6px; padding: 8px 10px; font: inherit;
+    }
+    #search-results {
+      position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+      background: #121820; border: 1px solid #2a3340; border-radius: 8px;
+      max-height: 280px; overflow: auto;
+    }
+    #search-results button {
+      display: block; width: 100%; text-align: left; background: transparent; color: #e8eef6;
+      padding: 8px 10px; border: 0; border-bottom: 1px solid #2a3340; cursor: pointer;
+    }
+    #search-results button:hover, #search-results button.active { background: #1c2733; }
+    .hit .who { color: #e3b41a; font-weight: 650; }
+    .hit .meta { color: #9aa8b8; font-size: 12px; }
+    .layers {
+      top: 84px; left: 12px; padding: 12px 14px; border-radius: 10px; min-width: 220px;
+      max-height: 46vh; overflow: auto; color: #e8eef6;
+    }
+    .layers h2 { font-size: 11px; letter-spacing: 0.08em; color: #9aa8b8; margin: 8px 0 6px; }
+    .layers h2:first-child { margin-top: 0; }
+    .layers label { display: flex; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; }
+    .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; cursor: pointer; }
+    .swatch i { width: 10px; height: 10px; border-radius: 2px; display: block; }
+    .status {
+      left: 12px; right: 12px; bottom: 12px; padding: 8px 12px; border-radius: 8px;
+      font-size: 12px; color: #9aa8b8; max-width: 1100px; margin: 0 auto;
+    }
+    .maplibregl-popup-content {
+      background: #121820; color: #e8eef6; border: 1px solid #2a3340; border-radius: 8px;
+      padding: 12px 14px; min-width: 240px;
+    }
+    .pop .holder { color: #e3b41a; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .pop dl { margin: 0; display: grid; grid-template-columns: 72px 1fr; gap: 4px 8px; font-size: 12px; }
+    .pop dt { color: #9aa8b8; }
+    .pop dd { margin: 0; }
+    @media (max-width: 720px) {
+      .hud { flex-direction: column; align-items: stretch; }
+      .layers { top: auto; bottom: 56px; max-height: 32vh; }
+    }
+  </style>
+</head>
+<body>
+  <a class="qc-skip" href="#map">Skip to map</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Issuer mines">
+        <a href="beta.html">Mines</a>
+        <a href="claims.html">Claims</a>
+        <a href="canada.html">Canada</a>
+      </nav>
+      <div class="qc-modes">
+        <a class="qc-mode" href="index.html">Politicians</a>
+        <a class="qc-mode" href="insiders.html">Insiders</a>
+      </div>
+    </div>
+  </header>
+  <div class="map-stage">
+    <div id="map"></div>
+    <header class="hud">
+      <div>
+        <h1>Ontario claims database</h1>
+        <p id="hud-sub">Draft. All MLAS titles. Not the live claims map.</p>
+      </div>
+      <form id="search-form" autocomplete="off">
+        <input id="search" type="search" placeholder="Holder, company, ticker, or title id" aria-label="Search Ontario claims">
+        <div id="search-results" hidden></div>
+      </form>
+    </header>
+    <aside class="layers">
+      <h2>Draft</h2>
+      <p class="hint" style="color:#9aa8b8;font-size:12px;line-height:1.4">Colors are linked companies. Gray is unlinked. The live <a href="claims.html">claims map</a> is unchanged.</p>
+      <label><input type="checkbox" id="linked-only"> Linked companies only</label>
+      <h2>Companies</h2>
+      <div id="legend"></div>
+    </aside>
+    <footer class="status" id="status">Loading the Ontario index…</footer>
+  </div>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
+  <script src="claims-db.js?v=1"></script>
+  <script>
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+  </script>
+  <nav class="tabbar" aria-label="Issuer mines">
+    <a href="beta.html">Mines</a>
+    <a href="claims.html">Claims</a>
+    <a href="canada.html">Canada</a>
+  </nav>
+</body>
+</html>

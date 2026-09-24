@@ -1,0 +1,70 @@
+{
+ "generated_at": "2026-09-24T15:04:45Z",
+ "titles": 403782,
+ "linked_titles": 182586,
+ "coverage": 0.45219,
+ "linked_holders": 270,
+ "holders": 1381,
+ "by_method_titles": {
+  "alias": 60574,
+  "catalog_name": 28581,
+  "extract_holder": 93431
+ },
+ "great_bear": [
+  {
+   "holder": "(100) GREAT BEAR RESOURCES LTD.",
+   "count": 1155,
+   "company_id": "kinross",
+   "method": "alias",
+   "ticker": "KGC"
+  }
+ ],
+ "sizes": {
+  "sqlite_bytes": 166035456,
+  "pmtiles_bytes": 31093941,
+  "links_bytes": 409544,
+  "search_holders_bytes": 291530,
+  "search_titles_bytes": 4884553,
+  "around_bytes": 40798,
+  "published_json_bytes": 5626425
+ },
+ "hosting": {
+  "github_file_limit_bytes": 104857600,
+  "ontario_bytes": 31093941,
+  "ontario_titles": 403782,
+  "bytes_per_title": 77.01,
+  "projected_bytes": {
+   "ontario": 31093941,
+   "yukon": 13011138,
+   "quebec": 9548837,
+   "nunavut": 2660660,
+   "british_columbia": 770068,
+   "manitoba": 793324,
+   "saskatchewan": 567386,
+   "newfoundland_and_labrador": 361470,
+   "nova_scotia": 168106,
+   "new_brunswick": 105268,
+   "northwest_territories": 84861
+  },
+  "projected_total_bytes": 59165059,
+  "largest_province": {
+   "name": "ontario",
+   "bytes": 31093941
+  },
+  "each_province_under_github_limit": true,
+  "ontario_under_github_limit": true,
+  "note": "Projection scales Ontario bytes per title onto the 2026-09-24 registry counts. Yukon and Quebec polygons may be larger or smaller than an Ontario cell. British Columbia uses the 10,000-row MapServer view, not a full registry census. Quebec uses the stated 124k floor."
+ },
+ "pmtiles": "/workspace/claims/.build/ontario.pmtiles",
+ "sqlite": "/workspace/claims/.db/ontario.sqlite",
+ "timings": {
+  "ingest_seconds": 646.5,
+  "link_seconds": 2.8,
+  "around_seconds": 1.4,
+  "tippecanoe_seconds": 16.9,
+  "holders_json_localhost_seconds": 0.006,
+  "pmtiles_full_localhost_seconds": 0.011,
+  "pmtiles_disk_read_seconds": 0.021,
+  "note": "Localhost times are this machine's disk, not a wide-area load. PMTiles clients fetch byte ranges; Python's stock http.server ignores Range, so local viewing needs a server that returns 206."
+ }
+}

@@ -1,0 +1,2731 @@
+{
+ "dataset": "Quebec titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T17:08:05Z",
+ "province": "Quebec",
+ "province_id": "quebec",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 29,
+ "sudbury_first": false,
+ "unlocated": [
+  {
+   "mine_id": "laronde",
+   "company_id": "agnico-eagle",
+   "name": "LaRonde Complex",
+   "region": "Quebec",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "canadian-malartic",
+   "company_id": "agnico-eagle",
+   "name": "Canadian Malartic Complex",
+   "region": "Quebec",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "goldex",
+   "company_id": "agnico-eagle",
+   "name": "Goldex",
+   "region": "Quebec",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "lamaque",
+   "company_id": "eldorado-gold",
+   "name": "Lamaque Complex",
+   "region": "Quebec",
+   "ticker": "EGO"
+  },
+  {
+   "mine_id": "kiena",
+   "company_id": "wesdome-gold-mines",
+   "name": "Kiena",
+   "region": "Quebec",
+   "ticker": "WDO.TO"
+  }
+ ],
+ "seconds": 0.7,
+ "results": [
+  {
+   "mine_id": "acton-vale",
+   "company_id": "carriere-d-acton-vale",
+   "name": "Acton Vale",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 45.642046,
+   "lon": -72.555113,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 2,
+     "by_holder": [
+      {
+       "holder": "(100) André Drouin",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "bedford",
+   "company_id": "graymont",
+   "name": "Bedford",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 45.1127,
+   "lon": -73.0118,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "dso-goodwood",
+   "company_id": "tata-steel-minerals",
+   "name": "DSO (Goodwood)",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 55.09939,
+   "lon": -67.34778,
+   "km": {
+    "5": {
+     "titles": 138,
+     "by_holder": [
+      {
+       "holder": "(100) Tata Steel Minerals Canada Ltd",
+       "count": 93,
+       "company_id": "tata-steel-minerals",
+       "ticker": null
+      },
+      {
+       "holder": "(100) Abaxx Technologies Inc.",
+       "count": 36,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Patricia Lafontaine",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "tata-steel-minerals",
+       "count": 93
+      },
+      {
+       "company_id": null,
+       "count": 45
+      }
+     ]
+    },
+    "10": {
+     "titles": 387,
+     "by_holder": [
+      {
+       "holder": "(100) Tata Steel Minerals Canada Ltd",
+       "count": 181,
+       "company_id": "tata-steel-minerals",
+       "ticker": null
+      },
+      {
+       "holder": "(100) Abaxx Technologies Inc.",
+       "count": 123,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Neil McCallum",
+       "count": 46,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Simon Dahrouge",
+       "count": 18,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Patricia Lafontaine",
+       "count": 17,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Gestion Kinipi",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 206
+      },
+      {
+       "company_id": "tata-steel-minerals",
+       "count": 181
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "eau-claire",
+   "company_id": "fury-gold",
+   "name": "Eau Claire",
+   "region": "Quebec",
+   "ticker": "FURY.TO",
+   "lat": 52.2,
+   "lon": -75.8,
+   "km": {
+    "5": {
+     "titles": 116,
+     "by_holder": [
+      {
+       "holder": "(100) Eastmain Resources Inc.",
+       "count": 92,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 116
+      }
+     ]
+    },
+    "10": {
+     "titles": 326,
+     "by_holder": [
+      {
+       "holder": "(100) Eastmain Resources Inc.",
+       "count": 233,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 92,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Hydro-Québec",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 326
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "fenelon",
+   "company_id": "wallbridge",
+   "name": "Fenelon",
+   "region": "Quebec",
+   "ticker": "WM.TO",
+   "lat": 49.77,
+   "lon": -78.32,
+   "km": {
+    "5": {
+     "titles": 189,
+     "by_holder": [
+      {
+       "holder": "(100) Nuvau Minerals Corp.",
+       "count": 67,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(56.66) SOQUEM inc.",
+       "count": 54,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(43.34) Nuvau Minerals Corp.",
+       "count": 54,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 189
+      }
+     ]
+    },
+    "10": {
+     "titles": 739,
+     "by_holder": [
+      {
+       "holder": "(56.66) SOQUEM inc.",
+       "count": 194,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(43.34) Nuvau Minerals Corp.",
+       "count": 194,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Nuvau Minerals Corp.",
+       "count": 186,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Eldorado Gold (Quebec) inc.",
+       "count": 127,
+       "company_id": "eldorado-gold",
+       "ticker": "EGO"
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Patricia Lafontaine",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mine Barlow Inc.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Fancamp Exploration Ltd",
+       "count": 2,
+       "company_id": "fancamp-exploration",
+       "ticker": "FNC.V"
+      },
+      {
+       "holder": "(100) Stacey Funk",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Geneviève Gauthier",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Redevances Noranda Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 610
+      },
+      {
+       "company_id": "eldorado-gold",
+       "count": 127
+      },
+      {
+       "company_id": "fancamp-exploration",
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "fire-lake",
+   "company_id": "arcelormittal",
+   "name": "Fire Lake",
+   "region": "Quebec",
+   "ticker": "MT",
+   "lat": 52.352998,
+   "lon": -67.363935,
+   "km": {
+    "5": {
+     "titles": 80,
+     "by_holder": [
+      {
+       "holder": "(100) ArcelorMittal Exploitation minière Canada S.E.N.C",
+       "count": 69,
+       "company_id": "arcelormittal",
+       "ticker": "MT"
+      },
+      {
+       "holder": "(100) Les Mines de Fer Champion Limitée",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MTQ - Direction des grands projets du centre et du nord du Québec",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "arcelormittal",
+       "count": 69
+      },
+      {
+       "company_id": null,
+       "count": 11
+      }
+     ]
+    },
+    "10": {
+     "titles": 338,
+     "by_holder": [
+      {
+       "holder": "(100) Les Mines de Fer Champion Limitée",
+       "count": 196,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ArcelorMittal Exploitation minière Canada S.E.N.C",
+       "count": 84,
+       "company_id": "arcelormittal",
+       "ticker": "MT"
+      },
+      {
+       "holder": "(100) Simon Dahrouge",
+       "count": 56,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MTQ - Direction des grands projets du centre et du nord du Québec",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 254
+      },
+      {
+       "company_id": "arcelormittal",
+       "count": 84
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "joliette",
+   "company_id": "beton-provincial",
+   "name": "Joliette",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 46.0303,
+   "lon": -73.40276,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "lac-des-iles",
+   "company_id": "northern-graphite",
+   "name": "Lac-des-Îles",
+   "region": "Quebec",
+   "ticker": "NGC.V",
+   "lat": 46.3753,
+   "lon": -75.5357,
+   "km": {
+    "5": {
+     "titles": 87,
+     "by_holder": [
+      {
+       "holder": "(100) Afzaal Pirzada",
+       "count": 33,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Graphano Energy ltd.",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Graphite Nordique inc.",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 87
+      }
+     ]
+    },
+    "10": {
+     "titles": 107,
+     "by_holder": [
+      {
+       "holder": "(100) Afzaal Pirzada",
+       "count": 43,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Graphano Energy ltd.",
+       "count": 37,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Graphite Nordique inc.",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 3087-8060 Québec inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 107
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "laval",
+   "company_id": "demix-agregats",
+   "name": "Laval",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 45.588917,
+   "lon": -73.701347,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "les-carrieres-calco",
+   "company_id": "graymont",
+   "name": "Les Carrières Calco",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 46.677342,
+   "lon": -72.053428,
+   "km": {
+    "5": {
+     "titles": 1,
+     "by_holder": [
+      {
+       "holder": "(100) Pierre-Olivier Lamontagne",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 13,
+     "by_holder": [
+      {
+       "holder": "(30) Jean Robert",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre-Olivier Lamontagne",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 13
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "marbleton",
+   "company_id": "graymont",
+   "name": "Marbleton",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 45.6193,
+   "lon": -71.6075,
+   "km": {
+    "5": {
+     "titles": 8,
+     "by_holder": [
+      {
+       "holder": "(100) Fancamp Exploration Ltd",
+       "count": 4,
+       "company_id": "fancamp-exploration",
+       "ticker": "FNC.V"
+      },
+      {
+       "holder": "(100) Yves Fortin",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pascal Tanguay",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "fancamp-exploration",
+       "count": 4
+      },
+      {
+       "company_id": null,
+       "count": 4
+      }
+     ]
+    },
+    "10": {
+     "titles": 43,
+     "by_holder": [
+      {
+       "holder": "(100) Fancamp Exploration Ltd",
+       "count": 37,
+       "company_id": "fancamp-exploration",
+       "ticker": "FNC.V"
+      },
+      {
+       "holder": "(100) Yves Fortin",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Guillaume Lavoie",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pascal Tanguay",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "fancamp-exploration",
+       "count": 37
+      },
+      {
+       "company_id": null,
+       "count": 6
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "martiniere",
+   "company_id": "wallbridge",
+   "name": "Martiniere",
+   "region": "Quebec",
+   "ticker": "WM.TO",
+   "lat": 49.8,
+   "lon": -78.7,
+   "km": {
+    "5": {
+     "titles": 187,
+     "by_holder": [
+      {
+       "holder": "(100) SOQUEM inc.",
+       "count": 55,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 48,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Probe Gold inc.",
+       "count": 25,
+       "company_id": "probe-gold",
+       "ticker": "PRB.TO"
+      },
+      {
+       "holder": "(100) Ressources Yorbeau Inc. (Les)",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Abitibi Metals Corp.",
+       "count": 11,
+       "company_id": "abitibi-metals",
+       "ticker": "AMQ.CN"
+      },
+      {
+       "holder": "(100) Murray Jones",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) North American Exploration Ltd",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) International Explorers & Prospectors inc.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 151
+      },
+      {
+       "company_id": "probe-gold",
+       "count": 25
+      },
+      {
+       "company_id": "abitibi-metals",
+       "count": 11
+      }
+     ]
+    },
+    "10": {
+     "titles": 639,
+     "by_holder": [
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 98,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SOQUEM inc.",
+       "count": 90,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ressources Yorbeau Inc. (Les)",
+       "count": 88,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Abitibi Metals Corp.",
+       "count": 86,
+       "company_id": "abitibi-metals",
+       "ticker": "AMQ.CN"
+      },
+      {
+       "holder": "(100) Murray Jones",
+       "count": 59,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Probe Gold inc.",
+       "count": 38,
+       "company_id": "probe-gold",
+       "ticker": "PRB.TO"
+      },
+      {
+       "holder": "(100) Neil Perk",
+       "count": 36,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mine Barlow Inc.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Nuvau Minerals Corp.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) North American Exploration Ltd",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Resolve Hydrogen In",
+       "count": 13,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) International Explorers & Prospectors inc.",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Redevances Noranda Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 515
+      },
+      {
+       "company_id": "abitibi-metals",
+       "count": 86
+      },
+      {
+       "company_id": "probe-gold",
+       "count": 38
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "mcinnis",
+   "company_id": "st-marys-cement",
+   "name": "McInnis",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 48.186869,
+   "lon": -64.918672,
+   "km": {
+    "5": {
+     "titles": 23,
+     "by_holder": [
+      {
+       "holder": "(100) St. Marys Cement inc. (Canada)",
+       "count": 20,
+       "company_id": "st-marys-cement",
+       "ticker": null
+      },
+      {
+       "holder": "(100) Dominique Amyot-Bilodeau",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "st-marys-cement",
+       "count": 20
+      },
+      {
+       "company_id": null,
+       "count": 3
+      }
+     ]
+    },
+    "10": {
+     "titles": 23,
+     "by_holder": [
+      {
+       "holder": "(100) St. Marys Cement inc. (Canada)",
+       "count": 20,
+       "company_id": "st-marys-cement",
+       "ticker": null
+      },
+      {
+       "holder": "(100) Dominique Amyot-Bilodeau",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "st-marys-cement",
+       "count": 20
+      },
+      {
+       "company_id": null,
+       "count": 3
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "mont-wright",
+   "company_id": "arcelormittal",
+   "name": "Mont-Wright",
+   "region": "Quebec",
+   "ticker": "MT",
+   "lat": 52.757053,
+   "lon": -67.330058,
+   "km": {
+    "5": {
+     "titles": 12,
+     "by_holder": [
+      {
+       "holder": "(100) ArcelorMittal Exploitation minière Canada S.E.N.C",
+       "count": 12,
+       "company_id": "arcelormittal",
+       "ticker": "MT"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "arcelormittal",
+       "count": 12
+      }
+     ]
+    },
+    "10": {
+     "titles": 120,
+     "by_holder": [
+      {
+       "holder": "(100) ArcelorMittal Exploitation minière Canada S.E.N.C",
+       "count": 114,
+       "company_id": "arcelormittal",
+       "ticker": "MT"
+      },
+      {
+       "holder": "(100) Minerai de Fer Québec inc. (Quebec Iron Ore inc.)",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Dean Boudrias",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "arcelormittal",
+       "count": 114
+      },
+      {
+       "company_id": null,
+       "count": 6
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "nelligan-complex",
+   "company_id": "iamgold",
+   "name": "Nelligan Mining Complex",
+   "region": "Quebec (Chibougamau–Chapais)",
+   "ticker": "IAG",
+   "lat": 49.7,
+   "lon": -74.55,
+   "km": {
+    "5": {
+     "titles": 180,
+     "by_holder": [
+      {
+       "holder": "(100) Chevrier Metals Corp.",
+       "count": 89,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 6078559 Canada inc.",
+       "count": 51,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Northern Superior Resources Inc.",
+       "count": 18,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(1) IAMGold Corporation",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(99) Northern Superior Resources Inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(99) BTM Corporation",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ministère des Transports et de la Mobilité Durable",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 180
+      }
+     ]
+    },
+    "10": {
+     "titles": 687,
+     "by_holder": [
+      {
+       "holder": "(100) Chevrier Metals Corp.",
+       "count": 298,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 6078559 Canada inc.",
+       "count": 94,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+       "count": 74,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Marc Bouchard",
+       "count": 39,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) G.L. Geoservice inc.",
+       "count": 39,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Northern Superior Resources Inc.",
+       "count": 38,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Michel Chapdelaine",
+       "count": 16,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Visible Gold Mines inc.",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) XXIX Metal Corp.",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Val-d'Or Mining Corporation",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(1) IAMGold Corporation",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(36.17) IAMGold Corporation",
+       "count": 5,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(63.83) Chevrier Metals Corp.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(99) Northern Superior Resources Inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Fayz Yacoub",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Marc Bouchard",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) IAMGold Corporation",
+       "count": 3,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(90) First Quantum Minerals Ltd.",
+       "count": 2,
+       "company_id": "first-quantum-minerals",
+       "ticker": "FM.TO"
+      },
+      {
+       "holder": "(10) Chevrier Metals Corp.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Frank Guillemette",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mathieu Audet",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Réjean Raymond",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(99) BTM Corporation",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ministère des Transports et de la Mobilité Durable",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9546-2206 Québec inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 677
+      },
+      {
+       "company_id": "iamgold",
+       "count": 8
+      },
+      {
+       "company_id": "first-quantum-minerals",
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "niobec",
+   "company_id": "magris",
+   "name": "Niobec",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 48.532148,
+   "lon": -71.156929,
+   "km": {
+    "5": {
+     "titles": 118,
+     "by_holder": [
+      {
+       "holder": "(100) Niobec inc.",
+       "count": 72,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Michael Dehn",
+       "count": 33,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Premier Horticulture ltée",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 118
+      }
+     ]
+    },
+    "10": {
+     "titles": 140,
+     "by_holder": [
+      {
+       "holder": "(100) Niobec inc.",
+       "count": 72,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Michael Dehn",
+       "count": 48,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Premier Horticulture ltée",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Frédéric Bergeron",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bétonnières d'Arvida inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 140
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "north-american-lithium",
+   "company_id": "elevra-lithium",
+   "name": "North American Lithium",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 48.4115,
+   "lon": -77.80934,
+   "km": {
+    "5": {
+     "titles": 242,
+     "by_holder": [
+      {
+       "holder": "(100) Consolidated Lithium Metals inc.",
+       "count": 78,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Linear Minerals corp.",
+       "count": 59,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Lithium Amérique du Nord inc..",
+       "count": 46,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(75) Consolidated Lithium Metals inc.",
+       "count": 26,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) Lithium Amérique du Nord inc..",
+       "count": 26,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Germanium Mining Corp.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) St-Georges Eco-Mining corp.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 242
+      }
+     ]
+    },
+    "10": {
+     "titles": 791,
+     "by_holder": [
+      {
+       "holder": "(100) Consolidated Lithium Metals inc.",
+       "count": 192,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Linear Minerals corp.",
+       "count": 149,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Lithium Amérique du Nord inc..",
+       "count": 60,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Mines Abcourt Inc.",
+       "count": 42,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 35,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 35,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Entreprises Minières Globex Inc",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Gestion Aline Leclerc inc.",
+       "count": 29,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 29,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(75) Consolidated Lithium Metals inc.",
+       "count": 28,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) Lithium Amérique du Nord inc..",
+       "count": 28,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9219-8845 Québec inc. (Canadian Mining House)",
+       "count": 25,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BWR Exploration Inc",
+       "count": 17,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Val-d'Or Mining Corporation",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ressources Yorbeau Inc. (Les)",
+       "count": 13,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Glenn Griesbach",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Jacques Landry",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9148-5706 Quebec inc. (Multi-Ressources Boreal)",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Germanium Mining Corp.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) St-Georges Eco-Mining corp.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Redevances Noranda Inc.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Trent Potts",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Steven Scott",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Weslinear Minerals Corp.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) West Linear Minerals corp.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(60) Pierre Parent",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) Dave Gauthier",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Pierre Tellier",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Pierre Parent",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 791
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "novador",
+   "company_id": "probe-gold",
+   "name": "Novador",
+   "region": "Quebec",
+   "ticker": "PRB.TO",
+   "lat": 48.1809,
+   "lon": -77.5316,
+   "km": {
+    "5": {
+     "titles": 244,
+     "by_holder": [
+      {
+       "holder": "(100) Probe Gold inc.",
+       "count": 239,
+       "company_id": "probe-gold",
+       "ticker": "PRB.TO"
+      },
+      {
+       "holder": "(100) Eldorado Gold (Quebec) inc.",
+       "count": 5,
+       "company_id": "eldorado-gold",
+       "ticker": "EGO"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "probe-gold",
+       "count": 239
+      },
+      {
+       "company_id": "eldorado-gold",
+       "count": 5
+      }
+     ]
+    },
+    "10": {
+     "titles": 866,
+     "by_holder": [
+      {
+       "holder": "(100) Probe Gold inc.",
+       "count": 443,
+       "company_id": "probe-gold",
+       "ticker": "PRB.TO"
+      },
+      {
+       "holder": "(100) Eldorado Gold (Quebec) inc.",
+       "count": 131,
+       "company_id": "eldorado-gold",
+       "ticker": "EGO"
+      },
+      {
+       "holder": "(100) Xander Resources Inc.",
+       "count": 57,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Troubadour Resources inc.",
+       "count": 47,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(45) Glencore Canada Corporation",
+       "count": 44,
+       "company_id": "glencore",
+       "ticker": "GLNCY"
+      },
+      {
+       "holder": "(55) Eldorado Gold (Quebec) inc.",
+       "count": 36,
+       "company_id": "eldorado-gold",
+       "ticker": "EGO"
+      },
+      {
+       "holder": "(100) Val-d'Or Mining Corporation",
+       "count": 24,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9511-2090 Québec inc.",
+       "count": 13,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Jon Deluce",
+       "count": 13,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Entreprises Minières Globex Inc",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(55) Ressources Teck Limitée",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Pierre Parent",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Dave Gauthier",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ressources Melkior Inc.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "probe-gold",
+       "count": 443
+      },
+      {
+       "company_id": null,
+       "count": 212
+      },
+      {
+       "company_id": "eldorado-gold",
+       "count": 167
+      },
+      {
+       "company_id": "glencore",
+       "count": 44
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "nunavik-nickel",
+   "company_id": "canadian-royalties",
+   "name": "Nunavik Nickel",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 61.420856,
+   "lon": -74.1375,
+   "km": {
+    "5": {
+     "titles": 142,
+     "by_holder": [
+      {
+       "holder": "(100) Canadian Royalties Inc.",
+       "count": 125,
+       "company_id": "canadian-royalties",
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9414-5349 Québec inc.",
+       "count": 17,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "canadian-royalties",
+       "count": 125
+      },
+      {
+       "company_id": null,
+       "count": 17
+      }
+     ]
+    },
+    "10": {
+     "titles": 509,
+     "by_holder": [
+      {
+       "holder": "(100) Canadian Royalties Inc.",
+       "count": 307,
+       "company_id": "canadian-royalties",
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9414-5349 Québec inc.",
+       "count": 143,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Nunavik Ltée",
+       "count": 59,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "canadian-royalties",
+       "count": 307
+      },
+      {
+       "company_id": null,
+       "count": 202
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "perron",
+   "company_id": "amex-exploration",
+   "name": "Perron",
+   "region": "Quebec",
+   "ticker": "AMX.V",
+   "lat": 48.82,
+   "lon": -79.37,
+   "km": {
+    "5": {
+     "titles": 25,
+     "by_holder": [
+      {
+       "holder": "(100) Explorations Carat inc. (Les)",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Entreprises Minières Globex Inc",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Junita Tedy Asihto",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Glenn Griesbach",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Réjean Raymond",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 25
+      }
+     ]
+    },
+    "10": {
+     "titles": 82,
+     "by_holder": [
+      {
+       "holder": "(100) Entreprises Minières Globex Inc",
+       "count": 27,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Explorations Carat inc. (Les)",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Junita Tedy Asihto",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9219-8845 Québec inc. (Canadian Mining House)",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Generic Gold corp.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Glenn Griesbach",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Steven Scott",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Réjean Raymond",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 82
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "saint-armand",
+   "company_id": "omya",
+   "name": "Saint-Armand",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 45.0762,
+   "lon": -73.0452,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "saint-basile",
+   "company_id": "ciment-quebec",
+   "name": "Saint-Basile",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 46.74491,
+   "lon": -71.815131,
+   "km": {
+    "5": {
+     "titles": 1,
+     "by_holder": [
+      {
+       "holder": "(100) Déneigement Jorg",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 28,
+     "by_holder": [
+      {
+       "holder": "(30) Jean Robert",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Déneigement Jorg",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 28
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "saint-constant",
+   "company_id": "amrize",
+   "name": "Saint-Constant",
+   "region": "Quebec",
+   "ticker": "AMRZ",
+   "lat": 45.343972,
+   "lon": -73.524931,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "seleine",
+   "company_id": "stone-canyon-industries",
+   "name": "Seleine",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 47.6122,
+   "lon": -61.5608,
+   "km": {
+    "5": {
+     "titles": 8,
+     "by_holder": [
+      {
+       "holder": "(100) Sel Windsor ltée",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 8
+      }
+     ]
+    },
+    "10": {
+     "titles": 8,
+     "by_holder": [
+      {
+       "holder": "(100) Sel Windsor ltée",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 8
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "troilus",
+   "company_id": "troilus-mining",
+   "name": "Troilus",
+   "region": "Quebec",
+   "ticker": "TLG.TO",
+   "lat": 50.99,
+   "lon": -74.51,
+   "km": {
+    "5": {
+     "titles": 128,
+     "by_holder": [
+      {
+       "holder": "(100) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 92,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sumitomo Metal Mining Canada Ltd.",
+       "count": 29,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Corporation Comète Lithium",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 128
+      }
+     ]
+    },
+    "10": {
+     "titles": 437,
+     "by_holder": [
+      {
+       "holder": "(100) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 204,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sumitomo Metal Mining Canada Ltd.",
+       "count": 135,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Corporation Comète Lithium",
+       "count": 66,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Prodigy Gold inc.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 437
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "troilus",
+   "company_id": "troilus",
+   "name": "Troilus",
+   "region": "Quebec",
+   "ticker": "TLG.TO",
+   "lat": 50.99,
+   "lon": -74.51,
+   "km": {
+    "5": {
+     "titles": 128,
+     "by_holder": [
+      {
+       "holder": "(100) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 92,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sumitomo Metal Mining Canada Ltd.",
+       "count": 29,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Corporation Comète Lithium",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 128
+      }
+     ]
+    },
+    "10": {
+     "titles": 437,
+     "by_holder": [
+      {
+       "holder": "(100) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 204,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Sumitomo Metal Mining Canada Ltd.",
+       "count": 135,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Corporation Comète Lithium",
+       "count": 66,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bertrand Brassard",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Prodigy Gold inc.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) Corporation minière Troilus (Troilus Mining Corp.)",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 437
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "verreault-beauport",
+   "company_id": "ciment-quebec",
+   "name": "Verreault Beauport",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 46.858244,
+   "lon": -71.202981,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 1,
+     "by_holder": [
+      {
+       "holder": "(100) Pierre-Olivier Lamontagne",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "westwood",
+   "company_id": "iamgold",
+   "name": "Westwood Complex",
+   "region": "Quebec",
+   "ticker": "IAG",
+   "lat": 48.2557,
+   "lon": -78.5022,
+   "km": {
+    "5": {
+     "titles": 198,
+     "by_holder": [
+      {
+       "holder": "(100) Mines Agnico-Eagle Limitée",
+       "count": 92,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) IAMGold Corporation",
+       "count": 75,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(100) 9219-8845 Québec inc. (Canadian Mining House)",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bullion Gold Resources Corp.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ressources Minières Radisson Inc.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Réjean Raymond",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Glenn Griesbach",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Alexandr Beloborodov Géologue inc.(ABG Exploration)",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "agnico-eagle",
+       "count": 92
+      },
+      {
+       "company_id": "iamgold",
+       "count": 75
+      },
+      {
+       "company_id": null,
+       "count": 31
+      }
+     ]
+    },
+    "10": {
+     "titles": 631,
+     "by_holder": [
+      {
+       "holder": "(100) Mines Agnico-Eagle Limitée",
+       "count": 221,
+       "company_id": "agnico-eagle",
+       "ticker": "AEM"
+      },
+      {
+       "holder": "(100) IAMGold Corporation",
+       "count": 112,
+       "company_id": "iamgold",
+       "ticker": "IAG"
+      },
+      {
+       "holder": "(100) Ressources Minières Radisson Inc.",
+       "count": 82,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 9219-8845 Québec inc. (Canadian Mining House)",
+       "count": 57,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Bullion Gold Resources Corp.",
+       "count": 36,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Midland inc.",
+       "count": 33,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Hélène Niquay",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Pierre Parent",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Glenn Griesbach",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Redevances Noranda Inc.",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Jean Robert",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Explorations Carat inc. (Les)",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(40) 9495-6976 Québec inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Val-d'Or Mining Corporation",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(70) Pierre Parent",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(30) Dave Gauthier",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Réjean Raymond",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Alexandr Beloborodov Géologue inc.(ABG Exploration)",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ministère des Ressources naturelles et des Forêts",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ministère des Transports",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 298
+      },
+      {
+       "company_id": "agnico-eagle",
+       "count": 221
+      },
+      {
+       "company_id": "iamgold",
+       "count": 112
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "eleonore",
+   "company_id": "dhilmar",
+   "name": "Éléonore",
+   "region": "Quebec",
+   "ticker": null,
+   "lat": 52.69889,
+   "lon": -76.08667,
+   "km": {
+    "5": {
+     "titles": 164,
+     "by_holder": [
+      {
+       "holder": "(100) Dhilmar Éléonore, Société en commandite",
+       "count": 159,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Azimut inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 164
+      }
+     ]
+    },
+    "10": {
+     "titles": 476,
+     "by_holder": [
+      {
+       "holder": "(100) Dhilmar Éléonore, Société en commandite",
+       "count": 359,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Electric Elements Mining Corp.",
+       "count": 55,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Eastmain Resources Inc.",
+       "count": 28,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Exploration Azimut inc.",
+       "count": 20,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) Ressources Sirios inc.",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 476
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

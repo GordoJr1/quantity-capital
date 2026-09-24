@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-09-24T15:52:50Z",
+ "generated_at": "2026-09-24T17:08:06Z",
  "cadence": "monthly",
  "hosting": "github-pages-split-by-province",
  "provinces": {
@@ -54,11 +54,37 @@
     "catalog_name": 5714,
     "extract_holder": 499
    }
+  },
+  "quebec": {
+   "name": "Quebec",
+   "titles": 255285,
+   "holders": 1501,
+   "linked_titles": 52760,
+   "linked_holders": 96,
+   "coverage": 0.206671,
+   "by_method_titles": {
+    "alias": 7095,
+    "catalog_name": 45423,
+    "extract_holder": 242
+   }
+  },
+  "british-columbia": {
+   "name": "British Columbia",
+   "titles": 31395,
+   "holders": 1778,
+   "linked_titles": 5870,
+   "linked_holders": 89,
+   "coverage": 0.186972,
+   "by_method_titles": {
+    "alias": 4,
+    "catalog_name": 5338,
+    "extract_holder": 528
+   }
   }
  },
- "titles": 611988,
- "linked_titles": 258220,
- "coverage": 0.421936,
+ "titles": 898668,
+ "linked_titles": 316850,
+ "coverage": 0.352577,
  "watch": {
   "new-found-gold": {
    "titles": 141,
@@ -133,21 +159,31 @@
    ]
   }
  },
- "jev_ambiguous_holders": 27,
+ "jev_ambiguous_holders": 0,
  "sizes": {
-  "sqlite_bytes": 286474240,
+  "sqlite_bytes": 442261504,
   "pmtiles_bytes": {
-   "ontario": 37034598,
-   "yukon": 22977378,
-   "newfoundland": 2706317,
-   "nunavut": 18043158
+   "ontario": 37590012,
+   "yukon": 23291116,
+   "newfoundland": 2795682,
+   "nunavut": 18892397,
+   "quebec": 28051285,
+   "british-columbia": 10674903
   },
-  "links_bytes": 672099,
-  "search_holders_bytes": 641465,
-  "search_titles_bytes": 9667234,
-  "around_bytes": 68030,
-  "tiles_index_bytes": 641,
-  "published_bytes": 91810920
+  "pmtiles_files": {
+   "claims/tiles/on.pmtiles.png": 37590012,
+   "claims/tiles/yt.pmtiles.png": 23291116,
+   "claims/tiles/nl.pmtiles.png": 2795682,
+   "claims/tiles/nu.pmtiles.png": 18892397,
+   "claims/tiles/qc.pmtiles.png": 28051285,
+   "claims/tiles/bc.pmtiles.png": 10674903
+  },
+  "links_bytes": 1473772,
+  "search_holders_bytes": 1456181,
+  "search_titles_bytes": 14473791,
+  "around_bytes": 163688,
+  "tiles_index_bytes": 935,
+  "published_bytes": 138863762
  },
  "around": {
   "ontario": {
@@ -169,10 +205,68 @@
    "bytes": 2090,
    "mines": 1,
    "unlocated": 4
+  },
+  "quebec": {
+   "bytes": 55517,
+   "mines": 29,
+   "unlocated": 5
+  },
+  "british-columbia": {
+   "bytes": 40141,
+   "mines": 17,
+   "unlocated": 5
   }
  },
  "github_file_limit_bytes": 104857600,
  "tiles_under_limit": true,
+ "ingest": [
+  {
+   "province": "ontario",
+   "titles": 403782,
+   "cached": true
+  },
+  {
+   "province": "yukon",
+   "titles": 168961,
+   "cached": true
+  },
+  {
+   "province": "newfoundland",
+   "titles": 4694,
+   "cached": true
+  },
+  {
+   "province": "nunavut",
+   "titles": 34551,
+   "cached": true
+  },
+  {
+   "province": "quebec",
+   "titles": 255285,
+   "holders": 1501,
+   "live_count": 255285,
+   "seconds": 13.3,
+   "pages": 1,
+   "unique_title_ids": 233724,
+   "dropped_status": {
+    "S": 2705,
+    "P": 17
+   },
+   "source_date": "2026-09-21",
+   "source": "https://diffusion.mern.gouv.qc.ca/public/GESTIM/telechargements/Province_shape/TITRES_ACTIFS_ACTIVE_TITLES.zip"
+  },
+  {
+   "province": "british-columbia",
+   "titles": 31395,
+   "holders": 1778,
+   "live_count": 31395,
+   "seconds": 49.8,
+   "pages": 32,
+   "registry_total": 42285,
+   "kept": "mineral claims and leases",
+   "source": "https://openmaps.gov.bc.ca/geo/pub/WHSE_MINERAL_TENURE.MTA_ACQUIRED_TENURE_SVW/wfs"
+  }
+ ],
  "range_probe": {
   "text": {
    "status": 206,
@@ -190,6 +284,6 @@
    "body_starts_with_pmtiles_or_png": true,
    "body_looks_gzip": false
   },
-  "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. Binary types (PNG) return the raw file. .pmtiles is not a text type. The viewer checks the PMTiles magic and, if the range is compressed, reads the whole archive in memory."
+  "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. image/png ranges are the raw file. .pmtiles is application/octet-stream and is gzip-sliced the same way text is, so published archives use a .pmtiles.png name. The viewer still checks the PMTiles magic and, if a range is compressed, reads the whole archive in memory."
  }
 }

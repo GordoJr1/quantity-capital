@@ -81,10 +81,34 @@ class LimitTests(unittest.TestCase):
         self.assertNotIn('claims/tiles/yt.pmtiles"', text)
 
     def test_known_provinces(self):
-        self.assertEqual(set(db.PROVINCES), {"ontario", "yukon", "newfoundland", "nunavut"})
+        self.assertEqual(set(db.PROVINCES), {
+            "ontario", "yukon", "newfoundland", "nunavut", "quebec", "british-columbia",
+        })
         self.assertIn("OWNER_NAME", db.PROVINCES["yukon"]["fields"])
         self.assertIn("CLIENT_NAME", db.PROVINCES["newfoundland"]["fields"])
         self.assertIn("OWNERS", db.PROVINCES["nunavut"]["fields"])
+        self.assertEqual(db.PROVINCES["quebec"]["source"], "gestim-shp")
+        self.assertEqual(db.PROVINCES["british-columbia"]["source"], "bc-wfs")
+        self.assertIn("CLAIM", db.BC_CQL)
+        self.assertIn("LEASE", db.BC_CQL)
+        self.assertIn("Mineral", db.BC_CQL)
+        self.assertNotIn("Placer", db.BC_CQL)
+
+    def test_holder_percent_and_wfs_count(self):
+        self.assertEqual(db.format_registry_holder("OMINECA GOLD LTD.", 100), "(100) OMINECA GOLD LTD.")
+        self.assertEqual(db.format_registry_holder("Go Metals corp.", "100.00"), "(100) Go Metals corp.")
+        self.assertEqual(db.wfs_number_matched('numberMatched="31395"'), 31395)
+
+    def test_shapefile_polygon_closes(self):
+        import struct
+        ring = [(-73.2, 49.6), (-73.1, 49.6), (-73.1, 49.7), (-73.2, 49.7)]
+        parts = struct.pack("<2i", 1, 4)
+        points = b"".join(struct.pack("<2d", lon, lat) for lon, lat in ring)
+        content = struct.pack("<i4d", 5, -73.2, 49.6, -73.1, 49.7) + parts + struct.pack("<i", 0) + points
+        geom = db.shp_to_geojson(content)
+        self.assertEqual(geom["type"], "Polygon")
+        self.assertEqual(geom["coordinates"][0][0], geom["coordinates"][0][-1])
+        self.assertIsNone(db.shp_to_geojson(struct.pack("<i", 0)))
 
 
 if __name__ == "__main__":

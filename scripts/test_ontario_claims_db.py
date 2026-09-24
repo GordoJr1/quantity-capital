@@ -223,9 +223,12 @@ class RepoTests(unittest.TestCase):
         self.assertIn('params.get("company")', script)
         self.assertIn('".pmtiles.png"', script)
         self.assertIn("ly-yukon", script)
+        self.assertIn('code: "qc"', script)
+        self.assertIn('code: "bc"', script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn("/claims/tiles/", sw)
-        self.assertIn("qc-shell-v219", sw)
+        self.assertIn("qc-shell-v220", sw)
+        self.assertIn("claims-map.js?v=21", sw)
 
 
 if __name__ == "__main__":

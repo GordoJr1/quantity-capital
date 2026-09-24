@@ -80,7 +80,7 @@ no tokens; Jev never invents tenures.
 
 ## Provincial claims database
 
-The Claims nav stays on `claims.html`. That page still draws Quebec, Ontario, and British Columbia from the company extracts, and `claims.html?company=` deep links are unchanged. Yukon, Nunavut, and Newfoundland and Labrador are extra checkboxes on that same filter, drawn from `claims/tiles/<code>.pmtiles.png`. The `.png` suffix keeps GitHub Pages from gzip-slicing Range requests. `claims-db.html` remains the full-registry viewer.
+The Claims nav stays on `claims.html`. Quebec and British Columbia checkboxes draw `claims/tiles/qc.pmtiles.png` and `claims/tiles/bc.pmtiles.png`. Ontario stays on the company extracts. Yukon, Nunavut, and Newfoundland and Labrador use the same tile checkboxes. `claims.html?company=` still loads the company extract. The `.png` suffix keeps GitHub Pages from gzip-slicing Range requests. `claims-db.html` remains the full-registry viewer.
 
 Monthly, from the Windows desktop:
 
@@ -88,4 +88,4 @@ Monthly, from the Windows desktop:
 py -3 scripts/claims_db.py --all --publish
 ```
 
-That downloads Ontario, Yukon, Newfoundland and Labrador, and Nunavut into gitignored `claims/.db/claims.sqlite`, links holders, and commits one PMTiles file per province under `claims/tiles/` plus the search, link, and mine-radius JSON. `python3` on Windows is the Store stub; use `py -3` or `python`. Tiles use `tippecanoe` on PATH, then `wsl tippecanoe` (paths via `wslpath`). The build stops if neither is available. Draft viewer: `claims-db.html`.
+That ingests Quebec, British Columbia, Ontario, Yukon, Newfoundland and Labrador, and Nunavut into gitignored `claims/.db/claims.sqlite`, links holders, and commits one PMTiles file per province under `claims/tiles/` plus the search, link, and mine-radius JSON. A province that would pass 100 MiB is split into `qc.pmtiles.png` and `qc-2.pmtiles.png` (same for BC). Quebec is the GESTIM weekly active-titles shapefile (`TITRES_ACTIFS_ACTIVE_TITLES.zip` on Données Québec / MRNF); only `STI_CODE` A is kept, with the holder from `DET_NOM`. British Columbia is the DataBC WFS layer `WHSE_MINERAL_TENURE.MTA_ACQUIRED_TENURE_SVW` (not the 10,000-row MapServer), paged with `startIndex` and `sortBy=OBJECTID`, keeping mineral claims and leases and `OWNER_NAME`. `python3` on Windows is the Store stub; use `py -3` or `python`. Tiles use `tippecanoe` on PATH, then `wsl tippecanoe` (paths via `wslpath`). The build stops if neither is available. Draft viewer: `claims-db.html`.

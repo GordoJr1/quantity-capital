@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monthly claims database for Ontario, Yukon, Newfoundland and Labrador, and Nunavut.
+"""Monthly claims database for Quebec, British Columbia, Ontario, Yukon, Newfoundland and Labrador, and Nunavut.
 
 One gitignored SQLite file (claims/.db/claims.sqlite) holds every title, with a
 province column. Published files are the holder links, the search index, the
@@ -25,12 +25,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
+import shutil
 import sqlite3
+import struct
 import subprocess
 import sys
 import time
+import urllib.error
+import urllib.parse
 import urllib.request
+import zipfile
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,7 +73,27 @@ REPORT_PATH = CLAIMS / "links" / "build-report.json"
 SCORE_PATH = CLAIMS / "links" / "jev-prototype-score.json"
 GITHUB_FILE_LIMIT = 100 * 1024 * 1024
 SLEEP_S = 0.12
+USER_AGENT = "Quantity Capital gordojr@proton.me"
 STAGED = ("claims/links", "claims/search", "claims/around", "claims/tiles")
+BC_WFS = "https://openmaps.gov.bc.ca/geo/pub/WHSE_MINERAL_TENURE.MTA_ACQUIRED_TENURE_SVW/wfs"
+BC_TYPENAME = "pub:WHSE_MINERAL_TENURE.MTA_ACQUIRED_TENURE_SVW"
+# Mineral claims and leases only. Placer and coal stay out of this database.
+BC_CQL = (
+    "TENURE_TYPE_DESCRIPTION='Mineral' AND "
+    "(TENURE_SUB_TYPE_DESCRIPTION='CLAIM' OR TENURE_SUB_TYPE_DESCRIPTION='LEASE')"
+)
+QC_ZIP_URL = (
+    "https://diffusion.mern.gouv.qc.ca/public/GESTIM/telechargements/"
+    "Province_shape/TITRES_ACTIFS_ACTIVE_TITLES.zip"
+)
+QC_ZIP_NAME = "TITRES_ACTIFS_ACTIVE_TITLES.zip"
+INSERT_TITLE = """
+INSERT OR REPLACE INTO titles (
+  province, objectid, title_id, holder, status, tenure_type,
+  issue_date, anniversary_date, due_date, extension_date,
+  area_ha, minx, miny, maxx, maxy, geom_json
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+"""
 
 # Registry counts checked 2026-09-24. These layers are the ones in the claims review.
 PROVINCES = {
@@ -141,6 +168,24 @@ PROVINCES = {
         "extension_field": None,
         "area_field": "AREA_HA",
         "region_needle": "nunavut",
+    },
+    "quebec": {
+        "code": "qc",
+        "name": "Quebec",
+        "source": "gestim-shp",
+        "url": QC_ZIP_URL,
+        "page": 2000,
+        "cache": CLAIMS / ".cache" / "qc",
+        "region_needle": "quebec",
+    },
+    "british-columbia": {
+        "code": "bc",
+        "name": "British Columbia",
+        "source": "bc-wfs",
+        "url": BC_WFS,
+        "page": 1000,
+        "cache": CLAIMS / ".cache" / "bc",
+        "region_needle": "british columbia",
     },
 }
 
@@ -294,6 +339,396 @@ def _mark(con: sqlite3.Connection, key: str, value: str) -> None:
     )
 
 
+def format_registry_holder(name: str | None, percent) -> str | None:
+    """'(pct) NAME' so the linker sees the interest. A blank name stays blank."""
+    text = (name or "").strip()
+    if not text:
+        return None
+    if percent in (None, ""):
+        return text
+    try:
+        number = float(percent)
+    except (TypeError, ValueError):
+        return text
+    return f"({_trim_pct(str(number))}) {text}"
+
+
+def _ymd(value) -> str | None:
+    if value is None or value == "":
+        return None
+    text = str(value).strip()
+    if len(text) == 8 and text.isdigit():
+        return f"{text[0:4]}-{text[4:6]}-{text[6:8]}"
+    return _date(text)
+
+
+def _title_tuple(province, oid, title_id, holder, status, tenure_type, issue, due, area, geom):
+    box = ondb.geometry_bbox(geom)
+    return (
+        province,
+        int(oid),
+        str(title_id),
+        holder,
+        status,
+        tenure_type,
+        issue,
+        None,
+        due,
+        None,
+        area,
+        box[0] if box else None,
+        box[1] if box else None,
+        box[2] if box else None,
+        box[3] if box else None,
+        json.dumps(geom, separators=(",", ":")) if geom else None,
+    )
+
+
+def _finish_ingest(con: sqlite3.Connection, name: str, expected: int | None, started: float, pages: int, extra: dict | None = None) -> dict:
+    total = con.execute("SELECT COUNT(*) AS n FROM titles WHERE province=?", (name,)).fetchone()["n"]
+    holders = con.execute(
+        "SELECT COUNT(DISTINCT holder) AS n FROM titles WHERE province=?", (name,)
+    ).fetchone()["n"]
+    _mark(con, f"done:{name}", "1")
+    _mark(con, f"ingested_at:{name}", ondb.now_iso())
+    if expected is not None:
+        _mark(con, f"live_count:{name}", str(expected))
+    con.commit()
+    elapsed = round(time.time() - started, 1)
+    log(f"  {name} {total} titles, {holders} holders in {elapsed}s")
+    if expected is not None and total != expected:
+        raise SystemExit(f"{name} ingest mismatch: sqlite {total} expected {expected}")
+    out = {
+        "province": name,
+        "titles": total,
+        "holders": holders,
+        "live_count": expected,
+        "seconds": elapsed,
+        "pages": pages,
+    }
+    if extra:
+        out.update(extra)
+    return out
+
+
+def http_bytes(url: str, params: dict | None = None, timeout: int = 180) -> bytes:
+    if params:
+        joiner = "&" if "?" in url else "?"
+        url = url + joiner + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={
+        "User-Agent": USER_AGENT,
+        "Accept": "application/json, application/xml, */*",
+    })
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read()
+    except urllib.error.HTTPError as exc:
+        detail = exc.read(400).decode("utf-8", "replace")
+        raise SystemExit(f"HTTP {exc.code} for {url[:160]}: {detail}") from exc
+
+
+def wfs_number_matched(body: str) -> int:
+    match = re.search(r'numberMatched="(\d+)"', body)
+    if not match:
+        raise SystemExit("WFS hits response has no numberMatched")
+    return int(match.group(1))
+
+
+def shp_to_geojson(content: bytes) -> dict | None:
+    """ESRI polygon (type 5) to a GeoJSON Polygon. Null shapes return None."""
+    if len(content) < 4:
+        return None
+    shape_type = struct.unpack_from("<i", content, 0)[0]
+    if shape_type == 0:
+        return None
+    if shape_type != 5:
+        raise SystemExit(f"unsupported shapefile type {shape_type}")
+    if len(content) < 44:
+        raise SystemExit("polygon record is short")
+    nparts, npts = struct.unpack_from("<2i", content, 36)
+    if nparts < 1 or npts < 1:
+        return None
+    parts = struct.unpack_from(f"<{nparts}i", content, 44)
+    offset = 44 + 4 * nparts
+    rings = []
+    for index, start in enumerate(parts):
+        end = parts[index + 1] if index + 1 < nparts else npts
+        ring = []
+        for point in range(start, end):
+            lon, lat = struct.unpack_from("<2d", content, offset + point * 16)
+            ring.append([round(lon, 6), round(lat, 6)])
+        if len(ring) < 3:
+            continue
+        if ring[0] != ring[-1]:
+            ring.append(ring[0])
+        rings.append(ring)
+    if not rings:
+        return None
+    return {"type": "Polygon", "coordinates": rings}
+
+
+def _dbf_layout(header: bytes) -> tuple[int, int, dict[str, tuple[int, int]]]:
+    if len(header) < 32:
+        raise SystemExit("DBF header is short")
+    count, hlen, rlen = struct.unpack_from("<4xIHH", header, 0)
+    if len(header) < hlen:
+        raise SystemExit("DBF header was cut off")
+    body = header[32:hlen]
+    if not body or body[-1] != 0x0D:
+        raise SystemExit("DBF header is missing its terminator")
+    fields: dict[str, tuple[int, int]] = {}
+    cursor = 1
+    for start in range(0, len(body) - 1, 32):
+        desc = body[start:start + 32]
+        if len(desc) < 32:
+            break
+        fname = desc[:11].split(b"\x00")[0].decode("ascii", "replace")
+        fields[fname] = (cursor, desc[16])
+        cursor += desc[16]
+    if cursor != rlen:
+        raise SystemExit(f"DBF field widths sum to {cursor}, record length is {rlen}")
+    return count, rlen, fields
+
+
+def iter_gestim_titles(dbf_stream, shp_stream):
+    """Yield one dict per shapefile record. Active cells set keep=True."""
+    prefix = dbf_stream.read(32)
+    if len(prefix) < 32:
+        raise SystemExit("GESTIM DBF is short")
+    hlen = struct.unpack_from("<H", prefix, 8)[0]
+    header = prefix + dbf_stream.read(hlen - 32)
+    count, rlen, fields = _dbf_layout(header)
+    wanted = (
+        "TIT_NO", "STI_CODE", "STI_DES_AN", "DET_NOM", "DET_POURC",
+        "TPO_DES_AN", "TIT_DAT_EM", "TIT_DAT_EX", "TIT_SUPRF",
+    )
+    missing = [name for name in wanted if name not in fields]
+    if missing:
+        raise SystemExit("GESTIM DBF is missing " + ", ".join(missing))
+    shp_header = shp_stream.read(100)
+    if len(shp_header) < 100:
+        raise SystemExit("GESTIM shapefile header is short")
+    for index in range(count):
+        record = dbf_stream.read(rlen)
+        rec_head = shp_stream.read(8)
+        if len(record) < rlen or len(rec_head) < 8:
+            raise SystemExit(f"GESTIM file ended at record {index}")
+        recno, words = struct.unpack(">2i", rec_head)
+        content = shp_stream.read(words * 2)
+        if len(content) < words * 2:
+            raise SystemExit(f"GESTIM shape ended at record {recno}")
+        if record[:1] == b"*":
+            continue
+
+        def field(name: str) -> str:
+            start, length = fields[name]
+            return record[start:start + length].decode("cp1252", "replace").strip()
+
+        status_code = field("STI_CODE")
+        area_raw = field("TIT_SUPRF")
+        try:
+            area = round(float(area_raw), 2) if area_raw else None
+        except ValueError:
+            area = None
+        yield {
+            "objectid": recno,
+            "title_id": field("TIT_NO"),
+            "holder": format_registry_holder(field("DET_NOM"), field("DET_POURC")),
+            "status": field("STI_DES_AN") or status_code,
+            "status_code": status_code,
+            "tenure_type": field("TPO_DES_AN"),
+            "issue_date": _ymd(field("TIT_DAT_EM")),
+            "due_date": _ymd(field("TIT_DAT_EX")),
+            "area_ha": area,
+            "geom": shp_to_geojson(content),
+            "keep": status_code.upper() == "A",
+        }
+
+
+def _ensure_qc_zip(cache: Path, refresh: bool) -> Path:
+    cache.mkdir(parents=True, exist_ok=True)
+    dest = cache / QC_ZIP_NAME
+    if dest.is_file() and dest.stat().st_size > 1_000_000 and not refresh:
+        return dest
+    staged = Path("/tmp/qc-gestim/active.zip")
+    if staged.is_file() and staged.stat().st_size > 1_000_000 and not refresh:
+        shutil.copyfile(staged, dest)
+        log(f"  quebec zip copied from {staged}")
+        return dest
+    log(f"  quebec downloading {QC_ZIP_URL}")
+    dest.write_bytes(http_bytes(QC_ZIP_URL, timeout=300))
+    return dest
+
+
+def ingest_gestim(con: sqlite3.Connection, name: str, refresh: bool, limit_pages: int | None) -> dict:
+    spec = PROVINCES[name]
+    started = time.time()
+    con.execute("DELETE FROM titles WHERE province=?", (name,))
+    con.commit()
+    archive = _ensure_qc_zip(spec["cache"], refresh)
+    dropped: dict[str, int] = defaultdict(int)
+    unique_ids: set[str] = set()
+    active = 0
+    inserted = 0
+    batch: list[tuple] = []
+    cap = None if limit_pages is None else limit_pages * spec["page"]
+    log(f"  quebec reading {archive.name}")
+    with zipfile.ZipFile(archive) as bundle:
+        dbf_name = next(info.filename for info in bundle.infolist() if info.filename.lower().endswith(".dbf"))
+        shp_name = next(info.filename for info in bundle.infolist() if info.filename.lower().endswith(".shp"))
+        member = bundle.getinfo(shp_name)
+        source_date = "%04d-%02d-%02d" % member.date_time[:3]
+        with bundle.open(dbf_name) as dbf_stream, bundle.open(shp_name) as shp_stream:
+            for row in iter_gestim_titles(dbf_stream, shp_stream):
+                if not row["keep"]:
+                    dropped[row["status_code"] or "?"] += 1
+                    continue
+                active += 1
+                if cap is not None and active > cap:
+                    active -= 1
+                    break
+                if not row["title_id"] or not row["geom"]:
+                    dropped["no-geometry"] += 1
+                    active -= 1
+                    continue
+                unique_ids.add(row["title_id"])
+                batch.append(_title_tuple(
+                    name, row["objectid"], row["title_id"], row["holder"], row["status"],
+                    row["tenure_type"], row["issue_date"], row["due_date"], row["area_ha"], row["geom"],
+                ))
+                if len(batch) >= 2000:
+                    con.executemany(INSERT_TITLE, batch)
+                    con.commit()
+                    inserted += len(batch)
+                    batch.clear()
+                    if inserted % 20000 == 0:
+                        log(f"  quebec inserted {inserted}")
+    if batch:
+        con.executemany(INSERT_TITLE, batch)
+        con.commit()
+        inserted += len(batch)
+    log(f"  quebec active cells {active}; unique titles {len(unique_ids)}; dropped {dict(dropped)}; file date {source_date}")
+    if limit_pages is not None:
+        total = con.execute("SELECT COUNT(*) AS n FROM titles WHERE province=?", (name,)).fetchone()["n"]
+        return {"province": name, "titles": total, "limited": True, "active_cells": active}
+    return _finish_ingest(con, name, active, started, pages=1, extra={
+        "unique_title_ids": len(unique_ids),
+        "dropped_status": dict(dropped),
+        "source_date": source_date,
+        "source": QC_ZIP_URL,
+    })
+
+
+def ingest_bc_wfs(con: sqlite3.Connection, name: str, refresh: bool, limit_pages: int | None) -> dict:
+    spec = PROVINCES[name]
+    started = time.time()
+    con.execute("DELETE FROM titles WHERE province=?", (name,))
+    con.commit()
+    cache = spec["cache"]
+    cache.mkdir(parents=True, exist_ok=True)
+    hits_xml = http_bytes(spec["url"], {
+        "service": "WFS",
+        "version": "2.0.0",
+        "request": "GetFeature",
+        "typeNames": BC_TYPENAME,
+        "resultType": "hits",
+        "CQL_FILTER": BC_CQL,
+    }).decode("utf-8", "replace")
+    expected = wfs_number_matched(hits_xml)
+    registry_xml = http_bytes(spec["url"], {
+        "service": "WFS",
+        "version": "2.0.0",
+        "request": "GetFeature",
+        "typeNames": BC_TYPENAME,
+        "resultType": "hits",
+    }).decode("utf-8", "replace")
+    registry_total = wfs_number_matched(registry_xml)
+    log(f"  british-columbia mineral claims+leases {expected}; registry total {registry_total}")
+    _mark(con, "registry_total:british-columbia", str(registry_total))
+    start = 0
+    pages = 0
+    seen = 0
+    while start < expected:
+        if limit_pages is not None and pages >= limit_pages:
+            break
+        cache_path = cache / f"page-{start}.json"
+        if cache_path.is_file() and not refresh:
+            data = json.loads(cache_path.read_text(encoding="utf-8"))
+        else:
+            raw = http_bytes(spec["url"], {
+                "service": "WFS",
+                "version": "2.0.0",
+                "request": "GetFeature",
+                "typeNames": BC_TYPENAME,
+                "outputFormat": "application/json",
+                "srsName": "EPSG:4326",
+                "count": str(spec["page"]),
+                "startIndex": str(start),
+                "sortBy": "OBJECTID",
+                "CQL_FILTER": BC_CQL,
+            })
+            cache_path.write_bytes(raw)
+            data = json.loads(raw.decode("utf-8"))
+            time.sleep(SLEEP_S)
+        features = data.get("features") or []
+        if not features:
+            break
+        rows = []
+        checked_axis = pages > 0
+        for feat in features:
+            props = feat.get("properties") or {}
+            try:
+                oid = int(props.get("OBJECTID"))
+            except (TypeError, ValueError):
+                continue
+            title_id = props.get("TENURE_NUMBER_ID")
+            if title_id in (None, ""):
+                continue
+            geom = feat.get("geometry")
+            if not geom:
+                continue
+            if not checked_axis:
+                box = ondb.geometry_bbox(geom)
+                if not box or not (-141 <= box[0] <= -113 and 47 <= box[1] <= 61):
+                    raise SystemExit(f"british-columbia geometry is not lon/lat: {box}")
+                checked_axis = True
+            area = props.get("AREA_IN_HECTARES")
+            try:
+                area = round(float(area), 2) if area not in (None, "") else ondb.geometry_area_ha(geom)
+            except (TypeError, ValueError):
+                area = ondb.geometry_area_ha(geom)
+            rows.append(_title_tuple(
+                name,
+                oid,
+                title_id,
+                format_registry_holder(props.get("OWNER_NAME"), props.get("PERCENT_OWNERSHIP")),
+                props.get("TENURE_SUB_TYPE_DESCRIPTION"),
+                props.get("TITLE_TYPE_DESCRIPTION"),
+                _ymd(props.get("ISSUE_DATE")),
+                _ymd(props.get("GOOD_TO_DATE")),
+                area,
+                geom,
+            ))
+        con.executemany(INSERT_TITLE, rows)
+        con.commit()
+        seen += len(features)
+        pages += 1
+        returned = int(data.get("numberReturned") or len(features))
+        start += returned
+        if pages % 5 == 0 or start >= expected:
+            log(f"  british-columbia pages={pages} features={seen} start={start}")
+        if returned < spec["page"]:
+            break
+    if limit_pages is not None:
+        total = con.execute("SELECT COUNT(*) AS n FROM titles WHERE province=?", (name,)).fetchone()["n"]
+        return {"province": name, "titles": total, "limited": True, "live_count": expected, "registry_total": registry_total}
+    return _finish_ingest(con, name, expected, started, pages, extra={
+        "registry_total": registry_total,
+        "kept": "mineral claims and leases",
+        "source": BC_WFS,
+    })
+
+
 def ingest_province(con: sqlite3.Connection, name: str, refresh: bool, limit_pages: int | None) -> dict:
     spec = PROVINCES[name]
     if name == "ontario" and not refresh:
@@ -310,6 +745,11 @@ def ingest_province(con: sqlite3.Connection, name: str, refresh: bool, limit_pag
         n = con.execute("SELECT COUNT(*) AS n FROM titles WHERE province=?", (name,)).fetchone()["n"]
         log(f"  {name} already complete: {n} titles")
         return {"province": name, "titles": n, "cached": True}
+    source = spec.get("source") or "arcgis"
+    if source == "gestim-shp":
+        return ingest_gestim(con, name, refresh, limit_pages)
+    if source == "bc-wfs":
+        return ingest_bc_wfs(con, name, refresh, limit_pages)
     after_row = con.execute(
         "SELECT MAX(objectid) AS m FROM titles WHERE province=?", (name,)
     ).fetchone()
@@ -920,6 +1360,85 @@ def shutil_which(name: str) -> str | None:
     return which(name)
 
 
+def tile_needs_build(con: sqlite3.Connection, name: str, dest: Path) -> bool:
+    """Rebuild when the archive is missing or the province was ingested after it."""
+    if not dest.is_file() or dest.stat().st_size < 32:
+        return True
+    done = con.execute("SELECT value FROM meta WHERE key=?", (f"done:{name}",)).fetchone()
+    if not done or done["value"] != "1":
+        return True
+    row = con.execute("SELECT value FROM meta WHERE key=?", (f"ingested_at:{name}",)).fetchone()
+    if not row or not row["value"]:
+        return False
+    try:
+        stamp = datetime.strptime(row["value"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp()
+    except ValueError:
+        return True
+    return stamp > dest.stat().st_mtime + 1
+
+
+def _part_codes(code: str, parts: int) -> list[str]:
+    if parts <= 1:
+        return [code]
+    return [code if index == 0 else f"{code}-{index + 1}" for index in range(parts)]
+
+
+def _split_lines(geojsonl: Path, parts: int) -> list[Path]:
+    lines = geojsonl.read_text(encoding="utf-8").splitlines()
+    if not lines:
+        raise SystemExit(f"{geojsonl} has no features to split")
+    chunk = (len(lines) + parts - 1) // parts
+    written = []
+    for index in range(parts):
+        piece = lines[index * chunk:(index + 1) * chunk]
+        if not piece:
+            continue
+        dest = geojsonl.with_name(f"{geojsonl.stem}-part{index + 1}.jsonl")
+        dest.write_text("\n".join(piece) + "\n", encoding="utf-8")
+        written.append(dest)
+    return written
+
+
+def _build_archive(geojsonl: Path, code: str, build_dir: Path) -> dict:
+    scratch = build_dir / f"{code}.pmtiles"
+    built = build_one_tile(geojsonl, scratch)
+    dest = TILES / f"{code}{TILE_PUBLIC_SUFFIX}"
+    scratch.replace(dest)
+    return {
+        "code": code,
+        "file": f"claims/tiles/{code}{TILE_PUBLIC_SUFFIX}",
+        "bytes": built["bytes"],
+    }
+
+
+def _build_under_limit(geojsonl: Path, code: str, build_dir: Path) -> list[dict]:
+    scratch = build_dir / f"{code}.pmtiles"
+    try:
+        return [_build_archive(geojsonl, code, build_dir)]
+    except SystemExit as exc:
+        scratch.unlink(missing_ok=True)
+        if "100 MiB" not in str(exc):
+            raise
+        log(f"  {code} is over 100 MiB; splitting the archive")
+    for parts in (2, 4):
+        pieces = _split_lines(geojsonl, parts)
+        built = []
+        try:
+            for piece, part_code in zip(pieces, _part_codes(code, len(pieces))):
+                built.append(_build_archive(piece, part_code, build_dir))
+        except SystemExit as exc:
+            for part_code in _part_codes(code, len(pieces)):
+                (TILES / f"{part_code}{TILE_PUBLIC_SUFFIX}").unlink(missing_ok=True)
+                (build_dir / f"{part_code}.pmtiles").unlink(missing_ok=True)
+            if "100 MiB" not in str(exc) or parts == 4:
+                raise
+            log(f"  {code} still over 100 MiB at {parts} parts")
+            continue
+        else:
+            return built
+    raise SystemExit(f"{code} could not be split under 100 MiB")
+
+
 def write_tiles(con: sqlite3.Connection, payload: dict, names: list[str]) -> dict:
     holder_link = {}
     for row in payload["rows"]:
@@ -932,25 +1451,51 @@ def write_tiles(con: sqlite3.Connection, payload: dict, names: list[str]) -> dic
     built = {}
     listing = []
     build_dir = CLAIMS / ".build"
-    for name in names:
-        spec = PROVINCES[name]
-        geojsonl = build_dir / f"{spec['code']}.jsonl"
-        # tippecanoe picks PMTiles only when the output name ends in .pmtiles.
-        # The published name ends in .png so GitHub Pages will not gzip it.
-        scratch = build_dir / f"{spec['code']}.pmtiles"
-        dest = TILES / f"{spec['code']}{TILE_PUBLIC_SUFFIX}"
-        export_geojsonl(con, holder_link, name, geojsonl)
-        built[name] = build_one_tile(geojsonl, scratch)
-        scratch.replace(dest)
-        built[name]["path"] = str(dest.relative_to(ROOT))
-        geojsonl.unlink(missing_ok=True)
-        listing.append({
-            "id": name,
-            "code": spec["code"],
-            "name": spec["name"],
-            "file": f"claims/tiles/{spec['code']}{TILE_PUBLIC_SUFFIX}",
-            "bytes": built[name]["bytes"],
-        })
+    selected = set(names)
+    for name, spec in PROVINCES.items():
+        code = spec["code"]
+        dest = TILES / f"{code}{TILE_PUBLIC_SUFFIX}"
+        part_paths = [dest] if dest.is_file() else []
+        part_paths.extend(sorted(TILES.glob(f"{code}-[0-9]*{TILE_PUBLIC_SUFFIX}")))
+        if name in selected and tile_needs_build(con, name, dest):
+            for old in TILES.glob(f"{code}-[0-9]*{TILE_PUBLIC_SUFFIX}"):
+                old.unlink()
+            geojsonl = build_dir / f"{code}.jsonl"
+            # tippecanoe picks PMTiles only when the output name ends in .pmtiles.
+            # The published name ends in .png so GitHub Pages will not gzip it.
+            export_geojsonl(con, holder_link, name, geojsonl)
+            parts = _build_under_limit(geojsonl, code, build_dir)
+            geojsonl.unlink(missing_ok=True)
+            for piece in build_dir.glob(f"{code}-part*.jsonl"):
+                piece.unlink()
+            built[name] = {
+                "bytes": sum(part["bytes"] for part in parts),
+                "path": parts[0]["file"],
+                "parts": len(parts),
+            }
+            part_rows = parts
+        elif part_paths:
+            part_rows = [{
+                "code": path.name[: -len(TILE_PUBLIC_SUFFIX)],
+                "file": str(path.relative_to(ROOT)),
+                "bytes": path.stat().st_size,
+            } for path in part_paths]
+            log(f"  {name} tile reused ({sum(row['bytes'] for row in part_rows) / 1e6:.2f} MB)")
+            built[name] = {
+                "bytes": sum(row["bytes"] for row in part_rows),
+                "path": part_rows[0]["file"],
+                "parts": len(part_rows),
+            }
+        else:
+            continue
+        for part in part_rows:
+            listing.append({
+                "id": name,
+                "code": part["code"],
+                "name": spec["name"],
+                "file": part["file"],
+                "bytes": part["bytes"],
+            })
     ondb.atomic_write_json(TILES / "index.json", {
         "generated_at": ondb.now_iso(),
         "source_layer": "claims",
@@ -1005,13 +1550,20 @@ def probe_pages_ranges() -> dict:
     return out
 
 
-def write_report(payload: dict | None, tiles: dict | None, around: dict | None) -> dict:
+def write_report(payload: dict | None, tiles: dict | None, around: dict | None, ingests: list | None = None) -> dict:
     links = payload or (json.loads(LINKS_PATH.read_text(encoding="utf-8")) if LINKS_PATH.is_file() else {})
     tile_bytes = {}
+    tile_files = {}
     for name, spec in PROVINCES.items():
-        path = TILES / f"{spec['code']}{TILE_PUBLIC_SUFFIX}"
-        if path.is_file():
-            tile_bytes[name] = path.stat().st_size
+        code = spec["code"]
+        paths = []
+        primary = TILES / f"{code}{TILE_PUBLIC_SUFFIX}"
+        if primary.is_file():
+            paths.append(primary)
+        paths.extend(sorted(p for p in TILES.glob(f"{code}-[0-9]*{TILE_PUBLIC_SUFFIX}") if p.is_file()))
+        for path in paths:
+            tile_files[str(path.relative_to(ROOT))] = path.stat().st_size
+            tile_bytes[name] = tile_bytes.get(name, 0) + path.stat().st_size
     if tiles:
         for name, stats in tiles.items():
             tile_bytes[name] = stats["bytes"]
@@ -1028,6 +1580,7 @@ def write_report(payload: dict | None, tiles: dict | None, around: dict | None) 
         "sizes": {
             "sqlite_bytes": DB_PATH.stat().st_size if DB_PATH.is_file() else 0,
             "pmtiles_bytes": tile_bytes,
+            "pmtiles_files": tile_files,
             "links_bytes": LINKS_PATH.stat().st_size if LINKS_PATH.is_file() else 0,
             "search_holders_bytes": SEARCH_HOLDERS.stat().st_size if SEARCH_HOLDERS.is_file() else 0,
             "search_titles_bytes": dir_bytes(SEARCH_TITLES),
@@ -1036,7 +1589,8 @@ def write_report(payload: dict | None, tiles: dict | None, around: dict | None) 
         },
         "around": around,
         "github_file_limit_bytes": GITHUB_FILE_LIMIT,
-        "tiles_under_limit": all(size < GITHUB_FILE_LIMIT for size in tile_bytes.values()) if tile_bytes else False,
+        "tiles_under_limit": all(size < GITHUB_FILE_LIMIT for size in tile_files.values()) if tile_files else False,
+        "ingest": ingests or [],
         "range_probe": probe_pages_ranges(),
     }
     published = (
@@ -1109,9 +1663,12 @@ def score_result(report: dict) -> dict:
     questions = {
         "prototype": Score(
             instructions=(
-                "Score this four-province claims database for a static GitHub Pages site. "
-                "The SQLite database stays on a Windows desktop. The site commits one "
-                "PMTiles file per province, refreshed monthly, each under 100 MB."
+                "Score this claims database for a static GitHub Pages site. It covers Quebec "
+                "(GESTIM active titles), British Columbia (mineral claims and leases), "
+                "Ontario, Yukon, Newfoundland and Labrador, and Nunavut. The SQLite "
+                "database stays on a Windows desktop. The site commits one PMTiles file "
+                "per province, refreshed monthly, each under 100 MB. A province may be "
+                "split into numbered parts when one file would pass 100 MB."
             ),
             criteria=[
                 "Do not publish claims this way.",
@@ -1141,8 +1698,9 @@ def score_result(report: dict) -> dict:
 def run_pipeline(names: list[str], refresh: bool, limit_pages: int | None, use_jev: bool, skip_tiles: bool, do_stage: bool) -> dict:
     con = connect()
     try:
+        ingests = []
         for name in names:
-            ingest_province(con, name, refresh, limit_pages)
+            ingests.append(ingest_province(con, name, refresh, limit_pages))
         rows = holder_rows(con, names)
         if not rows:
             raise SystemExit("no titles ingested")
@@ -1158,7 +1716,7 @@ def run_pipeline(names: list[str], refresh: bool, limit_pages: int | None, use_j
         around = write_around(con, payload, names)
     finally:
         con.close()
-    report = write_report(payload, tiles, around)
+    report = write_report(payload, tiles, around, ingests)
     if do_stage:
         stage_claims()
     return report
@@ -1166,7 +1724,7 @@ def run_pipeline(names: list[str], refresh: bool, limit_pages: int | None, use_j
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Monthly multi-province claims database")
-    parser.add_argument("--all", action="store_true", help="Ontario, Yukon, Newfoundland and Labrador, Nunavut")
+    parser.add_argument("--all", action="store_true", help="Quebec, British Columbia, Ontario, Yukon, Newfoundland and Labrador, Nunavut")
     parser.add_argument("--publish", action="store_true", help="Run ingest, link, tiles, search, around, and stage claims outputs")
     parser.add_argument("--province", action="append", default=None)
     parser.add_argument("--refresh", action="store_true")

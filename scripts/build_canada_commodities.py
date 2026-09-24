@@ -22,7 +22,7 @@ Monthly refresh (not a morning/evening bat):
     python3 scripts/build_canada_commodities.py
     python3 scripts/build_canada_commodities.py --sqlite /path/to/qc.sqlite
     python3 scripts/build_canada_commodities.py --jev          # optional TypeSafe
-    python3 scripts/build_canada_commodities.py --offline      # fixtures only
+    python3 scripts/build_canada_commodities.py --offline      # fixtures only; writes to a temp dir unless --out
     python3 scripts/build_canada_commodities.py --check
 
 Jev/TypeSafe is optional and one-shot (cached). CI and --offline use the
@@ -39,6 +39,7 @@ import json
 import re
 import sqlite3
 import sys
+import tempfile
 import time
 import unicodedata
 import urllib.error
@@ -363,8 +364,20 @@ UNIT_NOTE = (
 )
 
 
+class UnknownUnitError(ValueError):
+    """A precious-metal figure arrived in a unit we cannot convert to troy oz."""
+
+
+THOUSAND_TONNES = {"kt", "000 t", "000t", "'000 t", "thousand tonnes", "thousand metric tonnes", "thousand t"}
+MILLION_TONNES = {"million tonnes", "million metric tonnes", "million t"}
+SCALE_WORD = re.compile(r"thousand|million|billion|\b000\b|'000|\bkilo|\bmega", re.I)
+
+
 def unit_norm(uom: str) -> tuple[str, str]:
+    """(code, label). Empty stays empty; unrecognised units keep their own text."""
     t = (uom or "").strip().lower()
+    if not t:
+        return "", ""
     if "troy" in t or t in {"oz t", "ozt", "oz"}:
         return TROY_OZ_UNIT, TROY_OZ_UNIT_LABEL
     if t.startswith("kilogram") or t == "kg":
@@ -373,9 +386,15 @@ def unit_norm(uom: str) -> tuple[str, str]:
         return "ct", "carats"
     if t in {"gram", "grams", "g"}:
         return "g", "grams"
-    if "tonne" in t or t in {"tonnes", "tons", "t"}:
+    if t in THOUSAND_TONNES:
+        return "kt", "thousand tonnes"
+    if t in MILLION_TONNES:
+        return "Mt", "million tonnes"
+    if t in {"t", "tonne", "tonnes", "metric tonne", "metric tonnes"}:
         return "t", "tonnes"
-    return (t or "t"), (uom or "tonnes")
+    if "tonne" in t and not SCALE_WORD.search(t):
+        return "t", "tonnes"
+    return t, uom.strip()
 
 
 def is_troy_oz_commodity(cid: str) -> bool:
@@ -395,13 +414,17 @@ def mass_to_grams(value: float, unit: str) -> float | None:
         return float(value) * 1000.0
     if code == "t":
         return float(value) * 1_000_000.0
+    if code == "kt":
+        return float(value) * 1_000_000_000.0
+    if code == "Mt":
+        return float(value) * 1_000_000_000_000.0
     if code == TROY_OZ_UNIT:
         return float(value) * TROY_OZ_GRAMS
     return None
 
 
 def to_troy_oz(value: float | None, unit: str) -> float | None:
-    """Published total → troy ounces. None stays None. Unknown units are left as-is."""
+    """Published total → troy ounces. None for a missing value or a non-metric-mass unit."""
     if value is None:
         return None
     code, _label = unit_norm(unit)
@@ -409,7 +432,7 @@ def to_troy_oz(value: float | None, unit: str) -> float | None:
         return float(value)
     grams = mass_to_grams(value, unit)
     if grams is None:
-        return float(value)
+        return None
     return round(grams / TROY_OZ_GRAMS, 4)
 
 
@@ -434,9 +457,13 @@ def convert_number_to_troy_oz(value: Any, unit: str) -> Any:
     if value is None:
         return None
     try:
-        return to_troy_oz(float(value), unit)
+        num = float(value)
     except (TypeError, ValueError):
         return value
+    converted = to_troy_oz(num, unit)
+    if converted is None:
+        raise UnknownUnitError(f"unknown_pm_unit:{unit!r}")
+    return converted
 
 
 def convert_payload_to_troy_oz(payload: dict[str, Any]) -> dict[str, Any]:
@@ -509,10 +536,12 @@ def fetch(url: str, timeout: int = 90) -> bytes:
         except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as exc:
             last = exc
             code = getattr(exc, "code", None)
-            if code in {403, 404} and attempt == 0:
+            if code == 403 and attempt == 0:
                 time.sleep(0.4)
                 continue
-            if code in {429, 503} or isinstance(exc, (urllib.error.URLError, TimeoutError, OSError)):
+            if code in {429, 503} or (
+                code is None and isinstance(exc, (urllib.error.URLError, TimeoutError, OSError))
+            ):
                 time.sleep(0.4 * (2 ** attempt))
                 continue
             raise
@@ -1359,12 +1388,9 @@ def build_payload(
             )
         except Exception as exc:
             blockers.append(f"Map 900A: {type(exc).__name__}: {exc}")
-            mines_raw = load_map_fixture(FIXTURES / "map900a_sample.json")
-            sources.append({"id": "map-900a-fixture", "title": "Map 900A fixture (live fetch failed)"})
 
-        if blockers and not any(r.get("geo") == "Canada" and r.get("value") is not None for r in production_rows):
-            production_rows = load_offline_production()
-            sources.append({"id": "fixtures-fallback", "title": "Production fixtures; desktop can refill"})
+        if not any(r.get("geo") == "Canada" and r.get("value") is not None for r in production_rows):
+            blockers.append("no national production rows fetched")
 
     production_rows = attach_statcan_provinces(production_rows)
     catalog = load_company_catalog(root, sqlite_path)
@@ -1421,7 +1447,7 @@ def build_payload(
     }
 
 
-def validate_payload(payload: dict[str, Any]) -> list[str]:
+def validate_payload(payload: dict[str, Any], root: Path = ROOT) -> list[str]:
     errors: list[str] = []
     if payload.get("schema") != SCHEMA:
         errors.append("bad schema")
@@ -1462,7 +1488,7 @@ def validate_payload(payload: dict[str, Any]) -> list[str]:
     elif payload.get("n_mines") and len(all_ops["mines"]) < payload["n_mines"]:
         errors.append("all operations dropped Map 900A mines")
     claims_ids = set()
-    claims_path = ROOT / "claims" / "companies.json"
+    claims_path = root / "claims" / "companies.json"
     if claims_path.exists():
         claims_ids = {
             r.get("id")
@@ -1509,22 +1535,30 @@ def main(argv: list[str] | None = None) -> int:
     args = p.parse_args(argv)
 
     out = args.out or (args.root / "canada" / "commodities.json")
+    if args.offline and args.out is None and not args.check and not args.convert_existing:
+        # Fixture books must never land on the committed path by default.
+        out = Path(tempfile.mkdtemp(prefix="qc-canada-offline-")) / "commodities.json"
     if args.convert_existing:
         payload = json.loads(out.read_text(encoding="utf-8"))
-        convert_payload_to_troy_oz(payload)
-        errors = validate_payload(payload)
+        try:
+            convert_payload_to_troy_oz(payload)
+        except UnknownUnitError as exc:
+            print(f"blocked, {out} left unchanged: {exc}", file=sys.stderr)
+            return 1
+        errors = validate_payload(payload, root=args.root)
+        if errors:
+            print("validate: " + "; ".join(errors), file=sys.stderr)
+            print(f"blocked, {out} left unchanged", file=sys.stderr)
+            return 1
         write_json(out, payload)
         print(
             f"converted {out} commodities={len(payload.get('commodities') or [])} "
             f"latest={payload.get('latest_year')}"
         )
-        if errors:
-            print("validate: " + "; ".join(errors), file=sys.stderr)
-            return 1
         return 0
     if args.check:
         payload = json.loads(out.read_text(encoding="utf-8"))
-        errors = validate_payload(payload)
+        errors = validate_payload(payload, root=args.root)
         if errors:
             print("canada commodities check FAIL: " + "; ".join(errors), file=sys.stderr)
             return 1
@@ -1535,25 +1569,31 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    payload = build_payload(
-        root=args.root,
-        sqlite_path=args.sqlite,
-        offline=args.offline,
-        use_jev=args.jev,
-        requested_years=args.years,
-    )
-    errors = validate_payload(payload)
+    try:
+        payload = build_payload(
+            root=args.root,
+            sqlite_path=args.sqlite,
+            offline=args.offline,
+            use_jev=args.jev,
+            requested_years=args.years,
+        )
+    except UnknownUnitError as exc:
+        print(f"blocked, {out} left unchanged: {exc}", file=sys.stderr)
+        return 1
+    errors = validate_payload(payload, root=args.root)
+    if payload.get("blockers"):
+        print("blockers: " + " | ".join(payload["blockers"]), file=sys.stderr)
+    if payload.get("blockers") or errors:
+        if errors:
+            print("validate: " + "; ".join(errors), file=sys.stderr)
+        print(f"blocked, {out} left unchanged", file=sys.stderr)
+        return 1
     write_json(out, payload)
     print(
         f"wrote {out} commodities={len(payload['commodities'])} "
         f"mines={payload['n_mines']} linked={payload['n_linked']} "
         f"years={payload['years_available']} latest={payload['latest_year']}"
     )
-    if payload.get("blockers"):
-        print("blockers: " + " | ".join(payload["blockers"]))
-    if errors:
-        print("validate: " + "; ".join(errors), file=sys.stderr)
-        return 1
     return 0
 
 

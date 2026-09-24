@@ -18,6 +18,93 @@ FIXTURES = HERE / "fixtures" / "canada"
 ROOT = HERE.parent
 
 
+class UnitBlockTests(unittest.TestCase):
+    def test_empty_unit_is_unknown(self) -> None:
+        self.assertEqual(b.unit_norm(""), ("", ""))
+        self.assertIsNone(b.to_troy_oz(100, ""))
+
+    def test_scaled_tonnes_keep_their_scale(self) -> None:
+        self.assertEqual(b.unit_norm("thousand tonnes")[0], "kt")
+        self.assertEqual(b.unit_norm("kt")[0], "kt")
+        self.assertEqual(b.unit_norm("million tonnes")[0], "Mt")
+        self.assertEqual(b.unit_norm("Metric tonnes")[0], "t")
+        self.assertAlmostEqual(b.to_troy_oz(1, "thousand tonnes"), b.to_troy_oz(1000, "t"), places=3)
+        self.assertIsNone(b.to_troy_oz(1, "thousands of tonnes"))
+
+    def test_non_mass_units_do_not_become_ounces(self) -> None:
+        for unit in ("lb", "Mlb", "widgets", "tons"):
+            self.assertIsNone(b.to_troy_oz(100, unit), unit)
+        with self.assertRaises(b.UnknownUnitError):
+            b.convert_number_to_troy_oz(100, "lb")
+
+    def test_unknown_pm_unit_blocks_write(self) -> None:
+        rows = [{
+            "year": 2025, "geo": "Canada", "product": "Gold", "commodity_id": "gold",
+            "unit": "lb", "value": 100, "status": None, "source": "statcan",
+        }]
+        with self.assertRaises(b.UnknownUnitError):
+            b.rows_to_commodities(rows, [], 2006)
+
+    def test_failed_live_fetch_keeps_existing_file(self) -> None:
+        saved = (b.fetch_statcan, b.fetch_nrcan_year, b.fetch_map900a)
+
+        def boom(*_a, **_k):
+            raise OSError("offline")
+
+        b.fetch_statcan = b.fetch_nrcan_year = b.fetch_map900a = boom
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                out = Path(tmp) / "commodities.json"
+                out.write_text('{"keep": true}\n', encoding="utf-8")
+                rc = b.main(["--root", str(ROOT), "--out", str(out), "--years", "2"])
+                self.assertEqual(rc, 1)
+                self.assertEqual(json.loads(out.read_text(encoding="utf-8")), {"keep": True})
+        finally:
+            b.fetch_statcan, b.fetch_nrcan_year, b.fetch_map900a = saved
+
+    def test_offline_never_writes_default_path(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "canada").mkdir()
+            b.main(["--root", str(root), "--offline"])
+            self.assertFalse((root / "canada" / "commodities.json").exists())
+
+    def test_fetch_does_not_retry_404(self) -> None:
+        import urllib.error
+        calls = []
+        saved = b.urllib.request.urlopen
+
+        def fake(req, timeout=0):
+            calls.append(req.full_url)
+            raise urllib.error.HTTPError(req.full_url, 404, "nf", {}, None)
+
+        b.urllib.request.urlopen = fake
+        try:
+            with self.assertRaises(urllib.error.HTTPError):
+                b.fetch("https://example.test/missing")
+        finally:
+            b.urllib.request.urlopen = saved
+        self.assertEqual(len(calls), 1)
+
+    def test_validate_reads_claims_from_root(self) -> None:
+        mine = {"id": "m", "name": "M", "claims_company": "elsewhere"}
+        payload = {
+            "schema": b.SCHEMA,
+            "commodities": [
+                {"id": "gold", "unit": b.TROY_OZ_UNIT, "series": [{"year": 2025, "canada": 1.0}], "mines": [mine]},
+                {"id": "all", "mines": [mine]},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "claims").mkdir()
+            (root / "claims" / "companies.json").write_text(
+                json.dumps({"companies": [{"id": "only-this"}]}), encoding="utf-8"
+            )
+            errors = b.validate_payload(payload, root=root)
+            self.assertIn("claims href for non-catalog id elsewhere", errors)
+
+
 class ParseTests(unittest.TestCase):
     def test_statcan_prefers_quantity_produced(self) -> None:
         text = (FIXTURES / "statcan_sample.csv").read_text(encoding="utf-8")

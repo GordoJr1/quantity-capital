@@ -22,16 +22,14 @@ Writes:
   scripts/claims-insider-jev-packet.json      — states + question specs + audit
   scripts/claims-insider-jev-judgments.json   — API answers when a key exists
 
-`--packet-only` never calls the network (pr-check / Cloud Agents).
-`--require-jev` fails if the TypeSafe API did not run (QC box).
+`--packet-only` never calls the network but still runs the deterministic
+checks (pr-check). `--require-jev` exits 2 unless every call answered.
+Shared rules live in scripts/qc_gate.py.
 """
 from __future__ import annotations
 
-import argparse
 import csv
-import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -42,9 +40,11 @@ JUDGMENTS = HERE / "claims-insider-jev-judgments.json"
 AUDIT_CSV = HERE / "claims-insider-ticker-audit.csv"
 AUDIT_MD = HERE / "claims-insider-ticker-audit.md"
 
-SQ_JEV = HERE / "qc_sqlite"
-if str(SQ_JEV) not in sys.path:
-    sys.path.insert(0, str(SQ_JEV))
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+import qc_gate  # noqa: E402
+from qc_gate import utc_now  # noqa: E402
 
 
 QUESTION_SPECS: dict[str, dict[str, Any]] = {
@@ -119,10 +119,6 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         ],
     },
 }
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def load_audit_rows(path: Path) -> list[dict[str, str]]:
@@ -287,6 +283,7 @@ def build_packet(root: Path) -> dict[str, Any]:
                 "private-excluded holders are not on insider-companies.json",
             ],
             "fail_closed_without_key": False,
+            "fail_on_missing_answer": True,
             "note": (
                 "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY "
                 "runs the same script to fill judgments."
@@ -300,205 +297,59 @@ def build_packet(root: Path) -> dict[str, Any]:
     }
 
 
-def hydrate_questions(names: list[str]) -> dict[str, Any]:
-    from typesafe_sdk import Choice, Noul, Score
-
-    builders = {"Choice": Choice, "Noul": Noul, "Score": Score}
-    out = {}
-    for name in names:
-        spec = QUESTION_SPECS[name]
-        cls = builders[spec["type"]]
-        kwargs: dict[str, Any] = {"instructions": spec["instructions"]}
-        if "criteria" in spec:
-            kwargs["criteria"] = spec["criteria"]
-        out[name] = cls(**kwargs)
-    return out
-
-
-def try_import_jev():
-    try:
-        import jev  # type: ignore
-
-        return jev
-    except ImportError:
-        return None
-
-
-def run_jev(packet: dict[str, Any]) -> dict[str, Any]:
-    jev = try_import_jev()
-    if jev is None or not jev.key_present():
-        return {
-            "ran": False,
-            "reason": "no_typesafe_key_or_sdk",
-            "model": None,
-            "calls": [],
-            "environment": {
-                "typesafe_sdk": _sdk_present(),
-                "key_present": bool(jev and jev.key_present()) if jev else False,
-                "box_typesafe_dir": str(Path("/home/box/shared/typesafe")),
-                "box_typesafe_dir_exists": Path("/home/box/shared/typesafe").exists(),
-            },
-        }
-
-    results = []
-    errors = 0
-    model = None
-    for call in packet["calls"]:
-        try:
-            packed = jev.ask(
-                call["state"],
-                hydrate_questions(call["questions"]),
-                label=call["label"],
-            )
-        except Exception as exc:
-            errors += 1
-            results.append({"id": call["id"], "error": f"{type(exc).__name__}: {exc}"})
-            continue
-        model = packed.get("model") or model
-        results.append({"id": call["id"], "label": call["label"], **packed})
-
-    return {
-        "ran": True,
-        "reason": None,
-        "model": model,
-        "n": len([r for r in results if "error" not in r]),
-        "errors": errors,
-        "calls": results,
-        "generated": utc_now(),
-    }
-
-
-def _sdk_present() -> bool:
-    try:
-        import typesafe_sdk  # noqa: F401
-
-        return True
-    except ImportError:
-        return False
-
-
-def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str, Any]:
+def _deterministic(packet: dict[str, Any], checks: qc_gate.Checks) -> None:
     audit = packet.get("audit") or {}
     counts = audit.get("counts") or {}
-    checks = []
-
-    def add(name: str, ok: bool, detail: str) -> None:
-        checks.append({"name": name, "ok": ok, "detail": detail})
-
-    add("audit_present", int(audit.get("n") or 0) > 0, f"n={audit.get('n')}")
-    add(
+    checks.add("audit_present", int(audit.get("n") or 0) > 0, f"n={audit.get('n')}")
+    checks.add(
         "all_matched",
         int(counts.get("matched") or 0) == int(audit.get("n") or -1)
         and int(counts.get("missing-ticker") or 0) == 0,
-        json.dumps(counts),
+        str(counts),
     )
     sample_ids = {r.get("id") for r in (audit.get("new_publics") or [])}
-    add(
+    checks.add(
         "new_publics_listed",
         {"probe-gold", "g2-goldfields"} <= sample_ids,
         f"ids={sorted(sample_ids)}",
     )
 
-    if not judgments.get("ran"):
-        add(
-            "jev_api",
-            True,
-            "packet prepared; TypeSafe Jev API not called in this environment "
-            f"({judgments.get('reason')}). Run on the QC box to fill judgments.",
-        )
-        failed = [c for c in checks if not c["ok"]]
-        return {"pass": not failed, "jev_ran": False, "checks": checks}
 
-    by_id = {c["id"]: c for c in judgments.get("calls") or [] if "answers" in c}
-
-    def choice(cid: str, qid: str) -> str | None:
-        return ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("choice")
-
-    def noul(cid: str, qid: str) -> float | None:
-        v = ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("noul")
-        return float(v) if v is not None else None
-
-    def score(cid: str, qid: str) -> float | None:
-        v = ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("score")
-        return float(v) if v is not None else None
-
-    add(
-        "empty_row_keep",
-        choice("policy:empty_row_policy", "empty_row_policy") in {None, "keep_with_badge"},
-        f"choice={choice('policy:empty_row_policy', 'empty_row_policy')}",
-    )
+def _jev_checks(look: qc_gate.Lookup, checks: qc_gate.Checks) -> None:
+    empty_row = look.choice("policy:empty_row_policy", "empty_row_policy")
+    checks.add("empty_row_keep", empty_row in {None, "keep_with_badge"}, f"choice={empty_row}")
     for cid in ("issuer:probe-gold", "issuer:g2-goldfields", "issuer:newmont"):
-        p = noul(cid, "on_universe")
-        add(f"{cid}_on_universe", p is None or p >= 0.55, f"noul={p}")
+        p = look.noul(cid, "on_universe")
+        checks.add(f"{cid}_on_universe", p is None or p >= 0.55, f"noul={p}")
     for cid in ("issuer:gold-fields", "issuer:harmony", "issuer:thesis-gold"):
-        s = score(cid, "same_listed_issuer")
-        p = noul(cid, "on_universe")
+        s = look.score(cid, "same_listed_issuer")
+        p = look.noul(cid, "on_universe")
         # 2.0 same issuer; ~1.x related/vehicle (Windfall→GFI). Soft pass if
         # score >= 1.0 and the claims public still belongs on the universe.
         same = s is None or s >= 1.4
         vehicle = s is not None and s >= 1.0 and (p is None or p >= 0.55)
-        add(
-            f"{cid}_same_issuer",
-            same or vehicle,
-            f"score={s} on_universe={p}",
-        )
+        checks.add(f"{cid}_same_issuer", same or vehicle, f"score={s} on_universe={p}")
         if p is not None:
-            add(f"{cid}_on_universe", p >= 0.55, f"noul={p}")
-
-    failed = [c for c in checks if not c["ok"]]
-    return {
-        "pass": not failed,
-        "jev_ran": True,
-        "model": judgments.get("model"),
-        "checks": checks,
-        "failed": [c["name"] for c in failed],
-    }
+            checks.add(f"{cid}_on_universe", p >= 0.55, f"noul={p}")
 
 
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str, Any]:
+    return qc_gate.evaluate(packet, judgments, _deterministic, _jev_checks)
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Work A PR merge gate / Jev packet")
-    parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--packet-only", action="store_true", help="Write packet; do not call TypeSafe")
-    parser.add_argument("--require-jev", action="store_true", help="Fail if the Jev API did not run")
-    args = parser.parse_args()
-    root = args.root
-    packet = build_packet(root)
-    write_json(root / "scripts" / PACKET.name, packet)
-    print(f"wrote {PACKET.name} calls={len(packet['calls'])} audit_n={packet['audit']['n']}")
-
-    if args.packet_only:
-        existing = root / "scripts" / JUDGMENTS.name
-        if existing.exists():
-            try:
-                prev = json.loads(existing.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                prev = {}
-            if prev.get("ran"):
-                print("packet-only: left existing ran:true judgments in place")
-                return 0
-        placeholder = {
-            "ran": False,
-            "reason": "packet_only",
-            "model": None,
-            "calls": [],
-            "generated": utc_now(),
-        }
-        write_json(existing, placeholder)
-        print("packet-only: TypeSafe Jev API not called")
-        return 0
-
-    judgments = run_jev(packet)
-    write_json(root / "scripts" / JUDGMENTS.name, judgments)
-    gate = evaluate_gate(packet, judgments)
-    print(json.dumps({"jev": {"ran": judgments.get("ran"), "reason": judgments.get("reason"), "model": judgments.get("model")}, "gate": gate}, indent=2))
-    if args.require_jev and not judgments.get("ran"):
-        print("Jev API did not run (no typesafe-sdk / TYPESAFE_API_KEY).", file=sys.stderr)
-        return 2
-    return 0 if gate.get("pass") else 1
+def main(argv: list[str] | None = None, jev_module: Any = None) -> int:
+    return qc_gate.main(
+        argv,
+        description="Work A PR merge gate / Jev packet",
+        default_root=ROOT,
+        packet_name=PACKET.name,
+        judgments_name=JUDGMENTS.name,
+        build_packet=build_packet,
+        evaluate_gate=evaluate_gate,
+        specs=QUESTION_SPECS,
+        summary=lambda pk: f"calls={len(pk['calls'])} audit_n={pk['audit']['n']}",
+        jev_module=jev_module,
+    )
 
 
 if __name__ == "__main__":

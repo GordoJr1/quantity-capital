@@ -2,7 +2,7 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "C",
   "pr_topic": "canadian commodity production + Map 900A mines",
-  "generated": "2026-09-21T00:44:20Z",
+  "generated": "2026-09-24T01:41:44Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
@@ -217,6 +217,7 @@
       "canada.html must not call loadAllExtracts"
     ],
     "fail_closed_without_key": false,
+    "fail_on_missing_answer": true,
     "note": "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY runs this script once to fill judgments. Do not re-burn safe_to_apply unless the packet calls change."
   },
   "box_commands": [

@@ -16,15 +16,14 @@ Writes:
   scripts/claims-beta-jev-packet.json
   scripts/claims-beta-jev-judgments.json
 
-`--packet-only` never calls the network (pr-check / Cloud Agents).
-`--require-jev` fails if the TypeSafe API did not run (QC box).
+`--packet-only` never calls the network but still runs the deterministic
+checks (pr-check). `--require-jev` exits 2 unless every call answered.
+Shared rules live in scripts/qc_gate.py.
 """
 from __future__ import annotations
 
-import argparse
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -33,9 +32,11 @@ ROOT = HERE.parent
 PACKET = HERE / "claims-beta-jev-packet.json"
 JUDGMENTS = HERE / "claims-beta-jev-judgments.json"
 
-SQ_JEV = HERE / "qc_sqlite"
-if str(SQ_JEV) not in sys.path:
-    sys.path.insert(0, str(SQ_JEV))
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+import qc_gate  # noqa: E402
+from qc_gate import utc_now  # noqa: E402
 
 
 QUESTION_SPECS: dict[str, dict[str, Any]] = {
@@ -127,10 +128,6 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         },
     },
 }
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def load_index(root: Path) -> dict[str, Any]:
@@ -254,6 +251,7 @@ def build_packet(root: Path) -> dict[str, Any]:
                 "beta.html map preview must not call loadAllExtracts or fetch extracts",
             ],
             "fail_closed_without_key": False,
+            "fail_on_missing_answer": True,
             "note": (
                 "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY "
                 "runs the same script to fill judgments."
@@ -267,209 +265,53 @@ def build_packet(root: Path) -> dict[str, Any]:
     }
 
 
-def hydrate_questions(names: list[str]) -> dict[str, Any]:
-    from typesafe_sdk import Choice, Noul, Score
-
-    builders = {"Choice": Choice, "Noul": Noul, "Score": Score}
-    out = {}
-    for name in names:
-        spec = QUESTION_SPECS[name]
-        cls = builders[spec["type"]]
-        kwargs: dict[str, Any] = {"instructions": spec["instructions"]}
-        if "criteria" in spec:
-            kwargs["criteria"] = spec["criteria"]
-        out[name] = cls(**kwargs)
-    return out
-
-
-def try_import_jev():
-    try:
-        import jev  # type: ignore
-
-        return jev
-    except ImportError:
-        return None
-
-
-def _sdk_present() -> bool:
-    try:
-        import typesafe_sdk  # noqa: F401
-
-        return True
-    except ImportError:
-        return False
-
-
-def run_jev(packet: dict[str, Any]) -> dict[str, Any]:
-    jev = try_import_jev()
-    if jev is None or not jev.key_present():
-        return {
-            "ran": False,
-            "reason": "no_typesafe_key_or_sdk",
-            "model": None,
-            "calls": [],
-            "environment": {
-                "typesafe_sdk": _sdk_present(),
-                "key_present": bool(jev and jev.key_present()) if jev else False,
-                "box_typesafe_dir": str(Path("/home/box/shared/typesafe")),
-                "box_typesafe_dir_exists": Path("/home/box/shared/typesafe").exists(),
-            },
-        }
-
-    results = []
-    errors = 0
-    model = None
-    for call in packet["calls"]:
-        try:
-            packed = jev.ask(
-                call["state"],
-                hydrate_questions(call["questions"]),
-                label=call["label"],
-            )
-        except Exception as exc:
-            errors += 1
-            results.append({"id": call["id"], "error": f"{type(exc).__name__}: {exc}"})
-            continue
-        model = packed.get("model") or model
-        results.append({"id": call["id"], "label": call["label"], **packed})
-
-    return {
-        "ran": True,
-        "reason": None,
-        "model": model,
-        "n": len([r for r in results if "error" not in r]),
-        "errors": errors,
-        "calls": results,
-        "generated": utc_now(),
-    }
-
-
-def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str, Any]:
+def _deterministic(packet: dict[str, Any], checks: qc_gate.Checks) -> None:
     idx = packet.get("index") or {}
-    checks = []
-
-    def add(name: str, ok: bool, detail: str) -> None:
-        checks.append({"name": name, "ok": ok, "detail": detail})
-
-    add("index_present", int(idx.get("n") or 0) > 0, f"n={idx.get('n')}")
+    checks.add("index_present", int(idx.get("n") or 0) > 0, f"n={idx.get('n')}")
     samples = idx.get("samples") or {}
-    add("iamgold_listed", bool(samples.get("iamgold")), str(samples.get("iamgold")))
-    add("probe_gold_listed", bool(samples.get("probe-gold")), str(samples.get("probe-gold")))
+    checks.add("iamgold_listed", bool(samples.get("iamgold")), str(samples.get("iamgold")))
+    checks.add("probe_gold_listed", bool(samples.get("probe-gold")), str(samples.get("probe-gold")))
     tro = samples.get("troilus-mining") or {}
-    add(
+    checks.add(
         "troilus_alias",
         tro.get("alias_of") == "troilus" and tro.get("file") == "beta/troilus.json",
         str(tro),
     )
 
-    if not judgments.get("ran"):
-        add(
-            "jev_api",
-            True,
-            "packet prepared; TypeSafe Jev API not called in this environment "
-            f"({judgments.get('reason')}). Run on the QC box to fill judgments.",
-        )
-        failed = [c for c in checks if not c["ok"]]
-        return {"pass": not failed, "jev_ran": False, "checks": checks}
 
-    by_id = {c["id"]: c for c in judgments.get("calls") or [] if "answers" in c}
+EXPECTED_CHOICES = {
+    "shell_fields": ("policy:shell_fields", "claims_id_tickers_no_ounces"),
+    "map_extent": ("policy:map_extent", "company_footprint"),
+    "empty_profile": ("policy:empty_profile", "hide_empty_show_map"),
+    "id_alias": ("policy:id_alias", "alias_to_existing"),
+}
 
-    def choice(cid: str, qid: str) -> str | None:
-        return ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("choice")
 
-    def noul(cid: str, qid: str) -> float | None:
-        v = ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("noul")
-        return float(v) if v is not None else None
+def _jev_checks(look: qc_gate.Lookup, checks: qc_gate.Checks) -> None:
+    for qid, (cid, want) in EXPECTED_CHOICES.items():
+        got = look.choice(cid, qid)
+        checks.add(qid, got in {None, want}, f"choice={got}")
+    p = look.noul("policy:preview_light", "preview_light")
+    checks.add("preview_light", p is None or p >= 0.55, f"noul={p}")
 
-    add(
-        "shell_fields",
-        choice("policy:shell_fields", "shell_fields") in {None, "claims_id_tickers_no_ounces"},
-        f"choice={choice('policy:shell_fields', 'shell_fields')}",
+
+def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str, Any]:
+    return qc_gate.evaluate(packet, judgments, _deterministic, _jev_checks)
+
+
+def main(argv: list[str] | None = None, jev_module: Any = None) -> int:
+    return qc_gate.main(
+        argv,
+        description="Work B PR merge gate / Jev packet",
+        default_root=ROOT,
+        packet_name=PACKET.name,
+        judgments_name=JUDGMENTS.name,
+        build_packet=build_packet,
+        evaluate_gate=evaluate_gate,
+        specs=QUESTION_SPECS,
+        summary=lambda pk: f"calls={len(pk['calls'])} index_n={pk['index']['n']}",
+        jev_module=jev_module,
     )
-    add(
-        "map_extent",
-        choice("policy:map_extent", "map_extent") in {None, "company_footprint"},
-        f"choice={choice('policy:map_extent', 'map_extent')}",
-    )
-    add(
-        "empty_profile",
-        choice("policy:empty_profile", "empty_profile") in {None, "hide_empty_show_map"},
-        f"choice={choice('policy:empty_profile', 'empty_profile')}",
-    )
-    add(
-        "id_alias",
-        choice("policy:id_alias", "id_alias") in {None, "alias_to_existing"},
-        f"choice={choice('policy:id_alias', 'id_alias')}",
-    )
-    p = noul("policy:preview_light", "preview_light")
-    add("preview_light", p is None or p >= 0.55, f"noul={p}")
-
-    failed = [c for c in checks if not c["ok"]]
-    return {
-        "pass": not failed,
-        "jev_ran": True,
-        "model": judgments.get("model"),
-        "checks": checks,
-        "failed": [c["name"] for c in failed],
-    }
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Work B PR merge gate / Jev packet")
-    parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--packet-only", action="store_true", help="Write packet; do not call TypeSafe")
-    parser.add_argument("--require-jev", action="store_true", help="Fail if the Jev API did not run")
-    args = parser.parse_args()
-    root = args.root
-    packet = build_packet(root)
-    write_json(root / "scripts" / PACKET.name, packet)
-    print(f"wrote {PACKET.name} calls={len(packet['calls'])} index_n={packet['index']['n']}")
-
-    if args.packet_only:
-        existing = root / "scripts" / JUDGMENTS.name
-        if existing.exists():
-            try:
-                prev = json.loads(existing.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                prev = {}
-            if prev.get("ran"):
-                print("packet-only: left existing ran:true judgments in place")
-                return 0
-        placeholder = {
-            "ran": False,
-            "reason": "packet_only",
-            "model": None,
-            "calls": [],
-            "generated": utc_now(),
-        }
-        write_json(existing, placeholder)
-        print("packet-only: TypeSafe Jev API not called")
-        return 0
-
-    judgments = run_jev(packet)
-    write_json(root / "scripts" / JUDGMENTS.name, judgments)
-    gate = evaluate_gate(packet, judgments)
-    print(
-        json.dumps(
-            {
-                "jev": {
-                    "ran": judgments.get("ran"),
-                    "reason": judgments.get("reason"),
-                    "model": judgments.get("model"),
-                },
-                "gate": gate,
-            },
-            indent=2,
-        )
-    )
-    if args.require_jev and not judgments.get("ran"):
-        print("Jev API did not run (no typesafe-sdk / TYPESAFE_API_KEY).", file=sys.stderr)
-        return 2
-    return 0 if gate.get("pass") else 1
 
 
 if __name__ == "__main__":

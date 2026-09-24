@@ -2160,7 +2160,7 @@
       const link = document.getElementById("mines-inset-link");
       if (head) head.textContent = (pub && pub.has_overview) ? "Claims" : "Mines";
       if (link) {
-        link.href = cid ? ("claims.html?company=" + encodeURIComponent(cid)) : "claims.html";
+        link.href = claimsMapHref(cid);
         link.textContent = "Full map";
       }
       loadMapLibre().then(() => loadClaimsOverview()).then(drawMinesInset).catch(() => {
@@ -2250,6 +2250,31 @@
         ].concat(PREVIEW_STYLE_LAYERS)
       };
     }
+    let previewClaimClicksBound = false;
+    function claimsMapHref(companyId) {
+      const cid = companyId || "";
+      return cid ? ("claims.html?company=" + encodeURIComponent(cid)) : "claims.html";
+    }
+    function bindPreviewClaimClicks() {
+      if (!insetMap || previewClaimClicksBound) return;
+      const layers = ["preview-focus-fill", "preview-near-fill"].filter((id) => insetMap.getLayer(id));
+      if (!layers.length) return;
+      insetMap.on("click", (e) => {
+        const feats = insetMap.queryRenderedFeatures(e.point, { layers: layers });
+        if (!feats.length) return;
+        const props = feats[0].properties || {};
+        location.href = claimsMapHref(props.company_id || previewCompanyId() || "");
+      });
+      layers.forEach((layerId) => {
+        insetMap.on("mouseenter", layerId, () => {
+          insetMap.getCanvas().style.cursor = "pointer";
+        });
+        insetMap.on("mouseleave", layerId, () => {
+          insetMap.getCanvas().style.cursor = "";
+        });
+      });
+      previewClaimClicksBound = true;
+    }
     function drawMinesInset() {
       const host = document.getElementById("mines-inset-map");
       const empty = document.getElementById("mines-inset-empty");
@@ -2298,6 +2323,7 @@
         insetMap.on("load", drawMinesInset);
       }
       if (!insetMap.loaded()) return;
+      bindPreviewClaimClicks();
       const src = insetMap.getSource("claims-preview");
       if (src) src.setData(foot.fc);
       insetMarks.forEach((m) => m.remove());

@@ -111,7 +111,7 @@
   }
 
   async function lookupTitle(id) {
-    const shard = id.slice(0, 2);
+    const shard = (id.length >= 2 ? id.slice(0, 2) : id.padStart(2, "0")).replace(/ /g, "_");
     const codes = Array.from(new Set(holders.map((row) => row.code).filter(Boolean)));
     for (const code of codes) {
       const res = await fetch("claims/search/titles/" + code + "/" + shard + ".json");

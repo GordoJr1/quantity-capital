@@ -199,6 +199,7 @@ class GeometryTests(unittest.TestCase):
     def test_shard_key(self):
         self.assertEqual(db.shard_key("102905"), "10")
         self.assertEqual(db.shard_key("7"), "07")
+        self.assertEqual(db.shard_key("Y 61893"), "Y_")
 
 
 class RepoTests(unittest.TestCase):
@@ -215,7 +216,7 @@ class RepoTests(unittest.TestCase):
         self.assertNotIn("claims-db", live)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn(".pmtiles", sw)
-        self.assertIn("qc-shell-v217", sw)
+        self.assertIn("qc-shell-v218", sw)
 
 
 if __name__ == "__main__":

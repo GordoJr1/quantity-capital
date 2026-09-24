@@ -220,9 +220,9 @@ def phrase_in(phrase: str, norm: str) -> bool:
 
 def shard_key(title_id: str) -> str:
     text = str(title_id).strip()
-    if len(text) >= 2:
-        return text[:2]
-    return text.zfill(2)
+    text = text[:2] if len(text) >= 2 else text.zfill(2)
+    # Yukon grant numbers include "Y 61893". A trailing space is not a Windows filename.
+    return text.replace(" ", "_")
 
 
 def company_color(company_id: str | None) -> str:

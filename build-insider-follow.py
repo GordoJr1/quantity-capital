@@ -2,8 +2,8 @@
 """Build insider-follow.json: best-to-follow officers + new-print alerts.
 
 Follow list = 90-day repeatable ranking (N=5 clustered open-market buys,
-equal-weight names, copy as-of filed_date; scheduled 10b5-1 buys already
-dropped) plus cheap trust filters:
+equal-weight names, copied at the first close after filed_date; scheduled
+10b5-1 buys already dropped) plus cheap trust filters:
   90d hit rate >= 70%
   average 90d return > 0
 One-company officers still qualify.
@@ -20,11 +20,21 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
+
+from qc_common import (
+    is_award,
+    is_exercise,
+    is_market_purchase,
+    load_form4 as load_form4_checked,
+    load_previous,
+    median,
+    utc_stamp,
+    write_if_changed,
+)
 
 ROOT = Path(__file__).resolve().parent
 REPEATABLE = ROOT / "insider-repeatable.json"
@@ -39,28 +49,6 @@ BOOTSTRAP_DAYS = 7
 # Officers at or above this Form 4 plan-print share sort below discretionary peers.
 PLAN_HEAVY = 0.50
 
-AWARD_CODES = {"A", "30", "45", "46"}
-EXERCISE_CODES = {"M", "X", "51", "54", "57", "59", "71"}
-AWARD_NATURE = re.compile(r"^(30|45|46)\b")
-EXERCISE_NATURE = re.compile(r"^(51|54|57|59|71)\b")
-
-
-def is_award(t: dict) -> bool:
-    if t.get("side") == "award":
-        return True
-    code = str(t.get("code") or "").upper()
-    nature = str(t.get("nature") or "")
-    return code in AWARD_CODES or bool(AWARD_NATURE.match(nature))
-
-
-def is_exercise(t: dict) -> bool:
-    if t.get("side") == "exercise":
-        return True
-    code = str(t.get("code") or "").upper()
-    nature = str(t.get("nature") or "")
-    return code in EXERCISE_CODES or bool(EXERCISE_NATURE.match(nature))
-
-
 def is_sale_post(t: dict) -> bool:
     if t.get("side") == "sale_post":
         return True
@@ -73,14 +61,7 @@ def is_market_print(t: dict) -> bool:
         return False
     side = t.get("side")
     if side == "purchase":
-        code = str(t.get("code") or "").upper()
-        if code in {"G", "W", "D", "J", "U"}:
-            return False
-        origin = str(t.get("origin") or "").lower()
-        nature = str(t.get("nature") or "")
-        if origin == "sedi":
-            return nature == "10" or nature.startswith("10")
-        return code == "P"
+        return is_market_purchase(t)
     return side in {"sale", "sale_post"} or is_sale_post(t)
 
 
@@ -98,15 +79,9 @@ def load_json(path: Path):
         return json.load(f)
 
 
-def load_form4(path: Path | None = None) -> dict:
-    p = path or FORM4
-    if not p.is_file():
-        return {}
-    try:
-        data = load_json(p)
-    except (OSError, json.JSONDecodeError, TypeError):
-        return {}
-    return data if isinstance(data, dict) else {}
+def load_form4(path: Path | None = None) -> tuple[dict, str]:
+    """Missing sidecar -> ({}, warning). A corrupt one raises ValueError."""
+    return load_form4_checked(path or FORM4)
 
 
 def num(raw) -> float | None:
@@ -152,16 +127,6 @@ def is_plan_print(t: dict, form4: dict) -> bool:
     return bool(overlay_for(t, form4).get("plan"))
 
 
-def median(xs: list[float]) -> float | None:
-    if not xs:
-        return None
-    ys = sorted(xs)
-    mid = len(ys) // 2
-    if len(ys) % 2:
-        return ys[mid]
-    return (ys[mid - 1] + ys[mid]) / 2.0
-
-
 def filer_form4(form4: dict, filer_id: str) -> dict:
     filers = form4.get("filers") if form4 else None
     if not isinstance(filers, dict):
@@ -191,9 +156,7 @@ def pick_follow(repeatable: dict, tape_trades: list[dict] | None = None, form4: 
             continue
         if is_plan_print(t, form4):
             continue
-        if t.get("side") != "purchase":
-            continue
-        if is_award(t) or is_exercise(t):
+        if not is_market_purchase(t):
             continue
         conv = trade_conviction(t, form4)
         if conv is not None:
@@ -371,15 +334,9 @@ def choose_alerts(
         alerts.sort(key=lambda r: (r["filed_date"], 0 if r.get("plan") else 1, r["filer"], r["ticker"]), reverse=True)
         return alerts
 
-    prev_tape = prev.get("tapeCollected") or ""
     prev_asof = str(prev.get("asof") or "")[:10]
     prev_seen = set(prev.get("seen") or [])
     prev_ids = {f.get("id") for f in (prev.get("follow") or []) if f.get("id")}
-
-    # Same tape: keep the last alert set. Price jobs must not clear them.
-    if prev_tape and prev.get("alerts") is not None:
-        # Caller passes through when tapeCollected matches.
-        pass
 
     alerts = []
     for key, row in clusters.items():
@@ -433,9 +390,14 @@ def build(args: argparse.Namespace) -> dict:
 
     repeatable = load_json(args.repeatable)
     tape = load_json(args.tape)
-    form4 = load_form4()
-    prev_path = args.prev or args.dest
-    prev = load_json(prev_path) if prev_path.is_file() else None
+    if not (tape.get("trades") or []):
+        raise ValueError(f"{args.tape.name} has no trades; refusing to rebuild the follow list")
+    form4, form4_warn = load_form4()
+    if form4_warn:
+        print("warning: " + form4_warn, file=sys.stderr)
+    prev, prev_warn = load_previous(args.prev or args.dest)
+    if prev_warn:
+        print(prev_warn, file=sys.stderr)
 
     follow = pick_follow(repeatable, tape.get("trades") or [], form4)
     follow_ids = {r["id"] for r in follow if r["id"]}
@@ -457,7 +419,7 @@ def build(args: argparse.Namespace) -> dict:
     seen = sorted(clusters.keys())
     method = (
         "Follow / Best is the 90-day repeatable ranking "
-        "(N=5 clustered open-market buys, equal-weight per ticker, copy as-of filed_date; "
+        "(N=5 clustered open-market buys, equal-weight per ticker, copied at the first close after filed_date; "
         "scheduled Form 4 10b5-1 / trading-plan buys already dropped) "
         f"plus trust filters: 90d hit rate ≥ {int(MIN_HIT * 100)}% "
         "and average 90d return > 0. One-company officers still qualify. "
@@ -468,10 +430,11 @@ def build(args: argparse.Namespace) -> dict:
         f"First build keeps prints filed in the last {args.bootstrap_days} days."
     )
     out = {
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00",
+        "generated": utc_stamp(),
         "tapeCollected": tape_collected,
         "repeatableGenerated": repeatable.get("generated") or "",
         "form4Generated": form4.get("generated") or "",
+        **({"form4Warning": form4_warn} if form4_warn else {}),
         "priceAsof": repeatable.get("priceAsof") or "",
         "planHeavy": PLAN_HEAVY,
         "asof": tape_asof,
@@ -499,38 +462,24 @@ def build(args: argparse.Namespace) -> dict:
     return out
 
 
-def payload_key(data: dict) -> dict:
-    """Ignore generated timestamp when deciding whether to rewrite."""
-    return {k: v for k, v in data.items() if k != "generated"}
-
-
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     try:
         out = build(args)
-    except FileNotFoundError as err:
+    except (FileNotFoundError, ValueError) as err:
         print(str(err), file=sys.stderr)
         return 1
-    prev_path = args.prev or args.dest
-    if prev_path.is_file():
-        try:
-            prev = load_json(prev_path)
-        except (OSError, json.JSONDecodeError):
-            prev = None
-        if prev and payload_key(prev) == payload_key(out):
-            print(
-                "unchanged {path}  follow={n}  alerts={a}  asof={asof}".format(
-                    path=args.dest.name,
-                    n=out["stats"]["follow"],
-                    a=out["stats"]["alerts"],
-                    asof=out.get("asof"),
-                )
+    prev, _ = load_previous(args.prev or args.dest)
+    if not write_if_changed(args.dest, out, prev):
+        print(
+            "unchanged {path}  follow={n}  alerts={a}  asof={asof}".format(
+                path=args.dest.name,
+                n=out["stats"]["follow"],
+                a=out["stats"]["alerts"],
+                asof=out.get("asof"),
             )
-            return 0
-    args.dest.parent.mkdir(parents=True, exist_ok=True)
-    with args.dest.open("w") as f:
-        json.dump(out, f, separators=(",", ":"))
-        f.write("\n")
+        )
+        return 0
     print(
         "wrote {path} ({kb:.1f} KB)  follow={n}  alerts={a}  seen={s}  "
         "hit>={hit:.0%} avg>0  asof={asof}".format(

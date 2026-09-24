@@ -1,20 +1,36 @@
 #!/usr/bin/env python3
 """Build insider-repeatable.json: most repeatable open-market insider copy trades.
 
-Copy as-of the public filing date (Form 4 / SEDI print), using prices/ closes.
+Copy the public filing (Form 4 / SEDI print) at the first prices/ close after
+the filing date, since an after-hours print cannot be bought at that day's close.
 Open-market buys only. Equal-weight by ticker so one name cannot dominate.
 """
 from __future__ import annotations
 
+import argparse
 import json
-import re
 import sys
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from pathlib import Path
 
+from qc_common import (
+    first_after,
+    first_on_or_after,
+    is_award,
+    is_exercise,
+    is_market_purchase,
+    load_form4,
+    load_previous,
+    load_prices,
+    mean,
+    round_ret,
+    shrink_problems,
+    utc_stamp,
+    write_if_changed,
+)
+
 ROOT = Path(__file__).resolve().parent
-PRICES = ROOT / "prices"
 TAPE = ROOT / "insider-trades-lite.json"
 FORM4 = ROOT / "insider-form4.json"
 DEST = ROOT / "insider-repeatable.json"
@@ -29,42 +45,9 @@ MAX_BAR_LAG_DAYS = 10
 # still leaves a few hundred 90-day filers after pricing.
 MIN_BUYS = 5
 
-AWARD_CODES = {"A", "30", "45", "46"}
-EXERCISE_CODES = {"M", "X", "51", "54", "57", "59", "71"}
-AWARD_NATURE = re.compile(r"^(30|45|46)\b")
-EXERCISE_NATURE = re.compile(r"^(51|54|57|59|71)\b")
 
-
-def is_award(t: dict) -> bool:
-    if t.get("side") == "award":
-        return True
-    code = str(t.get("code") or "").upper()
-    nature = str(t.get("nature") or "")
-    return code in AWARD_CODES or bool(AWARD_NATURE.match(nature))
-
-
-def is_exercise(t: dict) -> bool:
-    if t.get("side") == "exercise":
-        return True
-    code = str(t.get("code") or "").upper()
-    nature = str(t.get("nature") or "")
-    return code in EXERCISE_CODES or bool(EXERCISE_NATURE.match(nature))
-
-
-def load_form4() -> dict:
-    if not FORM4.is_file():
-        return {}
-    try:
-        with FORM4.open() as f:
-            data = json.load(f)
-    except (OSError, json.JSONDecodeError, TypeError):
-        return {}
-    return data if isinstance(data, dict) else {}
-
-
-def load_form4_trades(form4: dict | None = None) -> dict:
-    data = form4 if form4 is not None else load_form4()
-    trades = data.get("trades")
+def load_form4_trades(form4: dict) -> dict:
+    trades = form4.get("trades")
     return trades if isinstance(trades, dict) else {}
 
 
@@ -81,33 +64,9 @@ def is_open_market_buy(t: dict, form4_trades: dict | None = None) -> bool:
 
     Scheduled 10b5-1 / plan buys are excluded so they do not mint a copy rank.
     """
-    if not t or t.get("side") != "purchase":
+    if not is_market_purchase(t):
         return False
-    if is_award(t) or is_exercise(t):
-        return False
-    if is_scheduled_plan(t, form4_trades or {}):
-        return False
-    code = str(t.get("code") or "").upper()
-    if code in {"G", "W", "D", "J", "U"}:
-        return False
-    origin = str(t.get("origin") or "").lower()
-    nature = str(t.get("nature") or "")
-    if origin == "sedi":
-        return nature == "10" or nature.startswith("10")
-    return code == "P"
-
-
-def first_on_or_after(closes: list, date: str):
-    lo, hi = 0, len(closes)
-    while lo < hi:
-        mid = (lo + hi) // 2
-        if closes[mid][0] < date:
-            lo = mid + 1
-        else:
-            hi = mid
-    if lo >= len(closes):
-        return None
-    return closes[lo]
+    return not is_scheduled_plan(t, form4_trades or {})
 
 
 def add_days(date: str, n: int) -> str | None:
@@ -117,57 +76,18 @@ def add_days(date: str, n: int) -> str | None:
         return None
 
 
-def bar_lag_ok(target: str, bar_date: str) -> bool:
+def bar_lag_ok(target: str, bar_date: str, min_lag: int = 0) -> bool:
     try:
         lag = (datetime.strptime(bar_date, "%Y-%m-%d") - datetime.strptime(target, "%Y-%m-%d")).days
     except ValueError:
         return False
-    return 0 <= lag <= MAX_BAR_LAG_DAYS
-
-
-def mean(xs: list[float]) -> float | None:
-    return sum(xs) / len(xs) if xs else None
-
-
-def round_ret(n) -> float:
-    return round(float(n), 4)
-
-
-def load_prices(code: str, cache: dict):
-    if code in cache:
-        return cache[code]
-    path = PRICES / (code + ".json")
-    if not path.is_file():
-        cache[code] = None
-        return None
-    try:
-        with path.open() as f:
-            data = json.load(f)
-        closes = data.get("c") or []
-        cleaned = []
-        for row in closes:
-            if not isinstance(row, (list, tuple)) or len(row) < 2:
-                continue
-            d, px = row[0], row[1]
-            if not d or px is None:
-                continue
-            try:
-                px = float(px)
-            except (TypeError, ValueError):
-                continue
-            if px <= 0:
-                continue
-            cleaned.append([str(d)[:10], px])
-        cache[code] = cleaned or None
-    except (OSError, json.JSONDecodeError, TypeError, ValueError):
-        cache[code] = None
-    return cache[code]
+    return min_lag <= lag <= MAX_BAR_LAG_DAYS
 
 
 def horizon_return(closes: list, start: str, days: int):
-    """First close on/after start → first close on/after start+days. None if stale/missing."""
-    entry = first_on_or_after(closes, start)
-    if entry is None or not bar_lag_ok(start, entry[0]) or entry[1] <= 0:
+    """First close after start → first close on/after start+days. None if stale/missing."""
+    entry = first_after(closes, start)
+    if entry is None or not bar_lag_ok(start, entry[0], 1) or entry[1] <= 0:
         return None
     end = add_days(start, days)
     if not end:
@@ -235,14 +155,27 @@ def score_horizon(buys: list[dict], days: int) -> dict | None:
     return out
 
 
-def main() -> int:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--force", action="store_true", help="Write even if buys shrank below half the previous build")
+    return p.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     if not TAPE.is_file():
         print("missing insider-trades-lite.json", file=sys.stderr)
         return 1
     with TAPE.open() as f:
         tape = json.load(f)
     trades = tape.get("trades") or []
-    form4 = load_form4()
+    try:
+        form4, form4_warn = load_form4(FORM4)
+    except ValueError as err:
+        print(str(err), file=sys.stderr)
+        return 1
+    if form4_warn:
+        print("warning: " + form4_warn, file=sys.stderr)
     form4_trades = load_form4_trades(form4)
 
     raw_buys = 0
@@ -355,7 +288,8 @@ def main() -> int:
         "Scheduled Form 4 10b5-1 / trading-plan buys (insider-form4.json) are excluded. "
         "Awards, option exercises, gifts, private/prospectus prints, and sales are excluded. "
         "One copy trade per officer / ticker / filing date (lots on the same print collapse). "
-        "Entry is the first prices/ close on or after the public filing date "
+        "Entry is the first prices/ close after the public filing date, since an "
+        "after-hours print cannot be bought at that day's close "
         f"(max {MAX_BAR_LAG_DAYS} calendar days). Exit is the first close on or after "
         "filing date + 30 / 90 / 180 calendar days (same lag cap). "
         "Average return is the equal-weight mean of per-ticker means, so one name cannot "
@@ -366,7 +300,7 @@ def main() -> int:
         "close to the same exit close."
     )
     out = {
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00",
+        "generated": utc_stamp(),
         "tapeCollected": tape.get("collected") or "",
         "priceAsof": price_asof,
         "asof": tape_asof,
@@ -381,6 +315,7 @@ def main() -> int:
             "not the officer’s fill. Past hit rates do not mean the next filing works."
         ),
         "form4Generated": form4.get("generated") or "",
+        **({"form4Warning": form4_warn} if form4_warn else {}),
         "stats": {
             "rawBuys": raw_buys,
             "planSkipped": plan_skipped,
@@ -394,12 +329,22 @@ def main() -> int:
         "filers": filers,
     }
 
-    with DEST.open("w") as f:
-        json.dump(out, f, separators=(",", ":"))
-        f.write("\n")
+    prev, prev_warn = load_previous(DEST)
+    if prev_warn:
+        print(prev_warn, file=sys.stderr)
+    shrunk = shrink_problems(prev, out["stats"], ("rawBuys", "filers"))
+    if shrunk and not args.force:
+        print(
+            "refusing to overwrite {path}: input shrank below half the previous build ({why}). "
+            "Re-run with --force if this is intended.".format(path=DEST.name, why="; ".join(shrunk)),
+            file=sys.stderr,
+        )
+        return 2
+    wrote = write_if_changed(DEST, out, prev)
     print(
-        "wrote {path} ({kb:.0f} KB)  filers={n}  30/90/180={a}/{b}/{c}  "
+        "{verb} {path} ({kb:.0f} KB)  filers={n}  30/90/180={a}/{b}/{c}  "
         "minBuys={m}  planSkip={p}  asof={asof}  cutoff={cut}".format(
+            verb="wrote" if wrote else "unchanged",
             path=DEST.name,
             kb=DEST.stat().st_size / 1024,
             n=len(filers),

@@ -1,20 +1,36 @@
 #!/usr/bin/env python3
 """Build backtest.json: paper returns from STOCK Act filing dates.
 
-Entry = first daily close on/after filed_date (when the public can copy).
+Entry = first daily close strictly after filed_date (a PTR can post after
+that day's close, so the filed-date close is not buyable).
 Exit  = latest close in prices/. Purchases only, equal-weight per leg.
+Refiled / amended PTRs collapse to the earliest filing.
 Skip bonds, options, junk tickers, and legs with no usable price.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
-from datetime import datetime, timezone
+from collections import defaultdict
+from datetime import datetime
 from pathlib import Path
 
+from qc_common import (
+    first_after,
+    load_previous,
+    load_prices,
+    mean,
+    median,
+    round_ret,
+    shrink_problems,
+    utc_stamp,
+    write_if_changed,
+)
+
 ROOT = Path(__file__).resolve().parent
-PRICES = ROOT / "prices"
+DEST = ROOT / "backtest.json"
 BAD_TICKERS = {"LLC", "THE", "AND", "INC", "CORP", "CLASS", "NONE", "NA", "CMN", "COM", "NPV", "ETF", "FUND"}
 OPT_RE = re.compile(
     r"exercised|call option|put option|strike pric|flex euro|\bcall/|\bput/|@\s*\d",
@@ -219,74 +235,59 @@ def pick_name(code: str, cands: list[str]) -> str:
 
 
 
-def first_on_or_after(closes: list, date: str):
-    lo, hi = 0, len(closes)
-    while lo < hi:
-        mid = (lo + hi) // 2
-        if closes[mid][0] < date:
-            lo = mid + 1
-        else:
-            hi = mid
-    if lo >= len(closes):
-        return None
-    return closes[lo]
-
-
-def mean(xs: list[float]) -> float:
-    return sum(xs) / len(xs) if xs else 0.0
-
-
-def median(xs: list[float]) -> float:
-    if not xs:
-        return 0.0
-    ys = sorted(xs)
-    n = len(ys)
-    mid = n // 2
-    if n % 2:
-        return ys[mid]
-    return (ys[mid - 1] + ys[mid]) / 2.0
-
-
 def round_px(n) -> float:
     return round(float(n), 2)
 
 
-def round_ret(n) -> float:
-    return round(float(n), 4)
+def doc_and_line(trade_id: str) -> tuple[str, int]:
+    """Split '<chamber>-<doc>-<line>' into (doc, line). Ids without a line number are their own doc."""
+    head, sep, tail = (trade_id or "").rpartition("-")
+    if sep and tail.isdigit():
+        return head, int(tail)
+    return trade_id or "", 0
 
 
-def load_prices(code: str, cache: dict):
-    if code in cache:
-        return cache[code]
-    path = PRICES / (code + ".json")
-    if not path.is_file():
-        cache[code] = None
-        return None
-    try:
-        with path.open() as f:
-            data = json.load(f)
-        closes = data.get("c") or []
-        cleaned = []
-        for row in closes:
-            if not isinstance(row, (list, tuple)) or len(row) < 2:
-                continue
-            d, px = row[0], row[1]
-            if not d or px is None:
-                continue
-            try:
-                px = float(px)
-            except (TypeError, ValueError):
-                continue
-            if px <= 0:
-                continue
-            cleaned.append([str(d)[:10], px])
-        cache[code] = cleaned or None
-    except (OSError, json.JSONDecodeError, TypeError, ValueError):
-        cache[code] = None
-    return cache[code]
+def duplicate_purchase_ids(trades: list[dict]) -> set[str]:
+    """Ids of purchase rows that repeat an earlier-filed PTR (refiled or amended).
+
+    Key is (filer, ticker, trade_date, amount, owner). Repeated lines inside one
+    document can be genuine separate buys (amounts are ranges), so each key keeps
+    as many rows as its largest single document holds, earliest filed first.
+    """
+    groups: dict[tuple, list[dict]] = defaultdict(list)
+    for t in trades:
+        if t.get("side") != "purchase":
+            continue
+        trade = (t.get("trade_date") or "")[:10]
+        code = (t.get("ticker") or "").upper()
+        fid = t.get("filer_id") or t.get("filer") or ""
+        if not trade or not code or not fid or not t.get("id"):
+            continue
+        key = (fid, code, trade, t.get("amount") or "", t.get("owner") or "")
+        groups[key].append(t)
+    drop: set[str] = set()
+    for rows in groups.values():
+        if len(rows) < 2:
+            continue
+        per_doc: dict[str, int] = defaultdict(int)
+        for t in rows:
+            per_doc[doc_and_line(t["id"])[0]] += 1
+        allowed = max(per_doc.values())
+        if allowed >= len(rows):
+            continue
+        rows.sort(key=lambda t: ((t.get("filed_date") or "9999")[:10], *doc_and_line(t["id"])))
+        drop.update(t["id"] for t in rows[allowed:])
+    return drop
 
 
-def main() -> int:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument("--force", action="store_true", help="Write even if the tape shrank below half the previous build")
+    return p.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     tape_path = ROOT / "trades-lite.json"
     if not tape_path.is_file():
         print("missing trades-lite.json", file=sys.stderr)
@@ -295,7 +296,6 @@ def main() -> int:
         tape = json.load(f)
     trades = tape.get("trades") or []
 
-    names = {}
     name_cands: dict[str, list[str]] = {}
     tickers_path = ROOT / "tickers.json"
     if tickers_path.is_file():
@@ -304,7 +304,6 @@ def main() -> int:
         for code, meta in (tickers_file.get("tickers") or {}).items():
             c = str(code).upper()
             cleaned = issuer_name(c, (meta or {}).get("name") or "")
-            names[c] = cleaned
             if cleaned:
                 name_cands.setdefault(c, []).append(cleaned)
 
@@ -316,11 +315,13 @@ def main() -> int:
         if asset_name:
             name_cands.setdefault(code, []).append(asset_name)
 
+    dup_ids = duplicate_purchase_ids(trades)
     price_cache: dict = {}
     stats = {
         "purchases": 0,
         "eligible": 0,
         "priced": 0,
+        "skippedDuplicate": 0,
         "skippedNoTicker": 0,
         "skippedBondOpt": 0,
         "skippedNoPrice": 0,
@@ -333,6 +334,9 @@ def main() -> int:
         if t.get("side") != "purchase":
             continue
         stats["purchases"] += 1
+        if t.get("id") in dup_ids:
+            stats["skippedDuplicate"] += 1
+            continue
         if is_bond(t) or is_option_like(t):
             stats["skippedBondOpt"] += 1
             continue
@@ -369,7 +373,7 @@ def main() -> int:
             continue
         if closes[-1][0] > price_asof:
             price_asof = closes[-1][0]
-        bar = first_on_or_after(closes, filed)
+        bar = first_after(closes, filed)
         if bar is None:
             rec["skip"] += 1
             stats["skippedNoPrice"] += 1
@@ -385,7 +389,7 @@ def main() -> int:
         lag = (entry_dt - filed_dt).days
         # Weekend/holiday slack only. A first bar far after filed_date is the
         # start of a truncated price file (missing history), not a real print.
-        if lag < 0 or lag > MAX_ENTRY_LAG_DAYS:
+        if lag < 1 or lag > MAX_ENTRY_LAG_DAYS:
             rec["skip"] += 1
             stats["skippedStale"] += 1
             continue
@@ -422,8 +426,6 @@ def main() -> int:
                 leg.pop("amt", None)
             if not leg.get("trade"):
                 leg.pop("trade", None)
-            if leg.get("inD") == leg.get("filed"):
-                leg.pop("inD", None)
         rets = [leg["ret"] for leg in legs]
         n = len(legs)
         people.append({
@@ -461,14 +463,17 @@ def main() -> int:
     tickers.sort(key=lambda r: (-r["avg"], -r["n"], r["t"]))
 
     out = {
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00",
+        "generated": utc_stamp(),
         "tapeCollected": tape.get("collected") or "",
         "priceAsof": price_asof,
         "method": (
             "Purchases only. Equal-weight average of listed-stock legs. "
-            "Entry is the first daily close on or after filed_date (max "
+            "Entry is the first daily close after filed_date (a PTR can post after "
+            "that day's close; max "
             + str(MAX_ENTRY_LAG_DAYS)
             + " calendar days). Exit is the latest close in prices/. "
+            "A refiled or amended PTR repeating the same filer, ticker, trade date, "
+            "amount, and owner counts once, at its earliest filed date. "
             "Bonds, options, and legs with missing prices are skipped. "
             "Official amounts are ranges, so size is not used."
         ),
@@ -481,6 +486,7 @@ def main() -> int:
             "purchases": stats["purchases"],
             "eligible": stats["eligible"],
             "priced": stats["priced"],
+            "skippedDuplicate": stats["skippedDuplicate"],
             "skippedNoTicker": stats["skippedNoTicker"],
             "skippedBondOpt": stats["skippedBondOpt"],
             "skippedNoPrice": stats["skippedNoPrice"],
@@ -492,13 +498,24 @@ def main() -> int:
         "tickers": tickers,
     }
 
-    dest = ROOT / "backtest.json"
-    with dest.open("w") as f:
-        json.dump(out, f, separators=(",", ":"))
-        f.write("\n")
+    prev, prev_warn = load_previous(DEST)
+    if prev_warn:
+        print(prev_warn, file=sys.stderr)
+    shrunk = shrink_problems(prev, out["stats"], ("purchases", "priced"))
+    if shrunk and not args.force:
+        print(
+            "refusing to overwrite {path}: input shrank below half the previous build ({why}). "
+            "Re-run with --force if this is intended.".format(path=DEST.name, why="; ".join(shrunk)),
+            file=sys.stderr,
+        )
+        return 2
+    dest = DEST
+    wrote = write_if_changed(dest, out, prev)
     size = dest.stat().st_size
     print(
-        "wrote {path} ({kb:.0f} KB)  priced={priced} filers={filers} tickers={tickers} asof={asof}".format(
+        "{verb} {path} ({kb:.0f} KB)  priced={priced} dup={dup} filers={filers} tickers={tickers} asof={asof}".format(
+            verb="wrote" if wrote else "unchanged",
+            dup=stats["skippedDuplicate"],
             path=dest.name,
             kb=size / 1024,
             priced=stats["priced"],

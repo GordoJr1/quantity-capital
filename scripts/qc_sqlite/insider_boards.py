@@ -1,10 +1,15 @@
 """Insider boards: analysis / repeatable / follow + form4 sidecar ingest.
 
-Runs the upstream builders against the site root, then stores JSON in sqlite
-and optionally Jev-gates the follow list.
+Runs the root build-insider-repeatable.py and build-insider-follow.py (the
+same builders CI runs), ingests the collector's insider-analysis.json as-is,
+stores everything in sqlite, and optionally Jev-gates the follow list. Jev
+ship/drop lives in sqlite and the gitignored export/ copy only; the committed
+insider-follow.json is left exactly as the root builder wrote it.
 """
 from __future__ import annotations
 
+import importlib.util
+import inspect
 import json
 import sqlite3
 import sys
@@ -17,9 +22,11 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 import jev
-from paths import DB_PATH, EXPORT_DIR, GROKS, QC_ROOT
+from paths import DB_PATH, EXPORT_DIR, QC_ROOT
 
-UP = HERE / "_upstream"
+sys.path.insert(0, str(HERE.parent))
+from qc_io import atomic_write_json, atomic_write_text  # noqa: E402
+
 DDL = """
 CREATE TABLE IF NOT EXISTS insider_form4 (
   trade_id TEXT PRIMARY KEY,
@@ -49,27 +56,22 @@ def log(msg: str) -> None:
     print(msg, flush=True)
 
 
-def exec_upstream(filename: str, root_assign: str) -> None:
-    path = UP / filename
-    text = path.read_text(encoding="utf-8")
-    text = text.replace(
-        "ROOT = Path(__file__).resolve().parent",
-        f"ROOT = Path(r'{QC_ROOT}')",
-    )
-    text = text.replace(
-        "SITE = Path(__file__).resolve().parent.parent",
-        f"SITE = Path(r'{QC_ROOT}')",
-    )
-    # form4_enrich uses collect parent; do not run it here (network scraper).
-    collect = GROKS / "collect"
-    if str(collect) not in sys.path:
-        sys.path.insert(0, str(collect))
-    ns: dict[str, Any] = {"__name__": "__qc_sqlite_upstream__", "__file__": str(path)}
-    exec(compile(text, str(path), "exec"), ns)
-    if "main" in ns:
-        rc = ns["main"]()
-        if rc not in (0, None):
-            raise SystemExit(rc)
+def load_root_builder(filename: str):
+    path = QC_ROOT / filename
+    name = "_qc_root_" + path.stem.replace("-", "_")
+    spec = importlib.util.spec_from_file_location(name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def run_root_builder(filename: str) -> int:
+    mod = load_root_builder(filename)
+    params = inspect.signature(mod.main).parameters
+    rc = mod.main([]) if params else mod.main()
+    return int(rc or 0)
 
 
 def ingest_form4(con: sqlite3.Connection) -> int:
@@ -113,7 +115,7 @@ def ingest_json_list(con: sqlite3.Connection, path: Path, table: str, id_key: st
             "INSERT OR REPLACE INTO insider_analysis_book(ticker, list, payload_json) VALUES (?,?,?)",
             rows,
         )
-        (EXPORT_DIR / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+        atomic_write_text(EXPORT_DIR / path.name, path.read_text(encoding="utf-8"))
         log(f"{path.name} stored {len(rows)}")
         return out
     for rec in items:
@@ -128,7 +130,7 @@ def ingest_json_list(con: sqlite3.Connection, path: Path, table: str, id_key: st
             rows,
         )
     log(f"{path.name} stored {len(rows)}")
-    (EXPORT_DIR / path.name).write_text(path.read_text(encoding="utf-8"), encoding="utf-8")
+    atomic_write_text(EXPORT_DIR / path.name, path.read_text(encoding="utf-8"))
     return out
 
 
@@ -199,7 +201,7 @@ def gate_follow(con: sqlite3.Connection, skip_jev: bool) -> dict:
                 r = fut.result()
             except Exception as exc:
                 errors += 1
-                log(f"  follow Jev error: {type(exc).__name__}: {exc}")
+                log(f"  follow Jev error: {type(exc).__name__}")
                 continue
             packed = r["packed"]
             rec = by.get(r["id"]) or {}
@@ -230,11 +232,8 @@ def gate_follow(con: sqlite3.Connection, skip_jev: bool) -> dict:
             (fid, shipped, rec.get("_jev_ship"), rec.get("_jev_conf"), json.dumps({k: v for k, v in rec.items() if not str(k).startswith("_")})),
         )
     data["follow"] = kept
-    text = json.dumps(data, indent=2) + "\n"
-    path.write_text(text, encoding="utf-8")
-    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
-    (EXPORT_DIR / "insider-follow.json").write_text(text, encoding="utf-8")
-    stats["ran"] = True
+    atomic_write_json(EXPORT_DIR / "insider-follow.json", data)
+    stats["ran"] = stats["n"] > 0
     stats["errors"] = errors
     log(f"insider follow shipped {len(kept)} dropped {stats['dropped']}")
     return stats
@@ -244,35 +243,21 @@ def run(con: sqlite3.Connection, skip_jev: bool = False) -> dict[str, Any]:
     con.executescript(DDL)
     EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     n_form4 = ingest_form4(con)
-    # Repeatable + analysis write JSON into QC_ROOT; follow depends on repeatable.
-    if (UP / "build_insider_analysis.py").exists():
-        log("insider analysis builder…")
-        try:
-            exec_upstream("build_insider_analysis.py", "SITE")
-        except SystemExit as e:
-            if e.code not in (0, None):
-                log(f"insider analysis builder exit {e.code}")
-        except Exception as exc:
-            log(f"insider analysis builder failed: {type(exc).__name__}: {exc}")
-    if (UP / "build-insider-repeatable.py").exists() and (QC_ROOT / "insider-trades-lite.json").exists():
-        log("insider repeatable builder…")
-        try:
-            exec_upstream("build-insider-repeatable.py", "ROOT")
-        except SystemExit as e:
-            if e.code not in (0, None):
-                log(f"repeatable exit {e.code}")
-        except Exception as exc:
-            log(f"repeatable failed: {type(exc).__name__}: {exc}")
-    if (UP / "build-insider-follow.py").exists() and (QC_ROOT / "insider-repeatable.json").exists():
-        log("insider follow builder…")
-        try:
-            exec_upstream("build-insider-follow.py", "ROOT")
-        except SystemExit as e:
-            if e.code not in (0, None):
-                log(f"follow exit {e.code}")
-        except Exception as exc:
-            log(f"follow failed: {type(exc).__name__}: {exc}")
-
+    builders = {}
+    if (QC_ROOT / "insider-trades-lite.json").exists():
+        for filename in ("build-insider-repeatable.py", "build-insider-follow.py"):
+            log(f"{filename}…")
+            try:
+                rc = run_root_builder(filename)
+            except SystemExit as e:
+                rc = e.code if isinstance(e.code, int) else 1
+            except Exception as exc:
+                log(f"{filename} failed: {type(exc).__name__}: {exc}")
+                rc = 1
+            builders[filename] = rc
+            if rc:
+                log(f"{filename} exit {rc}; later boards use the previous JSON")
+                break
     ingest_json_list(con, QC_ROOT / "insider-analysis.json", "insider_analysis_book", "code")
     ingest_json_list(con, QC_ROOT / "insider-repeatable.json", "insider_repeatable_filers", "id")
     jev_stats = gate_follow(con, skip_jev)
@@ -280,7 +265,7 @@ def run(con: sqlite3.Connection, skip_jev: bool = False) -> dict[str, Any]:
         "INSERT INTO meta(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
         ("jev_insider_follow", json.dumps(jev_stats)),
     )
-    return {"form4": n_form4, "follow_jev": jev_stats}
+    return {"form4": n_form4, "builders": builders, "follow_jev": jev_stats}
 
 
 def main() -> int:

@@ -241,7 +241,7 @@ async function openClaimsArchive(protocol, sourceId, url) {
 
 function openRegistryPopup(lngLat, props, place) {
   closePopup();
-  const company = !props.company || props.company === "unlinked" ? "—" : props.company;
+  const company = props.name || (!props.company || props.company === "unlinked" ? "—" : props.company);
   const html = "<div class=\"pop\"><div class=\"holder\">" + (props.holder || "Unknown holder") + "</div><dl>" +
     "<dt>Title</dt><dd>" + (props.id || "—") + "</dd>" +
     "<dt>Company</dt><dd>" + company + "</dd>" +

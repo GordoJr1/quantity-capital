@@ -1,0 +1,9701 @@
+{
+ "note": "Public companies with claims in the six-province database. The claims linker loads this file. Site company ids are reused. Issuers that are not on the site are not added to claims/companies.json. exact_norms are normalized holder parties that matched.",
+ "generated_from": "TMX TSX and TSXV list dated 2026-09-15, CSE sector pages, insider-companies.json, beta profiles, claims/links/aliases.json",
+ "issuers": [
+  {
+   "id": "1844-resources-inc",
+   "name": "1844 Resources Inc.",
+   "tickers": [
+    "EFF.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "1844 Resources Inc."
+   ],
+   "exact_norms": [
+    "1844 resources"
+   ]
+  },
+  {
+   "id": "1911-gold",
+   "name": "1911 Gold",
+   "tickers": [
+    "AUMB.V",
+    "AUMBF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "1911 Gold"
+   ],
+   "exact_norms": [
+    "1911 gold"
+   ]
+  },
+  {
+   "id": "37-capital-inc",
+   "name": "37 Capital Inc.",
+   "tickers": [
+    "JJJ.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "37 Capital Inc."
+   ],
+   "exact_norms": [
+    "37 capital"
+   ]
+  },
+  {
+   "id": "abaxx-technologies-inc",
+   "name": "Abaxx Technologies Inc.",
+   "tickers": [
+    "ABXX.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": false,
+   "names": [
+    "Abaxx Technologies Inc."
+   ],
+   "exact_norms": [
+    "abaxx technologies"
+   ]
+  },
+  {
+   "id": "aben-gold",
+   "name": "Aben Gold",
+   "tickers": [
+    "ABM.V",
+    "ABNAF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Aben Gold"
+   ],
+   "exact_norms": [
+    "aben gold"
+   ]
+  },
+  {
+   "id": "abitibi-metals",
+   "name": "Abitibi Metals",
+   "tickers": [
+    "AMQ.CN",
+    "AMQFF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Abitibi Metals"
+   ],
+   "exact_norms": [
+    "abitibi metals"
+   ]
+  },
+  {
+   "id": "ac-dc-battery-metals-inc",
+   "name": "AC/DC Battery Metals Inc.",
+   "tickers": [
+    "ACDC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "AC/DC Battery Metals Inc."
+   ],
+   "exact_norms": [
+    "ac dc battery metals"
+   ]
+  },
+  {
+   "id": "adamera-minerals",
+   "name": "Adamera Minerals",
+   "tickers": [
+    "ADZ.V",
+    "DDNFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Adamera Minerals"
+   ],
+   "exact_norms": [
+    "adamera minerals"
+   ]
+  },
+  {
+   "id": "adelayde-exploration-inc",
+   "name": "Adelayde Exploration Inc.",
+   "tickers": [
+    "ADDY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Adelayde Exploration Inc."
+   ],
+   "exact_norms": [
+    "adelayde exploration"
+   ]
+  },
+  {
+   "id": "adonis-minerals-corp",
+   "name": "Adonis Minerals Corp.",
+   "tickers": [
+    "ADON.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Adonis Minerals Corp."
+   ],
+   "exact_norms": [
+    "adonis minerals"
+   ]
+  },
+  {
+   "id": "advanced-gold-exploration-inc",
+   "name": "Advanced Gold Exploration Inc.",
+   "tickers": [
+    "AUEX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Advanced Gold Exploration Inc."
+   ],
+   "exact_norms": [
+    "advanced gold exploration"
+   ]
+  },
+  {
+   "id": "aeonian-resources-corp",
+   "name": "Aeonian Resources Corp.",
+   "tickers": [
+    "ALTN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Aeonian Resources Corp."
+   ],
+   "exact_norms": [
+    "aeonian resources"
+   ]
+  },
+  {
+   "id": "affinity-metals-corp",
+   "name": "Affinity Metals Corp.",
+   "tickers": [
+    "AFF.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Affinity Metals Corp."
+   ],
+   "exact_norms": [
+    "affinity metals"
+   ]
+  },
+  {
+   "id": "agnico-eagle",
+   "name": "Agnico Eagle Mines Limited",
+   "tickers": [
+    "AEM.TO",
+    "AEM"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Agnico Eagle Mines Limited"
+   ],
+   "exact_norms": [
+    "agnico eagle",
+    "agnico eagle abitibi acquisition",
+    "agnico eagle mines",
+    "agnico eagle mines mines agnico eagle"
+   ]
+  },
+  {
+   "id": "alamos-gold",
+   "name": "Alamos Gold Inc.",
+   "tickers": [
+    "AGI.TO",
+    "AGI"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Alamos Gold Inc."
+   ],
+   "exact_norms": [
+    "alamos gold"
+   ]
+  },
+  {
+   "id": "almadex-minerals",
+   "name": "Almadex Minerals Ltd.",
+   "tickers": [
+    "DEX.V",
+    "AAMMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Almadex Minerals Ltd."
+   ],
+   "exact_norms": [
+    "almadex minerals"
+   ]
+  },
+  {
+   "id": "altius-minerals",
+   "name": "Altius Minerals",
+   "tickers": [
+    "ALS.TO",
+    "ATUSF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Altius Minerals"
+   ],
+   "exact_norms": [
+    "altius minerals",
+    "altius resources"
+   ]
+  },
+  {
+   "id": "amarc-resources",
+   "name": "Amarc Resources",
+   "tickers": [
+    "AHR.V",
+    "AXREF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Amarc Resources"
+   ],
+   "exact_norms": [
+    "amarc resources"
+   ]
+  },
+  {
+   "id": "american-eagle-gold",
+   "name": "American Eagle Gold",
+   "tickers": [
+    "AE.V",
+    "AMEGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "American Eagle Gold"
+   ],
+   "exact_norms": [
+    "american eagle gold"
+   ]
+  },
+  {
+   "id": "amex-exploration",
+   "name": "Amex Exploration Inc.",
+   "tickers": [
+    "AMX.V",
+    "AMXEF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Amex Exploration Inc."
+   ],
+   "exact_norms": [
+    "amex exploration"
+   ]
+  },
+  {
+   "id": "amrize",
+   "name": "Amrize Ltd.",
+   "tickers": [
+    "AMRZ"
+   ],
+   "exchanges": [],
+   "on_site": true,
+   "names": [
+    "Amrize Ltd."
+   ],
+   "exact_norms": [
+    "amrize",
+    "amrize canada"
+   ]
+  },
+  {
+   "id": "anteros-metals-inc",
+   "name": "Anteros Metals Inc.",
+   "tickers": [
+    "ANT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Anteros Metals Inc."
+   ],
+   "exact_norms": [
+    "anteros metals"
+   ]
+  },
+  {
+   "id": "antler-gold-inc",
+   "name": "Antler Gold Inc.",
+   "tickers": [
+    "ANTL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Antler Gold Inc."
+   ],
+   "exact_norms": [
+    "antler gold"
+   ]
+  },
+  {
+   "id": "apex-critical-metals-corp",
+   "name": "Apex Critical Metals Corp.",
+   "tickers": [
+    "APXC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Apex Critical Metals Corp."
+   ],
+   "exact_norms": [
+    "apex critical metals"
+   ]
+  },
+  {
+   "id": "apex-resources-inc",
+   "name": "Apex Resources Inc.",
+   "tickers": [
+    "APX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Apex Resources Inc."
+   ],
+   "exact_norms": [
+    "apex resources"
+   ]
+  },
+  {
+   "id": "apollo-silver",
+   "name": "Apollo Silver",
+   "tickers": [
+    "APGO.V",
+    "APGOF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Apollo Silver"
+   ],
+   "exact_norms": [
+    "apollo exploration",
+    "apollo silver"
+   ]
+  },
+  {
+   "id": "appia-rare-earths-uranium",
+   "name": "Appia Rare Earths & Uranium Corp",
+   "tickers": [
+    "API.CN",
+    "APAAF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Appia Rare Earths & Uranium Corp"
+   ],
+   "exact_norms": [
+    "appia rare earths and uranium",
+    "appia rare earths uranium"
+   ]
+  },
+  {
+   "id": "arbor-metals-corp",
+   "name": "Arbor Metals Corp.",
+   "tickers": [
+    "ABR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Arbor Metals Corp."
+   ],
+   "exact_norms": [
+    "arbor metals"
+   ]
+  },
+  {
+   "id": "arcelormittal",
+   "name": "ArcelorMittal S.A.",
+   "tickers": [
+    "MT"
+   ],
+   "exchanges": [],
+   "on_site": true,
+   "names": [
+    "ArcelorMittal S.A."
+   ],
+   "exact_norms": [
+    "arcelormittal",
+    "arcelormittal exploitation miniere canada s e n c",
+    "arcelormittal infrastructure canada s e n c",
+    "arcelormittal s a"
+   ]
+  },
+  {
+   "id": "arctic-fox-lithium-corp",
+   "name": "Arctic Fox Lithium Corp.",
+   "tickers": [
+    "AFX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Arctic Fox Lithium Corp."
+   ],
+   "exact_norms": [
+    "arctic fox lithium"
+   ]
+  },
+  {
+   "id": "arcwest-exploration-inc",
+   "name": "ArcWest Exploration Inc.",
+   "tickers": [
+    "AWX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "ArcWest Exploration Inc."
+   ],
+   "exact_norms": [
+    "arcwest exploration"
+   ]
+  },
+  {
+   "id": "ares-strategic-mining-inc",
+   "name": "Ares Strategic Mining Inc.",
+   "tickers": [
+    "ARS.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Ares Strategic Mining Inc."
+   ],
+   "exact_norms": [
+    "ares strategic mining"
+   ]
+  },
+  {
+   "id": "argo-gold-inc",
+   "name": "Argo Gold Inc.",
+   "tickers": [
+    "ARQ.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Argo Gold Inc."
+   ],
+   "exact_norms": [
+    "argo gold"
+   ]
+  },
+  {
+   "id": "argyle-resources-corp",
+   "name": "Argyle Resources Corp.",
+   "tickers": [
+    "ARGL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Argyle Resources Corp."
+   ],
+   "exact_norms": [
+    "argyle resources"
+   ]
+  },
+  {
+   "id": "arianne-phosphate",
+   "name": "Arianne Phosphate",
+   "tickers": [
+    "DAN.V",
+    "DRRSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Arianne Phosphate"
+   ],
+   "exact_norms": [
+    "arianne phosphate"
+   ]
+  },
+  {
+   "id": "ashley-gold-corp",
+   "name": "Ashley Gold Corp.",
+   "tickers": [
+    "ASHL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Ashley Gold Corp."
+   ],
+   "exact_norms": [
+    "ashley gold",
+    "ashley gold mines"
+   ]
+  },
+  {
+   "id": "asiabasemetals-inc",
+   "name": "AsiaBaseMetals Inc.",
+   "tickers": [
+    "ABZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "AsiaBaseMetals Inc."
+   ],
+   "exact_norms": [
+    "asiabasemetals"
+   ]
+  },
+  {
+   "id": "aston-bay-holdings",
+   "name": "Aston Bay Holdings",
+   "tickers": [
+    "BAY.V",
+    "ATBHF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Aston Bay Holdings"
+   ],
+   "exact_norms": [
+    "aston bay holdings"
+   ]
+  },
+  {
+   "id": "athena-gold-corporation",
+   "name": "Athena Gold Corporation",
+   "tickers": [
+    "ATHA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Athena Gold Corporation"
+   ],
+   "exact_norms": [
+    "athena gold"
+   ]
+  },
+  {
+   "id": "atlas-salt",
+   "name": "Atlas Salt",
+   "tickers": [
+    "SALT.V",
+    "SALQF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Atlas Salt"
+   ],
+   "exact_norms": [
+    "atlas salt"
+   ]
+  },
+  {
+   "id": "auq-gold-mining-inc",
+   "name": "AuQ Gold Mining Inc.",
+   "tickers": [
+    "AUQ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "AuQ Gold Mining Inc."
+   ],
+   "exact_norms": [
+    "auq gold mining"
+   ]
+  },
+  {
+   "id": "auranova-resources-inc",
+   "name": "Auranova Resources Inc.",
+   "tickers": [
+    "AURA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Auranova Resources Inc."
+   ],
+   "exact_norms": [
+    "auranova resources"
+   ]
+  },
+  {
+   "id": "aurelius-minerals",
+   "name": "Aurelius Minerals",
+   "tickers": [
+    "AUL.V",
+    "AURQF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Aurelius Minerals"
+   ],
+   "exact_norms": [
+    "aurelius minerals"
+   ]
+  },
+  {
+   "id": "auriginal-mining-corp",
+   "name": "Auriginal Mining Corp.",
+   "tickers": [
+    "AUME.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Auriginal Mining Corp."
+   ],
+   "exact_norms": [
+    "auriginal mining"
+   ]
+  },
+  {
+   "id": "avalon-advanced-materials-inc",
+   "name": "Avalon Advanced Materials Inc.",
+   "tickers": [
+    "AVL.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": false,
+   "names": [
+    "Avalon Advanced Materials Inc."
+   ],
+   "exact_norms": [
+    "avalon advanced materials"
+   ]
+  },
+  {
+   "id": "aventis-energy-inc",
+   "name": "Aventis Energy Inc.",
+   "tickers": [
+    "AVE.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Aventis Energy Inc."
+   ],
+   "exact_norms": [
+    "aventis energy"
+   ]
+  },
+  {
+   "id": "azarga-metals",
+   "name": "Azarga Metals",
+   "tickers": [
+    "AZR.V",
+    "EUUNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Azarga Metals"
+   ],
+   "exact_norms": [
+    "azarga metals"
+   ]
+  },
+  {
+   "id": "azimut-exploration",
+   "name": "Azimut Exploration",
+   "tickers": [
+    "AZM.V",
+    "AZMTF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Azimut Exploration"
+   ],
+   "exact_norms": [
+    "azimut exploration",
+    "exploration azimut"
+   ]
+  },
+  {
+   "id": "b2gold",
+   "name": "B2Gold Corp.",
+   "tickers": [
+    "BTO.TO",
+    "BTO",
+    "BTG"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US",
+    "NYSE American"
+   ],
+   "on_site": true,
+   "names": [
+    "B2Gold Corp."
+   ],
+   "exact_norms": [
+    "b2gold",
+    "b2gold back river"
+   ]
+  },
+  {
+   "id": "banyan-gold",
+   "name": "Banyan Gold Corp.",
+   "tickers": [
+    "BYN.V",
+    "BYAGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Banyan Gold Corp."
+   ],
+   "exact_norms": [
+    "banyan gold"
+   ]
+  },
+  {
+   "id": "barranco-gold-mining-corp",
+   "name": "Barranco Gold Mining Corp.",
+   "tickers": [
+    "BAR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Barranco Gold Mining Corp."
+   ],
+   "exact_norms": [
+    "barranco gold mining"
+   ]
+  },
+  {
+   "id": "barrick",
+   "name": "Barrick Mining Corporation",
+   "tickers": [
+    "ABX.TO",
+    "ABX",
+    "B"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Barrick Mining Corporation"
+   ],
+   "exact_norms": [
+    "barrick",
+    "barrick gold",
+    "barrick mining"
+   ]
+  },
+  {
+   "id": "bathurst-metals-corp",
+   "name": "Bathurst Metals Corp.",
+   "tickers": [
+    "BMV.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bathurst Metals Corp."
+   ],
+   "exact_norms": [
+    "bathurst metals"
+   ]
+  },
+  {
+   "id": "battery-mineral-resources-corp",
+   "name": "Battery Mineral Resources Corp.",
+   "tickers": [
+    "BMR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Battery Mineral Resources Corp."
+   ],
+   "exact_norms": [
+    "battery mineral resources"
+   ]
+  },
+  {
+   "id": "bc-moly-ltd",
+   "name": "BC Moly Ltd.",
+   "tickers": [
+    "BM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "BC Moly Ltd."
+   ],
+   "exact_norms": [
+    "bc moly"
+   ]
+  },
+  {
+   "id": "bcm-resources-corporation",
+   "name": "BCM Resources Corporation",
+   "tickers": [
+    "B.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "BCM Resources Corporation"
+   ],
+   "exact_norms": [
+    "bcm resources"
+   ]
+  },
+  {
+   "id": "belmont-resources-inc",
+   "name": "Belmont Resources Inc.",
+   "tickers": [
+    "BEA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Belmont Resources Inc."
+   ],
+   "exact_norms": [
+    "belmont resources"
+   ]
+  },
+  {
+   "id": "benton-resources",
+   "name": "Benton Resources",
+   "tickers": [
+    "BEX.V",
+    "BNTRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Benton Resources"
+   ],
+   "exact_norms": [
+    "benton resources"
+   ]
+  },
+  {
+   "id": "benz-mining",
+   "name": "Benz Mining",
+   "tickers": [
+    "BZ.V",
+    "BZ.AX",
+    "BENZF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "ASX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Benz Mining"
+   ],
+   "exact_norms": [
+    "benz mining"
+   ]
+  },
+  {
+   "id": "bessor-minerals-inc",
+   "name": "Bessor Minerals Inc.",
+   "tickers": [
+    "BST.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bessor Minerals Inc."
+   ],
+   "exact_norms": [
+    "bessor minerals"
+   ]
+  },
+  {
+   "id": "beyond-minerals-inc",
+   "name": "Beyond Minerals Inc.",
+   "tickers": [
+    "BY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Beyond Minerals Inc."
+   ],
+   "exact_norms": [
+    "beyond minerals"
+   ]
+  },
+  {
+   "id": "big-bear-gold-corp",
+   "name": "Big Bear Gold Corp.",
+   "tickers": [
+    "BEAR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Big Bear Gold Corp."
+   ],
+   "exact_norms": [
+    "big bear gold"
+   ]
+  },
+  {
+   "id": "big-gold-inc",
+   "name": "Big Gold Inc.",
+   "tickers": [
+    "BG.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Big Gold Inc."
+   ],
+   "exact_norms": [
+    "big gold"
+   ]
+  },
+  {
+   "id": "big-ridge-gold",
+   "name": "Big Ridge Gold Corp.",
+   "tickers": [
+    "BRAU.V",
+    "ALVLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Big Ridge Gold Corp."
+   ],
+   "exact_norms": [
+    "big ridge gold"
+   ]
+  },
+  {
+   "id": "bitterroot-resources-ltd",
+   "name": "Bitterroot Resources Ltd.",
+   "tickers": [
+    "BTT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bitterroot Resources Ltd."
+   ],
+   "exact_norms": [
+    "bitterroot resources"
+   ]
+  },
+  {
+   "id": "blende-silver-corp",
+   "name": "Blende Silver Corp.",
+   "tickers": [
+    "BAG.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Blende Silver Corp."
+   ],
+   "exact_norms": [
+    "blende silver"
+   ]
+  },
+  {
+   "id": "blue-jay-gold-corp",
+   "name": "Blue Jay Gold Corp.",
+   "tickers": [
+    "JAY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Blue Jay Gold Corp."
+   ],
+   "exact_norms": [
+    "blue jay gold"
+   ]
+  },
+  {
+   "id": "blue-star-gold-corp",
+   "name": "Blue Star Gold Corp.",
+   "tickers": [
+    "BAU.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Blue Star Gold Corp."
+   ],
+   "exact_norms": [
+    "blue star gold"
+   ]
+  },
+  {
+   "id": "bold-ventures-inc",
+   "name": "Bold Ventures Inc.",
+   "tickers": [
+    "BOL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bold Ventures Inc."
+   ],
+   "exact_norms": [
+    "bold ventures"
+   ]
+  },
+  {
+   "id": "boliden",
+   "name": "Boliden",
+   "tickers": [
+    "BLIDF",
+    "BOL.ST"
+   ],
+   "exchanges": [
+    "US",
+    "other"
+   ],
+   "on_site": true,
+   "names": [
+    "Boliden"
+   ],
+   "exact_norms": [
+    "boliden",
+    "boliden mineral canada"
+   ]
+  },
+  {
+   "id": "bonanza-mining-corporation",
+   "name": "Bonanza Mining Corporation",
+   "tickers": [
+    "BNZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bonanza Mining Corporation"
+   ],
+   "exact_norms": [
+    "bonanza mining"
+   ]
+  },
+  {
+   "id": "bonterra-resources",
+   "name": "Bonterra Resources",
+   "tickers": [
+    "BNE.TO",
+    "BTR.V",
+    "BONXF"
+   ],
+   "exchanges": [
+    "TSX",
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Bonterra Resources"
+   ],
+   "exact_norms": [
+    "bonterra energy",
+    "bonterra resources"
+   ]
+  },
+  {
+   "id": "borealis-mining",
+   "name": "Borealis Mining",
+   "tickers": [
+    "BOGO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": true,
+   "names": [
+    "Borealis Mining"
+   ],
+   "exact_norms": [
+    "borealis exploration",
+    "borealis mining"
+   ]
+  },
+  {
+   "id": "brixton-metals-corporation",
+   "name": "Brixton Metals Corporation",
+   "tickers": [
+    "BBB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Brixton Metals Corporation"
+   ],
+   "exact_norms": [
+    "brixton metals"
+   ]
+  },
+  {
+   "id": "bronco-resources-corp",
+   "name": "Bronco Resources Corp.",
+   "tickers": [
+    "BRON.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Bronco Resources Corp."
+   ],
+   "exact_norms": [
+    "bronco resources"
+   ]
+  },
+  {
+   "id": "brunswick-exploration",
+   "name": "Brunswick Exploration",
+   "tickers": [
+    "BRW.V",
+    "BRWXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Brunswick Exploration"
+   ],
+   "exact_norms": [
+    "brunswick exploration"
+   ]
+  },
+  {
+   "id": "btu-metals",
+   "name": "BTU Metals",
+   "tickers": [
+    "BTU.V",
+    "BTUMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "BTU Metals"
+   ],
+   "exact_norms": [
+    "btu metals"
+   ]
+  },
+  {
+   "id": "bwr-exploration-inc",
+   "name": "BWR Exploration Inc.",
+   "tickers": [
+    "BWR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "BWR Exploration Inc."
+   ],
+   "exact_norms": [
+    "bwr exploration"
+   ]
+  },
+  {
+   "id": "cadillac-mines-corporation",
+   "name": "Cadillac Mines Corporation",
+   "tickers": [
+    "CADY.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": false,
+   "names": [
+    "Cadillac Mines Corporation"
+   ],
+   "exact_norms": [
+    "cadillac mines"
+   ]
+  },
+  {
+   "id": "caledonia-mining",
+   "name": "Caledonia Mining Corporation Plc",
+   "tickers": [
+    "CMCL",
+    "CMCL.L"
+   ],
+   "exchanges": [
+    "US",
+    "other",
+    "NYSE American"
+   ],
+   "on_site": true,
+   "names": [
+    "Caledonia Mining Corporation Plc"
+   ],
+   "exact_norms": [
+    "caledonia mining"
+   ]
+  },
+  {
+   "id": "cambria-gold-mines",
+   "name": "Cambria Gold Mines",
+   "tickers": [
+    "CAMB.V",
+    "CAMVF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Cambria Gold Mines"
+   ],
+   "exact_norms": [
+    "cambria gold mines"
+   ]
+  },
+  {
+   "id": "cameco",
+   "name": "Cameco",
+   "tickers": [
+    "CCO.TO",
+    "CCO",
+    "CCJ"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Cameco"
+   ],
+   "exact_norms": [
+    "cameco"
+   ]
+  },
+  {
+   "id": "canada-carbon-inc",
+   "name": "Canada Carbon Inc.",
+   "tickers": [
+    "CCB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canada Carbon Inc."
+   ],
+   "exact_norms": [
+    "canada carbon"
+   ]
+  },
+  {
+   "id": "canada-nickel",
+   "name": "Canada Nickel",
+   "tickers": [
+    "CNC.V",
+    "CNIKF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Canada Nickel"
+   ],
+   "exact_norms": [
+    "canada nickel"
+   ]
+  },
+  {
+   "id": "canada-one-mining-corp",
+   "name": "Canada One Mining Corp.",
+   "tickers": [
+    "CONE.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canada One Mining Corp."
+   ],
+   "exact_norms": [
+    "canada one mining"
+   ]
+  },
+  {
+   "id": "canadian-critical-minerals",
+   "name": "Canadian Critical Minerals",
+   "tickers": [
+    "CCMI.V",
+    "RIINF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Canadian Critical Minerals"
+   ],
+   "exact_norms": [
+    "canadian critical minerals"
+   ]
+  },
+  {
+   "id": "canadian-gold-resources-ltd",
+   "name": "Canadian Gold Resources Ltd.",
+   "tickers": [
+    "CAN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canadian Gold Resources Ltd."
+   ],
+   "exact_norms": [
+    "canadian gold resources"
+   ]
+  },
+  {
+   "id": "canadian-goldfields-discovery-corp",
+   "name": "Canadian Goldfields Discovery Corp.",
+   "tickers": [
+    "CGM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canadian Goldfields Discovery Corp."
+   ],
+   "exact_norms": [
+    "canadian goldfields discovery"
+   ]
+  },
+  {
+   "id": "canadian-north-resources-inc",
+   "name": "Canadian North Resources Inc.",
+   "tickers": [
+    "CNRI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canadian North Resources Inc."
+   ],
+   "exact_norms": [
+    "canadian north resources"
+   ]
+  },
+  {
+   "id": "canagold",
+   "name": "Canagold",
+   "tickers": [
+    "CCM.TO",
+    "CRCUF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Canagold"
+   ],
+   "exact_norms": [
+    "canagold",
+    "canagold resources"
+   ]
+  },
+  {
+   "id": "canalaska-uranium",
+   "name": "CanAlaska Uranium",
+   "tickers": [
+    "CVV.V",
+    "CVVUF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "CanAlaska Uranium"
+   ],
+   "exact_norms": [
+    "canalaska uranium"
+   ]
+  },
+  {
+   "id": "canasil-resources",
+   "name": "Canasil Resources",
+   "tickers": [
+    "CLZ.V",
+    "CNSUF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Canasil Resources"
+   ],
+   "exact_norms": [
+    "canasil resources"
+   ]
+  },
+  {
+   "id": "canex-metals",
+   "name": "CANEX Metals",
+   "tickers": [
+    "CANX.V",
+    "NOMNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "CANEX Metals"
+   ],
+   "exact_norms": [
+    "canex metals"
+   ]
+  },
+  {
+   "id": "canstar-resources-inc",
+   "name": "Canstar Resources Inc.",
+   "tickers": [
+    "ROX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canstar Resources Inc."
+   ],
+   "exact_norms": [
+    "canstar resources"
+   ]
+  },
+  {
+   "id": "canterra-minerals",
+   "name": "Canterra Minerals Corp.",
+   "tickers": [
+    "CTM.V",
+    "CTMCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Canterra Minerals Corp."
+   ],
+   "exact_norms": [
+    "canterra minerals"
+   ]
+  },
+  {
+   "id": "cantex-mine-development-corp",
+   "name": "Cantex Mine Development Corp.",
+   "tickers": [
+    "CD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Cantex Mine Development Corp."
+   ],
+   "exact_norms": [
+    "cantex mine development"
+   ]
+  },
+  {
+   "id": "canuc-resources-corporation",
+   "name": "Canuc Resources Corporation",
+   "tickers": [
+    "CDA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Canuc Resources Corporation"
+   ],
+   "exact_norms": [
+    "canuc resources"
+   ]
+  },
+  {
+   "id": "caprock-mining-corp",
+   "name": "Caprock Mining Corp.",
+   "tickers": [
+    "CAPR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Caprock Mining Corp."
+   ],
+   "exact_norms": [
+    "caprock mining"
+   ]
+  },
+  {
+   "id": "cariboo-rose-resources-ltd",
+   "name": "Cariboo Rose Resources Ltd.",
+   "tickers": [
+    "CRB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Cariboo Rose Resources Ltd."
+   ],
+   "exact_norms": [
+    "cariboo rose resources"
+   ]
+  },
+  {
+   "id": "cartier-resources",
+   "name": "Cartier Resources",
+   "tickers": [
+    "ECR.V",
+    "CFE.CN",
+    "ECRFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Cartier Resources"
+   ],
+   "exact_norms": [
+    "cartier resources",
+    "cartier silver"
+   ]
+  },
+  {
+   "id": "casa-minerals-inc",
+   "name": "Casa Minerals Inc.",
+   "tickers": [
+    "CASA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Casa Minerals Inc."
+   ],
+   "exact_norms": [
+    "casa minerals"
+   ]
+  },
+  {
+   "id": "cascade-copper-corp",
+   "name": "Cascade Copper Corp.",
+   "tickers": [
+    "CASC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Cascade Copper Corp."
+   ],
+   "exact_norms": [
+    "cascade copper"
+   ]
+  },
+  {
+   "id": "cascadia-minerals",
+   "name": "Cascadia Minerals",
+   "tickers": [
+    "CAM.V",
+    "CAMNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Cascadia Minerals"
+   ],
+   "exact_norms": [
+    "cascadia minerals"
+   ]
+  },
+  {
+   "id": "cassiar-gold",
+   "name": "Cassiar Gold",
+   "tickers": [
+    "GLDC.V",
+    "CGLCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Cassiar Gold"
+   ],
+   "exact_norms": [
+    "cassiar gold"
+   ]
+  },
+  {
+   "id": "cdn-maverick-capital-corp",
+   "name": "CDN Maverick Capital Corp.",
+   "tickers": [
+    "CDN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "CDN Maverick Capital Corp."
+   ],
+   "exact_norms": [
+    "cdn maverick capital"
+   ]
+  },
+  {
+   "id": "champion-bear-resources-ltd",
+   "name": "Champion Bear Resources Ltd.",
+   "tickers": [
+    "CBA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Champion Bear Resources Ltd."
+   ],
+   "exact_norms": [
+    "champion bear resources"
+   ]
+  },
+  {
+   "id": "champion-iron",
+   "name": "Champion Iron",
+   "tickers": [
+    "CIA.TO",
+    "CIA.AX",
+    "CIAFF"
+   ],
+   "exchanges": [
+    "TSX",
+    "ASX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Champion Iron"
+   ],
+   "exact_norms": [
+    "champion iron",
+    "champion iron mines"
+   ]
+  },
+  {
+   "id": "churchill-resources-inc",
+   "name": "Churchill Resources Inc.",
+   "tickers": [
+    "CRI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Churchill Resources Inc."
+   ],
+   "exact_norms": [
+    "churchill diamond",
+    "churchill explorations",
+    "churchill resources"
+   ]
+  },
+  {
+   "id": "clarity-metals-corp",
+   "name": "Clarity Metals Corp.",
+   "tickers": [
+    "CMET.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Clarity Metals Corp."
+   ],
+   "exact_norms": [
+    "clarity metals"
+   ]
+  },
+  {
+   "id": "cleghorn-minerals-ltd",
+   "name": "Cleghorn Minerals Ltd.",
+   "tickers": [
+    "CZZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Cleghorn Minerals Ltd."
+   ],
+   "exact_norms": [
+    "cleghorn minerals"
+   ]
+  },
+  {
+   "id": "coast-copper-corp",
+   "name": "Coast Copper Corp.",
+   "tickers": [
+    "COCO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Coast Copper Corp."
+   ],
+   "exact_norms": [
+    "coast copper"
+   ]
+  },
+  {
+   "id": "colossus-resources-corp",
+   "name": "Colossus Resources Corp.",
+   "tickers": [
+    "CLUS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Colossus Resources Corp."
+   ],
+   "exact_norms": [
+    "colossus resources"
+   ]
+  },
+  {
+   "id": "coniagas-battery-metals-inc",
+   "name": "Coniagas Battery Metals Inc.",
+   "tickers": [
+    "COS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Coniagas Battery Metals Inc."
+   ],
+   "exact_norms": [
+    "coniagas battery metals"
+   ]
+  },
+  {
+   "id": "conquest-resources-limited",
+   "name": "Conquest Resources Limited",
+   "tickers": [
+    "CQR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Conquest Resources Limited"
+   ],
+   "exact_norms": [
+    "conquest resources"
+   ]
+  },
+  {
+   "id": "copper-lake-resources-ltd",
+   "name": "Copper Lake Resources Ltd.",
+   "tickers": [
+    "CPL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Copper Lake Resources Ltd."
+   ],
+   "exact_norms": [
+    "copper lake resources"
+   ]
+  },
+  {
+   "id": "copper-one-resources-corp",
+   "name": "Copper One Resources Corp.",
+   "tickers": [
+    "CEXY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Copper One Resources Corp."
+   ],
+   "exact_norms": [
+    "copper one resources"
+   ]
+  },
+  {
+   "id": "copper-quest-exploration-inc",
+   "name": "Copper Quest Exploration Inc.",
+   "tickers": [
+    "CQX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Copper Quest Exploration Inc."
+   ],
+   "exact_norms": [
+    "copper quest exploration"
+   ]
+  },
+  {
+   "id": "copper-road-resources-inc",
+   "name": "Copper Road Resources Inc.",
+   "tickers": [
+    "CRD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Copper Road Resources Inc."
+   ],
+   "exact_norms": [
+    "copper road resources"
+   ]
+  },
+  {
+   "id": "coppercorp-resources",
+   "name": "Coppercorp Resources Inc.",
+   "tickers": [
+    "CPER.V",
+    "CPCPF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Coppercorp Resources Inc."
+   ],
+   "exact_norms": [
+    "coppercorp",
+    "coppercorp resources"
+   ]
+  },
+  {
+   "id": "core-critical-metals-corp",
+   "name": "Core Critical Metals Corp.",
+   "tickers": [
+    "CCMC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Core Critical Metals Corp."
+   ],
+   "exact_norms": [
+    "core critical metals"
+   ]
+  },
+  {
+   "id": "cotec-holdings-corp",
+   "name": "CoTec Holdings Corp.",
+   "tickers": [
+    "CTH.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "CoTec Holdings Corp."
+   ],
+   "exact_norms": [
+    "cotec holdings"
+   ]
+  },
+  {
+   "id": "crh",
+   "name": "CRH Canada Group Inc.",
+   "tickers": [
+    "CRH"
+   ],
+   "exchanges": [],
+   "on_site": true,
+   "names": [
+    "CRH Canada Group Inc."
+   ],
+   "exact_norms": [
+    "crh canada group"
+   ]
+  },
+  {
+   "id": "critical-metals",
+   "name": "Critical Metals",
+   "tickers": [
+    "CRML"
+   ],
+   "exchanges": [
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Critical Metals"
+   ],
+   "exact_norms": [
+    "critical foundation metals",
+    "critical metals"
+   ]
+  },
+  {
+   "id": "cupani-metals-corp",
+   "name": "Cupani Metals Corp.",
+   "tickers": [
+    "CUPA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Cupani Metals Corp."
+   ],
+   "exact_norms": [
+    "cupani metals"
+   ]
+  },
+  {
+   "id": "dark-star-minerals-inc",
+   "name": "Dark Star Minerals Inc.",
+   "tickers": [
+    "BATT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Dark Star Minerals Inc."
+   ],
+   "exact_norms": [
+    "dark star minerals"
+   ]
+  },
+  {
+   "id": "decade-resources",
+   "name": "Decade Resources",
+   "tickers": [
+    "DEC.V",
+    "DECXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Decade Resources"
+   ],
+   "exact_norms": [
+    "decade resources"
+   ]
+  },
+  {
+   "id": "defense-metals",
+   "name": "Defense Metals",
+   "tickers": [
+    "DEFN.V",
+    "DFMTF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Defense Metals"
+   ],
+   "exact_norms": [
+    "defense metals"
+   ]
+  },
+  {
+   "id": "delta-resources",
+   "name": "Delta Resources Limited",
+   "tickers": [
+    "DLTA.V",
+    "DTARF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Delta Resources Limited"
+   ],
+   "exact_norms": [
+    "delta resources"
+   ]
+  },
+  {
+   "id": "diagnamed-holdings-corp",
+   "name": "Diagnamed Holdings Corp.",
+   "tickers": [
+    "DMED.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Diagnamed Holdings Corp."
+   ],
+   "exact_norms": [
+    "diagnamed holdings"
+   ]
+  },
+  {
+   "id": "dinero-ventures-ltd",
+   "name": "Dinero Ventures Ltd.",
+   "tickers": [
+    "DNO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Dinero Ventures Ltd."
+   ],
+   "exact_norms": [
+    "dinero ventures"
+   ]
+  },
+  {
+   "id": "discovery-corp-enterprises-inc",
+   "name": "Discovery-Corp Enterprises Inc.",
+   "tickers": [
+    "DCY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Discovery-Corp Enterprises Inc."
+   ],
+   "exact_norms": [
+    "discovery enterprises"
+   ]
+  },
+  {
+   "id": "discovery-mining",
+   "name": "Discovery Mining",
+   "tickers": [
+    "DSV.TO",
+    "DEMC.CN",
+    "DSVSF"
+   ],
+   "exchanges": [
+    "TSX",
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Discovery Mining"
+   ],
+   "exact_norms": [
+    "discovery energy metals",
+    "discovery lithium",
+    "discovery mining"
+   ]
+  },
+  {
+   "id": "district-metals",
+   "name": "District Metals",
+   "tickers": [
+    "DCOP.V",
+    "DMX.V",
+    "DMX",
+    "MKVNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "NASDAQ",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "District Metals"
+   ],
+   "exact_norms": [
+    "district copper",
+    "district metals"
+   ]
+  },
+  {
+   "id": "dlp-resources-inc",
+   "name": "DLP Resources Inc.",
+   "tickers": [
+    "DLP.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "DLP Resources Inc."
+   ],
+   "exact_norms": [
+    "dlp resources"
+   ]
+  },
+  {
+   "id": "doubleview-gold",
+   "name": "Doubleview Gold",
+   "tickers": [
+    "DBG.V",
+    "DBLVF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Doubleview Gold"
+   ],
+   "exact_norms": [
+    "doubleview gold"
+   ]
+  },
+  {
+   "id": "dpm-metals",
+   "name": "DPM Metals Inc.",
+   "tickers": [
+    "DPM.TO",
+    "DPM.AX",
+    "DPMLF"
+   ],
+   "exchanges": [
+    "TSX",
+    "ASX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "DPM Metals Inc."
+   ],
+   "exact_norms": [
+    "dpm metals"
+   ]
+  },
+  {
+   "id": "dryden-gold",
+   "name": "Dryden Gold Corp",
+   "tickers": [
+    "DRY.V",
+    "DRYGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Dryden Gold Corp"
+   ],
+   "exact_norms": [
+    "dryden gold"
+   ]
+  },
+  {
+   "id": "dynasty-gold",
+   "name": "Dynasty Gold Corp",
+   "tickers": [
+    "DYG.V",
+    "DGDCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Dynasty Gold Corp"
+   ],
+   "exact_norms": [
+    "dynasty gold"
+   ]
+  },
+  {
+   "id": "eagle-plains-resources",
+   "name": "Eagle Plains Resources",
+   "tickers": [
+    "EPL.V",
+    "EGPLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Eagle Plains Resources"
+   ],
+   "exact_norms": [
+    "eagle plains resources"
+   ]
+  },
+  {
+   "id": "eastfield-resources-ltd",
+   "name": "Eastfield Resources Ltd.",
+   "tickers": [
+    "ETF.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Eastfield Resources Ltd."
+   ],
+   "exact_norms": [
+    "eastfield resources"
+   ]
+  },
+  {
+   "id": "edgemont-gold-corp",
+   "name": "Edgemont Gold Corp.",
+   "tickers": [
+    "EDGM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Edgemont Gold Corp."
+   ],
+   "exact_norms": [
+    "edgemont gold"
+   ]
+  },
+  {
+   "id": "edison-lithium-corp",
+   "name": "Edison Lithium Corp.",
+   "tickers": [
+    "EDDY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Edison Lithium Corp."
+   ],
+   "exact_norms": [
+    "edison lithium"
+   ]
+  },
+  {
+   "id": "egr-exploration-ltd",
+   "name": "EGR Exploration Ltd.",
+   "tickers": [
+    "EGR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "EGR Exploration Ltd."
+   ],
+   "exact_norms": [
+    "egr exploration"
+   ]
+  },
+  {
+   "id": "eldorado-gold",
+   "name": "Eldorado Gold Corporation",
+   "tickers": [
+    "ELD.TO",
+    "ELD",
+    "EGO"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Eldorado Gold Corporation"
+   ],
+   "exact_norms": [
+    "eldorado gold",
+    "eldorado gold quebec"
+   ]
+  },
+  {
+   "id": "electric-royalties",
+   "name": "Electric Royalties",
+   "tickers": [
+    "ELEC.V",
+    "ELECF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Electric Royalties"
+   ],
+   "exact_norms": [
+    "electric royalties"
+   ]
+  },
+  {
+   "id": "eloro-resources",
+   "name": "Eloro Resources",
+   "tickers": [
+    "ELO.TO",
+    "ELRRF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Eloro Resources"
+   ],
+   "exact_norms": [
+    "eloro resources"
+   ]
+  },
+  {
+   "id": "emergent-metals-corp",
+   "name": "Emergent Metals Corp.",
+   "tickers": [
+    "EMR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Emergent Metals Corp."
+   ],
+   "exact_norms": [
+    "emergent metals"
+   ]
+  },
+  {
+   "id": "emperor-metals",
+   "name": "Emperor Metals",
+   "tickers": [
+    "AUOZ.CN",
+    "EMAUF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Emperor Metals"
+   ],
+   "exact_norms": [
+    "emperor metals"
+   ]
+  },
+  {
+   "id": "endurance-gold",
+   "name": "Endurance Gold",
+   "tickers": [
+    "EDG.V",
+    "ENDGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Endurance Gold"
+   ],
+   "exact_norms": [
+    "endurance gold"
+   ]
+  },
+  {
+   "id": "enduro-metals",
+   "name": "Enduro Metals",
+   "tickers": [
+    "ENDR.V",
+    "ENDMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Enduro Metals"
+   ],
+   "exact_norms": [
+    "enduro metals"
+   ]
+  },
+  {
+   "id": "engineer-gold-mines-ltd",
+   "name": "Engineer Gold Mines Ltd.",
+   "tickers": [
+    "EAU.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Engineer Gold Mines Ltd."
+   ],
+   "exact_norms": [
+    "engineer gold mines"
+   ]
+  },
+  {
+   "id": "engold-mines-ltd",
+   "name": "Engold Mines Ltd.",
+   "tickers": [
+    "EGM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Engold Mines Ltd."
+   ],
+   "exact_norms": [
+    "engold mines"
+   ]
+  },
+  {
+   "id": "equinox-gold",
+   "name": "Equinox Gold Corp.",
+   "tickers": [
+    "EQX.TO",
+    "EQX"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US",
+    "NYSE American"
+   ],
+   "on_site": true,
+   "names": [
+    "Equinox Gold Corp."
+   ],
+   "exact_norms": [
+    "equinox gold",
+    "equinox resources canada"
+   ]
+  },
+  {
+   "id": "equity-metals",
+   "name": "Equity Metals",
+   "tickers": [
+    "EQTY.V",
+    "EQMEF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Equity Metals"
+   ],
+   "exact_norms": [
+    "equity metals"
+   ]
+  },
+  {
+   "id": "eranova-metals-inc",
+   "name": "EraNova Metals Inc.",
+   "tickers": [
+    "NOVA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "EraNova Metals Inc."
+   ],
+   "exact_norms": [
+    "eranova metals"
+   ]
+  },
+  {
+   "id": "errington-metals-corp",
+   "name": "Errington Metals Corp.",
+   "tickers": [
+    "EM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Errington Metals Corp."
+   ],
+   "exact_norms": [
+    "errington metals"
+   ]
+  },
+  {
+   "id": "esgold",
+   "name": "ESGold Corp",
+   "tickers": [
+    "ESAU.CN",
+    "ESAUF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "ESGold Corp"
+   ],
+   "exact_norms": [
+    "esgold"
+   ]
+  },
+  {
+   "id": "eskay-mining",
+   "name": "Eskay Mining",
+   "tickers": [
+    "ESK.V",
+    "ESKYF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Eskay Mining"
+   ],
+   "exact_norms": [
+    "eskay mining"
+   ]
+  },
+  {
+   "id": "etruscus-resources-corp",
+   "name": "Etruscus Resources Corp.",
+   "tickers": [
+    "ETR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Etruscus Resources Corp."
+   ],
+   "exact_norms": [
+    "etruscus resources"
+   ]
+  },
+  {
+   "id": "eureka-metals-corp",
+   "name": "Eureka Metals Corp.",
+   "tickers": [
+    "ERKA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Eureka Metals Corp."
+   ],
+   "exact_norms": [
+    "eureka lithium",
+    "eureka metals"
+   ]
+  },
+  {
+   "id": "ev-minerals-corporation",
+   "name": "EV Minerals Corporation",
+   "tickers": [
+    "EVM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "EV Minerals Corporation"
+   ],
+   "exact_norms": [
+    "ev minerals"
+   ]
+  },
+  {
+   "id": "ev-nickel-inc",
+   "name": "EV Nickel Inc.",
+   "tickers": [
+    "EVNI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "EV Nickel Inc."
+   ],
+   "exact_norms": [
+    "ev nickel"
+   ]
+  },
+  {
+   "id": "evergold",
+   "name": "Evergold Corp",
+   "tickers": [
+    "EVER.V",
+    "EVGUF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Evergold Corp"
+   ],
+   "exact_norms": [
+    "evergold"
+   ]
+  },
+  {
+   "id": "evolution",
+   "name": "Evolution Mining Limited",
+   "tickers": [
+    "CAHPF",
+    "EVN.ASX",
+    "EVN.AX"
+   ],
+   "exchanges": [
+    "US",
+    "other",
+    "ASX"
+   ],
+   "on_site": true,
+   "names": [
+    "Evolution Mining Limited"
+   ],
+   "exact_norms": [
+    "evolution",
+    "evolution mining",
+    "evolution mining exploration and development canada",
+    "evolution mining gold operations"
+   ]
+  },
+  {
+   "id": "exploits-discovery",
+   "name": "Exploits Discovery Corp.",
+   "tickers": [
+    "NFLD.CN",
+    "NFLDF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Exploits Discovery Corp."
+   ],
+   "exact_norms": [
+    "exploits discovery"
+   ]
+  },
+  {
+   "id": "fairchild-gold-corp",
+   "name": "Fairchild Gold Corp.",
+   "tickers": [
+    "FAIR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Fairchild Gold Corp."
+   ],
+   "exact_norms": [
+    "fairchild gold"
+   ]
+  },
+  {
+   "id": "falco-resources",
+   "name": "Falco Resources",
+   "tickers": [
+    "FPC.V",
+    "FPRGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Falco Resources"
+   ],
+   "exact_norms": [
+    "falco resources"
+   ]
+  },
+  {
+   "id": "falcon-gold",
+   "name": "Falcon Gold Corp.",
+   "tickers": [
+    "FG.V",
+    "FGLDD"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Falcon Gold Corp."
+   ],
+   "exact_norms": [
+    "falcon gold",
+    "falcon mining"
+   ]
+  },
+  {
+   "id": "fancamp-exploration",
+   "name": "Fancamp Exploration Ltd.",
+   "tickers": [
+    "FNC.V",
+    "FNCJF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Fancamp Exploration Ltd."
+   ],
+   "exact_norms": [
+    "fancamp exploration"
+   ]
+  },
+  {
+   "id": "finlay-minerals-ltd",
+   "name": "Finlay Minerals Ltd.",
+   "tickers": [
+    "FYL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Finlay Minerals Ltd."
+   ],
+   "exact_norms": [
+    "finlay minerals"
+   ]
+  },
+  {
+   "id": "firefly-metals",
+   "name": "FireFly Metals",
+   "tickers": [
+    "FFM.TO",
+    "FFM.AX"
+   ],
+   "exchanges": [
+    "TSX",
+    "ASX"
+   ],
+   "on_site": true,
+   "names": [
+    "FireFly Metals"
+   ],
+   "exact_norms": [
+    "firefly metals",
+    "firefly metals canada"
+   ]
+  },
+  {
+   "id": "fireweed-metals",
+   "name": "Fireweed Metals",
+   "tickers": [
+    "FWZ.V",
+    "FWEDF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Fireweed Metals"
+   ],
+   "exact_norms": [
+    "fireweed metals"
+   ]
+  },
+  {
+   "id": "first-canadian-graphite-inc",
+   "name": "First Canadian Graphite Inc.",
+   "tickers": [
+    "FCI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "First Canadian Graphite Inc."
+   ],
+   "exact_norms": [
+    "first canadian graphite"
+   ]
+  },
+  {
+   "id": "first-lithium-minerals-corp",
+   "name": "First Lithium Minerals Corp.",
+   "tickers": [
+    "FLM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "First Lithium Minerals Corp."
+   ],
+   "exact_norms": [
+    "first lithium minerals"
+   ]
+  },
+  {
+   "id": "first-phosphate-corp",
+   "name": "First Phosphate Corp.",
+   "tickers": [
+    "PHOS.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "First Phosphate Corp."
+   ],
+   "exact_norms": [
+    "first phosphate"
+   ]
+  },
+  {
+   "id": "first-quantum-minerals",
+   "name": "First Quantum Minerals",
+   "tickers": [
+    "FM.TO",
+    "FQVLF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "First Quantum Minerals"
+   ],
+   "exact_norms": [
+    "first quantum minerals"
+   ]
+  },
+  {
+   "id": "fitzroy-minerals",
+   "name": "Fitzroy Minerals",
+   "tickers": [
+    "FTZ.V",
+    "FTZFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Fitzroy Minerals"
+   ],
+   "exact_norms": [
+    "fitzroy minerals"
+   ]
+  },
+  {
+   "id": "fjordland-exploration-inc",
+   "name": "Fjordland Exploration Inc.",
+   "tickers": [
+    "FEX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Fjordland Exploration Inc."
+   ],
+   "exact_norms": [
+    "fjordland exploration"
+   ]
+  },
+  {
+   "id": "flow-metals-corp",
+   "name": "Flow Metals Corp.",
+   "tickers": [
+    "FWM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Flow Metals Corp."
+   ],
+   "exact_norms": [
+    "flow metals"
+   ]
+  },
+  {
+   "id": "fnx-inc",
+   "name": "FNX Inc.",
+   "tickers": [
+    "FNX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "FNX Inc."
+   ],
+   "exact_norms": [
+    "fnx"
+   ]
+  },
+  {
+   "id": "focus-graphite-inc",
+   "name": "Focus Graphite Inc.",
+   "tickers": [
+    "FMS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Focus Graphite Inc."
+   ],
+   "exact_norms": [
+    "focus graphite"
+   ]
+  },
+  {
+   "id": "formation-metals-inc",
+   "name": "Formation Metals Inc.",
+   "tickers": [
+    "FOMO.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Formation Metals Inc."
+   ],
+   "exact_norms": [
+    "formation metals"
+   ]
+  },
+  {
+   "id": "fortune-minerals",
+   "name": "Fortune Minerals",
+   "tickers": [
+    "FT.TO",
+    "FTMDF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Fortune Minerals"
+   ],
+   "exact_norms": [
+    "fortune lake explorations",
+    "fortune minerals",
+    "fortune nickel and gold"
+   ]
+  },
+  {
+   "id": "fox-river-resources-corporation",
+   "name": "Fox River Resources Corporation",
+   "tickers": [
+    "FOX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Fox River Resources Corporation"
+   ],
+   "exact_norms": [
+    "fox river resources"
+   ]
+  },
+  {
+   "id": "fox-tungsten-ltd",
+   "name": "Fox Tungsten Ltd.",
+   "tickers": [
+    "FOXT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Fox Tungsten Ltd."
+   ],
+   "exact_norms": [
+    "fox tungsten"
+   ]
+  },
+  {
+   "id": "fpx-nickel",
+   "name": "FPX Nickel",
+   "tickers": [
+    "FPX.V",
+    "FPOCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "FPX Nickel"
+   ],
+   "exact_norms": [
+    "fpx nickel"
+   ]
+  },
+  {
+   "id": "freegold-ventures",
+   "name": "Freegold Ventures",
+   "tickers": [
+    "FVL.TO",
+    "FGOVF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Freegold Ventures"
+   ],
+   "exact_norms": [
+    "freegold ventures"
+   ]
+  },
+  {
+   "id": "freeport-mcmoran",
+   "name": "Freeport-McMoRan",
+   "tickers": [
+    "FCX"
+   ],
+   "exchanges": [
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Freeport-McMoRan"
+   ],
+   "exact_norms": [
+    "freeport mcmoran",
+    "freeport mcmoran of canada"
+   ]
+  },
+  {
+   "id": "frontier-lithium-inc",
+   "name": "Frontier Lithium Inc.",
+   "tickers": [
+    "FL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Frontier Lithium Inc."
+   ],
+   "exact_norms": [
+    "frontier lithium",
+    "frontier lithium resources"
+   ]
+  },
+  {
+   "id": "full-metal-minerals-ltd",
+   "name": "Full Metal Minerals Ltd.",
+   "tickers": [
+    "FMM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Full Metal Minerals Ltd."
+   ],
+   "exact_norms": [
+    "full metal minerals"
+   ]
+  },
+  {
+   "id": "future-fuels-inc",
+   "name": "Future Fuels Inc.",
+   "tickers": [
+    "FTUR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Future Fuels Inc."
+   ],
+   "exact_norms": [
+    "future fuels"
+   ]
+  },
+  {
+   "id": "future-mineral-resources-inc",
+   "name": "Future Mineral Resources Inc.",
+   "tickers": [
+    "FMR.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": false,
+   "names": [
+    "Future Mineral Resources Inc."
+   ],
+   "exact_norms": [
+    "future mineral resources"
+   ]
+  },
+  {
+   "id": "galloper-gold-corp",
+   "name": "Galloper Gold Corp.",
+   "tickers": [
+    "BOOM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Galloper Gold Corp."
+   ],
+   "exact_norms": [
+    "galloper gold"
+   ]
+  },
+  {
+   "id": "garibaldi-resources",
+   "name": "Garibaldi Resources",
+   "tickers": [
+    "GGI.V",
+    "GGIFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Garibaldi Resources"
+   ],
+   "exact_norms": [
+    "garibaldi resources"
+   ]
+  },
+  {
+   "id": "gelum-resources-ltd",
+   "name": "Gelum Resources Ltd.",
+   "tickers": [
+    "GMR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Gelum Resources Ltd."
+   ],
+   "exact_norms": [
+    "gelum resources"
+   ]
+  },
+  {
+   "id": "general-copper-gold-corp",
+   "name": "General Copper Gold Corp.",
+   "tickers": [
+    "GGLD.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "General Copper Gold Corp."
+   ],
+   "exact_norms": [
+    "general copper gold"
+   ]
+  },
+  {
+   "id": "generation-mining",
+   "name": "Generation Mining",
+   "tickers": [
+    "GENM.TO",
+    "GENMF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Generation Mining"
+   ],
+   "exact_norms": [
+    "generation mining",
+    "generation pgm"
+   ]
+  },
+  {
+   "id": "generic-gold-corp",
+   "name": "Generic Gold Corp.",
+   "tickers": [
+    "GGC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Generic Gold Corp."
+   ],
+   "exact_norms": [
+    "generic gold"
+   ]
+  },
+  {
+   "id": "geologica-resource-corp",
+   "name": "Geologica Resource Corp.",
+   "tickers": [
+    "GRCM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Geologica Resource Corp."
+   ],
+   "exact_norms": [
+    "geologica resource"
+   ]
+  },
+  {
+   "id": "germanium-mining-corp",
+   "name": "Germanium Mining Corp.",
+   "tickers": [
+    "GMC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Germanium Mining Corp."
+   ],
+   "exact_norms": [
+    "germanium mining"
+   ]
+  },
+  {
+   "id": "gfg-resources",
+   "name": "GFG Resources",
+   "tickers": [
+    "GFG.V",
+    "GFGSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "GFG Resources"
+   ],
+   "exact_norms": [
+    "gfg resources"
+   ]
+  },
+  {
+   "id": "ggl-resources-corp",
+   "name": "GGL Resources Corp.",
+   "tickers": [
+    "GGL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "GGL Resources Corp."
+   ],
+   "exact_norms": [
+    "ggl resources"
+   ]
+  },
+  {
+   "id": "gladiator-metals",
+   "name": "Gladiator Metals",
+   "tickers": [
+    "GLAD.V",
+    "GDTRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Gladiator Metals"
+   ],
+   "exact_norms": [
+    "gladiator metals"
+   ]
+  },
+  {
+   "id": "glencore",
+   "name": "Glencore",
+   "tickers": [
+    "GLNCY",
+    "GLEN.L"
+   ],
+   "exchanges": [
+    "US",
+    "other",
+    "LSE"
+   ],
+   "on_site": true,
+   "names": [
+    "Glencore"
+   ],
+   "exact_norms": [
+    "glencore",
+    "glencore canada"
+   ]
+  },
+  {
+   "id": "globex-mining-enterprises",
+   "name": "Globex Mining Enterprises",
+   "tickers": [
+    "GMX.TO",
+    "GLBXF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Globex Mining Enterprises"
+   ],
+   "exact_norms": [
+    "globex mining enterprises"
+   ]
+  },
+  {
+   "id": "go-metals-corp",
+   "name": "Go Metals Corp.",
+   "tickers": [
+    "GOCO.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Go Metals Corp."
+   ],
+   "exact_norms": [
+    "go metals"
+   ]
+  },
+  {
+   "id": "goat-industries-ltd",
+   "name": "GOAT Industries Ltd.",
+   "tickers": [
+    "GOAT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "GOAT Industries Ltd."
+   ],
+   "exact_norms": [
+    "goat industries"
+   ]
+  },
+  {
+   "id": "golcap-resources-corp",
+   "name": "Golcap Resources Corp",
+   "tickers": [
+    "GCP.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Golcap Resources Corp"
+   ],
+   "exact_norms": [
+    "golcap resources"
+   ]
+  },
+  {
+   "id": "gold-finder-resources",
+   "name": "Gold Finder Resources",
+   "tickers": [
+    "GLD.V",
+    "GLDFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Gold Finder Resources"
+   ],
+   "exact_norms": [
+    "gold finder resources"
+   ]
+  },
+  {
+   "id": "gold-hunter-resources-inc",
+   "name": "Gold Hunter Resources Inc.",
+   "tickers": [
+    "HUNT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Gold Hunter Resources Inc."
+   ],
+   "exact_norms": [
+    "gold hunter resources"
+   ]
+  },
+  {
+   "id": "gold-strike-resources-corp",
+   "name": "Gold Strike Resources Corp.",
+   "tickers": [
+    "GSR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Gold Strike Resources Corp."
+   ],
+   "exact_norms": [
+    "gold strike resources"
+   ]
+  },
+  {
+   "id": "goldbank-mining-corporation",
+   "name": "Goldbank Mining Corporation",
+   "tickers": [
+    "GLB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Goldbank Mining Corporation"
+   ],
+   "exact_norms": [
+    "goldbank mining"
+   ]
+  },
+  {
+   "id": "goldcliff-resource",
+   "name": "Goldcliff Resource Corp",
+   "tickers": [
+    "GCN.V",
+    "GCFFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Goldcliff Resource Corp"
+   ],
+   "exact_norms": [
+    "goldcliff resource"
+   ]
+  },
+  {
+   "id": "golden-cariboo-resources-ltd",
+   "name": "Golden Cariboo Resources Ltd.",
+   "tickers": [
+    "GCC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Cariboo Resources Ltd."
+   ],
+   "exact_norms": [
+    "golden cariboo resources"
+   ]
+  },
+  {
+   "id": "golden-goliath-resources",
+   "name": "Golden Goliath Resources",
+   "tickers": [
+    "GNG.V",
+    "GGTHF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Golden Goliath Resources"
+   ],
+   "exact_norms": [
+    "golden goliath resources"
+   ]
+  },
+  {
+   "id": "golden-goose-resources-corp",
+   "name": "Golden Goose Resources Corp.",
+   "tickers": [
+    "GGR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Goose Resources Corp."
+   ],
+   "exact_norms": [
+    "golden goose discoveries",
+    "golden goose resources"
+   ]
+  },
+  {
+   "id": "golden-rapture-mining-corporation",
+   "name": "Golden Rapture Mining Corporation",
+   "tickers": [
+    "GLDR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Rapture Mining Corporation"
+   ],
+   "exact_norms": [
+    "golden rapture mining"
+   ]
+  },
+  {
+   "id": "golden-ridge-resources-ltd",
+   "name": "Golden Ridge Resources Ltd.",
+   "tickers": [
+    "GLDN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Ridge Resources Ltd."
+   ],
+   "exact_norms": [
+    "golden ridge resources"
+   ]
+  },
+  {
+   "id": "golden-sky-minerals-corp",
+   "name": "Golden Sky Minerals Corp.",
+   "tickers": [
+    "AUEN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Sky Minerals Corp."
+   ],
+   "exact_norms": [
+    "golden sky minerals"
+   ]
+  },
+  {
+   "id": "golden-spike-resources-corp",
+   "name": "Golden Spike Resources Corp.",
+   "tickers": [
+    "GLDS.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Golden Spike Resources Corp."
+   ],
+   "exact_norms": [
+    "golden spike resources"
+   ]
+  },
+  {
+   "id": "goldhaven-resources-corp",
+   "name": "GoldHaven Resources Corp.",
+   "tickers": [
+    "GOH.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "GoldHaven Resources Corp."
+   ],
+   "exact_norms": [
+    "goldhaven resources"
+   ]
+  },
+  {
+   "id": "goldhills-holding-ltd",
+   "name": "Goldhills Holding Ltd.",
+   "tickers": [
+    "GHL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Goldhills Holding Ltd."
+   ],
+   "exact_norms": [
+    "goldhills holding"
+   ]
+  },
+  {
+   "id": "goldinxs-mining-corp",
+   "name": "GoldInxs Mining Corp.",
+   "tickers": [
+    "INXS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "GoldInxs Mining Corp."
+   ],
+   "exact_norms": [
+    "goldinxs mining"
+   ]
+  },
+  {
+   "id": "goldrea-resources-corp",
+   "name": "Goldrea Resources Corp.",
+   "tickers": [
+    "GOR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Goldrea Resources Corp."
+   ],
+   "exact_norms": [
+    "goldrea resources"
+   ]
+  },
+  {
+   "id": "goldstorm-metals",
+   "name": "Goldstorm Metals",
+   "tickers": [
+    "GSTM.V",
+    "GSTMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Goldstorm Metals"
+   ],
+   "exact_norms": [
+    "goldstorm metals"
+   ]
+  },
+  {
+   "id": "goliath-resources",
+   "name": "Goliath Resources",
+   "tickers": [
+    "GOT.V",
+    "GOTRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Goliath Resources"
+   ],
+   "exact_norms": [
+    "goliath resources"
+   ]
+  },
+  {
+   "id": "gossan-resources-limited",
+   "name": "Gossan Resources Limited",
+   "tickers": [
+    "GSS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Gossan Resources Limited"
+   ],
+   "exact_norms": [
+    "gossan resources"
+   ]
+  },
+  {
+   "id": "gpm-metals-inc",
+   "name": "GPM Metals Inc.",
+   "tickers": [
+    "GPM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "GPM Metals Inc."
+   ],
+   "exact_norms": [
+    "gpm metals"
+   ]
+  },
+  {
+   "id": "granada-gold-mine",
+   "name": "Granada Gold Mine",
+   "tickers": [
+    "GGM.V",
+    "GBBFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Granada Gold Mine"
+   ],
+   "exact_norms": [
+    "granada gold mine"
+   ]
+  },
+  {
+   "id": "graphano-energy-ltd",
+   "name": "Graphano Energy Ltd.",
+   "tickers": [
+    "GEL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Graphano Energy Ltd."
+   ],
+   "exact_norms": [
+    "graphano energy"
+   ]
+  },
+  {
+   "id": "graycliff-exploration-limited",
+   "name": "Graycliff Exploration Limited",
+   "tickers": [
+    "GRAY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Graycliff Exploration Limited"
+   ],
+   "exact_norms": [
+    "graycliff exploration"
+   ]
+  },
+  {
+   "id": "great-atlantic-resources-corp",
+   "name": "Great Atlantic Resources Corp.",
+   "tickers": [
+    "GR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Great Atlantic Resources Corp."
+   ],
+   "exact_norms": [
+    "great atlantic resources"
+   ]
+  },
+  {
+   "id": "great-red-lake-gold-corp",
+   "name": "Great Red Lake Gold Corp.",
+   "tickers": [
+    "RLGC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Great Red Lake Gold Corp."
+   ],
+   "exact_norms": [
+    "great red lake gold"
+   ]
+  },
+  {
+   "id": "green-river-gold-corp",
+   "name": "Green River Gold Corp.",
+   "tickers": [
+    "CCR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Green River Gold Corp."
+   ],
+   "exact_norms": [
+    "green river gold"
+   ]
+  },
+  {
+   "id": "grid-battery-metals-inc",
+   "name": "Grid Battery Metals Inc.",
+   "tickers": [
+    "CELL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Grid Battery Metals Inc."
+   ],
+   "exact_norms": [
+    "grid battery metals"
+   ]
+  },
+  {
+   "id": "grid-metals",
+   "name": "Grid Metals",
+   "tickers": [
+    "GRDM.V",
+    "MSMGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Grid Metals"
+   ],
+   "exact_norms": [
+    "grid metals"
+   ]
+  },
+  {
+   "id": "grizzly-discoveries-inc",
+   "name": "Grizzly Discoveries Inc.",
+   "tickers": [
+    "GZD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Grizzly Discoveries Inc."
+   ],
+   "exact_norms": [
+    "grizzly discoveries"
+   ]
+  },
+  {
+   "id": "grosvenor-resource-corporation",
+   "name": "Grosvenor Resource Corporation",
+   "tickers": [
+    "GVR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Grosvenor Resource Corporation"
+   ],
+   "exact_norms": [
+    "grosvenor resource"
+   ]
+  },
+  {
+   "id": "gsp-resource-corp",
+   "name": "GSP Resource Corp.",
+   "tickers": [
+    "GSPR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "GSP Resource Corp."
+   ],
+   "exact_norms": [
+    "gsp resource"
+   ]
+  },
+  {
+   "id": "guardian-metal-resources",
+   "name": "Guardian Metal Resources",
+   "tickers": [
+    "GX.V",
+    "GMTL",
+    "GMET.L"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US",
+    "other",
+    "LSE"
+   ],
+   "on_site": true,
+   "names": [
+    "Guardian Metal Resources"
+   ],
+   "exact_norms": [
+    "guardian exploration",
+    "guardian metal resources"
+   ]
+  },
+  {
+   "id": "hanstone-gold-corp",
+   "name": "Hanstone Gold Corp.",
+   "tickers": [
+    "HANS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Hanstone Gold Corp."
+   ],
+   "exact_norms": [
+    "hanstone gold"
+   ]
+  },
+  {
+   "id": "harfang-exploration",
+   "name": "Harfang Exploration",
+   "tickers": [
+    "HAR.V",
+    "HRFEF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Harfang Exploration"
+   ],
+   "exact_norms": [
+    "harfang exploration"
+   ]
+  },
+  {
+   "id": "harvest-gold-corp",
+   "name": "Harvest Gold Corp.",
+   "tickers": [
+    "HVG.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Harvest Gold Corp."
+   ],
+   "exact_norms": [
+    "harvest gold"
+   ]
+  },
+  {
+   "id": "hawkeye-gold-diamond-inc",
+   "name": "Hawkeye Gold & Diamond Inc.",
+   "tickers": [
+    "HAWK.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Hawkeye Gold & Diamond Inc."
+   ],
+   "exact_norms": [
+    "hawkeye gold and diamond"
+   ]
+  },
+  {
+   "id": "hecla-mining",
+   "name": "Hecla Mining",
+   "tickers": [
+    "HL"
+   ],
+   "exchanges": [
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Hecla Mining"
+   ],
+   "exact_norms": [
+    "50 strategic metals 50 alexco resource",
+    "alexco exploration canada",
+    "alexco keno hill mining",
+    "alexco resource",
+    "hecla mining"
+   ]
+  },
+  {
+   "id": "heidelberg-materials",
+   "name": "Heidelberg Materials Canada Limited",
+   "tickers": [
+    "HDELY"
+   ],
+   "exchanges": [],
+   "on_site": true,
+   "names": [
+    "Heidelberg Materials Canada Limited"
+   ],
+   "exact_norms": [
+    "heidelberg materials",
+    "heidelberg materials canada"
+   ]
+  },
+  {
+   "id": "heritage-mining-ltd",
+   "name": "Heritage Mining Ltd.",
+   "tickers": [
+    "HML.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Heritage Mining Ltd."
+   ],
+   "exact_norms": [
+    "heritage mining"
+   ]
+  },
+  {
+   "id": "high-tide-resources-corp",
+   "name": "High Tide Resources Corp.",
+   "tickers": [
+    "HITI.V",
+    "HITI",
+    "HTRC.CN"
+   ],
+   "exchanges": [
+    "TSXV",
+    "NASDAQ",
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "High Tide Resources Corp."
+   ],
+   "exact_norms": [
+    "high tide",
+    "high tide resources"
+   ]
+  },
+  {
+   "id": "hm-exploration-corp",
+   "name": "HM Exploration Corp.",
+   "tickers": [
+    "HM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "HM Exploration Corp."
+   ],
+   "exact_norms": [
+    "hm exploration"
+   ]
+  },
+  {
+   "id": "honey-badger-silver",
+   "name": "Honey Badger Silver",
+   "tickers": [
+    "TUF.V",
+    "HBEIF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Honey Badger Silver"
+   ],
+   "exact_norms": [
+    "honey badger silver"
+   ]
+  },
+  {
+   "id": "hudbay-minerals",
+   "name": "Hudbay Minerals",
+   "tickers": [
+    "HBM.TO",
+    "HBM"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Hudbay Minerals"
+   ],
+   "exact_norms": [
+    "hudbay minerals"
+   ]
+  },
+  {
+   "id": "iamgold",
+   "name": "IAMGOLD Corporation",
+   "tickers": [
+    "IMG.TO",
+    "IMG",
+    "IAG"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "IAMGOLD Corporation"
+   ],
+   "exact_norms": [
+    "iamgold"
+   ]
+  },
+  {
+   "id": "imagine-lithium-inc",
+   "name": "Imagine Lithium Inc.",
+   "tickers": [
+    "ILI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Imagine Lithium Inc."
+   ],
+   "exact_norms": [
+    "imagine lithium"
+   ]
+  },
+  {
+   "id": "imetal-resources-inc",
+   "name": "iMetal Resources Inc.",
+   "tickers": [
+    "IMR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "iMetal Resources Inc."
+   ],
+   "exact_norms": [
+    "imetal resources"
+   ]
+  },
+  {
+   "id": "imperial-metals",
+   "name": "Imperial Metals Corporation",
+   "tickers": [
+    "III.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": true,
+   "names": [
+    "Imperial Metals Corporation"
+   ],
+   "exact_norms": [
+    "imperial metals"
+   ]
+  },
+  {
+   "id": "independence-gold",
+   "name": "Independence Gold",
+   "tickers": [
+    "IGO.V",
+    "IEGCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Independence Gold"
+   ],
+   "exact_norms": [
+    "independence gold"
+   ]
+  },
+  {
+   "id": "infinico-metals-corp",
+   "name": "Infinico Metals Corp.",
+   "tickers": [
+    "INFM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Infinico Metals Corp."
+   ],
+   "exact_norms": [
+    "infinico metals"
+   ]
+  },
+  {
+   "id": "inomin-mines-inc",
+   "name": "Inomin Mines Inc.",
+   "tickers": [
+    "MINE.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Inomin Mines Inc."
+   ],
+   "exact_norms": [
+    "inomin mines"
+   ]
+  },
+  {
+   "id": "integra-resources",
+   "name": "Integra Resources",
+   "tickers": [
+    "ITR.V",
+    "ITR",
+    "ITRG"
+   ],
+   "exchanges": [
+    "TSXV",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Integra Resources"
+   ],
+   "exact_norms": [
+    "integra gold",
+    "integra resources"
+   ]
+  },
+  {
+   "id": "international-prospect-ventures-ltd",
+   "name": "International Prospect Ventures Ltd.",
+   "tickers": [
+    "IZZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "International Prospect Ventures Ltd."
+   ],
+   "exact_norms": [
+    "international prospect ventures"
+   ]
+  },
+  {
+   "id": "inventus-mining",
+   "name": "Inventus Mining",
+   "tickers": [
+    "IVS.V",
+    "GNGXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Inventus Mining"
+   ],
+   "exact_norms": [
+    "inventus mining"
+   ]
+  },
+  {
+   "id": "inzinc-mining-ltd",
+   "name": "InZinc Mining Ltd.",
+   "tickers": [
+    "IZN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "InZinc Mining Ltd."
+   ],
+   "exact_norms": [
+    "inzinc mining"
+   ]
+  },
+  {
+   "id": "isoenergy",
+   "name": "IsoEnergy",
+   "tickers": [
+    "ISO.TO",
+    "ISO",
+    "ISOU"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "IsoEnergy"
+   ],
+   "exact_norms": [
+    "isoenergy"
+   ]
+  },
+  {
+   "id": "j2-metals-inc",
+   "name": "J2 Metals Inc.",
+   "tickers": [
+    "JTWO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "J2 Metals Inc."
+   ],
+   "exact_norms": [
+    "j2 metals"
+   ]
+  },
+  {
+   "id": "jade-leader-corp",
+   "name": "Jade Leader Corp.",
+   "tickers": [
+    "JADE.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Jade Leader Corp."
+   ],
+   "exact_norms": [
+    "jade leader"
+   ]
+  },
+  {
+   "id": "k2-gold",
+   "name": "K2 Gold",
+   "tickers": [
+    "KTO.V",
+    "KTGDF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "K2 Gold"
+   ],
+   "exact_norms": [
+    "k2 gold"
+   ]
+  },
+  {
+   "id": "kenorland-minerals",
+   "name": "Kenorland Minerals",
+   "tickers": [
+    "KLD.V",
+    "KLDCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kenorland Minerals"
+   ],
+   "exact_norms": [
+    "kenorland exploration",
+    "kenorland minerals",
+    "kenorland minerals north america"
+   ]
+  },
+  {
+   "id": "kestrel-gold-inc",
+   "name": "Kestrel Gold Inc.",
+   "tickers": [
+    "KGC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Kestrel Gold Inc."
+   ],
+   "exact_norms": [
+    "kestrel gold"
+   ]
+  },
+  {
+   "id": "kiboko-gold-inc",
+   "name": "Kiboko Gold Inc.",
+   "tickers": [
+    "KIB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Kiboko Gold Inc."
+   ],
+   "exact_norms": [
+    "kiboko gold"
+   ]
+  },
+  {
+   "id": "kingfisher-metals-corp",
+   "name": "Kingfisher Metals Corp.",
+   "tickers": [
+    "KFR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Kingfisher Metals Corp."
+   ],
+   "exact_norms": [
+    "kingfisher metals",
+    "kingfisher resources"
+   ]
+  },
+  {
+   "id": "kinross",
+   "name": "Kinross Gold Corporation",
+   "tickers": [
+    "K.TO",
+    "K",
+    "KGC"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kinross Gold Corporation"
+   ],
+   "exact_norms": [
+    "great bear resources",
+    "kinross",
+    "kinross gold"
+   ]
+  },
+  {
+   "id": "kirkland-lake-discoveries",
+   "name": "Kirkland Lake Discoveries",
+   "tickers": [
+    "KLDC.V",
+    "KLKLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kirkland Lake Discoveries"
+   ],
+   "exact_norms": [
+    "kirkland lake discoveries"
+   ]
+  },
+  {
+   "id": "klondike-gold",
+   "name": "Klondike Silver",
+   "tickers": [
+    "KG.V",
+    "KS.V",
+    "KDKGF",
+    "KLSVF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Klondike Silver"
+   ],
+   "exact_norms": [
+    "klondike gold",
+    "klondike silver"
+   ]
+  },
+  {
+   "id": "kobrea-exploration-corp",
+   "name": "Kobrea Exploration Corp.",
+   "tickers": [
+    "KBX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Kobrea Exploration Corp."
+   ],
+   "exact_norms": [
+    "kobrea exploration"
+   ]
+  },
+  {
+   "id": "kodiak-copper",
+   "name": "Kodiak Copper",
+   "tickers": [
+    "KDK.V",
+    "KDKCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kodiak Copper"
+   ],
+   "exact_norms": [
+    "kodiak copper"
+   ]
+  },
+  {
+   "id": "kootenay-silver",
+   "name": "Kootenay Silver",
+   "tickers": [
+    "KTRI.V",
+    "KTN.V",
+    "KOOYF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kootenay Silver"
+   ],
+   "exact_norms": [
+    "kootenay resources",
+    "kootenay silver"
+   ]
+  },
+  {
+   "id": "kubera-gold-corp",
+   "name": "Kubera Gold Corp.",
+   "tickers": [
+    "KBRA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Kubera Gold Corp."
+   ],
+   "exact_norms": [
+    "kubera gold"
+   ]
+  },
+  {
+   "id": "kutcho-copper",
+   "name": "Kutcho Copper",
+   "tickers": [
+    "KC.V",
+    "KCCFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Kutcho Copper"
+   ],
+   "exact_norms": [
+    "kutcho copper",
+    "kutcho copper holdings"
+   ]
+  },
+  {
+   "id": "labrador-gold",
+   "name": "Labrador Gold",
+   "tickers": [
+    "LAB.V",
+    "LTX.V",
+    "NKOSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Labrador Gold"
+   ],
+   "exact_norms": [
+    "labrador gold",
+    "labrador iron mines",
+    "labrador resources",
+    "labrador uranium"
+   ]
+  },
+  {
+   "id": "labrador-iron-ore-royalty",
+   "name": "Labrador Iron Ore Royalty Corp.",
+   "tickers": [
+    "LIF.TO",
+    "LIFZF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Labrador Iron Ore Royalty Corp."
+   ],
+   "exact_norms": [
+    "labrador iron ore royalty"
+   ]
+  },
+  {
+   "id": "laurion-mineral-exploration-inc",
+   "name": "Laurion Mineral Exploration Inc.",
+   "tickers": [
+    "LME.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Laurion Mineral Exploration Inc."
+   ],
+   "exact_norms": [
+    "laurion mineral exploration"
+   ]
+  },
+  {
+   "id": "leopard-lake-gold-corp",
+   "name": "Leopard Lake Gold Corp.",
+   "tickers": [
+    "LP.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Leopard Lake Gold Corp."
+   ],
+   "exact_norms": [
+    "leopard lake gold"
+   ]
+  },
+  {
+   "id": "li-ft-power",
+   "name": "Li-FT Power",
+   "tickers": [
+    "LIFT.V",
+    "LIFT.AX",
+    "LIFFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "ASX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Li-FT Power"
+   ],
+   "exact_norms": [
+    "li ft power"
+   ]
+  },
+  {
+   "id": "lightning-resources-corp",
+   "name": "Lightning Resources Corp.",
+   "tickers": [
+    "LTNG.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Lightning Resources Corp."
+   ],
+   "exact_norms": [
+    "lightning canada",
+    "lightning exploration",
+    "lightning resources"
+   ]
+  },
+  {
+   "id": "linear-minerals-corp",
+   "name": "Linear Minerals Corp.",
+   "tickers": [
+    "LINE.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Linear Minerals Corp."
+   ],
+   "exact_norms": [
+    "linear minerals"
+   ]
+  },
+  {
+   "id": "lomiko-metals",
+   "name": "Lomiko Metals",
+   "tickers": [
+    "LMR.V",
+    "LMRMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Lomiko Metals"
+   ],
+   "exact_norms": [
+    "lomiko metals"
+   ]
+  },
+  {
+   "id": "loyalist-exploration-limited",
+   "name": "Loyalist Exploration Limited",
+   "tickers": [
+    "PNGC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Loyalist Exploration Limited"
+   ],
+   "exact_norms": [
+    "loyalist exploration"
+   ]
+  },
+  {
+   "id": "lux-metals-corp",
+   "name": "Lux Metals Corp.",
+   "tickers": [
+    "LXM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Lux Metals Corp."
+   ],
+   "exact_norms": [
+    "lux metals"
+   ]
+  },
+  {
+   "id": "luxor-metals",
+   "name": "Luxor Metals",
+   "tickers": [
+    "LUXR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": true,
+   "names": [
+    "Luxor Metals"
+   ],
+   "exact_norms": [
+    "luxor metals"
+   ]
+  },
+  {
+   "id": "magna-terra-minerals-inc",
+   "name": "Magna Terra Minerals Inc.",
+   "tickers": [
+    "MTT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Magna Terra Minerals Inc."
+   ],
+   "exact_norms": [
+    "magna terra minerals"
+   ]
+  },
+  {
+   "id": "makenita-resources-inc",
+   "name": "Makenita Resources Inc.",
+   "tickers": [
+    "KENY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Makenita Resources Inc."
+   ],
+   "exact_norms": [
+    "makenita resources"
+   ]
+  },
+  {
+   "id": "maple-gold-mines",
+   "name": "Maple Gold Mines",
+   "tickers": [
+    "MGM.V",
+    "MGMLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Maple Gold Mines"
+   ],
+   "exact_norms": [
+    "maple gold mines"
+   ]
+  },
+  {
+   "id": "max-power-mining-corp",
+   "name": "Max Power Mining Corp.",
+   "tickers": [
+    "MAXX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Max Power Mining Corp."
+   ],
+   "exact_norms": [
+    "max power mining"
+   ]
+  },
+  {
+   "id": "maximus-metals-inc",
+   "name": "Maximus Metals Inc.",
+   "tickers": [
+    "MM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Maximus Metals Inc."
+   ],
+   "exact_norms": [
+    "maximus metals",
+    "maximus minerals"
+   ]
+  },
+  {
+   "id": "maxus-mining-inc",
+   "name": "Maxus Mining Inc.",
+   "tickers": [
+    "MAXM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Maxus Mining Inc."
+   ],
+   "exact_norms": [
+    "maxus mining"
+   ]
+  },
+  {
+   "id": "mayfair-gold",
+   "name": "Mayfair Gold Corp.",
+   "tickers": [
+    "MFG.V",
+    "MFG",
+    "MINE"
+   ],
+   "exchanges": [
+    "TSXV",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Mayfair Gold Corp."
+   ],
+   "exact_norms": [
+    "mayfair gold"
+   ]
+  },
+  {
+   "id": "mayo-lake-minerals-inc",
+   "name": "Mayo Lake Minerals Inc.",
+   "tickers": [
+    "MLKM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Mayo Lake Minerals Inc."
+   ],
+   "exact_norms": [
+    "mayo lake minerals"
+   ]
+  },
+  {
+   "id": "mcchip-resources-inc",
+   "name": "McChip Resources Inc.",
+   "tickers": [
+    "MCS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "McChip Resources Inc."
+   ],
+   "exact_norms": [
+    "mcchip resources"
+   ]
+  },
+  {
+   "id": "mcfarlane-lake-mining",
+   "name": "McFarlane Lake Mining",
+   "tickers": [
+    "MLM.CN",
+    "MLMLF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "McFarlane Lake Mining"
+   ],
+   "exact_norms": [
+    "mcfarlane lake mining"
+   ]
+  },
+  {
+   "id": "mclaren-resources-inc",
+   "name": "McLaren Resources Inc.",
+   "tickers": [
+    "MCL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "McLaren Resources Inc."
+   ],
+   "exact_norms": [
+    "mclaren resources"
+   ]
+  },
+  {
+   "id": "mega-uranium",
+   "name": "Mega Uranium",
+   "tickers": [
+    "MGA.TO",
+    "MGAFF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Mega Uranium"
+   ],
+   "exact_norms": [
+    "mega uranium"
+   ]
+  },
+  {
+   "id": "megawatt-lithium-and-battery-metals-corp",
+   "name": "MegaWatt Lithium and Battery Metals Corp.",
+   "tickers": [
+    "MEGA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "MegaWatt Lithium and Battery Metals Corp."
+   ],
+   "exact_norms": [
+    "megawatt lithium and battery metals"
+   ]
+  },
+  {
+   "id": "metal-energy",
+   "name": "Metal Energy",
+   "tickers": [
+    "MERG.V",
+    "MEEEF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Metal Energy"
+   ],
+   "exact_norms": [
+    "metal energy"
+   ]
+  },
+  {
+   "id": "metalex-ventures-ltd",
+   "name": "Metalex Ventures Ltd.",
+   "tickers": [
+    "MTX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Metalex Ventures Ltd."
+   ],
+   "exact_norms": [
+    "metalex ventures"
+   ]
+  },
+  {
+   "id": "metallic-minerals",
+   "name": "Metallic Minerals",
+   "tickers": [
+    "MMG.V",
+    "MMNGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Metallic Minerals"
+   ],
+   "exact_norms": [
+    "metallic minerals"
+   ]
+  },
+  {
+   "id": "metallis-resources",
+   "name": "Metallis Resources",
+   "tickers": [
+    "MTS.V",
+    "MTLFF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Metallis Resources"
+   ],
+   "exact_norms": [
+    "metallis resources"
+   ]
+  },
+  {
+   "id": "metalore-resources-limited",
+   "name": "Metalore Resources Limited",
+   "tickers": [
+    "MET.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Metalore Resources Limited"
+   ],
+   "exact_norms": [
+    "metalore resources"
+   ]
+  },
+  {
+   "id": "metalquest-mining-inc",
+   "name": "Metalquest Mining Inc.",
+   "tickers": [
+    "MQM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Metalquest Mining Inc."
+   ],
+   "exact_norms": [
+    "metalquest mining"
+   ]
+  },
+  {
+   "id": "metals-creek-resources-corp",
+   "name": "Metals Creek Resources Corp.",
+   "tickers": [
+    "MEK.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Metals Creek Resources Corp."
+   ],
+   "exact_norms": [
+    "metals creek resources"
+   ]
+  },
+  {
+   "id": "midland-exploration",
+   "name": "Midland Exploration",
+   "tickers": [
+    "MD.V",
+    "MIDLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Midland Exploration"
+   ],
+   "exact_norms": [
+    "exploration midland",
+    "midland exploration"
+   ]
+  },
+  {
+   "id": "midnight-sun-mining",
+   "name": "Midnight Sun Mining",
+   "tickers": [
+    "MMA.V",
+    "MDNGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Midnight Sun Mining"
+   ],
+   "exact_norms": [
+    "midnight sun mining"
+   ]
+  },
+  {
+   "id": "mineral-road-discovery-inc",
+   "name": "Mineral Road Discovery Inc.",
+   "tickers": [
+    "ROAD.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Mineral Road Discovery Inc."
+   ],
+   "exact_norms": [
+    "mineral road discovery"
+   ]
+  },
+  {
+   "id": "mink-ventures-corporation",
+   "name": "Mink Ventures Corporation",
+   "tickers": [
+    "MINK.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Mink Ventures Corporation"
+   ],
+   "exact_norms": [
+    "mink ventures"
+   ]
+  },
+  {
+   "id": "molecule-holdings-inc",
+   "name": "Molecule Holdings Inc.",
+   "tickers": [
+    "MLCL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Molecule Holdings Inc."
+   ],
+   "exact_norms": [
+    "molecule holdings"
+   ]
+  },
+  {
+   "id": "mosaic-company",
+   "name": "The Mosaic Company",
+   "tickers": [
+    "MOC.CN",
+    "MOS"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "The Mosaic Company"
+   ],
+   "exact_norms": [
+    "mosaic",
+    "mosaic minerals"
+   ]
+  },
+  {
+   "id": "murchison-minerals-ltd",
+   "name": "Murchison Minerals Ltd.",
+   "tickers": [
+    "MUR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Murchison Minerals Ltd."
+   ],
+   "exact_norms": [
+    "murchison minerals"
+   ]
+  },
+  {
+   "id": "mustang-minerals",
+   "name": "Mustang Minerals",
+   "tickers": [
+    "MMX.V",
+    "MEC.CN",
+    "MMXLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Mustang Minerals"
+   ],
+   "exact_norms": [
+    "mustang energy",
+    "mustang minerals"
+   ]
+  },
+  {
+   "id": "nation-gold-corp",
+   "name": "Nation Gold Corp.",
+   "tickers": [
+    "NATN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Nation Gold Corp."
+   ],
+   "exact_norms": [
+    "nation gold"
+   ]
+  },
+  {
+   "id": "naughty-ventures-corp",
+   "name": "Naughty Ventures Corp.",
+   "tickers": [
+    "BAD.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Naughty Ventures Corp."
+   ],
+   "exact_norms": [
+    "naughty ventures"
+   ]
+  },
+  {
+   "id": "neotech-metals-corp",
+   "name": "Neotech Metals Corp.",
+   "tickers": [
+    "NTMC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Neotech Metals Corp."
+   ],
+   "exact_norms": [
+    "neotech metals"
+   ]
+  },
+  {
+   "id": "neoterrex-minerals-inc",
+   "name": "Neoterrex Minerals Inc.",
+   "tickers": [
+    "NTX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Neoterrex Minerals Inc."
+   ],
+   "exact_norms": [
+    "neoterrex minerals"
+   ]
+  },
+  {
+   "id": "new-age-metals",
+   "name": "New Age Metals",
+   "tickers": [
+    "NAM.V",
+    "NMTLF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "New Age Metals"
+   ],
+   "exact_norms": [
+    "new age metals"
+   ]
+  },
+  {
+   "id": "new-break-resources-ltd",
+   "name": "New Break Resources Ltd.",
+   "tickers": [
+    "NBRK.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "New Break Resources Ltd."
+   ],
+   "exact_norms": [
+    "new break resources"
+   ]
+  },
+  {
+   "id": "new-found-gold",
+   "name": "New Found Gold Corp.",
+   "tickers": [
+    "NFGC.TO",
+    "NFGC",
+    "NFG.V"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "TSXV",
+    "US",
+    "NYSE American"
+   ],
+   "on_site": true,
+   "names": [
+    "New Found Gold Corp."
+   ],
+   "exact_norms": [
+    "new found gold"
+   ]
+  },
+  {
+   "id": "new-gold",
+   "name": "New Gold",
+   "tickers": [
+    "NGD.TO",
+    "NGD"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "New Gold"
+   ],
+   "exact_norms": [
+    "new gold"
+   ]
+  },
+  {
+   "id": "new-tymbal-resources-ltd",
+   "name": "New Tymbal Resources Ltd.",
+   "tickers": [
+    "NTB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "New Tymbal Resources Ltd."
+   ],
+   "exact_norms": [
+    "new tymbal resources"
+   ]
+  },
+  {
+   "id": "newfoundland-discovery-corp",
+   "name": "Newfoundland Discovery Corp.",
+   "tickers": [
+    "NEWD.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Newfoundland Discovery Corp."
+   ],
+   "exact_norms": [
+    "newfoundland discovery"
+   ]
+  },
+  {
+   "id": "newmont",
+   "name": "Newmont Corporation",
+   "tickers": [
+    "NEM",
+    "NGT.TO"
+   ],
+   "exchanges": [
+    "US",
+    "NYSE",
+    "TSX"
+   ],
+   "on_site": true,
+   "names": [
+    "Newmont Corporation"
+   ],
+   "exact_norms": [
+    "kaminak gold",
+    "newmont",
+    "newmont saddle minerals"
+   ]
+  },
+  {
+   "id": "newpath-resources-inc",
+   "name": "Newpath Resources Inc.",
+   "tickers": [
+    "PATH.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Newpath Resources Inc."
+   ],
+   "exact_norms": [
+    "newpath resources"
+   ]
+  },
+  {
+   "id": "newport-exploration-ltd",
+   "name": "Newport Exploration Ltd.",
+   "tickers": [
+    "NWX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Newport Exploration Ltd."
+   ],
+   "exact_norms": [
+    "newport exploration"
+   ]
+  },
+  {
+   "id": "newterra-resources-inc",
+   "name": "Newterra Resources Inc.",
+   "tickers": [
+    "NT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Newterra Resources Inc."
+   ],
+   "exact_norms": [
+    "newterra resources"
+   ]
+  },
+  {
+   "id": "nexgen-energy",
+   "name": "NexGen Energy",
+   "tickers": [
+    "NXE.TO",
+    "NXE"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "NexGen Energy"
+   ],
+   "exact_norms": [
+    "nexgen energy"
+   ]
+  },
+  {
+   "id": "nexgold",
+   "name": "NexGold Mining Corp.",
+   "tickers": [
+    "NEXG.V",
+    "NXGCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "NexGold Mining Corp."
+   ],
+   "exact_norms": [
+    "nexgold",
+    "nexgold mining"
+   ]
+  },
+  {
+   "id": "nexmetals-mining",
+   "name": "NexMetals Mining Corp.",
+   "tickers": [
+    "NEXM.V",
+    "NEXM"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "NexMetals Mining Corp."
+   ],
+   "exact_norms": [
+    "nexmetals mining"
+   ]
+  },
+  {
+   "id": "nexus-gold",
+   "name": "Nexus Gold",
+   "tickers": [
+    "NXS.V",
+    "NXXGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Nexus Gold"
+   ],
+   "exact_norms": [
+    "nexus gold"
+   ]
+  },
+  {
+   "id": "nickel-north-exploration-corp",
+   "name": "Nickel North Exploration Corp.",
+   "tickers": [
+    "NNX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Nickel North Exploration Corp."
+   ],
+   "exact_norms": [
+    "nickel north exploration"
+   ]
+  },
+  {
+   "id": "nicola-mining-inc",
+   "name": "Nicola Mining Inc.",
+   "tickers": [
+    "NIM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Nicola Mining Inc."
+   ],
+   "exact_norms": [
+    "nicola mining"
+   ]
+  },
+  {
+   "id": "noble-mineral-exploration",
+   "name": "Noble Mineral Exploration Inc.",
+   "tickers": [
+    "NOB.V",
+    "NLPXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Noble Mineral Exploration Inc."
+   ],
+   "exact_norms": [
+    "noble mineral exploration"
+   ]
+  },
+  {
+   "id": "nord-precious-metals",
+   "name": "Nord Precious Metals",
+   "tickers": [
+    "NTH.V",
+    "NPMMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Nord Precious Metals"
+   ],
+   "exact_norms": [
+    "nord precious metals",
+    "nord precious metals mining"
+   ]
+  },
+  {
+   "id": "nortec-minerals-corp",
+   "name": "Nortec Minerals Corp.",
+   "tickers": [
+    "NVT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Nortec Minerals Corp."
+   ],
+   "exact_norms": [
+    "nortec minerals"
+   ]
+  },
+  {
+   "id": "north-american-niobium-and-critical-minerals-corp",
+   "name": "North American Niobium and Critical Minerals Corp.",
+   "tickers": [
+    "NIOB.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "North American Niobium and Critical Minerals Corp."
+   ],
+   "exact_norms": [
+    "north american niobium and critical minerals"
+   ]
+  },
+  {
+   "id": "north-arrow-minerals-inc",
+   "name": "North Arrow Minerals Inc.",
+   "tickers": [
+    "NAR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "North Arrow Minerals Inc."
+   ],
+   "exact_norms": [
+    "north arrow minerals"
+   ]
+  },
+  {
+   "id": "northern-graphite",
+   "name": "Northern Graphite Corporation",
+   "tickers": [
+    "NGC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": true,
+   "names": [
+    "Northern Graphite Corporation"
+   ],
+   "exact_norms": [
+    "northern graphite"
+   ]
+  },
+  {
+   "id": "northern-shield-resources-inc",
+   "name": "Northern Shield Resources Inc.",
+   "tickers": [
+    "NRN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Northern Shield Resources Inc."
+   ],
+   "exact_norms": [
+    "northern shield resources"
+   ]
+  },
+  {
+   "id": "northstar-gold",
+   "name": "Northstar Gold",
+   "tickers": [
+    "NSG.CN",
+    "NSGCF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Northstar Gold"
+   ],
+   "exact_norms": [
+    "northstar gold"
+   ]
+  },
+  {
+   "id": "northwest-copper",
+   "name": "NorthWest Copper",
+   "tickers": [
+    "NWST.V",
+    "NWCCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "NorthWest Copper"
+   ],
+   "exact_norms": [
+    "northwest copper"
+   ]
+  },
+  {
+   "id": "northx-nickel-corp",
+   "name": "NorthX Nickel Corp.",
+   "tickers": [
+    "NIX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "NorthX Nickel Corp."
+   ],
+   "exact_norms": [
+    "northx nickel"
+   ]
+  },
+  {
+   "id": "nouveau-monde-graphite",
+   "name": "Nouveau Monde Graphite",
+   "tickers": [
+    "NOU.TO",
+    "NOU",
+    "NMG"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Nouveau Monde Graphite"
+   ],
+   "exact_norms": [
+    "nouveau monde graphite"
+   ]
+  },
+  {
+   "id": "nova-pacific-metals-corp",
+   "name": "Nova Pacific Metals Corp.",
+   "tickers": [
+    "NVPC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Nova Pacific Metals Corp."
+   ],
+   "exact_norms": [
+    "nova pacific metals"
+   ]
+  },
+  {
+   "id": "nuinsco-resources-limited",
+   "name": "Nuinsco Resources Limited",
+   "tickers": [
+    "NWI.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Nuinsco Resources Limited"
+   ],
+   "exact_norms": [
+    "nuinsco resources"
+   ]
+  },
+  {
+   "id": "nuvau-minerals-inc",
+   "name": "Nuvau Minerals Inc.",
+   "tickers": [
+    "NMC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Nuvau Minerals Inc."
+   ],
+   "exact_norms": [
+    "nuvau minerals"
+   ]
+  },
+  {
+   "id": "oceanic-iron-ore-corp",
+   "name": "Oceanic Iron Ore Corp.",
+   "tickers": [
+    "FEO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Oceanic Iron Ore Corp."
+   ],
+   "exact_norms": [
+    "oceanic iron ore"
+   ]
+  },
+  {
+   "id": "omai-gold",
+   "name": "Omai Gold Mines Corp.",
+   "tickers": [
+    "OMG.V",
+    "OMGGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Omai Gold Mines Corp."
+   ],
+   "exact_norms": [
+    "omai gold",
+    "omai gold mines"
+   ]
+  },
+  {
+   "id": "omega-pacific-resources-inc",
+   "name": "Omega Pacific Resources Inc.",
+   "tickers": [
+    "OMGA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Omega Pacific Resources Inc."
+   ],
+   "exact_norms": [
+    "omega pacific resources"
+   ]
+  },
+  {
+   "id": "omineca-mining-and-metals",
+   "name": "Omineca Mining and Metals",
+   "tickers": [
+    "OMM.V",
+    "OMMSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Omineca Mining and Metals"
+   ],
+   "exact_norms": [
+    "omineca mining and metals"
+   ]
+  },
+  {
+   "id": "ongold-resources",
+   "name": "ONGold Resources Ltd",
+   "tickers": [
+    "ONAU.V",
+    "ONGRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "ONGold Resources Ltd"
+   ],
+   "exact_norms": [
+    "ongold resources"
+   ]
+  },
+  {
+   "id": "opawica-explorations-inc",
+   "name": "Opawica Explorations Inc.",
+   "tickers": [
+    "OPW.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Opawica Explorations Inc."
+   ],
+   "exact_norms": [
+    "opawica exploration",
+    "opawica explorations"
+   ]
+  },
+  {
+   "id": "orecap-invest-corp",
+   "name": "Orecap Invest Corp.",
+   "tickers": [
+    "OCI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Orecap Invest Corp."
+   ],
+   "exact_norms": [
+    "orecap invest"
+   ]
+  },
+  {
+   "id": "orestone-mining-corp",
+   "name": "Orestone Mining Corp.",
+   "tickers": [
+    "ORS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Orestone Mining Corp."
+   ],
+   "exact_norms": [
+    "orestone mining"
+   ]
+  },
+  {
+   "id": "oreterra-metals-corp",
+   "name": "Oreterra Metals Corp.",
+   "tickers": [
+    "OTMC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Oreterra Metals Corp."
+   ],
+   "exact_norms": [
+    "oreterra metals"
+   ]
+  },
+  {
+   "id": "orex-minerals",
+   "name": "Orex Minerals",
+   "tickers": [
+    "REX.V",
+    "ORMNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Orex Minerals"
+   ],
+   "exact_norms": [
+    "orex minerals"
+   ]
+  },
+  {
+   "id": "orezone-gold",
+   "name": "Orezone Gold",
+   "tickers": [
+    "ORE.TO",
+    "ORE.AX",
+    "ORE.V",
+    "ORZCF"
+   ],
+   "exchanges": [
+    "TSX",
+    "ASX",
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Orezone Gold"
+   ],
+   "exact_norms": [
+    "orezone gold",
+    "orezone quebec"
+   ]
+  },
+  {
+   "id": "origen-resources-inc",
+   "name": "Origen Resources Inc.",
+   "tickers": [
+    "ORGN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Origen Resources Inc."
+   ],
+   "exact_norms": [
+    "origen resources"
+   ]
+  },
+  {
+   "id": "osisko-metals",
+   "name": "Osisko Metals",
+   "tickers": [
+    "OM.TO",
+    "OMZNF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Osisko Metals"
+   ],
+   "exact_norms": [
+    "osisko metals"
+   ]
+  },
+  {
+   "id": "pacific-bay-minerals-ltd",
+   "name": "Pacific Bay Minerals Ltd.",
+   "tickers": [
+    "PBM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Pacific Bay Minerals Ltd."
+   ],
+   "exact_norms": [
+    "pacific bay minerals"
+   ]
+  },
+  {
+   "id": "pacific-booker-minerals-inc",
+   "name": "Pacific Booker Minerals Inc.",
+   "tickers": [
+    "BKM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Pacific Booker Minerals Inc."
+   ],
+   "exact_norms": [
+    "pacific booker minerals"
+   ]
+  },
+  {
+   "id": "pacific-empire-minerals",
+   "name": "Pacific Empire Minerals",
+   "tickers": [
+    "PEMC.V",
+    "PEMSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Pacific Empire Minerals"
+   ],
+   "exact_norms": [
+    "pacific empire minerals"
+   ]
+  },
+  {
+   "id": "pacific-ridge-exploration-ltd",
+   "name": "Pacific Ridge Exploration Ltd.",
+   "tickers": [
+    "PEX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Pacific Ridge Exploration Ltd."
+   ],
+   "exact_norms": [
+    "pacific ridge exploration"
+   ]
+  },
+  {
+   "id": "panther-minerals-inc",
+   "name": "Panther Minerals Inc.",
+   "tickers": [
+    "PURR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Panther Minerals Inc."
+   ],
+   "exact_norms": [
+    "panther metals canada",
+    "panther minerals"
+   ]
+  },
+  {
+   "id": "paradigm-gold-corporation",
+   "name": "Paradigm Gold Corporation",
+   "tickers": [
+    "PDQ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Paradigm Gold Corporation"
+   ],
+   "exact_norms": [
+    "paradigm gold",
+    "paradigm minerals"
+   ]
+  },
+  {
+   "id": "patriot-gold-corp",
+   "name": "Patriot Gold Corp.",
+   "tickers": [
+    "PGOL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Patriot Gold Corp."
+   ],
+   "exact_norms": [
+    "patriot gold",
+    "patriot lithium canada"
+   ]
+  },
+  {
+   "id": "pelangio-exploration-inc",
+   "name": "Pelangio Exploration Inc.",
+   "tickers": [
+    "PX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Pelangio Exploration Inc."
+   ],
+   "exact_norms": [
+    "pelangio exploration"
+   ]
+  },
+  {
+   "id": "perseverance-metals-inc",
+   "name": "Perseverance Metals Inc.",
+   "tickers": [
+    "PMI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Perseverance Metals Inc."
+   ],
+   "exact_norms": [
+    "perseverance metals"
+   ]
+  },
+  {
+   "id": "petrolympic-ltd",
+   "name": "Petrolympic Ltd.",
+   "tickers": [
+    "PCQ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Petrolympic Ltd."
+   ],
+   "exact_norms": [
+    "petrolympic"
+   ]
+  },
+  {
+   "id": "phoenix-metals-corp",
+   "name": "Phoenix Metals Corp.",
+   "tickers": [
+    "PCA.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": false,
+   "names": [
+    "Phoenix Metals Corp."
+   ],
+   "exact_norms": [
+    "phoenix metals"
+   ]
+  },
+  {
+   "id": "pinnacle-silver-and-gold",
+   "name": "Pinnacle Silver and Gold",
+   "tickers": [
+    "PINN.V",
+    "PSGCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Pinnacle Silver and Gold"
+   ],
+   "exact_norms": [
+    "pinnacle silver and gold"
+   ]
+  },
+  {
+   "id": "pirate-gold",
+   "name": "Pirate Gold",
+   "tickers": [
+    "YARR.V",
+    "YARRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Pirate Gold"
+   ],
+   "exact_norms": [
+    "pirate gold"
+   ]
+  },
+  {
+   "id": "pjx-resources-inc",
+   "name": "PJX Resources Inc.",
+   "tickers": [
+    "PJX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "PJX Resources Inc."
+   ],
+   "exact_norms": [
+    "pjx resources"
+   ]
+  },
+  {
+   "id": "plato-gold-corp",
+   "name": "Plato Gold Corp.",
+   "tickers": [
+    "PGC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Plato Gold Corp."
+   ],
+   "exact_norms": [
+    "plato gold"
+   ]
+  },
+  {
+   "id": "power-metallic-mines",
+   "name": "Power Metallic Mines",
+   "tickers": [
+    "PNPN.V",
+    "PNPNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Power Metallic Mines"
+   ],
+   "exact_norms": [
+    "power metallic mines"
+   ]
+  },
+  {
+   "id": "power-metals",
+   "name": "Power Metals",
+   "tickers": [
+    "PWM.V",
+    "PWRMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Power Metals"
+   ],
+   "exact_norms": [
+    "power metals"
+   ]
+  },
+  {
+   "id": "power-one-resources-corp",
+   "name": "Power One Resources Corp.",
+   "tickers": [
+    "PWRO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Power One Resources Corp."
+   ],
+   "exact_norms": [
+    "power one resources"
+   ]
+  },
+  {
+   "id": "proam-explorations-corporation",
+   "name": "ProAm Explorations Corporation",
+   "tickers": [
+    "PMX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "ProAm Explorations Corporation"
+   ],
+   "exact_norms": [
+    "proam explorations"
+   ]
+  },
+  {
+   "id": "probe-gold",
+   "name": "Probe Gold Inc.",
+   "tickers": [
+    "PRB.TO"
+   ],
+   "exchanges": [
+    "TSX"
+   ],
+   "on_site": true,
+   "names": [
+    "Probe Gold Inc."
+   ],
+   "exact_norms": [
+    "probe gold"
+   ]
+  },
+  {
+   "id": "progressive-planet",
+   "name": "Progressive Planet Solutions Inc.",
+   "tickers": [
+    "PLAN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": true,
+   "names": [
+    "Progressive Planet Solutions Inc."
+   ],
+   "exact_norms": [
+    "progressive planet",
+    "progressive planet products",
+    "progressive planet solutions"
+   ]
+  },
+  {
+   "id": "prospect-ridge-resources-corp",
+   "name": "Prospect Ridge Resources Corp.",
+   "tickers": [
+    "PRR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Prospect Ridge Resources Corp."
+   ],
+   "exact_norms": [
+    "prospect ridge resources"
+   ]
+  },
+  {
+   "id": "prospector-metals",
+   "name": "Prospector Metals Corp.",
+   "tickers": [
+    "PPP.V",
+    "PMCOF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Prospector Metals Corp."
+   ],
+   "exact_norms": [
+    "prospector metals"
+   ]
+  },
+  {
+   "id": "prosper-gold-corp",
+   "name": "Prosper Gold Corp.",
+   "tickers": [
+    "PGX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Prosper Gold Corp."
+   ],
+   "exact_norms": [
+    "prosper gold"
+   ]
+  },
+  {
+   "id": "ptx-metals-inc",
+   "name": "PTX Metals Inc.",
+   "tickers": [
+    "PTX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "PTX Metals Inc."
+   ],
+   "exact_norms": [
+    "ptx metals"
+   ]
+  },
+  {
+   "id": "q2-metals",
+   "name": "Q2 Metals",
+   "tickers": [
+    "QTWO.V",
+    "QUEXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Q2 Metals"
+   ],
+   "exact_norms": [
+    "q2 metals"
+   ]
+  },
+  {
+   "id": "qcx-gold-corp",
+   "name": "QCX Gold Corp.",
+   "tickers": [
+    "QCX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "QCX Gold Corp."
+   ],
+   "exact_norms": [
+    "qcx gold"
+   ]
+  },
+  {
+   "id": "quadro-resources-ltd",
+   "name": "Quadro Resources Ltd.",
+   "tickers": [
+    "QRO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Quadro Resources Ltd."
+   ],
+   "exact_norms": [
+    "quadro resources"
+   ]
+  },
+  {
+   "id": "quantum-battery-metals-corp",
+   "name": "Quantum Battery Metals Corp.",
+   "tickers": [
+    "QBAT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Quantum Battery Metals Corp."
+   ],
+   "exact_norms": [
+    "quantum battery metals"
+   ]
+  },
+  {
+   "id": "quantum-critical-metals-corp",
+   "name": "Quantum Critical Metals Corp.",
+   "tickers": [
+    "LEAP.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Quantum Critical Metals Corp."
+   ],
+   "exact_norms": [
+    "quantum critical metals"
+   ]
+  },
+  {
+   "id": "quartz-mountain-resources-ltd",
+   "name": "Quartz Mountain Resources Ltd.",
+   "tickers": [
+    "QZM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Quartz Mountain Resources Ltd."
+   ],
+   "exact_norms": [
+    "quartz mountain resources"
+   ]
+  },
+  {
+   "id": "quebec-innovative-materials-corp",
+   "name": "Quebec Innovative Materials Corp.",
+   "tickers": [
+    "QIMC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Quebec Innovative Materials Corp."
+   ],
+   "exact_norms": [
+    "quebec innovative materials"
+   ]
+  },
+  {
+   "id": "rackla-metals",
+   "name": "Rackla Metals",
+   "tickers": [
+    "RAK.V",
+    "RMETF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Rackla Metals"
+   ],
+   "exact_norms": [
+    "rackla metals"
+   ]
+  },
+  {
+   "id": "rainy-mountain-royalty-corp",
+   "name": "Rainy Mountain Royalty Corp.",
+   "tickers": [
+    "RMO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Rainy Mountain Royalty Corp."
+   ],
+   "exact_norms": [
+    "rainy mountain royalty"
+   ]
+  },
+  {
+   "id": "record-resources-inc",
+   "name": "Record Resources Inc.",
+   "tickers": [
+    "REC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Record Resources Inc."
+   ],
+   "exact_norms": [
+    "record resources"
+   ]
+  },
+  {
+   "id": "recyclico-battery-materials-inc",
+   "name": "Recyclico Battery Materials Inc.",
+   "tickers": [
+    "AMY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Recyclico Battery Materials Inc."
+   ],
+   "exact_norms": [
+    "recyclico battery materials"
+   ]
+  },
+  {
+   "id": "red-canyon-resources",
+   "name": "Red Canyon Resources",
+   "tickers": [
+    "REDC.CN",
+    "REDRF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Red Canyon Resources"
+   ],
+   "exact_norms": [
+    "red canyon resources"
+   ]
+  },
+  {
+   "id": "red-lake-gold-inc",
+   "name": "Red Lake Gold Inc.",
+   "tickers": [
+    "RGLD.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Red Lake Gold Inc."
+   ],
+   "exact_norms": [
+    "red lake gold"
+   ]
+  },
+  {
+   "id": "renegade-gold",
+   "name": "Renegade Gold",
+   "tickers": [
+    "RAGE.V",
+    "TGLDF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Renegade Gold"
+   ],
+   "exact_norms": [
+    "renegade gold"
+   ]
+  },
+  {
+   "id": "renforth-resources-inc",
+   "name": "Renforth Resources Inc.",
+   "tickers": [
+    "RFR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Renforth Resources Inc."
+   ],
+   "exact_norms": [
+    "renforth resources"
+   ]
+  },
+  {
+   "id": "rev-exploration-corp",
+   "name": "Rev Exploration Corp.",
+   "tickers": [
+    "REVX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Rev Exploration Corp."
+   ],
+   "exact_norms": [
+    "rev exploration"
+   ]
+  },
+  {
+   "id": "richmond-minerals-inc",
+   "name": "Richmond Minerals Inc.",
+   "tickers": [
+    "RMD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Richmond Minerals Inc."
+   ],
+   "exact_norms": [
+    "richmond minerals"
+   ]
+  },
+  {
+   "id": "rio-silver",
+   "name": "Rio Silver",
+   "tickers": [
+    "RYO.V",
+    "RYOOF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Rio Silver"
+   ],
+   "exact_norms": [
+    "rio silver"
+   ]
+  },
+  {
+   "id": "rio-tinto",
+   "name": "Rio Tinto",
+   "tickers": [
+    "RIO",
+    "RIO.L"
+   ],
+   "exchanges": [
+    "US",
+    "other",
+    "LSE"
+   ],
+   "on_site": true,
+   "names": [
+    "Rio Tinto"
+   ],
+   "exact_norms": [
+    "rio tinto",
+    "rio tinto exploration canada",
+    "rio tinto fer et titane"
+   ]
+  },
+  {
+   "id": "rjk-explorations-ltd",
+   "name": "RJK Explorations Ltd.",
+   "tickers": [
+    "RJX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "RJK Explorations Ltd."
+   ],
+   "exact_norms": [
+    "rjk explorations"
+   ]
+  },
+  {
+   "id": "rockbridge-resources-inc",
+   "name": "Rockbridge Resources Inc.",
+   "tickers": [
+    "ROCB.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Rockbridge Resources Inc."
+   ],
+   "exact_norms": [
+    "rockbridge resources"
+   ]
+  },
+  {
+   "id": "rockex-mining-corporation",
+   "name": "Rockex Mining Corporation",
+   "tickers": [
+    "RXM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Rockex Mining Corporation"
+   ],
+   "exact_norms": [
+    "rockex mining"
+   ]
+  },
+  {
+   "id": "rockhaven-resources",
+   "name": "Rockhaven Resources",
+   "tickers": [
+    "RK.V",
+    "RKHNF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Rockhaven Resources"
+   ],
+   "exact_norms": [
+    "rockhaven resources"
+   ]
+  },
+  {
+   "id": "rockland-resources-ltd",
+   "name": "Rockland Resources Ltd.",
+   "tickers": [
+    "RKL.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Rockland Resources Ltd."
+   ],
+   "exact_norms": [
+    "rockland resources"
+   ]
+  },
+  {
+   "id": "rocky-shore-gold-ltd",
+   "name": "Rocky Shore Gold Ltd.",
+   "tickers": [
+    "RSG.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Rocky Shore Gold Ltd."
+   ],
+   "exact_norms": [
+    "rocky shore gold",
+    "rocky shore metals"
+   ]
+  },
+  {
+   "id": "rokmaster-resources",
+   "name": "Rokmaster Resources",
+   "tickers": [
+    "RKR.V",
+    "RKMSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Rokmaster Resources"
+   ],
+   "exact_norms": [
+    "rokmaster resources"
+   ]
+  },
+  {
+   "id": "route-109-resources-inc",
+   "name": "Route 109 Resources Inc.",
+   "tickers": [
+    "RTE.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Route 109 Resources Inc."
+   ],
+   "exact_norms": [
+    "route 109 resources"
+   ]
+  },
+  {
+   "id": "rpx-gold",
+   "name": "RPX Gold Inc.",
+   "tickers": [
+    "RPX.V",
+    "RDEXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "RPX Gold Inc."
+   ],
+   "exact_norms": [
+    "rpx gold"
+   ]
+  },
+  {
+   "id": "rt-minerals-corp",
+   "name": "RT Minerals Corp.",
+   "tickers": [
+    "RTM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "RT Minerals Corp."
+   ],
+   "exact_norms": [
+    "rt minerals"
+   ]
+  },
+  {
+   "id": "rush-rare-metals-corp",
+   "name": "Rush Rare Metals Corp.",
+   "tickers": [
+    "RSH.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Rush Rare Metals Corp."
+   ],
+   "exact_norms": [
+    "rush rare metals"
+   ]
+  },
+  {
+   "id": "sable-resources",
+   "name": "Sable Resources",
+   "tickers": [
+    "SAE.V",
+    "SBLRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Sable Resources"
+   ],
+   "exact_norms": [
+    "sable resources"
+   ]
+  },
+  {
+   "id": "saga-metals-corp",
+   "name": "Saga Metals Corp.",
+   "tickers": [
+    "SAGA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Saga Metals Corp."
+   ],
+   "exact_norms": [
+    "saga metals"
+   ]
+  },
+  {
+   "id": "sasquatch-resources-corp",
+   "name": "Sasquatch Resources Corp.",
+   "tickers": [
+    "SASQ.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Sasquatch Resources Corp."
+   ],
+   "exact_norms": [
+    "sasquatch resources"
+   ]
+  },
+  {
+   "id": "sassy-gold-corp",
+   "name": "Sassy Gold Corp.",
+   "tickers": [
+    "SASY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Sassy Gold Corp."
+   ],
+   "exact_norms": [
+    "sassy gold"
+   ]
+  },
+  {
+   "id": "scottie-resources",
+   "name": "Scottie Resources",
+   "tickers": [
+    "SCOT.V",
+    "SCTSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Scottie Resources"
+   ],
+   "exact_norms": [
+    "scottie resources"
+   ]
+  },
+  {
+   "id": "seabridge-gold",
+   "name": "Seabridge Gold Inc.",
+   "tickers": [
+    "SEA.TO",
+    "SEA",
+    "SA"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Seabridge Gold Inc."
+   ],
+   "exact_norms": [
+    "seabridge gold",
+    "seabridge gold yukon"
+   ]
+  },
+  {
+   "id": "search-minerals-inc",
+   "name": "Search Minerals Inc.",
+   "tickers": [
+    "SMY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Search Minerals Inc."
+   ],
+   "exact_norms": [
+    "search minerals"
+   ]
+  },
+  {
+   "id": "sego-resources-inc",
+   "name": "Sego Resources Inc.",
+   "tickers": [
+    "SGZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Sego Resources Inc."
+   ],
+   "exact_norms": [
+    "sego resources"
+   ]
+  },
+  {
+   "id": "selkirk-copper-mines",
+   "name": "Selkirk Copper Mines",
+   "tickers": [
+    "SCMI.V",
+    "SKRKF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Selkirk Copper Mines"
+   ],
+   "exact_norms": [
+    "selkirk copper mines",
+    "selkirk metals",
+    "selkirk mining"
+   ]
+  },
+  {
+   "id": "sherpa-ii-holdings-corp",
+   "name": "Sherpa II Holdings Corp.",
+   "tickers": [
+    "SHRP.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Sherpa II Holdings Corp."
+   ],
+   "exact_norms": [
+    "sherpa ii holdings"
+   ]
+  },
+  {
+   "id": "sienna-resources-inc",
+   "name": "Sienna Resources Inc.",
+   "tickers": [
+    "SIEN.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Sienna Resources Inc."
+   ],
+   "exact_norms": [
+    "sienna resources"
+   ]
+  },
+  {
+   "id": "signature-resources",
+   "name": "Signature Resources",
+   "tickers": [
+    "SGU.V",
+    "SGGTF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Signature Resources"
+   ],
+   "exact_norms": [
+    "signature exploration",
+    "signature resources"
+   ]
+  },
+  {
+   "id": "silicon-metals-corp",
+   "name": "Silicon Metals Corp.",
+   "tickers": [
+    "SI.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Silicon Metals Corp."
+   ],
+   "exact_norms": [
+    "silicon metals"
+   ]
+  },
+  {
+   "id": "silver-dollar-resources-inc",
+   "name": "Silver Dollar Resources Inc.",
+   "tickers": [
+    "SLV.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Silver Dollar Resources Inc."
+   ],
+   "exact_norms": [
+    "silver dollar resources"
+   ]
+  },
+  {
+   "id": "silver-north-resources",
+   "name": "Silver North Resources",
+   "tickers": [
+    "SNAG.V",
+    "TARSF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Silver North Resources"
+   ],
+   "exact_norms": [
+    "silver north resources"
+   ]
+  },
+  {
+   "id": "silver-predator-corp",
+   "name": "Silver Predator Corp.",
+   "tickers": [
+    "SPD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Silver Predator Corp."
+   ],
+   "exact_norms": [
+    "silver predator",
+    "silver predator canada"
+   ]
+  },
+  {
+   "id": "silver-range-resources",
+   "name": "Silver Range Resources",
+   "tickers": [
+    "SNG.V",
+    "SLRRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Silver Range Resources"
+   ],
+   "exact_norms": [
+    "silver range resources"
+   ]
+  },
+  {
+   "id": "silver-spruce-resources",
+   "name": "Silver Spruce Resources",
+   "tickers": [
+    "SSE.V",
+    "SSEBF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Silver Spruce Resources"
+   ],
+   "exact_norms": [
+    "silver spruce resources"
+   ]
+  },
+  {
+   "id": "silver47-exploration",
+   "name": "Silver47 Exploration Corp.",
+   "tickers": [
+    "AGA.V",
+    "AAGAF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Silver47 Exploration Corp."
+   ],
+   "exact_norms": [
+    "silver47 exploration"
+   ]
+  },
+  {
+   "id": "sitka-gold",
+   "name": "Sitka Gold Corp.",
+   "tickers": [
+    "SIG.V",
+    "SITKF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Sitka Gold Corp."
+   ],
+   "exact_norms": [
+    "sitka gold"
+   ]
+  },
+  {
+   "id": "sky-gold-corp",
+   "name": "Sky Gold Corp.",
+   "tickers": [
+    "SKYG.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Sky Gold Corp."
+   ],
+   "exact_norms": [
+    "sky gold"
+   ]
+  },
+  {
+   "id": "skyharbour-resources",
+   "name": "Skyharbour Resources",
+   "tickers": [
+    "SYH.V",
+    "SYHBF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Skyharbour Resources"
+   ],
+   "exact_norms": [
+    "skyharbour resources"
+   ]
+  },
+  {
+   "id": "slam-exploration-ltd",
+   "name": "SLAM Exploration Ltd.",
+   "tickers": [
+    "SXL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "SLAM Exploration Ltd."
+   ],
+   "exact_norms": [
+    "slam exploration"
+   ]
+  },
+  {
+   "id": "solstice-minerals",
+   "name": "Solstice Minerals Limited",
+   "tickers": [
+    "SGC.V",
+    "SLS.AX"
+   ],
+   "exchanges": [
+    "TSXV",
+    "ASX"
+   ],
+   "on_site": true,
+   "names": [
+    "Solstice Minerals Limited"
+   ],
+   "exact_norms": [
+    "solstice gold",
+    "solstice minerals"
+   ]
+  },
+  {
+   "id": "sorrento-resources-ltd",
+   "name": "Sorrento Resources Ltd.",
+   "tickers": [
+    "SRS.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Sorrento Resources Ltd."
+   ],
+   "exact_norms": [
+    "sorrento resources"
+   ]
+  },
+  {
+   "id": "southern-copper",
+   "name": "Southern Copper Corp.",
+   "tickers": [
+    "SCCO"
+   ],
+   "exchanges": [
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Southern Copper Corp."
+   ],
+   "exact_norms": [
+    "southern copper"
+   ]
+  },
+  {
+   "id": "spanish-mountain-gold",
+   "name": "Spanish Mountain Gold",
+   "tickers": [
+    "SPA.V",
+    "SPAZF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Spanish Mountain Gold"
+   ],
+   "exact_norms": [
+    "spanish mountain gold"
+   ]
+  },
+  {
+   "id": "sparton-resources-inc",
+   "name": "Sparton Resources Inc.",
+   "tickers": [
+    "SRI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Sparton Resources Inc."
+   ],
+   "exact_norms": [
+    "sparton resources"
+   ]
+  },
+  {
+   "id": "spc-nickel-corp",
+   "name": "SPC Nickel Corp.",
+   "tickers": [
+    "SPC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "SPC Nickel Corp."
+   ],
+   "exact_norms": [
+    "spc nickel"
+   ]
+  },
+  {
+   "id": "srq-resources-inc",
+   "name": "SRQ Resources Inc.",
+   "tickers": [
+    "SRQ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "SRQ Resources Inc."
+   ],
+   "exact_norms": [
+    "srq resources"
+   ]
+  },
+  {
+   "id": "ssr-mining",
+   "name": "SSR Mining Inc.",
+   "tickers": [
+    "SSRM.TO",
+    "SSRM"
+   ],
+   "exchanges": [
+    "TSX",
+    "NASDAQ",
+    "US",
+    "Nasdaq"
+   ],
+   "on_site": true,
+   "names": [
+    "SSR Mining Inc."
+   ],
+   "exact_norms": [
+    "ssr mining"
+   ]
+  },
+  {
+   "id": "st-georges-eco-mining-corp",
+   "name": "St-Georges Eco-Mining Corp.",
+   "tickers": [
+    "SX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "St-Georges Eco-Mining Corp."
+   ],
+   "exact_norms": [
+    "st georges eco mining"
+   ]
+  },
+  {
+   "id": "st-james-gold-corp",
+   "name": "St. James Gold Corp.",
+   "tickers": [
+    "LORD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "St. James Gold Corp."
+   ],
+   "exact_norms": [
+    "st james gold"
+   ]
+  },
+  {
+   "id": "stakeholder-gold",
+   "name": "Stakeholder Gold",
+   "tickers": [
+    "SRC.V",
+    "SKHRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Stakeholder Gold"
+   ],
+   "exact_norms": [
+    "stakeholder gold"
+   ]
+  },
+  {
+   "id": "star-copper-corp",
+   "name": "Star Copper Corp.",
+   "tickers": [
+    "STCU.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Star Copper Corp."
+   ],
+   "exact_norms": [
+    "star copper"
+   ]
+  },
+  {
+   "id": "stardust-metal",
+   "name": "Stardust Metal",
+   "tickers": [
+    "ZIGY.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": true,
+   "names": [
+    "Stardust Metal"
+   ],
+   "exact_norms": [
+    "stardust metal"
+   ]
+  },
+  {
+   "id": "starr-peak-mining",
+   "name": "Starr Peak Mining",
+   "tickers": [
+    "STE.V",
+    "STRPF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Starr Peak Mining"
+   ],
+   "exact_norms": [
+    "starr peak mining"
+   ]
+  },
+  {
+   "id": "steadright-critical-minerals-inc",
+   "name": "Steadright Critical Minerals Inc.",
+   "tickers": [
+    "SCM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Steadright Critical Minerals Inc."
+   ],
+   "exact_norms": [
+    "steadright critical minerals"
+   ]
+  },
+  {
+   "id": "sterling-metals",
+   "name": "Sterling Metals",
+   "tickers": [
+    "SAG.V",
+    "SAGGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Sterling Metals"
+   ],
+   "exact_norms": [
+    "sterling metals"
+   ]
+  },
+  {
+   "id": "stillwater-critical-minerals",
+   "name": "Stillwater Critical Minerals",
+   "tickers": [
+    "PGE.V",
+    "PGEZF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Stillwater Critical Minerals"
+   ],
+   "exact_norms": [
+    "stillwater critical minerals"
+   ]
+  },
+  {
+   "id": "stinger-resources-inc",
+   "name": "Stinger Resources Inc.",
+   "tickers": [
+    "STNG.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Stinger Resources Inc."
+   ],
+   "exact_norms": [
+    "stinger resources"
+   ]
+  },
+  {
+   "id": "stllr-gold",
+   "name": "STLLR Gold Inc.",
+   "tickers": [
+    "STLR.TO",
+    "STLRF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "STLLR Gold Inc."
+   ],
+   "exact_norms": [
+    "stllr gold"
+   ]
+  },
+  {
+   "id": "stockworks-gold-inc",
+   "name": "Stockworks Gold Inc.",
+   "tickers": [
+    "STW.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Stockworks Gold Inc."
+   ],
+   "exact_norms": [
+    "stockworks exploration",
+    "stockworks gold"
+   ]
+  },
+  {
+   "id": "storm-exploration-inc",
+   "name": "Storm Exploration Inc.",
+   "tickers": [
+    "STRM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Storm Exploration Inc."
+   ],
+   "exact_norms": [
+    "storm exploration"
+   ]
+  },
+  {
+   "id": "strategic-metals",
+   "name": "Strategic Metals",
+   "tickers": [
+    "SMD.V",
+    "SR.V",
+    "SMDZF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Strategic Metals"
+   ],
+   "exact_norms": [
+    "strategic metals",
+    "strategic resources"
+   ]
+  },
+  {
+   "id": "strategx-elements-corp",
+   "name": "StrategX Elements Corp.",
+   "tickers": [
+    "STGX.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "StrategX Elements Corp."
+   ],
+   "exact_norms": [
+    "strategx elements"
+   ]
+  },
+  {
+   "id": "stria-lithium-inc",
+   "name": "Stria Lithium Inc.",
+   "tickers": [
+    "SRA.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Stria Lithium Inc."
+   ],
+   "exact_norms": [
+    "stria lithium"
+   ]
+  },
+  {
+   "id": "strikepoint-gold",
+   "name": "StrikePoint Gold",
+   "tickers": [
+    "SKP.V",
+    "STKXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "StrikePoint Gold"
+   ],
+   "exact_norms": [
+    "strikepoint gold"
+   ]
+  },
+  {
+   "id": "sun-summit-minerals",
+   "name": "Sun Summit Minerals",
+   "tickers": [
+    "SMN.V",
+    "SMREF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Sun Summit Minerals"
+   ],
+   "exact_norms": [
+    "sun summit minerals"
+   ]
+  },
+  {
+   "id": "suncor-energy",
+   "name": "Suncor Energy",
+   "tickers": [
+    "SU.TO",
+    "SU"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Suncor Energy"
+   ],
+   "exact_norms": [
+    "suncor energy"
+   ]
+  },
+  {
+   "id": "surge-copper",
+   "name": "Surge Copper",
+   "tickers": [
+    "SURG.V",
+    "SRGXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Surge Copper"
+   ],
+   "exact_norms": [
+    "surge copper"
+   ]
+  },
+  {
+   "id": "talisker-resources",
+   "name": "Talisker Resources",
+   "tickers": [
+    "TSK.TO",
+    "TSKFF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Talisker Resources"
+   ],
+   "exact_norms": [
+    "talisker resources"
+   ]
+  },
+  {
+   "id": "taranis-resources-inc",
+   "name": "Taranis Resources Inc.",
+   "tickers": [
+    "TRO.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Taranis Resources Inc."
+   ],
+   "exact_norms": [
+    "taranis resources"
+   ]
+  },
+  {
+   "id": "targa-exploration",
+   "name": "Targa Exploration",
+   "tickers": [
+    "TEX.CN",
+    "TRGEF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Targa Exploration"
+   ],
+   "exact_norms": [
+    "targa exploration"
+   ]
+  },
+  {
+   "id": "teako-minerals-corp",
+   "name": "Teako Minerals Corp.",
+   "tickers": [
+    "TMIN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Teako Minerals Corp."
+   ],
+   "exact_norms": [
+    "teako minerals"
+   ]
+  },
+  {
+   "id": "teck-resources",
+   "name": "Teck Resources",
+   "tickers": [
+    "TECK.TO",
+    "TECK"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Teck Resources"
+   ],
+   "exact_norms": [
+    "teck resources"
+   ]
+  },
+  {
+   "id": "temas-resources-corp",
+   "name": "Temas Resources Corp.",
+   "tickers": [
+    "TMAS.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Temas Resources Corp."
+   ],
+   "exact_norms": [
+    "temas resources"
+   ]
+  },
+  {
+   "id": "teuton-resources",
+   "name": "Teuton Resources",
+   "tickers": [
+    "TUO.V",
+    "TEUTF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Teuton Resources"
+   ],
+   "exact_norms": [
+    "teuton resources"
+   ]
+  },
+  {
+   "id": "thesis-gold-silver-inc",
+   "name": "Thesis Gold & Silver Inc.",
+   "tickers": [
+    "TAU.V",
+    "THSGF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": false,
+   "names": [
+    "Thesis Gold & Silver Inc."
+   ],
+   "exact_norms": [
+    "thesis gold and silver"
+   ]
+  },
+  {
+   "id": "three-crowns-critical-metals-inc",
+   "name": "Three Crowns Critical Metals Inc.",
+   "tickers": [
+    "TCCM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Three Crowns Critical Metals Inc."
+   ],
+   "exact_norms": [
+    "three crowns critical metals"
+   ]
+  },
+  {
+   "id": "thunder-gold-corp",
+   "name": "Thunder Gold Corp.",
+   "tickers": [
+    "TGOL.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Thunder Gold Corp."
+   ],
+   "exact_norms": [
+    "thunder gold"
+   ]
+  },
+  {
+   "id": "thunderbird-minerals-corp",
+   "name": "Thunderbird Minerals Corp.",
+   "tickers": [
+    "BIRD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Thunderbird Minerals Corp."
+   ],
+   "exact_norms": [
+    "thunderbird minerals"
+   ]
+  },
+  {
+   "id": "tintina-mines-ltd",
+   "name": "Tintina Mines Ltd.",
+   "tickers": [
+    "TTS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Tintina Mines Ltd."
+   ],
+   "exact_norms": [
+    "tintina mines"
+   ]
+  },
+  {
+   "id": "tomagold-corporation",
+   "name": "TomaGold Corporation",
+   "tickers": [
+    "LOT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "TomaGold Corporation"
+   ],
+   "exact_norms": [
+    "tomagold"
+   ]
+  },
+  {
+   "id": "torr-metals-inc",
+   "name": "Torr Metals Inc.",
+   "tickers": [
+    "TMET.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Torr Metals Inc."
+   ],
+   "exact_norms": [
+    "torr metals"
+   ]
+  },
+  {
+   "id": "total-metals",
+   "name": "Total Metals Corp.",
+   "tickers": [
+    "TT.V",
+    "TTTMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Total Metals Corp."
+   ],
+   "exact_norms": [
+    "total metals"
+   ]
+  },
+  {
+   "id": "tower-resources-ltd",
+   "name": "Tower Resources Ltd.",
+   "tickers": [
+    "TWR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Tower Resources Ltd."
+   ],
+   "exact_norms": [
+    "tower resources"
+   ]
+  },
+  {
+   "id": "trailbreaker-resources-ltd",
+   "name": "Trailbreaker Resources Ltd.",
+   "tickers": [
+    "TBK.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Trailbreaker Resources Ltd."
+   ],
+   "exact_norms": [
+    "trailbreaker resources"
+   ]
+  },
+  {
+   "id": "transition-metals",
+   "name": "Transition Metals",
+   "tickers": [
+    "XTM.V",
+    "TNTMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Transition Metals"
+   ],
+   "exact_norms": [
+    "transition metals"
+   ]
+  },
+  {
+   "id": "tres-or-resources-ltd",
+   "name": "Tres-Or Resources Ltd.",
+   "tickers": [
+    "TRS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Tres-Or Resources Ltd."
+   ],
+   "exact_norms": [
+    "tres or resources"
+   ]
+  },
+  {
+   "id": "trifecta-gold-ltd",
+   "name": "Trifecta Gold Ltd.",
+   "tickers": [
+    "TG.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Trifecta Gold Ltd."
+   ],
+   "exact_norms": [
+    "trifecta gold"
+   ]
+  },
+  {
+   "id": "triumph-gold",
+   "name": "Triumph Gold",
+   "tickers": [
+    "TIG.V",
+    "TIGCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Triumph Gold"
+   ],
+   "exact_norms": [
+    "triumph gold"
+   ]
+  },
+  {
+   "id": "troilus",
+   "name": "Troilus Gold Corp.",
+   "tickers": [
+    "TLG.TO",
+    "CHXMF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Troilus Gold Corp."
+   ],
+   "exact_norms": [
+    "troilus",
+    "troilus gold",
+    "troilus mining"
+   ]
+  },
+  {
+   "id": "trojan-gold-inc",
+   "name": "Trojan Gold Inc.",
+   "tickers": [
+    "TGII.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Trojan Gold Inc."
+   ],
+   "exact_norms": [
+    "trojan gold"
+   ]
+  },
+  {
+   "id": "troubadour-resources-inc",
+   "name": "Troubadour Resources Inc.",
+   "tickers": [
+    "TR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Troubadour Resources Inc."
+   ],
+   "exact_norms": [
+    "troubadour resources"
+   ]
+  },
+  {
+   "id": "tru-precious-metals-corp",
+   "name": "TRU Precious Metals Corp.",
+   "tickers": [
+    "TRU.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "TRU Precious Metals Corp."
+   ],
+   "exact_norms": [
+    "tru precious metals"
+   ]
+  },
+  {
+   "id": "tudor-gold",
+   "name": "Tudor Gold Corp.",
+   "tickers": [
+    "TUD.V",
+    "TDRRF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Tudor Gold Corp."
+   ],
+   "exact_norms": [
+    "tudor gold"
+   ]
+  },
+  {
+   "id": "twenty-mile-metals-inc",
+   "name": "Twenty Mile Metals Inc.",
+   "tickers": [
+    "MILE.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Twenty Mile Metals Inc."
+   ],
+   "exact_norms": [
+    "twenty mile metals"
+   ]
+  },
+  {
+   "id": "ubique-minerals-limited",
+   "name": "Ubique Minerals Limited",
+   "tickers": [
+    "UBQ.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Ubique Minerals Limited"
+   ],
+   "exact_norms": [
+    "ubique minerals"
+   ]
+  },
+  {
+   "id": "united-critical-minerals-corp",
+   "name": "United Critical Minerals Corp.",
+   "tickers": [
+    "UCM.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "United Critical Minerals Corp."
+   ],
+   "exact_norms": [
+    "united critical minerals"
+   ]
+  },
+  {
+   "id": "upside-gold-corp",
+   "name": "Upside Gold Corp.",
+   "tickers": [
+    "UG.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Upside Gold Corp."
+   ],
+   "exact_norms": [
+    "upside gold"
+   ]
+  },
+  {
+   "id": "ur-energy",
+   "name": "Ur-Energy",
+   "tickers": [
+    "URE.TO",
+    "URE",
+    "URG"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Ur-Energy"
+   ],
+   "exact_norms": [
+    "ur energy"
+   ]
+  },
+  {
+   "id": "urbana-corporation",
+   "name": "Urbana Corporation",
+   "tickers": [
+    "URB.TO",
+    "URB.CN"
+   ],
+   "exchanges": [
+    "TSX",
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Urbana Corporation"
+   ],
+   "exact_norms": [
+    "urbana"
+   ]
+  },
+  {
+   "id": "val-d-or-mining-corporation",
+   "name": "Val-D'Or Mining Corporation",
+   "tickers": [
+    "VZZ.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Val-D'Or Mining Corporation"
+   ],
+   "exact_norms": [
+    "val d or mining"
+   ]
+  },
+  {
+   "id": "valore-metals",
+   "name": "ValOre Metals",
+   "tickers": [
+    "VO.V",
+    "KVLQF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "ValOre Metals"
+   ],
+   "exact_norms": [
+    "valore metals"
+   ]
+  },
+  {
+   "id": "vanadiumcorp-resource-inc",
+   "name": "VanadiumCorp Resource Inc.",
+   "tickers": [
+    "VRB.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "VanadiumCorp Resource Inc."
+   ],
+   "exact_norms": [
+    "vanadiumcorp resource"
+   ]
+  },
+  {
+   "id": "velox-energy-materials-inc",
+   "name": "Velox Energy Materials Inc.",
+   "tickers": [
+    "VLX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Velox Energy Materials Inc."
+   ],
+   "exact_norms": [
+    "velox energy materials"
+   ]
+  },
+  {
+   "id": "ventra-metals-corp",
+   "name": "Ventra Metals Corp.",
+   "tickers": [
+    "VENT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Ventra Metals Corp."
+   ],
+   "exact_norms": [
+    "ventra metals"
+   ]
+  },
+  {
+   "id": "vertical-exploration-inc",
+   "name": "Vertical Exploration Inc.",
+   "tickers": [
+    "VERT.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Vertical Exploration Inc."
+   ],
+   "exact_norms": [
+    "vertical exploration"
+   ]
+  },
+  {
+   "id": "viridian-metals-inc",
+   "name": "Viridian Metals Inc.",
+   "tickers": [
+    "VRDN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Viridian Metals Inc."
+   ],
+   "exact_norms": [
+    "viridian metals"
+   ]
+  },
+  {
+   "id": "viridis-mining-minerals",
+   "name": "Viridis Mining & Minerals",
+   "tickers": [
+    "VMM.AX"
+   ],
+   "exchanges": [
+    "ASX"
+   ],
+   "on_site": true,
+   "names": [
+    "Viridis Mining & Minerals"
+   ],
+   "exact_norms": [
+    "viridis mining and minerals",
+    "viridis mining minerals"
+   ]
+  },
+  {
+   "id": "visible-gold-mines-inc",
+   "name": "Visible Gold Mines Inc.",
+   "tickers": [
+    "VGD.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Visible Gold Mines Inc."
+   ],
+   "exact_norms": [
+    "visible gold mines"
+   ]
+  },
+  {
+   "id": "vision-lithium-inc",
+   "name": "Vision Lithium inc.",
+   "tickers": [
+    "VLI.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Vision Lithium inc."
+   ],
+   "exact_norms": [
+    "vision lithium"
+   ]
+  },
+  {
+   "id": "vista-gold",
+   "name": "Vista Gold",
+   "tickers": [
+    "VGZ.TO",
+    "VGZ"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Vista Gold"
+   ],
+   "exact_norms": [
+    "vista gold"
+   ]
+  },
+  {
+   "id": "vizsla-copper",
+   "name": "Vizsla Copper",
+   "tickers": [
+    "VZLA.TO",
+    "VZLA",
+    "VCU.V",
+    "VCUFF"
+   ],
+   "exchanges": [
+    "TSX",
+    "NYSE",
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Vizsla Copper"
+   ],
+   "exact_norms": [
+    "vizsla copper",
+    "vizsla silver"
+   ]
+  },
+  {
+   "id": "volta-metals-ltd",
+   "name": "Volta Metals Ltd.",
+   "tickers": [
+    "VLTA.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Volta Metals Ltd."
+   ],
+   "exact_norms": [
+    "volta metals"
+   ]
+  },
+  {
+   "id": "voltage-metals-corp",
+   "name": "Voltage Metals Corp.",
+   "tickers": [
+    "VOLT.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Voltage Metals Corp."
+   ],
+   "exact_norms": [
+    "voltage metals"
+   ]
+  },
+  {
+   "id": "vortex-energy-corp",
+   "name": "Vortex Energy Corp.",
+   "tickers": [
+    "VMS.V",
+    "VRTX.CN"
+   ],
+   "exchanges": [
+    "TSXV",
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Vortex Energy Corp."
+   ],
+   "exact_norms": [
+    "vortex energy",
+    "vortex metals"
+   ]
+  },
+  {
+   "id": "vr-resources",
+   "name": "VR Resources",
+   "tickers": [
+    "VRR.V",
+    "VRRCF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "VR Resources"
+   ],
+   "exact_norms": [
+    "vr resources"
+   ]
+  },
+  {
+   "id": "vulcan-minerals",
+   "name": "Vulcan Minerals",
+   "tickers": [
+    "VUL.V",
+    "VULMF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Vulcan Minerals"
+   ],
+   "exact_norms": [
+    "vulcan minerals",
+    "vulcan resources"
+   ]
+  },
+  {
+   "id": "walker-lane-resources",
+   "name": "Walker Lane Resources",
+   "tickers": [
+    "WLR.V",
+    "CMCXF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Walker Lane Resources"
+   ],
+   "exact_norms": [
+    "walker lane resources"
+   ]
+  },
+  {
+   "id": "wallbridge",
+   "name": "Wallbridge Mining Company Limited",
+   "tickers": [
+    "WM.TO",
+    "WLBMF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Wallbridge Mining Company Limited"
+   ],
+   "exact_norms": [
+    "wallbridge",
+    "wallbridge mining"
+   ]
+  },
+  {
+   "id": "wesdome-gold-mines",
+   "name": "Wesdome Gold Mines Ltd.",
+   "tickers": [
+    "WDO.TO",
+    "WDOFF"
+   ],
+   "exchanges": [
+    "TSX",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Wesdome Gold Mines Ltd."
+   ],
+   "exact_norms": [
+    "wesdome",
+    "wesdome gold mines"
+   ]
+  },
+  {
+   "id": "west-high-yield-w-h-y-resources-ltd",
+   "name": "West High Yield (W.H.Y.) Resources Ltd.",
+   "tickers": [
+    "WHY.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "West High Yield (W.H.Y.) Resources Ltd."
+   ],
+   "exact_norms": [
+    "west high yield w h y resources"
+   ]
+  },
+  {
+   "id": "west-mining-corp",
+   "name": "West Mining Corp.",
+   "tickers": [
+    "WEST.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "West Mining Corp."
+   ],
+   "exact_norms": [
+    "west mining"
+   ]
+  },
+  {
+   "id": "western-star-resources-inc",
+   "name": "Western Star Resources Inc.",
+   "tickers": [
+    "WSR.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Western Star Resources Inc."
+   ],
+   "exact_norms": [
+    "western star resources"
+   ]
+  },
+  {
+   "id": "westmount-minerals-corp",
+   "name": "Westmount Minerals Corp.",
+   "tickers": [
+    "WMC.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Westmount Minerals Corp."
+   ],
+   "exact_norms": [
+    "westmount minerals"
+   ]
+  },
+  {
+   "id": "white-gold",
+   "name": "White Gold",
+   "tickers": [
+    "WGO.V",
+    "WHGOF"
+   ],
+   "exchanges": [
+    "TSXV",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "White Gold"
+   ],
+   "exact_norms": [
+    "white gold"
+   ]
+  },
+  {
+   "id": "windfall-geotek-inc",
+   "name": "Windfall Geotek Inc.",
+   "tickers": [
+    "WIN.CN"
+   ],
+   "exchanges": [
+    "CSE"
+   ],
+   "on_site": false,
+   "names": [
+    "Windfall Geotek Inc."
+   ],
+   "exact_norms": [
+    "windfall geotek"
+   ]
+  },
+  {
+   "id": "winshear-metals-corp",
+   "name": "Winshear Metals Corp.",
+   "tickers": [
+    "WINS.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Winshear Metals Corp."
+   ],
+   "exact_norms": [
+    "winshear gold",
+    "winshear metals"
+   ]
+  },
+  {
+   "id": "ximen-mining-corp",
+   "name": "Ximen Mining Corp.",
+   "tickers": [
+    "XIM.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Ximen Mining Corp."
+   ],
+   "exact_norms": [
+    "ximen mining"
+   ]
+  },
+  {
+   "id": "xplore-resources-corp",
+   "name": "Xplore Resources Corp.",
+   "tickers": [
+    "XPLR.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Xplore Resources Corp."
+   ],
+   "exact_norms": [
+    "xplore resources"
+   ]
+  },
+  {
+   "id": "xxix-metal-corp",
+   "name": "XXIX Metal Corp.",
+   "tickers": [
+    "XXIX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "XXIX Metal Corp."
+   ],
+   "exact_norms": [
+    "xxix metal"
+   ]
+  },
+  {
+   "id": "yukon-metals",
+   "name": "Yukon Metals",
+   "tickers": [
+    "YMC.CN",
+    "YMMCF"
+   ],
+   "exchanges": [
+    "CSE",
+    "US"
+   ],
+   "on_site": true,
+   "names": [
+    "Yukon Metals"
+   ],
+   "exact_norms": [
+    "yukon metals"
+   ]
+  },
+  {
+   "id": "zimtu-capital-corp",
+   "name": "Zimtu Capital Corp.",
+   "tickers": [
+    "ZC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Zimtu Capital Corp."
+   ],
+   "exact_norms": [
+    "zimtu capital"
+   ]
+  },
+  {
+   "id": "zincx-resources-corp",
+   "name": "Zincx Resources Corp.",
+   "tickers": [
+    "ZNX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Zincx Resources Corp."
+   ],
+   "exact_norms": [
+    "zincx resources"
+   ]
+  },
+  {
+   "id": "zonte-metals-inc",
+   "name": "Zonte Metals Inc.",
+   "tickers": [
+    "ZON.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Zonte Metals Inc."
+   ],
+   "exact_norms": [
+    "zonte metals"
+   ]
+  }
+ ]
+}

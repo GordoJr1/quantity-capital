@@ -62,6 +62,7 @@ DB_PATH = CLAIMS / ".db" / "ontario.sqlite"
 BUILD_DIR = CLAIMS / ".build"
 LINKS_PATH = CLAIMS / "links" / "holders.json"
 ALIASES_PATH = CLAIMS / "links" / "aliases.json"
+PUBLIC_ISSUERS_PATH = CLAIMS / "links" / "public-issuers.json"
 SEARCH_HOLDERS = CLAIMS / "search" / "holders.json"
 SEARCH_TITLES = CLAIMS / "search" / "titles"
 AROUND_PATH = CLAIMS / "around" / "ontario-mines.json"
@@ -366,6 +367,52 @@ def geometry_distance_km(lon: float, lat: float, geom: dict | None) -> float | N
     return best / 1000.0
 
 
+def prefer_ticker(tickers: list[str]) -> str | None:
+    """Canadian listing first, so the popup and the SEDI pass see a CAD symbol."""
+    for ticker in tickers:
+        upper = str(ticker).upper()
+        if upper.endswith((".TO", ".V", ".CN", ".NE")):
+            return str(ticker)
+    return str(tickers[0]) if tickers else None
+
+
+def load_public_issuers(path: Path = PUBLIC_ISSUERS_PATH) -> list[dict]:
+    """Listed claim holders, including issuers that have no beta page."""
+    if not path.is_file():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = []
+    for row in data.get("issuers") or []:
+        cid = (row.get("id") or "").strip()
+        if not cid:
+            continue
+        tickers = []
+        for ticker in row.get("tickers") or []:
+            text = str(ticker).strip()
+            if text and text not in tickers:
+                tickers.append(text)
+        exchanges = []
+        for name in row.get("exchanges") or []:
+            text = str(name).strip()
+            if text and text not in exchanges:
+                exchanges.append(text)
+        exact_norms = []
+        for norm in row.get("exact_norms") or []:
+            text = normalize_name(str(norm))
+            if text and text not in exact_norms and text not in STOP_TOKENS and len(text) >= 3:
+                exact_norms.append(text)
+        rows.append({
+            "id": cid,
+            "name": (row.get("name") or cid).strip(),
+            "names": [n for n in (row.get("names") or []) if n],
+            "tickers": tickers,
+            "exchanges": exchanges,
+            "on_site": bool(row.get("on_site")),
+            "exact_norms": exact_norms,
+        })
+    return rows
+
+
 def load_aliases(path: Path = ALIASES_PATH) -> list[dict]:
     if not path.is_file():
         return []
@@ -493,6 +540,33 @@ def load_company_book() -> dict[str, dict]:
             slot["ticker"] = slot["tickers"][0]
         slot["asset_rows"] = _beta_assets(payload)
         slot["assets"] = [a["id"] for a in slot["asset_rows"]]
+    for row in load_public_issuers():
+        cid = row["id"]
+        slot = book.setdefault(cid, {
+            "company_id": cid,
+            "name": row["name"],
+            "names": [],
+            "ticker": None,
+            "tickers": [],
+            "assets": [],
+            "asset_rows": [],
+        })
+        if row["name"] and slot.get("name") in (None, "", cid):
+            slot["name"] = row["name"]
+        for label in [row["name"], *row["names"]]:
+            if label:
+                slot["names"].append(label)
+        for ticker in row["tickers"]:
+            if ticker not in slot["tickers"]:
+                slot["tickers"].append(ticker)
+        if slot["tickers"] and not slot.get("ticker"):
+            slot["ticker"] = prefer_ticker(slot["tickers"])
+        if row["exchanges"]:
+            slot["exchanges"] = list(row["exchanges"])
+        exact_norms = slot.setdefault("exact_norms", [])
+        for norm in row["exact_norms"]:
+            if norm not in exact_norms:
+                exact_norms.append(norm)
     for cid, target in alias_of.items():
         if cid in book and target in book:
             if not book[cid]["assets"]:
@@ -510,6 +584,8 @@ def load_company_book() -> dict[str, dict]:
                 seen.add(norm)
                 norms.append(norm)
         slot["norms"] = norms
+        slot.setdefault("exact_norms", [])
+        slot.setdefault("exchanges", [])
         tokens: set[str] = set()
         for norm in norms:
             tokens |= distinctive_tokens(norm)
@@ -527,6 +603,9 @@ def name_indexes(book: dict[str, dict]) -> tuple[dict[str, list[str]], list[tupl
                 exact[norm].append(cid)
             if len(norm) >= 8 and len(norm.split()) >= 2:
                 phrases.append((norm, cid))
+        for norm in slot.get("exact_norms") or []:
+            if cid not in exact[norm]:
+                exact[norm].append(cid)
         for tok in slot["tokens"]:
             token_index[tok].add(cid)
     phrases.sort(key=lambda item: len(item[0]), reverse=True)
@@ -648,15 +727,27 @@ def match_holder(
         if len(alias_ids) > 1:
             _judge_candidates(party, norm, alias_ids[:2], book, judge, interest, add, ambiguous)
             continue
-        if exact_ok(norm):
-            exact_ids = [cid for cid in exact.get(norm, []) if cid in book]
-            if len(exact_ids) == 1:
-                add(exact_ids[0], "catalog_name", interest, party)
-                continue
-            if len(exact_ids) == 2:
-                _judge_candidates(party, norm, exact_ids, book, judge, interest, add, ambiguous)
-                continue
-            if len(exact_ids) > 2:
+        named = [
+            cid for cid in exact.get(norm, [])
+            if cid in book and norm in (book[cid].get("norms") or [])
+        ]
+        named = list(dict.fromkeys(named))
+        if exact_ok(norm) and len(named) == 1:
+            add(named[0], "catalog_name", interest, party)
+            continue
+        if exact_ok(norm) and len(named) == 2:
+            _judge_candidates(party, norm, named, book, judge, interest, add, ambiguous)
+            continue
+        if exact_ok(norm) and len(named) > 2:
+            continue
+        if not (exact_ok(norm) and named):
+            pinned = [
+                cid for cid in exact.get(norm, [])
+                if cid in book and norm in (book[cid].get("exact_norms") or [])
+            ]
+            pinned = list(dict.fromkeys(pinned))
+            if len(pinned) == 1:
+                add(pinned[0], "catalog_name", interest, party)
                 continue
         prefixed = [(phrase, cid) for phrase, cid in phrases if cid in book and phrase_prefix(phrase, norm)]
         if prefixed:
@@ -708,6 +799,7 @@ def match_holder(
             "company": slot.get("name"),
             "ticker": slot.get("ticker"),
             "tickers": slot.get("tickers") or [],
+            "exchange": "; ".join(slot.get("exchanges") or []),
             "assets": slot.get("assets") or [],
             "method": row["method"],
             "party": row.get("party"),

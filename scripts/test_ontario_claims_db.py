@@ -178,6 +178,37 @@ class LinkTests(unittest.TestCase):
         self.assertIsNone(match("(100) Blackwidow Geological Services Inc.")["company_id"])
         self.assertIsNone(match("(100) Jamieson Scott Walker")["company_id"])
 
+    def test_exact_norm_links_a_short_public_name(self):
+        self.book["fnx-inc"] = {
+            "company_id": "fnx-inc", "name": "FNX Inc.", "norms": ["fnx"],
+            "exact_norms": ["fnx"], "tokens": set(), "ticker": "FNX.CN",
+            "tickers": ["FNX.CN"], "assets": [], "exchanges": ["CSE"],
+        }
+        exact, phrases, tokens = db.name_indexes(self.book)
+        row = db.match_holder(
+            "(100) FNX INC.", self.book, self.aliases, {}, exact, phrases, tokens,
+        )
+        self.assertEqual(row["company_id"], "fnx-inc")
+        self.assertEqual(row["companies"][0]["ticker"], "FNX.CN")
+        mining = db.match_holder(
+            "(100) FNX MINING COMPANY INC.", self.book, self.aliases, {}, exact, phrases, tokens,
+        )
+        self.assertIsNone(mining["company_id"])
+
+    def test_named_exact_wins_over_another_issuers_pinned_norm(self):
+        self.book["listed"] = {
+            "company_id": "listed", "name": "Listed Mines", "norms": ["listed mines"],
+            "exact_norms": [], "tokens": set(), "ticker": "LST.V", "tickers": ["LST.V"], "assets": [],
+        }
+        self.book["other"] = {
+            "company_id": "other", "name": "Other", "norms": [],
+            "exact_norms": ["listed mines"], "tokens": set(), "ticker": "OTH.V",
+            "tickers": ["OTH.V"], "assets": [],
+        }
+        exact, phrases, tokens = db.name_indexes(self.book)
+        row = db.match_holder("Listed Mines Inc.", self.book, [], {}, exact, phrases, tokens)
+        self.assertEqual(row["company_id"], "listed")
+
     def test_minority_interest_does_not_claim_the_holder(self):
         row = self.match("(99) LAST RESORT RESOURCES LTD., (1) KENORLAND EXPLORATION LTD")
         self.assertIsNone(row["company_id"])
@@ -227,8 +258,28 @@ class RepoTests(unittest.TestCase):
         self.assertIn('code: "bc"', script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn("/claims/tiles/", sw)
-        self.assertIn("qc-shell-v220", sw)
-        self.assertIn("claims-map.js?v=21", sw)
+        self.assertIn("qc-shell-v221", sw)
+        self.assertIn("claims-map.js?v=22", sw)
+        self.assertIn("claims-db.js?v=5", sw)
+
+    def test_public_issuer_links_keep_site_ids(self):
+        aliases = json.loads((ROOT / "claims" / "links" / "aliases.json").read_text(encoding="utf-8"))
+        phrases = {row["phrase"]: row["company_id"] for row in aliases["aliases"]}
+        self.assertEqual(phrases["exploration azimut"], "azimut-exploration")
+        self.assertEqual(phrases["alexco"], "hecla-mining")
+        self.assertEqual(phrases["exploration midland"], "midland-exploration")
+        self.assertEqual(phrases["kaminak"], "newmont")
+        issuers = json.loads((ROOT / "claims" / "links" / "public-issuers.json").read_text(encoding="utf-8"))
+        by_id = {row["id"]: row for row in issuers["issuers"]}
+        self.assertEqual(by_id["azimut-exploration"]["tickers"][0], "AZM.V")
+        self.assertEqual(by_id["hecla-mining"]["tickers"], ["HL"])
+        self.assertEqual(by_id["fnx-inc"]["tickers"], ["FNX.CN"])
+        self.assertNotIn("senoa-gold", by_id)
+        catalog = json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))
+        catalog_ids = {row["id"] for row in catalog["companies"]}
+        off = [row["id"] for row in issuers["issuers"] if not row["on_site"]]
+        self.assertTrue(off)
+        self.assertFalse(set(off) & catalog_ids)
 
 
 if __name__ == "__main__":

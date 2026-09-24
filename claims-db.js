@@ -76,7 +76,7 @@
 
   function showPopup(feature, lngLat) {
     const p = feature.properties || {};
-    const company = !p.company || p.company === "unlinked" ? "—" : p.company;
+    const company = p.name || (!p.company || p.company === "unlinked" ? "—" : p.company);
     const ticker = p.ticker || "—";
     const html =
       '<div class="pop"><div class="holder"></div><dl>' +
@@ -158,7 +158,8 @@
       const bits = [];
       if (row.code) bits.push(row.code.toUpperCase());
       bits.push(row.count.toLocaleString() + " titles");
-      if (row.company_id) bits.push(row.company_id);
+      if (row.company) bits.push(row.company);
+      else if (row.company_id) bits.push(row.company_id);
       if (row.ticker) bits.push(row.ticker);
       btn.querySelector(".meta").textContent = bits.join(" · ");
       btn.addEventListener("click", () => {
@@ -174,8 +175,9 @@
     const totals = new Map();
     holders.forEach((row) => {
       if (!row.company_id) return;
-      const prev = totals.get(row.company_id) || { id: row.company_id, ticker: row.ticker, count: 0 };
+      const prev = totals.get(row.company_id) || { id: row.company_id, name: row.company || "", ticker: row.ticker, count: 0 };
       prev.count += row.count;
+      if (!prev.name && row.company) prev.name = row.company;
       if (!prev.ticker && row.ticker) prev.ticker = row.ticker;
       totals.set(row.company_id, prev);
     });
@@ -186,7 +188,7 @@
       el.className = "swatch";
       el.innerHTML = "<i></i><span></span>";
       el.querySelector("i").style.background = colorFor(row.id);
-      el.querySelector("span").textContent = row.id + (row.ticker ? " · " + row.ticker : "") + " · " + row.count.toLocaleString();
+      el.querySelector("span").textContent = (row.name || row.id) + (row.ticker ? " · " + row.ticker : "") + " · " + row.count.toLocaleString();
       el.addEventListener("click", () => {
         companyFilter = companyFilter === row.id ? null : row.id;
         holderFilter = null;

@@ -18,9 +18,16 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+from qc_io import atomic_write_json  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAIMS = ROOT / "claims" / "companies.json"
@@ -78,7 +85,7 @@ def slugify(name: str) -> str:
 
 
 def write_json(path: Path, payload: Any) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(path, payload)
 
 
 def extract_symbols(rec: dict) -> list[str]:
@@ -520,13 +527,20 @@ def main() -> int:
     if args.check:
         errors = check_index(root, payload)
         if errors:
-            print("check failed:", file=__import__("sys").stderr)
+            print("check failed:", file=sys.stderr)
             for e in errors:
-                print(" ", e, file=__import__("sys").stderr)
+                print(" ", e, file=sys.stderr)
             return 1
         print("claims-publics check ok")
         return 0
 
+    if not payload.get("issuers") or len(payload["issuers"]) < len(claims.get("companies") or []):
+        print(
+            f"refusing to write beta/claims-publics.json: {len(payload.get('issuers') or [])} issuers "
+            f"for {len(claims.get('companies') or [])} catalog companies",
+            file=sys.stderr,
+        )
+        return 1
     write_json(root / "beta" / "claims-publics.json", payload)
     written = []
     if args.write_shells:

@@ -1558,6 +1558,78 @@ def ingest_canada_production(con: sqlite3.Connection) -> None:
     )
 
 
+CARRY_PACK_LIKE = "province:%"
+CARRY_META_LIKE = "province_%"
+
+
+def _columns(con: sqlite3.Connection, schema: str, table: str) -> list[str]:
+    return [r[1] for r in con.execute(f"PRAGMA {schema}.table_info({table})")]
+
+
+def _copy_rows(con: sqlite3.Connection, table: str, where: str, args: tuple = (), skip: tuple = ()) -> int:
+    new_cols = _columns(con, "main", table)
+    old_cols = set(_columns(con, "old", table))
+    cols = [c for c in new_cols if c in old_cols and c not in skip]
+    if not cols:
+        return 0
+    col_sql = ", ".join(cols)
+    cur = con.execute(
+        f"INSERT OR IGNORE INTO main.{table} ({col_sql}) SELECT {col_sql} FROM old.{table} WHERE {where}",
+        args,
+    )
+    return cur.rowcount
+
+
+def carry_forward_side_tables(con: sqlite3.Connection, old_db: Path) -> dict[str, int]:
+    """Copy rows other scripts wrote into the previous qc.sqlite into the fresh build.
+
+    fetch_province_claims.py writes the `province:*` packs (companies, packs,
+    titles, parties, links) and its `province_*` resume offsets. A full rebuild
+    starts from schema.sql and would silently drop them otherwise.
+    """
+    counts: dict[str, int] = {}
+    if not old_db.exists():
+        return counts
+    con.commit()
+    con.execute("ATTACH DATABASE ? AS old", (str(old_db),))
+    try:
+        old_tables = {r[0] for r in con.execute("SELECT name FROM old.sqlite_master WHERE type='table'")}
+        needed = {"companies", "claim_packs", "claim_titles"}
+        if not needed <= old_tables:
+            return counts
+        con.execute("PRAGMA foreign_keys = OFF")
+        referenced = f"""
+            SELECT company_id FROM old.claim_packs WHERE pack_id LIKE ?
+            UNION SELECT holder_company_id FROM old.claim_packs WHERE pack_id LIKE ?
+            UNION SELECT company_id FROM old.claim_titles WHERE pack_id LIKE ?
+            UNION SELECT holder_company_id FROM old.claim_titles WHERE pack_id LIKE ?
+        """
+        ref_args = (CARRY_PACK_LIKE,) * 4
+        if "claim_title_parties" in old_tables:
+            referenced += " UNION SELECT holder_company_id FROM old.claim_title_parties WHERE pack_id LIKE ?"
+            ref_args += (CARRY_PACK_LIKE,)
+        counts["companies"] = _copy_rows(con, "companies", f"company_id IN ({referenced})", ref_args)
+        counts["claim_packs"] = _copy_rows(con, "claim_packs", "pack_id LIKE ?", (CARRY_PACK_LIKE,))
+        counts["claim_titles"] = _copy_rows(con, "claim_titles", "pack_id LIKE ?", (CARRY_PACK_LIKE,))
+        for table in ("claim_title_parties", "claim_company_links"):
+            if table in old_tables:
+                counts[table] = _copy_rows(con, table, "pack_id LIKE ?", (CARRY_PACK_LIKE,), skip=("id",))
+        if "meta" in old_tables:
+            counts["meta"] = _copy_rows(con, "meta", "key LIKE ?", (CARRY_META_LIKE,))
+        for table in ("claim_packs", "claim_titles", "claim_title_parties"):
+            con.execute(
+                f"UPDATE {table} SET holder_company_id = NULL WHERE holder_company_id IS NOT NULL "
+                "AND holder_company_id NOT IN (SELECT company_id FROM companies)"
+            )
+        con.commit()
+    finally:
+        con.execute("PRAGMA foreign_keys = ON")
+        con.execute("DETACH DATABASE old")
+    if any(counts.values()):
+        log("  carried forward from previous qc.sqlite: " + ", ".join(f"{k}={v}" for k, v in counts.items()))
+    return counts
+
+
 def refresh_tapes(con: sqlite3.Connection) -> None:
     con.execute("DELETE FROM trade_size_vs_cap")
     con.execute("DELETE FROM politician_trades")
@@ -1698,6 +1770,8 @@ def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = Fals
         log("Pilot calc trade_size_vs_cap…")
         materialize_calc(con)
         con.commit()
+        log("Province claims carried from previous qc.sqlite…")
+        carry_forward_side_tables(con, DB_PATH)
 
         run_link_jev(con, pending, skip_jev)
         run_calc_jev(con, skip_jev)
@@ -1733,7 +1807,7 @@ def main() -> int:
     parser.add_argument("--skip-jev", action="store_true", help="Ingest only; leave Jev fields null")
     parser.add_argument("--skip-tells", action="store_true", help="Skip Tells board calc / tells.json export")
     parser.add_argument("--skip-analysis", action="store_true", help="Skip analysis.json / signals book")
-    parser.add_argument("--skip-paper", action="store_true", help="Skip paper / backtest.json")
+    parser.add_argument("--skip-paper", action="store_true", help="Skip paper Jev flags on backtest.json (read-only)")
     parser.add_argument("--skip-insider", action="store_true", help="Skip insider boards")
     parser.add_argument("--excel", action="store_true", help="Write Desktop xlsx exports")
     parser.add_argument(

@@ -7,7 +7,12 @@ Pack ids: province:ontario / province:bc with company_id = _province_ontario / _
 
 Ontario holders often look like "(100) ACME INC" so letter prefixes on HOLDER
 return empty — Ontario uses OBJECTID keyset pagination over 1=1 instead.
-BC still walks OWNER_NAME letter prefixes (per-letter resume offsets).
+BC still walks OWNER_NAME prefixes A–Z and 0–9 (numbered companies), with
+per-prefix resume offsets.
+
+A fetch or API error stops that walk and the run exits 1. A complete,
+non-resumed walk (no --limit-pages, default BC prefixes) prunes titles in
+that pack that the walk did not return, so lapsed titles drop out.
 """
 from __future__ import annotations
 
@@ -34,6 +39,11 @@ BC_FIELDS = "TENURE_NUMBER_ID,CLAIM_NAME,OWNER_NAME,TENURE_TYPE_DESCRIPTION,TITL
 ON_SOURCE = "Ontario MLAS operational claims (OGSEarth / LIO MapServer). Unofficial viewing data, not legal title."
 BC_SOURCE = "BC MTA Mineral, Placer and Coal Tenure Spatial View (BCGW). Open Government Licence – British Columbia. Not legal title."
 PAGE = 1000
+BC_PREFIXES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+
+class FetchError(RuntimeError):
+    pass
 
 
 def log(msg: str) -> None:
@@ -176,8 +186,7 @@ def fetch_bc_page(where: str, offset: int) -> list[dict]:
     }
     data = get_json(BC_URL, params)
     if data.get("error"):
-        log(f"  api error {data['error']}")
-        return []
+        raise FetchError(f"bc api error {data['error'].get('code') if isinstance(data['error'], dict) else ''}")
     return data.get("features") or []
 
 
@@ -193,15 +202,34 @@ def fetch_on_page(after_objectid: int) -> list[dict]:
     }
     data = get_json(ON_URL, params)
     if data.get("error"):
-        log(f"  api error {data['error']}")
-        return []
+        raise FetchError(f"ontario api error {data['error'].get('code') if isinstance(data['error'], dict) else ''}")
     return data.get("features") or []
 
 
-def pull_bc(con: sqlite3.Connection, limit_pages: int, resume: bool, letters: str) -> int:
-    prefixes = list(letters) if letters else list("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+def prune_unseen(con: sqlite3.Connection, pack: str, as_of: str) -> int:
+    """Drop titles in `pack` that a complete walk starting on `as_of` did not return."""
+    stale = "SELECT title_pk FROM claim_titles WHERE pack_id=? AND (as_of IS NULL OR as_of < ?)"
+    con.execute(f"DELETE FROM claim_title_parties WHERE title_pk IN ({stale})", (pack, as_of))
+    cur = con.execute("DELETE FROM claim_titles WHERE pack_id=? AND (as_of IS NULL OR as_of < ?)", (pack, as_of))
+    con.execute(
+        "UPDATE claim_packs SET claim_count = (SELECT COUNT(*) FROM claim_titles WHERE pack_id=?) WHERE pack_id=?",
+        (pack, pack),
+    )
+    con.commit()
+    log(f"{pack}: pruned {cur.rowcount} titles not seen since {as_of}")
+    return cur.rowcount
+
+
+def run_date() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def pull_bc(con: sqlite3.Connection, limit_pages: int, resume: bool, letters: str) -> tuple[int, bool]:
+    """Returns (titles ingested, walk completed without error or page limit)."""
+    prefixes = list(letters) if letters else list(BC_PREFIXES)
     pack, company, juris, source = "province:bc", "_province_bc", "British Columbia", BC_SOURCE
     total = 0
+    complete = True
     for ch in prefixes:
         where = f"UPPER(OWNER_NAME) LIKE '{ch}%'"
         log(f"bc prefix {ch}")
@@ -218,12 +246,14 @@ def pull_bc(con: sqlite3.Connection, limit_pages: int, resume: bool, letters: st
         letter_n = 0
         while True:
             if limit_pages and pages >= limit_pages:
+                complete = False
                 break
             log(f"bc offset={offset}")
             try:
                 feats = fetch_bc_page(where, offset)
             except Exception as exc:
                 log(f"bc fetch failed: {type(exc).__name__}: {exc}")
+                complete = False
                 break
             if not feats:
                 log(f"bc done at offset {offset}")
@@ -247,10 +277,11 @@ def pull_bc(con: sqlite3.Connection, limit_pages: int, resume: bool, letters: st
                 break
             time.sleep(0.15)
         log(f"bc ingested {letter_n} this run for {ch}, next offset {offset}")
-    return total
+    return total, complete
 
 
-def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> int:
+def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> tuple[int, bool]:
+    """Returns (titles ingested, keyset walk reached the end without error or page limit)."""
     pack, company, juris, source = "province:ontario", "_province_ontario", "Ontario", ON_SOURCE
     meta_key = "province_ontario_objectid"
     after = 0
@@ -263,14 +294,17 @@ def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> int
                 after = 0
     pages = 0
     total = 0
+    complete = True
     log(f"ontario keyset after OBJECTID={after}")
     while True:
         if limit_pages and pages >= limit_pages:
+            complete = False
             break
         try:
             feats = fetch_on_page(after)
         except Exception as exc:
             log(f"ontario fetch failed: {type(exc).__name__}: {exc}")
+            complete = False
             break
         if not feats:
             log(f"ontario done after OBJECTID={after}")
@@ -286,6 +320,7 @@ def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> int
                 oids.append(int(attrs["OBJECTID"]))
         if not oids:
             log("ontario page missing OBJECTID — stop")
+            complete = False
             break
         after = max(oids)
         con.execute(
@@ -311,7 +346,7 @@ def pull_ontario(con: sqlite3.Connection, limit_pages: int, resume: bool) -> int
     )
     con.commit()
     log(f"ontario ingested {total} this run, resume OBJECTID>{after}")
-    return total
+    return total, complete
 
 
 def main() -> int:
@@ -320,7 +355,7 @@ def main() -> int:
     p.add_argument("--bc", action="store_true")
     p.add_argument("--resume", action="store_true")
     p.add_argument("--limit-pages", type=int, default=0)
-    p.add_argument("--letters", default="ABCDEFGHIJKLMNOPQRSTUVWXYZ", help="BC owner prefixes only")
+    p.add_argument("--letters", default=BC_PREFIXES, help="BC owner prefixes (default A–Z and 0–9)")
     args = p.parse_args()
     if not args.ontario and not args.bc:
         args.ontario = args.bc = True
@@ -328,16 +363,30 @@ def main() -> int:
         log(f"missing {DB_PATH}")
         return 1
     con = sqlite3.connect(str(DB_PATH))
+    failed = []
+    started = run_date()
+    full = not args.resume and not args.limit_pages
     try:
         ensure_province_companies(con)
         con.commit()
         if args.ontario:
-            pull_ontario(con, args.limit_pages, args.resume)
+            _, ok = pull_ontario(con, args.limit_pages, args.resume)
+            if not ok and not args.limit_pages:
+                failed.append("ontario")
+            if ok and full:
+                prune_unseen(con, "province:ontario", started)
         if args.bc:
-            pull_bc(con, args.limit_pages, args.resume, args.letters)
+            _, ok = pull_bc(con, args.limit_pages, args.resume, args.letters)
+            if not ok and not args.limit_pages:
+                failed.append("bc")
+            if ok and full and set(args.letters) >= set(BC_PREFIXES):
+                prune_unseen(con, "province:bc", started)
         log("Quebec GESTIM full-province: no open REST in-repo. Keep producer extracts.")
     finally:
         con.close()
+    if failed:
+        log("fetch errors: " + ", ".join(failed) + " (rerun with --resume)")
+        return 1
     return 0
 
 

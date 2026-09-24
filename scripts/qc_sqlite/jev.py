@@ -4,9 +4,11 @@ Never prints or writes the API key. Cache is judgments only.
 """
 from __future__ import annotations
 
+import atexit
 import hashlib
 import json
 import os
+import sys
 import threading
 from pathlib import Path
 from typing import Any
@@ -32,6 +34,8 @@ _client = None
 _client_lock = threading.Lock()
 _cache_lock = threading.Lock()
 _cache: dict[str, Any] | None = None
+_dirty = 0
+SAVE_EVERY = 20
 
 
 def load_typesafe_env() -> None:
@@ -56,22 +60,56 @@ def _cache_load() -> dict[str, Any]:
     global _cache
     if _cache is not None:
         return _cache
+    _cache = {}
     if JEV_CACHE.exists():
-        _cache = json.loads(JEV_CACHE.read_text(encoding="utf-8"))
-    else:
-        _cache = {}
+        try:
+            data = json.loads(JEV_CACHE.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError, OSError) as exc:
+            aside = JEV_CACHE.with_suffix(".corrupt.json")
+            try:
+                JEV_CACHE.replace(aside)
+            except OSError:
+                pass
+            print(f"jev cache unreadable ({type(exc).__name__}); moved to {aside.name}, starting empty",
+                  file=sys.stderr, flush=True)
+            data = {}
+        if isinstance(data, dict):
+            _cache = data
     return _cache
 
 
 def _cache_save() -> None:
+    global _dirty
     JEV_CACHE.parent.mkdir(parents=True, exist_ok=True)
     tmp = JEV_CACHE.with_suffix(".tmp")
     tmp.write_text(json.dumps(_cache_load(), indent=2), encoding="utf-8")
     tmp.replace(JEV_CACHE)
+    _dirty = 0
 
 
-def _digest(state: Any, questions_label: str) -> str:
-    blob = json.dumps({"state": state, "q": questions_label, "model": MODEL}, sort_keys=True)
+def flush() -> None:
+    with _cache_lock:
+        if _dirty and _cache is not None:
+            _cache_save()
+
+
+atexit.register(flush)
+
+
+def _question_blob(questions: dict) -> dict[str, Any]:
+    out: dict[str, Any] = {}
+    for qid, q in (questions or {}).items():
+        dump = getattr(q, "model_dump", None)
+        out[qid] = dump() if callable(dump) else (q if isinstance(q, (dict, str)) else repr(q))
+    return out
+
+
+def _digest(state: Any, questions_label: str, questions: dict | None = None) -> str:
+    blob = json.dumps(
+        {"state": state, "q": questions_label, "qs": _question_blob(questions or {}), "model": MODEL},
+        sort_keys=True,
+        default=str,
+    )
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
@@ -114,18 +152,25 @@ def _get_client():
 
 
 def ask(state: Any, questions: dict, *, label: str) -> dict[str, Any]:
-    """One System One call, cached. `questions` is a map of Choice/Noul/Score."""
-    key = _digest(state, label)
-    cache = _cache_load()
-    hit = cache.get(key)
+    """One System One call, cached by state + label + question text.
+
+    `questions` is a map of Choice/Noul/Score. The cache is flushed every
+    SAVE_EVERY new answers and at interpreter exit (see flush()).
+    """
+    global _dirty
+    key = _digest(state, label, questions)
+    with _cache_lock:
+        hit = _cache_load().get(key)
     if hit:
         return hit
     client = _get_client()
     response = client.system_one(state=state, questions=questions, model=MODEL)
     packed = _answers_dict(response)
     with _cache_lock:
-        cache[key] = packed
-        _cache_save()
+        _cache_load()[key] = packed
+        _dirty += 1
+        if _dirty >= SAVE_EVERY:
+            _cache_save()
     return packed
 
 

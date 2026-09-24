@@ -22,6 +22,10 @@ if str(HERE) not in sys.path:
 
 import jev
 from paths import ANALYSIS_JSON, BIOS, DB_PATH, EXPORT_DIR, TRADES_LITE
+
+if str(HERE.parent) not in sys.path:
+    sys.path.insert(0, str(HERE.parent))
+from qc_io import atomic_write_text  # noqa: E402
 from tells import last_us_session_close, peek_collected, prices_dir
 
 SKIP = {
@@ -696,7 +700,7 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
                 result = fut.result()
             except Exception as exc:
                 errors += 1
-                log(f"  analysis Jev error: {type(exc).__name__}: {exc}")
+                log(f"  analysis Jev error: {type(exc).__name__}")
                 continue
             packed = result["packed"]
             row = by_code[result["code"]]
@@ -741,6 +745,11 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
         avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
         return play, avoid, stats
 
+    for row in pool:
+        if "shipped" not in row:
+            # Jev errored on this row: keep the rules verdict rather than silently dropping it.
+            row["shipped"] = True
+            row["jev_error"] = True
     shipped = [r for r in pool if r.get("shipped")]
     play = [r for r in shipped if r["action"] != "avoid"]
     play.sort(key=lambda r: -r["score"])
@@ -892,10 +901,9 @@ def compute_analysis(con: sqlite3.Connection, skip_jev: bool = False) -> dict[st
 
 
 def write_analysis_json(payload: dict[str, Any]) -> None:
-    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     text = json.dumps(payload, indent=2) + "\n"
-    ANALYSIS_JSON.write_text(text, encoding="utf-8")
-    (EXPORT_DIR / "analysis.json").write_text(text, encoding="utf-8")
+    atomic_write_text(ANALYSIS_JSON, text)
+    atomic_write_text(EXPORT_DIR / "analysis.json", text)
     log(f"Wrote {ANALYSIS_JSON}")
 
 

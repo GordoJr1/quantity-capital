@@ -15,15 +15,14 @@ Writes:
   scripts/canada-commodities-jev-packet.json
   scripts/canada-commodities-jev-judgments.json
 
-`--packet-only` never calls the network. Do not repeat --require-jev
+`--packet-only` never calls the network but still runs the deterministic
+checks. Shared rules live in scripts/qc_gate.py. Do not repeat --require-jev
 (no extra safe_to_apply burns) unless the packet calls change.
 """
 from __future__ import annotations
 
-import argparse
 import json
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -38,7 +37,9 @@ SQ_JEV = HERE / "qc_sqlite"
 if str(SQ_JEV) not in sys.path:
     sys.path.insert(0, str(SQ_JEV))
 
-import build_canada_commodities as b
+import build_canada_commodities as b  # noqa: E402
+import qc_gate  # noqa: E402
+from qc_gate import utc_now  # noqa: E402
 
 QUESTION_SPECS: dict[str, dict[str, Any]] = {
     "mine_tonnes": {
@@ -157,10 +158,6 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         ],
     },
 }
-
-
-def utc_now() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def unique_mines(payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -326,6 +323,7 @@ def build_packet(root: Path) -> dict[str, Any]:
                 "canada.html must not call loadAllExtracts",
             ],
             "fail_closed_without_key": False,
+            "fail_on_missing_answer": True,
             "note": (
                 "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY "
                 "runs this script once to fill judgments. Do not re-burn "
@@ -345,217 +343,53 @@ def build_packet(root: Path) -> dict[str, Any]:
     }
 
 
-def hydrate_questions(names: list[str]) -> dict[str, Any]:
-    from typesafe_sdk import Choice, Noul, Score
-
-    builders = {"Choice": Choice, "Noul": Noul, "Score": Score}
-    out = {}
-    for name in names:
-        spec = QUESTION_SPECS[name]
-        cls = builders[spec["type"]]
-        kwargs: dict[str, Any] = {"instructions": spec["instructions"]}
-        if "criteria" in spec:
-            kwargs["criteria"] = spec["criteria"]
-        out[name] = cls(**kwargs)
-    return out
+def _deterministic(packet: dict[str, Any], checks: qc_gate.Checks) -> None:
+    idx = packet.get("index") or {}
+    checks.add("book_present", (idx.get("n_commodities") or 0) > 0, f"n={idx.get('n_commodities')}")
+    checks.add("gold_years", int(idx.get("gold_years") or 0) >= 7, f"gold_years={idx.get('gold_years')}")
+    checks.add("gold_mines", int(idx.get("gold_mines") or 0) >= 1, f"gold_mines={idx.get('gold_mines')}")
+    checks.add("schema", idx.get("schema") == "qc-canada-commodities-v1", str(idx.get("schema")))
 
 
-def try_import_jev():
-    try:
-        import jev  # type: ignore
-
-        return jev
-    except ImportError:
-        return None
-
-
-def _sdk_present() -> bool:
-    try:
-        import typesafe_sdk  # noqa: F401
-
-        return True
-    except ImportError:
-        return False
+EXPECTED_CHOICES = {
+    "mine_tonnes": ("policy:mine_tonnes", "never_invent"),
+    "mine_production": ("policy:mine_production", "company_filing_cited"),
+    "map_fields": ("policy:map_fields", "name_location_owners_products"),
+    "claims_href": ("policy:claims_href", "claims_catalog_only"),
+    "refresh_cadence": ("policy:refresh_cadence", "monthly_script"),
+}
 
 
-def run_jev(packet: dict[str, Any]) -> dict[str, Any]:
-    jev = try_import_jev()
-    if jev is None or not jev.key_present():
-        return {
-            "ran": False,
-            "reason": "no_typesafe_key_or_sdk",
-            "model": None,
-            "calls": [],
-            "environment": {
-                "typesafe_sdk": _sdk_present(),
-                "key_present": bool(jev and jev.key_present()) if jev else False,
-                "box_typesafe_dir": str(Path("/home/box/shared/typesafe")),
-                "box_typesafe_dir_exists": Path("/home/box/shared/typesafe").exists(),
-            },
-        }
-
-    results = []
-    errors = 0
-    model = None
-    for call in packet["calls"]:
-        try:
-            packed = jev.ask(
-                call["state"],
-                hydrate_questions(call["questions"]),
-                label=call["label"],
-            )
-        except Exception as exc:
-            errors += 1
-            results.append({"id": call["id"], "error": f"{type(exc).__name__}: {exc}"})
-            continue
-        model = packed.get("model") or model
-        results.append(
-            {
-                "id": call["id"],
-                "label": call["label"],
-                "state": call.get("state"),
-                **packed,
-            }
-        )
-
-    return {
-        "ran": True,
-        "reason": None,
-        "model": model,
-        "n": len([r for r in results if "error" not in r]),
-        "errors": errors,
-        "calls": results,
-        "generated": utc_now(),
-        "one_shot": True,
-    }
+def _jev_checks(look: qc_gate.Lookup, checks: qc_gate.Checks) -> None:
+    for qid, (cid, want) in EXPECTED_CHOICES.items():
+        got = look.choice(cid, qid)
+        checks.add(qid, got in {None, want}, f"choice={got}")
+    p = look.noul("policy:overview_first", "overview_first")
+    checks.add("overview_first", p is None or p >= 0.55, f"noul={p}")
 
 
 def evaluate_gate(packet: dict[str, Any], judgments: dict[str, Any]) -> dict[str, Any]:
-    idx = packet.get("index") or {}
-    checks = []
-
-    def add(name: str, ok: bool, detail: str) -> None:
-        checks.append({"name": name, "ok": ok, "detail": detail})
-
-    add("book_present", (idx.get("n_commodities") or 0) > 0, f"n={idx.get('n_commodities')}")
-    add("gold_years", int(idx.get("gold_years") or 0) >= 7, f"gold_years={idx.get('gold_years')}")
-    add("gold_mines", int(idx.get("gold_mines") or 0) >= 1, f"gold_mines={idx.get('gold_mines')}")
-    add("schema", idx.get("schema") == "qc-canada-commodities-v1", str(idx.get("schema")))
-
-    if not judgments.get("ran"):
-        add(
-            "jev_api",
-            True,
-            "packet prepared; TypeSafe Jev API not called in this environment "
-            f"({judgments.get('reason')}). One-shot --require-jev on the QC box.",
-        )
-        failed = [c for c in checks if not c["ok"]]
-        return {"pass": not failed, "jev_ran": False, "checks": checks}
-
-    by_id = {c["id"]: c for c in judgments.get("calls") or [] if "answers" in c}
-
-    def choice(cid: str, qid: str) -> str | None:
-        return ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("choice")
-
-    def noul(cid: str, qid: str) -> float | None:
-        v = ((by_id.get(cid) or {}).get("answers") or {}).get(qid, {}).get("noul")
-        return float(v) if v is not None else None
-
-    add(
-        "mine_tonnes",
-        choice("policy:mine_tonnes", "mine_tonnes") in {None, "never_invent"},
-        f"choice={choice('policy:mine_tonnes', 'mine_tonnes')}",
+    return qc_gate.evaluate(
+        packet, judgments, _deterministic, _jev_checks,
+        skipped_note="One-shot --require-jev on the QC box.",
     )
-    add(
-        "mine_production",
-        choice("policy:mine_production", "mine_production") in {None, "company_filing_cited"},
-        f"choice={choice('policy:mine_production', 'mine_production')}",
+
+
+def main(argv: list[str] | None = None, jev_module: Any = None) -> int:
+    return qc_gate.main(
+        argv,
+        description="Canada commodities PR merge gate / Jev packet",
+        default_root=ROOT,
+        packet_name=PACKET.name,
+        judgments_name=JUDGMENTS.name,
+        build_packet=build_packet,
+        evaluate_gate=evaluate_gate,
+        specs=QUESTION_SPECS,
+        summary=lambda pk: f"calls={len(pk['calls'])} mines={pk['index'].get('n_mines')}",
+        keep_state=True,
+        extra_fields={"one_shot": True},
+        jev_module=jev_module,
     )
-    add(
-        "map_fields",
-        choice("policy:map_fields", "map_fields") in {None, "name_location_owners_products"},
-        f"choice={choice('policy:map_fields', 'map_fields')}",
-    )
-    add(
-        "claims_href",
-        choice("policy:claims_href", "claims_href") in {None, "claims_catalog_only"},
-        f"choice={choice('policy:claims_href', 'claims_href')}",
-    )
-    add(
-        "refresh_cadence",
-        choice("policy:refresh_cadence", "refresh_cadence") in {None, "monthly_script"},
-        f"choice={choice('policy:refresh_cadence', 'refresh_cadence')}",
-    )
-    p = noul("policy:overview_first", "overview_first")
-    add("overview_first", p is None or p >= 0.55, f"noul={p}")
-
-    failed = [c for c in checks if not c["ok"]]
-    return {
-        "pass": not failed,
-        "jev_ran": True,
-        "model": judgments.get("model"),
-        "checks": checks,
-        "failed": [c["name"] for c in failed],
-    }
-
-
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Canada commodities PR merge gate / Jev packet")
-    parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--packet-only", action="store_true", help="Write packet; do not call TypeSafe")
-    parser.add_argument("--require-jev", action="store_true", help="Fail if the Jev API did not run")
-    args = parser.parse_args()
-    root = args.root
-    packet = build_packet(root)
-    write_json(root / "scripts" / PACKET.name, packet)
-    print(f"wrote {PACKET.name} calls={len(packet['calls'])} mines={packet['index'].get('n_mines')}")
-
-    if args.packet_only:
-        existing = root / "scripts" / JUDGMENTS.name
-        if existing.exists():
-            try:
-                prev = json.loads(existing.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                prev = {}
-            if prev.get("ran"):
-                print("packet-only: left existing ran:true judgments in place")
-                return 0
-        placeholder = {
-            "ran": False,
-            "reason": "packet_only",
-            "model": None,
-            "calls": [],
-            "generated": utc_now(),
-        }
-        write_json(existing, placeholder)
-        print("packet-only: TypeSafe Jev API not called")
-        return 0
-
-    judgments = run_jev(packet)
-    write_json(root / "scripts" / JUDGMENTS.name, judgments)
-    gate = evaluate_gate(packet, judgments)
-    print(
-        json.dumps(
-            {
-                "jev": {
-                    "ran": judgments.get("ran"),
-                    "reason": judgments.get("reason"),
-                    "model": judgments.get("model"),
-                    "one_shot": True,
-                },
-                "gate": gate,
-            },
-            indent=2,
-        )
-    )
-    if args.require_jev and not judgments.get("ran"):
-        print("Jev API did not run (no typesafe-sdk / TYPESAFE_API_KEY).", file=sys.stderr)
-        return 2
-    return 0 if gate.get("pass") else 1
 
 
 if __name__ == "__main__":

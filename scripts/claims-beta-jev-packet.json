@@ -2,7 +2,7 @@
   "schema": "qc-pr-merge-gate-v1",
   "work": "B",
   "pr_topic": "claims-map issuer profiles + light map preview",
-  "generated": "2026-09-23T01:36:26Z",
+  "generated": "2026-09-24T01:41:44Z",
   "model": "jev-latest",
   "api": "typesafe-sdk TypeSafeClient.system_one (Choice / Noul / Score)",
   "not": "Jev Bot chat",
@@ -197,6 +197,7 @@
       "beta.html map preview must not call loadAllExtracts or fetch extracts"
     ],
     "fail_closed_without_key": false,
+    "fail_on_missing_answer": true,
     "note": "Cloud agent prepares the packet. QC box with TYPESAFE_API_KEY runs the same script to fill judgments."
   },
   "box_commands": [

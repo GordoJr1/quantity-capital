@@ -61,6 +61,14 @@ jobs:
             check-morning-tapes.py fetch-prices.py collect/form4_enrich.py
           python3 collect/test_form4_enrich.py
 
+      - name: Gates, extracts, and qc_sqlite
+        run: |
+          set -euo pipefail
+          python3 -m py_compile build_on_bc_extracts.py scripts/qc_gate.py scripts/qc_io.py scripts/qc_sqlite/*.py
+          python3 scripts/test_qc_gate.py
+          python3 scripts/test_build_on_bc_extracts.py
+          python3 scripts/qc_sqlite/test_qc_sqlite.py
+
       - name: Claims insider universe
         run: |
           set -euo pipefail

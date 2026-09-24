@@ -962,7 +962,10 @@ def link_rows(rows: list[dict], use_jev: bool, harvest: bool) -> dict:
     for row in linked:
         for company in row.get("companies") or []:
             cid = company["company_id"]
-            if cid in {"banyan-gold", "sitka-gold", "seabridge-gold", "new-found-gold", "b2gold", "kinross"}:
+            if cid in {
+                "banyan-gold", "sitka-gold", "seabridge-gold", "new-found-gold", "b2gold", "kinross",
+                "azimut-exploration", "hecla-mining", "midland-exploration", "newmont",
+            }:
                 slot = watch.setdefault(cid, {"titles": 0, "holders": []})
                 slot["titles"] += row["count"]
                 if len(slot["holders"]) < 6:
@@ -974,7 +977,7 @@ def link_rows(rows: list[dict], use_jev: bool, harvest: bool) -> dict:
                         "ticker": company.get("ticker"),
                     })
     payload = {
-        "dataset": "Provincial mining titles linked to site companies. Not legal title.",
+        "dataset": "Provincial mining titles linked to public companies. Not legal title.",
         "generated_at": ondb.now_iso(),
         "provinces": by_province,
         "titles": titles,
@@ -1002,6 +1005,8 @@ def write_links(payload: dict) -> None:
                 "company_id": company["company_id"],
                 "company": company.get("company"),
                 "ticker": company.get("ticker"),
+                "tickers": company.get("tickers") or ([company["ticker"]] if company.get("ticker") else []),
+                "exchange": company.get("exchange") or "",
                 "assets": company.get("assets") or [],
                 "method": company.get("method"),
             })
@@ -1238,6 +1243,7 @@ def export_geojsonl(con: sqlite3.Connection, holder_link: dict, province: str, d
                 "id": row["title_id"],
                 "holder": key if key != "(blank)" else "",
                 "company": cid,
+                "name": "" if cid == "unlinked" else (link.get("name") or ""),
                 "ticker": link.get("ticker") or "",
                 "province": PROVINCES[province]["code"],
                 "color": ondb.company_color(None if cid == "unlinked" else cid),
@@ -1364,6 +1370,10 @@ def tile_needs_build(con: sqlite3.Connection, name: str, dest: Path) -> bool:
     """Rebuild when the archive is missing or the province was ingested after it."""
     if not dest.is_file() or dest.stat().st_size < 32:
         return True
+    # Link attributes are baked into the tiles. A newer holders file has to rebuild
+    # even when the province ingest itself did not change.
+    if LINKS_PATH.is_file() and LINKS_PATH.stat().st_mtime > dest.stat().st_mtime + 1:
+        return True
     done = con.execute("SELECT value FROM meta WHERE key=?", (f"done:{name}",)).fetchone()
     if not done or done["value"] != "1":
         return True
@@ -1446,6 +1456,7 @@ def write_tiles(con: sqlite3.Connection, payload: dict, names: list[str]) -> dic
         holder_link[(row["province"], row["holder"])] = {
             "company_id": row.get("company_id"),
             "ticker": primary.get("ticker"),
+            "name": primary.get("company") or "",
         }
     TILES.mkdir(parents=True, exist_ok=True)
     built = {}

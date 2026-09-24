@@ -1,14 +1,14 @@
 {
- "generated_at": "2026-09-24T17:09:37Z",
+ "generated_at": "2026-09-24T19:27:19Z",
  "model": "jev-1.13.0",
- "score": 1.63,
- "confidence": 0.45,
+ "score": 1.67,
+ "confidence": 0.51,
  "probabilities": {
   "0": 0.03,
-  "1": 0.31,
-  "2": 0.66
+  "1": 0.28,
+  "2": 0.69
  },
- "input_tokens": 1572,
+ "input_tokens": 2506,
  "output_tokens": 17,
  "state": {
   "cadence": "monthly",
@@ -16,38 +16,57 @@
   "provinces": {
    "ontario": {
     "titles": 403782,
-    "coverage": 0.45219,
-    "pmtiles_mb": 37.59
+    "coverage": 0.528632,
+    "pmtiles_mb": 38.33
    },
    "yukon": {
     "titles": 168961,
-    "coverage": 0.405159,
-    "pmtiles_mb": 23.29
+    "coverage": 0.537953,
+    "pmtiles_mb": 23.67
    },
    "newfoundland": {
     "titles": 4694,
-    "coverage": 0.150192,
-    "pmtiles_mb": 2.8
+    "coverage": 0.264167,
+    "pmtiles_mb": 2.92
    },
    "nunavut": {
     "titles": 34551,
-    "coverage": 0.187346,
-    "pmtiles_mb": 18.89
+    "coverage": 0.219386,
+    "pmtiles_mb": 19.39
    },
    "quebec": {
     "titles": 255285,
-    "coverage": 0.206671,
-    "pmtiles_mb": 28.05
+    "coverage": 0.405124,
+    "pmtiles_mb": 28.95
    },
    "british-columbia": {
     "titles": 31395,
-    "coverage": 0.186972,
-    "pmtiles_mb": 10.67
+    "coverage": 0.340373,
+    "pmtiles_mb": 11.16
    }
   },
   "tiles_under_100mb": true,
   "tiles_tool": "tippecanoe on PATH, otherwise `wsl tippecanoe` with wslpath. The build fails if neither works. go-pmtiles does not build the archive.",
   "watch": {
+   "newmont": {
+    "titles": 3799,
+    "holders": [
+     {
+      "province": "british-columbia",
+      "holder": "(100) NEWMONT SADDLE MINERALS LTD",
+      "count": 257,
+      "method": "catalog_name",
+      "ticker": "NEM"
+     },
+     {
+      "province": "yukon",
+      "holder": "Kaminak Gold Ltd. - 100%",
+      "count": 3542,
+      "method": "alias",
+      "ticker": "NEM"
+     }
+    ]
+   },
    "new-found-gold": {
     "titles": 141,
     "holders": [
@@ -81,6 +100,112 @@
       "count": 1155,
       "method": "alias",
       "ticker": "KGC"
+     }
+    ]
+   },
+   "azimut-exploration": {
+    "titles": 9813,
+    "holders": [
+     {
+      "province": "quebec",
+      "holder": "(100) Exploration Azimut inc.",
+      "count": 8900,
+      "method": "alias",
+      "ticker": "AZM.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(50) Exploration Azimut inc.",
+      "count": 665,
+      "method": "alias",
+      "ticker": "AZM.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(25) Exploration Azimut inc.",
+      "count": 248,
+      "method": "alias",
+      "ticker": "AZM.V"
+     }
+    ]
+   },
+   "midland-exploration": {
+    "titles": 10076,
+    "holders": [
+     {
+      "province": "quebec",
+      "holder": "(100) Exploration Midland inc.",
+      "count": 8075,
+      "method": "alias",
+      "ticker": "MD.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(50) Exploration Midland inc.",
+      "count": 1727,
+      "method": "alias",
+      "ticker": "MD.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(75.43) Exploration Midland inc.",
+      "count": 257,
+      "method": "alias",
+      "ticker": "MD.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(75.4) Exploration Midland inc.",
+      "count": 9,
+      "method": "alias",
+      "ticker": "MD.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(61) Exploration Midland inc.",
+      "count": 7,
+      "method": "alias",
+      "ticker": "MD.V"
+     },
+     {
+      "province": "quebec",
+      "holder": "(25) Exploration Midland inc.",
+      "count": 1,
+      "method": "alias",
+      "ticker": "MD.V"
+     }
+    ]
+   },
+   "hecla-mining": {
+    "titles": 9619,
+    "holders": [
+     {
+      "province": "yukon",
+      "holder": "Alexco Resource Corp. - 100%",
+      "count": 8768,
+      "method": "alias",
+      "ticker": "HL"
+     },
+     {
+      "province": "yukon",
+      "holder": "Alexco Keno Hill Mining Corp. - 100%",
+      "count": 773,
+      "method": "alias",
+      "ticker": "HL"
+     },
+     {
+      "province": "yukon",
+      "holder": "Alexco Exploration Canada Corp. - 100%",
+      "count": 75,
+      "method": "alias",
+      "ticker": "HL"
+     },
+     {
+      "province": "yukon",
+      "holder": "Strategic Metals Ltd. - 50%, Alexco Resource Corp. - 50%",
+      "count": 3,
+      "method": "alias",
+      "ticker": "HL"
      }
     ]
    },

@@ -172,6 +172,16 @@ class CatalogPins(unittest.TestCase):
         self.assertEqual(self._read(root, "companies.json")["companies"], [row])
         self.assertTrue(changes)
 
+    def test_fresher_catalog_without_row_unpins_instead_of_restoring(self):
+        root = self._root(
+            {"companies": [{"id": "newmont"}], "on_bc_built_at": "2026-10-01T00:00:00Z"},
+            {"on_bc_built_at": "2026-09-23T00:00:00Z", "meta": {}, "companies": [self.PIN]},
+        )
+        self.assertEqual(sync_catalog_pins(root, write=False), ([], []))
+        sync_catalog_pins(root, write=True)
+        self.assertEqual([r["id"] for r in self._read(root, "companies.json")["companies"]], ["newmont"])
+        self.assertEqual(self._read(root, "pinned-companies.json")["companies"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

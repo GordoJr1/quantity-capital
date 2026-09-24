@@ -424,8 +424,9 @@ def sync_catalog_pins(root: Path, *, write: bool) -> tuple[list[str], list[str]]
     """Re-apply claims/pinned-companies.json to claims/companies.json.
 
     Returns (changes, problems). With write=False nothing is written and every
-    needed change is reported as a problem. A catalog whose on_bc_built_at is
-    newer than the pins refreshes the pins instead, so real rebuilds win.
+    needed catalog change is reported as a problem. A catalog whose
+    on_bc_built_at is newer than the pins refreshes the pins instead (including
+    unpinning rows it no longer has), so real rebuilds win.
     """
     pins_path = root / "claims" / CATALOG_PINS
     catalog_path = root / "claims" / "companies.json"
@@ -453,16 +454,24 @@ def sync_catalog_pins(root: Path, *, write: bool) -> tuple[list[str], list[str]]
 
     rows = catalog.setdefault("companies", [])
     by_id = {r.get("id"): i for i, r in enumerate(rows)}
-    for n, pin in enumerate(pins.get("companies") or []):
+    kept_pins = []
+    for pin in pins.get("companies") or []:
         cid = pin.get("id")
         if cid in by_id:
             if catalog_fresher and rows[by_id[cid]] != pin:
-                pins["companies"][n] = rows[by_id[cid]]
+                pin = rows[by_id[cid]]
                 pins_changed = True
+            kept_pins.append(pin)
             continue
+        if catalog_fresher:
+            # A newer real rebuild dropped it on purpose; stop pinning it.
+            pins_changed = True
+            continue
+        kept_pins.append(pin)
         rows.append(pin)
         by_id[cid] = len(rows) - 1
         changes.append(f"restored catalog row {cid}")
+    pins["companies"] = kept_pins
 
     if not write:
         return [], [f"claims/companies.json: {c} needed (run without --check)" for c in changes]

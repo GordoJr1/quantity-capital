@@ -1,6 +1,7 @@
 /* Draft claims viewer for the provincial PMTiles files.
    Does not change claims.html.
-   Tiles: claims/tiles/<code>.pmtiles, listed in claims/tiles/index.json.
+   Tiles: claims/tiles/<code>.pmtiles.png, listed in claims/tiles/index.json.
+   The .png suffix is only so GitHub Pages will not gzip-slice Range requests.
    ?tiles=<url> loads one archive instead. */
 (function () {
   const params = new URLSearchParams(location.search);
@@ -35,8 +36,8 @@
         { id: "basemap", type: "raster", source: "esri" },
       ],
     },
-    center: [-96, 56],
-    zoom: 3.2,
+    center: [-100, 58],
+    zoom: 3,
   });
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "bottom-right");
   map.addControl(new maplibregl.ScaleControl({ maxWidth: 140, unit: "metric" }), "bottom-right");
@@ -228,28 +229,41 @@
     map.on("mouseleave", fillId, () => { map.getCanvas().style.cursor = ""; });
   }
 
+  function looksLikePmtiles(buf) {
+    return new TextDecoder().decode(new Uint8Array(buf).subarray(0, 7)) === "PMTiles";
+  }
+
+  function looksLikeGzip(buf) {
+    const bytes = new Uint8Array(buf);
+    return bytes.length >= 2 && bytes[0] === 0x1f && bytes[1] === 0x8b;
+  }
+
   async function openArchive(sourceId, url) {
     const absolute = new URL(url, location.href).href;
-    const probe = await fetch(absolute, { headers: { Range: "bytes=0-15" } });
-    const headBuf = await probe.arrayBuffer();
-    const magic = new TextDecoder().decode(new Uint8Array(headBuf).subarray(0, 7));
-    if (probe.status === 206 && magic === "PMTiles") {
-      map.addSource(sourceId, { type: "vector", url: "pmtiles://" + absolute });
-      rangeModes.push("range");
-      return;
+    let rangeOk = false;
+    try {
+      const probe = await fetch(absolute, { headers: { Range: "bytes=0-15" } });
+      const headBuf = await probe.arrayBuffer();
+      rangeOk = probe.status === 206 && looksLikePmtiles(headBuf) && !looksLikeGzip(headBuf);
+    } catch (err) {
+      rangeOk = false;
     }
-    const archiveBytes = probe.status === 200 && magic === "PMTiles"
-      ? headBuf
-      : await (await fetch(absolute)).arrayBuffer();
-    const source = {
-      getKey() { return absolute; },
-      getBytes(offset, length) {
-        return Promise.resolve({ data: archiveBytes.slice(offset, offset + length) });
-      },
-    };
-    protocol.add(new pmtiles.PMTiles(source));
+    if (!rangeOk) {
+      const full = await fetch(absolute);
+      if (!full.ok) throw new Error(full.status + " " + url);
+      const archiveBytes = await full.arrayBuffer();
+      if (!looksLikePmtiles(archiveBytes)) throw new Error("not a PMTiles archive " + url);
+      protocol.add(new pmtiles.PMTiles({
+        getKey() { return absolute; },
+        getBytes(offset, length) {
+          return Promise.resolve({ data: archiveBytes.slice(offset, offset + length) });
+        },
+      }));
+      rangeModes.push("buffer");
+    } else {
+      rangeModes.push("range");
+    }
     map.addSource(sourceId, { type: "vector", url: "pmtiles://" + absolute });
-    rangeModes.push("buffer");
   }
 
   async function loadTiles() {

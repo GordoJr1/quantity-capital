@@ -190,6 +190,128 @@ function provinceOn(id) {
   return !!(el && el.checked);
 }
 
+const REGISTRY_TILES = [
+  { id: "ly-yukon", code: "yt", name: "Yukon" },
+  { id: "ly-nunavut", code: "nu", name: "Nunavut" },
+  { id: "ly-nl", code: "nl", name: "Newfoundland and Labrador" },
+];
+const REGISTRY_VIEW = { center: [-100, 58], zoom: 3 };
+let registryLoad = null;
+
+function registryWanted() {
+  return REGISTRY_TILES.some((row) => provinceOn(row.id));
+}
+
+function looksLikePmtiles(buf) {
+  return new TextDecoder().decode(new Uint8Array(buf).subarray(0, 7)) === "PMTiles";
+}
+
+function looksLikeGzip(buf) {
+  const bytes = new Uint8Array(buf);
+  return bytes.length >= 2 && bytes[0] === 0x1f && bytes[1] === 0x8b;
+}
+
+async function openClaimsArchive(protocol, sourceId, url) {
+  const absolute = new URL(url, location.href).href;
+  let rangeOk = false;
+  try {
+    const probe = await fetch(absolute, { headers: { Range: "bytes=0-15" } });
+    const headBuf = await probe.arrayBuffer();
+    rangeOk = probe.status === 206 && looksLikePmtiles(headBuf) && !looksLikeGzip(headBuf);
+  } catch (err) {
+    rangeOk = false;
+  }
+  if (!rangeOk) {
+    const full = await fetch(absolute);
+    if (!full.ok) throw new Error(full.status + " " + url);
+    const archiveBytes = await full.arrayBuffer();
+    if (!looksLikePmtiles(archiveBytes)) throw new Error("not a PMTiles archive " + url);
+    protocol.add(new pmtiles.PMTiles({
+      getKey() { return absolute; },
+      getBytes(offset, length) {
+        return Promise.resolve({ data: archiveBytes.slice(offset, offset + length) });
+      },
+    }));
+  }
+  map.addSource(sourceId, { type: "vector", url: "pmtiles://" + absolute });
+}
+
+function openRegistryPopup(lngLat, props, place) {
+  closePopup();
+  const company = !props.company || props.company === "unlinked" ? "—" : props.company;
+  const html = "<div class=\"pop\"><div class=\"holder\">" + (props.holder || "Unknown holder") + "</div><dl>" +
+    "<dt>Title</dt><dd>" + (props.id || "—") + "</dd>" +
+    "<dt>Company</dt><dd>" + company + "</dd>" +
+    "<dt>Ticker</dt><dd>" + (props.ticker || "—") + "</dd>" +
+    "<dt>Where</dt><dd>" + place + "</dd>" +
+    "</dl></div>";
+  popup = new maplibregl.Popup({ closeOnClick: false, maxWidth: "320px" })
+    .setLngLat(lngLat)
+    .setHTML(html)
+    .addTo(map);
+}
+
+function addRegistryLayers(row) {
+  const sourceId = "registry-" + row.code;
+  const before = map.getLayer("neighbor-fill") ? "neighbor-fill" : undefined;
+  const fillId = sourceId + "-fill";
+  const lineId = sourceId + "-line";
+  const layout = { visibility: provinceOn(row.id) ? "visible" : "none" };
+  map.addLayer({
+    id: fillId,
+    type: "fill",
+    source: sourceId,
+    "source-layer": "claims",
+    layout: layout,
+    paint: {
+      "fill-color": ["coalesce", ["get", "color"], "#5c6b7a"],
+      "fill-opacity": 0.55,
+    },
+  }, before);
+  map.addLayer({
+    id: lineId,
+    type: "line",
+    source: sourceId,
+    "source-layer": "claims",
+    layout: layout,
+    paint: {
+      "line-color": ["coalesce", ["get", "color"], "#c5d0dc"],
+      "line-width": 0.4,
+    },
+  }, before);
+  map.on("click", fillId, (ev) => {
+    const feature = ev.features && ev.features[0];
+    if (feature) openRegistryPopup(ev.lngLat, feature.properties || {}, row.name);
+  });
+  map.on("mouseenter", fillId, () => { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", fillId, () => { map.getCanvas().style.cursor = ""; });
+}
+
+function syncRegistryTiles() {
+  REGISTRY_TILES.forEach((row) => {
+    const visibility = provinceOn(row.id) ? "visible" : "none";
+    ["fill", "line"].forEach((kind) => {
+      const id = "registry-" + row.code + "-" + kind;
+      if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", visibility);
+    });
+  });
+}
+
+function loadRegistryTiles() {
+  if (registryLoad) return registryLoad;
+  registryLoad = (async () => {
+    if (!window.pmtiles) throw new Error("pmtiles library missing");
+    const protocol = new pmtiles.Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+    for (const row of REGISTRY_TILES) {
+      await openClaimsArchive(protocol, "registry-" + row.code, "claims/tiles/" + row.code + ".pmtiles.png");
+      addRegistryLayers(row);
+    }
+    syncRegistryTiles();
+  })();
+  return registryLoad;
+}
+
 function closePopup() {
   if (popup) {
     popup.remove();
@@ -1102,7 +1224,8 @@ function paintAllClaims(fit) {
   const data = collectOverview();
   setPainted(data);
   if (fit) {
-    fitFc({ type: "FeatureCollection", features: overviewFitFeatures(data.features) }, 5.8);
+    if (registryWanted()) map.easeTo({ center: REGISTRY_VIEW.center, zoom: REGISTRY_VIEW.zoom, duration: 900 });
+    else fitFc({ type: "FeatureCollection", features: overviewFitFeatures(data.features) }, 5.8);
   }
   paintLegend(null, data.features);
   paintCamps(null);
@@ -1112,7 +1235,8 @@ function paintAllClaims(fit) {
   const extra = "<strong>All companies</strong>" +
     (holders ? " · " + holders.toLocaleString("en-CA") + " holders" : " · no titles in on provinces") +
     (titles ? " · " + titles.toLocaleString("en-CA") + " titles" : "") +
-    " · search a holder for full titles";
+    " · search a holder for full titles" +
+    (registryWanted() ? " · Yukon, Nunavut, and Newfoundland tiles" : "");
   setStatus(extra);
 }
 
@@ -1458,10 +1582,11 @@ function downloadVisibleClaims() {
   setTimeout(() => URL.revokeObjectURL(a.href), 1500);
 }
 
-["ly-quebec", "ly-ontario", "ly-bc"].forEach((id) => {
+["ly-quebec", "ly-ontario", "ly-bc", "ly-yukon", "ly-nunavut", "ly-nl"].forEach((id) => {
   const el = document.getElementById(id);
   if (!el) return;
   el.addEventListener("change", () => {
+    syncRegistryTiles();
     if (currentCompany) selectCompany(currentCompany.id, currentAssetId);
     else if (overviewFc) paintAllClaims(true);
     else showAllClaims({ fit: false });
@@ -1504,6 +1629,12 @@ document.addEventListener("keydown", (e) => {
 
 map.on("click", () => {
   document.getElementById("search-results").hidden = true;
+});
+
+whenMapReady(() => {
+  loadRegistryTiles().catch((err) => {
+    setStatus("Yukon, Nunavut, and Newfoundland tiles did not load (" + err.message + ").");
+  });
 });
 
 fetch(CATALOG_URL).then((r) => r.json()).then((json) => {

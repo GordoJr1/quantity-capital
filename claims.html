@@ -7,7 +7,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <title>Claims — Quantity Capital</title>
-  <meta name="description" content="Quebec GESTIM, Ontario MLAS, and BC MTA claims by company. Not legal title. Not investment advice." />
+  <meta name="description" content="Quebec, Ontario, and BC claims by company, plus Yukon, Nunavut, and Newfoundland and Labrador registry tiles. Not legal title. Not investment advice." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
@@ -111,7 +111,7 @@
       <a class="mark" href="index.html">Quantity <span>Capital</span></a>
       <nav class="qc-nav" aria-label="Issuer mines">
         <a href="beta.html" title="Issuer mine profiles">Mines</a>
-        <a href="claims.html" class="on" aria-current="page" title="Quebec, Ontario, and BC mineral claims">Claims</a>
+        <a href="claims.html" class="on" aria-current="page" title="Quebec, Ontario, BC, Yukon, Nunavut, and Newfoundland mineral claims">Claims</a>
         <a href="canada.html" title="Canadian mineral production">Canada</a>
       </nav>
       <div class="qc-modes">
@@ -140,16 +140,20 @@
       <label><input type="checkbox" id="ly-quebec" checked> Quebec</label>
       <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
       <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
+      <label><input type="checkbox" id="ly-yukon" checked> Yukon</label>
+      <label><input type="checkbox" id="ly-nunavut" checked> Nunavut</label>
+      <label><input type="checkbox" id="ly-nl" checked> Newfoundland and Labrador</label>
       <h2>Company</h2>
-      <p class="hint" id="company-hint">Every company with QC / ON / BC extracts. Claim-block footprints — search or click a holder for full titles.</p>
+      <p class="hint" id="company-hint">QC / ON / BC extracts, plus Yukon, Nunavut, and Newfoundland registry tiles. Search or click a holder for full titles.</p>
       <div id="camps" hidden></div>
       <div id="legend" hidden></div>
     </aside>
-    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · all companies overview · Not legal title.</footer>
+    <footer class="status" id="status">Quebec GESTIM · Ontario MLAS · BC MTA · Yukon, Nunavut, and Newfoundland registry tiles · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
   <script src="claims-neighbors.js?v=1"></script>
-  <script src="claims-map.js?v=19"></script>
+  <script src="claims-map.js?v=20"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

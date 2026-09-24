@@ -212,11 +212,20 @@ class RepoTests(unittest.TestCase):
         html = (ROOT / "claims-db.html").read_text(encoding="utf-8")
         live = (ROOT / "claims.html").read_text(encoding="utf-8")
         self.assertIn("pmtiles", html)
-        self.assertIn("Holder", (ROOT / "claims-db.js").read_text(encoding="utf-8"))
+        viewer = (ROOT / "claims-db.js").read_text(encoding="utf-8")
+        self.assertIn("Holder", viewer)
+        self.assertIn("looksLikeGzip", viewer)
+        self.assertIn("zoom: 3,", viewer)
         self.assertNotIn("claims-db", live)
+        for box in ("ly-yukon", "ly-nunavut", "ly-nl"):
+            self.assertIn(box, live)
+        script = (ROOT / "claims-map.js").read_text(encoding="utf-8")
+        self.assertIn('params.get("company")', script)
+        self.assertIn('".pmtiles.png"', script)
+        self.assertIn("ly-yukon", script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
-        self.assertIn(".pmtiles", sw)
-        self.assertIn("qc-shell-v218", sw)
+        self.assertIn("/claims/tiles/", sw)
+        self.assertIn("qc-shell-v219", sw)
 
 
 if __name__ == "__main__":

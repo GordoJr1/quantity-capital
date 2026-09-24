@@ -12,15 +12,24 @@ MLAS titles in a ~3 km pad around those cells (role=neighbor), same idea as Queb
     python3 build_on_bc_extracts.py --holders-index  # offline: cache tiles → committed claims/mlas/holders.json
 
 Raw REST pages are cached under claims/.cache/mlas/ (gitignored) so later runs
-reuse them instead of rereading pages. The full-province MLAS file is never
-committed — only the script, the documented cache path, and the company
-extracts the site serves. Pass --refresh to force a network refetch.
+reuse them instead of rereading pages. Cached pages expire after
+--cache-max-age-hours (default 24) and ArcGIS {"error": ...} bodies are never
+cached. The full-province MLAS file is never committed — only the script, the
+documented cache path, and the company extracts the site serves. Pass
+--refresh to force a network refetch.
+
+A zero-feature answer only deletes a company extract after a live
+returnCountOnly query confirms count 0. Any other failure keeps the old
+extract and catalog row, and the run exits 1. Requests retry with backoff.
 
 Vale holder strings are Jev-gated, not hand-matched: --sweep-holders collects
 the distinct MLAS HOLDER values matching %VALE% (attributes only) and
 --judge-holders asks TypeSafe Jev (Noul: is this holder Vale Canada Limited)
 once, caching judgments beside the holder sweep so reruns spend no tokens.
-Jev only ever decides holder-name matches; it never invents tenures.
+When that judgments file exists, the Vale extract fetches exactly the
+approved holder strings (HOLDER IN (...)); otherwise it falls back to the
+ON_MATCH["vale"] substring. Jev only ever decides holder-name matches; it
+never invents tenures.
 """
 from __future__ import annotations
 
@@ -28,7 +37,9 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
@@ -36,6 +47,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
+if str(ROOT / "scripts") not in sys.path:
+    sys.path.insert(0, str(ROOT / "scripts"))
+
+from qc_io import atomic_write_json, atomic_write_text  # noqa: E402
+
 CLAIMS = ROOT / "claims"
 AS_OF = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -70,6 +86,8 @@ ON_NEIGHBOR_PAD_DEG = 0.03  # ~3 km
 ON_NEIGHBOR_GRID = 0.2
 UA = "Quantity Capital gordojr@proton.me"
 ON_FIELDS = "TENURE_NUMBER_ID,TITLE_TYPE_DESC,TENURE_STATUS_DESC,ISSUE_DATE,ANNIVERSARY_DATE,CLAIM_DUE_DATE,HOLDER"
+BC_FIELDS = ("TENURE_NUMBER_ID,CLAIM_NAME,TENURE_TYPE_DESCRIPTION,TITLE_TYPE_DESCRIPTION,ISSUE_DATE,"
+             "GOOD_TO_DATE,TERMINATION_DATE,AREA_IN_HECTARES,OWNER_NAME")
 FULL_TILE_DIR = CLAIMS / "mlas"  # committed: holders.json only, never tiles
 FULL_TILE_SIZE = 10000
 HOLDERS_INDEX = FULL_TILE_DIR / "holders.json"
@@ -89,6 +107,14 @@ def full_progress_path(cache_dir: Path) -> Path:
 DEFAULT_CACHE_DIR = CLAIMS / ".cache" / "mlas"
 HOLDER_SWEEP_NEEDLE = "VALE"
 JUDGE_MODEL = "jev-latest"
+VALE_JUDGMENTS = "vale-holder-judgments.json"
+CACHE_MAX_AGE_S = 24 * 3600
+RETRIES = 3
+RETRY_BASE_S = 2.0
+
+
+class ArcGISError(RuntimeError):
+    """The endpoint answered with an {"error": ...} body or never answered cleanly."""
 
 
 def cache_dir_ready(path: Path) -> Path:
@@ -105,11 +131,15 @@ def cached_get_json(url: str, params: dict, cache_dir: Path | None, refresh: boo
     if cache_dir is not None:
         key = page_cache_key(url, {k: v for k, v in params.items()})
         slot = cache_dir / "pages" / (key + ".json")
-        if slot.is_file() and not refresh:
-            return json.loads(slot.read_text(encoding="utf-8"))
+        if slot.is_file() and not refresh and time.time() - slot.stat().st_mtime < CACHE_MAX_AGE_S:
+            try:
+                data = json.loads(slot.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                data = None
+            if isinstance(data, dict) and not data.get("error"):
+                return data
         data = get_json(url, params)
-        slot.parent.mkdir(parents=True, exist_ok=True)
-        slot.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        atomic_write_text(slot, json.dumps(data, ensure_ascii=False))
         return data
     return get_json(url, params)
 
@@ -117,8 +147,39 @@ def cached_get_json(url: str, params: dict, cache_dir: Path | None, refresh: boo
 def get_json(url: str, params: dict) -> dict:
     q = urllib.parse.urlencode(params)
     req = urllib.request.Request(url + "?" + q, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return json.loads(r.read().decode())
+    last: Exception | None = None
+    for attempt in range(RETRIES):
+        if attempt:
+            time.sleep(RETRY_BASE_S * (2 ** (attempt - 1)))
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                data = json.loads(r.read().decode())
+        except urllib.error.HTTPError as exc:
+            last = exc
+            if exc.code < 500 and exc.code != 429:
+                break
+            continue
+        except (urllib.error.URLError, TimeoutError, OSError, json.JSONDecodeError) as exc:
+            last = exc
+            continue
+        if not isinstance(data, dict):
+            last = ArcGISError("non-object response")
+            continue
+        if data.get("error"):
+            err = data["error"] if isinstance(data["error"], dict) else {}
+            last = ArcGISError(f"ArcGIS error code={err.get('code')} {err.get('message') or ''}".strip())
+            continue
+        return data
+    raise ArcGISError(f"{type(last).__name__}: {last}") if not isinstance(last, ArcGISError) else last
+
+
+def live_count(url: str, where: str) -> int:
+    """Uncached returnCountOnly probe; raises ArcGISError unless the answer is clean."""
+    data = get_json(url, {"where": where, "returnCountOnly": "true", "f": "json"})
+    count = data.get("count")
+    if not isinstance(count, int):
+        raise ArcGISError("count missing from returnCountOnly response")
+    return count
 
 
 def color_for_id(cid: str) -> str:
@@ -147,6 +208,35 @@ def like_where(field: str, needles: list[str]) -> str:
     return "(" + " OR ".join(parts) + ")"
 
 
+def in_where(field: str, values: list[str]) -> str:
+    quoted = ", ".join("'" + v.replace("'", "''") + "'" for v in values)
+    return f"{field} IN ({quoted})"
+
+
+def approved_vale_holders(cache_dir: Path | None) -> list[str] | None:
+    """Holder strings Jev approved as Vale, or None when no judgments were cached."""
+    if cache_dir is None:
+        return None
+    slot = cache_dir / VALE_JUDGMENTS
+    if not slot.is_file():
+        return None
+    try:
+        rows = json.loads(slot.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(rows, dict):
+        return None
+    return sorted(h for h, row in rows.items() if isinstance(row, dict) and row.get("vale") is True)
+
+
+def ontario_where(cid: str, needles: list[str], cache_dir: Path | None) -> str:
+    if cid == "vale":
+        approved = approved_vale_holders(cache_dir)
+        if approved:
+            return in_where("HOLDER", approved)
+    return like_where("HOLDER", needles)
+
+
 def fetch_layer(url: str, where: str, out_fields: str, page_size: int, envelope=None,
                  cache_dir: Path | None = None, refresh: bool = False) -> list[dict]:
     features = []
@@ -159,6 +249,7 @@ def fetch_layer(url: str, where: str, out_fields: str, page_size: int, envelope=
             "f": "geojson",
             "resultRecordCount": page_size,
             "resultOffset": offset,
+            "orderByFields": "OBJECTID ASC",
             "maxAllowableOffset": OFFSET_DEG,
         }
         if envelope and len(envelope) == 4:
@@ -199,6 +290,7 @@ def sweep_holders(needle: str = HOLDER_SWEEP_NEEDLE, cache_dir: Path | None = No
             "f": "json",
             "resultRecordCount": PAGE,
             "resultOffset": offset,
+            "orderByFields": "OBJECTID ASC",
             "returnGeometry": "false",
         }
         data = cached_get_json(ON_URL, params, cache_dir, refresh)
@@ -221,8 +313,7 @@ def sweep_holders(needle: str = HOLDER_SWEEP_NEEDLE, cache_dir: Path | None = No
         "holders": counts,
     }
     if cache_dir is not None:
-        slot = cache_dir_ready(cache_dir) / "holders-vale.json"
-        slot.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        atomic_write_json(cache_dir_ready(cache_dir) / "holders-vale.json", payload)
     return payload
 
 
@@ -252,7 +343,7 @@ def judge_holders(holders: dict, cache_dir: Path | None = None,
     tokens. Without a key or SDK, falls back to a recorded substring rule.
     Never prints the key.
     """
-    slot = cache_dir_ready(cache_dir) / "vale-holder-judgments.json" if cache_dir else None
+    slot = cache_dir_ready(cache_dir) / VALE_JUDGMENTS if cache_dir else None
     cached: dict = {}
     if slot and slot.is_file():
         try:
@@ -304,7 +395,7 @@ def judge_holders(holders: dict, cache_dir: Path | None = None,
                 out[holder] = {"vale": "VALE CANADA LIMITED" in holder.upper(),
                                "noul": None, "method": "substring-fallback (no key/sdk)"}
         if slot:
-            slot.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            atomic_write_json(slot, out)
     for holder in holders:
         row = out.get(holder, {})
         print(f"    holder {holder!r} x{holders[holder]} -> vale={row.get('vale')} "
@@ -590,8 +681,7 @@ def fetch_full_ontario(tile_size: int = FULL_TILE_SIZE, cache_dir: Path | None =
         "done": True,
         "after": after,
     }
-    prog_path.write_text(
-        json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(prog_path, index)
     print(f"  full MLAS: {total} titles in {len(tiles)} tiles "
           f"({index['bytes_total'] / 1e6:.1f} MB) — cache only, not committed", flush=True)
     return index
@@ -646,8 +736,7 @@ def build_holder_index(cache_dir: Path | None = None, out: Path = HOLDERS_INDEX)
         "titles": n,
         "holders": rows,
     }
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(payload, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    atomic_write_json(out, payload, indent=1)
     print(f"  holder index: {n} titles, {len(rows)} holders -> {out} "
           f"({out.stat().st_size / 1e3:.0f} KB)", flush=True)
     return payload
@@ -667,8 +756,7 @@ def write_full_tile(out_dir: Path, tile_idx: int, chunk: list[dict], tiles: list
         "features": chunk,
     }
     slot = out_dir / name
-    slot.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n",
-                    encoding="utf-8")
+    atomic_write_json(slot, payload, compact=True)
     tiles.append({"file": "claims/mlas/" + name, "n": len(chunk),
                   "min_objectid": min(oids) if oids else None,
                   "max_objectid": max(oids) if oids else None,
@@ -678,13 +766,13 @@ def write_full_tile(out_dir: Path, tile_idx: int, chunk: list[dict], tiles: list
 
 
 def write_fc(path: Path, features: list[dict], name: str):
-    path.write_text(
+    atomic_write_text(
+        path,
         json.dumps(
             {"type": "FeatureCollection", "name": name, "features": features},
             ensure_ascii=False,
             separators=(",", ":"),
         ),
-        encoding="utf-8",
     )
 
 
@@ -750,66 +838,72 @@ def main(args=None):
             continue
         if "quebec_count" not in row:
             row["quebec_count"] = row.get("claim_count") or 0
-        row["ontario_count"] = 0
-        row["bc_count"] = 0
-        row["ontario_extract"] = None
-        row["bc_extract"] = None
 
-    print("Ontario MLAS…")
-    for cid, needles in ON_MATCH.items():
-        if only and cid not in only:
-            continue
-        where = like_where("HOLDER", needles)
-        print(f"  {cid} {where}")
-        raw = fetch_layer(
-            ON_URL,
-            where,
-            "TENURE_NUMBER_ID,TITLE_TYPE_DESC,TENURE_STATUS_DESC,ISSUE_DATE,ANNIVERSARY_DATE,CLAIM_DUE_DATE,HOLDER",
-            PAGE,
-            cache_dir=cache_dir,
-            refresh=refresh,
-        )
-        feats = [map_on(f) for f in raw if f.get("geometry")]
-        rel = f"claims/{cid}-ontario.geojson"
-        dest = ROOT / rel
+    failures: list[str] = []
+    try:
+        print("Ontario MLAS…")
+        for cid, needles in ON_MATCH.items():
+            if only and cid not in only:
+                continue
+            where = ontario_where(cid, needles, cache_dir)
+            print(f"  {cid} {where}")
+
+            def write_on(dest: Path, feats: list[dict], cid: str = cid) -> None:
+                write_ontario_with_neighbors(cid, feats, dest, cache_dir, refresh)
+
+            refresh_extract(by_id, cid, "ontario", ON_URL, where, ON_FIELDS, map_on, write_on,
+                            cache_dir, refresh, failures)
+
+        print("BC MTA…")
+        for cid, needles in BC_MATCH.items():
+            if only and cid not in only:
+                continue
+            where = like_where("OWNER_NAME", needles)
+            print(f"  {cid} {where}")
+
+            def write_bc(dest: Path, feats: list[dict], cid: str = cid) -> None:
+                write_fc(dest, feats, f"{cid}-bc")
+                print(f"    wrote {len(feats)} -> {dest.relative_to(ROOT)} ({dest.stat().st_size/1e6:.1f} MB)")
+
+            refresh_extract(by_id, cid, "bc", BC_URL, where, BC_FIELDS, map_bc, write_bc,
+                            cache_dir, refresh, failures)
+    finally:
+        write_catalog(catalog, only)
+    if failures:
+        print("Kept previous extract/catalog row for: " + ", ".join(failures), file=sys.stderr)
+        return 1
+    return 0
+
+
+def refresh_extract(by_id: dict, cid: str, kind: str, url: str, where: str, fields: str, mapper,
+                    writer, cache_dir: Path | None, refresh: bool, failures: list[str]) -> None:
+    """Refetch one company extract. Delete it only when a clean live count says 0."""
+    rel = f"claims/{cid}-{'ontario' if kind == 'ontario' else 'bc'}.geojson"
+    dest = ROOT / rel
+    try:
+        raw = fetch_layer(url, where, fields, PAGE, cache_dir=cache_dir, refresh=refresh)
+        feats = [mapper(f) for f in raw if f.get("geometry")]
         if feats:
-            write_ontario_with_neighbors(cid, feats, dest, cache_dir, refresh)
-        elif dest.exists():
-            dest.unlink()
-        row = by_id.get(cid)
-        if row:
-            row["ontario_count"] = len(feats)
-            row["ontario_extract"] = rel if feats else None
-            row["ontario_bbox"] = bbox_of(feats)
+            writer(dest, feats)
+        else:
+            count = live_count(url, where)
+            if count != 0:
+                raise ArcGISError(f"0 features parsed but live count is {count}")
+            if dest.exists():
+                dest.unlink()
+                print(f"    live count 0 — removed {rel}", flush=True)
+    except (ArcGISError, OSError, ValueError) as exc:
+        print(f"    {cid} {kind} FAILED ({type(exc).__name__}: {exc}); keeping {rel}", flush=True)
+        failures.append(f"{cid}:{kind}")
+        return
+    row = by_id.get(cid)
+    if row:
+        row[f"{kind}_count"] = len(feats)
+        row[f"{kind}_extract"] = rel if feats else None
+        row[f"{kind}_bbox"] = bbox_of(feats)
 
-    print("BC MTA…")
-    for cid, needles in BC_MATCH.items():
-        if only and cid not in only:
-            continue
-        where = like_where("OWNER_NAME", needles)
-        print(f"  {cid} {where}")
-        raw = fetch_layer(
-            BC_URL,
-            where,
-            "TENURE_NUMBER_ID,CLAIM_NAME,TENURE_TYPE_DESCRIPTION,TITLE_TYPE_DESCRIPTION,ISSUE_DATE,GOOD_TO_DATE,TERMINATION_DATE,AREA_IN_HECTARES,OWNER_NAME",
-            PAGE,
-            cache_dir=cache_dir,
-            refresh=refresh,
-        )
-        feats = [map_bc(f) for f in raw if f.get("geometry")]
-        rel = f"claims/{cid}-bc.geojson"
-        dest = ROOT / rel
-        if feats:
-            write_fc(dest, feats, f"{cid}-bc")
-            print(f"    wrote {len(feats)} -> {rel} ({dest.stat().st_size/1e6:.1f} MB)")
-        elif dest.exists():
-            dest.unlink()
-        row = by_id.get(cid)
-        if row:
-            row["bc_count"] = len(feats)
-            row["bc_extract"] = rel if feats else None
-            row["bc_bbox"] = bbox_of(feats)
 
+def write_catalog(catalog: dict, only: set[str]) -> None:
     for row in catalog["companies"]:
         if only and row["id"] not in only:
             continue
@@ -835,7 +929,7 @@ def main(args=None):
         "as_of_on_bc": AS_OF,
     }
     catalog["on_bc_built_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    (CLAIMS / "companies.json").write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(CLAIMS / "companies.json", catalog)
     print("Updated claims/companies.json")
 
 
@@ -870,6 +964,8 @@ if __name__ == "__main__":
     parser.add_argument("--cache-dir", default=str(DEFAULT_CACHE_DIR),
                         help="Gitignored raw-page cache (default claims/.cache/mlas).")
     parser.add_argument("--refresh", action="store_true", help="Ignore cache and refetch from the REST endpoints.")
+    parser.add_argument("--cache-max-age-hours", type=float, default=CACHE_MAX_AGE_S / 3600,
+                        help="Refetch cached REST pages older than this (default %(default)s).")
     parser.add_argument("--sweep-holders", action="store_true",
                         help="Attributes-only sweep of all MLAS titles matching %%VALE%% into the cache.")
     parser.add_argument("--judge-holders", action="store_true",
@@ -883,6 +979,7 @@ if __name__ == "__main__":
     parser.add_argument("--holders-index", action="store_true",
                         help="Build committed claims/mlas/holders.json offline from the cache tiles (no network).")
     args = parser.parse_args()
+    CACHE_MAX_AGE_S = args.cache_max_age_hours * 3600
     if args.judge_holders:
         args.sweep_holders = True
     if args.holders_index:
@@ -897,4 +994,4 @@ if __name__ == "__main__":
         cache = Path(args.cache_dir) if args.cache_dir else None
         neighbors_only(args.company, cache, args.refresh)
     else:
-        main(args)
+        raise SystemExit(main(args))

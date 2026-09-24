@@ -1,14 +1,14 @@
 {
- "generated_at": "2026-09-24T15:56:01Z",
+ "generated_at": "2026-09-24T17:09:37Z",
  "model": "jev-1.13.0",
- "score": 1.69,
- "confidence": 0.53,
+ "score": 1.63,
+ "confidence": 0.45,
  "probabilities": {
-  "0": 0.02,
-  "1": 0.27,
-  "2": 0.71
+  "0": 0.03,
+  "1": 0.31,
+  "2": 0.66
  },
- "input_tokens": 1417,
+ "input_tokens": 1572,
  "output_tokens": 17,
  "state": {
   "cadence": "monthly",
@@ -17,22 +17,32 @@
    "ontario": {
     "titles": 403782,
     "coverage": 0.45219,
-    "pmtiles_mb": 37.03
+    "pmtiles_mb": 37.59
    },
    "yukon": {
     "titles": 168961,
     "coverage": 0.405159,
-    "pmtiles_mb": 22.98
+    "pmtiles_mb": 23.29
    },
    "newfoundland": {
     "titles": 4694,
     "coverage": 0.150192,
-    "pmtiles_mb": 2.71
+    "pmtiles_mb": 2.8
    },
    "nunavut": {
     "titles": 34551,
     "coverage": 0.187346,
-    "pmtiles_mb": 18.04
+    "pmtiles_mb": 18.89
+   },
+   "quebec": {
+    "titles": 255285,
+    "coverage": 0.206671,
+    "pmtiles_mb": 28.05
+   },
+   "british-columbia": {
+    "titles": 31395,
+    "coverage": 0.186972,
+    "pmtiles_mb": 10.67
    }
   },
   "tiles_under_100mb": true,
@@ -128,8 +138,8 @@
     "body_starts_with_pmtiles_or_png": true,
     "body_looks_gzip": false
    },
-   "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. Binary types (PNG) return the raw file. .pmtiles is not a text type. The viewer checks the PMTiles magic and, if the range is compressed, reads the whole archive in memory."
+   "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. image/png ranges are the raw file. .pmtiles is application/octet-stream and is gzip-sliced the same way text is, so published archives use a .pmtiles.png name. The viewer still checks the PMTiles magic and, if a range is compressed, reads the whole archive in memory."
   },
-  "sqlite_mb": 286.5
+  "sqlite_mb": 442.3
  }
 }

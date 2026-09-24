@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-09-24T15:52:47Z",
+ "generated_at": "2026-09-24T17:08:02Z",
  "provinces": {
   "ontario": {
    "code": "on",
    "titles": 403782,
    "duplicate_title_ids": 0,
    "missing_holder": 0,
-   "bytes": 6195855,
+   "bytes": 6530894,
    "shards": 75
   },
   "yukon": {
@@ -22,7 +22,7 @@
    "titles": 4694,
    "duplicate_title_ids": 0,
    "missing_holder": 0,
-   "bytes": 70369,
+   "bytes": 79803,
    "shards": 5
   },
   "nunavut": {
@@ -30,8 +30,24 @@
    "titles": 34551,
    "duplicate_title_ids": 0,
    "missing_holder": 0,
-   "bytes": 518363,
+   "bytes": 552914,
    "shards": 27
+  },
+  "quebec": {
+   "code": "qc",
+   "titles": 233724,
+   "duplicate_title_ids": 21561,
+   "missing_holder": 0,
+   "bytes": 3958371,
+   "shards": 99
+  },
+  "british-columbia": {
+   "code": "bc",
+   "titles": 31395,
+   "duplicate_title_ids": 0,
+   "missing_holder": 0,
+   "bytes": 468614,
+   "shards": 70
   }
  }
 }

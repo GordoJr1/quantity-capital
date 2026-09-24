@@ -191,12 +191,15 @@ function provinceOn(id) {
 }
 
 const REGISTRY_TILES = [
+  { id: "ly-quebec", code: "qc", name: "Quebec" },
+  { id: "ly-bc", code: "bc", name: "British Columbia" },
   { id: "ly-yukon", code: "yt", name: "Yukon" },
   { id: "ly-nunavut", code: "nu", name: "Nunavut" },
   { id: "ly-nl", code: "nl", name: "Newfoundland and Labrador" },
 ];
 const REGISTRY_VIEW = { center: [-100, 58], zoom: 3 };
 let registryLoad = null;
+let registryLoaded = REGISTRY_TILES.slice();
 
 function registryWanted() {
   return REGISTRY_TILES.some((row) => provinceOn(row.id));
@@ -288,7 +291,7 @@ function addRegistryLayers(row) {
 }
 
 function syncRegistryTiles() {
-  REGISTRY_TILES.forEach((row) => {
+  registryLoaded.forEach((row) => {
     const visibility = provinceOn(row.id) ? "visible" : "none";
     ["fill", "line"].forEach((kind) => {
       const id = "registry-" + row.code + "-" + kind;
@@ -297,14 +300,43 @@ function syncRegistryTiles() {
   });
 }
 
+async function registryRows() {
+  const rows = REGISTRY_TILES.map((row) => Object.assign({
+    file: "claims/tiles/" + row.code + ".pmtiles.png",
+  }, row));
+  try {
+    const res = await fetch("claims/tiles/index.json");
+    if (!res.ok) return rows;
+    const index = await res.json();
+    const known = {};
+    rows.forEach((row) => { known[row.code] = true; });
+    (index.provinces || []).forEach((item) => {
+      if (!item || known[item.code]) return;
+      if (item.id !== "quebec" && item.id !== "british-columbia") return;
+      known[item.code] = true;
+      rows.push({
+        id: item.id === "quebec" ? "ly-quebec" : "ly-bc",
+        code: item.code,
+        name: item.name,
+        file: item.file,
+      });
+    });
+  } catch (err) {
+    /* named archives still load when the index is missing */
+  }
+  return rows;
+}
+
 function loadRegistryTiles() {
   if (registryLoad) return registryLoad;
   registryLoad = (async () => {
     if (!window.pmtiles) throw new Error("pmtiles library missing");
     const protocol = new pmtiles.Protocol();
     maplibregl.addProtocol("pmtiles", protocol.tile);
-    for (const row of REGISTRY_TILES) {
-      await openClaimsArchive(protocol, "registry-" + row.code, "claims/tiles/" + row.code + ".pmtiles.png");
+    const rows = await registryRows();
+    registryLoaded = rows;
+    for (const row of rows) {
+      await openClaimsArchive(protocol, "registry-" + row.code, row.file || ("claims/tiles/" + row.code + ".pmtiles.png"));
       addRegistryLayers(row);
     }
     syncRegistryTiles();
@@ -1236,7 +1268,7 @@ function paintAllClaims(fit) {
     (holders ? " · " + holders.toLocaleString("en-CA") + " holders" : " · no titles in on provinces") +
     (titles ? " · " + titles.toLocaleString("en-CA") + " titles" : "") +
     " · search a holder for full titles" +
-    (registryWanted() ? " · Yukon, Nunavut, and Newfoundland tiles" : "");
+    (registryWanted() ? " · Quebec, British Columbia, Yukon, Nunavut, and Newfoundland tiles" : "");
   setStatus(extra);
 }
 
@@ -1633,7 +1665,7 @@ map.on("click", () => {
 
 whenMapReady(() => {
   loadRegistryTiles().catch((err) => {
-    setStatus("Yukon, Nunavut, and Newfoundland tiles did not load (" + err.message + ").");
+    setStatus("Registry tiles did not load (" + err.message + ").");
   });
 });
 

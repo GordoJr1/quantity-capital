@@ -1,0 +1,1957 @@
+{
+ "dataset": "British Columbia titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T17:08:05Z",
+ "province": "British Columbia",
+ "province_id": "british-columbia",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 17,
+ "sudbury_first": false,
+ "unlocated": [
+  {
+   "mine_id": "red-chris",
+   "company_id": "newmont",
+   "name": "Red Chris",
+   "region": "British Columbia",
+   "ticker": "NEM"
+  },
+  {
+   "mine_id": "brucejack",
+   "company_id": "newmont",
+   "name": "Brucejack",
+   "region": "British Columbia",
+   "ticker": "NEM"
+  },
+  {
+   "mine_id": "mount-milligan",
+   "company_id": "centerra-gold",
+   "name": "Mount Milligan",
+   "region": "British Columbia",
+   "ticker": "CG.TO"
+  },
+  {
+   "mine_id": "kemess",
+   "company_id": "centerra-gold",
+   "name": "Kemess",
+   "region": "British Columbia",
+   "ticker": "CG.TO"
+  },
+  {
+   "mine_id": "blackwater",
+   "company_id": "artemis-gold",
+   "name": "Blackwater",
+   "region": "British Columbia",
+   "ticker": "ARTG.V"
+  }
+ ],
+ "seconds": 0.1,
+ "results": [
+  {
+   "mine_id": "bud",
+   "company_id": "progressive-planet",
+   "name": "Bud",
+   "region": "British Columbia",
+   "ticker": "PLAN.V",
+   "lat": 49.424529,
+   "lon": -120.557564,
+   "km": {
+    "5": {
+     "titles": 26,
+     "by_holder": [
+      {
+       "holder": "(100) BURLEIGH, SHARLENE ROSELLE",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(67.9) INTERNATIONAL ZEOLITE CORP.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) COPPER MOUNTAIN MINE (BC) LTD.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TULMEEN RESOURCES CORPORATION",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PROGRESSIVE PLANET PRODUCTS INC.",
+       "count": 3,
+       "company_id": "progressive-planet",
+       "ticker": "PLAN.V"
+      },
+      {
+       "holder": "(100) CANADA ONE MINING CORP.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BUDD, BRADLEY JACOB",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 23
+      },
+      {
+       "company_id": "progressive-planet",
+       "count": 3
+      }
+     ]
+    },
+    "10": {
+     "titles": 207,
+     "by_holder": [
+      {
+       "holder": "(100) COPPER MOUNTAIN MINE (BC) LTD.",
+       "count": 132,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TULMEEN RESOURCES CORPORATION",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ENVIROGREEN TECHNOLOGIES LTD",
+       "count": 8,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BURLEIGH, SHARLENE ROSELLE",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SEGO RESOURCES INC.",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CAMBRIAN CAPITAL CORP",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) HANSON, JEREMY ANDREW",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(67.9) INTERNATIONAL ZEOLITE CORP.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GREEN, DEREK",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CANADA ONE MINING CORP.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KOLEBABA, MARK ROBERT",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PROGRESSIVE PLANET PRODUCTS INC.",
+       "count": 3,
+       "company_id": "progressive-planet",
+       "ticker": "PLAN.V"
+      },
+      {
+       "holder": "(100) PRINCETON COPPER CORP.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) HILTON, ALLAN J.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) OANCEA, DAN VIOREL",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ANDERSON, CHRISTOPHER ROSS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FUNK, KELLY BRENT",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BUDD, BRADLEY JACOB",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAGLE PLAINS RESOURCES LTD.",
+       "count": 1,
+       "company_id": "eagle-plains-resources",
+       "ticker": "EPL.V"
+      },
+      {
+       "holder": "(100) ADAMS, JOHN MALKIN",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 203
+      },
+      {
+       "company_id": "progressive-planet",
+       "count": 3
+      },
+      {
+       "company_id": "eagle-plains-resources",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "cariboo",
+   "company_id": "osisko-development",
+   "name": "Cariboo Gold",
+   "region": "British Columbia",
+   "ticker": "ODV.TO",
+   "lat": 53.1,
+   "lon": -121.57,
+   "km": {
+    "5": {
+     "titles": 45,
+     "by_holder": [
+      {
+       "holder": "(100) BARKERVILLE GOLD MINES LTD.",
+       "count": 33,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GOLDEN CARIBOO RESOURCES LTD.",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(97.5) BARKERVILLE GOLD MINES LTD.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(85) BARKERVILLE GOLD MINES LTD.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GOLDIN ROCK RESOURCES INC.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 45
+      }
+     ]
+    },
+    "10": {
+     "titles": 112,
+     "by_holder": [
+      {
+       "holder": "(100) BARKERVILLE GOLD MINES LTD.",
+       "count": 91,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GOLDEN CARIBOO RESOURCES LTD.",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(97.5) BARKERVILLE GOLD MINES LTD.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GOLDIN ROCK RESOURCES INC.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(85) BARKERVILLE GOLD MINES LTD.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 112
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "elk",
+   "company_id": "gold-mountain-mining",
+   "name": "Elk",
+   "region": "British Columbia",
+   "ticker": "GMTN.V",
+   "lat": 49.8538,
+   "lon": -120.31487,
+   "km": {
+    "5": {
+     "titles": 23,
+     "by_holder": [
+      {
+       "holder": "(100) ELK GOLD MINING CORP.",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) COAST COPPER CORP.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 23
+      }
+     ]
+    },
+    "10": {
+     "titles": 72,
+     "by_holder": [
+      {
+       "holder": "(100) ELK GOLD MINING CORP.",
+       "count": 33,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BILLINGSLEY, RICHARD JOHN",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VIZSLA COPPER CORP.",
+       "count": 6,
+       "company_id": "vizsla-copper",
+       "ticker": "VCU.V"
+      },
+      {
+       "holder": "(100) RIPPON, DONALD JOHN",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BARRANCO GOLD MINING CORP.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAGLE PLAINS RESOURCES LTD.",
+       "count": 5,
+       "company_id": "eagle-plains-resources",
+       "ticker": "EPL.V"
+      },
+      {
+       "holder": "(100) FLOW METALS CORP.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KODIAK COPPER CORP.",
+       "count": 1,
+       "company_id": "kodiak-copper",
+       "ticker": "KDK.V"
+      },
+      {
+       "holder": "(100) COAST COPPER CORP.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SCOTT, STEVEN JEFFREY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MOREL, PETER",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 60
+      },
+      {
+       "company_id": "vizsla-copper",
+       "count": 6
+      },
+      {
+       "company_id": "eagle-plains-resources",
+       "count": 5
+      },
+      {
+       "company_id": "kodiak-copper",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "eskay-creek",
+   "company_id": "skeena",
+   "name": "Eskay Creek",
+   "region": "British Columbia",
+   "ticker": "SKE.TO",
+   "lat": 56.655,
+   "lon": -130.449,
+   "km": {
+    "5": {
+     "titles": 73,
+     "by_holder": [
+      {
+       "holder": "(100) ESKAY CREEK MINING LTD.",
+       "count": 34,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ESKAY MINING CORP.",
+       "count": 20,
+       "company_id": "eskay-mining",
+       "ticker": "ESK.V"
+      },
+      {
+       "holder": "(100) GARIBALDI RESOURCES CORP",
+       "count": 9,
+       "company_id": "garibaldi-resources",
+       "ticker": "GGI.V"
+      },
+      {
+       "holder": "(33.3333) CANAGOLD RESOURCES LTD.",
+       "count": 3,
+       "company_id": "canagold",
+       "ticker": "CCM.TO"
+      },
+      {
+       "holder": "(100) OROGENIC GOLD CORP.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(33.33) CANAGOLD RESOURCES LTD.",
+       "count": 2,
+       "company_id": "canagold",
+       "ticker": "CCM.TO"
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SCOTT, STEVEN JEFFREY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DECOORS MINING CORP.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 39
+      },
+      {
+       "company_id": "eskay-mining",
+       "count": 20
+      },
+      {
+       "company_id": "garibaldi-resources",
+       "count": 9
+      },
+      {
+       "company_id": "canagold",
+       "count": 5
+      }
+     ]
+    },
+    "10": {
+     "titles": 214,
+     "by_holder": [
+      {
+       "holder": "(100) ESKAY MINING CORP.",
+       "count": 105,
+       "company_id": "eskay-mining",
+       "ticker": "ESK.V"
+      },
+      {
+       "holder": "(100) ESKAY CREEK MINING LTD.",
+       "count": 56,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GARIBALDI RESOURCES CORP",
+       "count": 33,
+       "company_id": "garibaldi-resources",
+       "ticker": "GGI.V"
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TEUTON RESOURCES CORP.",
+       "count": 5,
+       "company_id": "teuton-resources",
+       "ticker": "TUO.V"
+      },
+      {
+       "holder": "(33.3333) CANAGOLD RESOURCES LTD.",
+       "count": 3,
+       "company_id": "canagold",
+       "ticker": "CCM.TO"
+      },
+      {
+       "holder": "(100) OROGENIC GOLD CORP.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(33.33) CANAGOLD RESOURCES LTD.",
+       "count": 2,
+       "company_id": "canagold",
+       "ticker": "CCM.TO"
+      },
+      {
+       "holder": "(100) SCOTT, STEVEN JEFFREY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DECOORS MINING CORP.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "eskay-mining",
+       "count": 105
+      },
+      {
+       "company_id": null,
+       "count": 66
+      },
+      {
+       "company_id": "garibaldi-resources",
+       "count": 33
+      },
+      {
+       "company_id": "teuton-resources",
+       "count": 5
+      },
+      {
+       "company_id": "canagold",
+       "count": 5
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "falkland",
+   "company_id": "amrize",
+   "name": "Falkland",
+   "region": "British Columbia",
+   "ticker": "AMRZ",
+   "lat": 50.510392,
+   "lon": -119.552465,
+   "km": {
+    "5": {
+     "titles": 8,
+     "by_holder": [
+      {
+       "holder": "(100) SHEARER, JOHAN THOM",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 2,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) VARABIOFF, ARLEAH NICOLE",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MARLOW, JEREMY MORGAN",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FINLEY, MICHAEL OWEN WILLIAMS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MIELNICZUK, MILOSZ",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 6
+      },
+      {
+       "company_id": "amrize",
+       "count": 2
+      }
+     ]
+    },
+    "10": {
+     "titles": 21,
+     "by_holder": [
+      {
+       "holder": "(100) SHEARER, JOHAN THOM",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MARLOW, JEREMY MORGAN",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) BILLINGSLEY, RICHARD JOHN",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MORRIS-NELSON, WILLIAM IZAK",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 2,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) CASWELL, KARL DOUGLAS",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) VARABIOFF, ARLEAH NICOLE",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ROLLINS, ROBBIE ALEXANDER",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FINLEY, MICHAEL OWEN WILLIAMS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MIELNICZUK, MILOSZ",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) HATCH, EDWARD ROBERT",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 19
+      },
+      {
+       "company_id": "amrize",
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "fireside",
+   "company_id": "fireside-minerals",
+   "name": "Fireside",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 59.770475,
+   "lon": -127.206197,
+   "km": {
+    "5": {
+     "titles": 23,
+     "by_holder": [
+      {
+       "holder": "(100) FIRESIDE MINERALS LTD.",
+       "count": 23,
+       "company_id": "fireside-minerals",
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "fireside-minerals",
+       "count": 23
+      }
+     ]
+    },
+    "10": {
+     "titles": 33,
+     "by_holder": [
+      {
+       "holder": "(100) FIRESIDE MINERALS LTD.",
+       "count": 33,
+       "company_id": "fireside-minerals",
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "fireside-minerals",
+       "count": 33
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "imperial-limestone",
+   "company_id": "imperial-limestone",
+   "name": "Imperial Limestone",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 49.7405,
+   "lon": -124.528,
+   "km": {
+    "5": {
+     "titles": 117,
+     "by_holder": [
+      {
+       "holder": "(100) ZYROX MINING COMPANY LTD.",
+       "count": 38,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) LHOIST NORTH AMERICA OF CANADA, INC.",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 21,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) CRH CANADA GROUP INC.",
+       "count": 10,
+       "company_id": "crh",
+       "ticker": "CRH"
+      },
+      {
+       "holder": "(100) IMPERIAL LIMESTONE COMPANY LIMITED",
+       "count": 9,
+       "company_id": "imperial-limestone",
+       "ticker": null
+      },
+      {
+       "holder": "(100) QUADRA COASTAL RESOURCES LTD.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ACORN, NICOLE",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) DELORME, GUY RICHARD",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRITCHLEY, CHARLES FRANCIS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 77
+      },
+      {
+       "company_id": "amrize",
+       "count": 21
+      },
+      {
+       "company_id": "crh",
+       "count": 10
+      },
+      {
+       "company_id": "imperial-limestone",
+       "count": 9
+      }
+     ]
+    },
+    "10": {
+     "titles": 215,
+     "by_holder": [
+      {
+       "holder": "(100) ZYROX MINING COMPANY LTD.",
+       "count": 91,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) LHOIST NORTH AMERICA OF CANADA, INC.",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRH CANADA GROUP INC.",
+       "count": 28,
+       "company_id": "crh",
+       "ticker": "CRH"
+      },
+      {
+       "holder": "(100) QUADRA COASTAL RESOURCES LTD.",
+       "count": 25,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 22,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) IMPERIAL LIMESTONE COMPANY LIMITED",
+       "count": 10,
+       "company_id": "imperial-limestone",
+       "ticker": null
+      },
+      {
+       "holder": "(100) ACORN, NICOLE",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ANDERSON, JEFFREY DAVID",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) DELORME, GUY RICHARD",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRITCHLEY, CHARLES FRANCIS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 155
+      },
+      {
+       "company_id": "crh",
+       "count": 28
+      },
+      {
+       "company_id": "amrize",
+       "count": 22
+      },
+      {
+       "company_id": "imperial-limestone",
+       "count": 10
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "kootenay-west",
+   "company_id": "certainteed-gypsum",
+   "name": "Kootenay West",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 50.2249,
+   "lon": -115.7199,
+   "km": {
+    "5": {
+     "titles": 4,
+     "by_holder": [
+      {
+       "holder": "(100) CERTAINTEED CANADA INC.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) WYPYCH, MICHAL",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FRANCK, KEVIN GARY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 4
+      }
+     ]
+    },
+    "10": {
+     "titles": 7,
+     "by_holder": [
+      {
+       "holder": "(100) CERTAINTEED CANADA INC.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GRAF, CHRIS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MT. WILSON SILICA VENTURES LTD",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MALEK, CONNOR WILLIAM",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) WYPYCH, MICHAL",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FRANCK, KEVIN GARY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 7
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "ksm",
+   "company_id": "seabridge-gold",
+   "name": "KSM",
+   "region": "British Columbia",
+   "ticker": "SEA.TO",
+   "lat": 56.5,
+   "lon": -130.19,
+   "km": {
+    "5": {
+     "titles": 22,
+     "by_holder": [
+      {
+       "holder": "(100) PRETIUM RESOURCES INC.",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GREIG, CHARLES JAMES",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) GOLDWEDGE MINES INC.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FUNK, KELLY BRENT",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 22
+      }
+     ]
+    },
+    "10": {
+     "titles": 86,
+     "by_holder": [
+      {
+       "holder": "(100) PRETIUM RESOURCES INC.",
+       "count": 49,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TUDOR GOLD CORP.",
+       "count": 11,
+       "company_id": "tudor-gold",
+       "ticker": "TUD.V"
+      },
+      {
+       "holder": "(100) GOLDSTORM METALS CORP",
+       "count": 6,
+       "company_id": "goldstorm-metals",
+       "ticker": "GSTM.V"
+      },
+      {
+       "holder": "(100) GREIG, CHARLES JAMES",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ESKAY MINING CORP.",
+       "count": 2,
+       "company_id": "eskay-mining",
+       "ticker": "ESK.V"
+      },
+      {
+       "holder": "(100) GOLDWEDGE MINES INC.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FUNK, KELLY BRENT",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 67
+      },
+      {
+       "company_id": "tudor-gold",
+       "count": 11
+      },
+      {
+       "company_id": "goldstorm-metals",
+       "count": 6
+      },
+      {
+       "company_id": "eskay-mining",
+       "count": 2
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "lawyers-ranch",
+   "company_id": "thesis-gold",
+   "name": "Lawyers-Ranch",
+   "region": "British Columbia",
+   "ticker": "TAU.V",
+   "lat": 57.33,
+   "lon": -127.17,
+   "km": {
+    "5": {
+     "titles": 55,
+     "by_holder": [
+      {
+       "holder": "(100) THESIS GOLD & SILVER INC.",
+       "count": 36,
+       "company_id": "thesis-gold",
+       "ticker": "TAU.V"
+      },
+      {
+       "holder": "(100) TDG BC ASSETS CORP.",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) ERICKSON, VICTOR F.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "thesis-gold",
+       "count": 36
+      },
+      {
+       "company_id": null,
+       "count": 19
+      }
+     ]
+    },
+    "10": {
+     "titles": 174,
+     "by_holder": [
+      {
+       "holder": "(100) TDG BC ASSETS CORP.",
+       "count": 59,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) THESIS GOLD & SILVER INC.",
+       "count": 46,
+       "company_id": "thesis-gold",
+       "ticker": "TAU.V"
+      },
+      {
+       "holder": "(50) ERICKSON, VICTOR F.",
+       "count": 29,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) FINLAY MINERALS LTD.",
+       "count": 23,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ZEAL EXPLORATION INC.",
+       "count": 14,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) COAST COPPER CORP.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TOWER RESOURCES LTD.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 128
+      },
+      {
+       "company_id": "thesis-gold",
+       "count": 46
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "mount-brussilof",
+   "company_id": "baymag",
+   "name": "Mount Brussilof",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 50.7887,
+   "lon": -115.683,
+   "km": {
+    "5": {
+     "titles": 14,
+     "by_holder": [
+      {
+       "holder": "(100) BAYMAG INC.",
+       "count": 14,
+       "company_id": "baymag",
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "baymag",
+       "count": 14
+      }
+     ]
+    },
+    "10": {
+     "titles": 23,
+     "by_holder": [
+      {
+       "holder": "(100) BAYMAG INC.",
+       "count": 23,
+       "company_id": "baymag",
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "baymag",
+       "count": 23
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "mount-polley",
+   "company_id": "imperial-metals",
+   "name": "Mount Polley",
+   "region": "British Columbia",
+   "ticker": "III.TO",
+   "lat": 52.544959,
+   "lon": -121.633931,
+   "km": {
+    "5": {
+     "titles": 29,
+     "by_holder": [
+      {
+       "holder": "(100) MOUNT POLLEY MINING CORPORATION",
+       "count": 27,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) KARUS GOLD CORP.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) LANGILLE, MICHEAL SCOTT",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 29
+      }
+     ]
+    },
+    "10": {
+     "titles": 117,
+     "by_holder": [
+      {
+       "holder": "(100) MOUNT POLLEY MINING CORPORATION",
+       "count": 52,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAGLE PLAINS RESOURCES LTD.",
+       "count": 14,
+       "company_id": "eagle-plains-resources",
+       "ticker": "EPL.V"
+      },
+      {
+       "holder": "(100) KARUS GOLD CORP.",
+       "count": 13,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) RASMUSSEN, JAMES HARRY",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SPANISH MOUNTAIN GOLD LTD.",
+       "count": 6,
+       "company_id": "spanish-mountain-gold",
+       "ticker": "SPA.V"
+      },
+      {
+       "holder": "(100) MORRISON, GARY WAYNE",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) RASMUSSEN, GLEN ERIC",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) COMMANDER RESOURCES LTD.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(25) LANGILLE, MICHEAL SCOTT",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) EAGLE PEAK RESOURCES INC",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) WEST MINING CORP.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) MORRIS-NELSON, WILLIAM IZAK",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DAVIS, LOUIS ARTHUR",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) DIWAG, JANELLE SABADO",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) 0893428 BC LTD.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) INGENUITY EXPLORATION",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 97
+      },
+      {
+       "company_id": "eagle-plains-resources",
+       "count": 14
+      },
+      {
+       "company_id": "spanish-mountain-gold",
+       "count": 6
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "quintette",
+   "company_id": "conuma-coal",
+   "name": "Quintette",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 55.0138,
+   "lon": -121.1126,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  },
+  {
+   "mine_id": "red-lake",
+   "company_id": "progressive-planet",
+   "name": "Red Lake",
+   "region": "British Columbia",
+   "ticker": "PLAN.V",
+   "lat": 50.9387,
+   "lon": -120.815,
+   "km": {
+    "5": {
+     "titles": 15,
+     "by_holder": [
+      {
+       "holder": "(100) BOLIDEN MINERAL CANADA LTD",
+       "count": 7,
+       "company_id": "boliden",
+       "ticker": "BLIDF"
+      },
+      {
+       "holder": "(100) GOLDEN SKY MINERALS CORP.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PROGRESSIVE PLANET PRODUCTS INC.",
+       "count": 3,
+       "company_id": "progressive-planet",
+       "ticker": "PLAN.V"
+      },
+      {
+       "holder": "(100) SCOTT, STEVEN JEFFREY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "boliden",
+       "count": 7
+      },
+      {
+       "company_id": null,
+       "count": 5
+      },
+      {
+       "company_id": "progressive-planet",
+       "count": 3
+      }
+     ]
+    },
+    "10": {
+     "titles": 33,
+     "by_holder": [
+      {
+       "holder": "(100) BOLIDEN MINERAL CANADA LTD",
+       "count": 17,
+       "company_id": "boliden",
+       "ticker": "BLIDF"
+      },
+      {
+       "holder": "(100) GOLDEN SKY MINERALS CORP.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PROGRESSIVE PLANET PRODUCTS INC.",
+       "count": 3,
+       "company_id": "progressive-planet",
+       "ticker": "PLAN.V"
+      },
+      {
+       "holder": "(100) WALUS, ALOJZY ALEKSANDER",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) LODMELL, RICHARD DELMAR",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SCOTT, STEVEN JEFFREY",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) SHEARER, JOHAN THOM",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) IRVINE, GERALD WILLIAM",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "boliden",
+       "count": 17
+      },
+      {
+       "company_id": null,
+       "count": 13
+      },
+      {
+       "company_id": "progressive-planet",
+       "count": 3
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "texada",
+   "company_id": "amrize",
+   "name": "Texada",
+   "region": "British Columbia",
+   "ticker": "AMRZ",
+   "lat": 49.718975,
+   "lon": -124.568565,
+   "km": {
+    "5": {
+     "titles": 112,
+     "by_holder": [
+      {
+       "holder": "(100) ZYROX MINING COMPANY LTD.",
+       "count": 38,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 22,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) LHOIST NORTH AMERICA OF CANADA, INC.",
+       "count": 22,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRH CANADA GROUP INC.",
+       "count": 13,
+       "company_id": "crh",
+       "ticker": "CRH"
+      },
+      {
+       "holder": "(100) IMPERIAL LIMESTONE COMPANY LIMITED",
+       "count": 9,
+       "company_id": "imperial-limestone",
+       "ticker": null
+      },
+      {
+       "holder": "(100) ANDERSON, JEFFREY DAVID",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ACORN, NICOLE",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) DELORME, GUY RICHARD",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRITCHLEY, CHARLES FRANCIS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) QUADRA COASTAL RESOURCES LTD.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 68
+      },
+      {
+       "company_id": "amrize",
+       "count": 22
+      },
+      {
+       "company_id": "crh",
+       "count": 13
+      },
+      {
+       "company_id": "imperial-limestone",
+       "count": 9
+      }
+     ]
+    },
+    "10": {
+     "titles": 202,
+     "by_holder": [
+      {
+       "holder": "(100) ZYROX MINING COMPANY LTD.",
+       "count": 91,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) LHOIST NORTH AMERICA OF CANADA, INC.",
+       "count": 31,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRH CANADA GROUP INC.",
+       "count": 28,
+       "company_id": "crh",
+       "ticker": "CRH"
+      },
+      {
+       "holder": "(100) AMRIZE CANADA INC.",
+       "count": 22,
+       "company_id": "amrize",
+       "ticker": "AMRZ"
+      },
+      {
+       "holder": "(100) QUADRA COASTAL RESOURCES LTD.",
+       "count": 12,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) IMPERIAL LIMESTONE COMPANY LIMITED",
+       "count": 10,
+       "company_id": "imperial-limestone",
+       "ticker": null
+      },
+      {
+       "holder": "(100) ACORN, NICOLE",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) ANDERSON, JEFFREY DAVID",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(50) DELORME, GUY RICHARD",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) CRITCHLEY, CHARLES FRANCIS",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 142
+      },
+      {
+       "company_id": "crh",
+       "count": 28
+      },
+      {
+       "company_id": "amrize",
+       "count": 22
+      },
+      {
+       "company_id": "imperial-limestone",
+       "count": 10
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "treaty-creek",
+   "company_id": "tudor-gold",
+   "name": "Treaty Creek (Goldstorm)",
+   "region": "British Columbia",
+   "ticker": "TUD.V",
+   "lat": 56.62,
+   "lon": -130.01,
+   "km": {
+    "5": {
+     "titles": 27,
+     "by_holder": [
+      {
+       "holder": "(100) TUDOR GOLD CORP.",
+       "count": 12,
+       "company_id": "tudor-gold",
+       "ticker": "TUD.V"
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PRETIUM RESOURCES INC.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TEUTON RESOURCES CORP.",
+       "count": 1,
+       "company_id": "teuton-resources",
+       "ticker": "TUO.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 14
+      },
+      {
+       "company_id": "tudor-gold",
+       "count": 12
+      },
+      {
+       "company_id": "teuton-resources",
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 76,
+     "by_holder": [
+      {
+       "holder": "(100) TUDOR GOLD CORP.",
+       "count": 28,
+       "company_id": "tudor-gold",
+       "ticker": "TUD.V"
+      },
+      {
+       "holder": "(100) KSM MINING INC",
+       "count": 26,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) PRETIUM RESOURCES INC.",
+       "count": 21,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "(100) TEUTON RESOURCES CORP.",
+       "count": 1,
+       "company_id": "teuton-resources",
+       "ticker": "TUO.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 47
+      },
+      {
+       "company_id": "tudor-gold",
+       "count": 28
+      },
+      {
+       "company_id": "teuton-resources",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "willow-creek",
+   "company_id": "conuma-coal",
+   "name": "Willow Creek",
+   "region": "British Columbia",
+   "ticker": null,
+   "lat": 55.607,
+   "lon": -122.2222,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    }
+   }
+  }
+ ]
+}

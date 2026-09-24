@@ -1,8 +1,22 @@
 {
- "generated_at": "2026-09-24T16:46:14Z",
+ "generated_at": "2026-09-24T17:08:02Z",
  "source_layer": "claims",
  "max_bytes": 104857600,
  "provinces": [
+  {
+   "id": "ontario",
+   "code": "on",
+   "name": "Ontario",
+   "file": "claims/tiles/on.pmtiles.png",
+   "bytes": 37590012
+  },
+  {
+   "id": "yukon",
+   "code": "yt",
+   "name": "Yukon",
+   "file": "claims/tiles/yt.pmtiles.png",
+   "bytes": 23291116
+  },
   {
    "id": "newfoundland",
    "code": "nl",
@@ -18,18 +32,18 @@
    "bytes": 18892397
   },
   {
-   "id": "yukon",
-   "code": "yt",
-   "name": "Yukon",
-   "file": "claims/tiles/yt.pmtiles.png",
-   "bytes": 23291116
+   "id": "quebec",
+   "code": "qc",
+   "name": "Quebec",
+   "file": "claims/tiles/qc.pmtiles.png",
+   "bytes": 28051285
   },
   {
-   "id": "ontario",
-   "code": "on",
-   "name": "Ontario",
-   "file": "claims/tiles/on.pmtiles.png",
-   "bytes": 37590012
+   "id": "british-columbia",
+   "code": "bc",
+   "name": "British Columbia",
+   "file": "claims/tiles/bc.pmtiles.png",
+   "bytes": 10674903
   }
  ]
 }

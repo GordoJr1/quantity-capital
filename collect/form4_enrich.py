@@ -612,8 +612,17 @@ def urls_under_ciks(accn: str, ciks: list[str], filename: str) -> list[str]:
     return out
 
 
+class FilingNotFound(RuntimeError):
+    """Every candidate URL answered 404 or was not an ownership XML (not a transport failure)."""
+
+
+def _is_404(err: Exception) -> bool:
+    return isinstance(err, urllib.error.HTTPError) and err.code == 404
+
+
 def fetch_filing(url: str, ua: str) -> dict:
     last_err: Exception | None = None
+    transport = False
     tried = []
     index_tried: set[str] = set()
     candidates = filing_url_candidates(url)
@@ -635,6 +644,7 @@ def fetch_filing(url: str, ua: str) -> dict:
                 raise
             except Exception as efts_err:
                 last_err = efts_err
+                transport = transport or not _is_404(efts_err)
             continue
         candidate = candidates[idx]
         idx += 1
@@ -658,14 +668,16 @@ def fetch_filing(url: str, ua: str) -> dict:
                     raise
                 except Exception as idx_err:
                     last_err = idx_err
+                    transport = transport or not _is_404(idx_err)
                 continue
             if err.code == 404:
                 continue
             raise
         except (ET.ParseError, ValueError, RuntimeError) as err:
             last_err = err
+            transport = transport or isinstance(err, RuntimeError)
             continue
-    raise RuntimeError(f"fetch failed {url}: {last_err}")
+    raise (RuntimeError if transport else FilingNotFound)(f"fetch failed {url}: {last_err}")
 
 
 def rollup_filers(trades: list[dict], overlays: dict[str, dict]) -> dict[str, dict]:
@@ -866,6 +878,7 @@ def main(argv: list[str] | None = None) -> int:
     if total:
         print(f"fetching {total} Form 4s (cached {len(filings)}) UA={args.ua!r}", flush=True)
     blocked = False
+    transport_failed = 0
     for accn, url in to_fetch:
         try:
             parsed = fetch_filing(url, args.ua)
@@ -883,7 +896,11 @@ def main(argv: list[str] | None = None) -> int:
             failed.append(f"{accn} {err}")
             print(f"error: {err}; stopping after {fetched}/{total} fetched", file=sys.stderr)
             break
+        except FilingNotFound as err:
+            failed.append(f"{accn} {err}")
+            print(f"warn {accn}: {err}", file=sys.stderr)
         except Exception as err:
+            transport_failed += 1
             failed.append(f"{accn} {err}")
             print(f"warn {accn}: {err}", file=sys.stderr)
 
@@ -929,7 +946,8 @@ def main(argv: list[str] | None = None) -> int:
         )
     )
     # The sidecar is still written from cache; the exit code is for the caller.
-    if blocked or (failed and not fetched):
+    # Filings missing from EDGAR recur every run, so only transport failures count.
+    if blocked or (transport_failed and not fetched):
         return 1
     return 0
 

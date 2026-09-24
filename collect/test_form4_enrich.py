@@ -265,6 +265,31 @@ class MainExit(unittest.TestCase):
         self.assertEqual(rc, 1)
         self.assertEqual(json.loads(dest.read_text())["stats"]["failed"], 1)
 
+        def gone(u, ua):
+            raise f4.FilingNotFound("404 everywhere")
+
+        f4.fetch_filing = gone
+        try:
+            rc = f4.main(["--tape", str(tape), "--dest", str(dest)])
+        finally:
+            f4.fetch_filing = orig
+        self.assertEqual(rc, 0)
+
+    def test_all_404_is_not_found(self):
+        orig = f4.fetch_bytes, f4.efts_ciks, f4.resolve_from_index
+        f4.fetch_bytes = lambda u, ua: (_ for _ in ()).throw(http_error(u, 404))
+        f4.efts_ciks = lambda accn, ua: []
+        f4.resolve_from_index = lambda *a: []
+        try:
+            with self.assertRaises(f4.FilingNotFound):
+                f4.fetch_filing("https://www.sec.gov/Archives/edgar/data/1/000000000126000001/x.xml", "ua")
+            f4.fetch_bytes = lambda u, ua: (_ for _ in ()).throw(RuntimeError("fetch failed: timed out"))
+            with self.assertRaises(RuntimeError) as ctx:
+                f4.fetch_filing("https://www.sec.gov/Archives/edgar/data/1/000000000126000001/x.xml", "ua")
+            self.assertNotIsInstance(ctx.exception, f4.FilingNotFound)
+        finally:
+            f4.fetch_bytes, f4.efts_ciks, f4.resolve_from_index = orig
+
     def test_nothing_to_fetch_exits_zero(self):
         import tempfile
 

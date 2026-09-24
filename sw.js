@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v218";
+const CACHE = "qc-shell-v219";
 const SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const SHELL = [
   "./claims-db.js?v=1",
   "./claims-db.js?v=2",
   "./claims-db.js?v=3",
+  "./claims-db.js?v=4",
   "./claims-neighbors.js?v=1",
   "./claims-map.js?v=1",
   "./claims-map.js?v=2",
@@ -29,6 +30,7 @@ const SHELL = [
   "./claims-map.js?v=17",
   "./claims-map.js?v=18",
   "./claims-map.js?v=19",
+  "./claims-map.js?v=20",
   "./shell.css",
   "./shell.css?v=105",
   "./shell.css?v=106",
@@ -136,7 +138,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
   // PMTiles needs Range requests. Do not put the gitignored archive in the shell cache.
-  if (url.pathname.endsWith(".pmtiles") || url.pathname.includes("/.build/") || url.pathname.includes("/.db/")) {
+  if (url.pathname.includes("/claims/tiles/") || url.pathname.endsWith(".pmtiles") || url.pathname.endsWith(".pmtiles.png") || url.pathname.includes("/.build/") || url.pathname.includes("/.db/")) {
     return;
   }
 

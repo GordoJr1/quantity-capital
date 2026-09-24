@@ -73,6 +73,13 @@ class LimitTests(unittest.TestCase):
     def test_file_limit_is_github_mib(self):
         self.assertEqual(db.GITHUB_FILE_LIMIT, 100 * 1024 * 1024)
 
+    def test_public_tiles_use_png_suffix(self):
+        self.assertIn("--minimum-zoom=2", db.TIPPECANOE_ARGS)
+        self.assertEqual(db.TILE_PUBLIC_SUFFIX, ".pmtiles.png")
+        text = (Path(__file__).resolve().parents[1] / "claims" / "tiles" / "index.json").read_text(encoding="utf-8")
+        self.assertIn("claims/tiles/yt.pmtiles.png", text)
+        self.assertNotIn('claims/tiles/yt.pmtiles"', text)
+
     def test_known_provinces(self):
         self.assertEqual(set(db.PROVINCES), {"ontario", "yukon", "newfoundland", "nunavut"})
         self.assertIn("OWNER_NAME", db.PROVINCES["yukon"]["fields"])

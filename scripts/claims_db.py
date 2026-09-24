@@ -54,6 +54,10 @@ CLAIMS = ROOT / "claims"
 DB_PATH = CLAIMS / ".db" / "claims.sqlite"
 LEGACY_ON = CLAIMS / ".db" / "ontario.sqlite"
 TILES = CLAIMS / "tiles"
+# GitHub Pages gzip-slices Range responses for .pmtiles (application/octet-stream).
+# A name ending in .png is served as image/png, which Pages does not gzip, so
+# byte ranges stay the raw archive. The bytes are still a PMTiles file.
+TILE_PUBLIC_SUFFIX = ".pmtiles.png"
 LINKS_PATH = CLAIMS / "links" / "holders.json"
 SEARCH_HOLDERS = CLAIMS / "search" / "holders.json"
 SEARCH_TITLES = CLAIMS / "search" / "titles"
@@ -834,7 +838,7 @@ TIPPECANOE_ARGS = [
     "--no-tile-size-limit",
     "--drop-densest-as-needed",
     "--extend-zooms-if-still-dropping",
-    "--minimum-zoom=4",
+    "--minimum-zoom=2",
     "--maximum-zoom=12",
     "--full-detail=12",
     "--layer=claims",
@@ -931,15 +935,20 @@ def write_tiles(con: sqlite3.Connection, payload: dict, names: list[str]) -> dic
     for name in names:
         spec = PROVINCES[name]
         geojsonl = build_dir / f"{spec['code']}.jsonl"
-        dest = TILES / f"{spec['code']}.pmtiles"
+        # tippecanoe picks PMTiles only when the output name ends in .pmtiles.
+        # The published name ends in .png so GitHub Pages will not gzip it.
+        scratch = build_dir / f"{spec['code']}.pmtiles"
+        dest = TILES / f"{spec['code']}{TILE_PUBLIC_SUFFIX}"
         export_geojsonl(con, holder_link, name, geojsonl)
-        built[name] = build_one_tile(geojsonl, dest)
+        built[name] = build_one_tile(geojsonl, scratch)
+        scratch.replace(dest)
+        built[name]["path"] = str(dest.relative_to(ROOT))
         geojsonl.unlink(missing_ok=True)
         listing.append({
             "id": name,
             "code": spec["code"],
             "name": spec["name"],
-            "file": f"claims/tiles/{spec['code']}.pmtiles",
+            "file": f"claims/tiles/{spec['code']}{TILE_PUBLIC_SUFFIX}",
             "bytes": built[name]["bytes"],
         })
     ondb.atomic_write_json(TILES / "index.json", {
@@ -988,9 +997,10 @@ def probe_pages_ranges() -> dict:
     out["note"] = (
         "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, "
         "but for text types the range is taken from the gzip stream, so those bytes "
-        "are not the file. Binary types (PNG) return the raw file. .pmtiles is not a "
-        "text type. The viewer checks the PMTiles magic and, if the range is compressed, "
-        "reads the whole archive in memory."
+        "are not the file. image/png ranges are the raw file. .pmtiles is "
+        "application/octet-stream and is gzip-sliced the same way text is, so published "
+        "archives use a .pmtiles.png name. The viewer still checks the PMTiles magic and, "
+        "if a range is compressed, reads the whole archive in memory."
     )
     return out
 
@@ -999,7 +1009,7 @@ def write_report(payload: dict | None, tiles: dict | None, around: dict | None) 
     links = payload or (json.loads(LINKS_PATH.read_text(encoding="utf-8")) if LINKS_PATH.is_file() else {})
     tile_bytes = {}
     for name, spec in PROVINCES.items():
-        path = TILES / f"{spec['code']}.pmtiles"
+        path = TILES / f"{spec['code']}{TILE_PUBLIC_SUFFIX}"
         if path.is_file():
             tile_bytes[name] = path.stat().st_size
     if tiles:
@@ -1055,7 +1065,7 @@ def stage_claims() -> None:
         if line.startswith("claims/.db/")
         or line.startswith("claims/.build/")
         or line.startswith("claims/.cache/")
-        or line.endswith(".pmtiles") and not line.startswith("claims/tiles/")
+        or ".pmtiles" in line and not line.startswith("claims/tiles/")
         or line in {"backtest.json", "insider-follow.json", "insider-form4.json", "insider-repeatable.json"}
         or line.startswith("trades")
         or line.startswith("insider-trades")

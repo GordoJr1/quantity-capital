@@ -4,13 +4,14 @@
 # bats only; this Action no longer fetches or commits prices/.
 # Senate eFD is not fetched here (captcha). New Form 4 / SEDI /
 # STOCK Act rows still arrive from the off-repo tape job; this
-# Action only annotates Form 4s already on the tape.
+# Action only annotates Form 4s already on the tape. It also re-runs
+# the claims → insiders universe merge as a backstop to follow-alerts.
 name: daily-update
 on:
   schedule:
-    # 19:30 ET — after the US cash close and the typical off-repo
-    # evening tape push (~18:12–18:38 ET), so this is a backstop.
-    - cron: "30 23 * * *"
+    # 00:30 UTC = 20:30 EDT / 19:30 EST: clear of the ~18:05–18:38 ET
+    # evening collector pushes in both DST offsets. This is a backstop.
+    - cron: "30 0 * * *"
   workflow_dispatch:
   # A push that touches this file on main starts a run (used to kick
   # off the first refresh when workflow_dispatch is not available).
@@ -19,8 +20,9 @@ on:
     paths:
       - ".github/workflows/daily-update.yml"
 
+# Shared with follow-alerts: both commit insider-form4 / repeatable / follow.
 concurrency:
-  group: daily-update
+  group: derived-data
   cancel-in-progress: false
 
 permissions:
@@ -37,41 +39,71 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enrich Form 4 10b5-1 flags and Table I holdings
-        run: |
-          set -euo pipefail
-          python3 collect/form4_enrich.py
-
-      - name: Rebuild backtest.json and insider-repeatable.json
-        run: |
-          set -euo pipefail
-          # Always rebuild. This Action no longer fetches prices/, so a
-          # git-diff-prices gate would skip forever. Morning collect bats
-          # commit closes; this job is the evening backstop for paper +
-          # Repeatable against that committed book (plus any Form 4 enrich).
-          python3 build-backtest.py
-          python3 build-insider-repeatable.py
-
-      - name: Rebuild follow list and alerts
-        run: |
-          set -euo pipefail
-          python3 build-insider-follow.py
-
-      - name: Commit and publish
+      - name: Rebuild on latest main and publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add backtest.json insider-repeatable.json insider-follow.json insider-form4.json
-          if git diff --staged --quiet; then
-            echo "no data changes"
-            exit 0
+          cache="$RUNNER_TEMP/insider-form4.json"
+          pushed=""
+          problems=""
+          # A collector push can land while this job runs. Each attempt resets
+          # to the new main and rebuilds, so derived data never lags the tape.
+          # The Form 4 sidecar is carried across attempts so SEC is hit once.
+          for attempt in 1 2 3 4; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            problems=""
+
+            if ! python3 scripts/merge_claims_insider_universe.py; then
+              problems="$problems merge"
+            fi
+
+            prev=()
+            if [ -f "$cache" ]; then prev=(--prev "$cache"); fi
+            if ! python3 collect/form4_enrich.py "${prev[@]}"; then
+              echo "::warning::form4_enrich fetched nothing new or SEC blocked; rebuilding from the cached sidecar"
+              problems="$problems form4"
+            fi
+            cp insider-form4.json "$cache"
+
+            # Always rebuild. This Action no longer fetches prices/, so a
+            # git-diff-prices gate would skip forever. Morning collect bats
+            # commit closes; this job is the evening backstop for paper +
+            # Repeatable against that committed book (plus any Form 4 enrich).
+            python3 build-backtest.py
+            python3 build-insider-repeatable.py
+            python3 build-insider-follow.py
+
+            git add backtest.json insider-repeatable.json insider-follow.json insider-form4.json \
+              insider-companies.json claims/companies.json claims/pinned-companies.json \
+              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md
+            if git diff --staged --quiet; then
+              echo "no data changes"
+              pushed="none"
+              break
+            fi
+            git commit -q -m "Daily Form 4 / backtest refresh $(TZ=America/New_York date +%F)"
+            if git push origin HEAD:main; then
+              pushed="yes"
+              break
+            fi
+            echo "push rejected (attempt $attempt); rebuilding on the new main"
+            sleep $((attempt * 10))
+          done
+
+          if [ -z "$pushed" ]; then
+            echo "::error::could not push after 4 rebuild attempts"
+            exit 1
           fi
-          git commit -m "Daily Form 4 / backtest refresh $(date -u +%F)"
-          git pull --rebase origin main
-          git push
-          # GITHUB_TOKEN commits do not always start pages-build-deployment.
-          sleep 8
-          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+          if [ "$pushed" = "yes" ]; then
+            # GITHUB_TOKEN commits do not always start pages-build-deployment.
+            sleep 8
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+          fi
+          if [ -n "$problems" ]; then
+            echo "::error::published, but these steps failed:$problems"
+            exit 1
+          fi

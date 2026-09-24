@@ -54,6 +54,13 @@ jobs:
             node --check "$f"
           done
 
+      - name: Builders and Form 4 enrich
+        run: |
+          set -euo pipefail
+          python3 -m py_compile build-backtest.py build-insider-repeatable.py build-insider-follow.py \
+            check-morning-tapes.py fetch-prices.py collect/form4_enrich.py
+          python3 collect/test_form4_enrich.py
+
       - name: Claims insider universe
         run: |
           set -euo pipefail

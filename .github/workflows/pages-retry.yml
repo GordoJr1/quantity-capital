@@ -1,7 +1,8 @@
 # GitHub-managed pages-build-deployment does not retry a 400 from
 # actions/deploy-pages when a previous SHA is still "in progress"
 # (insider tape deploy can hold that lock through the politician push).
-# Rebuild HEAD once per SHA so daily tape publishes still go live.
+# Rebuild HEAD, at most twice per SHA (the lock can outlast one retry),
+# so daily tape publishes still go live.
 name: pages-retry
 on:
   workflow_run:
@@ -22,7 +23,7 @@ jobs:
       deployments: write
       pages: write
     steps:
-      - name: Rebuild Pages once per SHA
+      - name: Rebuild Pages (max 2 retries per SHA)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}

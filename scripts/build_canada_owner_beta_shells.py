@@ -349,7 +349,6 @@ def ticker_rows(symbols: list[str], caps: dict[str, dict[str, Any]]) -> list[dic
                 "chart": f"insider-ticker.html?t={sym}",
             }
         )
-        _ = caps.get(sym)
     return rows
 
 
@@ -618,10 +617,29 @@ def plan_owners(root: Path, mines: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def alias_payload(owner_to_id: dict[str, str]) -> dict[str, Any]:
+def load_optional(path: Path) -> dict[str, Any] | None:
+    if not path.exists():
+        return None
+    try:
+        data = load_json(path)
+    except json.JSONDecodeError:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def alias_payload(
+    owner_to_id: dict[str, str],
+    previous: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Current owners win; owners absent from this book keep their prior alias."""
+    merged: dict[str, str] = {}
+    for row in (previous or {}).get("aliases") or []:
+        if row.get("owner") and row.get("company_id"):
+            merged[row["owner"]] = row["company_id"]
+    merged.update(owner_to_id)
     aliases = [
         {"owner": owner, "company_id": cid}
-        for owner, cid in sorted(owner_to_id.items(), key=lambda kv: kv[0].lower())
+        for owner, cid in sorted(merged.items(), key=lambda kv: kv[0].lower())
     ]
     return {
         "schema": "qc-canada-owner-aliases-v1",
@@ -634,7 +652,11 @@ def alias_payload(owner_to_id: dict[str, str]) -> dict[str, Any]:
     }
 
 
-def index_payload(rows: list[dict[str, Any]], minted: list[str]) -> dict[str, Any]:
+def index_payload(
+    rows: list[dict[str, Any]],
+    minted: list[str],
+    previous: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     by_id: dict[str, dict[str, Any]] = {}
     for row in rows:
         cid = row["beta_id"]
@@ -655,6 +677,9 @@ def index_payload(rows: list[dict[str, Any]], minted: list[str]) -> dict[str, An
             rec["names"].append(row["owner"])
         if row["name"] and row["name"] not in rec["names"]:
             rec["names"].append(row["name"])
+    for old in (previous or {}).get("issuers") or []:
+        if old.get("id") and old["id"] not in by_id:
+            by_id[old["id"]] = old
     issuers = [by_id[k] for k in sorted(by_id)]
     return {
         "schema": INDEX_SCHEMA,
@@ -849,12 +874,25 @@ def check(root: Path) -> list[str]:
             if prof.get("production"):
                 errors.append(f"{path.stem}: canada owner shell has production")
             for key in BANNED_PROD:
-                blob = json.dumps(prof.get("assets") or [])
-                if f'"{key}"' in blob and "note" not in key:
-                    # allow nothing — assets must not carry koz
-                    if any(key in (a or {}) for a in (prof.get("assets") or [])):
-                        errors.append(f"{path.stem}: invented {key} on assets")
+                if any(key in (a or {}) for a in (prof.get("assets") or [])):
+                    errors.append(f"{path.stem}: invented {key} on assets")
     return errors
+
+
+FIXTURE_SOURCE_IDS = {"fixtures", "map-900a-fixture", "fixtures-fallback"}
+
+
+def book_blockers(payload: dict[str, Any]) -> list[str]:
+    """Reasons a commodities book is too partial to re-derive aliases from."""
+    out: list[str] = []
+    ids = {s.get("id") for s in payload.get("sources") or []}
+    if ids & FIXTURE_SOURCE_IDS:
+        out.append("commodities.json was built from fixtures: " + ", ".join(sorted(ids & FIXTURE_SOURCE_IDS)))
+    if ids and "map-900a" not in ids:
+        out.append("commodities.json has no live Map 900A source")
+    if payload.get("blockers"):
+        out.append("commodities.json has blockers: " + " | ".join(payload["blockers"][:4]))
+    return out
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -877,11 +915,17 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     comm = load_json(root / "canada" / "commodities.json")
+    blocked = book_blockers(comm)
+    if blocked:
+        print("blocked, aliases and shells left unchanged: " + "; ".join(blocked), file=sys.stderr)
+        return 1
     mines = comm.get("mines") or []
     plan = plan_owners(root, mines)
     minted = write_shells(root, plan)
-    write_json(root / "scripts" / "canada-owner-aliases.json", alias_payload(plan["owner_to_id"]))
-    write_json(root / "beta" / "canada-owners.json", index_payload(plan["rows"], minted))
+    alias_path = root / "scripts" / "canada-owner-aliases.json"
+    index_path = root / "beta" / "canada-owners.json"
+    write_json(alias_path, alias_payload(plan["owner_to_id"], load_optional(alias_path)))
+    write_json(index_path, index_payload(plan["rows"], minted, load_optional(index_path)))
     apply_beta_fields(comm, plan["owner_to_id"])
     write_json(root / "canada" / "commodities.json", comm)
     join_n = patch_join_pages(root, set(minted))

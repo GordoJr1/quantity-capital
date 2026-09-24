@@ -197,6 +197,48 @@ class TempRootTests(unittest.TestCase):
             vale_row = next(m for m in book["mines"] if m["owners"] == "Vale Canada Limited")
             self.assertEqual(vale_row["beta_href"], "beta.html?id=vale")
 
+    def _root_with_book(self, tmp: str, sources: list[dict]) -> Path:
+        root = Path(tmp)
+        for sub in ("beta", "canada", "scripts"):
+            (root / sub).mkdir()
+        (root / "beta" / "vale.json").write_text(json.dumps({"id": "vale", "production": [], "assets": []}), encoding="utf-8")
+        mines = [{"id": "voisey-s-bay", "name": "Voisey’s Bay", "owners": "Vale Canada Limited", "products": ["nickel"]}]
+        (root / "canada" / "commodities.json").write_text(
+            json.dumps({"schema": "qc-canada-commodities-v1", "sources": sources, "mines": mines, "commodities": []}),
+            encoding="utf-8",
+        )
+        (root / "scripts" / "canada-owner-aliases.json").write_text(
+            json.dumps({
+                "schema": "qc-canada-owner-aliases-v1",
+                "aliases": [
+                    {"owner": "Vale Canada Limited", "company_id": "vale"},
+                    {"owner": "Other Owner Inc.", "company_id": "other-owner"},
+                ],
+            }),
+            encoding="utf-8",
+        )
+        (root / "insider-companies.json").write_text(json.dumps({"companies": []}), encoding="utf-8")
+        (root / "market-caps.json").write_text(json.dumps({"tickers": {}}), encoding="utf-8")
+        return root
+
+    def test_fixture_book_is_refused(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = self._root_with_book(tmp, [{"id": "fixtures"}])
+            before = (root / "scripts" / "canada-owner-aliases.json").read_bytes()
+            rc = s.main(["--root", str(root)])
+            self.assertEqual(rc, 1)
+            self.assertEqual((root / "scripts" / "canada-owner-aliases.json").read_bytes(), before)
+            self.assertFalse((root / "beta" / "canada-owners.json").exists())
+
+    def test_owners_missing_from_book_keep_their_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = self._root_with_book(tmp, [{"id": "map-900a"}])
+            s.main(["--root", str(root)])
+            aliases = json.loads((root / "scripts" / "canada-owner-aliases.json").read_text(encoding="utf-8"))
+            mapped = {row["owner"]: row["company_id"] for row in aliases["aliases"]}
+            self.assertEqual(mapped.get("Other Owner Inc."), "other-owner")
+            self.assertEqual(mapped.get("Vale Canada Limited"), "vale")
+
     def test_check_allows_filing_backed_production(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

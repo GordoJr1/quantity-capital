@@ -231,9 +231,17 @@ def load_link_companies(root: Path) -> list[dict]:
                 slot["holder"] = name
             if name and name not in slot["names"]:
                 slot["names"].append(name)
-            ticker = str(party.get("ticker") or "").strip().upper()
-            if ticker and ticker not in slot["tickers"]:
-                slot["tickers"].append(ticker)
+            symbols = []
+            for raw in party.get("tickers") or []:
+                text = str(raw or "").strip().upper()
+                if text and text not in symbols:
+                    symbols.append(text)
+            primary = str(party.get("ticker") or "").strip().upper()
+            if primary and primary not in symbols:
+                symbols.insert(0, primary)
+            for ticker in symbols:
+                if ticker not in slot["tickers"]:
+                    slot["tickers"].append(ticker)
             exchange = (party.get("exchange") or "").strip()
             if exchange and not slot["exchange"]:
                 slot["exchange"] = exchange

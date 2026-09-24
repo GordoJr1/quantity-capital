@@ -145,13 +145,19 @@ class LinkPublics(unittest.TestCase):
                     "companies": [{"company_id": "azimut-exploration", "company": "Azimut Exploration", "ticker": "AZMTF"}],
                 },
                 {"company_id": "private-shell", "companies": [{"company_id": "private-shell", "company": "Private Shell", "ticker": ""}]},
+                {
+                    "company_id": "fnx-inc",
+                    "companies": [{"company_id": "fnx-inc", "company": "FNX Inc.", "ticker": "FNX.CN", "tickers": ["FNX.CN"], "exchange": "CSE"}],
+                },
             ]
         }
         (root / "claims" / "links" / "holders.json").write_text(json.dumps(payload), encoding="utf-8")
         rows = load_link_companies(root)
-        self.assertEqual([r["id"] for r in rows], ["azimut-exploration"])
+        self.assertEqual([r["id"] for r in rows], ["azimut-exploration", "fnx-inc"])
         self.assertEqual(rows[0]["tickers"], ["AZM.V", "AZMTF"])
         self.assertEqual(rows[0]["exchange"], "TSXV")
+        self.assertEqual(rows[1]["tickers"], ["FNX.CN"])
+        self.assertEqual(rows[1]["exchange"], "CSE")
 
     def test_ticker_dedup_and_identifiers(self):
         book = [{"name": "Azimut Exploration", "all": ["AZM.V"], "us": [], "cad": ["AZM.V"], "other": []}]

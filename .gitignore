@@ -3,8 +3,12 @@ qc.sqlite
 qc.sqlite-wal
 qc.sqlite-shm
 qc.sqlite.tmp
+qc.sqlite.tmp-wal
+qc.sqlite.tmp-shm
 scripts/qc_sqlite/.cache/
 scripts/qc_sqlite/export/
 claims/.cache/
 *.xlsx
+quantity-capital-*-csv/
+__pycache__/
 

@@ -29,7 +29,9 @@ Outputs:
 - `scripts/qc_sqlite/export/*.json` — PWA-sized stubs (attributes/links + top calc rows)
 - `scripts/qc_sqlite/.cache/jev.json` — local Jev answer cache (not the API key)
 
-Excel: `python scripts/qc_sqlite/export_excel.py` writes `quantity-capital-brain.xlsx` and `quantity-capital-claims.xlsx` (no polygons).
+Excel: `python scripts/qc_sqlite/export_excel.py` writes `quantity-capital-brain.xlsx` and `quantity-capital-claims.xlsx` (no polygons) when `openpyxl` is already installed. Without it, it writes `quantity-capital-brain-csv/` and `quantity-capital-claims-csv/` (one CSV per sheet). It never installs packages.
+
+A full `rebuild.py` starts from `schema.sql` in `qc.sqlite.tmp`, then copies the `province:*` packs, titles, parties, links, and `province_*` resume offsets from the previous `qc.sqlite` so `fetch_province_claims.py` work survives.
 
 Daily bats (`Groks folder/collect/update-politicians.bat`, `update-insiders.bat`) still run the scrapers, then `rebuild.py --boards-only`. `publish.py` also runs `--boards-only` on the publish worktree **when** `scripts/qc_sqlite` exists on that tree (after this PR lands). Until merge, live Pages keeps collector JSON.
 
@@ -133,11 +135,13 @@ Local Groks `companies.json` may lag live Pages; rebuild overlays Quebec/ON/BC c
 
 ## Paper / insiders
 
-- `paper.py` → `backtest.json` (paper.html). Jev scores the 12 largest |return| legs as artifact vs ordinary.
-- `insider_boards.py` runs `_upstream` builders (repeatable, follow, analysis) against the site root, stores JSON in sqlite, Jev-gates the follow list.
+- `paper.py` reads the root `backtest.json` (built only by `build-backtest.py`) and stores its legs in `paper_*`. Jev scores the 12 largest |return| legs as artifact vs ordinary; flags stay in sqlite. It never writes site JSON.
+- `insider_boards.py` runs the root `build-insider-repeatable.py` and `build-insider-follow.py`, ingests the collector's `insider-analysis.json` as-is, stores JSON in sqlite, and Jev-gates the follow list into sqlite and `export/insider-follow.json` only (the committed `insider-follow.json` is left as the builder wrote it).
 - Form 4 sidecar: ingest `insider-form4.json` (do not re-scrape SEC from rebuild). Refresh with `collect/form4_enrich.py` separately.
 - Canada mine production: `python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply` (monthly; cited filings only). Full `rebuild.py` reloads `canada_*` tables from the curated sources book without fetching IR. Export of `canada/producer-join.json` + existing `beta/<issuer>.json` is the ingest `--apply` / `--export-only` job. Never commit `qc.sqlite`.
 
 ## Full-province claims
 
-`fetch_province_claims.py` pulls Ontario MLAS and BC MTA with `where=1=1`, `returnGeometry=false`, into packs `province:ontario` / `province:bc`. Resume with `--resume`. Quebec GESTIM has no open REST here — producer extracts only.
+`fetch_province_claims.py` pulls Ontario MLAS and BC MTA with `where=1=1`, `returnGeometry=false`, into packs `province:ontario` / `province:bc`. BC walks owner prefixes A–Z and 0–9. Resume with `--resume`. A fetch or API error exits 1. A complete non-resumed walk prunes titles it no longer sees (lapsed). Quebec GESTIM has no open REST here — producer extracts only.
+
+Tests: `python3 scripts/qc_sqlite/test_qc_sqlite.py` (temp DBs, no network).

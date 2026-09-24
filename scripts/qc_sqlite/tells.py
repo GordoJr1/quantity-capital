@@ -22,6 +22,10 @@ if str(HERE) not in sys.path:
 
 from paths import DB_PATH, EXPORT_DIR, GROKS_PRICES, PRICES, SCHEMA_SQL, TELLS_JSON, TRADES, TRADES_LITE
 
+if str(HERE.parent) not in sys.path:
+    sys.path.insert(0, str(HERE.parent))
+from qc_io import atomic_write_text  # noqa: E402
+
 SKIP = {
     "LP", "SPCX", "GOOGM", "GOOGN", "SPY", "QQQ", "QQQM", "VOO", "VTI", "IWM", "DIA",
     "IVV", "VEA", "VWO", "ARKK", "TLT", "BND", "AGG", "XLF", "XLK", "XLE", "XLV",
@@ -513,10 +517,9 @@ def persist(
 
 
 def write_tells_json(payload: dict[str, Any]) -> None:
-    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
     text = json.dumps(payload, indent=2) + "\n"
-    TELLS_JSON.write_text(text, encoding="utf-8")
-    (EXPORT_DIR / "tells.json").write_text(text, encoding="utf-8")
+    atomic_write_text(TELLS_JSON, text)
+    atomic_write_text(EXPORT_DIR / "tells.json", text)
     log(f"Wrote {TELLS_JSON}")
 
 

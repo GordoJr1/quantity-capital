@@ -22,7 +22,9 @@ import argparse
 import html
 import json
 import re
+import shutil
 import sys
+import tempfile
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -50,6 +52,7 @@ YEAR = 2025
 YTD_YEAR = 2026
 YTD_PERIOD = "2026-YTD"
 SLEEP_S = 0.2
+NEAR_WINDOW = 1500
 FOOTNOTE = (
     "From company filings where disclosed; StatCan/NRCan do not publish "
     "mine-level output. Stored in qc.sqlite; Pages reads the thin export."
@@ -135,16 +138,17 @@ def convert_reported(
             "troy ounce", "troy ounces",
         }:
             return _num(float(value)), b.TROY_OZ_UNIT, None
-        converted = b.to_troy_oz(float(value), unit)
+        converted = b.to_troy_oz(float(value), unit or "")
         if converted is None:
             return None, "", f"unknown_pm_unit:{unit}"
         return _num(converted), b.TROY_OZ_UNIT, None
+    if not unit_l:
+        return None, "", "unknown_unit:"
     code, _label = b.unit_norm(unit)
     if unit_l in {"mlb", "mlbs", "million pounds", "million lb"}:
         return _num(float(value)), "Mlb", None
     if unit_l in {"lb", "lbs", "pound", "pounds"}:
         return _num(float(value)), "lb", None
-    # Keep scale prefixes. unit_norm("million tonnes") collapses to "t".
     if unit_l in {
         "mt", "million tonnes", "million t", "million metric tonnes",
         "million tonnes kcl", "wmt",
@@ -160,11 +164,52 @@ def convert_reported(
         return _num(float(value) * 1000.0), "kct", None
     if unit_l in {"carat", "carats", "ct", "cts"}:
         return _num(float(value)), "ct", None
-    return _num(float(value)), code or unit_l or "t", None
+    if code in {"t", "kg", "g"}:
+        return _num(float(value)), code, None
+    return None, "", f"unknown_unit:{unit}"
 
 
 def fetch_source_text(url: str, timeout: int = 90) -> str:
     return strip_markup(b.fetch(url, timeout=timeout))
+
+
+def number_forms(value: Any) -> list[str]:
+    """Ways a filing may print a figure: 192808, 192,808, 192 808; 3.0 / 3."""
+    try:
+        num = float(value)
+    except (TypeError, ValueError):
+        return [str(value)] if value not in (None, "") else []
+    forms = {str(value)}
+    if num.is_integer():
+        i = int(num)
+        forms |= {str(i), f"{i:,}", f"{i:,}".replace(",", " "), f"{i:,}".replace(",", "\u00a0")}
+    else:
+        forms |= {repr(num), f"{num:,}"}
+    return sorted(forms, key=len, reverse=True)
+
+
+def number_near_anchor(text: str, value: Any, anchors: list[str], window: int = NEAR_WINDOW) -> bool:
+    """True when `value` is printed within `window` chars of any anchor occurrence."""
+    folded = text.lower()
+    pats = [
+        re.compile(r"(?<![\d.,])" + re.escape(f) + r"(?![\d]|[.,]\d)")
+        for f in number_forms(value)
+    ]
+    if not pats:
+        return False
+    for anchor in anchors:
+        a = (anchor or "").strip().lower()
+        if not a:
+            continue
+        start = folded.find(a)
+        while start >= 0:
+            lo = max(0, start - window)
+            hi = min(len(text), start + len(a) + window)
+            span = text[lo:hi]
+            if any(p.search(span) for p in pats):
+                return True
+            start = folded.find(a, start + 1)
+    return False
 
 
 def verify_extract(text: str, extract: dict[str, Any]) -> tuple[bool, str]:
@@ -172,20 +217,21 @@ def verify_extract(text: str, extract: dict[str, Any]) -> tuple[bool, str]:
     quote = (extract.get("quote") or "").strip()
     if quote:
         needles.append(quote)
-    value = extract.get("source_value")
-    if value is not None:
-        raw = str(value)
-        pretty = f"{value:,}" if isinstance(value, (int, float)) and float(value) >= 1000 else raw
-        # 231 koz may appear as "231" without a comma.
-        if pretty not in text and raw not in text and pretty.replace(",", "") not in text:
-            # Allow 231000 written as 231,000
-            if pretty.replace(",", "") + "000" not in text.replace(",", ""):
-                pass  # quote / must_contain is the real gate
     if not needles:
         return False, "no_quote"
     if not contains_all(text, needles):
         return False, "quote_not_found"
+    value = extract.get("source_value")
+    if value is not None:
+        anchors = [quote] if quote else []
+        anchors += [n for n in (extract.get("must_contain") or []) if n and not number_forms_match(n, value)]
+        if not number_near_anchor(text, value, anchors):
+            return False, "value_not_near_quote"
     return True, "ok"
+
+
+def number_forms_match(needle: str, value: Any) -> bool:
+    return needle.strip() in number_forms(value)
 
 
 def record_for_source(
@@ -240,7 +286,7 @@ def record_for_source(
             continue
         value, unit, conv_block = convert_reported(
             ext.get("source_value"),
-            ext.get("source_unit") or "oz",
+            ext.get("source_unit") or "",
             cid,
         )
         if conv_block or value is None:
@@ -250,7 +296,7 @@ def record_for_source(
             "value": value,
             "unit": unit,
             "source_value": ext.get("source_value"),
-            "source_unit": ext.get("source_unit") or "oz",
+            "source_unit": ext.get("source_unit"),
             "quote": quote or None,
         }
     if rec["commodities"]:
@@ -356,6 +402,7 @@ def ingest(
     else:
         fixture_text = ""
     cache: dict[str, tuple[str | None, bool, str | None]] = {}
+    unit_blockers: list[str] = []
 
     for src in rows:
         mid = src["mine_id"]
@@ -369,6 +416,7 @@ def ingest(
                 fixture_text=fixture_text,
             )
         rec = record_for_source(src, text=text, fetch_ok=fetch_ok, fetch_error=fetch_error)
+        unit_blockers.extend(_unit_blockers(mid, rec))
         ytd_src = ytd_block_as_src(src)
         if ytd_src:
             ytd_text, ytd_ok, ytd_err = None, False, None
@@ -383,6 +431,7 @@ def ingest(
             ytd_rec = record_for_source(
                 ytd_src, text=ytd_text, fetch_ok=ytd_ok, fetch_error=ytd_err
             )
+            unit_blockers.extend(_unit_blockers(f"{mid} 2026-YTD", ytd_rec))
             rec["ytd"] = _ytd_sidecar(ytd_rec, ytd_src)
             if rec["ytd"].get("fetch_blocker"):
                 blockers.append(f"{mid} 2026-YTD: {rec['ytd']['fetch_blocker']}")
@@ -408,8 +457,17 @@ def ingest(
         "n_with_ytd": n_ytd,
         "n_blank": len(mines) - n_fig,
         "blockers": blockers,
+        "unit_blockers": unit_blockers,
         "mines": mines,
     }
+
+
+def _unit_blockers(label: str, rec: dict[str, Any]) -> list[str]:
+    return [
+        f"{label}: {row['commodity']} {row['why']}"
+        for row in rec.get("skipped") or []
+        if str(row.get("why") or "").startswith(("unknown_unit", "unknown_pm_unit"))
+    ]
 
 
 def overlay_mines(mines: list[dict[str, Any]], book: dict[str, Any]) -> int:
@@ -487,6 +545,7 @@ def validate_book(book: dict[str, Any]) -> list[str]:
     mines = book.get("mines") or {}
     if not mines:
         errors.append("no mines")
+    errors.extend(book.get("unit_blockers") or [])
     n_fig = 0
     for mid, rec in mines.items():
         comms = rec.get("commodities") or {}
@@ -568,6 +627,15 @@ def validate_overlay(payload: dict[str, Any]) -> list[str]:
     return errors
 
 
+def offline_scratch_root(src_root: Path) -> Path:
+    """Temp copy of the export targets (beta/, canada/) for fixture runs."""
+    tmp = Path(tempfile.mkdtemp(prefix="qc-canada-offline-"))
+    for sub in ("beta", "canada"):
+        if (src_root / sub).is_dir():
+            shutil.copytree(src_root / sub, tmp / sub)
+    return tmp
+
+
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(".tmp")
@@ -577,7 +645,7 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--root", type=Path, default=ROOT)
+    p.add_argument("--root", type=Path, default=None, help="Site root (default: repo; --offline: temp copy)")
     p.add_argument("--sqlite", type=Path, default=None, help="qc.sqlite path (gitignored; default ./qc.sqlite)")
     p.add_argument("--join", type=Path, default=None)
     p.add_argument("--sources", type=Path, default=SOURCES)
@@ -589,6 +657,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--no-fetch", action="store_true", help="Use curated quotes without re-fetching")
     args = p.parse_args(argv)
 
+    if args.root is None:
+        if args.offline and not args.check and not args.export_only:
+            # Fixture books must never rewrite the committed beta/ + canada/ export.
+            args.root = offline_scratch_root(ROOT)
+            print(f"offline root {args.root} (pass --root to override)")
+        else:
+            args.root = ROOT
     db_path = args.sqlite or (args.root / "qc.sqlite")
     join_path = args.join or (args.root / "canada" / "producer-join.json")
     comm_path = args.root / "canada" / "commodities.json"
@@ -662,6 +737,14 @@ def main(argv: list[str] | None = None) -> int:
         fetch_live=not args.no_fetch,
     )
     errors = validate_book(book)
+    if book.get("blockers"):
+        print("blockers: " + " | ".join(book["blockers"][:8]))
+        if len(book["blockers"]) > 8:
+            print(f"... {len(book['blockers']) - 8} more")
+    if errors:
+        print("validate: " + "; ".join(errors), file=sys.stderr)
+        print(f"blocked before store: {db_path} and {join_path} left unchanged", file=sys.stderr)
+        return 1
     sources_book = load_sources(args.sources)
     con = cmsql.connect(db_path)
     try:
@@ -682,12 +765,12 @@ def main(argv: list[str] | None = None) -> int:
         f"beta={stats['n_written']} "
         f"skipped_new={stats['skipped'] and len(stats['skipped'])}"
     )
+    for line in (stats.get("unit_skipped") or [])[:8]:
+        print(f"unit mismatch skipped: {line}", file=sys.stderr)
+    for line in (stats.get("conflicts") or [])[:8]:
+        print(f"kept filed figure: {line}", file=sys.stderr)
     errors.extend(db_errors)
     errors.extend(beta.validate_join(join, root=args.root))
-    if book.get("blockers"):
-        print("blockers: " + " | ".join(book["blockers"][:8]))
-        if len(book["blockers"]) > 8:
-            print(f"... {len(book['blockers']) - 8} more")
 
     if args.apply and comm_path.exists():
         payload = json.loads(comm_path.read_text(encoding="utf-8"))

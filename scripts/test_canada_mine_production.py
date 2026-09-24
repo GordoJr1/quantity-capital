@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import sys
 import tempfile
 import unittest
@@ -759,6 +760,178 @@ class YtdPipelineTests(unittest.TestCase):
         self.assertEqual(rec_ytd["period"], "2026-YTD")
         self.assertEqual(rec_ytd["through"], "2026-06-30")
         self.assertEqual(rec_ytd["period_label"], "H1 2026")
+
+
+class UnknownUnitTests(unittest.TestCase):
+    def test_precious_metal_non_mass_units_block(self) -> None:
+        for unit in ("lb", "", "widgets", "thousands of tonnes"):
+            val, _unit, err = ing.convert_reported(100, unit, "gold")
+            self.assertIsNone(val, unit)
+            self.assertTrue(err and err.startswith("unknown_pm_unit"), (unit, err))
+
+    def test_scaled_tonnes_of_gold_convert_at_scale(self) -> None:
+        kt, unit, err = ing.convert_reported(1, "thousand tonnes", "gold")
+        self.assertIsNone(err)
+        self.assertEqual(unit, "troy oz")
+        t, _u, _e = ing.convert_reported(1000, "t", "gold")
+        self.assertAlmostEqual(kt, t, places=2)
+
+    def test_other_commodity_unknown_unit_blocks(self) -> None:
+        for unit in ("", "widgets", "tons"):
+            val, _unit, err = ing.convert_reported(5, unit, "copper")
+            self.assertIsNone(val, unit)
+            self.assertTrue(err and err.startswith("unknown_unit"), (unit, err))
+
+    def test_missing_source_unit_blocks_run(self) -> None:
+        src = {
+            "mine_id": "m", "url": "https://example.test/m",
+            "extract": {"gold": {"source_value": 100, "quote": "x"}},
+        }
+        rec = ing.record_for_source(src, text=None, fetch_ok=False, fetch_error=None)
+        self.assertFalse(rec["commodities"])
+        self.assertTrue(ing._unit_blockers("m", rec))
+        book = {"schema": ing.SCHEMA, "year": 2025, "mines": {"m": rec}, "unit_blockers": ["m: gold unknown_pm_unit:"]}
+        self.assertIn("m: gold unknown_pm_unit:", ing.validate_book(book))
+
+
+class NumberNearQuoteTests(unittest.TestCase):
+    def test_one_word_anchor_needs_the_number_nearby(self) -> None:
+        far = "Thompson mine. " + ("filler " * 400) + "Nickel 12.0 kt elsewhere."
+        ok, why = ing.verify_extract(far, {"quote": "Thompson", "must_contain": ["Thompson", "12.0"], "source_value": 12.0})
+        self.assertFalse(ok)
+        self.assertEqual(why, "value_not_near_quote")
+        near = "Thompson mine produced 12.0 kt of nickel."
+        ok, why = ing.verify_extract(near, {"quote": "Thompson", "must_contain": ["Thompson", "12.0"], "source_value": 12.0})
+        self.assertTrue(ok, why)
+
+    def test_number_must_match_whole(self) -> None:
+        text = "Thompson produced 112.05 kt"
+        ok, _why = ing.verify_extract(text, {"quote": "Thompson", "source_value": 12.0})
+        self.assertFalse(ok)
+
+    def test_comma_forms(self) -> None:
+        text = "Blackwater: bringing full year 2025 production to 192,808 ounces of gold"
+        ok, why = ing.verify_extract(text, {"quote": "Blackwater", "source_value": 192808})
+        self.assertTrue(ok, why)
+
+
+class MergeRestatementTests(unittest.TestCase):
+    CITED_A = {"quote": "produced 192,808 ounces", "values": {"gold": [192808, "oz"]}}
+    CITED_B = {"quote": "restated 195,000 ounces", "values": {"gold": [195000, "oz"]}}
+
+    def test_restated_citation_overwrites_and_keeps_previous(self) -> None:
+        existing = {"attr_koz": 192.808, "koz_100pct": 192.808, "note": "produced 192,808 ounces", "cited": self.CITED_A}
+        incoming = {"attr_koz": 195, "koz_100pct": 195, "note": "restated 195,000 ounces", "cited": self.CITED_B}
+        out, changed = beta.merge_by_asset(existing, incoming)
+        self.assertTrue(changed)
+        self.assertEqual(out["attr_koz"], 195)
+        self.assertEqual(out["note"], "restated 195,000 ounces")
+        self.assertEqual(out["previous"]["attr_koz"], 192.808)
+        self.assertEqual(out["previous"]["cited"], self.CITED_A)
+        self.assertEqual(out["cited"], self.CITED_B)
+
+    def test_restatement_keeps_hand_note(self) -> None:
+        existing = {"attr_koz": 192.8, "note": "Inaugural operating year.", "cited": self.CITED_A}
+        out, _ = beta.merge_by_asset(existing, {"attr_koz": 195, "note": "restated 195,000 ounces", "cited": self.CITED_B})
+        self.assertEqual(out["note"], "Inaugural operating year.")
+        self.assertEqual(out["attr_koz"], 195)
+
+    def test_same_citation_is_a_no_op(self) -> None:
+        existing = {"attr_koz": 192.8, "cited": self.CITED_A}
+        out, changed = beta.merge_by_asset(existing, {"attr_koz": 192.808, "cited": self.CITED_A})
+        self.assertFalse(changed)
+        self.assertEqual(out["attr_koz"], 192.8)
+
+    def test_legacy_row_adopted_only_when_it_agrees(self) -> None:
+        out, changed = beta.merge_by_asset({"attr_koz": 192.8}, {"attr_koz": 192.808, "cited": self.CITED_A})
+        self.assertTrue(changed)
+        self.assertEqual(out["attr_koz"], 192.8)
+        self.assertEqual(out["cited"], self.CITED_A)
+
+    def test_legacy_conflict_keeps_filed_gold_and_reports(self) -> None:
+        conflicts: list[str] = []
+        out, _ = beta.merge_by_asset({"koz_100pct": 89}, {"koz_100pct": 92.429, "cited": self.CITED_A}, conflicts)
+        self.assertEqual(out["koz_100pct"], 89)
+        self.assertNotIn("cited", out)
+        self.assertEqual(conflicts, ["koz_100pct filed 89 vs cited 92.429"])
+
+    def test_restatement_reaches_profile(self) -> None:
+        profile = {"id": "p", "units": {"gold": "koz"}, "production": [], "assets": [], "sources": []}
+        meta = {"asset_id": "blackwater", "ownership_pct": 100}
+        def rec(v: int, q: str) -> dict[str, Any]:
+            return {"mine_id": "blackwater", "commodities": {"gold": {
+                "value": v, "unit": "troy oz", "source_value": v, "source_unit": "oz", "quote": q}}}
+        beta.apply_record_to_profile(profile, rec(192808, "bringing full year 2025 production to 192,808 ounces"), meta, {})
+        beta.apply_record_to_profile(profile, rec(195000, "restated full year 2025 production to 195,000 ounces"), meta, {})
+        row = beta.annual_2025(profile)["by_asset"]["blackwater"]
+        self.assertEqual(row["attr_koz"], 195)
+        self.assertEqual(row["previous"]["attr_koz"], 192.808)
+
+
+class UnitRelabelTests(unittest.TestCase):
+    PROFILE = {"units": {"gold": "koz"}}
+
+    def _row(self, cid: str, value: float, unit: str) -> tuple[dict[str, Any] | None, list[str]]:
+        skipped: list[str] = []
+        rec = {"mine_id": "m", "commodities": {cid: {"value": value, "unit": unit, "quote": "q"}}}
+        row = beta.by_asset_from_record(rec, self.PROFILE, {"ownership_pct": 100}, skipped)
+        return row, skipped
+
+    def test_mlb_nickel_is_not_nickel_kt(self) -> None:
+        row, skipped = self._row("nickel", 70, "Mlb")
+        self.assertNotIn("nickel_kt", row)
+        self.assertEqual(skipped, ["m: nickel 70 mlb"])
+
+    def test_lb_uranium_is_not_uranium_mlb(self) -> None:
+        row, skipped = self._row("uranium", 19_100_000, "lb")
+        self.assertNotIn("uranium_mlb", row)
+        self.assertTrue(skipped)
+
+    def test_mt_and_lb_copper_are_not_copper_t(self) -> None:
+        for unit in ("Mt", "lb"):
+            row, skipped = self._row("copper", 1, unit)
+            self.assertNotIn("copper_t", row, unit)
+            self.assertTrue(skipped, unit)
+
+    def test_matching_units_still_land(self) -> None:
+        row, skipped = self._row("nickel", 33.2, "kt")
+        self.assertEqual(row["nickel_kt"], 33.2)
+        self.assertEqual(skipped, [])
+        row, _ = self._row("copper", 127.1, "kt")
+        self.assertEqual(row["copper_t"], 127100.0)
+
+
+class AbortBeforeStoreTests(unittest.TestCase):
+    def test_validation_error_leaves_sqlite_and_join_alone(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "canada").mkdir()
+            (root / "beta").mkdir()
+            join = root / "canada" / "producer-join.json"
+            join.write_text('{"keep": true}\n', encoding="utf-8")
+            sources = root / "sources.json"
+            sources.write_text(json.dumps({"mines": [{
+                "mine_id": "m", "url": "https://example.test/m",
+                "extract": {"gold": {"source_value": 1, "source_unit": "lb", "quote": "q"}},
+            }]}), encoding="utf-8")
+            db = root / "qc.sqlite"
+            rc = ing.main(["--root", str(root), "--sqlite", str(db), "--sources", str(sources), "--no-fetch"])
+            self.assertEqual(rc, 1)
+            self.assertFalse(db.exists())
+            self.assertEqual(json.loads(join.read_text(encoding="utf-8")), {"keep": True})
+
+    def test_offline_defaults_to_scratch_root(self) -> None:
+        join = ROOT / "canada" / "producer-join.json"
+        before = join.read_bytes()
+        scratch = ing.offline_scratch_root(ROOT)
+        try:
+            self.assertTrue((scratch / "beta" / "newmont.json").exists())
+            self.assertNotEqual(scratch.resolve(), ROOT.resolve())
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
+        with tempfile.TemporaryDirectory() as tmp:
+            ing.main(["--offline", "--sqlite", str(Path(tmp) / "qc.sqlite")])
+        self.assertEqual(join.read_bytes(), before)
 
 
 if __name__ == "__main__":

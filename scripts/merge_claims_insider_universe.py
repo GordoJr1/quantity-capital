@@ -2,13 +2,18 @@
 """Merge publicly traded claims-map companies into the Insiders tape universe.
 
 Reads claims/companies.json (plus extract holder aliases and beta ticker
-catalogs). Resolves CAD/US tickers where possible. Appends missing publics to
-insider-companies.json. Writes a ticker audit (CSV + markdown).
+catalogs) and every public company already linked in claims/links/holders.json.
+Resolves CAD/US tickers where possible. Appends missing publics to
+insider-companies.json, deduped by ticker. Canadian additions carry the issuer
+name the SEDI pass can search; US additions carry an SEC CIK when the SEC
+ticker map has one. Writes a ticker audit (CSV + markdown).
 
 The off-repo collector pushes stale copies of claims/companies.json and
 insider-companies.json. Rows and on_bc metadata in claims/pinned-companies.json
 are re-applied to the catalog first, and follow-alerts.yml reruns this script
-after every collector push.
+after every collector push. Link publics do not need a pin: they are read from
+claims/links, which the collector does not overwrite, and this script appends
+them again on the next run.
 
 Does not crawl provinces, does not touch qc.sqlite, does not rewrite the
 off-repo tape.
@@ -25,6 +30,8 @@ import io
 import json
 import sys
 import re
+import urllib.error
+import urllib.request
 from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -35,8 +42,11 @@ CLAIMS = ROOT / "claims"
 CATALOG_PINS = "pinned-companies.json"
 PIN_META_KEYS = ("disclaimer", "sources")
 INSIDER_COMPANIES = ROOT / "insider-companies.json"
+LINKS_HOLDERS = "links/holders.json"
 AUDIT_CSV = ROOT / "scripts" / "claims-insider-ticker-audit.csv"
 AUDIT_MD = ROOT / "scripts" / "claims-insider-ticker-audit.md"
+SEC_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
+SEC_UA = "Quantity Capital gordojr@proton.me"
 
 LEGAL_RE = re.compile(
     r"\b(inc\.?|incorporated|ltd\.?|limited|llc|l\.l\.c\.?|corp\.?|corporation|"
@@ -119,6 +129,135 @@ def classify_ticker(sym: str) -> str:
     if s.endswith(OTHER_SUFFIX) or "." in s:
         return "other"
     return "us"
+
+
+def exchange_of(symbol: str) -> str:
+    text = (symbol or "").strip().upper()
+    if text.endswith(".TO"):
+        return "TSX"
+    if text.endswith(".V"):
+        return "TSXV"
+    if text.endswith(".CN"):
+        return "CSE"
+    if text.endswith(".NE"):
+        return "NEO"
+    if text.endswith(".AX"):
+        return "ASX"
+    if text and "." not in text:
+        return "US"
+    return ""
+
+
+def exchanges_for(symbols: list[str]) -> str:
+    found = []
+    for symbol in symbols:
+        name = exchange_of(symbol)
+        if name and name not in found:
+            found.append(name)
+    return "; ".join(found)
+
+
+def load_sec_ciks(cache: Path | None = None, fetch: bool = True) -> dict[str, str]:
+    """Ticker → 10-digit SEC CIK. Empty when the map cannot be read."""
+    cache = cache or Path("/tmp/sec-company-tickers.json")
+    raw = ""
+    if cache.is_file():
+        raw = cache.read_text(encoding="utf-8")
+    elif fetch:
+        req = urllib.request.Request(
+            SEC_TICKERS_URL,
+            headers={"User-Agent": SEC_UA, "Accept": "application/json"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                raw = resp.read().decode("utf-8")
+        except (OSError, urllib.error.URLError):
+            return {}
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        cache.write_text(raw, encoding="utf-8")
+    if not raw:
+        return {}
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        return {}
+    rows = data.values() if isinstance(data, dict) else data
+    out: dict[str, str] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        ticker = str(row.get("ticker") or "").strip().upper()
+        cik = row.get("cik_str")
+        if ticker and cik is not None:
+            out[ticker] = str(int(cik)).zfill(10)
+    return out
+
+
+def attach_identifiers(row: dict, cik_index: dict[str, str]) -> dict:
+    """SEDI searches Canadian issuers by name. US filers need a CIK."""
+    tickers = [str(t).upper() for t in (row.get("tickers") or []) if t]
+    if any(classify_ticker(t) == "cad" for t in tickers):
+        row["sedi_name"] = row.get("name") or row.get("id") or ""
+    for ticker in tickers:
+        if classify_ticker(ticker) != "us":
+            continue
+        cik = cik_index.get(ticker)
+        if cik:
+            row["cik"] = cik
+            break
+    if not row.get("exchange"):
+        row["exchange"] = exchanges_for(tickers)
+    return row
+
+
+def load_link_companies(root: Path) -> list[dict]:
+    """One public company per claims/links company id that has a ticker."""
+    path = root / "claims" / LINKS_HOLDERS
+    if not path.is_file():
+        return []
+    data = load_json(path)
+    grouped: dict[str, dict] = {}
+    for row in data.get("rows") or []:
+        parties = list(row.get("companies") or [])
+        if not parties and row.get("company_id"):
+            parties = [{"company_id": row.get("company_id"), "company": row.get("company"), "ticker": row.get("ticker"), "exchange": row.get("exchange")}]
+        for party in parties:
+            cid = (party.get("company_id") or "").strip()
+            if not cid:
+                continue
+            slot = grouped.setdefault(cid, {"id": cid, "holder": "", "names": [], "tickers": [], "exchange": ""})
+            name = (party.get("company") or "").strip()
+            if name and not slot["holder"]:
+                slot["holder"] = name
+            if name and name not in slot["names"]:
+                slot["names"].append(name)
+            symbols = []
+            for raw in party.get("tickers") or []:
+                text = str(raw or "").strip().upper()
+                if text and text not in symbols:
+                    symbols.append(text)
+            primary = str(party.get("ticker") or "").strip().upper()
+            if primary and primary not in symbols:
+                symbols.insert(0, primary)
+            for ticker in symbols:
+                if ticker not in slot["tickers"]:
+                    slot["tickers"].append(ticker)
+            exchange = (party.get("exchange") or "").strip()
+            if exchange and not slot["exchange"]:
+                slot["exchange"] = exchange
+    out = []
+    for slot in grouped.values():
+        if not slot["tickers"]:
+            continue
+        if not slot["holder"]:
+            slot["holder"] = slot["id"].replace("-", " ")
+        if slot["holder"] not in slot["names"]:
+            slot["names"].insert(0, slot["holder"])
+        if not slot["exchange"]:
+            slot["exchange"] = exchanges_for(slot["tickers"])
+        out.append(slot)
+    out.sort(key=lambda rec: rec["id"])
+    return out
 
 
 def split_tickers(symbols: list[str]) -> dict[str, list[str]]:
@@ -394,7 +533,9 @@ def company_record(row: dict) -> dict:
         # hq strings like "Toronto, Ontario, Canada"
         parts = [p.strip() for p in country.split(",") if p.strip()]
         country = parts[-1] if parts else country
-    return {
+    if not country:
+        country = "Canada" if split["cad"] else ("United States" if split["us"] else "")
+    rec = {
         "name": name,
         "symbol_raw": ", ".join(split["all"]),
         "type": beta.get("type") or "Explorer",
@@ -407,6 +548,16 @@ def company_record(row: dict) -> dict:
         "claims_id": row["id"],
         "source": "claims",
     }
+    exchange = row.get("exchange") or exchanges_for(split["all"])
+    if exchange:
+        rec["exchange"] = exchange
+    sedi_name = row.get("sedi_name") or ""
+    if sedi_name:
+        rec["sedi_name"] = sedi_name
+    cik = row.get("cik") or ""
+    if cik:
+        rec["cik"] = cik
+    return rec
 
 
 def write_text_atomic(path: Path, text: str) -> None:
@@ -510,7 +661,7 @@ def write_audit(rows: list[dict], path_csv: Path, path_md: Path) -> None:
         "# Claims → Insiders ticker audit",
         "",
         f"Generated `{datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}`.",
-        "Source: `claims/companies.json` (~191) plus extract holder aliases and beta ticker catalogs.",
+        "Source: `claims/companies.json` plus public companies in `claims/links/holders.json`, extract holder aliases, and beta ticker catalogs.",
         "Private / unmatched holders are excluded from the Insiders universe.",
         "",
         "| Status | Count |",
@@ -589,24 +740,54 @@ def append_companies(path: Path, new_rows: list[dict]) -> int:
     return len(to_add)
 
 
-def classify_all(root: Path, use_extracts: bool = True) -> list[dict]:
+def classify_all(root: Path, use_extracts: bool = True, cik_index: dict[str, str] | None = None) -> list[dict]:
     claims = load_json(root / "claims" / "companies.json")
     insider = load_json(root / "insider-companies.json")
     by_slug, by_norm, by_ticker = index_insider(insider.get("companies") or [])
     beta = beta_ticker_index(root)
+    link_by_id = {rec["id"]: rec for rec in load_link_companies(root)}
+    for cid, link in link_by_id.items():
+        slot = beta.setdefault(cid, {})
+        if link["tickers"] and not slot.get("tickers"):
+            slot["tickers"] = list(link["tickers"])
+        if link.get("holder") and not slot.get("name"):
+            slot["name"] = link["holder"]
     rows = []
+    catalog_ids = set()
     for rec in claims.get("companies") or []:
+        catalog_ids.add(rec["id"])
         aliases = extract_holder_aliases(root / "claims", rec["id"], rec) if use_extracts else []
-        rows.append(
-            match_claims_company(
-                rec,
-                insider_by_slug=by_slug,
-                insider_by_norm=by_norm,
-                insider_by_ticker=by_ticker,
-                beta=beta,
-                extract_aliases=aliases,
-            )
+        row = match_claims_company(
+            rec,
+            insider_by_slug=by_slug,
+            insider_by_norm=by_norm,
+            insider_by_ticker=by_ticker,
+            beta=beta,
+            extract_aliases=aliases,
         )
+        if row.get("new"):
+            attach_identifiers(row, cik_index or {})
+        rows.append(row)
+    # claims/links publics that are not already a catalog company. Ticker
+    # dedup happens inside match_claims_company, so a second listing of an
+    # insider ticker is "matched" and is not appended again.
+    for rec in load_link_companies(root):
+        if rec["id"] in catalog_ids:
+            continue
+        row = match_claims_company(
+            rec,
+            insider_by_slug=by_slug,
+            insider_by_norm=by_norm,
+            insider_by_ticker=by_ticker,
+            beta=beta,
+            extract_aliases=[],
+        )
+        row["from_links"] = True
+        if not row.get("exchange"):
+            row["exchange"] = rec.get("exchange") or exchanges_for(row.get("tickers") or [])
+        if row.get("new"):
+            attach_identifiers(row, cik_index or {})
+        rows.append(row)
     rows.sort(key=lambda r: (r["status"], r["id"]))
     return rows
 
@@ -629,6 +810,14 @@ def check_universe(root: Path, rows: list[dict]) -> list[str]:
             continue
         if not any(t in by_ticker for t in tks) and norm_name(row.get("name") or "") not in names:
             errors.append(f"{row['id']}: matched public missing from insider-companies.json ({' '.join(tks)})")
+    for rec in insider.get("companies") or []:
+        if rec.get("source") != "claims" or not rec.get("exchange"):
+            continue
+        cid = rec.get("claims_id") or rec.get("name")
+        if rec.get("cad") and not rec.get("sedi_name"):
+            errors.append(f"{cid}: Canadian claims public is missing sedi_name")
+        if rec.get("cik") and not str(rec.get("cik")).isdigit():
+            errors.append(f"{cid}: cik is not digits")
     return errors
 
 
@@ -644,7 +833,8 @@ def main(argv: list[str] | None = None) -> int:
     pin_changes, pin_problems = sync_catalog_pins(root, write=write)
     for change in pin_changes:
         print(change)
-    rows = classify_all(root, use_extracts=not args.no_extracts)
+    cik_index = load_sec_ciks(fetch=not args.check)
+    rows = classify_all(root, use_extracts=not args.no_extracts, cik_index=cik_index)
     new_rows = [r for r in rows if r.get("new")]
     audit_csv = root / "scripts" / "claims-insider-ticker-audit.csv"
     audit_md = root / "scripts" / "claims-insider-ticker-audit.md"
@@ -669,7 +859,7 @@ def main(argv: list[str] | None = None) -> int:
     if write:
         added = append_companies(root / "insider-companies.json", new_rows)
         print(f"appended {added} insider-companies")
-        rows = classify_all(root, use_extracts=not args.no_extracts)
+        rows = classify_all(root, use_extracts=not args.no_extracts, cik_index=cik_index)
         write_audit(rows, audit_csv, audit_md)
     errors = pin_problems + check_universe(root, rows)
     if errors:

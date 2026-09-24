@@ -21,6 +21,7 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from statistics import median
 from urllib.parse import urlparse
@@ -33,22 +34,31 @@ DEST = ROOT / "insider-form4.json"
 # Fair-access wants a human-readable name and a contact email.
 SEC_UA = "Quantity Capital gordojr@proton.me"
 SEC_SLEEP = 0.12  # ~8 req/s; SEC cap is 10/s
+SEC_MIN_INTERVAL = 0.11  # --sleep can never push past 10 req/s
 SEC_RETRIES = 4
+SEC_BACKOFF = 2.0
+SEC_BACKOFF_MAX = 60.0
+SEC_MAX_403 = 3  # consecutive 403s: SEC has blocked this UA/IP, stop the run
+RETRY_CODES = {403, 429, 500, 502, 503, 504}
 
 PLAN_POS = re.compile(
     r"10\s*b5\s*[-–—]?\s*1|rule\s*10b5|trading plan|written plan|"
     r"sell(?:ing)? plan|purchase plan|pre-?arranged",
     re.I,
 )
+# ESPP purchases are payroll plan buys, not Rule 10b5-1 trading plans.
+ESPP_RE = re.compile(r"employee\s+(?:stock|share)\s+purchase\s+plan|\bESPP\b", re.I)
 PLAN_NEG = re.compile(
     r"\bnot\b.{0,40}pursuant|\bnot\b.{0,40}10\s*b5|does not (?:constitute|represent)",
     re.I,
 )
 COVER_RE = re.compile(
     r"sell to cover|sell-to-cover|tax withhold|withholding obligation|"
-    r"to (?:satisfy|cover|funds*satisfy).{0,40}tax|net settle",
+    r"to (?:satisfy|cover|fund).{0,40}tax|net settle",
     re.I,
 )
+# Bump when plan/cover classification changes; plan-flagged cached filings are re-fetched once.
+CLASSIFIER = 2
 ID_ACCN = re.compile(r"^form4-(\d{10}-\d{2}-\d{6})-")
 ACCN_DASH = re.compile(r"^\d{10}-\d{2}-\d{6}$")
 
@@ -163,12 +173,12 @@ def classify_text(text: str) -> str | None:
     """Return '10b5-1', 'cover', or None."""
     if not text or not text.strip():
         return None
+    plan = bool(PLAN_POS.search(ESPP_RE.sub(" ", text)))
     if PLAN_NEG.search(text):
-        if COVER_RE.search(text) and not PLAN_POS.search(text):
+        if COVER_RE.search(text) and not plan:
             return "cover"
         return None
     cover = bool(COVER_RE.search(text))
-    plan = bool(PLAN_POS.search(text))
     if plan:
         return "10b5-1"
     if cover:
@@ -431,7 +441,31 @@ def form4_urls(trades: list[dict]) -> dict[str, str]:
     return out
 
 
+class SecBlocked(Exception):
+    """SEC kept answering 403; continuing would only extend the block."""
+
+
+_request_interval = SEC_SLEEP
+_last_request = 0.0
+_consecutive_403 = 0
+
+
+def set_request_interval(seconds: float) -> float:
+    global _request_interval
+    _request_interval = max(float(seconds), SEC_MIN_INTERVAL)
+    return _request_interval
+
+
+def _throttle() -> None:
+    global _last_request
+    wait = _last_request + _request_interval - time.monotonic()
+    if wait > 0:
+        time.sleep(wait)
+    _last_request = time.monotonic()
+
+
 def sec_request(url: str, ua: str, timeout: float = 30.0) -> bytes:
+    """Every SEC call goes through here so the 10 req/s cap holds on every path."""
     # Prefer www.sec.gov Archives paths; data.sec.gov also serves the same files.
     headers = {
         "User-Agent": ua,
@@ -440,8 +474,25 @@ def sec_request(url: str, ua: str, timeout: float = 30.0) -> bytes:
         "Connection": "close",
     }
     req = urllib.request.Request(url, headers=headers)
+    _throttle()
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         return resp.read()
+
+
+def retry_after_seconds(err: urllib.error.HTTPError) -> float | None:
+    raw = err.headers.get("Retry-After") if err.headers is not None else None
+    if not raw:
+        return None
+    raw = str(raw).strip()
+    if raw.isdigit():
+        return float(raw)
+    try:
+        when = parsedate_to_datetime(raw)
+    except (TypeError, ValueError):
+        return None
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    return max(0.0, (when - datetime.now(timezone.utc)).total_seconds())
 
 
 def filing_dir(url: str) -> str:
@@ -483,7 +534,7 @@ def resolve_from_index(url: str, ua: str) -> list[str]:
     base = filing_dir(url)
     if not base:
         return []
-    raw = sec_request(base + "/index.json", ua)
+    raw = fetch_bytes(base + "/index.json", ua)
     try:
         index = json.loads(raw.decode("utf-8", errors="replace"))
     except json.JSONDecodeError:
@@ -491,27 +542,40 @@ def resolve_from_index(url: str, ua: str) -> list[str]:
     return xmls_from_index(index, base)
 
 
-def fetch_bytes(url: str, ua: str, sleep_s: float) -> bytes:
+def fetch_bytes(url: str, ua: str) -> bytes:
+    """GET with backoff on 403/429/5xx (Retry-After wins); SecBlocked after repeated 403s."""
+    global _consecutive_403
     last_err: Exception | None = None
-    delay = sleep_s
+    delay = SEC_BACKOFF
     for attempt in range(SEC_RETRIES):
         try:
             raw = sec_request(url, ua)
-            time.sleep(sleep_s)
+            _consecutive_403 = 0
             return raw
         except urllib.error.HTTPError as err:
             last_err = err
-            if err.code == 404:
+            if err.code == 403:
+                _consecutive_403 += 1
+                if _consecutive_403 >= SEC_MAX_403:
+                    raise SecBlocked(
+                        f"SEC returned 403 {_consecutive_403} times in a row (last {url}); "
+                        "check the User-Agent and request rate"
+                    ) from err
+            else:
+                _consecutive_403 = 0
+            if err.code not in RETRY_CODES:
                 raise
-            if err.code in {403, 429, 500, 502, 503}:
-                time.sleep(delay)
-                delay = min(delay * 2, 8.0)
-                continue
-            raise
+            if attempt == SEC_RETRIES - 1:
+                break
+            hint = retry_after_seconds(err)
+            time.sleep(min(SEC_BACKOFF_MAX, hint if hint is not None else delay))
+            delay = min(delay * 2, SEC_BACKOFF_MAX)
         except (urllib.error.URLError, TimeoutError) as err:
             last_err = err
+            if attempt == SEC_RETRIES - 1:
+                break
             time.sleep(delay)
-            delay = min(delay * 2, 8.0)
+            delay = min(delay * 2, SEC_BACKOFF_MAX)
     raise RuntimeError(f"fetch failed {url}: {last_err}")
 
 
@@ -521,7 +585,7 @@ def efts_ciks(accn: str, ua: str) -> list[str]:
         return []
     q = urllib.parse.quote(f'"{accn}"')
     url = f"https://efts.sec.gov/LATEST/search-index?q={q}&forms=4"
-    raw = sec_request(url, ua)
+    raw = fetch_bytes(url, ua)
     data = json.loads(raw.decode("utf-8", errors="replace"))
     out: list[str] = []
     for hit in ((data.get("hits") or {}).get("hits") or []):
@@ -548,9 +612,10 @@ def urls_under_ciks(accn: str, ciks: list[str], filename: str) -> list[str]:
     return out
 
 
-def fetch_filing(url: str, ua: str, sleep_s: float) -> dict:
+def fetch_filing(url: str, ua: str) -> dict:
     last_err: Exception | None = None
     tried = []
+    index_tried: set[str] = set()
     candidates = filing_url_candidates(url)
     idx = 0
     efts_tried = False
@@ -566,7 +631,8 @@ def fetch_filing(url: str, ua: str, sleep_s: float) -> dict:
                 for extra in urls_under_ciks(accn, efts_ciks(accn, ua), filename):
                     if extra not in candidates:
                         candidates.append(extra)
-                time.sleep(sleep_s)
+            except SecBlocked:
+                raise
             except Exception as efts_err:
                 last_err = efts_err
             continue
@@ -576,16 +642,20 @@ def fetch_filing(url: str, ua: str, sleep_s: float) -> dict:
             continue
         tried.append(candidate)
         try:
-            raw = fetch_bytes(candidate, ua, sleep_s)
+            raw = fetch_bytes(candidate, ua)
             text = raw.decode("utf-8", errors="replace")
             return parse_ownership_xml(text, candidate)
         except urllib.error.HTTPError as err:
             last_err = err
-            if err.code == 404 and "/index.json" not in candidate:
+            base = filing_dir(candidate)
+            if err.code == 404 and "/index.json" not in candidate and base not in index_tried:
+                index_tried.add(base)
                 try:
                     for extra in resolve_from_index(candidate, ua):
                         if extra not in candidates:
                             candidates.append(extra)
+                except SecBlocked:
+                    raise
                 except Exception as idx_err:
                     last_err = idx_err
                 continue
@@ -665,17 +735,25 @@ def rollup_filers(trades: list[dict], overlays: dict[str, dict]) -> dict[str, di
     return out
 
 
-def checkpoint_filings(dest: Path, prev: dict, filings: dict[str, dict]) -> None:
-    """Write filings mid-run so a kill does not lose the night."""
-    payload = dict(prev or {})
-    payload["filings"] = filings
-    payload["generated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00"
+def write_json_atomic(dest: Path, payload: dict) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".tmp")
     with tmp.open("w") as f:
         json.dump(payload, f, separators=(",", ":"))
         f.write("\n")
     tmp.replace(dest)
+
+
+def filing_has_plan(filing: dict) -> bool:
+    return bool(filing.get("plan")) or any(t.get("p") for t in filing.get("tx") or [])
+
+
+def checkpoint_filings(dest: Path, prev: dict, filings: dict[str, dict]) -> None:
+    """Write filings mid-run so a kill does not lose the night."""
+    payload = dict(prev or {})
+    payload["filings"] = filings
+    payload["generated"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00"
+    write_json_atomic(dest, payload)
 
 
 def build_payload(
@@ -687,6 +765,7 @@ def build_payload(
     skipped: int,
     failed: list[str],
     ua: str,
+    classifier: int = CLASSIFIER,
 ) -> dict:
     plan_trades = sum(1 for v in overlays.values() if v.get("plan"))
     cover_trades = sum(1 for v in overlays.values() if v.get("why") == "cover")
@@ -696,8 +775,9 @@ def build_payload(
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "+00:00",
         "tapeCollected": tape.get("collected") or "",
         "source": "SEC EDGAR Form 4 ownership XML (Table I + aff10b5One / footnotes)",
+        "classifier": classifier,
         "userAgent": ua,
-        "rateLimit": f"{SEC_SLEEP:.2f}s between requests (~{1 / SEC_SLEEP:.0f}/s; SEC cap 10/s)",
+        "rateLimit": f"{_request_interval:.2f}s between requests (~{1 / _request_interval:.0f}/s; SEC cap 10/s)",
         "method": (
             "Fetch each unique Form 4 XML from the tape source URL. "
             "A print is a scheduled plan when a footnote (or remarks) names Rule 10b5-1 / "
@@ -735,7 +815,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--dest", type=Path, default=DEST)
     p.add_argument("--prev", type=Path, default=None, help="Previous sidecar (default: dest)")
     p.add_argument("--ua", default=SEC_UA, help="SEC User-Agent (name + email)")
-    p.add_argument("--sleep", type=float, default=SEC_SLEEP, help="Seconds between SEC requests")
+    p.add_argument(
+        "--sleep", type=float, default=SEC_SLEEP,
+        help=f"Seconds between SEC requests (floor {SEC_MIN_INTERVAL}s, i.e. under 10/s)",
+    )
     p.add_argument("--limit", type=int, default=0, help="Max new filings to fetch (0 = all)")
     p.add_argument("--refresh", action="store_true", help="Re-fetch accessions already in dest")
     p.add_argument("--offline", action="store_true", help="Do not hit the network; rematch cache")
@@ -752,20 +835,28 @@ def main(argv: list[str] | None = None) -> int:
     wanted = form4_urls(trades)
     prev_path = args.prev or args.dest
     prev = load_json(prev_path) if prev_path.is_file() else {}
-    filings = dict(prev.get("filings") or {}) if not args.refresh else {}
-    if args.refresh:
-        filings = {}
+    # --refresh re-fetches but keeps the cache, so --refresh --limit N cannot shrink it.
+    filings = dict(prev.get("filings") or {})
+    set_request_interval(args.sleep)
 
+    prev_classifier = int(prev.get("classifier") or 1) if prev else CLASSIFIER
+    reclassify = prev_classifier < CLASSIFIER and not args.offline
+    stale_left: set[str] = set()
     to_fetch = []
     for accn, url in wanted.items():
-        if accn in filings and not args.refresh:
+        have = filings.get(accn)
+        if have is not None and reclassify and filing_has_plan(have):
+            stale_left.add(accn)
+        elif have is not None and not args.refresh:
             # Keep URL current if the tape renamed the xml file.
-            if url and not filings[accn].get("url"):
-                filings[accn]["url"] = url
+            if url and not have.get("url"):
+                have["url"] = url
             continue
         to_fetch.append((accn, url))
     if args.limit:
         to_fetch = to_fetch[: args.limit]
+    if stale_left:
+        print(f"reclassifying {len(stale_left)} plan-flagged filings (classifier {prev_classifier} -> {CLASSIFIER})")
 
     fetched = 0
     failed: list[str] = []
@@ -774,17 +865,24 @@ def main(argv: list[str] | None = None) -> int:
     total = len(to_fetch)
     if total:
         print(f"fetching {total} Form 4s (cached {len(filings)}) UA={args.ua!r}", flush=True)
+    blocked = False
     for accn, url in to_fetch:
         try:
-            parsed = fetch_filing(url, args.ua, args.sleep)
+            parsed = fetch_filing(url, args.ua)
             parsed["accn"] = accn
             filings[accn] = compact_filing(parsed)
             filings[accn]["accn"] = accn
+            stale_left.discard(accn)
             fetched += 1
             if fetched % 50 == 0 or fetched == total:
                 print(f"  fetched {fetched}/{total}", flush=True)
             if fetched % 50 == 0:
                 checkpoint_filings(args.dest, prev, filings)
+        except SecBlocked as err:
+            blocked = True
+            failed.append(f"{accn} {err}")
+            print(f"error: {err}; stopping after {fetched}/{total} fetched", file=sys.stderr)
+            break
         except Exception as err:
             failed.append(f"{accn} {err}")
             print(f"warn {accn}: {err}", file=sys.stderr)
@@ -808,13 +906,13 @@ def main(argv: list[str] | None = None) -> int:
     cached = len(wanted) - fetched - len([a for a, _ in to_fetch])
     if cached < 0:
         cached = len(filings) - fetched
+    # Old flags stay cached until every stale filing re-parses, so a failed re-fetch retries next run.
+    behind = prev_classifier < CLASSIFIER and (args.offline or stale_left)
     payload = build_payload(
-        tape, filings, overlays, filers, fetched, max(0, cached), failed, args.ua
+        tape, filings, overlays, filers, fetched, max(0, cached), failed, args.ua,
+        classifier=prev_classifier if behind else CLASSIFIER,
     )
-    args.dest.parent.mkdir(parents=True, exist_ok=True)
-    with args.dest.open("w") as f:
-        json.dump(payload, f, separators=(",", ":"))
-        f.write("\n")
+    write_json_atomic(args.dest, payload)
     st = payload["stats"]
     print(
         "wrote {path} ({kb:.1f} KB)  filings={f}  trades={t}  filers={p}  "
@@ -830,7 +928,10 @@ def main(argv: list[str] | None = None) -> int:
             x=st["failed"],
         )
     )
-    return 0 if not failed or fetched or overlays else 1
+    # The sidecar is still written from cache; the exit code is for the caller.
+    if blocked or (failed and not fetched):
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

@@ -162,6 +162,119 @@ class ClassifyText(unittest.TestCase):
         self.assertEqual(f4.classify_text("sell to cover tax withholding obligations"), "cover")
         self.assertIsNone(f4.classify_text("not pursuant to a Rule 10b5-1 trading plan"))
 
+    def test_espp_is_not_a_trading_plan(self):
+        self.assertIsNone(f4.classify_text(
+            "Shares acquired under the Issuer's Employee Stock Purchase Plan in a transaction exempt under Rule 16b-3."
+        ))
+        self.assertIsNone(f4.classify_text("Purchased through the company ESPP."))
+        self.assertEqual(f4.classify_text(
+            "ESPP shares sold pursuant to a Rule 10b5-1 trading plan adopted May 1, 2026."
+        ), "10b5-1")
+        self.assertEqual(f4.classify_text("Shares bought under a stock purchase plan adopted by the reporting person"), "10b5-1")
+
+    def test_cover_fund_tax(self):
+        self.assertEqual(f4.classify_text("Shares sold to fund the reporting person's tax liability on vesting."), "cover")
+
+
+def http_error(url: str, code: int, retry_after: str | None = None) -> urllib.error.HTTPError:
+    headers = Message()
+    if retry_after is not None:
+        headers["Retry-After"] = retry_after
+    return urllib.error.HTTPError(url, code, "err", headers, None)
+
+
+class RateLimit(unittest.TestCase):
+    def setUp(self):
+        self.sleeps: list[float] = []
+        self.calls: list[str] = []
+        self.orig = (f4.sec_request, f4.time.sleep, f4._consecutive_403)
+        f4.time.sleep = self.sleeps.append
+        f4._consecutive_403 = 0
+
+    def tearDown(self):
+        f4.sec_request, f4.time.sleep, f4._consecutive_403 = self.orig
+
+    def script(self, *responses):
+        queue = list(responses)
+
+        def fake(url, ua, timeout=30.0):
+            self.calls.append(url)
+            item = queue.pop(0)
+            if isinstance(item, Exception):
+                raise item
+            return item
+
+        f4.sec_request = fake
+
+    def test_429_honors_retry_after_then_succeeds(self):
+        self.script(http_error("u", 429, "7"), b"ok")
+        self.assertEqual(f4.fetch_bytes("u", "ua"), b"ok")
+        self.assertEqual(self.sleeps, [7.0])
+
+    def test_backoff_starts_at_seconds_not_request_gap(self):
+        self.script(http_error("u", 503), http_error("u", 503), b"ok")
+        f4.fetch_bytes("u", "ua")
+        self.assertEqual(self.sleeps, [f4.SEC_BACKOFF, f4.SEC_BACKOFF * 2])
+
+    def test_404_is_not_retried(self):
+        self.script(http_error("u", 404))
+        with self.assertRaises(urllib.error.HTTPError):
+            f4.fetch_bytes("u", "ua")
+        self.assertEqual(len(self.calls), 1)
+
+    def test_persistent_403_aborts(self):
+        self.script(*[http_error("u", 403) for _ in range(f4.SEC_MAX_403)])
+        with self.assertRaises(f4.SecBlocked):
+            f4.fetch_bytes("u", "ua")
+        self.assertEqual(len(self.calls), f4.SEC_MAX_403)
+
+    def test_blocked_escapes_fetch_filing_fallbacks(self):
+        self.script(*[http_error("u", 403) for _ in range(f4.SEC_MAX_403)])
+        with self.assertRaises(f4.SecBlocked):
+            f4.fetch_filing("https://www.sec.gov/Archives/edgar/data/1/000000000126000001/x.xml", "ua")
+
+    def test_interval_floor_keeps_under_10_per_second(self):
+        before = f4._request_interval
+        try:
+            self.assertGreaterEqual(f4.set_request_interval(0), 0.1)
+        finally:
+            f4.set_request_interval(before)
+
+
+class MainExit(unittest.TestCase):
+    def test_all_failed_exits_nonzero_but_writes_sidecar(self):
+        import tempfile
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        tape = root / "tape.json"
+        dest = root / "out.json"
+        url = "https://www.sec.gov/Archives/edgar/data/1/000000000126000001/x.xml"
+        tape.write_text(json.dumps({"trades": [{"origin": "form4", "source": url, "id": "t1"}]}))
+        orig = f4.fetch_filing
+
+        def boom(u, ua):
+            raise RuntimeError("down")
+
+        f4.fetch_filing = boom
+        try:
+            rc = f4.main(["--tape", str(tape), "--dest", str(dest)])
+        finally:
+            f4.fetch_filing = orig
+        self.assertEqual(rc, 1)
+        self.assertEqual(json.loads(dest.read_text())["stats"]["failed"], 1)
+
+    def test_nothing_to_fetch_exits_zero(self):
+        import tempfile
+
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        tape = root / "tape.json"
+        tape.write_text(json.dumps({"trades": []}))
+        self.assertEqual(f4.main(["--tape", str(tape), "--dest", str(root / "out.json")]), 0)
+
 
 class FetchFallbacks(unittest.TestCase):
     def test_efts_runs_after_candidate_404s(self):
@@ -176,7 +289,7 @@ class FetchFallbacks(unittest.TestCase):
 
         seen = []
 
-        def fake_bytes(url, ua, sleep_s):
+        def fake_bytes(url, ua):
             seen.append(url)
             if "1720424/000106299326003632/" in url and url.endswith(".xml"):
                 return xml.encode("utf-8")
@@ -190,7 +303,7 @@ class FetchFallbacks(unittest.TestCase):
         f4.resolve_from_index = lambda *a, **k: []
         try:
             agent = "https://www.sec.gov/Archives/edgar/data/1062993/000106299326003632/form4.xml"
-            doc = f4.fetch_filing(agent, "test@example.com", 0)
+            doc = f4.fetch_filing(agent, "test@example.com")
         finally:
             f4.fetch_bytes = orig_fetch
             f4.efts_ciks = orig_efts

@@ -1,0 +1,110 @@
+{
+ "dataset": "Nunavut titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T15:52:50Z",
+ "province": "Nunavut",
+ "province_id": "nunavut",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 1,
+ "sudbury_first": false,
+ "unlocated": [
+  {
+   "mine_id": "meliadine",
+   "company_id": "agnico-eagle",
+   "name": "Meliadine",
+   "region": "Nunavut",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "meadowbank",
+   "company_id": "agnico-eagle",
+   "name": "Meadowbank Complex",
+   "region": "Nunavut",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "hope-bay",
+   "company_id": "agnico-eagle",
+   "name": "Hope Bay",
+   "region": "Nunavut",
+   "ticker": "AEM"
+  },
+  {
+   "mine_id": "goose",
+   "company_id": "b2gold",
+   "name": "Goose (Back River)",
+   "region": "Nunavut",
+   "ticker": "BTG"
+  }
+ ],
+ "seconds": 0.0,
+ "results": [
+  {
+   "mine_id": "mary-river",
+   "company_id": "baffinland",
+   "name": "Mary River",
+   "region": "Nunavut",
+   "ticker": null,
+   "lat": 71.340446,
+   "lon": -78.556869,
+   "km": {
+    "5": {
+     "titles": 16,
+     "by_holder": [
+      {
+       "holder": "Baffinland Iron Mines Corporation (100%)",
+       "count": 14,
+       "company_id": "baffinland",
+       "ticker": null
+      },
+      {
+       "holder": "Ray - Dor Resources Ltd. (100%)",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "baffinland",
+       "count": 14
+      },
+      {
+       "company_id": null,
+       "count": 2
+      }
+     ]
+    },
+    "10": {
+     "titles": 32,
+     "by_holder": [
+      {
+       "holder": "Baffinland Iron Mines Corporation (100%)",
+       "count": 22,
+       "company_id": "baffinland",
+       "ticker": null
+      },
+      {
+       "holder": "Ray - Dor Resources Ltd. (100%)",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "baffinland",
+       "count": 22
+      },
+      {
+       "company_id": null,
+       "count": 10
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

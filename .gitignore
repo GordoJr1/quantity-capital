@@ -8,6 +8,8 @@ qc.sqlite.tmp-shm
 scripts/qc_sqlite/.cache/
 scripts/qc_sqlite/export/
 claims/.cache/
+claims/.db/
+claims/.build/
 *.xlsx
 quantity-capital-*-csv/
 __pycache__/

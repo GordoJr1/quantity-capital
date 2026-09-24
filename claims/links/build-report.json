@@ -1,0 +1,195 @@
+{
+ "generated_at": "2026-09-24T15:52:50Z",
+ "cadence": "monthly",
+ "hosting": "github-pages-split-by-province",
+ "provinces": {
+  "ontario": {
+   "name": "Ontario",
+   "titles": 403782,
+   "holders": 1381,
+   "linked_titles": 182586,
+   "linked_holders": 270,
+   "coverage": 0.45219,
+   "by_method_titles": {
+    "alias": 60574,
+    "catalog_name": 28581,
+    "extract_holder": 93431
+   }
+  },
+  "yukon": {
+   "name": "Yukon",
+   "titles": 168961,
+   "holders": 349,
+   "linked_titles": 68456,
+   "linked_holders": 39,
+   "coverage": 0.405159,
+   "by_method_titles": {
+    "alias": 10476,
+    "catalog_name": 57676,
+    "extract_holder": 304
+   }
+  },
+  "newfoundland": {
+   "name": "Newfoundland and Labrador",
+   "titles": 4694,
+   "holders": 437,
+   "linked_titles": 705,
+   "linked_holders": 28,
+   "coverage": 0.150192,
+   "by_method_titles": {
+    "alias": 141,
+    "catalog_name": 535,
+    "extract_holder": 29
+   }
+  },
+  "nunavut": {
+   "name": "Nunavut",
+   "titles": 34551,
+   "holders": 396,
+   "linked_titles": 6473,
+   "linked_holders": 35,
+   "coverage": 0.187346,
+   "by_method_titles": {
+    "alias": 260,
+    "catalog_name": 5714,
+    "extract_holder": 499
+   }
+  }
+ },
+ "titles": 611988,
+ "linked_titles": 258220,
+ "coverage": 0.421936,
+ "watch": {
+  "new-found-gold": {
+   "titles": 141,
+   "holders": [
+    {
+     "province": "newfoundland",
+     "holder": "New Found Gold Corp.",
+     "count": 141,
+     "method": "alias",
+     "ticker": "NFG.V"
+    }
+   ]
+  },
+  "b2gold": {
+   "titles": 260,
+   "holders": [
+    {
+     "province": "nunavut",
+     "holder": "B2GOLD BACK RIVER CORP. (100%)",
+     "count": 260,
+     "method": "alias",
+     "ticker": "BTG"
+    }
+   ]
+  },
+  "kinross": {
+   "titles": 1155,
+   "holders": [
+    {
+     "province": "ontario",
+     "holder": "(100) GREAT BEAR RESOURCES LTD.",
+     "count": 1155,
+     "method": "alias",
+     "ticker": "KGC"
+    }
+   ]
+  },
+  "banyan-gold": {
+   "titles": 6647,
+   "holders": [
+    {
+     "province": "yukon",
+     "holder": "Banyan Gold Corporation - 100%",
+     "count": 6647,
+     "method": "alias",
+     "ticker": "BYN.V"
+    }
+   ]
+  },
+  "sitka-gold": {
+   "titles": 2293,
+   "holders": [
+    {
+     "province": "yukon",
+     "holder": "Sitka Gold Corp. - 100%",
+     "count": 2293,
+     "method": "alias",
+     "ticker": "SIG.V"
+    }
+   ]
+  },
+  "seabridge-gold": {
+   "titles": 1536,
+   "holders": [
+    {
+     "province": "yukon",
+     "holder": "Seabridge Gold (Yukon) Inc. - 100%",
+     "count": 1536,
+     "method": "alias",
+     "ticker": "SEA.TO"
+    }
+   ]
+  }
+ },
+ "jev_ambiguous_holders": 27,
+ "sizes": {
+  "sqlite_bytes": 286474240,
+  "pmtiles_bytes": {
+   "ontario": 37034598,
+   "yukon": 22977378,
+   "newfoundland": 2706317,
+   "nunavut": 18043158
+  },
+  "links_bytes": 672099,
+  "search_holders_bytes": 641465,
+  "search_titles_bytes": 9667234,
+  "around_bytes": 68030,
+  "tiles_index_bytes": 641,
+  "published_bytes": 91810920
+ },
+ "around": {
+  "ontario": {
+   "bytes": 42191,
+   "mines": 32,
+   "unlocated": 10
+  },
+  "yukon": {
+   "bytes": 6247,
+   "mines": 5,
+   "unlocated": 0
+  },
+  "newfoundland": {
+   "bytes": 17502,
+   "mines": 7,
+   "unlocated": 1
+  },
+  "nunavut": {
+   "bytes": 2090,
+   "mines": 1,
+   "unlocated": 4
+  }
+ },
+ "github_file_limit_bytes": 104857600,
+ "tiles_under_limit": true,
+ "range_probe": {
+  "text": {
+   "status": 206,
+   "content_range": "bytes 0-99/216266",
+   "content_encoding": "gzip",
+   "content_type": "application/geo+json",
+   "body_starts_with_pmtiles_or_png": false,
+   "body_looks_gzip": true
+  },
+  "binary": {
+   "status": 206,
+   "content_range": "bytes 0-99/24497",
+   "content_encoding": null,
+   "content_type": "image/png",
+   "body_starts_with_pmtiles_or_png": true,
+   "body_looks_gzip": false
+  },
+  "note": "A browser always sends Accept-Encoding: gzip. GitHub Pages returns 206, but for text types the range is taken from the gzip stream, so those bytes are not the file. Binary types (PNG) return the raw file. .pmtiles is not a text type. The viewer checks the PMTiles magic and, if the range is compressed, reads the whole archive in memory."
+ }
+}

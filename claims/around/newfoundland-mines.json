@@ -1,0 +1,867 @@
+{
+ "dataset": "Newfoundland and Labrador titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T15:52:50Z",
+ "province": "Newfoundland and Labrador",
+ "province_id": "newfoundland",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 7,
+ "sudbury_first": false,
+ "unlocated": [
+  {
+   "mine_id": "valentine",
+   "company_id": "equinox-gold",
+   "name": "Valentine",
+   "region": "Newfoundland and Labrador",
+   "ticker": "EQX"
+  }
+ ],
+ "seconds": 0.0,
+ "results": [
+  {
+   "mine_id": "carol-lake",
+   "company_id": "iron-ore-company-of-canada",
+   "name": "Carol Lake",
+   "region": "Newfoundland and Labrador",
+   "ticker": null,
+   "lat": 53.039755,
+   "lon": -66.936774,
+   "km": {
+    "5": {
+     "titles": 19,
+     "by_holder": [
+      {
+       "holder": "Iron Ore Company of Canada",
+       "count": 13,
+       "company_id": "iron-ore-company-of-canada",
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Red Paramount Iron Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stephen Stockley Agriculture and Fabrication Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Labrador Iron Ore Royalty Corporation",
+       "count": 1,
+       "company_id": "labrador-iron-ore-royalty",
+       "ticker": "LIF.TO"
+      },
+      {
+       "holder": "Wayde Guinchard",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "iron-ore-company-of-canada",
+       "count": 13
+      },
+      {
+       "company_id": null,
+       "count": 5
+      },
+      {
+       "company_id": "labrador-iron-ore-royalty",
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 35,
+     "by_holder": [
+      {
+       "holder": "Iron Ore Company of Canada",
+       "count": 22,
+       "company_id": "iron-ore-company-of-canada",
+       "ticker": null
+      },
+      {
+       "holder": "Red Paramount Iron Ltd.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Labrador Iron Ore Royalty Corporation",
+       "count": 3,
+       "company_id": "labrador-iron-ore-royalty",
+       "ticker": "LIF.TO"
+      },
+      {
+       "holder": "Cyril Hicks",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Darrin Hicks",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stephen Stockley Agriculture and Fabrication Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Wayde Guinchard",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "iron-ore-company-of-canada",
+       "count": 22
+      },
+      {
+       "company_id": null,
+       "count": 10
+      },
+      {
+       "company_id": "labrador-iron-ore-royalty",
+       "count": 3
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "conception-bay-south",
+   "company_id": "trinity-performance-minerals",
+   "name": "Conception Bay South",
+   "region": "Newfoundland and Labrador",
+   "ticker": null,
+   "lat": 47.4892,
+   "lon": -52.9544,
+   "km": {
+    "5": {
+     "titles": 21,
+     "by_holder": [
+      {
+       "holder": "Kevin Ryan",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stephen Sheppard",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "White Fox Silver Resources Inc.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Mark Stockley",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Herb Simms",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "David Hicks",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 21
+      }
+     ]
+    },
+    "10": {
+     "titles": 36,
+     "by_holder": [
+      {
+       "holder": "Stephen Sheppard",
+       "count": 16,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Kevin Ryan",
+       "count": 7,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "White Fox Silver Resources Inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Mark Stockley",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stephen Stockley Agriculture and Fabrication Inc.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Herb Simms",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "David Hicks",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "85893 Newfoundland & Labrador Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 36
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "dso-3-and-4",
+   "company_id": "tata-steel-minerals",
+   "name": "DSO (3 and 4)",
+   "region": "Newfoundland and Labrador",
+   "ticker": null,
+   "lat": 54.890828,
+   "lon": -67.081916,
+   "km": {
+    "5": {
+     "titles": 16,
+     "by_holder": [
+      {
+       "holder": "Tata Steel Minerals Canada Ltd.",
+       "count": 6,
+       "company_id": "tata-steel-minerals",
+       "ticker": null
+      },
+      {
+       "holder": "Labrador Iron Mines Limited",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Iron Block 103 Corporation",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Matthew Stead",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "G2B Gold Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Sans Peur Exploration Services Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 10
+      },
+      {
+       "company_id": "tata-steel-minerals",
+       "count": 6
+      }
+     ]
+    },
+    "10": {
+     "titles": 28,
+     "by_holder": [
+      {
+       "holder": "Iron Block 103 Corporation",
+       "count": 9,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Tata Steel Minerals Canada Ltd.",
+       "count": 6,
+       "company_id": "tata-steel-minerals",
+       "ticker": null
+      },
+      {
+       "holder": "Labmag GP Inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Labrador Iron Mines Limited",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Matthew Stead",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "G2B Gold Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Sans Peur Exploration Services Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 22
+      },
+      {
+       "company_id": "tata-steel-minerals",
+       "count": 6
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "hammerdown",
+   "company_id": "new-found-gold",
+   "name": "Hammerdown",
+   "region": "Newfoundland and Labrador",
+   "ticker": "NFG.V",
+   "lat": 49.58,
+   "lon": -56.18,
+   "km": {
+    "5": {
+     "titles": 11,
+     "by_holder": [
+      {
+       "holder": "Maritime Resources Corp.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Vulcan Minerals Inc.",
+       "count": 4,
+       "company_id": "vulcan-minerals",
+       "ticker": "VUL.V"
+      },
+      {
+       "holder": "Sarah McBreairty",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 7
+      },
+      {
+       "company_id": "vulcan-minerals",
+       "count": 4
+      }
+     ]
+    },
+    "10": {
+     "titles": 36,
+     "by_holder": [
+      {
+       "holder": "Maritime Resources Corp.",
+       "count": 15,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Vulcan Minerals Inc.",
+       "count": 6,
+       "company_id": "vulcan-minerals",
+       "ticker": "VUL.V"
+      },
+      {
+       "holder": "D3 Exploration Ltd.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Jeffery Brushett",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Sarah McBreairty",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "John Barbour",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Firefly Metals Canada Limited",
+       "count": 1,
+       "company_id": "firefly-metals",
+       "ticker": "FFM.TO"
+      },
+      {
+       "holder": "Sorrento Resources Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Morgan Raffay",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Alpha Gold North Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 29
+      },
+      {
+       "company_id": "vulcan-minerals",
+       "count": 6
+      },
+      {
+       "company_id": "firefly-metals",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "queensway",
+   "company_id": "new-found-gold",
+   "name": "Queensway",
+   "region": "Newfoundland and Labrador",
+   "ticker": "NFG.V",
+   "lat": 48.95,
+   "lon": -55.05,
+   "km": {
+    "5": {
+     "titles": 17,
+     "by_holder": [
+      {
+       "holder": "New Rock Mining Inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Metals Creek Resources Corp.",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "New Found Gold Corp.",
+       "count": 3,
+       "company_id": "new-found-gold",
+       "ticker": "NFG.V"
+      },
+      {
+       "holder": "Stephen Stockley Agriculture and Fabrication Inc.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Matthew Stead",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Unity Resources Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Nidon Enterprises Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 14
+      },
+      {
+       "company_id": "new-found-gold",
+       "count": 3
+      }
+     ]
+    },
+    "10": {
+     "titles": 37,
+     "by_holder": [
+      {
+       "holder": "New Found Gold Corp.",
+       "count": 13,
+       "company_id": "new-found-gold",
+       "ticker": "NFG.V"
+      },
+      {
+       "holder": "Metals Creek Resources Corp.",
+       "count": 6,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "New Rock Mining Inc.",
+       "count": 5,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stephen Stockley Agriculture and Fabrication Inc.",
+       "count": 2,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Matthew Stead",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Exploits Discovery Corp.",
+       "count": 1,
+       "company_id": "exploits-discovery",
+       "ticker": "NFLD.CN"
+      },
+      {
+       "holder": "Unity Resources Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "John Barbour",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Nidon Enterprises Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "James Richard Crocker",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "1597320 B.C. Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Angie Stockley",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Gordon Lawrence",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Stanley H.B. Squires",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Quest Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 23
+      },
+      {
+       "company_id": "new-found-gold",
+       "count": 13
+      },
+      {
+       "company_id": "exploits-discovery",
+       "count": 1
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "scully",
+   "company_id": "tacora",
+   "name": "Scully",
+   "region": "Newfoundland and Labrador",
+   "ticker": null,
+   "lat": 52.907129,
+   "lon": -66.912573,
+   "km": {
+    "5": {
+     "titles": 3,
+     "by_holder": [
+      {
+       "holder": "Labrador Iron Ore Royalty Corporation",
+       "count": 2,
+       "company_id": "labrador-iron-ore-royalty",
+       "ticker": "LIF.TO"
+      },
+      {
+       "holder": "16772919 Canada Inc.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "labrador-iron-ore-royalty",
+       "count": 2
+      },
+      {
+       "company_id": null,
+       "count": 1
+      }
+     ]
+    },
+    "10": {
+     "titles": 24,
+     "by_holder": [
+      {
+       "holder": "Iron Ore Company of Canada",
+       "count": 15,
+       "company_id": "iron-ore-company-of-canada",
+       "ticker": null
+      },
+      {
+       "holder": "Labrador Iron Ore Royalty Corporation",
+       "count": 4,
+       "company_id": "labrador-iron-ore-royalty",
+       "ticker": "LIF.TO"
+      },
+      {
+       "holder": "16772919 Canada Inc.",
+       "count": 3,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Red Paramount Iron Ltd.",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Wayde Guinchard",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "iron-ore-company-of-canada",
+       "count": 15
+      },
+      {
+       "company_id": null,
+       "count": 5
+      },
+      {
+       "company_id": "labrador-iron-ore-royalty",
+       "count": 4
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "voisey-s-bay",
+   "company_id": "vale",
+   "name": "Voisey’s Bay",
+   "region": "Newfoundland and Labrador",
+   "ticker": "VALE",
+   "lat": 56.331659,
+   "lon": -62.090855,
+   "km": {
+    "5": {
+     "titles": 11,
+     "by_holder": [
+      {
+       "holder": "Vale Newfoundland & Labrador Limited",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 11
+      }
+     ]
+    },
+    "10": {
+     "titles": 16,
+     "by_holder": [
+      {
+       "holder": "Vale Newfoundland & Labrador Limited",
+       "count": 11,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Buchans Resources Limited",
+       "count": 4,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Buchans Minerals Corporation",
+       "count": 1,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 16
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

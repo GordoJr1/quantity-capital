@@ -1,0 +1,331 @@
+{
+ "dataset": "Yukon titles within 5 km and 10 km of beta mine coordinates. Not legal title.",
+ "generated_at": "2026-09-24T15:52:50Z",
+ "province": "Yukon",
+ "province_id": "yukon",
+ "radii_km": [
+  5,
+  10
+ ],
+ "mines": 5,
+ "sudbury_first": false,
+ "unlocated": [],
+ "seconds": 0.1,
+ "results": [
+  {
+   "mine_id": "aurmac",
+   "company_id": "banyan-gold",
+   "name": "AurMac",
+   "region": "Yukon",
+   "ticker": "BYN.V",
+   "lat": 63.6,
+   "lon": -135.9,
+   "km": {
+    "5": {
+     "titles": 0,
+     "by_holder": [],
+     "by_company": []
+    },
+    "10": {
+     "titles": 10,
+     "by_holder": [
+      {
+       "holder": "Shawn Ryan - 70%, Wildwood Exploration Inc. - 30%",
+       "count": 10,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 10
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "blackjack",
+   "company_id": "sitka-gold",
+   "name": "Blackjack",
+   "region": "Yukon",
+   "ticker": "SIG.V",
+   "lat": 63.76,
+   "lon": -137.22,
+   "km": {
+    "5": {
+     "titles": 64,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 40,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 24,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 40
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 24
+      }
+     ]
+    },
+    "10": {
+     "titles": 657,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 336,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 291,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      },
+      {
+       "holder": "Gold Strike Resources Corp. - 100%",
+       "count": 30,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 336
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 291
+      },
+      {
+       "company_id": null,
+       "count": 30
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "eiger",
+   "company_id": "sitka-gold",
+   "name": "Eiger",
+   "region": "Yukon",
+   "ticker": "SIG.V",
+   "lat": 63.76,
+   "lon": -137.22,
+   "km": {
+    "5": {
+     "titles": 64,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 40,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 24,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 40
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 24
+      }
+     ]
+    },
+    "10": {
+     "titles": 657,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 336,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 291,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      },
+      {
+       "holder": "Gold Strike Resources Corp. - 100%",
+       "count": 30,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 336
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 291
+      },
+      {
+       "company_id": null,
+       "count": 30
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "rhosgobel",
+   "company_id": "sitka-gold",
+   "name": "Rhosgobel",
+   "region": "Yukon",
+   "ticker": "SIG.V",
+   "lat": 63.76,
+   "lon": -137.22,
+   "km": {
+    "5": {
+     "titles": 64,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 40,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 24,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 40
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 24
+      }
+     ]
+    },
+    "10": {
+     "titles": 657,
+     "by_holder": [
+      {
+       "holder": "Banyan Gold Corporation - 100%",
+       "count": 336,
+       "company_id": "banyan-gold",
+       "ticker": "BYN.V"
+      },
+      {
+       "holder": "Sitka Gold Corp. - 100%",
+       "count": 291,
+       "company_id": "sitka-gold",
+       "ticker": "SIG.V"
+      },
+      {
+       "holder": "Gold Strike Resources Corp. - 100%",
+       "count": 30,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": "banyan-gold",
+       "count": 336
+      },
+      {
+       "company_id": "sitka-gold",
+       "count": 291
+      },
+      {
+       "company_id": null,
+       "count": 30
+      }
+     ]
+    }
+   }
+  },
+  {
+   "mine_id": "valley",
+   "company_id": "snowline-gold",
+   "name": "Valley (Rogue)",
+   "region": "Yukon",
+   "ticker": "SGD.TO",
+   "lat": 63.63,
+   "lon": -130.95,
+   "km": {
+    "5": {
+     "titles": 364,
+     "by_holder": [
+      {
+       "holder": "Senoa Gold Corp - 100%",
+       "count": 273,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Gold Strike Resources Corp. - 100%",
+       "count": 91,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 364
+      }
+     ]
+    },
+    "10": {
+     "titles": 1103,
+     "by_holder": [
+      {
+       "holder": "Senoa Gold Corp - 100%",
+       "count": 800,
+       "company_id": null,
+       "ticker": null
+      },
+      {
+       "holder": "Gold Strike Resources Corp. - 100%",
+       "count": 303,
+       "company_id": null,
+       "ticker": null
+      }
+     ],
+     "by_company": [
+      {
+       "company_id": null,
+       "count": 1103
+      }
+     ]
+    }
+   }
+  }
+ ]
+}

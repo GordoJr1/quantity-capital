@@ -1,10 +1,14 @@
-const CACHE = "qc-shell-v216";
+const CACHE = "qc-shell-v218";
 const SHELL = [
   "./",
   "./index.html",
   "./beta.html",
   "./canada.html",
   "./claims.html",
+  "./claims-db.html",
+  "./claims-db.js?v=1",
+  "./claims-db.js?v=2",
+  "./claims-db.js?v=3",
   "./claims-neighbors.js?v=1",
   "./claims-map.js?v=1",
   "./claims-map.js?v=2",
@@ -131,6 +135,10 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+  // PMTiles needs Range requests. Do not put the gitignored archive in the shell cache.
+  if (url.pathname.endsWith(".pmtiles") || url.pathname.includes("/.build/") || url.pathname.includes("/.db/")) {
+    return;
+  }
 
   const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-follow|price-checks)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname)

@@ -77,3 +77,15 @@ no tokens; Jev never invents tenures.
 - **Ontario/BC neighbors** are not drawn (payload).
 - **Nationwide shapefiles** are not in git. Live ArcGIS from the browser is not used (static Pages + CORS).
 - Other Beta producers with no QC/ON/BC titles stay at zero until a holder match exists.
+
+## Provincial claims database
+
+Not the live claims map. `claims.html` is unchanged.
+
+Monthly, from the Windows desktop:
+
+```
+py -3 scripts/claims_db.py --all --publish
+```
+
+That downloads Ontario, Yukon, Newfoundland and Labrador, and Nunavut into gitignored `claims/.db/claims.sqlite`, links holders, and commits one PMTiles file per province under `claims/tiles/` plus the search, link, and mine-radius JSON. `python3` on Windows is the Store stub; use `py -3` or `python`. Tiles use `tippecanoe` on PATH, then `wsl tippecanoe` (paths via `wslpath`). The build stops if neither is available. Draft viewer: `claims-db.html`.

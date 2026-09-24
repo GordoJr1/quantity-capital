@@ -8,8 +8,11 @@ import unittest
 from pathlib import Path
 
 from merge_claims_insider_universe import (
+    attach_identifiers,
     classify_ticker,
+    company_record,
     index_insider,
+    load_link_companies,
     looks_private,
     match_claims_company,
     norm_name,
@@ -123,6 +126,76 @@ class Match(unittest.TestCase):
             extract_aliases=[],
         )
         self.assertEqual(row["status"], "ambiguous")
+
+
+class LinkPublics(unittest.TestCase):
+    def test_groups_tickered_companies_and_skips_blank(self):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        root = Path(tmp.name)
+        (root / "claims" / "links").mkdir(parents=True)
+        payload = {
+            "rows": [
+                {
+                    "company_id": "azimut-exploration",
+                    "companies": [{"company_id": "azimut-exploration", "company": "Azimut Exploration", "ticker": "AZM.V", "exchange": "TSXV"}],
+                },
+                {
+                    "company_id": "azimut-exploration",
+                    "companies": [{"company_id": "azimut-exploration", "company": "Azimut Exploration", "ticker": "AZMTF"}],
+                },
+                {"company_id": "private-shell", "companies": [{"company_id": "private-shell", "company": "Private Shell", "ticker": ""}]},
+            ]
+        }
+        (root / "claims" / "links" / "holders.json").write_text(json.dumps(payload), encoding="utf-8")
+        rows = load_link_companies(root)
+        self.assertEqual([r["id"] for r in rows], ["azimut-exploration"])
+        self.assertEqual(rows[0]["tickers"], ["AZM.V", "AZMTF"])
+        self.assertEqual(rows[0]["exchange"], "TSXV")
+
+    def test_ticker_dedup_and_identifiers(self):
+        book = [{"name": "Azimut Exploration", "all": ["AZM.V"], "us": [], "cad": ["AZM.V"], "other": []}]
+        by_slug, by_norm, by_ticker = index_insider(book)
+        existing = match_claims_company(
+            {"id": "azimut-exploration", "holder": "Azimut Exploration", "names": ["Azimut Exploration"], "tickers": ["AZM.V"]},
+            insider_by_slug=by_slug,
+            insider_by_norm=by_norm,
+            insider_by_ticker=by_ticker,
+            beta={"azimut-exploration": {"tickers": ["AZM.V"], "name": "Azimut Exploration"}},
+            extract_aliases=[],
+        )
+        self.assertEqual(existing["status"], "matched")
+        self.assertFalse(existing.get("new"))
+
+        fresh = match_claims_company(
+            {"id": "imperial-metals", "holder": "Imperial Metals", "names": ["Imperial Metals"]},
+            insider_by_slug=by_slug,
+            insider_by_norm=by_norm,
+            insider_by_ticker=by_ticker,
+            beta={"imperial-metals": {"tickers": ["III.TO"], "name": "Imperial Metals"}},
+            extract_aliases=[],
+        )
+        self.assertTrue(fresh.get("new"))
+        attach_identifiers(fresh, {"III": "0001234567"})
+        saved = company_record(fresh)
+        self.assertEqual(saved["cad"], ["III.TO"])
+        self.assertEqual(saved["sedi_name"], "Imperial Metals")
+        self.assertEqual(saved["exchange"], "TSX")
+        self.assertNotIn("cik", saved)
+
+        us = match_claims_company(
+            {"id": "arcelormittal", "holder": "ArcelorMittal", "names": ["ArcelorMittal"]},
+            insider_by_slug=by_slug,
+            insider_by_norm=by_norm,
+            insider_by_ticker=by_ticker,
+            beta={"arcelormittal": {"tickers": ["MT"], "name": "ArcelorMittal"}},
+            extract_aliases=[],
+        )
+        attach_identifiers(us, {"MT": "0001243429"})
+        saved_us = company_record(us)
+        self.assertEqual(saved_us["cik"], "0001243429")
+        self.assertNotIn("sedi_name", saved_us)
+        self.assertEqual(saved_us["country"], "United States")
 
 
 class CatalogPins(unittest.TestCase):

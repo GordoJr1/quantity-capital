@@ -2,7 +2,7 @@
   "generated": "2026-09-21T11:00:01.947922+00:00",
   "source": "C:\\Users\\gordo\\Desktop\\Company List - Breakdown.xlsx",
   "claims_merged": "2026-09-24T01:29:37Z",
-  "count": 843,
+  "count": 850,
   "companies": [
     {
       "name": "Talisker Resources",
@@ -14835,6 +14835,138 @@
       ],
       "claims_id": "probe-gold",
       "source": "claims"
+    },
+    {
+      "name": "Amrize Ltd.",
+      "symbol_raw": "AMRZ",
+      "type": "Explorer",
+      "commodity": "Limestone",
+      "country": "Canada",
+      "us": [
+        "AMRZ"
+      ],
+      "cad": [],
+      "other": [],
+      "all": [
+        "AMRZ"
+      ],
+      "claims_id": "amrize",
+      "source": "claims",
+      "exchange": "US",
+      "cik": "0002035989"
+    },
+    {
+      "name": "ArcelorMittal S.A.",
+      "symbol_raw": "MT",
+      "type": "Explorer",
+      "commodity": "Iron-Ore",
+      "country": "Canada",
+      "us": [
+        "MT"
+      ],
+      "cad": [],
+      "other": [],
+      "all": [
+        "MT"
+      ],
+      "claims_id": "arcelormittal",
+      "source": "claims",
+      "exchange": "US",
+      "cik": "0001243429"
+    },
+    {
+      "name": "CRH Canada Group Inc.",
+      "symbol_raw": "CRH",
+      "type": "Explorer",
+      "commodity": "Limestone",
+      "country": "Canada",
+      "us": [
+        "CRH"
+      ],
+      "cad": [],
+      "other": [],
+      "all": [
+        "CRH"
+      ],
+      "claims_id": "crh",
+      "source": "claims",
+      "exchange": "US",
+      "cik": "0000849395"
+    },
+    {
+      "name": "Heidelberg Materials Canada Limited",
+      "symbol_raw": "HDELY",
+      "type": "Explorer",
+      "commodity": "Limestone",
+      "country": "Canada",
+      "us": [
+        "HDELY"
+      ],
+      "cad": [],
+      "other": [],
+      "all": [
+        "HDELY"
+      ],
+      "claims_id": "heidelberg-materials",
+      "source": "claims",
+      "exchange": "US"
+    },
+    {
+      "name": "Imperial Metals Corporation",
+      "symbol_raw": "III.TO",
+      "type": "Explorer",
+      "commodity": "Gold",
+      "country": "Canada",
+      "us": [],
+      "cad": [
+        "III.TO"
+      ],
+      "other": [],
+      "all": [
+        "III.TO"
+      ],
+      "claims_id": "imperial-metals",
+      "source": "claims",
+      "exchange": "TSX",
+      "sedi_name": "Imperial Metals Corporation"
+    },
+    {
+      "name": "Northern Graphite Corporation",
+      "symbol_raw": "NGC.V",
+      "type": "Explorer",
+      "commodity": "Graphite",
+      "country": "Canada",
+      "us": [],
+      "cad": [
+        "NGC.V"
+      ],
+      "other": [],
+      "all": [
+        "NGC.V"
+      ],
+      "claims_id": "northern-graphite",
+      "source": "claims",
+      "exchange": "TSXV",
+      "sedi_name": "Northern Graphite Corporation"
+    },
+    {
+      "name": "Progressive Planet Solutions Inc.",
+      "symbol_raw": "PLAN.V",
+      "type": "Explorer",
+      "commodity": "Zeolite",
+      "country": "Canada",
+      "us": [],
+      "cad": [
+        "PLAN.V"
+      ],
+      "other": [],
+      "all": [
+        "PLAN.V"
+      ],
+      "claims_id": "progressive-planet",
+      "source": "claims",
+      "exchange": "TSXV",
+      "sedi_name": "Progressive Planet Solutions Inc."
     }
   ]
 }

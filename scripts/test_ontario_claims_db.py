@@ -258,7 +258,7 @@ class RepoTests(unittest.TestCase):
         self.assertIn('code: "bc"', script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn("/claims/tiles/", sw)
-        self.assertIn("qc-shell-v221", sw)
+        self.assertIn("qc-shell-v222", sw)
         self.assertIn("claims-map.js?v=22", sw)
         self.assertIn("claims-db.js?v=5", sw)
 

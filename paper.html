@@ -245,8 +245,8 @@
     <details class="how">
       <summary>How this is scored</summary>
       <div class="body">
-        <p>If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
-        <p>Each listed-stock <b>purchase</b> is one equal-weight leg. Entry is the first daily close after the official <b>filed date</b> (a filing can post after that day’s close, so the next close is the first one the public can buy), allowing up to 10 calendar days for weekends and holidays. Exit is the latest close in the site’s price file, labeled as-of. Return is exit ÷ entry − 1 and is <b>not annualized</b>. A filer’s score is the unweighted average of those legs.</p>
+        <p>If you bought the disclosed stock on the day the public found out — the filing date, not the trade date — how would you have done? Ranked by the median of the equal-weight purchase legs. Sales are out so the story stays a copy, not a short book.</p>
+        <p>Each listed-stock <b>purchase</b> is one equal-weight leg. Entry is the first daily close after the official <b>filed date</b> (a filing can post after that day’s close, so the next close is the first one the public can buy), allowing up to 10 calendar days for weekends and holidays. Holds are 90, 180, and 365 calendar days from that entry close, plus the to-last-close mark (the latest close in the site’s price file). The headline is the median of the window you pick; the mean is still shown. Each window is also scored against SPY over the same entry and exit dates. Return is exit ÷ entry − 1 and is <b>not annualized</b>.</p>
         <p>Bonds, options, junk tickers, and legs with no price file or no close in that window are skipped. Official amounts are ranges, so position size is not used — a $1,001–$15,000 ticket counts the same as a $1,000,001–$5,000,000 ticket. Coverage counts (priced vs skipped) sit on every row.</p>
         <p class="muted">This is not the politician’s P&amp;L. They traded earlier, often weeks before the print. Tape’s “Top Traders” board is a different, trade-date FIFO estimate. Regenerated from trades-lite.json and prices/ on each site update.</p>
       </div>
@@ -260,6 +260,7 @@
         <input id="q" type="search" placeholder="Name or ticker…" autocomplete="off" />
       </div>
     </div>
+    <div class="windows" id="horizons"></div>
     <details class="paper-filters">
       <summary>Filters</summary>
       <div class="windows" id="chamber"></div>
@@ -293,6 +294,7 @@
       chamber: params.get("c") || "",
       min: MINS.indexOf(Number(params.get("min"))) >= 0 ? Number(params.get("min")) : 5,
       sort: params.get("sort") === "worst" ? "worst" : "best",
+      h: ["90", "180", "365"].indexOf(params.get("h") || "") >= 0 ? params.get("h") : "",
       q: (params.get("q") || "").trim(),
       open: params.get("id") || params.get("t") || "",
       showAll: false,
@@ -322,6 +324,7 @@
       if (state.chamber) p.set("c", state.chamber);
       if (state.min !== 5) p.set("min", String(state.min));
       if (state.sort === "worst") p.set("sort", "worst");
+      if (state.h) p.set("h", state.h);
       if (state.q) p.set("q", state.q);
       if (state.board === "filers" && state.open) p.set("id", state.open);
       if (state.board === "tickers" && state.open) p.set("t", state.open);
@@ -335,29 +338,65 @@
           QC.esc(it.label) + "</button>";
       }).join("");
     }
+    function rowWindow(row) {
+      if (!row) return null;
+      if (!state.h) {
+        return { n: row.n || 0, win: row.win || 0, med: row.med, avg: row.avg, xsMed: row.xsMed };
+      }
+      const slot = row.hz && row.hz[state.h];
+      if (!slot || !slot.n) return null;
+      return slot;
+    }
+    function legWindow(leg) {
+      if (!leg) return null;
+      if (!state.h) return leg;
+      const slot = leg.hz && leg.hz[state.h];
+      if (!slot || slot.ret == null || !isFinite(slot.ret)) return null;
+      return slot;
+    }
+    function meanBits(w) {
+      let s = " · mean " + pct(w.avg);
+      if (w.xsMed != null && isFinite(w.xsMed)) s += " · vs SPY " + pct(w.xsMed);
+      return s;
+    }
     function tickerLegs(code) {
       const out = [];
       (data.filers || []).forEach((f) => {
         (f.legs || []).forEach((leg) => {
-          if (leg.t === code) out.push({ filer: f, leg: leg });
+          if (leg.t === code && legWindow(leg)) out.push({ filer: f, leg: leg });
         });
       });
       out.sort((a, b) => String(b.leg.filed).localeCompare(String(a.leg.filed)));
       return out;
     }
     function legLine(leg, who) {
-      const down = (leg.ret || 0) < 0 ? " down" : "";
+      const w = legWindow(leg);
+      if (!w) return "";
+      const down = (w.ret || 0) < 0 ? " down" : "";
       const filed = QC.prettyDate(leg.filed);
       const entryD = QC.prettyDate(leg.inD || leg.filed);
-      const exitD = QC.prettyDate(leg.outD || data.priceAsof);
+      const exitRaw = state.h ? w.outD : (w.outD || data.priceAsof);
+      const exitD = QC.prettyDate(exitRaw);
       const amtBit = leg.amt ? QC.formatAmountRange(leg.amt) : "";
       const whoBit = who
         ? "<a class=\"tk\" href=\"politician.html?id=" + encodeURIComponent(who.id) + "\">" + QC.esc(who.name) + "</a>"
         : "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(leg.t) + "\">" + QC.esc(leg.t) + "</a>";
       const dateBit = who ? QC.esc(filed) : "filed " + QC.esc(filed);
-      const pxBit = who
-        ? px(leg.in) + " → " + px(leg.out)
-        : "in " + QC.esc(entryD) + " @ " + px(leg.in) + " → as-of " + QC.esc(exitD) + " @ " + px(leg.out);
+      const exitLabel = QC.esc(exitD);
+      const entryLabel = QC.esc(entryD);
+      let pxBit;
+      if (state.h) {
+        pxBit = who
+          ? px(leg.in) + " → " + exitLabel + " @ " + px(w.out)
+          : "in " + entryLabel + " @ " + px(leg.in) + " → " + exitLabel + " @ " + px(w.out);
+      } else if (who) {
+        pxBit = px(leg.in) + " → " + px(w.out);
+      } else {
+        pxBit = "in " + entryLabel + " @ " + px(leg.in) + " → as-of " + exitLabel + " @ " + px(w.out);
+      }
+      const xsHtml = (w.xs != null && isFinite(w.xs))
+        ? "<span class=\"dot\"> · </span><span>vs SPY " + pct(w.xs) + "</span>"
+        : "";
       const amtHtml = amtBit
         ? "<span class=\"dot\"> · </span><span class=\"leg-amt\">" + QC.esc(amtBit) + "</span>"
         : "";
@@ -366,73 +405,90 @@
           "<span class=\"leg-d\">" + dateBit + "</span>" +
           "<span class=\"dot\"> · </span>" +
           "<span class=\"leg-px\">" + pxBit + "</span>" +
+          xsHtml +
           amtHtml +
         "</span>" +
-        "<span class=\"ret" + down + "\">" + pct(leg.ret) + "</span></li>";
+        "<span class=\"ret" + down + "\">" + pct(w.ret) + "</span></li>";
     }
     function filerCard(f, i) {
+      const w = rowWindow(f);
+      if (!w) return "";
       const open = state.open === f.id ? " open" : "";
-      const cls = retClass(f.avg);
+      const cls = retClass(w.med);
       const skip = f.skip ? " · " + f.skip + " skipped" : "";
-      const legs = (state.open === f.id ? (f.legs || []) : []).map((leg) => legLine(leg, null)).join("");
+      const legs = (state.open === f.id ? (f.legs || []) : [])
+        .filter((leg) => legWindow(leg))
+        .map((leg) => legLine(leg, null)).join("");
       return "<article class=\"card" + open + "\" data-open=\"" + QC.esc(f.id) + "\">" +
         "<div class=\"card-top\">" +
           "<div>" +
             "<span class=\"rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
             "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(f.id) + "\">" + QC.esc(f.name) + "</a>" +
-            "<div class=\"muted\">" + QC.esc(f.chamber || "") + " · " + f.n + " priced buy" + (f.n === 1 ? "" : "s") +
-              skip + " · " + f.win + " up · median " + pct(f.med) + "</div>" +
+            "<div class=\"muted\">" + QC.esc(f.chamber || "") + " · " + w.n + " priced buy" + (w.n === 1 ? "" : "s") +
+              skip + " · " + w.win + " up" + meanBits(w) + "</div>" +
           "</div>" +
-          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(f.avg) + "</b><span>equal-weight</span></div>" +
+          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(w.med) + "</b><span>median</span></div>" +
         "</div>" +
         "<ul class=\"tickets\">" + (legs || "") + "</ul>" +
       "</article>";
     }
     function tickerCard(t, i) {
+      const w = rowWindow(t);
+      if (!w) return "";
       const open = state.open === t.t ? " open" : "";
-      const cls = retClass(t.avg);
+      const cls = retClass(w.med);
       const rows = state.open === t.t
         ? tickerLegs(t.t).map((row) => legLine(row.leg, row.filer)).join("")
         : "";
+      const peopleBit = state.h ? "" : " · " + t.people + " filer" + (t.people === 1 ? "" : "s");
       return "<article class=\"card" + open + "\" data-open=\"" + QC.esc(t.t) + "\">" +
         "<div class=\"card-top\">" +
           "<div>" +
             "<span class=\"rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
             "<a class=\"tk-title\" href=\"ticker.html?t=" + encodeURIComponent(t.t) + "\">" + QC.esc(t.t) + "</a>" +
-            "<div class=\"muted\">" + QC.esc(t.name || t.t) + " · " + t.n + " cop" + (t.n === 1 ? "y" : "ies") +
-              " · " + t.people + " filer" + (t.people === 1 ? "" : "s") + " · " + t.win + " up</div>" +
+            "<div class=\"muted\">" + QC.esc(t.name || t.t) + " · " + w.n + " cop" + (w.n === 1 ? "y" : "ies") +
+              peopleBit + " · " + w.win + " up" + meanBits(w) + "</div>" +
           "</div>" +
-          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(t.avg) + "</b><span>equal-weight</span></div>" +
+          "<div class=\"rate\"><b class=\"" + cls + "\">" + pct(w.med) + "</b><span>median</span></div>" +
         "</div>" +
         "<ul class=\"tickets\">" + (rows || "") + "</ul>" +
       "</article>";
     }
+    function byMedian(a, b) {
+      const aw = rowWindow(a) || { med: 0, n: 0 };
+      const bw = rowWindow(b) || { med: 0, n: 0 };
+      return state.sort === "worst" ? aw.med - bw.med || bw.n - aw.n : bw.med - aw.med || bw.n - aw.n;
+    }
     function pool() {
       const q = state.q.toLowerCase();
       if (state.board === "tickers") {
-        let rows = (data.tickers || []).filter((t) => t.n >= state.min);
+        let rows = (data.tickers || []).filter((t) => {
+          const w = rowWindow(t);
+          return w && w.n >= state.min;
+        });
         if (q) {
           rows = rows.filter((t) =>
             t.t.toLowerCase().includes(q) || String(t.name || "").toLowerCase().includes(q)
           );
         }
-        rows = rows.slice().sort((a, b) =>
-          state.sort === "worst" ? a.avg - b.avg || b.n - a.n : b.avg - a.avg || b.n - a.n
-        );
-        return rows;
+        return rows.slice().sort(byMedian);
       }
-      let rows = (data.filers || []).filter((f) => f.n >= state.min);
+      let rows = (data.filers || []).filter((f) => {
+        const w = rowWindow(f);
+        return w && w.n >= state.min;
+      });
       if (state.chamber) rows = rows.filter((f) => f.chamber === state.chamber);
       if (q) {
         rows = rows.filter((f) => {
           if (f.name.toLowerCase().includes(q)) return true;
-          return (f.legs || []).some((leg) => leg.t.toLowerCase() === q || leg.t.toLowerCase().includes(q));
+          return (f.legs || []).some((leg) => {
+            if (!legWindow(leg)) return false;
+            const t = leg.t.toLowerCase();
+            return t === q || t.includes(q);
+          });
         });
       }
-      rows = rows.slice().sort((a, b) =>
-        state.sort === "worst" ? a.avg - b.avg || b.n - a.n : b.avg - a.avg || b.n - a.n
-      );
-      return rows;
+      return rows.slice().sort(byMedian);
     }
     function paint() {
       const rows = pool();
@@ -469,6 +525,12 @@
       }
     }
     function paintChrome() {
+      chips(document.getElementById("horizons"), [
+        { value: "90", label: "90 days" },
+        { value: "180", label: "180 days" },
+        { value: "365", label: "1 year" },
+        { value: "", label: "To last close" }
+      ], state.h, "h");
       chips(document.getElementById("chamber"), [
         { value: "", label: "All chambers" },
         { value: "Senate", label: "Senate" },
@@ -501,6 +563,7 @@
       paint();
       writeUrl();
     });
+    document.getElementById("horizons").addEventListener("click", onChip);
     document.getElementById("chamber").addEventListener("click", onChip);
     document.getElementById("mins").addEventListener("click", onChip);
     document.getElementById("sorts").addEventListener("click", onChip);
@@ -511,6 +574,7 @@
       if (k === "min") state.min = Number(btn.dataset.v);
       else if (k === "chamber") state.chamber = btn.dataset.v;
       else if (k === "sort") state.sort = btn.dataset.v;
+      else if (k === "h") state.h = btn.dataset.v;
       state.showAll = false;
       paintChrome();
       paint();
@@ -543,20 +607,33 @@
       data = file;
       document.getElementById("asof").textContent = QC.asOfLabel(file.generated);
       const s = file.stats || {};
-      document.getElementById("stats").textContent =
-        Number(s.priced || 0).toLocaleString("en-US") + " priced legs · " +
-        Number(s.filers || 0).toLocaleString("en-US") + " filers" +
-        (s.tickers ? " · " + Number(s.tickers).toLocaleString("en-US") + " tickers" : "");
+      function statCount(key) {
+        const n = Number(s[key]);
+        return (isFinite(n) ? n : 0).toLocaleString("en-US");
+      }
+      const headerBits = [
+        statCount("priced") + " priced",
+        statCount("skippedNoPrice") + " no usable price",
+        statCount("skippedStale") + " entry too late"
+      ];
+      if (s.unpricedFilers != null) {
+        headerBits.push(statCount("unpricedFilers") + " filers with no priced leg");
+      }
+      headerBits.push(statCount("filers") + " filers");
+      headerBits.push(statCount("tickers") + " tickers");
+      document.getElementById("stats").textContent = headerBits.join(" · ");
       if (params.get("id")) {
         state.board = "filers";
         state.open = params.get("id");
         const hit = (file.filers || []).find((f) => f.id === state.open);
-        if (hit && hit.n < state.min) state.min = 1;
+        const w = hit && rowWindow(hit);
+        if (w && w.n < state.min) state.min = 1;
       } else if (params.get("t")) {
         state.board = "tickers";
         state.open = String(params.get("t") || "").toUpperCase();
         const hit = (file.tickers || []).find((t) => t.t === state.open);
-        if (hit && hit.n < state.min) state.min = 1;
+        const w = hit && rowWindow(hit);
+        if (w && w.n < state.min) state.min = 1;
       }
       paintChrome();
       paint();

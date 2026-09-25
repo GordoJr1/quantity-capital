@@ -411,6 +411,18 @@ def ticker_meta(con: sqlite3.Connection) -> dict[str, dict]:
     }
 
 
+def buy_dip_why(landed: bool, monthly_ok: bool, monthly_trend: str | None) -> str | None:
+    """Landed buy-dip line. 'Still up' is an UP monthly trend, not monthly_ok."""
+    if not landed:
+        return None
+    parts = ["Just landed, weekly washed out"]
+    if monthly_trend == "UP":
+        parts.append("monthly still up")
+    elif monthly_ok:
+        parts.append("monthly intact")
+    return ", ".join(parts)
+
+
 def score_universe(con: sqlite3.Connection) -> list[dict[str, Any]]:
     people = load_people()
     lookup = ticker_meta(con)
@@ -595,8 +607,10 @@ def score_universe(con: sqlite3.Connection) -> list[dict[str, Any]]:
                 action = "watch"
 
             why = " · ".join(bits[:5]) if bits else "Tape print in window"
-            if action == "buy-dip" and row["landed"]:
-                why = "Just landed, weekly washed out, monthly still up"
+            if action == "buy-dip":
+                dipped = buy_dip_why(bool(row["landed"]), bool(monthly_ok), mth.get("trend"))
+                if dipped:
+                    why = dipped
             elif action == "avoid" and chase:
                 why = "Politician already in; price ran and weekly is still down — do not chase the open"
             elif action == "avoid" and extended:

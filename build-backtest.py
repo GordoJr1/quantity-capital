@@ -3,7 +3,8 @@
 
 Entry = first daily close strictly after filed_date (a PTR can post after
 that day's close, so the filed-date close is not buyable).
-Exit  = latest close in prices/. Purchases only, equal-weight per leg.
+Exit  = latest close in prices/, plus 90/180/365-day holds from that entry.
+SPY excess uses the same entry and exit dates. Purchases only, equal-weight per leg.
 Refiled / amended PTRs collapse to the earliest filing.
 Skip bonds, options, junk tickers, and legs with no usable price.
 """
@@ -14,11 +15,12 @@ import json
 import re
 import sys
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from qc_common import (
     first_after,
+    first_on_or_after,
     load_previous,
     load_prices,
     mean,
@@ -40,6 +42,11 @@ BOND_RE = re.compile(r"rate/coupon", re.I)
 CHART_RE = re.compile(r"^[A-Z][A-Z0-9.]{0,6}$")
 # Weekend + holiday slack. A first bar far after filed_date is truncated history, not a real print.
 MAX_ENTRY_LAG_DAYS = 10
+# Fixed holds measured from the entry close, not the filed date.
+HORIZON_DAYS = (90, 180, 365)
+# Horizon exit and a missing SPY date may use the next bar only inside this window.
+# Farther than that, the horizon (or the SPY leg) is absent. Do not substitute the last close.
+MAX_MATCH_LAG_DAYS = 10
 
 
 def is_bond(t: dict) -> bool:
@@ -239,6 +246,161 @@ def round_px(n) -> float:
     return round(float(n), 2)
 
 
+def _iso_plus(iso: str, days: int) -> str | None:
+    try:
+        return (datetime.strptime(iso, "%Y-%m-%d") + timedelta(days=days)).strftime("%Y-%m-%d")
+    except ValueError:
+        return None
+
+
+def _lag_days(start: str, end: str) -> int | None:
+    try:
+        return (datetime.strptime(end, "%Y-%m-%d") - datetime.strptime(start, "%Y-%m-%d")).days
+    except ValueError:
+        return None
+
+
+def match_bar(closes: list | None, date: str, slack: int = MAX_MATCH_LAG_DAYS):
+    """First bar on or after `date`, if it lands within `slack` calendar days. Exact date wins."""
+    if not closes or not date:
+        return None
+    bar = first_on_or_after(closes, date)
+    if bar is None:
+        return None
+    bar_d, px = bar
+    lag = _lag_days(date, bar_d)
+    if lag is None or lag > slack:
+        return None
+    return bar_d, px
+
+
+def horizon_exit(closes: list, entry_date: str, days: int):
+    """Exit for a hold of `days` calendar days from the entry date, or None."""
+    target = _iso_plus(entry_date, days)
+    if target is None:
+        return None
+    return match_bar(closes, target)
+
+
+def spy_pair(spy_closes, entry_date: str, exit_date: str, stock_ret: float) -> dict | None:
+    """SPY return and excess (stock − SPY) on the same entry and exit dates."""
+    entry = match_bar(spy_closes, entry_date)
+    exit_bar = match_bar(spy_closes, exit_date)
+    if entry is None or exit_bar is None:
+        return None
+    entry_px, exit_px = entry[1], exit_bar[1]
+    if entry_px <= 0 or exit_px <= 0:
+        return None
+    spy_ret = exit_px / entry_px - 1.0
+    return {"spy": round_ret(spy_ret), "xs": round_ret(float(stock_ret) - spy_ret)}
+
+
+def leg_horizons(closes: list, entry_date: str, entry_px: float, spy_closes) -> dict:
+    """Present horizons only. A missing 90/180/365 bar is omitted, not filled with the last close."""
+    hz: dict = {}
+    if not entry_px or entry_px <= 0:
+        return hz
+    for days in HORIZON_DAYS:
+        bar = horizon_exit(closes, entry_date, days)
+        if bar is None:
+            continue
+        exit_d, exit_px = bar
+        if exit_px <= 0:
+            continue
+        ret = exit_px / entry_px - 1.0
+        slot = {"ret": round_ret(ret), "out": round_px(exit_px), "outD": exit_d}
+        spy = spy_pair(spy_closes, entry_date, exit_d, ret)
+        if spy:
+            slot.update(spy)
+        hz[str(days)] = slot
+    return hz
+
+
+def price_leg(closes: list, entry_d: str, entry_px: float, spy_closes) -> dict:
+    """To-last-close window plus any fixed horizons. Caller has already accepted the entry."""
+    exit_d, exit_px = closes[-1]
+    ret = exit_px / entry_px - 1.0
+    leg = {
+        "in": round_px(entry_px),
+        "inD": entry_d,
+        "out": round_px(exit_px),
+        "outD": exit_d,
+        "ret": round_ret(ret),
+    }
+    spy = spy_pair(spy_closes, entry_d, exit_d, ret)
+    if spy:
+        leg.update(spy)
+    hz = leg_horizons(closes, entry_d, entry_px, spy_closes)
+    if hz:
+        leg["hz"] = hz
+    return leg
+
+
+def _spy_stats(slots: list[dict]) -> dict:
+    spies: list[float] = []
+    xss: list[float] = []
+    for slot in slots:
+        if "spy" in slot and "xs" in slot:
+            spies.append(float(slot["spy"]))
+            xss.append(float(slot["xs"]))
+    if not spies:
+        return {}
+    return {
+        "spyMed": round_ret(median(spies)),
+        "spyAvg": round_ret(mean(spies)),
+        "xsMed": round_ret(median(xss)),
+        "xsAvg": round_ret(mean(xss)),
+    }
+
+
+def summarize_horizons(legs: list[dict]) -> dict:
+    out: dict = {}
+    for days in HORIZON_DAYS:
+        key = str(days)
+        slots = []
+        for leg in legs:
+            block = (leg.get("hz") or {}).get(key)
+            if isinstance(block, dict) and "ret" in block:
+                slots.append(block)
+        if not slots:
+            continue
+        rets = [float(slot["ret"]) for slot in slots]
+        row = {
+            "n": len(slots),
+            "med": round_ret(median(rets)),
+            "avg": round_ret(mean(rets)),
+            "win": sum(1 for r in rets if r > 0),
+        }
+        row.update(_spy_stats(slots))
+        out[key] = row
+    return out
+
+
+def summarize_group(legs: list[dict]) -> dict:
+    """To-last-close med/avg/win, SPY stats when any leg has them, and horizon aggregates."""
+    rets = [float(leg["ret"]) for leg in legs]
+    out = {
+        "n": len(rets),
+        "avg": round_ret(mean(rets)),
+        "med": round_ret(median(rets)),
+        "win": sum(1 for r in rets if r > 0),
+    }
+    out.update(_spy_stats(legs))
+    hz = summarize_horizons(legs)
+    if hz:
+        out["hz"] = hz
+    return out
+
+
+def count_unpriced_filers(filers: dict) -> int:
+    """Filer records that had an eligible purchase and ended with no priced leg."""
+    n = 0
+    for rec in filers.values():
+        if int(rec.get("eligible") or 0) > 0 and not rec.get("legs"):
+            n += 1
+    return n
+
+
 def doc_and_line(trade_id: str) -> tuple[str, int]:
     """Split '<chamber>-<doc>-<line>' into (doc, line). Ids without a line number are their own doc."""
     head, sep, tail = (trade_id or "").rpartition("-")
@@ -317,6 +479,7 @@ def main(argv: list[str] | None = None) -> int:
 
     dup_ids = duplicate_purchase_ids(trades)
     price_cache: dict = {}
+    spy_closes = load_prices("SPY", price_cache)
     stats = {
         "purchases": 0,
         "eligible": 0,
@@ -393,24 +556,19 @@ def main(argv: list[str] | None = None) -> int:
             rec["skip"] += 1
             stats["skippedStale"] += 1
             continue
-        exit_d, exit_px = closes[-1]
-        if exit_px <= 0 or entry_px <= 0:
+        if closes[-1][1] <= 0 or entry_px <= 0:
             rec["skip"] += 1
             stats["skippedNoPrice"] += 1
             continue
-        ret = exit_px / entry_px - 1.0
-        rec["legs"].append({
+        leg = {
             "t": code,
             "name": pick_name(code, name_cands.get(code) or [code]),
             "filed": filed,
             "trade": (t.get("trade_date") or "")[:10],
             "amt": t.get("amount") or "",
-            "in": round_px(entry_px),
-            "inD": entry_d,
-            "out": round_px(exit_px),
-            "outD": exit_d,
-            "ret": round_ret(ret),
-        })
+        }
+        leg.update(price_leg(closes, entry_d, entry_px, spy_closes))
+        rec["legs"].append(leg)
         stats["priced"] += 1
 
     people = []
@@ -426,52 +584,70 @@ def main(argv: list[str] | None = None) -> int:
                 leg.pop("amt", None)
             if not leg.get("trade"):
                 leg.pop("trade", None)
-        rets = [leg["ret"] for leg in legs]
-        n = len(legs)
-        people.append({
+        summary = summarize_group(legs)
+        person = {
             "id": rec["id"],
             "name": rec["name"],
             "chamber": rec["chamber"],
-            "n": n,
+            "n": summary["n"],
             "skip": rec["skip"],
-            "avg": round_ret(mean(rets)),
-            "med": round_ret(median(rets)),
-            "win": sum(1 for r in rets if r > 0),
-            "legs": legs,
-        })
+            "avg": summary["avg"],
+            "med": summary["med"],
+            "win": summary["win"],
+        }
+        for key in ("spyMed", "spyAvg", "xsMed", "xsAvg", "hz"):
+            if key in summary:
+                person[key] = summary[key]
+        person["legs"] = legs
+        people.append(person)
         for leg in legs:
             acc = ticker_acc.get(leg["t"])
             if acc is None:
-                acc = {"rets": [], "people": set()}
+                acc = {"legs": [], "people": set()}
                 ticker_acc[leg["t"]] = acc
-            acc["rets"].append(leg["ret"])
+            acc["legs"].append(leg)
             acc["people"].add(rec["id"])
 
-    people.sort(key=lambda r: (-r["avg"], -r["n"], r["name"]))
+    people.sort(key=lambda r: (-r["med"], -r["n"], r["name"]))
     tickers = []
     for code, acc in ticker_acc.items():
-        rets = acc["rets"]
-        tickers.append({
+        summary = summarize_group(acc["legs"])
+        row = {
             "t": code,
             "name": pick_name(code, name_cands.get(code) or [code]),
-            "n": len(rets),
+            "n": summary["n"],
             "people": len(acc["people"]),
-            "avg": round_ret(mean(rets)),
-            "med": round_ret(median(rets)),
-            "win": sum(1 for r in rets if r > 0),
-        })
-    tickers.sort(key=lambda r: (-r["avg"], -r["n"], r["t"]))
+            "avg": summary["avg"],
+            "med": summary["med"],
+            "win": summary["win"],
+        }
+        for key in ("spyMed", "spyAvg", "xsMed", "xsAvg", "hz"):
+            if key in summary:
+                row[key] = summary[key]
+        tickers.append(row)
+    tickers.sort(key=lambda r: (-r["med"], -r["n"], r["t"]))
 
     out = {
         "generated": utc_stamp(),
         "tapeCollected": tape.get("collected") or "",
         "priceAsof": price_asof,
         "method": (
-            "Purchases only. Equal-weight average of listed-stock legs. "
+            "Purchases only. Equal-weight listed-stock legs, ranked by the median. "
             "Entry is the first daily close after filed_date (a PTR can post after "
             "that day's close; max "
             + str(MAX_ENTRY_LAG_DAYS)
-            + " calendar days). Exit is the latest close in prices/. "
+            + " calendar days). "
+            "The to-last-close exit is the latest close in prices/. "
+            "Fixed holds of 90, 180, and 365 calendar days are measured from that entry date: "
+            "the exit is the first daily close on or after entry plus N days, and only if that "
+            "bar is within "
+            + str(MAX_MATCH_LAG_DAYS)
+            + " calendar days of the target. A horizon with no such bar is left out, not replaced "
+            "by the last close. "
+            "SPY excess is the stock return minus the SPY return on the same entry and exit dates "
+            "(the SPY close on that date, or the next close within "
+            + str(MAX_MATCH_LAG_DAYS)
+            + " calendar days). "
             "A refiled or amended PTR repeating the same filer, ticker, trade date, "
             "amount, and owner counts once, at its earliest filed date. "
             "Bonds, options, and legs with missing prices are skipped. "
@@ -491,6 +667,7 @@ def main(argv: list[str] | None = None) -> int:
             "skippedBondOpt": stats["skippedBondOpt"],
             "skippedNoPrice": stats["skippedNoPrice"],
             "skippedStale": stats["skippedStale"],
+            "unpricedFilers": count_unpriced_filers(filers),
             "filers": sum(1 for p in people if p["n"]),
             "tickers": len(tickers),
         },

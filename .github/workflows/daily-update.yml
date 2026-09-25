@@ -1,5 +1,6 @@
 # Enrich SEC Form 4 plan flags / Table I holdings, then rebuild
-# backtest.json, insider-repeatable.json, and insider-follow.json.
+# backtest.json, insider-repeatable.json, insider-follow.json, and the
+# split politician tape (tape/, landed.json, heat.json).
 # Yahoo daily closes are refreshed by the morning off-repo collect
 # bats only; this Action no longer fetches or commits prices/.
 # Senate eFD is not fetched here (captcha). New Form 4 / SEDI /
@@ -76,10 +77,13 @@ jobs:
             python3 build-backtest.py
             python3 build-insider-repeatable.py
             python3 build-insider-follow.py
+            python3 build-tape-split.py
 
             git add backtest.json insider-repeatable.json insider-follow.json insider-form4.json \
               insider-companies.json claims/companies.json claims/pinned-companies.json \
-              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md
+              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md \
+              tape/page.json tape/all.json tape/filers.json tape/kind tape/politicians tape/tickers \
+              landed.json heat.json
             if git diff --staged --quiet; then
               echo "no data changes"
               pushed="none"

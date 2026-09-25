@@ -11,7 +11,6 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
-  <link rel="preload" href="trades-lite.json" as="fetch" crossorigin>
   <title>Quantity Capital</title>
   <meta name="description" content="Official Senate, House, and White House STOCK Act / OGE 278-T tape. Amounts are ranges, not share counts." />
   <meta property="og:title" content="Quantity Capital" />
@@ -1597,7 +1596,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=164" />
+  <link rel="stylesheet" href="shell.css?v=168" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1873,7 +1872,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=125"></script>
+  <script src="qc.js?v=129"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2066,16 +2065,17 @@
       const moreRow = document.getElementById("more-row");
       const moreBtn = document.getElementById("show-all");
       const visible = deskRows;
+      const total = rows.qcTotal != null ? rows.qcTotal : rows.length;
       if (count) {
         count.hidden = !DESK_MQ.matches;
         count.textContent = DESK_MQ.matches
-          ? (visible.length === rows.length
-            ? rows.length + " trades"
-            : "Showing " + visible.length + " of " + rows.length + " trades")
+          ? (visible.length === total
+            ? total + " trades"
+            : "Showing " + visible.length + " of " + total + " trades")
           : "";
       }
       if (moreRow && moreBtn) {
-        moreRow.hidden = rows.length <= PAGE;
+        moreRow.hidden = total <= PAGE;
         moreBtn.textContent = showAll ? "Show first 120" : "Show full list";
       }
       box.innerHTML = visible.map((t) => {
@@ -2836,36 +2836,48 @@
       const box = document.getElementById("tape-list");
       if (!box) return;
       try {
-        const res = await fetch("trades-lite.json", { credentials: "omit" });
+        const res = await fetch("tape/page.json", { credentials: "omit" });
+        if (!res.ok) throw new Error("page");
         const data = await res.json();
         const asof = document.getElementById("asof");
         if (asof && data.collected) {
           asof.textContent = QC.asOfLabel(data.collected);
         }
-        let tickerFile = { tickers: {}, assets: {} };
-        try {
-          tickerFile = await (await fetch("tickers.json")).json();
-        } catch (e) {}
-        let bios = { people: {} };
-        try {
-          bios = await (await fetch("bios.json")).json();
-        } catch (e) {}
-        let tradersFile = { people: {} };
-        try {
-          tradersFile = await (await fetch("traders.json")).json();
-        } catch (e) {}
-        const rows = (data.trades || []).map((t) => enrich(t, tickerFile)).sort((a, b) => {
-          const td = (b.trade_date || "").localeCompare(a.trade_date || "");
-          return td !== 0 ? td : (b.filed_date || "").localeCompare(a.filed_date || "");
-        });
-        bindPicker(uniqueFilers(rows, bios));
-        bindDesk();
+        const kindPools = { stock: data.trades || [] };
+        let fullRows = null;
+        let fullPromise = null;
+        let applyToken = 0;
 
-        function kindPool() {
-          const kind = document.getElementById("filter-kind").value;
-          if (kind === "") return rows;
-          return rows.filter((t) => kindAllows(kind, t));
+        function kindKey(kind) {
+          return kind === "" ? "all" : (kind || "stock");
         }
+
+        async function rowsForKind(kind) {
+          const key = kindKey(kind);
+          if (kindPools[key]) return kindPools[key];
+          const kindRes = await fetch("tape/kind/" + key + ".json", { credentials: "omit" });
+          if (!kindRes.ok) throw new Error("kind");
+          const kindData = await kindRes.json();
+          kindPools[key] = kindData.trades || [];
+          return kindPools[key];
+        }
+
+        function ensureFull() {
+          if (fullRows) return Promise.resolve(fullRows);
+          if (!fullPromise) {
+            fullPromise = fetch("tape/all.json", { credentials: "omit" }).then((fullRes) => {
+              if (!fullRes.ok) throw new Error("tape");
+              return fullRes.json();
+            }).then((fullData) => {
+              fullRows = fullData.trades || [];
+              return fullRows;
+            });
+          }
+          return fullPromise;
+        }
+
+        bindPicker(data.filers || []);
+        bindDesk();
 
         function fillIndustries() {
           const sel = document.getElementById("filter-industry");
@@ -2914,14 +2926,26 @@
           if (p.get("landed") === "1") document.getElementById("filter-landed").checked = true;
         }
 
-        function apply() {
+        async function apply() {
+          const token = ++applyToken;
           const companyQ = document.getElementById("filter-company").value.trim().toLowerCase();
           const industry = document.getElementById("filter-industry").value;
           const side = document.getElementById("filter-side").value;
           const chamber = document.getElementById("filter-chamber").value;
           const onlyLanded = document.getElementById("filter-landed").checked;
           const kind = document.getElementById("filter-kind").value;
-          const pool = kindPool();
+          const needsFull = showAll || !!side || !!chamber || !!industry || !!companyQ || onlyLanded;
+          let sourceRows;
+          try {
+            sourceRows = needsFull ? await ensureFull() : await rowsForKind(kind);
+          } catch (err) {
+            if (token !== applyToken) return;
+            throw err;
+          }
+          if (token !== applyToken) return;
+          const pool = needsFull
+            ? sourceRows.filter((t) => kind === "" || kindAllows(kind, t))
+            : sourceRows;
           const filtered = pool.filter((t) => {
             if (side && t.side !== side) return false;
             if (chamber && (t.chamber || "") !== chamber) return false;
@@ -2933,6 +2957,10 @@
             }
             return true;
           });
+          if (!needsFull && data.totals) {
+            const n = data.totals[kindKey(kind)];
+            if (n != null) filtered.qcTotal = n;
+          }
           lastTapeView = { onlyLanded: onlyLanded, kind: kind };
           document.body.classList.toggle("tape-opt", kind === "option");
           writeFilters();
@@ -2959,8 +2987,8 @@
         fillIndustries();
         readFilters();
         fillIndustries();
-        apply();
-        bindBoard(buildBoards(rows, bios, tradersFile));
+        await apply();
+        bindBoard(data.boards || { activity: [], traders: [], conflicts: [], stocks: [] });
         markTapeReady();
       } catch (err) {
         bindPicker([]);

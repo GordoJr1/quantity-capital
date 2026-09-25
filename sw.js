@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v221";
+const CACHE = "qc-shell-v222";
 const SHELL = [
   "./",
   "./index.html",
@@ -6,54 +6,14 @@ const SHELL = [
   "./canada.html",
   "./claims.html",
   "./claims-db.html",
-  "./claims-db.js?v=1",
-  "./claims-db.js?v=2",
-  "./claims-db.js?v=3",
-  "./claims-db.js?v=4",
   "./claims-db.js?v=5",
   "./claims-neighbors.js?v=1",
-  "./claims-map.js?v=1",
-  "./claims-map.js?v=2",
-  "./claims-map.js?v=3",
-  "./claims-map.js?v=4",
-  "./claims-map.js?v=5",
-  "./claims-map.js?v=6",
-  "./claims-map.js?v=7",
-  "./claims-map.js?v=8",
-  "./claims-map.js?v=9",
-  "./claims-map.js?v=10",
-  "./claims-map.js?v=11",
-  "./claims-map.js?v=12",
-  "./claims-map.js?v=13",
-  "./claims-map.js?v=14",
-  "./claims-map.js?v=15",
-  "./claims-map.js?v=16",
-  "./claims-map.js?v=17",
-  "./claims-map.js?v=18",
-  "./claims-map.js?v=19",
-  "./claims-map.js?v=20",
-  "./claims-map.js?v=21",
   "./claims-map.js?v=22",
   "./shell.css",
-  "./shell.css?v=105",
-  "./shell.css?v=106",
-  "./shell.css?v=107",
-  "./shell.css?v=108",
-  "./shell.css?v=109",
-  "./shell.css?v=110",
-  "./shell.css?v=111",
-  "./shell.css?v=112",
   "./shell.css?v=113",
-  "./shell.css?v=158",
-  "./shell.css?v=159",
-  "./shell.css?v=160",
-  "./shell.css?v=161",
-  "./shell.css?v=162",
-  "./shell.css?v=163",
   "./shell.css?v=164",
   "./shell.css?v=165",
-  "./shell.css?v=166",
-  "./shell.css?v=167",
+  "./shell.css?v=168",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -69,37 +29,15 @@ const SHELL = [
   "./insider-checks.html",
   "./chart-revamp-mockups.html",
   "./qc.js",
-  "./qc.js?v=105",
-  "./qc.js?v=106",
   "./qc.js?v=107",
-  "./qc.js?v=108",
-  "./qc.js?v=109",
-  "./qc.js?v=110",
-  "./qc.js?v=111",
-  "./qc.js?v=112",
   "./qc.js?v=113",
-  "./qc.js?v=114",
-  "./qc.js?v=115",
-  "./qc.js?v=116",
-  "./qc.js?v=117",
-  "./qc.js?v=118",
-  "./qc.js?v=119",
-  "./qc.js?v=120",
-  "./qc.js?v=121",
-  "./qc.js?v=122",
-  "./qc.js?v=123",
   "./qc.js?v=124",
-  "./qc.js?v=125",
   "./qc.js?v=126",
-  "./qc.js?v=127",
   "./qc.js?v=128",
+  "./qc.js?v=129",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",
-  "./chart.js?v=118",
-  "./chart.js?v=119",
-  "./chart.js?v=120",
-  "./chart.js?v=121",
   "./chart.js?v=122",
   "./city.jpg?v=15",
   "./icons/icon-192.png",
@@ -145,7 +83,13 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  const isData = /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-follow|price-checks)\.json$/.test(url.pathname)
+  const isTrade = /(?:^|\/)(trades|trades-lite|landed|heat)\.json$/.test(url.pathname)
+    || /\/tape\/(?:page|all|filers)\.json$/.test(url.pathname)
+    || /\/tape\/kind\/[^/]+\.json$/.test(url.pathname)
+    || /\/tape\/politicians\/[^/]+\.json$/.test(url.pathname)
+    || /\/tape\/tickers\/[^/]+\.json$/.test(url.pathname);
+  const isData = isTrade
+    || /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-follow|price-checks)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname)
     || /(?:^|\/)beta\/[^/]+\.json$/.test(url.pathname)
     || /(?:^|\/)canada\/[^/]+\.json$/.test(url.pathname);
@@ -157,12 +101,34 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.endsWith("/shell.css")
     || url.pathname.endsWith("/qc.js")
     || url.pathname.endsWith("/chart.js");
+  function storeIfOk(res) {
+    if (res && res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+    }
+    return res;
+  }
+  // Trade files are network-first. A cached body must not win, and a failed
+  // response must not be stored.
+  if (isTrade) {
+    event.respondWith((async () => {
+      try {
+        const res = await fetch(event.request);
+        storeIfOk(res);
+        return res;
+      } catch (err) {
+        const cached = await caches.match(event.request);
+        if (cached) return cached;
+        throw err;
+      }
+    })());
+    return;
+  }
   if (isData) {
     event.respondWith((async () => {
       const cached = await caches.match(event.request);
       const network = fetch(event.request).then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        storeIfOk(res);
         return res;
       }).catch(() => cached);
       return cached || network;
@@ -173,8 +139,7 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       fetch(event.request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+          storeIfOk(res);
           return res;
         })
         .catch(() => caches.match(event.request))

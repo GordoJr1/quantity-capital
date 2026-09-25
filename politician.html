@@ -630,7 +630,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=167" />
+  <link rel="stylesheet" href="shell.css?v=168" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -708,7 +708,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=127"></script>
+  <script src="qc.js?v=129"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -716,7 +716,12 @@
     const issuerName = QC.issuerName;
     const OVERLAP_RULES = QC.OVERLAP_RULES;
     const overlapHit = QC.overlapHit;
-    const tickerInfo = QC.tickerInfo;
+    function tickerInfo(t, file) {
+      if (t && t.code && t.company) {
+        return { code: t.code, name: t.company, industry: t.industry || "—" };
+      }
+      return QC.tickerInfo(t, file);
+    }
     const cleanAsset = QC.cleanAsset;
     const amountHigh = QC.amountHigh;
     const formatMoney = QC.formatMoney;
@@ -1617,7 +1622,7 @@
     function paint(rows, lookup) {
       tickerLookup = lookup || {};
       allRows = rows || [];
-      tapeRows = (rows || []).map((t) => QC.enrich(t, tickerLookup));
+      tapeRows = (rows || []).map((t) => (t && t.code && t.company) ? t : QC.enrich(t, tickerLookup));
       if (rows[0]) document.getElementById("who").textContent = rows[0].filer;
       const stats = document.getElementById("stats");
       if (stats) {
@@ -1631,6 +1636,8 @@
     function filerName(fid, data, bios) {
       const person = (bios.people || {})[fid] || {};
       if (person.display || person.name) return person.display || person.name;
+      const listed = (data.filers || []).find((row) => row.id === fid);
+      if (listed && listed.name) return listed.name;
       const hit = (data.trades || []).find((row) => row.filer_id === fid);
       return (hit && hit.filer) || fid;
     }
@@ -1665,6 +1672,7 @@
 
     function suggestFilers(want, data, bios) {
       const known = new Set(Object.keys(bios.people || {}));
+      (data.ids || []).forEach((fid) => { if (fid) known.add(fid); });
       (data.trades || []).forEach((t) => { if (t.filer_id) known.add(t.filer_id); });
       const compact = compactId(want);
       const hits = [];
@@ -1707,10 +1715,9 @@
     }
 
     Promise.all([
-      fetch("trades.json").then((r) => r.json()),
       fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} })),
-      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} }))
-    ]).then(([data, bios, tickerFile]) => {
+      fetch("tape/filers.json").then((r) => r.ok ? r.json() : { filers: [], ids: [] })
+    ]).then(async ([bios, filerIndex]) => {
       const aliases = (bios && bios.aliases) || {};
       if (aliases[id]) {
         id = aliases[id];
@@ -1718,18 +1725,23 @@
         url.searchParams.set("id", id);
         history.replaceState(null, "", url.pathname + url.search + url.hash);
       }
+      let data = { trades: [], collected: filerIndex.collected || "" };
+      try {
+        const personRes = await fetch("tape/politicians/" + encodeURIComponent(id) + ".json");
+        if (personRes.ok) data = await personRes.json();
+      } catch (e) {}
       const asof = document.getElementById("asof");
-      if (asof) asof.textContent = QC.asOfLabel(data.collected);
+      if (asof) asof.textContent = QC.asOfLabel(data.collected || filerIndex.collected);
       const rows = threeYearRows(data);
       const bio = (bios.people || {})[id] || null;
       const fromTrades = (data.trades || []).find((t) => t.filer_id === id);
       if (!bio && !fromTrades && !rows.length) {
-        showMissing(id, suggestFilers(id, data, bios));
+        showMissing(id, suggestFilers(id, filerIndex, bios));
         return;
       }
-      paint(rows, tickerFile || {});
+      paint(rows, {});
       paintHeroFacts(bio);
-      paintBio(bio, findOverlaps(bio, rows, tickerFile || {}));
+      paintBio(bio, findOverlaps(bio, rows, {}));
       const bioPerson = (bios.people || {})[id] || {};
       const shown = (fromTrades && fromTrades.filer)
         || bioPerson.display

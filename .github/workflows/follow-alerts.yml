@@ -10,10 +10,17 @@ on:
     paths:
       - insider-trades-lite.json
       - insider-companies.json
+      - trades-lite.json
+      - trades.json
+      - tickers.json
+      - bios.json
+      - traders.json
       - claims/companies.json
       - claims/pinned-companies.json
       - build-insider-follow.py
       - build-insider-repeatable.py
+      - build-tape-split.py
+      - scripts/tape-split.mjs
       - collect/form4_enrich.py
       - scripts/merge_claims_insider_universe.py
       - .github/workflows/follow-alerts.yml
@@ -73,10 +80,13 @@ jobs:
 
             python3 build-insider-repeatable.py
             python3 build-insider-follow.py
+            python3 build-tape-split.py
 
             git add insider-form4.json insider-repeatable.json insider-follow.json \
               insider-companies.json claims/companies.json claims/pinned-companies.json \
-              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md
+              scripts/claims-insider-ticker-audit.csv scripts/claims-insider-ticker-audit.md \
+              tape/page.json tape/all.json tape/filers.json tape/kind tape/politicians tape/tickers \
+              landed.json heat.json
             if git diff --staged --quiet; then
               echo "no follow-list or universe changes"
               pushed="none"

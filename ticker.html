@@ -580,7 +580,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=162" />
+  <link rel="stylesheet" href="shell.css?v=168" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -637,7 +637,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=129"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -890,20 +890,13 @@
     }
 
     Promise.all([
-      fetch("trades.json").then((r) => r.json()),
-      fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null),
-      fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} }))
-    ]).then(([data, prices, tickerFile]) => {
+      fetch("tape/tickers/" + encodeURIComponent(ticker) + (/^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$/.test(ticker) ? "_" : "") + ".json").then((r) => r.ok ? r.json() : { trades: [] }),
+      fetch("prices/" + encodeURIComponent(ticker) + ".json").then((r) => r.ok ? r.json() : null).catch(() => null)
+    ]).then(([data, prices]) => {
       const asof = document.getElementById("asof");
       if (asof) asof.textContent = QC.asOfLabel(data.collected);
-      function tradeCode(t) {
-        const extra = ((tickerFile && tickerFile.assets) || {})[t.asset] || {};
-        const opt = optionMeta(t);
-        return (t.ticker || extra.ticker || opt.under || "").toUpperCase();
-      }
       const deals = (data.trades || []).filter((t) => {
         if ((t.side !== "purchase" && t.side !== "sale") || isBond(t)) return false;
-        if (tradeCode(t) !== ticker) return false;
         if (new Date(t.trade_date) < cutoff) return false;
         if (filerId && t.filer_id !== filerId) return false;
         return true;
@@ -918,7 +911,7 @@
         document.title = ticker + " — " + who + " — Quantity Capital";
       }
 
-      const tape = deals.map((t) => QC.enrich(t, tickerFile || {}));
+      const tape = deals.map((t) => (t && t.code && t.company) ? t : QC.enrich(t, {}));
       let showAllTape = false;
       function paintMarks() {
         const page = QC.TAPE_PAGE;

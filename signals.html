@@ -11,7 +11,6 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
-  <link rel="prefetch" href="trades-lite.json">
   <title>Heat — Quantity Capital</title>
   <meta name="description" content="Recency-weighted politician buy heat from official STOCK Act / OGE 278-T tape." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -445,7 +444,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=113" />
+  <link rel="stylesheet" href="shell.css?v=168" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -493,7 +492,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=124"></script>
+  <script src="qc.js?v=129"></script>
   <script>
     const MEGA = {
       AAPL: 1, MSFT: 1, NVDA: 1, AMZN: 1, GOOGL: 1, GOOG: 1, META: 1, TSLA: 1,
@@ -627,39 +626,55 @@
         "</div>" +
       "</article>";
     }
-    function resolveAnalysisName(row, tickerFile, trades) {
-      const meta = ((tickerFile || {}).tickers || {})[row.code] || {};
-      let name = QC.displayIssuer(row.code, row.name, meta.name);
-      if (!QC.isWeakIssuer(row.code, name)) return name;
-      const want = String(row.code || "").toUpperCase();
-      const rows = trades || [];
-      for (let i = 0; i < rows.length; i++) {
-        const t = rows[i];
-        if (String(t.ticker || "").toUpperCase() !== want) continue;
-        const fromAsset = QC.displayIssuer(row.code, t.asset, meta.name);
-        if (!QC.isWeakIssuer(row.code, fromAsset)) return fromAsset;
+    let heatPromise = null;
+    function loadHeat() {
+      if (!heatPromise) {
+        heatPromise = fetch("heat.json").then((r) => {
+          if (!r.ok) throw new Error("heat");
+          return r.json();
+        });
       }
+      return heatPromise;
+    }
+    function heatOf(row, now) {
+      const buyers = row.buyers || [];
+      let recency = 0;
+      buyers.forEach((b) => {
+        recency += Math.log10(1 + b.high / 1000) * decay(daysBetween(b.last, now));
+      });
+      recency += 0.1 * Math.max(0, buyers.reduce((n, b) => n + (b.nBuys || 0), 0) - buyers.length);
+      const nBuyers = buyers.length;
+      const months = Math.max(1, (now - QC.threeYearCutoff().getTime()) / (86400000 * 30));
+      const burst = 1 + Math.min(2, nBuyers / Math.max(0.35, (row.histBuys || 0) / months));
+      const mixed = row.sellHigh > 0 ? 0.82 : 1;
+      const conflict = buyers.some((b) => b.conflict);
+      return recency * (1 + Math.log(1 + nBuyers)) * mixed * (conflict ? 1.32 : 1) * burst * (row.mega ? 0.8 : 1);
+    }
+    function resolveAnalysisName(row, issuers) {
+      const named = (issuers || {})[row.code] || "";
+      const name = QC.displayIssuer(row.code, row.name, named);
+      if (name && !QC.isWeakIssuer(row.code, name)) return name;
+      if (named && !QC.isWeakIssuer(row.code, named)) return named;
       return name || row.name || row.code;
     }
     async function paintAnalysis() {
       const box = document.getElementById("book");
       const asof = document.getElementById("asof");
       try {
-        const [res, tickerFile, tape] = await Promise.all([
+        const [res, heatFile] = await Promise.all([
           fetch("analysis.json"),
-          fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {} })),
-          fetch("trades-lite.json").then((r) => r.json()).catch(() => ({ trades: [] }))
+          loadHeat().catch(() => ({ issuers: {} }))
         ]);
         if (!res.ok) throw new Error("no analysis");
         const data = await res.json();
         asof.textContent = asOfHeat(data.generated || data.tapeCollected);
         const book = (data.book || []).map((row) =>
-          Object.assign({}, row, { name: resolveAnalysisName(row, tickerFile, tape.trades) })
+          Object.assign({}, row, { name: resolveAnalysisName(row, heatFile.issuers) })
         );
         box.innerHTML = book.map(playCard).join("") ||
           "<p class=\"muted\">No book this update.</p>";
         const avoid = (data.avoid || []).map((row) =>
-          Object.assign({}, row, { name: resolveAnalysisName(row, tickerFile, tape.trades) })
+          Object.assign({}, row, { name: resolveAnalysisName(row, heatFile.issuers) })
         );
         const wrap = document.getElementById("avoid-wrap");
         wrap.hidden = avoid.length === 0;
@@ -986,15 +1001,17 @@
       const restLabel = document.getElementById("rest-label");
       heat.innerHTML = "<li class=\"muted\">Reading the tape…</li>";
       restLabel.hidden = true;
-      const [tape, tickerFile, bios] = await Promise.all([
-        fetch("trades-lite.json").then((r) => r.json()),
-        fetch("tickers.json").then((r) => r.json()).catch(() => ({ tickers: {}, assets: {} })),
-        fetch("bios.json").then((r) => r.json()).catch(() => ({ people: {} }))
-      ]);
+      const heatFile = await loadHeat();
       const asof = document.getElementById("asof");
-      if (asof && !asof.textContent) asof.textContent = asOfHeat(tape.collected);
+      if (asof && !asof.textContent) asof.textContent = asOfHeat(heatFile.collected || heatFile.generated);
       const now = Date.now();
-      let ranked = scoreRows(tape.trades || [], tickerFile, bios, now, windowDays);
+      let ranked = (heatFile.windows[String(windowDays)] || []).map((row) => {
+        return Object.assign({}, row, {
+          heat: heatOf(row, now),
+          fresh: daysBetween(row.lastBuy, now) <= 14
+        });
+      });
+      ranked.sort((a, b) => b.heat - a.heat || String(b.lastBuy || "").localeCompare(String(a.lastBuy || "")));
       if (hideMega) ranked = ranked.filter((r) => !r.mega);
       paintStats(ranked);
       if (!ranked.length) {

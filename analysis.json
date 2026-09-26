@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26T11:40:55.618037+00:00",
+  "generated": "2026-09-26T17:55:01.869884+00:00",
   "tapeCollected": "2026-09-26T11:20:17.422565+00:00",
   "priceAsof": "2026-09-25",
   "windowDays": 90,
@@ -187,64 +187,6 @@
         "Monthly intact"
       ],
       "rank": 3
-    },
-    {
-      "code": "INTC",
-      "name": "Intel Corporation",
-      "action": "buy-dip",
-      "score": 6.418,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 123.0,
-      "pxAsof": "2026-09-25",
-      "buyPx": 92.32,
-      "chgSinceBuy": 0.3323,
-      "lastBuy": "2026-07-24",
-      "nBuyers": 2,
-      "buyHigh": 1015000,
-      "heatRank": 81,
-      "heat": 0.186,
-      "landed": true,
-      "landedAt": "2026-08-25T11:17:22.724711+00:00",
-      "lagDays": 32,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": true,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Nancy Pelosi",
-          "id": "nancy-pelosi"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 44.6,
-        "sma20": 107.56,
-        "sma40": 81.58,
-        "vs20": 14.4,
-        "ret4w": 37.5,
-        "ret13w": -4.1,
-        "fromHigh": -8.2,
-        "trend": "UP",
-        "recentLow": 89.47
-      },
-      "monthly": {
-        "rsi": 74.0,
-        "sma10": 82.46,
-        "vs10": 49.2,
-        "trend": "UP"
-      },
-      "invalidation": 89.47,
-      "flags": [
-        "Landed",
-        "Whale",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 4
     }
   ],
   "avoid": [

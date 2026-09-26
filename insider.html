@@ -645,6 +645,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=165" />
+  <link rel="stylesheet" href="insider-track.css?v=4" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -672,6 +673,7 @@
       <p class="hero-facts" id="hero-facts" hidden></p>
       <p class="asof" id="asof"></p>
     </div>
+    <section class="qc-track" id="past-buys" hidden aria-label="Past buys"></section>
     <div class="stats" id="stats" hidden></div>
     <section class="holdings" id="holdings" hidden>
       <div class="link-bar" id="link-bar">
@@ -720,6 +722,7 @@
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
   <script src="qc.js?v=124"></script>
+  <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -737,6 +740,10 @@
     let id = new URLSearchParams(location.search).get("id");
     if (!id) {
       location.replace("insiders.html");
+    } else if (window.QCTrack) {
+      const startPast = () => QCTrack.mountPerson(document.getElementById("past-buys"), id);
+      if (typeof requestIdleCallback === "function") requestIdleCallback(startPast, { timeout: 2500 });
+      else setTimeout(startPast, 400);
     }
     const cutoff = new Date();
     cutoff.setFullYear(cutoff.getFullYear() - 3);

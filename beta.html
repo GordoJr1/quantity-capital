@@ -411,6 +411,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
+  <link rel="stylesheet" href="insider-track.css?v=4" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -433,7 +434,10 @@
     <div class="issuer-top">
       <div class="issuer-info">
         <p class="kicker">Beta</p>
-        <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+        <div class="qc-who-row">
+          <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+          <p class="qc-warn-host" id="warn-chip" hidden></p>
+        </div>
         <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
         <p class="asof" id="asof"></p>
         <p class="quiet" id="claims-line" hidden></p>
@@ -535,6 +539,10 @@
       <summary>Sold / residual</summary>
       <div class="body" id="exited"></div>
     </details>
+    <details class="qc-track-fold" id="insider-activity" hidden>
+      <summary>Insider activity</summary>
+      <div class="qc-track qc-track-body" data-track-body></div>
+    </details>
   </div>
   <footer>
     <div class="wrap">
@@ -545,6 +553,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
+  <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const DASH = "—";
@@ -2406,6 +2415,31 @@
       paintCards();
       paintValeLayout();
       paintMinesInset();
+      paintInsiderActivity();
+    }
+    function historyTickers() {
+      const out = [];
+      const seen = {};
+      function add(code) {
+        const t = String(code || "").trim();
+        if (!t || seen[t]) return;
+        seen[t] = true;
+        out.push(t);
+      }
+      const tks = ((profile && profile.issuer) || {}).tickers || [];
+      tks.forEach((row) => {
+        const href = row && row.chart ? String(row.chart) : "";
+        const m = href.match(/[?&]t=([^&]+)/i);
+        if (m) add(decodeURIComponent(m[1]));
+      });
+      tks.forEach((row) => add(row && row.symbol));
+      return out;
+    }
+    function paintInsiderActivity() {
+      if (!window.QCTrack) return;
+      const tickers = historyTickers();
+      QCTrack.mountCompany(document.getElementById("insider-activity"), tickers);
+      QCTrack.mountWarnChip(document.getElementById("warn-chip"), tickers);
     }
     function pickerRows() {
       if (state.layer === "claims") {

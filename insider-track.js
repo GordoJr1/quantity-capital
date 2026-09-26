@@ -195,16 +195,41 @@
     });
   }
 
+  function warnClipRight(btn) {
+    var row = btn.closest ? btn.closest("li") : null;
+    var narrow = (global.innerWidth || 0) <= 899;
+    if (narrow && row) {
+      var limit = null;
+      var stops = [row.querySelector(".qc-txn-chip"), row.querySelector(".qc-txn-hero")];
+      stops.forEach(function (el) {
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        if (rect.width < 1 || rect.height < 1) return;
+        var edge = rect.left - 2;
+        if (limit == null || edge < limit) limit = edge;
+      });
+      if (limit != null) return limit;
+    }
+    var node = btn.parentElement;
+    while (node && node !== row) {
+      var ox = global.getComputedStyle(node).overflowX;
+      if (ox && ox !== "visible") return node.getBoundingClientRect().right;
+      node = node.parentElement;
+    }
+    return btn.parentElement ? btn.parentElement.getBoundingClientRect().right : null;
+  }
+
   function fitWarnChips(root) {
-    if (!root) return;
-    var narrow = global.matchMedia && global.matchMedia("(max-width: 899px)").matches;
-    root.querySelectorAll(".qc-warn-chip").forEach(function (btn) {
-      btn.classList.remove("is-dot");
-      if (!narrow) return;
-      var cell = btn.parentElement;
-      if (!cell) return;
-      if (btn.offsetLeft + btn.offsetWidth > cell.clientWidth + 1) btn.classList.add("is-dot");
-    });
+    if (!root || !root.querySelectorAll) return;
+    var chips = root.querySelectorAll("button.qc-warn-chip");
+    var i;
+    for (i = 0; i < chips.length; i++) chips[i].classList.remove("is-dot");
+    for (i = 0; i < chips.length; i++) {
+      var btn = chips[i];
+      var limit = warnClipRight(btn);
+      if (limit == null) continue;
+      if (btn.getBoundingClientRect().right > limit + 1) btn.classList.add("is-dot");
+    }
   }
 
   function stampTape(rows, root) {
@@ -218,11 +243,10 @@
       if (token !== stampToken) return;
       if (pair[0]) applyTags(list, pair[0], host);
       if (pair[1]) applyWarnTags(list, pair[1], host);
-      if (global.requestAnimationFrame) {
-        global.requestAnimationFrame(function () { fitWarnChips(host); });
-      } else {
-        fitWarnChips(host);
-      }
+      var fit = function () { fitWarnChips(host); };
+      if (global.requestAnimationFrame) global.requestAnimationFrame(fit);
+      else fit();
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
     });
   }
 
@@ -550,6 +574,12 @@
     return html;
   }
 
+  function idleJson(url) {
+    return new Promise(function (resolve) {
+      whenIdle(function () { loadJson(url).then(resolve); });
+    });
+  }
+
   function companyHasSignal(list) {
     return Promise.all([
       historyIndex(),
@@ -561,7 +591,9 @@
         var code = String(list[i] || "").toUpperCase();
         if (listed[code] || tags[code]) return true;
       }
-      return false;
+      return idleJson("insider-warnings.json").then(function (pack) {
+        return !!warnEntry(pack, list);
+      });
     });
   }
 
@@ -570,7 +602,7 @@
     var target = body || el;
     return Promise.all([
       firstHistory(list),
-      loadJson("insider-warnings.json")
+      idleJson("insider-warnings.json")
     ]).then(function (pair) {
       if (el._g !== gen) return;
       var hist = pair[0];

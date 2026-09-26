@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <title>Contracts — Quantity Capital</title>
+  <meta name="description" content="US federal prime contract awards matched to companies on the Quantity Capital tape." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--white);
+      background:
+        linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+        url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    h1, h2, .kicker {
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .kicker { color: var(--caution); margin: 8px 0 4px; font-size: 0.9rem; }
+    h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 0.9; font-weight: 700; }
+    h2 { margin: 22px 0 8px; color: var(--paper); font-size: 1.15rem; }
+    .lede { color: var(--paper); max-width: 68ch; margin: 8px 0 14px; line-height: 1.45; }
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid #4a5563; background: var(--panel); margin: 0 0 8px;
+    }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; }
+    .stat:last-child { border-right: 0; }
+    .stat b {
+      display: block; font-family: "Barlow Condensed", sans-serif;
+      font-size: 1.6rem; color: var(--caution); letter-spacing: 0.04em;
+    }
+    .stat span { color: var(--mute); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .table-wrap { overflow-x: auto; border: 1px solid #4a5563; background: var(--panel); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #3a4452; vertical-align: baseline; font-size: 0.88rem; }
+    th {
+      color: var(--mute); font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; font-size: 0.78rem;
+    }
+    td.num, th.num { text-align: right; font-family: "JetBrains Mono", monospace; font-size: 0.82rem; white-space: nowrap; }
+    td.num { color: var(--caution); }
+    a.tk {
+      color: var(--white); text-decoration: none;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; font-size: 1.05rem;
+    }
+    a.tk:hover { color: var(--teal); }
+    .desc { color: var(--paper); }
+    .unlinked { background: #1a212b; }
+    .unlinked td.num { color: var(--paper); }
+    .note { color: var(--mute); margin: 8px 0 18px; }
+    footer { border-top: 2px solid var(--caution); margin-top: 28px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 16px 0 28px;
+      color: var(--mute); font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: var(--caution); }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 20px); }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
+      .stat:last-child { border-bottom: 0; }
+      h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+    }
+  </style>
+  <link rel="stylesheet" href="shell.css?v=168" />
+</head>
+<body>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Federal contracts">
+        <a href="contracts.html" class="on" aria-current="page" title="Federal contract awards">Contracts</a>
+      </nav>
+      <div class="qc-modes">
+        <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+        <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
+        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+      </div>
+    </div>
+  </header>
+  <div class="wrap" id="main">
+    <p class="kicker">USAspending · date signed</p>
+    <h1>Contracts</h1>
+    <p class="lede">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up.</p>
+    <p class="asof" id="asof"></p>
+    <div class="stats" id="stats">
+      <div class="stat"><b>—</b><span>matched awards</span></div>
+      <div class="stat"><b>—</b><span>matched trailing</span></div>
+      <div class="stat"><b>—</b><span>unlinked, $10M+</span></div>
+    </div>
+    <h2>Upcoming</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Deadline</th><th>Agency</th><th>Description</th><th>Ticker</th></tr>
+        </thead>
+        <tbody id="upcoming"><tr><td colspan="4" class="note">Loading upcoming…</td></tr></tbody>
+      </table>
+    </div>
+    <h2>Recent awards</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Agency</th><th>Recipient</th><th>Ticker</th><th class="num">Amount</th><th>Description</th></tr>
+        </thead>
+        <tbody id="awards"><tr><td colspan="6" class="note">Loading awards…</td></tr></tbody>
+      </table>
+    </div>
+    <h2>Trailing book</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Ticker</th><th>Company</th><th class="num">Awards</th><th class="num">Trailing</th></tr>
+        </thead>
+        <tbody id="companies"><tr><td colspan="4" class="note">Loading companies…</td></tr></tbody>
+      </table>
+    </div>
+    <h2>Unlinked · $10 million and up</h2>
+    <div class="table-wrap">
+      <table class="unlinked">
+        <thead>
+          <tr><th>Date</th><th>Agency</th><th>Recipient</th><th class="num">Amount</th><th>Description</th></tr>
+        </thead>
+        <tbody id="unlinked"><tr><td colspan="5" class="note">Loading unlinked awards…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap">
+      <span>© Quantity Capital</span>
+      <a href="mailto:gordojr@proton.me">Transmit</a>
+    </div>
+  </footer>
+  <script src="qc.js?v=129"></script>
+  <script>
+    function money(n) {
+      if (n == null || !isFinite(Number(n))) return "—";
+      return "$" + Math.round(Number(n)).toLocaleString("en-US");
+    }
+    function compact(n) {
+      var v = Number(n);
+      if (!isFinite(v)) return "—";
+      var sign = v < 0 ? "-" : "";
+      var a = Math.abs(v);
+      if (a >= 1e9) return sign + "$" + (a / 1e9).toFixed(2) + "B";
+      if (a >= 1e6) return sign + "$" + (a / 1e6).toFixed(1) + "M";
+      return money(v);
+    }
+    function tickerLink(t) {
+      if (!t) return "";
+      return "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(t) + "\">" + QC.esc(t) + "</a>";
+    }
+    function cells(cols) {
+      return "<tr>" + cols.join("") + "</tr>";
+    }
+    function td(text, cls) {
+      return "<td" + (cls ? " class=\"" + cls + "\"" : "") + ">" + text + "</td>";
+    }
+    function emptyRow(cols, message) {
+      return "<tr><td colspan=\"" + cols + "\" class=\"note\">" + QC.esc(message) + "</td></tr>";
+    }
+    function failSoft(message) {
+      document.getElementById("asof").textContent = message;
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>—</b><span>matched awards</span></div>" +
+        "<div class=\"stat\"><b>—</b><span>matched trailing</span></div>" +
+        "<div class=\"stat\"><b>—</b><span>unlinked, $10M+</span></div>";
+      document.getElementById("upcoming").innerHTML = emptyRow(4, message);
+      document.getElementById("awards").innerHTML = emptyRow(6, message);
+      document.getElementById("companies").innerHTML = emptyRow(4, message);
+      document.getElementById("unlinked").innerHTML = emptyRow(5, message);
+    }
+    function paint(data) {
+      var awards = data.awards || [];
+      var companies = data.companies || [];
+      var unlinked = (data.unlinked || []).filter(function (row) {
+        return Number(row.amount) >= 10000000;
+      });
+      var trailing = companies.reduce(function (sum, row) { return sum + (Number(row.trailing_total) || 0); }, 0);
+      var upcoming = data.upcoming || [];
+      document.getElementById("asof").textContent = QC.asOfLabel(data.generated) || "Contracts file loaded.";
+      document.getElementById("stats").innerHTML =
+        "<div class=\"stat\"><b>" + awards.length + "</b><span>matched awards</span></div>" +
+        "<div class=\"stat\"><b>" + compact(trailing) + "</b><span>matched trailing</span></div>" +
+        "<div class=\"stat\"><b>" + unlinked.length + "</b><span>unlinked, $10M+</span></div>";
+      document.getElementById("upcoming").innerHTML = upcoming.length ? upcoming.map(function (row) {
+        return cells([
+          td(QC.esc(row.deadline || "")),
+          td(QC.esc(row.agency || "")),
+          td(QC.esc(row.description || ""), "desc"),
+          td(tickerLink(row.ticker))
+        ]);
+      }).join("") : emptyRow(4, "No upcoming notice in this file.");
+      document.getElementById("awards").innerHTML = awards.length ? awards.map(function (row) {
+        return cells([
+          td(QC.esc(row.date || "")),
+          td(QC.esc(row.agency || "")),
+          td(QC.esc(row.recipient || "")),
+          td(tickerLink(row.ticker)),
+          td(money(row.amount), "num"),
+          td(QC.esc(row.description || ""), "desc")
+        ]);
+      }).join("") : emptyRow(6, "No matched awards in this file.");
+      document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
+        return cells([
+          td(tickerLink(row.ticker)),
+          td(QC.esc(row.name || "")),
+          td(String(row.awards || 0), "num"),
+          td(money(row.trailing_total), "num")
+        ]);
+      }).join("") : emptyRow(4, "No matched company in this file.");
+      document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
+        return cells([
+          td(QC.esc(row.date || "")),
+          td(QC.esc(row.agency || "")),
+          td(QC.esc(row.recipient || "")),
+          td(money(row.amount), "num"),
+          td(QC.esc(row.description || ""), "desc")
+        ]);
+      }).join("") : emptyRow(5, "No unlinked award at $10 million or above.");
+    }
+    fetch("contracts.json").then(function (res) {
+      if (!res.ok) throw new Error("missing");
+      return res.json();
+    }).then(paint).catch(function () {
+      failSoft("Could not load contracts.json.");
+    });
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Federal contracts">
+    <a href="contracts.html" class="on" aria-current="page" title="Federal contract awards">Contracts</a>
+  </nav>
+</body>
+</html>

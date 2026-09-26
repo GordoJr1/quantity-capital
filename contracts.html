@@ -70,7 +70,7 @@
     .unlinked { background: #1a212b; }
     .unlinked td.num { color: var(--paper); }
     .note { color: var(--mute); margin: 8px 0 18px; }
-    .qc-mini-tag {
+    .qc-txn-tag.qc-mini-tag {
       text-transform: none;
       letter-spacing: 0.01em;
       font-family: "IBM Plex Sans", sans-serif;
@@ -78,11 +78,6 @@
       font-size: 0.62rem;
       line-height: 1.3;
       padding: 0 4px;
-      border: 1px solid #6b7582;
-      color: #c5cdd6;
-      background: transparent;
-      vertical-align: middle;
-      white-space: nowrap;
     }
     a.rowlink { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
     .sub {
@@ -135,7 +130,9 @@
     }
     @media (max-width: 420px) {
       .cap-pct { display: none; }
-      .awards .agency-name { display: none; }
+      .awards .agency-name-long { display: none; }
+      .awards td.agency { overflow: hidden; font-size: 0.68rem; line-height: 1.15; }
+      .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=168" />
@@ -184,6 +181,7 @@
         <tbody id="upcoming"><tr><td colspan="5" class="note">Loading upcoming…</td></tr></tbody>
       </table>
     </div>
+    <button type="button" class="more" id="show-rest-upcoming" hidden>Show the rest</button>
     <h2>Trailing book</h2>
     <div class="table-wrap">
       <table>
@@ -262,9 +260,10 @@
       return td("<a class=\"rowlink\" href=\"" + QC.esc(href) + "\" title=\"DoD announcement\">" + text + "</a>");
     }
     function agencyCell(row) {
-      var text = "<span class=\"agency-name\">" + QC.esc(row.agency || "") + "</span>";
-      if (row.source === "dod_announcement" && row.branch) {
-        text += " <span class=\"qc-mini-tag\">DoD · " + QC.esc(row.branch) + "</span>";
+      var covered = row.source === "dod_announcement" && row.branch;
+      var text = "<span class=\"agency-name" + (covered ? " agency-name-long" : "") + "\">" + QC.esc(row.agency || "") + "</span>";
+      if (covered) {
+        text += " <span class=\"qc-txn-tag qc-mini-tag\">DoD · " + QC.esc(row.branch) + "</span>";
       }
       return td(text, "agency");
     }
@@ -272,7 +271,7 @@
       var html = money(row.amount);
       if (row.source !== "dod_announcement") return td(html, "num");
       if (row.ceiling) {
-        html += " <span class=\"qc-mini-tag\" title=\"Headline figure is a contract ceiling, possibly shared among awardees; not money paid.\">ceiling</span>";
+        html += " <span class=\"qc-txn-tag qc-mini-tag\" title=\"Headline figure is a contract ceiling, possibly shared among awardees; not money paid.\">ceiling</span>";
       }
       if (row.obligated != null) {
         html += "<span class=\"sub\">" + compact(row.obligated) + " obligated at award</span>";
@@ -316,6 +315,7 @@
         "<div class=\"stat\"><b>—</b><span>matched trailing</span></div>" +
         "<div class=\"stat\"><b>—</b><span>unlinked, $10M+</span></div>";
       document.getElementById("show-rest").hidden = true;
+      document.getElementById("show-rest-upcoming").hidden = true;
       document.getElementById("upcoming").innerHTML = emptyRow(5, message);
       document.getElementById("awards").innerHTML = emptyRow(6, message);
       document.getElementById("companies").innerHTML = emptyRow(4, message);
@@ -350,7 +350,14 @@
       }
       rest.onclick = function () { drawAwards(true); };
       drawAwards(false);
-      document.getElementById("upcoming").innerHTML = upcoming.length ? upcoming.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
+      var restUpcoming = document.getElementById("show-rest-upcoming");
+      function drawUpcoming(all) {
+        var rows = all ? upcoming : upcoming.slice(0, 25);
+        document.getElementById("upcoming").innerHTML = rows.length ? rows.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
+        restUpcoming.hidden = all || upcoming.length <= 25;
+      }
+      restUpcoming.onclick = function () { drawUpcoming(true); };
+      drawUpcoming(false);
       document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
         return cells([
           td(tickerLink(row.ticker)),

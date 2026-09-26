@@ -205,7 +205,7 @@
         if (!el) return;
         var rect = el.getBoundingClientRect();
         if (rect.width < 1 || rect.height < 1) return;
-        var edge = rect.left - 2;
+        var edge = rect.left - 6;
         if (limit == null || edge < limit) limit = edge;
       });
       if (limit != null) return limit;
@@ -228,7 +228,7 @@
       var btn = chips[i];
       var limit = warnClipRight(btn);
       if (limit == null) continue;
-      if (btn.getBoundingClientRect().right > limit + 1) btn.classList.add("is-dot");
+      if (btn.getBoundingClientRect().right > limit) btn.classList.add("is-dot");
     }
   }
 
@@ -298,6 +298,14 @@
     } else {
       global.setTimeout(fn, 400);
     }
+  }
+
+  function afterLoadIdle(fn) {
+    if (document.readyState === "complete") {
+      whenIdle(fn);
+      return;
+    }
+    global.addEventListener("load", function () { whenIdle(fn); }, { once: true });
   }
 
   function indexByFiler() {
@@ -576,7 +584,7 @@
 
   function idleJson(url) {
     return new Promise(function (resolve) {
-      whenIdle(function () { loadJson(url).then(resolve); });
+      afterLoadIdle(function () { loadJson(url).then(resolve); });
     });
   }
 
@@ -591,9 +599,7 @@
         var code = String(list[i] || "").toUpperCase();
         if (listed[code] || tags[code]) return true;
       }
-      return idleJson("insider-warnings.json").then(function (pack) {
-        return !!warnEntry(pack, list);
-      });
+      return false;
     });
   }
 

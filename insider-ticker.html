@@ -585,7 +585,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=165" />
-  <link rel="stylesheet" href="insider-track.css?v=1" />
+  <link rel="stylesheet" href="insider-track.css?v=2" />
   <style id="qc-txn-v98">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -662,7 +662,10 @@
     <div class="ticker-head">
       <div>
         <p class="kicker" id="kicker">Ticker</p>
-        <h1 id="who">—</h1>
+        <div class="qc-who-row">
+          <h1 id="who">—</h1>
+          <p class="qc-warn-host" id="warn-chip" hidden></p>
+        </div>
         <p id="empty-filings" class="qc-empty-filings-wrap" hidden></p>
       </div>
       <div class="price-pill" id="price-pill" hidden>
@@ -694,14 +697,20 @@
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
   <script src="qc.js?v=126"></script>
-  <script src="insider-track.js?v=1"></script>
+  <script src="insider-track.js?v=2"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
     const ticker = String(params.get("t") || "").toUpperCase();
     const filerId = params.get("id") || "";
     if (!ticker) location.replace("insiders.html");
-    else if (window.QCTrack) QCTrack.mountCompany(document.getElementById("co-history"), [ticker]);
+    else if (window.QCTrack) {
+      QCTrack.mountCompany(document.getElementById("co-history"), [ticker]);
+      const chipHost = document.getElementById("warn-chip");
+      const paintChip = () => QCTrack.mountWarnChip(chipHost, [ticker]);
+      if (typeof requestAnimationFrame === "function") requestAnimationFrame(paintChip);
+      else paintChip();
+    }
 
     const esc = QC.esc;
     const amountHigh = QC.amountHigh;

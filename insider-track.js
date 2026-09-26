@@ -139,15 +139,141 @@
     });
   }
 
+  var WARN_LABEL = {
+    financing: "Financing",
+    insider_sale: "Insider sale",
+    sell_after_buy: "Sold after buy"
+  };
+
+  function warnClass(strength) {
+    if (strength === "strong") return "is-strong";
+    if (strength === "weak") return "is-weak";
+    return "is-mod";
+  }
+
+  function warnButton(tag, ticker) {
+    var label = WARN_LABEL[tag && tag.t];
+    if (!label) return null;
+    var n = Number(tag.n);
+    if (!isFinite(n) || n < 1) n = 1;
+    var filed = tag.d ? dateText(tag.d) : "";
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "qc-txn-tag qc-mini-tag qc-warn-chip " + warnClass(tag.s);
+    btn.setAttribute("data-warn", ticker);
+    btn.setAttribute("data-n", String(n));
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", label + (filed && filed !== "\u2014" ? ", filed " + filed : ""));
+    var text = document.createElement("span");
+    text.className = "qc-warn-label";
+    text.textContent = label + (n > 1 ? " +" + (n - 1) : "");
+    btn.appendChild(text);
+    return btn;
+  }
+
+  function applyWarnTags(rows, data, root) {
+    if (!root) return;
+    var tags = (data && data.tags) || null;
+    root.querySelectorAll(".qc-warn-chip").forEach(function (el) {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    });
+    if (!tags) return;
+    var byId = {};
+    (rows || []).forEach(function (t) {
+      if (t && t.id != null) byId[String(t.id)] = t;
+    });
+    root.querySelectorAll(".qc-txn-tape").forEach(function (el) {
+      var t = byId[el.getAttribute("data-id") || ""];
+      if (!t) return;
+      var tk = String(t.ticker || "").toUpperCase();
+      var tag = tags[tk];
+      if (!tag) return;
+      var cell = el.querySelector(".qc-txn-company .qc-txn-tk") || el.querySelector(".qc-txn-tk");
+      if (!cell) return;
+      var btn = warnButton(tag, tk);
+      if (btn) cell.appendChild(btn);
+    });
+  }
+
+  function fitWarnChips(root) {
+    if (!root) return;
+    var narrow = global.matchMedia && global.matchMedia("(max-width: 899px)").matches;
+    root.querySelectorAll(".qc-warn-chip").forEach(function (btn) {
+      btn.classList.remove("is-dot");
+      if (!narrow) return;
+      var cell = btn.parentElement;
+      if (!cell) return;
+      if (btn.offsetLeft + btn.offsetWidth > cell.clientWidth + 1) btn.classList.add("is-dot");
+    });
+  }
+
   function stampTape(rows, root) {
     var token = ++stampToken;
     var list = rows || [];
     var host = root || document.getElementById("rows");
-    loadJson("insider-basket-tags.json").then(function (data) {
+    Promise.all([
+      loadJson("insider-basket-tags.json"),
+      loadJson("insider-warning-tags.json")
+    ]).then(function (pair) {
       if (token !== stampToken) return;
-      if (!data) return;
-      applyTags(list, data, host);
+      if (pair[0]) applyTags(list, pair[0], host);
+      if (pair[1]) applyWarnTags(list, pair[1], host);
+      if (global.requestAnimationFrame) {
+        global.requestAnimationFrame(function () { fitWarnChips(host); });
+      } else {
+        fitWarnChips(host);
+      }
     });
+  }
+
+  function tickerList(tickers) {
+    var list = [];
+    var seen = {};
+    (tickers || []).forEach(function (t) {
+      var code = String(t || "").trim();
+      if (!code || seen[code.toUpperCase()]) return;
+      seen[code.toUpperCase()] = true;
+      list.push(code);
+    });
+    return list;
+  }
+
+  function mountWarnChip(host, tickers) {
+    if (!host) return;
+    var list = tickerList(tickers);
+    var key = list.join("|");
+    if (host.getAttribute("data-key") === key && host.getAttribute("data-set") === "1") return;
+    host.setAttribute("data-key", key);
+    host.setAttribute("data-set", "1");
+    var gen = (host._g = (host._g || 0) + 1);
+    host.hidden = true;
+    host.innerHTML = "";
+    loadJson("insider-warning-tags.json").then(function (data) {
+      if (host._g !== gen) return;
+      var tags = data && data.tags;
+      if (!tags) return;
+      var hit = null;
+      var code = "";
+      list.forEach(function (t) {
+        if (hit) return;
+        var up = t.toUpperCase();
+        if (tags[up]) { hit = tags[up]; code = up; }
+        else if (tags[t]) { hit = tags[t]; code = up || t; }
+      });
+      if (!hit) return;
+      var btn = warnButton(hit, code);
+      if (!btn) return;
+      host.appendChild(btn);
+      host.hidden = false;
+    });
+  }
+
+  function whenIdle(fn) {
+    if (typeof global.requestIdleCallback === "function") {
+      global.requestIdleCallback(fn, { timeout: 2500 });
+    } else {
+      global.setTimeout(fn, 400);
+    }
   }
 
   function indexByFiler() {
@@ -158,6 +284,14 @@
         if (row && row[0] && row[2]) map[String(row[0])] = row[2];
       });
       return map;
+    });
+  }
+
+  function filerHasFile(fid) {
+    var id = String(fid || "");
+    if (!id) return Promise.resolve(false);
+    return indexByFiler().then(function (map) {
+      return !!(map && map[id]);
     });
   }
 
@@ -233,15 +367,41 @@
     });
   }
 
-  function shortBlock(title, items, render) {
+  function shortBlock(title, items, render, cap) {
     var all = items || [];
     if (!all.length) return "";
-    var cap = 8;
+    var limit = cap > 0 ? cap : 8;
     var html = "<h3>" + esc(title) + "</h3><ul class=\"qc-flow\">" +
-      all.slice(0, cap).map(render).join("") + "</ul>";
-    var rest = all.slice(cap);
+      all.slice(0, limit).map(render).join("") + "</ul>";
+    var rest = all.slice(limit);
     if (rest.length) {
       html += "<div data-track-rest hidden><ul class=\"qc-flow\">" + rest.map(render).join("") + "</ul></div>" +
+        "<button type=\"button\" class=\"qc-track-more\" data-track-more>Show the rest</button>";
+    }
+    return html;
+  }
+
+  function cappedRows(headHtml, rows, cap) {
+    if (!rows || !rows.length) return "";
+    var limit = cap > 0 ? cap : rows.length;
+    var html = "<div class=\"qc-track-scroll\"><table>" + headHtml + "<tbody>" +
+      rows.slice(0, limit).join("") + "</tbody></table></div>";
+    var rest = rows.slice(limit);
+    if (rest.length) {
+      html += "<div data-track-rest hidden><div class=\"qc-track-scroll\"><table>" + headHtml + "<tbody>" +
+        rest.join("") + "</tbody></table></div></div>" +
+        "<button type=\"button\" class=\"qc-track-more\" data-track-more>Show the rest</button>";
+    }
+    return html;
+  }
+
+  function cappedOl(items, render, cap) {
+    if (!items || !items.length) return "";
+    var limit = cap > 0 ? cap : items.length;
+    var html = "<ol class=\"qc-pos-list\">" + items.slice(0, limit).map(render).join("") + "</ol>";
+    var rest = items.slice(limit);
+    if (rest.length) {
+      html += "<div data-track-rest hidden><ol class=\"qc-pos-list\">" + rest.map(render).join("") + "</ol></div>" +
         "<button type=\"button\" class=\"qc-track-more\" data-track-more>Show the rest</button>";
     }
     return html;
@@ -255,6 +415,7 @@
     var n = data && data.summary && data.summary.n != null ? Number(data.summary.n) : ((data && data.buys) || []).length;
     var count = isFinite(n) ? (n + " insider " + (n === 1 ? "buy" : "buys")) : "";
     var countHtml = count ? "<p class=\"qc-track-line\">" + esc(count) + "</p>" : "";
+    var buyHead = "<thead><tr><th>Who</th><th>Role</th><th>Date</th><th class=\"num\">Amount</th><th class=\"num\">63d vs peers</th></tr></thead>";
     var buyRows = ((data && data.buys) || []).map(function (b) {
       var who = String((b && b.who) || "");
       var fid = String((b && b.fid) || "");
@@ -264,11 +425,8 @@
       return "<tr><td>" + whoHtml + "</td><td>" + esc((b && b.role) || "\u2014") + "</td><td>" +
         esc(dateText(b && b.td)) + "</td><td class=\"num\">" + esc(moneyText(b && b.usd)) + "</td>" +
         xpButton(b && b.xp63, b && b.r63) + "</tr>";
-    }).join("");
-    var buys = buyRows
-      ? "<h3>Insider buys</h3><div class=\"qc-track-scroll\"><table><thead><tr><th>Who</th><th>Role</th><th>Date</th><th class=\"num\">Amount</th><th class=\"num\">63d vs peers</th></tr></thead><tbody>" +
-        buyRows + "</tbody></table></div>"
-      : "";
+    });
+    var buys = buyRows.length ? "<h3>Insider buys</h3>" + cappedRows(buyHead, buyRows, 25) : "";
     var flowBlock = shortBlock("Sales and financings", data && data.sales_and_financings, function (s) {
       var words = exitWords(s && s.type);
       var who = String((s && s.who) || "");
@@ -277,12 +435,13 @@
         esc(who) + " \u00b7 " + esc(dateText(s && (s.td || s.fd))) + "</span></li>";
     });
     var paperBlock = shortBlock("Paper positions", data && data.paper_positions, function (p) {
+      var tag = (p && p.backfill) ? "<span class=\"qc-txn-tag qc-backfill-tag\">backfill</span>" : "";
+      var pending = p && p.status === "pending_entry" ? "<span class=\"qc-txn-tag qc-mini-tag\">Pending entry</span>" : "";
+      if (p && p.status === "pending_entry") return "<li>" + tag + pending + "</li>";
       var reason = exitWords(p && p.exit_reason);
       var when = esc(dateText(p && p.entry));
       if (p && p.exit) when += " \u2192 " + esc(dateText(p.exit));
       if (reason) when += " \u00b7 " + esc(reason);
-      var tag = (p && p.backfill) ? "<span class=\"qc-txn-tag qc-backfill-tag\">backfill</span>" : "";
-      var pending = p && p.status === "pending_entry" ? "<span class=\"qc-txn-tag qc-mini-tag\">Pending entry</span>" : "";
       return "<li><span class=\"qc-pos-meta\">entered " + when + "</span> " + tag + pending + "</li>";
     });
     return head + nameHtml +
@@ -290,54 +449,177 @@
       countHtml + buys + flowBlock + paperBlock;
   }
 
-  function firstHistory(tickers) {
-    var list = [];
-    var seen = {};
-    (tickers || []).forEach(function (t) {
-      var code = String(t || "").trim();
-      if (!code || seen[code]) return;
-      seen[code] = true;
-      list.push(code);
-    });
-    var i = 0;
-    function next() {
-      if (i >= list.length) return Promise.resolve(null);
-      var url = historyUrl(list[i++]);
-      if (!url) return next();
-      return loadJson(url).then(function (data) {
-        if (data && (data.buys || data.sales_and_financings || data.paper_positions || data.summary)) return data;
-        return next();
+  function historyIndex() {
+    return loadJson("insider-history/index.json").then(function (idx) {
+      var set = {};
+      if (!idx || !idx.rows) return set;
+      idx.rows.forEach(function (row) {
+        if (row && row[0]) set[String(row[0]).toUpperCase()] = true;
       });
+      return set;
+    });
+  }
+
+  function firstHistory(tickers) {
+    var list = tickerList(tickers);
+    return historyIndex().then(function (set) {
+      var listed = list.filter(function (t) { return set[t.toUpperCase()]; });
+      var i = 0;
+      function next() {
+        if (i >= listed.length) return Promise.resolve(null);
+        var url = historyUrl(listed[i++]);
+        if (!url) return next();
+        return loadJson(url).then(function (data) {
+          if (data && (data.buys || data.sales_and_financings || data.paper_positions || data.summary)) return data;
+          return next();
+        });
+      }
+      return next();
+    });
+  }
+
+  function sourceHref(w) {
+    var url = w && w.source_url ? String(w.source_url) : "";
+    if (url) return url;
+    var src = String((w && w.source) || "");
+    if (src.indexOf("https://") === 0) return src;
+    return "";
+  }
+
+  function warnEntry(pack, list) {
+    var book = pack && pack.tickers;
+    if (!book) return null;
+    for (var i = 0; i < list.length; i++) {
+      var code = String(list[i] || "").toUpperCase();
+      if (book[code]) return book[code];
+      if (book[list[i]]) return book[list[i]];
     }
-    return next();
+    return null;
+  }
+
+  function warnItems(items, render, cap) {
+    var all = items || [];
+    if (!all.length) return "";
+    var limit = cap > 0 ? cap : 5;
+    var html = "<ul class=\"qc-flow\">" + all.slice(0, limit).map(render).join("") + "</ul>";
+    var rest = all.slice(limit);
+    if (rest.length) {
+      html += "<div data-track-rest hidden><ul class=\"qc-flow\">" + rest.map(render).join("") + "</ul></div>" +
+        "<button type=\"button\" class=\"qc-track-more\" data-track-more>Show the rest</button>";
+    }
+    return html;
+  }
+
+  function warningsBlock(pack, entry) {
+    var all = (entry && entry.warnings) || [];
+    var main = [];
+    var info = [];
+    all.forEach(function (w) {
+      if (!w) return;
+      if (w.strength === "info" || w.type === "placement") info.push(w);
+      else main.push(w);
+    });
+    if (!main.length && !info.length) return "";
+    var html = "<h3>Warnings (last 180 days)</h3>";
+    if (pack && pack.disclaimer) html += "<p class=\"qc-track-note\">" + esc(pack.disclaimer) + "</p>";
+    html += warnItems(main, function (w) {
+      var label = WARN_LABEL[w.type] || "";
+      var chip = label
+        ? "<span class=\"qc-txn-tag qc-mini-tag qc-warn-chip " + warnClass(w.strength) + "\">" + esc(label) + "</span> "
+        : "";
+      var href = sourceHref(w);
+      var link = "";
+      if (href) {
+        var text = w.source && String(w.source).indexOf("https://") !== 0 ? String(w.source) : "Source";
+        link = "<p class=\"qc-pos-meta\"><a href=\"" + esc(href) + "\" rel=\"noopener\">" + esc(text) + "</a></p>";
+      }
+      return "<li class=\"qc-warn-item\">" + chip +
+        "<span class=\"qc-pos-meta\">" + esc(dateText(w.date)) + "</span>" +
+        (w.detail ? "<p class=\"qc-pos-meta\">" + esc(w.detail) + "</p>" : "") +
+        (w.explain ? "<p class=\"qc-warn-explain\">" + esc(w.explain) + "</p>" : "") +
+        link + "</li>";
+    }, 5);
+    if (info.length) {
+      html += "<p class=\"qc-track-hint\">For information</p>" + warnItems(info, function (w) {
+        return "<li class=\"qc-warn-item\">" +
+          (w.detail ? "<p class=\"qc-pos-meta\">" + esc(w.detail) + "</p>" : "") +
+          (w.explain ? "<p class=\"qc-warn-explain\">" + esc(w.explain) + "</p>" : "") +
+          "</li>";
+      }, 5);
+    }
+    return html;
+  }
+
+  function companyHasSignal(list) {
+    return Promise.all([
+      historyIndex(),
+      loadJson("insider-warning-tags.json")
+    ]).then(function (pair) {
+      var listed = pair[0] || {};
+      var tags = (pair[1] && pair[1].tags) || {};
+      for (var i = 0; i < list.length; i++) {
+        var code = String(list[i] || "").toUpperCase();
+        if (listed[code] || tags[code]) return true;
+      }
+      return false;
+    });
+  }
+
+  function fillCompany(el, list, gen, heading) {
+    var body = el.querySelector("[data-track-body]");
+    var target = body || el;
+    return Promise.all([
+      firstHistory(list),
+      loadJson("insider-warnings.json")
+    ]).then(function (pair) {
+      if (el._g !== gen) return;
+      var hist = pair[0];
+      var entry = warnEntry(pair[1], list);
+      if (!hist && !entry) {
+        target.innerHTML = "";
+        el.hidden = true;
+        return;
+      }
+      var html = heading ? "<h2>Insider activity</h2>" : "";
+      if (entry) html += warningsBlock(pair[1], entry);
+      if (hist) html += companyHtml(hist, { heading: false });
+      target.innerHTML = html;
+      el.hidden = false;
+      el.setAttribute("data-filled", el.getAttribute("data-key") || "");
+    });
   }
 
   function mountCompany(el, tickers, opts) {
     if (!el) return;
     opts = opts || {};
-    var list = [];
-    var seen = {};
-    (tickers || []).forEach(function (t) {
-      var code = String(t || "").trim();
-      if (!code || seen[code]) return;
-      seen[code] = true;
-      list.push(code);
-    });
+    var list = tickerList(tickers);
     var key = list.join("|");
     if (el.getAttribute("data-key") === key) return;
     el.setAttribute("data-key", key);
+    el.removeAttribute("data-filled");
     var gen = (el._g = (el._g || 0) + 1);
     var body = el.querySelector("[data-track-body]");
     var target = body || el;
     el.hidden = true;
     target.innerHTML = "";
-    firstHistory(list).then(function (data) {
-      if (el._g !== gen) return;
-      if (!data) return;
-      var heading = el.tagName === "DETAILS" ? false : opts.heading !== false;
-      target.innerHTML = companyHtml(data, { heading: heading });
-      el.hidden = false;
-    });
+    var heading = el.tagName === "DETAILS" ? false : opts.heading !== false;
+    if (el.tagName === "DETAILS") {
+      if (!el._warnBound) {
+        el._warnBound = true;
+        el.addEventListener("toggle", function () {
+          if (!el.open) return;
+          if (el.getAttribute("data-filled") === el.getAttribute("data-key")) return;
+          fillCompany(el, tickerList((el.getAttribute("data-key") || "").split("|")), el._g, false);
+        });
+      }
+      companyHasSignal(list).then(function (show) {
+        if (el._g !== gen) return;
+        el.hidden = !show;
+        if (show && el.open) fillCompany(el, list, gen, false);
+      });
+      return;
+    }
+    fillCompany(el, list, gen, heading);
   }
 
   function stat(label, value) {
@@ -396,7 +678,7 @@
     var role = firstRole(row);
     var meta = [];
     if (role) meta.push(esc(role));
-    meta.push("entered " + esc(dateText(row && row.entry_date)));
+    if (!row || row.status !== "pending_entry") meta.push("entered " + esc(dateText(row && row.entry_date)));
     var held = daysText(row && row.days_held);
     if (held) meta.push(esc(held));
     return "<li class=\"qc-pos\"><div class=\"qc-pos-main\"><span class=\"qc-pos-tk\">" + tkHtml + coHtml + "</span>" +
@@ -470,7 +752,7 @@
     var open = data.basket || [];
     var openWrap = document.createElement("div");
     openWrap.innerHTML = "<h3>Open positions</h3>" + (open.length
-      ? "<ol class=\"qc-pos-list\">" + open.map(posHtml).join("") + "</ol>"
+      ? cappedOl(open, posHtml, 25)
       : "<p class=\"qc-track-line\">No open positions.</p>");
     el.appendChild(openWrap);
 
@@ -500,6 +782,11 @@
         backHtml += "<p class=\"qc-track-line\">Limitations</p><ul class=\"qc-limits\">" +
           limits.map(function (line) { return "<li>" + esc(line) + "</li>"; }).join("") + "</ul>";
       }
+      var notes = data.research_notes || [];
+      if (notes.length) {
+        backHtml += "<p class=\"qc-track-line\">Research notes</p><ul class=\"qc-limits\">" +
+          notes.map(function (line) { return "<li>" + esc(line) + "</li>"; }).join("") + "</ul>";
+      }
       inner.innerHTML = backHtml;
       fold.appendChild(inner);
       el.appendChild(fold);
@@ -520,6 +807,125 @@
     });
   }
 
+  var warnPop = null;
+  var warnHideTimer = 0;
+
+  function ensureWarnPop() {
+    if (warnPop) return warnPop;
+    warnPop = document.createElement("div");
+    warnPop.className = "qc-warn-pop";
+    warnPop.hidden = true;
+    warnPop.setAttribute("role", "tooltip");
+    document.body.appendChild(warnPop);
+    warnPop.addEventListener("mouseenter", function () { warnPop._hold = true; });
+    warnPop.addEventListener("mouseleave", function () {
+      warnPop._hold = false;
+      scheduleWarnHide();
+    });
+    return warnPop;
+  }
+
+  function placeWarnPop(btn) {
+    var pop = ensureWarnPop();
+    var rect = btn.getBoundingClientRect();
+    var width = Math.min(352, global.innerWidth - 16);
+    var left = Math.max(8, Math.min(rect.left, global.innerWidth - width - 8));
+    pop.style.width = width + "px";
+    pop.style.left = left + "px";
+    pop.style.top = Math.max(8, rect.bottom + 6) + "px";
+  }
+
+  function hideWarnPop() {
+    if (!warnPop) return;
+    warnPop.hidden = true;
+    warnPop._hold = false;
+    if (warnPop._btn) {
+      warnPop._btn.setAttribute("aria-expanded", "false");
+      warnPop._btn = null;
+    }
+  }
+
+  function scheduleWarnHide() {
+    global.clearTimeout(warnHideTimer);
+    warnHideTimer = global.setTimeout(function () {
+      if (warnPop && warnPop._hold) return;
+      hideWarnPop();
+    }, 160);
+  }
+
+  function warnNarrow() {
+    return global.matchMedia && global.matchMedia("(max-width: 899px)").matches;
+  }
+
+  function fillWarnPop(pop, btn, data) {
+    var ticker = btn.getAttribute("data-warn") || "";
+    var entry = data && data.tickers && (data.tickers[ticker] || data.tickers[ticker.toUpperCase()]);
+    var list = (entry && entry.warnings) || [];
+    var want = entry && entry.strongest;
+    var pick = null;
+    for (var i = 0; i < list.length; i++) {
+      if (!list[i] || list[i].strength === "info" || list[i].type === "placement") continue;
+      if (!pick) pick = list[i];
+      if (want && list[i].strength === want) { pick = list[i]; break; }
+    }
+    if (!pick) {
+      hideWarnPop();
+      return;
+    }
+    pop.innerHTML = "";
+    var explain = document.createElement("p");
+    explain.className = "qc-warn-explain";
+    explain.textContent = pick.explain || pick.detail || "";
+    pop.appendChild(explain);
+    var filed = document.createElement("p");
+    filed.className = "qc-pos-meta";
+    filed.textContent = "Filed " + dateText(pick.date);
+    pop.appendChild(filed);
+    var href = sourceHref(pick);
+    if (href) {
+      var link = document.createElement("a");
+      link.href = href;
+      link.rel = "noopener";
+      link.textContent = pick.source && String(pick.source).indexOf("https://") !== 0 ? String(pick.source) : "Source";
+      var line = document.createElement("p");
+      line.className = "qc-pos-meta";
+      line.appendChild(link);
+      pop.appendChild(line);
+    }
+    var extra = (Number(btn.getAttribute("data-n")) || 1) - 1;
+    if (extra > 0) {
+      var more = document.createElement("a");
+      more.href = "insider-ticker.html?t=" + encodeURIComponent(ticker);
+      more.textContent = extra + " more in the company panel";
+      var moreLine = document.createElement("p");
+      moreLine.className = "qc-pos-meta";
+      moreLine.appendChild(more);
+      pop.appendChild(moreLine);
+    }
+  }
+
+  function showWarnPop(btn) {
+    var pop = ensureWarnPop();
+    global.clearTimeout(warnHideTimer);
+    if (pop._btn && pop._btn !== btn) pop._btn.setAttribute("aria-expanded", "false");
+    pop._btn = btn;
+    pop._hold = false;
+    btn.setAttribute("aria-expanded", "true");
+    pop.hidden = false;
+    pop.innerHTML = "<p class=\"qc-warn-explain\">Loading\u2026</p>";
+    placeWarnPop(btn);
+    var gen = (pop._g = (pop._g || 0) + 1);
+    loadJson("insider-warnings.json").then(function (data) {
+      if (!pop || pop._g !== gen || pop._btn !== btn) return;
+      if (!data) {
+        hideWarnPop();
+        return;
+      }
+      fillWarnPop(pop, btn, data);
+      if (!pop.hidden) placeWarnPop(btn);
+    });
+  }
+
   document.addEventListener("click", function (ev) {
     var more = ev.target.closest && ev.target.closest("[data-track-more]");
     if (more) {
@@ -531,6 +937,19 @@
       more.textContent = opening ? "Show fewer" : "Show the rest";
       return;
     }
+    var warn = ev.target.closest && ev.target.closest("button.qc-warn-chip");
+    if (warn) {
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (warnNarrow()) {
+        if (warnPop && !warnPop.hidden && warnPop._btn === warn) hideWarnPop();
+        else showWarnPop(warn);
+      } else {
+        showWarnPop(warn);
+      }
+      return;
+    }
+    if (warnPop && !warnPop.hidden && !(ev.target.closest && ev.target.closest(".qc-warn-pop"))) hideWarnPop();
     var btn = ev.target.closest && ev.target.closest("button.qc-xp");
     if (!btn) return;
     if (global.matchMedia && global.matchMedia("(min-width: 900px)").matches) return;
@@ -538,10 +957,47 @@
     btn.setAttribute("aria-expanded", open ? "false" : "true");
   });
 
+  document.addEventListener("mouseover", function (ev) {
+    if (warnNarrow()) return;
+    var warn = ev.target.closest && ev.target.closest("button.qc-warn-chip");
+    if (!warn) return;
+    showWarnPop(warn);
+  });
+  document.addEventListener("mouseout", function (ev) {
+    if (warnNarrow()) return;
+    var warn = ev.target.closest && ev.target.closest("button.qc-warn-chip");
+    if (!warn) return;
+    var next = ev.relatedTarget;
+    if (next && warnPop && warnPop.contains(next)) return;
+    scheduleWarnHide();
+  });
+  document.addEventListener("focusin", function (ev) {
+    var warn = ev.target.closest && ev.target.closest("button.qc-warn-chip");
+    if (warn && !warnNarrow()) showWarnPop(warn);
+  });
+  document.addEventListener("focusout", function (ev) {
+    var warn = ev.target.closest && ev.target.closest("button.qc-warn-chip");
+    if (!warn || warnNarrow()) return;
+    var next = ev.relatedTarget;
+    if (next && warnPop && warnPop.contains(next)) return;
+    scheduleWarnHide();
+  });
+
+  if (global.addEventListener) {
+    global.addEventListener("resize", function () {
+      var rows = document.getElementById("rows");
+      if (rows) fitWarnChips(rows);
+      if (warnPop && !warnPop.hidden && warnPop._btn) placeWarnPop(warnPop._btn);
+    });
+  }
+
   global.QCTrack = {
     stampTape: stampTape,
     mountPerson: mountPerson,
     mountCompany: mountCompany,
-    mountBasket: mountBasket
+    mountBasket: mountBasket,
+    mountWarnChip: mountWarnChip,
+    filerHasFile: filerHasFile,
+    whenIdle: whenIdle
   };
 })(window);

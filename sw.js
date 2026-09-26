@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v226";
+const CACHE = "qc-shell-v227";
 const SHELL = [
   "./",
   "./index.html",
@@ -36,8 +36,8 @@ const SHELL = [
   "./qc.js?v=126",
   "./qc.js?v=128",
   "./qc.js?v=129",
-  "./insider-track.js?v=1",
-  "./insider-track.css?v=1",
+  "./insider-track.js?v=2",
+  "./insider-track.css?v=2",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",
@@ -85,7 +85,7 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.includes("/claims/tiles/") || url.pathname.endsWith(".pmtiles") || url.pathname.endsWith(".pmtiles.png") || url.pathname.includes("/.build/") || url.pathname.includes("/.db/")) {
     return;
   }
-  if (/\/insider-(signals|signals-ledger|basket-tags)\.json$/.test(url.pathname) || url.pathname.includes("/insider-track/") || url.pathname.includes("/insider-history/")) {
+  if (/\/insider-(signals|signals-ledger|basket-tags|warnings|warning-tags)\.json$/.test(url.pathname) || url.pathname.includes("/insider-track/") || url.pathname.includes("/insider-history/")) {
     return;
   }
 

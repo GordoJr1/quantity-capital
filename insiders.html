@@ -103,7 +103,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=164" />
-  <link rel="stylesheet" href="insider-track.css?v=1" />
+  <link rel="stylesheet" href="insider-track.css?v=2" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -629,7 +629,6 @@
     <p class="count" id="tape-count"></p>
     <section id="basket" class="qc-track" hidden>
       <h2>Basket</h2>
-      <p class="qc-track-caveat">Paper basket: a hypothetical, equal-weight tracking of a research rule. Not investment advice and not a recommendation. Expected difference vs similar companies in our research: only a few % a year, with wide uncertainty.</p>
       <div id="basket-body"></div>
     </section>
     <div class="desk" id="desk">
@@ -668,7 +667,7 @@
     </div>
   </footer>
   <script src="qc.js?v=126"></script>
-  <script src="insider-track.js?v=1"></script>
+  <script src="insider-track.js?v=2"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -838,27 +837,49 @@
       });
     }
 
+    let pastToken = 0;
+    let pastWant = false;
     function syncFocusPast(t) {
       const fold = document.getElementById("focus-past");
       const body = document.getElementById("focus-past-body");
       if (!fold || !body) return;
       const fid = t && t.filer_id ? String(t.filer_id) : "";
-      if (!fid) {
+      const desk = DESK_MQ.matches;
+      if (!fid || !desk || !window.QCTrack) {
         fold.hidden = true;
         return;
       }
       if (fold.getAttribute("data-fid") !== fid) {
         fold.setAttribute("data-fid", fid);
         fold.removeAttribute("data-empty");
+        fold.removeAttribute("data-ready");
         body.removeAttribute("data-fid");
         body.innerHTML = "";
+        fold.open = false;
       }
       if (fold.getAttribute("data-empty") === "1") {
         fold.hidden = true;
         return;
       }
-      fold.hidden = false;
-      if (fold.open) loadFocusPast(fid);
+      if (fold.getAttribute("data-ready") === "1") {
+        fold.hidden = false;
+        if (fold.open) loadFocusPast(fid);
+        return;
+      }
+      fold.hidden = true;
+      if (!pastWant && !userPicked) return;
+      const token = ++pastToken;
+      QCTrack.filerHasFile(fid).then((yes) => {
+        if (token !== pastToken || fold.getAttribute("data-fid") !== fid) return;
+        if (yes) {
+          fold.setAttribute("data-ready", "1");
+          fold.hidden = false;
+        } else {
+          fold.setAttribute("data-empty", "1");
+          fold.hidden = true;
+          fold.open = false;
+        }
+      });
     }
 
     function paint(rows, collectedAt, keepPick) {
@@ -1324,6 +1345,14 @@
       paint(all, collected);
     });
     const focusPast = document.getElementById("focus-past");
+    const focusEl = document.getElementById("focus");
+    if (focusEl) {
+      focusEl.addEventListener("pointerenter", () => {
+        if (pastWant) return;
+        pastWant = true;
+        syncFocusPast(activeTrade());
+      });
+    }
     if (focusPast) {
       focusPast.addEventListener("toggle", () => {
         if (!focusPast.open) return;

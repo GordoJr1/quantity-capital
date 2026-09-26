@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pull USAspending prime contracts into a local sqlite file and a thin JSON.
+"""Pull USAspending prime contracts and open SAM.gov notices into a local sqlite file and a thin JSON.
 
 Desktop collector only. Stdlib. No GitHub Action. The database stays beside
 the collector and is not committed. Pages reads contracts.json.
@@ -13,13 +13,17 @@ awards; a trailing year is 29,208 rows. This job takes a short recent window.
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import os
 import re
 import sqlite3
+import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -34,6 +38,8 @@ GROKS_JSON = GROKS / "contracts.json"
 STAMP = COLLECT / "raw" / "contracts-last.txt"
 TYPESAFE_ENV = Path.home() / ".grok" / "typesafe.env"
 API = "https://api.usaspending.gov/api/v2/search/spending_by_award/"
+SAM_API = "https://api.sam.gov/opportunities/v2/search"
+SAM_ENV = COLLECT / "sam-opportunities.env"
 JEV_URL = "https://api.typesafe.ai/v1/systemone"
 USER_AGENT = "quantity-capital-contracts/0.1"
 MATCHED_FLOOR = 1_000_000
@@ -43,7 +49,15 @@ TRAILING_DAYS = 365
 DESC_MAX = 160
 RECENT_CAP = 150
 UNLINKED_CAP = 80
+UPCOMING_CAP = 80
+UPCOMING_LIMIT = 25
+UPCOMING_POSTED_DAYS = 90
+UPCOMING_PTYPES = ("p", "o", "k", "r")
+# SAM rejects a from/to pair 365 days apart as more than one year.
+POSTED_MAX_DAYS = 364
 JEV_CAP = 12
+SAM_SKIP_LOG = "sam env missing; upcoming skipped"
+SAM_FAIL_LOG = "sam request failed"
 
 FIELDS = [
     "Award ID",
@@ -104,6 +118,87 @@ def clip_desc(value: str) -> str:
     if len(text) <= DESC_MAX:
         return text
     return text[: DESC_MAX - 1].rstrip() + "…"
+
+
+def _ymd(year: int, month: int, day: int) -> str:
+    try:
+        return datetime(year, month, day).strftime("%Y-%m-%d")
+    except ValueError:
+        return ""
+
+
+def parse_deadline_value(value: Any) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    iso = re.search(r"(\d{4})-(\d{2})-(\d{2})", text)
+    if iso:
+        return _ymd(int(iso.group(1)), int(iso.group(2)), int(iso.group(3)))
+    us = re.search(r"(\d{1,2})/(\d{1,2})/(\d{4})", text)
+    if us:
+        return _ymd(int(us.group(3)), int(us.group(1)), int(us.group(2)))
+    return ""
+
+
+def notice_deadline(row: dict[str, Any]) -> str:
+    """Prefer responseDeadLine, then the misspelled reponseDeadLine."""
+    for key in ("responseDeadLine", "reponseDeadLine"):
+        if key not in row:
+            continue
+        got = parse_deadline_value(row.get(key))
+        if got:
+            return got
+    return ""
+
+
+def is_award_notice(row: dict[str, Any]) -> bool:
+    for key in ("type", "baseType"):
+        if "award notice" in str(row.get(key) or "").casefold():
+            return True
+    return False
+
+
+def agency_from_path(path: str) -> str:
+    for segment in (path or "").split("."):
+        segment = segment.strip()
+        if segment:
+            return short_agency(segment)
+    return ""
+
+
+def day_floor(today: datetime) -> datetime:
+    return today.replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def posted_bounds(today: datetime, days: int = UPCOMING_POSTED_DAYS) -> tuple[datetime, datetime]:
+    """Posted window. SAM rejects a from/to span longer than one year."""
+    end = day_floor(today)
+    span = min(max(int(days), 0), POSTED_MAX_DAYS)
+    return end - timedelta(days=span), end
+
+
+def response_bounds(today: datetime) -> tuple[datetime, datetime]:
+    start = day_floor(today)
+    return start, start + timedelta(days=POSTED_MAX_DAYS)
+
+
+def mmddyyyy(day: datetime) -> str:
+    return day.strftime("%m/%d/%Y")
+
+
+def upcoming_public(row: dict[str, Any], today: str, ticker: str | None) -> dict[str, Any] | None:
+    """Thin JSON row. Title only; no notice id and no description URL."""
+    if is_award_notice(row):
+        return None
+    deadline = notice_deadline(row)
+    if not deadline or deadline < today:
+        return None
+    return {
+        "deadline": deadline,
+        "agency": agency_from_path(str(row.get("fullParentPathName") or "")),
+        "description": clip_desc(str(row.get("title") or "")),
+        "ticker": ticker or None,
+    }
 
 
 def clean_display(name: str) -> str:
@@ -270,6 +365,7 @@ def self_check() -> None:
     for amount, ticker, expect in filters:
         if keep_award(amount, ticker) is not expect:
             raise SystemExit(f"self-check filter failed amount={amount} ticker={ticker}")
+    _check_upcoming(cat)
     print("self-check ok", flush=True)
 
 
@@ -300,6 +396,16 @@ def connect(path: Path) -> sqlite3.Connection:
           choice TEXT,
           confidence REAL,
           asked_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS upcoming (
+          notice_id TEXT PRIMARY KEY,
+          deadline TEXT,
+          agency TEXT,
+          description TEXT,
+          ticker TEXT,
+          company TEXT,
+          match_how TEXT,
+          fetched_at TEXT
         );
         """
     )
@@ -438,6 +544,24 @@ def cache_key_for(recipient: str, candidates: list[dict[str, str]]) -> str:
     return norm_name(recipient) + "|" + tickers
 
 
+def collect_ambiguous(names: list[str], cat: Catalog) -> list[dict[str, Any]]:
+    """Jev only for ambiguous names. Exact and single-parent hits stay out."""
+    pending: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for name in names:
+        got = classify(name, cat)
+        if got.get("how") == "ambiguous" and got.get("candidates"):
+            key = cache_key_for(name, got["candidates"])
+            if key not in seen:
+                seen.add(key)
+                pending.append({
+                    "cache_key": key,
+                    "recipient": name,
+                    "candidates": got["candidates"],
+                })
+    return pending
+
+
 def resolve_row(recipient: str, cat: Catalog, conn: sqlite3.Connection) -> tuple[str | None, str, str]:
     got = classify(recipient, cat)
     if got.get("ticker"):
@@ -454,19 +578,7 @@ def resolve_row(recipient: str, cat: Catalog, conn: sqlite3.Connection) -> tuple
 
 def rematch(conn: sqlite3.Connection, cat: Catalog) -> None:
     rows = conn.execute("SELECT award_key, recipient, amount FROM awards").fetchall()
-    pending = []
-    seen: set[str] = set()
-    for row in rows:
-        got = classify(row["recipient"], cat)
-        if got.get("how") == "ambiguous" and got.get("candidates"):
-            key = cache_key_for(row["recipient"], got["candidates"])
-            if key not in seen:
-                seen.add(key)
-                pending.append({
-                    "cache_key": key,
-                    "recipient": row["recipient"],
-                    "candidates": got["candidates"],
-                })
+    pending = collect_ambiguous([str(row["recipient"] or "") for row in rows], cat)
     apply_jev(conn, pending)
     for row in rows:
         ticker, company, how = resolve_row(row["recipient"], cat, conn)
@@ -579,20 +691,7 @@ def date_of(row: dict[str, Any]) -> str:
 
 
 def store_rows(conn: sqlite3.Connection, rows: list[dict[str, Any]], cat: Catalog) -> None:
-    pending = []
-    seen: set[str] = set()
-    for row in rows:
-        recipient = str(row.get("Recipient Name") or "")
-        got = classify(recipient, cat)
-        if got.get("how") == "ambiguous" and got.get("candidates"):
-            key = cache_key_for(recipient, got["candidates"])
-            if key not in seen:
-                seen.add(key)
-                pending.append({
-                    "cache_key": key,
-                    "recipient": recipient,
-                    "candidates": got["candidates"],
-                })
+    pending = collect_ambiguous([str(row.get("Recipient Name") or "") for row in rows], cat)
     apply_jev(conn, pending)
     now = utc_now()
     for row in rows:
@@ -643,7 +742,205 @@ def store_rows(conn: sqlite3.Connection, rows: list[dict[str, Any]], cat: Catalo
     conn.commit()
 
 
-def export_json(conn: sqlite3.Connection, dests: list[Path], start: str, end: str) -> dict[str, Any]:
+def load_sam_key(path: Path | None = None, *, announce: bool = True) -> str:
+    """Read SAM_API_KEY from the env file. Never log the key or the request URL."""
+    env_path = SAM_ENV if path is None else path
+    if not env_path.is_file():
+        if announce:
+            print(SAM_SKIP_LOG, flush=True)
+        return ""
+    try:
+        text = env_path.read_text(encoding="utf-8")
+    except OSError:
+        if announce:
+            print(SAM_SKIP_LOG, flush=True)
+        return ""
+    found = ""
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, value = line.split("=", 1)
+        if name.strip() != "SAM_API_KEY":
+            continue
+        found = value.strip().strip('"').strip("'")
+        break
+    if not found and announce:
+        print(SAM_SKIP_LOG, flush=True)
+    return found
+
+
+def sam_params(
+    key: str,
+    today: datetime,
+    ptype: str,
+    limit: int,
+    offset: int,
+    posted_days: int,
+) -> dict[str, Any]:
+    posted_from, posted_to = posted_bounds(today, posted_days)
+    rdl_from, rdl_to = response_bounds(today)
+    return {
+        "api_key": key,
+        "postedFrom": mmddyyyy(posted_from),
+        "postedTo": mmddyyyy(posted_to),
+        "rdlfrom": mmddyyyy(rdl_from),
+        "rdlto": mmddyyyy(rdl_to),
+        "ptype": ptype,
+        "limit": limit,
+        "offset": offset,
+    }
+
+
+def sam_get(params: dict[str, Any]) -> tuple[dict[str, Any] | None, int]:
+    query = urllib.parse.urlencode({str(k): str(v) for k, v in params.items()})
+    req = urllib.request.Request(
+        SAM_API + "?" + query,
+        headers={"User-Agent": USER_AGENT},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            status = int(getattr(resp, "status", 200) or 200)
+            data = json.loads(resp.read().decode("utf-8"))
+            if not isinstance(data, dict):
+                return None, status or 0
+            return data, status
+    except urllib.error.HTTPError as exc:
+        code = int(getattr(exc, "code", 0) or 0)
+        try:
+            exc.close()
+        except Exception:
+            pass
+        return None, code
+    except Exception:
+        return None, 0
+
+
+def pull_upcoming(
+    key: str,
+    *,
+    today: datetime,
+    pages: int,
+    limit: int,
+    posted_days: int,
+    sleep_s: float,
+    getter,
+    sleeper,
+) -> tuple[list[dict[str, Any]], bool]:
+    """One ptype per request, offset pages. False means a request failed."""
+    rows: list[dict[str, Any]] = []
+    started = False
+    page_count = pages if pages > 0 else 1
+    for ptype in UPCOMING_PTYPES:
+        offset = 0
+        for _page in range(page_count):
+            if started:
+                sleeper(sleep_s)
+            started = True
+            params = sam_params(key, today, ptype, limit, offset, posted_days)
+            payload, status = getter(params)
+            if status in (429, 503):
+                print(f"sam {status}; retry once", flush=True)
+                sleeper(max(sleep_s, 2.0))
+                payload, status = getter(params)
+            if status != 200 or not isinstance(payload, dict):
+                print(f"{SAM_FAIL_LOG} {status}", flush=True)
+                return rows, False
+            batch = payload.get("opportunitiesData")
+            if not isinstance(batch, list):
+                print(f"{SAM_FAIL_LOG} {status}", flush=True)
+                return rows, False
+            rows.extend(item for item in batch if isinstance(item, dict))
+            if len(batch) < limit:
+                break
+            offset += limit
+    return rows, True
+
+
+def store_upcoming(
+    conn: sqlite3.Connection,
+    rows: list[dict[str, Any]],
+    cat: Catalog,
+    today: str,
+) -> int:
+    prepared: list[tuple[str, str, dict[str, Any]]] = []
+    for row in rows:
+        if not isinstance(row, dict) or is_award_notice(row):
+            continue
+        notice_id = str(row.get("noticeId") or "").strip()
+        if not notice_id:
+            continue
+        title = str(row.get("title") or "")
+        public = upcoming_public(row, today, None)
+        if not public:
+            continue
+        prepared.append((notice_id, title, public))
+    apply_jev(conn, collect_ambiguous([title for _notice, title, _public in prepared], cat))
+    now = utc_now()
+    kept = 0
+    for notice_id, title, public in prepared:
+        ticker, company, how = resolve_row(title, cat, conn)
+        conn.execute(
+            """
+            INSERT INTO upcoming (
+              notice_id, deadline, agency, description, ticker, company, match_how, fetched_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(notice_id) DO UPDATE SET
+              deadline=excluded.deadline,
+              agency=excluded.agency,
+              description=excluded.description,
+              ticker=excluded.ticker,
+              company=excluded.company,
+              match_how=excluded.match_how,
+              fetched_at=excluded.fetched_at
+            """,
+            (
+                notice_id,
+                public["deadline"],
+                public["agency"],
+                public["description"],
+                ticker,
+                company,
+                how,
+                now,
+            ),
+        )
+        kept += 1
+    conn.commit()
+    return kept
+
+
+def ingest_upcoming(conn: sqlite3.Connection, cat: Catalog, *, pages: int, sleep_s: float) -> None:
+    try:
+        key = load_sam_key()
+        if not key:
+            return
+        today = datetime.now()
+        rows, ok = pull_upcoming(
+            key,
+            today=today,
+            pages=pages,
+            limit=UPCOMING_LIMIT,
+            posted_days=UPCOMING_POSTED_DAYS,
+            sleep_s=sleep_s,
+            getter=sam_get,
+            sleeper=time.sleep,
+        )
+        stored = store_upcoming(conn, rows, cat, today.strftime("%Y-%m-%d"))
+        print(f"upcoming stored {stored}", flush=True)
+        if not ok:
+            print("sam upcoming incomplete", flush=True)
+    except Exception:
+        print("sam upcoming failed", flush=True)
+
+
+def export_json(
+    conn: sqlite3.Connection,
+    dests: list[Path],
+    start: str,
+    end: str,
+    today: str | None = None,
+) -> dict[str, Any]:
     end_dt = datetime.strptime(end, "%Y-%m-%d")
     trail_from = (end_dt - timedelta(days=TRAILING_DAYS - 1)).strftime("%Y-%m-%d")
     kept = conn.execute(
@@ -695,6 +992,26 @@ def export_json(conn: sqlite3.Connection, dests: list[Path], start: str, end: st
         }
         for row in companies_rows
     ]
+    today_iso = today or datetime.now().strftime("%Y-%m-%d")
+    upcoming_rows = conn.execute(
+        """
+        SELECT deadline, agency, description, ticker
+        FROM upcoming
+        WHERE deadline >= ?
+        ORDER BY deadline ASC, description ASC
+        LIMIT ?
+        """,
+        (today_iso, UPCOMING_CAP),
+    ).fetchall()
+    upcoming = [
+        {
+            "deadline": row["deadline"],
+            "agency": row["agency"],
+            "description": row["description"],
+            "ticker": row["ticker"] or None,
+        }
+        for row in upcoming_rows
+    ]
     matched = sum(1 for row in kept if row["ticker"])
     payload = {
         "generated": utc_now(),
@@ -712,6 +1029,7 @@ def export_json(conn: sqlite3.Connection, dests: list[Path], start: str, end: st
         "awards": awards,
         "companies": companies,
         "unlinked": unlinked,
+        "upcoming": upcoming,
     }
     text = json.dumps(payload, indent=2)
     for dest in dests:
@@ -739,6 +1057,313 @@ def count_report(conn: sqlite3.Connection) -> dict[str, int]:
     }
 
 
+def _assert_sam_query(params: dict[str, Any], *, ptype: str, offset: int, limit: int, key: str, today: datetime, posted_days: int) -> None:
+    required = {"api_key", "postedFrom", "postedTo", "rdlfrom", "rdlto", "ptype", "limit", "offset"}
+    if set(params) != required or "page" in params:
+        raise SystemExit("self-check sam query keys mismatch")
+    if params.get("api_key") != key or params.get("ptype") != ptype:
+        raise SystemExit("self-check sam query mismatch")
+    if params.get("offset") != offset or params.get("limit") != limit:
+        raise SystemExit("self-check sam paging mismatch")
+    for field in ("postedFrom", "postedTo", "rdlfrom", "rdlto"):
+        if not re.fullmatch(r"\d{2}/\d{2}/\d{4}", str(params.get(field) or "")):
+            raise SystemExit("self-check sam date format")
+    posted_from, posted_to = posted_bounds(today, posted_days)
+    rdl_from, rdl_to = response_bounds(today)
+    if params["postedFrom"] != mmddyyyy(posted_from) or params["postedTo"] != mmddyyyy(posted_to):
+        raise SystemExit("self-check posted window")
+    if (posted_to - posted_from).days > POSTED_MAX_DAYS:
+        raise SystemExit("self-check posted window")
+    if params["rdlfrom"] != mmddyyyy(rdl_from) or params["rdlto"] != mmddyyyy(rdl_to):
+        raise SystemExit("self-check response window")
+    if (rdl_to - rdl_from).days != POSTED_MAX_DAYS:
+        raise SystemExit("self-check response window")
+
+
+def _scripted_pull(
+    plan: list[tuple[str, int, int, dict[str, Any] | None]],
+    *,
+    pages: int,
+    limit: int,
+    posted_days: int = UPCOMING_POSTED_DAYS,
+) -> tuple[list[dict[str, Any]], bool, list[float]]:
+    today = datetime(2026, 9, 26, 15, 4)
+    key = "unit-test-key"
+    sleeps: list[float] = []
+    cursor = {"n": 0}
+
+    def getter(params: dict[str, Any]) -> tuple[dict[str, Any] | None, int]:
+        if cursor["n"] >= len(plan):
+            raise SystemExit("self-check sam extra request")
+        ptype, offset, status, payload = plan[cursor["n"]]
+        cursor["n"] += 1
+        _assert_sam_query(params, ptype=ptype, offset=offset, limit=limit, key=key, today=today, posted_days=posted_days)
+        return payload, status
+
+    def sleeper(seconds: float) -> None:
+        sleeps.append(seconds)
+
+    rows, ok = pull_upcoming(
+        key,
+        today=today,
+        pages=pages,
+        limit=limit,
+        posted_days=posted_days,
+        sleep_s=1.2,
+        getter=getter,
+        sleeper=sleeper,
+    )
+    if cursor["n"] != len(plan):
+        raise SystemExit("self-check sam request count")
+    return rows, ok, sleeps
+
+
+def _check_upcoming(cat: Catalog) -> None:
+    for label in (SAM_SKIP_LOG, SAM_FAIL_LOG):
+        lowered = label.casefold()
+        if "api_key" in lowered or "http" in lowered or "sam_api_key" in lowered:
+            raise SystemExit("self-check sam log")
+    if UPCOMING_PTYPES != ("p", "o", "k", "r") or "a" in UPCOMING_PTYPES:
+        raise SystemExit("self-check ptypes")
+    if UPCOMING_LIMIT != 25 or UPCOMING_CAP != 80 or UPCOMING_POSTED_DAYS != 90:
+        raise SystemExit("self-check upcoming defaults")
+    posted_start, posted_end = posted_bounds(datetime(2026, 9, 26, 22), 90)
+    if (posted_end - posted_start).days != 90 or posted_end.strftime("%Y-%m-%d") != "2026-09-26":
+        raise SystemExit("self-check posted window")
+    wide_start, wide_end = posted_bounds(datetime(2026, 9, 26), 9000)
+    if (wide_end - wide_start).days != POSTED_MAX_DAYS:
+        raise SystemExit("self-check posted clamp")
+    if mmddyyyy(datetime(2026, 1, 2)) != "01/02/2026":
+        raise SystemExit("self-check date format")
+    today = "2026-09-26"
+    parent = upcoming_public({
+        "noticeId": "do-not-export",
+        "title": "GENERAL DYNAMICS MISSION SYSTEMS, INC.",
+        "fullParentPathName": "Department of Defense.Department of the Army",
+        "responseDeadLine": "2026-09-26T00:30:00-04:00",
+        "type": "Presolicitation",
+        "description": "https://api.sam.gov/prod/opportunities/v1/noticedesc?noticeid=do-not-export",
+    }, today, classify("GENERAL DYNAMICS MISSION SYSTEMS, INC.", cat).get("ticker"))
+    if not parent or parent.get("ticker") != "GD" or parent.get("agency") != "Defense":
+        raise SystemExit("self-check upcoming parent")
+    if parent.get("deadline") != "2026-09-26" or "sam.gov" in parent.get("description", ""):
+        raise SystemExit("self-check upcoming parent")
+    if "noticeId" in parent or "do-not-export" in json.dumps(parent):
+        raise SystemExit("self-check notice id leaked")
+    typo = upcoming_public({
+        "title": "GENERAL WIDGETS LLC",
+        "reponseDeadLine": "09/27/2026",
+        "baseType": "Sources Sought",
+        "fullParentPathName": "Department of the Navy.NAVSEA",
+    }, today, None)
+    if not typo or typo.get("deadline") != "2026-09-27" or typo.get("ticker") is not None or typo.get("agency") != "Navy":
+        raise SystemExit("self-check typo deadline")
+    preferred = upcoming_public({
+        "title": "Spare parts",
+        "responseDeadLine": "2026-11-01",
+        "reponseDeadLine": "2026-12-01",
+    }, today, None)
+    if not preferred or preferred.get("deadline") != "2026-11-01" or preferred.get("description") != "Spare parts":
+        raise SystemExit("self-check deadline preference")
+    fallback = upcoming_public({
+        "title": "X",
+        "responseDeadLine": "not-a-date",
+        "reponseDeadLine": "2026-12-15",
+    }, today, None)
+    if not fallback or fallback.get("deadline") != "2026-12-15":
+        raise SystemExit("self-check deadline fallback")
+    if upcoming_public({"title": "X", "responseDeadLine": "2026-12-01", "type": "Award Notice"}, today, "BA") is not None:
+        raise SystemExit("self-check award notice")
+    if upcoming_public({"title": "X", "responseDeadLine": "2026-12-01", "baseType": "Award Notice"}, today, None) is not None:
+        raise SystemExit("self-check award base")
+    if upcoming_public({"title": "X", "responseDeadLine": "TBD"}, today, None) is not None:
+        raise SystemExit("self-check bad deadline")
+    if upcoming_public({"title": "X", "responseDeadLine": "2026-02-31"}, today, None) is not None:
+        raise SystemExit("self-check invalid deadline")
+    if upcoming_public({"title": "X", "responseDeadLine": "2026-09-25"}, today, None) is not None:
+        raise SystemExit("self-check past deadline")
+    long_title = "A" * 200
+    clipped = upcoming_public({"title": long_title, "responseDeadLine": "2026-12-01"}, today, None)
+    if not clipped or len(clipped["description"]) != DESC_MAX or not str(clipped["description"]).endswith("…"):
+        raise SystemExit("self-check clip")
+    ambiguous = Catalog()
+    ambiguous.tape = {"AAA", "BBB"}
+    ambiguous.add("Widget Works", "AAA", "Widget Works")
+    ambiguous.add("Widget Works", "BBB", "Widget Works")
+    queued = collect_ambiguous([
+        "LOCKHEED MARTIN CORPORATION",
+        "Department of the Navy",
+        "Widget Works",
+    ], ambiguous)
+    if len(queued) != 1 or queued[0].get("recipient") != "Widget Works":
+        raise SystemExit("self-check jev queue")
+    if classify("LOCKHEED MARTIN CORPORATION", cat).get("how") != "exact":
+        raise SystemExit("self-check exact stayed automatic")
+    fd, name = tempfile.mkstemp(prefix="qc-sam-", suffix=".env")
+    os.close(fd)
+    env_path = Path(name)
+    try:
+        env_path.write_text('SAM_API_KEY="unit-test-key"\n', encoding="utf-8")
+        if load_sam_key(env_path, announce=False) != "unit-test-key":
+            raise SystemExit("self-check sam env read failed")
+        if load_sam_key(env_path.with_name("qc-sam-does-not-exist.env"), announce=False) != "":
+            raise SystemExit("self-check sam env missing failed")
+    finally:
+        env_path.unlink(missing_ok=True)
+    short = {"opportunitiesData": [{"noticeId": "n"}]}
+    captured = io.StringIO()
+    with redirect_stdout(captured):
+        _check_upcoming_io(cat, short, today)
+    text = captured.getvalue()
+    folded = text.casefold()
+    if "unit-test-key" in text or "api_key" in folded or "api.sam" in folded or "http" in folded:
+        raise SystemExit("self-check sam log")
+    if "sam 429; retry once" not in text or "sam 503; retry once" not in text or SAM_FAIL_LOG not in text:
+        raise SystemExit("self-check sam log")
+
+
+def _check_upcoming_io(cat: Catalog, short: dict[str, Any], today: str) -> None:
+    _rows, ok, sleeps = _scripted_pull(
+        [("p", 0, 200, short), ("o", 0, 200, short), ("k", 0, 200, short), ("r", 0, 200, short)],
+        pages=1,
+        limit=UPCOMING_LIMIT,
+    )
+    if not ok or sleeps != [1.2, 1.2, 1.2] or len(_rows) != 4:
+        raise SystemExit("self-check sam pages")
+    _rows, ok, sleeps = _scripted_pull(
+        [
+            ("p", 0, 429, None),
+            ("p", 0, 200, short),
+            ("o", 0, 200, {"opportunitiesData": []}),
+            ("k", 0, 200, {"opportunitiesData": []}),
+            ("r", 0, 200, {"opportunitiesData": []}),
+        ],
+        pages=1,
+        limit=UPCOMING_LIMIT,
+    )
+    if not ok or sleeps != [2.0, 1.2, 1.2, 1.2]:
+        raise SystemExit("self-check sam retry")
+    _rows, ok, sleeps = _scripted_pull(
+        [("p", 0, 503, None), ("p", 0, 503, None)],
+        pages=1,
+        limit=UPCOMING_LIMIT,
+    )
+    if ok or sleeps != [2.0] or _rows:
+        raise SystemExit("self-check sam fail")
+    full = {"opportunitiesData": [{}] * UPCOMING_LIMIT}
+    one = {"opportunitiesData": [{}]}
+    _rows, ok, sleeps = _scripted_pull(
+        [
+            ("p", 0, 200, full),
+            ("p", UPCOMING_LIMIT, 200, one),
+            ("o", 0, 200, one),
+            ("k", 0, 200, one),
+            ("r", 0, 200, one),
+        ],
+        pages=2,
+        limit=UPCOMING_LIMIT,
+    )
+    if not ok or len(sleeps) != 4 or len(_rows) != UPCOMING_LIMIT + 4:
+        raise SystemExit("self-check sam offset")
+    with tempfile.TemporaryDirectory(prefix="qc-contracts-") as folder:
+        conn = connect(Path(folder) / "t.sqlite")
+        try:
+            notices = [
+                {
+                    "noticeId": "keep-me",
+                    "title": "THE BOEING COMPANY tanker",
+                    "fullParentPathName": "Department of the Air Force.ASC",
+                    "responseDeadLine": "2026-12-01T17:00:00-04:00",
+                    "type": "Solicitation",
+                    "description": "https://api.sam.gov/opportunities/v1/noticedesc?noticeid=keep-me",
+                },
+                {
+                    "noticeId": "award-skip",
+                    "title": "THE BOEING COMPANY",
+                    "responseDeadLine": "2026-12-01",
+                    "type": "Award Notice",
+                },
+                {
+                    "title": "THE BOEING COMPANY",
+                    "responseDeadLine": "2026-12-01",
+                    "type": "Solicitation",
+                },
+                {
+                    "noticeId": "no-date",
+                    "title": "THE BOEING COMPANY",
+                    "type": "Solicitation",
+                },
+                {
+                    "noticeId": "past-id",
+                    "title": "THE BOEING COMPANY",
+                    "responseDeadLine": "2020-01-01",
+                    "type": "Solicitation",
+                },
+                {
+                    "noticeId": "typo-id",
+                    "title": "GENERAL WIDGETS LLC parts",
+                    "reponseDeadLine": "2026-10-02",
+                    "fullParentPathName": "Department of the Navy.NAVSEA",
+                    "baseType": "Sources Sought",
+                },
+            ]
+            if store_upcoming(conn, notices, cat, today) != 2:
+                raise SystemExit("self-check upcoming store")
+            early = export_json(conn, [], "2026-09-01", "2026-09-26", today=today)
+            early_rows = early.get("upcoming") or []
+            early_blob = json.dumps(early)
+            if len(early_rows) != 2:
+                raise SystemExit("self-check upcoming store")
+            if early_rows[0].get("deadline") != "2026-10-02" or early_rows[0].get("agency") != "Navy":
+                raise SystemExit("self-check upcoming store")
+            if early_rows[0].get("ticker") is not None or early_rows[0].get("description") != "GENERAL WIDGETS LLC parts":
+                raise SystemExit("self-check upcoming store")
+            if early_rows[1].get("agency") != "Air Force" or early_rows[1].get("ticker") != "BA":
+                raise SystemExit("self-check upcoming store")
+            if early_rows[1].get("description") != "THE BOEING COMPANY tanker":
+                raise SystemExit("self-check upcoming store")
+            if "keep-me" in early_blob or "sam.gov" in early_blob or "noticeId" in early_blob:
+                raise SystemExit("self-check notice id leaked")
+            conn.execute("DELETE FROM upcoming")
+            for i in range(UPCOMING_CAP + 1):
+                day = (datetime(2026, 10, 1) + timedelta(days=i)).strftime("%Y-%m-%d")
+                conn.execute(
+                    """
+                    INSERT INTO upcoming (
+                      notice_id, deadline, agency, description, ticker, company, match_how, fetched_at
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (f"n{i}", day, "Defense", f"Item {i:03d}", "BA" if i == 0 else "", "", "exact", "t"),
+                )
+            conn.execute(
+                """
+                INSERT INTO upcoming (
+                  notice_id, deadline, agency, description, ticker, company, match_how, fetched_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                ("past-id", "2026-09-25", "Defense", "Too old", "LMT", "", "exact", "t"),
+            )
+            conn.commit()
+            payload = export_json(conn, [], "2026-09-01", "2026-09-26", today=today)
+        finally:
+            conn.close()
+    blob = json.dumps(payload)
+    upcoming = payload.get("upcoming") or []
+    if len(upcoming) != UPCOMING_CAP:
+        raise SystemExit("self-check upcoming cap")
+    if upcoming[0].get("deadline") != "2026-10-01" or upcoming[0].get("ticker") != "BA":
+        raise SystemExit("self-check upcoming sort")
+    if upcoming[1].get("ticker") is not None or upcoming[-1].get("description") != f"Item {UPCOMING_CAP - 1:03d}":
+        raise SystemExit("self-check upcoming sort")
+    for secret in ("keep-me", "award-skip", "past-id", "typo-id", "no-date", f"n{UPCOMING_CAP}"):
+        if secret in blob:
+            raise SystemExit("self-check notice id leaked")
+    if "notice_id" in blob or "noticeId" in blob:
+        raise SystemExit("self-check notice id leaked")
+    if "Too old" in blob or "Item 080" in blob:
+        raise SystemExit("self-check upcoming filter")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Ingest USAspending contracts for Quantity Capital.")
     parser.add_argument("--sqlite", type=Path, default=DEFAULT_SQLITE)
@@ -750,7 +1375,9 @@ def main() -> None:
     parser.add_argument("--max-pages", type=int, default=2)
     parser.add_argument("--sleep", type=float, default=1.2)
     parser.add_argument("--self-check", action="store_true")
-    parser.add_argument("--skip-fetch", action="store_true")
+    parser.add_argument("--skip-fetch", action="store_true", help="Skip USAspending only.")
+    parser.add_argument("--skip-upcoming", action="store_true")
+    parser.add_argument("--upcoming-pages", type=int, default=1)
     parser.add_argument("--rematch", action="store_true")
     parser.add_argument("--no-jev", action="store_true")
     parser.add_argument("--if-stale-hours", type=float, default=0)
@@ -777,11 +1404,15 @@ def main() -> None:
             mark_stamp()
         elif args.rematch:
             rematch(conn, cat)
+        if not args.skip_upcoming:
+            pages = args.upcoming_pages if args.upcoming_pages > 0 else 1
+            ingest_upcoming(conn, cat, pages=pages, sleep_s=args.sleep)
         payload = export_json(conn, [args.json, GROKS_JSON], start, end)
         report = count_report(conn)
         report["json_awards"] = len(payload["awards"])
         report["json_companies"] = len(payload["companies"])
         report["json_unlinked"] = len(payload["unlinked"])
+        report["json_upcoming"] = len(payload["upcoming"])
         print("COUNTS " + json.dumps(report), flush=True)
     finally:
         conn.close()

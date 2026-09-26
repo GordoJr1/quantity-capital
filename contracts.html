@@ -113,6 +113,15 @@
       <div class="stat"><b>—</b><span>matched trailing</span></div>
       <div class="stat"><b>—</b><span>unlinked, $10M+</span></div>
     </div>
+    <h2>Upcoming</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Deadline</th><th>Agency</th><th>Description</th><th>Ticker</th></tr>
+        </thead>
+        <tbody id="upcoming"><tr><td colspan="4" class="note">Loading upcoming…</td></tr></tbody>
+      </table>
+    </div>
     <h2>Recent awards</h2>
     <div class="table-wrap">
       <table>
@@ -181,6 +190,7 @@
         "<div class=\"stat\"><b>—</b><span>matched awards</span></div>" +
         "<div class=\"stat\"><b>—</b><span>matched trailing</span></div>" +
         "<div class=\"stat\"><b>—</b><span>unlinked, $10M+</span></div>";
+      document.getElementById("upcoming").innerHTML = emptyRow(4, message);
       document.getElementById("awards").innerHTML = emptyRow(6, message);
       document.getElementById("companies").innerHTML = emptyRow(4, message);
       document.getElementById("unlinked").innerHTML = emptyRow(5, message);
@@ -192,11 +202,20 @@
         return Number(row.amount) >= 10000000;
       });
       var trailing = companies.reduce(function (sum, row) { return sum + (Number(row.trailing_total) || 0); }, 0);
+      var upcoming = data.upcoming || [];
       document.getElementById("asof").textContent = QC.asOfLabel(data.generated) || "Contracts file loaded.";
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + awards.length + "</b><span>matched awards</span></div>" +
         "<div class=\"stat\"><b>" + compact(trailing) + "</b><span>matched trailing</span></div>" +
         "<div class=\"stat\"><b>" + unlinked.length + "</b><span>unlinked, $10M+</span></div>";
+      document.getElementById("upcoming").innerHTML = upcoming.length ? upcoming.map(function (row) {
+        return cells([
+          td(QC.esc(row.deadline || "")),
+          td(QC.esc(row.agency || "")),
+          td(QC.esc(row.description || ""), "desc"),
+          td(tickerLink(row.ticker))
+        ]);
+      }).join("") : emptyRow(4, "No upcoming notice in this file.");
       document.getElementById("awards").innerHTML = awards.length ? awards.map(function (row) {
         return cells([
           td(QC.esc(row.date || "")),

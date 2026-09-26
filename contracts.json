@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26T02:36:14Z",
+  "generated": "2026-09-26T15:10:36Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,16 +13,26 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-12",
-    "end": "2026-09-25"
+    "start": "2026-09-13",
+    "end": "2026-09-26"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 8,
-    "matched": 4,
-    "unlinked": 4
+    "kept": 17,
+    "matched": 5,
+    "unlinked": 12
   },
   "awards": [
+    {
+      "date": "2026-09-24",
+      "agency": "Health and Human Services",
+      "recipient": "LEIDOS BIOMEDICAL RESEARCH INC",
+      "ticker": "LDOS",
+      "amount": 17712309.0,
+      "description": "CLINICAL MATERIAL TECHNOLOGY DEVELOPMENT AND PILOT MANUFACTURING",
+      "naics": "541715",
+      "award_id": "75N91026F00032"
+    },
     {
       "date": "2026-09-23",
       "agency": "Homeland Security",
@@ -66,6 +76,12 @@
   ],
   "companies": [
     {
+      "ticker": "LDOS",
+      "name": "Leidos Holdings, Inc.",
+      "awards": 2,
+      "trailing_total": 19395605.0
+    },
+    {
       "ticker": "ACN",
       "name": "Accenture plc",
       "awards": 1,
@@ -78,12 +94,6 @@
       "trailing_total": 10275630.21
     },
     {
-      "ticker": "LDOS",
-      "name": "Leidos Holdings, Inc.",
-      "awards": 1,
-      "trailing_total": 1683296.0
-    },
-    {
       "ticker": "HON",
       "name": "Honeywell International Inc.",
       "awards": 1,
@@ -91,6 +101,62 @@
     }
   ],
   "unlinked": [
+    {
+      "date": "2026-09-24",
+      "agency": "Health and Human Services",
+      "recipient": "NATIONAL COLLEGIATE INVENTORS & INNOVATORS ALLIANCE, INC.",
+      "amount": 35276389.0,
+      "description": "RADX INNOVATION FUNNEL FOR HEALTH TECHNOLOGIES - AWARD MANAGEMENT"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Health and Human Services",
+      "recipient": "PALMETTO GBA, LLC",
+      "amount": 18320023.0,
+      "description": "THE PURPOSE OF THIS TASK ORDER IS TO ISSUE A NEW AWARD AGAINST BPA NO. 75FCMC21A0001 TO ENSURE UNINTERRUPTED CBIC PROGRAM AND SYSTEMS SUPPORT FOR ROUND 2028 AN\u2026"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Health and Human Services",
+      "recipient": "H1 INSIGHTS, INC",
+      "amount": 15979145.0,
+      "description": "THE PURPOSE OF THIS REQUIREMENT IS TO OBTAIN PROFESSIONAL IT SERVICES TO ASSIST IN THE DEVELOPMENT OF THE NATIONAL PROVIDER DIRECTORY (NPD) WHICH IS INTENDED T\u2026"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Health and Human Services",
+      "recipient": "REGENCY CONSULTING INC",
+      "amount": 14989924.99,
+      "description": "HIGH PERFORMANCE COMPUTING (HPC) CPU, GPU, NETWORKING, AND COOLING REFRESH - NIH/CIT"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Homeland Security",
+      "recipient": "COMPASS PTS JV, THE",
+      "amount": 14898348.18,
+      "description": "THE CONTRACTOR SHALL PROVIDE PRODUCTION AND TECHNICAL SERVICES (PTS) CONTRACT IN ZONE 2, WHICH COVERS FEMA REGIONS 4, 6, AND 7. THIS TASK ORDER WILL COVER TWO\u2026"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Homeland Security",
+      "recipient": "ADVANCING RESILIENCE IN COMMUNITIES",
+      "amount": 14749987.38,
+      "description": "THIS TASK ORDER WILL COVER TWO TYPES OF FLOOD MAPPING SERVICES. THE FIRST IS TO COMPLETE LEGACY MAPPING PROJECTS. THE SECOND IS DEMONSTRATE THE MODERN MAPPING\u2026"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "Homeland Security",
+      "recipient": "A P VENTURES, LLC",
+      "amount": 13337161.63,
+      "description": "THE OBJECTIVE OF THIS TASK ORDER IS TO SUPPORT THE OFFICE OF THE HUMAN CAPITAL OFFICER IN PERFORMING HUMAN RESOURCES FUNCTIONS SUCH AS HUMAN CAPITAL MANAGEMENT\u2026"
+    },
+    {
+      "date": "2026-09-24",
+      "agency": "National Aeronautics and Space Administration",
+      "recipient": "MET-CON, INC.",
+      "amount": 12000000.0,
+      "description": "THE PURPOSE OF THIS CONTRACT IS TO PROVIDE CRAFT LABOR AND CORROSION CONTROL AT JOHN F. KENNEDY SPACE CENTER (KSC), IN SUPPORT OF THE EXPLORATION GROUND SYSTEM\u2026"
+    },
     {
       "date": "2026-09-23",
       "agency": "Homeland Security",
@@ -118,6 +184,488 @@
       "recipient": "STARR II, A JOINT VENTURE",
       "amount": 14941384.05,
       "description": "THIS TASK ORDER WILL COVER TWO ELEMENTS OF THE FLOOD MAPPING PROGRAM. THE FIRST ELEMENT IS TO ADVANCE LEGACY MAPPING PROJECTS TO LOGICAL COMPLETION POINTS, WHE\u2026"
+    }
+  ],
+  "upcoming": [
+    {
+      "deadline": "2026-09-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "25ID PAO Camera and Equipment",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-27",
+      "agency": "DEPT OF DEFENSE",
+      "description": "JPMRC 27-01 Oahu/PTA NTV Rentals",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-27",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Q201--Post-Op Medical Companion Services at VA Pittsburgh Healthcare Center",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-27",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Tree Cutting and Removal Services \u2013 USDA ARS Beltsville Agricultural Research Center",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "DEPT OF DEFENSE",
+      "description": "(AFDW/CCP) Toilet Partition Replacement",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
+      "description": "30 FT Tournament Contender Boat",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "DEPT OF DEFENSE",
+      "description": "47--HOSE,NONMETALLIC",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Alert Facility Cleaning Request",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONCRETE JERSEY BARRIERS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "DA10--DSS DataBridge Maintenance and Support (VA-27-00000586)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "IDIQ contract for assorted compressed gases and cylinders",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Portable Mainline Inspection System (Pipe Cameras)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
+      "description": "Rotations for Medical Genetics and Genomic Medicine Residency and Fellowship Training Programs",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "DEPT OF DEFENSE",
+      "description": "SEAL Pro D w/ Productively Pack",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-28",
+      "agency": "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION",
+      "description": "Space Power and Reactor Capabilities (SPARC) - Draft Request for Proposals (DRFP)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "*******Solicitation Canceled**********Office Furniture",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
+      "description": "384-well Viaflo Head",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Building 269 Mold Remediation Services",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Cultural Relations Specialist (CRS) - CJTF HOA",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Heating Ventilation and Air Conditioning, Industrial Water Treatment Services",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "K LOADER PARTS SUPPLY AT AL MINHAD AIRBASE, UNITED ARAB EMIRATES",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
+      "description": "Microencapsulation Fluidics System",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Sources Sought for Engineering, Sustainment, and Integration Support Services for LATTICE-FORTRESS Systems from Anduril Industries, Inc.",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Diamond Substrate",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "ENERGY, DEPARTMENT OF",
+      "description": "Long-Duration Energy Storage (LDES) Battery System",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "PUMP ASSEMBLY, AFT - SPRRA127RA001",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "ENERGY, DEPARTMENT OF",
+      "description": "RFQ 471924 DUNE VD Warm Bias SHV Cables",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Vyntus Maintenance",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-01",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "H930--Generator Preventative Maintenance",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "(TMDE) for the Emerson/Rosemount Compact Annubar Multivariable Flow Meter.",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "H156--Site Visit Questions and Answers| WNY Chute, Barrier, & Door Inspections",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "J061--Triennial Circuit Breaker and Feeder Testing",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "Lease Space in Scottsbluff, NE",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lucky Peak Nursery New Greenhouse",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Towbar",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "United States Marine Corps Communication Systems (UCS) Integrated Product Team (IPT) Support",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "VOIP for Norfolk and Phil areas",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Vacuum Relief Furnace",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "DEPT OF DEFENSE",
+      "description": "61--POWER SUPPLY,UNINTERRU",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Emergency Diesel Generator (EDG) Rentals",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "W065--MRI",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ENGINE TURBINE BLADE",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lake Tahoe Basin Janitorial",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
+      "description": "Provide Leased Modular Buildings - Nationwide",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
+      "description": "TSA ATSS RE-COMPETITION",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-08",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--TURNBUCKLE",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-08",
+      "agency": "DEPT OF DEFENSE",
+      "description": "MTI hats",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-08",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Sources Sought for Base Supply Services, Hurlburt Field",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-08",
+      "agency": "DEPT OF DEFENSE",
+      "description": "W912CH-26-B-A019 for Assembly Control Panel; NSN:6110-01-607-7125",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "59--CONNECTOR,ELECTRIC",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "59--CONNECTOR,ELECTRIC",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Construct Concrete Targets",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Endpoint Security Event Management",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "MC CBRN Request For Information",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Modernization of Scientific and Technical Intelligence (SandTI;) Prototype Effort",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-09",
+      "agency": "STATE, DEPARTMENT OF",
+      "description": "Satellite Phones and Service Plan",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-12",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Notice of Intent to Sole Source Maintenance, Repair & Operations",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-12",
+      "agency": "DEPT OF DEFENSE",
+      "description": "SOURCES SOUGHT Data at Rest (DaR) - 400 Obsolescence Resolution",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-12",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Z1DA--658-19-103 RENOVATE SURGICAL SUITE PHASE II",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "TRANSPORTATION, DEPARTMENT OF",
+      "description": "FTA Closeout Support 2026",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-15",
+      "agency": "DEPT OF DEFENSE",
+      "description": "61--REGULATOR,VOLTAGE, IN REPAIR/MODIFICATION OF",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-15",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "General Services Administration (GSA) seeks to lease office space in Ventura, CA",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-16",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Dworshak Powerhouse Roof Replacement",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-16",
+      "agency": "DEPT OF DEFENSE",
+      "description": "FY27 ZNRE224302P1 Improve Military Family Housing PAIP 10 Phase 1",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-19",
+      "agency": "DEPT OF DEFENSE",
+      "description": "LAKE PONTCHARTRAIN & VICINITY (LPV), FORESHORE RISK REDUCTION REPAIRS, REACH-1, 2, 3, & 4 Jefferson Parish, Louisiana (ED 24-006)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "61--CABLE ASSEMBLY,SPEC- AND SIMILAR REPLACEMENT PARTS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "61--CABLE ASSEMBLY,SPEC- AND SIMILAR REPLACEMENT PARTS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-25",
+      "agency": "DEPT OF DEFENSE",
+      "description": "F-22 CRR",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-25",
+      "agency": "DEPT OF DEFENSE",
+      "description": "SPRAY RING ASSEMBLY_End_Item_F100_NSN_2915014711311NZ_PN_4085197",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "17--PISTONS,MATCHED SE,",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--GASKET KIT,(11)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "58--CONTROL,INTERCOMMUN, IN REPAIR/MODIFICATION OF",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "58--NRP,MODULE,ACOUSTIC - AND OTHER REPLACEMENT PARTS, IN REPAIR/MODIFICATION OF",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "59--CIRCUIT CARD ASSEMB, IN REPAIR/MODIFICATION OF",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONE,INLET,AIRCRAFT",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONSOLE,COMMUNICATI",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "COUPLING,REFUELING",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Design and Construction of Levee Access Manholes for Fairfax-Jersey Creek Levee Unit (Kansas City, Kansas)",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "FLIGHT MANAGEMENT C",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "MEMORY,PORTABLE,SOL",
+      "ticker": null
     }
   ]
 }

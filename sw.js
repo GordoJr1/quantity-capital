@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v225";
+const CACHE = "qc-shell-v226";
 const SHELL = [
   "./",
   "./index.html",
@@ -36,6 +36,8 @@ const SHELL = [
   "./qc.js?v=126",
   "./qc.js?v=128",
   "./qc.js?v=129",
+  "./insider-track.js?v=1",
+  "./insider-track.css?v=1",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",
@@ -83,6 +85,9 @@ self.addEventListener("fetch", (event) => {
   if (url.pathname.includes("/claims/tiles/") || url.pathname.endsWith(".pmtiles") || url.pathname.endsWith(".pmtiles.png") || url.pathname.includes("/.build/") || url.pathname.includes("/.db/")) {
     return;
   }
+  if (/\/insider-(signals|signals-ledger|basket-tags)\.json$/.test(url.pathname) || url.pathname.includes("/insider-track/") || url.pathname.includes("/insider-history/")) {
+    return;
+  }
 
   const isTrade = /(?:^|\/)(trades|trades-lite|landed|heat)\.json$/.test(url.pathname)
     || /\/tape\/(?:page|all|filers)\.json$/.test(url.pathname)
@@ -101,7 +106,9 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.endsWith("/sw.js")
     || url.pathname.endsWith("/shell.css")
     || url.pathname.endsWith("/qc.js")
-    || url.pathname.endsWith("/chart.js");
+    || url.pathname.endsWith("/chart.js")
+    || url.pathname.endsWith("/insider-track.js")
+    || url.pathname.endsWith("/insider-track.css");
   function storeIfOk(res) {
     if (res && res.ok) {
       const copy = res.clone();

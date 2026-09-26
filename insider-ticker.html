@@ -585,6 +585,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=165" />
+  <link rel="stylesheet" href="insider-track.css?v=1" />
   <style id="qc-txn-v98">
     /* Hard-pin TARGET row language so stale shell.css cannot restore gold hero / outlined chips. */
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -681,6 +682,7 @@
       <div class="mark-pop" id="mark-pop" hidden></div>
     </div>
     <p class="chart-legend"><span class="buy">● Buy</span><span class="sell">● Sell</span> Trade dates, not filings.</p>
+    <section class="qc-track" id="co-history" hidden aria-label="Insider activity"></section>
     <p class="kicker">Trades</p>
     <p class="count" id="tape-count"></p>
     <div class="qc-pol-desk qc-has-hold">
@@ -692,12 +694,14 @@
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
   <script src="qc.js?v=126"></script>
+  <script src="insider-track.js?v=1"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
     const ticker = String(params.get("t") || "").toUpperCase();
     const filerId = params.get("id") || "";
     if (!ticker) location.replace("insiders.html");
+    else if (window.QCTrack) QCTrack.mountCompany(document.getElementById("co-history"), [ticker]);
 
     const esc = QC.esc;
     const amountHigh = QC.amountHigh;

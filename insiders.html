@@ -103,6 +103,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=164" />
+  <link rel="stylesheet" href="insider-track.css?v=1" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -215,7 +216,7 @@
       .desk .qc-txn-head { margin-top: 0; }
       .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
+        grid-template-columns: 5.1rem minmax(7rem, 1.35fr) minmax(3.7rem, 8.5rem) minmax(4.5rem, 1.2fr) 4.6rem minmax(4.2rem, 0.62fr);
         grid-template-areas: "date id co coname chip hero";
       }
       .desk .qc-txn-tape .qc-txn-sh,
@@ -626,12 +627,21 @@
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
     </div>
     <p class="count" id="tape-count"></p>
+    <section id="basket" class="qc-track" hidden>
+      <h2>Basket</h2>
+      <p class="qc-track-caveat">Paper basket: a hypothetical, equal-weight tracking of a research rule. Not investment advice and not a recommendation. Expected difference vs similar companies in our research: only a few % a year, with wide uncertainty.</p>
+      <div id="basket-body"></div>
+    </section>
     <div class="desk" id="desk">
       <div class="wire-col">
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
       </div>
       <aside class="focus" id="focus">
         <div id="focus-head"><p class="quiet">Loading chart…</p></div>
+        <details class="qc-track-fold" id="focus-past" hidden>
+          <summary>Past buys</summary>
+          <div id="focus-past-body" class="qc-track"></div>
+        </details>
         <div class="focus-chart" id="focus-chart">
           <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
           <div class="chart-wrap" id="chart-wrap">
@@ -658,6 +668,7 @@
     </div>
   </footer>
   <script src="qc.js?v=126"></script>
+  <script src="insider-track.js?v=1"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const WINDOWS = [14, 30, 90, 540];
@@ -668,6 +679,7 @@
     let days = WINDOWS.indexOf(Number(params.get("w"))) >= 0 ? Number(params.get("w")) : 90;
     let side = params.get("side") || "";
     let view = params.get("view") === "issuers" ? "issuers" : "tape";
+    if (location.hash === "#basket") view = "basket";
     let emptyOnly = params.get("empty") === "1";
     let q = "";
     let showAll = false;
@@ -749,7 +761,8 @@
       }
       if (emptyOnly) p.set("empty", "1");
       const qs = p.toString();
-      history.replaceState(null, "", location.pathname + (qs ? "?" + qs : ""));
+      const hash = view === "basket" ? "#basket" : "";
+      history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + hash);
     }
 
     function issuerBlob(co) {
@@ -769,8 +782,11 @@
     function paintWindows() {
       const views =
         "<button type=\"button\" class=\"chip" + (view === "tape" ? " on" : "") + "\" data-view=\"tape\">Tape</button>" +
-        "<button type=\"button\" class=\"chip" + (view === "issuers" ? " on" : "") + "\" data-view=\"issuers\">Issuers</button>";
-      const extra = view === "issuers"
+        "<button type=\"button\" class=\"chip" + (view === "issuers" ? " on" : "") + "\" data-view=\"issuers\">Issuers</button>" +
+        "<button type=\"button\" class=\"chip" + (view === "basket" ? " on" : "") + "\" data-view=\"basket\">Basket</button>";
+      const extra = view === "basket"
+        ? ""
+        : view === "issuers"
         ? "<button type=\"button\" class=\"chip" + (emptyOnly ? " on" : "") + "\" data-empty=\"1\">No filings</button>"
         : WINDOWS.map((d) => "<button type=\"button\" class=\"chip" + (d === days ? " on" : "") + "\" data-w=\"" + d + "\">" + labelW(d) + "</button>").join("") +
           "<button type=\"button\" class=\"chip" + (side === "purchase" ? " on" : "") + "\" data-side=\"purchase\">Buys</button>" +
@@ -790,9 +806,69 @@
         : "<li class=\"muted\">No issuers match.</li>";
     }
 
+    function showBasket(on) {
+      const section = document.getElementById("basket");
+      const desk = document.getElementById("desk");
+      const picker = document.querySelector(".picker");
+      const count = document.getElementById("tape-count");
+      const moreRow = document.getElementById("more-row");
+      if (section) section.hidden = !on;
+      if (desk) desk.hidden = !!on;
+      if (picker) picker.hidden = !!on;
+      if (on) {
+        if (count) count.hidden = true;
+        if (moreRow) moreRow.hidden = true;
+        if (window.QCTrack) QCTrack.mountBasket(document.getElementById("basket-body"));
+      }
+    }
+
+    function loadFocusPast(fid) {
+      const fold = document.getElementById("focus-past");
+      const body = document.getElementById("focus-past-body");
+      if (!fold || !body || !fid || !window.QCTrack) return;
+      if (body.getAttribute("data-fid") === fid && body.childElementCount) return;
+      body.setAttribute("data-fid", fid);
+      QCTrack.mountPerson(body, fid, {
+        heading: false,
+        onEmpty: function () {
+          fold.hidden = true;
+          fold.open = false;
+          fold.setAttribute("data-empty", "1");
+        }
+      });
+    }
+
+    function syncFocusPast(t) {
+      const fold = document.getElementById("focus-past");
+      const body = document.getElementById("focus-past-body");
+      if (!fold || !body) return;
+      const fid = t && t.filer_id ? String(t.filer_id) : "";
+      if (!fid) {
+        fold.hidden = true;
+        return;
+      }
+      if (fold.getAttribute("data-fid") !== fid) {
+        fold.setAttribute("data-fid", fid);
+        fold.removeAttribute("data-empty");
+        body.removeAttribute("data-fid");
+        body.innerHTML = "";
+      }
+      if (fold.getAttribute("data-empty") === "1") {
+        fold.hidden = true;
+        return;
+      }
+      fold.hidden = false;
+      if (fold.open) loadFocusPast(fid);
+    }
+
     function paint(rows, collectedAt, keepPick) {
       document.getElementById("asof").textContent = QC.asOfLabel(collectedAt);
       paintWindows();
+      if (view === "basket") {
+        showBasket(true);
+        return;
+      }
+      showBasket(false);
       if (view === "issuers") {
         const list = matchingIssuers(q).slice().sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
         const count = document.getElementById("tape-count");
@@ -892,6 +968,7 @@
       const focusEl = document.getElementById("focus");
       if (focusEl) focusEl.hidden = !slim;
       if (slim) paintChart();
+      if (window.QCTrack) QCTrack.stampTape(deskRows, document.getElementById("rows"));
     }
 
     function markActiveRow() {
@@ -908,6 +985,7 @@
       if (!t) {
         head.innerHTML = "<p class=\"quiet\">Select a print on the tape.</p>";
         foot.innerHTML = "";
+        syncFocusPast(null);
         return;
       }
       const role = QC.shortRole(t);
@@ -944,6 +1022,7 @@
         ? "<a class=\"btn fill\" href=\"insider.html?id=" + encodeURIComponent(t.filer_id) + "\">Open insider</a>"
         : "";
       foot.innerHTML = "<div class=\"cta\">" + insiderBtn + tickerBtn + "</div>";
+      syncFocusPast(t);
     }
 
     function loadPrices(ticker) {
@@ -1215,7 +1294,10 @@
       const emptyBtn = e.target.closest("button[data-empty]");
       const w = e.target.closest("button[data-w]");
       const s = e.target.closest("button[data-side]");
-      if (v) view = v.dataset.view === "issuers" ? "issuers" : "tape";
+      if (v) {
+        const name = v.dataset.view;
+        view = name === "issuers" ? "issuers" : (name === "basket" ? "basket" : "tape");
+      }
       if (emptyBtn) emptyOnly = !emptyOnly;
       if (w) days = Number(w.dataset.w);
       if (s) side = side === s.dataset.side ? "" : s.dataset.side;
@@ -1239,6 +1321,20 @@
     window.addEventListener("pageshow", (e) => {
       if (!e.persisted || !all.length) return;
       userPicked = false;
+      paint(all, collected);
+    });
+    const focusPast = document.getElementById("focus-past");
+    if (focusPast) {
+      focusPast.addEventListener("toggle", () => {
+        if (!focusPast.open) return;
+        loadFocusPast(focusPast.getAttribute("data-fid") || "");
+      });
+    }
+    window.addEventListener("hashchange", () => {
+      const next = location.hash === "#basket" ? "basket" : (view === "basket" ? "tape" : view);
+      if (next === view) return;
+      view = next;
+      showAll = false;
       paint(all, collected);
     });
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });

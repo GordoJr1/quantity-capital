@@ -411,6 +411,7 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=113" />
+  <link rel="stylesheet" href="insider-track.css?v=1" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -535,6 +536,10 @@
       <summary>Sold / residual</summary>
       <div class="body" id="exited"></div>
     </details>
+    <details class="qc-track-fold" id="insider-activity" hidden>
+      <summary>Insider activity</summary>
+      <div class="qc-track qc-track-body" data-track-body></div>
+    </details>
   </div>
   <footer>
     <div class="wrap">
@@ -545,6 +550,7 @@
     </div>
   </footer>
   <script src="qc.js?v=113"></script>
+  <script src="insider-track.js?v=1"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const DASH = "—";
@@ -2406,6 +2412,29 @@
       paintCards();
       paintValeLayout();
       paintMinesInset();
+      paintInsiderActivity();
+    }
+    function historyTickers() {
+      const out = [];
+      const seen = {};
+      function add(code) {
+        const t = String(code || "").trim();
+        if (!t || seen[t]) return;
+        seen[t] = true;
+        out.push(t);
+      }
+      const tks = ((profile && profile.issuer) || {}).tickers || [];
+      tks.forEach((row) => {
+        const href = row && row.chart ? String(row.chart) : "";
+        const m = href.match(/[?&]t=([^&]+)/i);
+        if (m) add(decodeURIComponent(m[1]));
+      });
+      tks.forEach((row) => add(row && row.symbol));
+      return out;
+    }
+    function paintInsiderActivity() {
+      if (!window.QCTrack) return;
+      QCTrack.mountCompany(document.getElementById("insider-activity"), historyTickers());
     }
     function pickerRows() {
       if (state.layer === "claims") {

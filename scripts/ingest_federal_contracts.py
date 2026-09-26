@@ -186,6 +186,101 @@ def mmddyyyy(day: datetime) -> str:
     return day.strftime("%m/%d/%Y")
 
 
+_MONEY_RE = re.compile(
+    r"\$\s*(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)\s*"
+    r"(billion|million|thousand|bn|mn|m|b|k)?\b",
+    re.I,
+)
+_AMOUNT_KEYS = {"amount", "estimatedvalue", "estimatedamount", "baseandalloptionsvalue"}
+
+
+def _scale_money(number: str, magnitude: str | None) -> float | None:
+    try:
+        value = float(number.replace(",", ""))
+    except ValueError:
+        return None
+    unit = (magnitude or "").lower()
+    if unit in ("billion", "b", "bn"):
+        value *= 1_000_000_000
+    elif unit in ("million", "m", "mn"):
+        value *= 1_000_000
+    elif unit in ("thousand", "k"):
+        value *= 1_000
+    if value <= 0:
+        return None
+    return value
+
+
+def stated_dollars(text: str) -> float | None:
+    """A dollar figure written in the text. No estimate when the text has none."""
+    if not text:
+        return None
+    sample = text.strip()
+    if sample.lower().startswith("http://") or sample.lower().startswith("https://"):
+        return None
+    match = _MONEY_RE.search(sample)
+    if not match:
+        return None
+    return _scale_money(match.group(1), match.group(2))
+
+
+def _number_field(value: Any) -> float | None:
+    if isinstance(value, bool) or value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value) if value > 0 else None
+    if isinstance(value, str):
+        text = value.strip()
+        if not text:
+            return None
+        if "$" not in text:
+            text = "$" + text
+        return stated_dollars(text)
+    return None
+
+
+def sam_award_amount(row: dict[str, Any]) -> float | None:
+    award = row.get("award")
+    if isinstance(award, dict):
+        got = _number_field(award.get("amount"))
+        if got is not None:
+            return got
+    for key, value in row.items():
+        folded = str(key).replace("_", "").lower()
+        if folded in _AMOUNT_KEYS:
+            got = _number_field(value)
+            if got is not None:
+                return got
+    return None
+
+
+def notice_value(row: dict[str, Any]) -> tuple[float | None, str | None]:
+    """Explicit SAM amount, else an explicit figure in the title or description."""
+    try:
+        sam = sam_award_amount(row)
+        if sam is not None:
+            return sam, "sam_award"
+        texts = [str(row.get("title") or "")]
+        description = str(row.get("description") or "")
+        if description and not description.lstrip().lower().startswith("http"):
+            texts.append(description)
+        for text in texts:
+            got = stated_dollars(text)
+            if got is not None:
+                return got, "stated_in_notice"
+    except Exception:
+        return None, None
+    return None, None
+
+
+def notice_link(row: dict[str, Any]) -> str:
+    for key in ("uiLink", "ui_link"):
+        value = row.get(key)
+        if isinstance(value, str) and value.startswith("http"):
+            return value
+    return ""
+
+
 def upcoming_public(row: dict[str, Any], today: str, ticker: str | None) -> dict[str, Any] | None:
     """Thin JSON row. Title only; no notice id and no description URL."""
     if is_award_notice(row):
@@ -193,12 +288,20 @@ def upcoming_public(row: dict[str, Any], today: str, ticker: str | None) -> dict
     deadline = notice_deadline(row)
     if not deadline or deadline < today:
         return None
-    return {
+    public = {
         "deadline": deadline,
         "agency": agency_from_path(str(row.get("fullParentPathName") or "")),
         "description": clip_desc(str(row.get("title") or "")),
         "ticker": ticker or None,
     }
+    value, source = notice_value(row)
+    if value is not None:
+        public["value"] = value
+        public["value_source"] = source
+    link = notice_link(row)
+    if link:
+        public["notice_url"] = link
+    return public
 
 
 def clean_display(name: str) -> str:
@@ -405,10 +508,17 @@ def connect(path: Path) -> sqlite3.Connection:
           ticker TEXT,
           company TEXT,
           match_how TEXT,
-          fetched_at TEXT
+          fetched_at TEXT,
+          value REAL,
+          value_source TEXT,
+          notice_url TEXT
         );
         """
     )
+    have = {row[1] for row in conn.execute("PRAGMA table_info(upcoming)")}
+    for name, decl in (("value", "REAL"), ("value_source", "TEXT"), ("notice_url", "TEXT")):
+        if name not in have:
+            conn.execute(f"ALTER TABLE upcoming ADD COLUMN {name} {decl}")
     return conn
 
 
@@ -883,8 +993,9 @@ def store_upcoming(
         conn.execute(
             """
             INSERT INTO upcoming (
-              notice_id, deadline, agency, description, ticker, company, match_how, fetched_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+              notice_id, deadline, agency, description, ticker, company, match_how, fetched_at,
+              value, value_source, notice_url
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ON CONFLICT(notice_id) DO UPDATE SET
               deadline=excluded.deadline,
               agency=excluded.agency,
@@ -892,7 +1003,10 @@ def store_upcoming(
               ticker=excluded.ticker,
               company=excluded.company,
               match_how=excluded.match_how,
-              fetched_at=excluded.fetched_at
+              fetched_at=excluded.fetched_at,
+              value=excluded.value,
+              value_source=excluded.value_source,
+              notice_url=excluded.notice_url
             """,
             (
                 notice_id,
@@ -903,6 +1017,9 @@ def store_upcoming(
                 company,
                 how,
                 now,
+                public.get("value"),
+                public.get("value_source"),
+                public.get("notice_url"),
             ),
         )
         kept += 1
@@ -934,12 +1051,240 @@ def ingest_upcoming(conn: sqlite3.Connection, cat: Catalog, *, pages: int, sleep
         print("sam upcoming failed", flush=True)
 
 
+BRANCH_LABELS = {
+    "ARMY": "Army",
+    "NAVY": "Navy",
+    "AIR FORCE": "Air Force",
+    "SPACE FORCE": "Space Force",
+    "DEFENSE LOGISTICS AGENCY": "DLA",
+    "MISSILE DEFENSE AGENCY": "MDA",
+    "DEFENSE THREAT REDUCTION AGENCY": "DTRA",
+    "DEFENSE HEALTH AGENCY": "DHA",
+    "U.S. SPECIAL OPERATIONS COMMAND": "SOCOM",
+    "DEFENSE INFORMATION SYSTEMS AGENCY": "DISA",
+}
+DOD_EXPORT_CAP = 200
+DOD_EXPORT_DAYS = 30
+
+
+def branch_label(raw: str) -> str:
+    key = re.sub(r"\s+", " ", (raw or "").upper()).strip()
+    if key in BRANCH_LABELS:
+        return BRANCH_LABELS[key]
+    return re.sub(r"\s+", " ", (raw or "").strip()).title()
+
+
+def norm_piid(value: str) -> str:
+    return re.sub(r"[^A-Z0-9]", "", (value or "").upper())
+
+
+def _date_gap(left: str, right: str) -> int | None:
+    try:
+        a = datetime.strptime((left or "")[:10], "%Y-%m-%d")
+        b = datetime.strptime((right or "")[:10], "%Y-%m-%d")
+    except ValueError:
+        return None
+    return abs((a - b).days)
+
+
+def _table_exists(conn: sqlite3.Connection, name: str) -> bool:
+    return conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?",
+        (name,),
+    ).fetchone() is not None
+
+
+def load_market_caps() -> dict[str, Any]:
+    path = GROKS / "market-caps.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    tickers = payload.get("tickers") if isinstance(payload, dict) else None
+    return tickers if isinstance(tickers, dict) else {}
+
+
+def cap_fields(amount: Any, ticker: str | None, caps: dict[str, Any], is_multi: bool) -> tuple[float | None, Any]:
+    if is_multi or not ticker or amount is None:
+        return None, None
+    row = caps.get(ticker)
+    if not isinstance(row, dict) or str(row.get("cur") or "") != "USD":
+        return None, None
+    try:
+        cap = float(row.get("cap"))
+    except (TypeError, ValueError):
+        return None, None
+    if cap <= 0:
+        return None, None
+    return round(float(amount) / cap * 100, 3), row.get("asof") or None
+
+
+def business_days_since(latest: str, today: str) -> int:
+    try:
+        start = datetime.strptime(latest, "%Y-%m-%d").date()
+        end = datetime.strptime(today, "%Y-%m-%d").date()
+    except ValueError:
+        return 99
+    if end <= start:
+        return 0
+    count = 0
+    cur = start + timedelta(days=1)
+    while cur <= end:
+        if cur.weekday() < 5:
+            count += 1
+        cur += timedelta(days=1)
+    return count
+
+
+def previous_dod(dests: list[Path]) -> dict[str, Any] | None:
+    for dest in dests:
+        try:
+            payload = json.loads(Path(dest).read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        dod = payload.get("dod") if isinstance(payload, dict) else None
+        if isinstance(dod, dict):
+            return dod
+    return None
+
+
+def _award_sort_key(row: dict[str, Any]) -> tuple:
+    return (
+        row.get("date") or "",
+        float(row.get("amount") or 0),
+        row.get("contract") or row.get("award_id") or "",
+        row.get("recipient") or "",
+    )
+
+
+def attach_dod(
+    conn: sqlite3.Connection,
+    awards: list[dict[str, Any]],
+    today: str,
+    dod_run: dict[str, Any],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Merge ticker-linked DoD rows into awards. Unlinked rows stay in sqlite."""
+    caps = load_market_caps()
+    latest_values = []
+    for table in ("dod_awards", "dod_articles"):
+        if not _table_exists(conn, table):
+            continue
+        latest_row = conn.execute(f"SELECT MAX(publish_date) FROM {table}").fetchone()
+        if latest_row and latest_row[0]:
+            latest_values.append(str(latest_row[0]))
+    latest = max(latest_values) if latest_values else ""
+    stored: list[Any] = []
+    if _table_exists(conn, "dod_awards"):
+        cutoff = (datetime.strptime(today, "%Y-%m-%d") - timedelta(days=DOD_EXPORT_DAYS)).strftime("%Y-%m-%d")
+        stored = list(conn.execute(
+            """
+            SELECT rowid AS rid, publish_date, branch, company, amount, contract, contract_norm,
+                   is_mod, is_multi, is_idiq, is_fms, obligated, ticker, url,
+                   text_clip, n_awardees
+            FROM dod_awards
+            WHERE ticker IS NOT NULL AND ticker != ''
+              AND publish_date >= ? AND publish_date <= ?
+            ORDER BY rowid
+            """,
+            (cutoff, today),
+        ))
+
+    by_norm: dict[str, list[int]] = {}
+    for index, item in enumerate(awards):
+        key = norm_piid(str(item.get("award_id") or ""))
+        if key:
+            by_norm.setdefault(key, []).append(index)
+    groups: dict[int, list[tuple[int, int, int, float]]] = {}
+    for dod_index, row in enumerate(stored):
+        key = str(row["contract_norm"] or "")
+        if not key:
+            continue
+        for index in by_norm.get(key, []):
+            gap = _date_gap(str(awards[index].get("date") or ""), str(row["publish_date"] or ""))
+            if gap is None or gap > 7:
+                continue
+            groups.setdefault(index, []).append((index, dod_index, gap, float(row["amount"] or 0)))
+    drop: set[int] = set()
+    for index, group in groups.items():
+        group.sort(key=lambda item: (item[2], -item[3]))
+        chosen = stored[group[0][1]]
+        awards[index]["branch"] = branch_label(str(chosen["branch"] or ""))
+        if chosen["url"]:
+            awards[index]["dod_url"] = chosen["url"]
+        for _index, dod_index, _gap, _amount in group:
+            drop.add(dod_index)
+
+    built: list[dict[str, Any]] = []
+    for dod_index, row in enumerate(stored):
+        if dod_index in drop:
+            continue
+        is_multi = bool(row["is_multi"])
+        cap_pct, cap_asof = cap_fields(row["amount"], row["ticker"], caps, is_multi)
+        item = {
+            "date": row["publish_date"],
+            "agency": "DOD",
+            "branch": branch_label(str(row["branch"] or "")),
+            "recipient": row["company"],
+            "ticker": row["ticker"],
+            "amount": row["amount"],
+            "ceiling": bool(row["is_multi"] or row["is_idiq"]),
+            "obligated": row["obligated"],
+            "mod": bool(row["is_mod"]),
+            "fms": bool(row["is_fms"]),
+            "contract": row["contract"] or "",
+            "cap_pct": cap_pct,
+            "cap_asof": cap_asof,
+            "url": row["url"] or "",
+            "description": row["text_clip"] or "",
+            "source": "dod_announcement",
+        }
+        if is_multi:
+            item["n_awardees"] = int(row["n_awardees"] or 1)
+            # Keep the multi flag's extra key in a stable place.
+            ordered = {
+                "date": item["date"],
+                "agency": item["agency"],
+                "branch": item["branch"],
+                "recipient": item["recipient"],
+                "ticker": item["ticker"],
+                "amount": item["amount"],
+                "ceiling": item["ceiling"],
+                "obligated": item["obligated"],
+                "n_awardees": item["n_awardees"],
+                "mod": item["mod"],
+                "fms": item["fms"],
+                "contract": item["contract"],
+                "cap_pct": item["cap_pct"],
+                "cap_asof": item["cap_asof"],
+                "url": item["url"],
+                "description": item["description"],
+                "source": item["source"],
+            }
+            item = ordered
+        built.append((int(row["rid"]), item))
+    built.sort(key=lambda pair: (_award_sort_key(pair[1]), pair[0]), reverse=True)
+    built = [item for _rid, item in built[:DOD_EXPORT_CAP]]
+    awards.extend(built)
+    awards.sort(key=_award_sort_key, reverse=True)
+    status = str(dod_run.get("status") or "ok")
+    if status == "ok" and latest and business_days_since(latest, today) > 4:
+        status = "stale"
+    block = {
+        "latest": latest or None,
+        "fetched": dod_run.get("fetched") or utc_now(),
+        "status": status,
+        "rows": len(built),
+    }
+    return awards, block
+
+
 def export_json(
     conn: sqlite3.Connection,
     dests: list[Path],
     start: str,
     end: str,
     today: str | None = None,
+    dod_run: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     end_dt = datetime.strptime(end, "%Y-%m-%d")
     trail_from = (end_dt - timedelta(days=TRAILING_DAYS - 1)).strftime("%Y-%m-%d")
@@ -968,6 +1313,7 @@ def export_json(
             item["naics"] = row["naics"]
         if row["award_id"]:
             item["award_id"] = row["award_id"]
+        item["source"] = "usaspending"
         if row["ticker"] and len(awards) < RECENT_CAP:
             awards.append(item)
         elif not row["ticker"] and len(unlinked) < UNLINKED_CAP:
@@ -995,7 +1341,7 @@ def export_json(
     today_iso = today or datetime.now().strftime("%Y-%m-%d")
     upcoming_rows = conn.execute(
         """
-        SELECT deadline, agency, description, ticker
+        SELECT deadline, agency, description, ticker, value, value_source, notice_url
         FROM upcoming
         WHERE deadline >= ?
         ORDER BY deadline ASC, description ASC
@@ -1003,15 +1349,20 @@ def export_json(
         """,
         (today_iso, UPCOMING_CAP),
     ).fetchall()
-    upcoming = [
-        {
+    upcoming = []
+    for row in upcoming_rows:
+        item = {
             "deadline": row["deadline"],
             "agency": row["agency"],
             "description": row["description"],
             "ticker": row["ticker"] or None,
         }
-        for row in upcoming_rows
-    ]
+        if row["value"] is not None:
+            item["value"] = row["value"]
+            item["value_source"] = row["value_source"] or None
+        if row["notice_url"]:
+            item["notice_url"] = row["notice_url"]
+        upcoming.append(item)
     matched = sum(1 for row in kept if row["ticker"])
     payload = {
         "generated": utc_now(),
@@ -1031,6 +1382,14 @@ def export_json(
         "unlinked": unlinked,
         "upcoming": upcoming,
     }
+    if dod_run is not None:
+        awards, dod_block = attach_dod(conn, awards, today_iso, dod_run)
+        payload["awards"] = awards
+        payload["dod"] = dod_block
+    else:
+        carried = previous_dod(dests)
+        if carried:
+            payload["dod"] = carried
     text = json.dumps(payload, indent=2)
     for dest in dests:
         dest.parent.mkdir(parents=True, exist_ok=True)
@@ -1186,6 +1545,33 @@ def _check_upcoming(cat: Catalog) -> None:
     clipped = upcoming_public({"title": long_title, "responseDeadLine": "2026-12-01"}, today, None)
     if not clipped or len(clipped["description"]) != DESC_MAX or not str(clipped["description"]).endswith("…"):
         raise SystemExit("self-check clip")
+    stated = upcoming_public({
+        "title": "Radios, estimated value $25M",
+        "responseDeadLine": "2026-12-01",
+        "description": "https://api.sam.gov/prod/opportunities/v1/noticedesc?noticeid=do-not-export",
+    }, today, None)
+    if not stated or stated.get("value") != 25_000_000 or stated.get("value_source") != "stated_in_notice":
+        raise SystemExit("self-check stated value")
+    if "notice_url" in stated or "sam.gov" in stated.get("description", "") or "do-not-export" in json.dumps(stated):
+        raise SystemExit("self-check stated value leak")
+    awarded = upcoming_public({
+        "title": "No dollars in this title",
+        "responseDeadLine": "2026-12-01",
+        "award": {"amount": 1200000},
+        "uiLink": "https://sam.gov/opp/example/view",
+    }, today, None)
+    if not awarded or awarded.get("value") != 1200000 or awarded.get("value_source") != "sam_award":
+        raise SystemExit("self-check sam value")
+    if awarded.get("notice_url") != "https://sam.gov/opp/example/view":
+        raise SystemExit("self-check notice url")
+    blank = upcoming_public({
+        "title": "Furniture for the lobby",
+        "responseDeadLine": "2026-12-01",
+    }, today, None)
+    if not blank or "value" in blank or "notice_url" in blank:
+        raise SystemExit("self-check missing value")
+    if notice_value({"title": "bad", "award": {"amount": "not-a-number"}}) != (None, None):
+        raise SystemExit("self-check value fail-soft")
     ambiguous = Catalog()
     ambiguous.tape = {"AAA", "BBB"}
     ambiguous.add("Widget Works", "AAA", "Widget Works")

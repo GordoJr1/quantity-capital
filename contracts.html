@@ -70,6 +70,41 @@
     .unlinked { background: #1a212b; }
     .unlinked td.num { color: var(--paper); }
     .note { color: var(--mute); margin: 8px 0 18px; }
+    .qc-mini-tag {
+      text-transform: none;
+      letter-spacing: 0.01em;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-weight: 600;
+      font-size: 0.62rem;
+      line-height: 1.3;
+      padding: 0 4px;
+      border: 1px solid #6b7582;
+      color: #c5cdd6;
+      background: transparent;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    a.rowlink { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+    .sub {
+      display: block;
+      color: var(--mute);
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1.3;
+    }
+    .muted { color: var(--mute); }
+    button.more {
+      margin: 8px 0 0;
+      background: transparent;
+      color: var(--paper);
+      border: 1px solid #4a5563;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 0.82rem;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
     footer { border-top: 2px solid var(--caution); margin-top: 28px; }
     footer .wrap {
       display: flex; justify-content: space-between; padding: 16px 0 28px;
@@ -84,6 +119,23 @@
       .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
       .stat:last-child { border-bottom: 0; }
       h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+      .col-recipient, .col-desc, .col-company { display: none; }
+      th, td { padding: 6px 4px; }
+      table.awards, table.upcoming { table-layout: fixed; width: 100%; }
+      table.awards td.num, table.awards th.num { width: 36%; white-space: normal; font-size: 0.74rem; }
+      table.awards td.agency, table.awards th:nth-child(2) { width: 32%; }
+      table.upcoming td.num, table.upcoming th.num { width: 34%; white-space: normal; }
+      table.upcoming td.agency {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .awards td:first-child, .awards th:first-child { width: 4.7rem; white-space: nowrap; font-size: 0.68rem; }
+      .sub { white-space: normal; }
+    }
+    @media (max-width: 420px) {
+      .cap-pct { display: none; }
+      .awards .agency-name { display: none; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=168" />
@@ -106,36 +158,37 @@
   <div class="wrap" id="main">
     <p class="kicker">USAspending · date signed</p>
     <h1>Contracts</h1>
-    <p class="lede">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up.</p>
+    <p class="lede">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up. Department of Defense awards of $7.5 million and up come from the daily DoD contract announcements (published about 5 PM ET on business days), because USAspending shows DoD awards about 90 days late. In QC research (2019–2026), share prices showed no reliable move after these announcements; this list is a factual record.</p>
     <p class="asof" id="asof"></p>
     <div class="stats" id="stats">
       <div class="stat"><b>—</b><span>matched awards</span></div>
       <div class="stat"><b>—</b><span>matched trailing</span></div>
       <div class="stat"><b>—</b><span>unlinked, $10M+</span></div>
     </div>
-    <h2>Upcoming</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Deadline</th><th>Agency</th><th>Description</th><th>Ticker</th></tr>
-        </thead>
-        <tbody id="upcoming"><tr><td colspan="4" class="note">Loading upcoming…</td></tr></tbody>
-      </table>
-    </div>
     <h2>Recent awards</h2>
     <div class="table-wrap">
-      <table>
+      <table class="awards">
         <thead>
-          <tr><th>Date</th><th>Agency</th><th>Recipient</th><th>Ticker</th><th class="num">Amount</th><th>Description</th></tr>
+          <tr><th>Date</th><th>Agency</th><th class="col-recipient">Recipient</th><th>Ticker</th><th class="num">Amount</th><th class="col-desc">Description</th></tr>
         </thead>
         <tbody id="awards"><tr><td colspan="6" class="note">Loading awards…</td></tr></tbody>
+      </table>
+    </div>
+    <button type="button" class="more" id="show-rest" hidden>Show the rest</button>
+    <h2>Upcoming</h2>
+    <div class="table-wrap">
+      <table class="upcoming">
+        <thead>
+          <tr><th>Deadline</th><th>Agency</th><th class="col-desc">Description</th><th>Ticker</th><th class="num">Value</th></tr>
+        </thead>
+        <tbody id="upcoming"><tr><td colspan="5" class="note">Loading upcoming…</td></tr></tbody>
       </table>
     </div>
     <h2>Trailing book</h2>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Ticker</th><th>Company</th><th class="num">Awards</th><th class="num">Trailing</th></tr>
+          <tr><th>Ticker</th><th class="col-company">Company</th><th class="num">Awards</th><th class="num">Trailing</th></tr>
         </thead>
         <tbody id="companies"><tr><td colspan="4" class="note">Loading companies…</td></tr></tbody>
       </table>
@@ -144,7 +197,7 @@
     <div class="table-wrap">
       <table class="unlinked">
         <thead>
-          <tr><th>Date</th><th>Agency</th><th>Recipient</th><th class="num">Amount</th><th>Description</th></tr>
+          <tr><th>Date</th><th>Agency</th><th class="col-recipient">Recipient</th><th class="num">Amount</th><th>Description</th></tr>
         </thead>
         <tbody id="unlinked"><tr><td colspan="5" class="note">Loading unlinked awards…</td></tr></tbody>
       </table>
@@ -184,13 +237,86 @@
     function emptyRow(cols, message) {
       return "<tr><td colspan=\"" + cols + "\" class=\"note\">" + QC.esc(message) + "</td></tr>";
     }
+    function monD(iso) {
+      var match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ""));
+      if (!match) return "";
+      var names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      return names[Number(match[2]) - 1] + " " + Number(match[3]);
+    }
+    function fmtPct(value) {
+      var n = Number(value);
+      if (!isFinite(n) || n < 0.01) return "&lt;0.01%";
+      var digits = Math.max(0, 1 - Math.floor(Math.log10(Math.abs(n))));
+      return n.toFixed(digits) + "%";
+    }
+    function rowLink(href, text) {
+      if (!href) return text;
+      return "<a class=\"rowlink\" href=\"" + QC.esc(href) + "\">" + text + "</a>";
+    }
+    function dateCell(row) {
+      var text = QC.esc(row.date || "");
+      var href = "";
+      if (row.source === "dod_announcement" && row.url) href = row.url;
+      else if (row.source === "usaspending" && row.dod_url) href = row.dod_url;
+      if (!href) return td(text);
+      return td("<a class=\"rowlink\" href=\"" + QC.esc(href) + "\" title=\"DoD announcement\">" + text + "</a>");
+    }
+    function agencyCell(row) {
+      var text = "<span class=\"agency-name\">" + QC.esc(row.agency || "") + "</span>";
+      if (row.source === "dod_announcement" && row.branch) {
+        text += " <span class=\"qc-mini-tag\">DoD · " + QC.esc(row.branch) + "</span>";
+      }
+      return td(text, "agency");
+    }
+    function amountCell(row) {
+      var html = money(row.amount);
+      if (row.source !== "dod_announcement") return td(html, "num");
+      if (row.ceiling) {
+        html += " <span class=\"qc-mini-tag\" title=\"Headline figure is a contract ceiling, possibly shared among awardees; not money paid.\">ceiling</span>";
+      }
+      if (row.obligated != null) {
+        html += "<span class=\"sub\">" + compact(row.obligated) + " obligated at award</span>";
+      }
+      if (row.cap_pct != null) {
+        var tip = "Award amount relative to company market value on " + (row.cap_asof || "") + ". Size context only.";
+        html += "<span class=\"sub cap-pct\" title=\"" + QC.esc(tip) + "\">" + fmtPct(row.cap_pct) + " of mkt cap</span>";
+      }
+      return td(html, "num");
+    }
+    function awardRow(row) {
+      return cells([
+        dateCell(row),
+        agencyCell(row),
+        td(QC.esc(row.recipient || ""), "col-recipient"),
+        td(tickerLink(row.ticker)),
+        amountCell(row),
+        td(QC.esc(row.description || ""), "desc col-desc")
+      ]);
+    }
+    function upcomingRow(row) {
+      var when = QC.esc(row.deadline || "");
+      var desc = QC.esc(row.description || "");
+      if (row.notice_url) {
+        when = rowLink(row.notice_url, when);
+        desc = rowLink(row.notice_url, desc);
+      }
+      var value = row.value == null ? "<span class=\"muted\">Not published</span>" : money(row.value);
+      return cells([
+        td(when),
+        td(QC.esc(row.agency || ""), "agency"),
+        td(desc, "desc col-desc"),
+        td(tickerLink(row.ticker)),
+        td(value, "num")
+      ]);
+    }
     function failSoft(message) {
       document.getElementById("asof").textContent = message;
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>—</b><span>matched awards</span></div>" +
         "<div class=\"stat\"><b>—</b><span>matched trailing</span></div>" +
         "<div class=\"stat\"><b>—</b><span>unlinked, $10M+</span></div>";
-      document.getElementById("upcoming").innerHTML = emptyRow(4, message);
+      document.getElementById("show-rest").hidden = true;
+      document.getElementById("upcoming").innerHTML = emptyRow(5, message);
       document.getElementById("awards").innerHTML = emptyRow(6, message);
       document.getElementById("companies").innerHTML = emptyRow(4, message);
       document.getElementById("unlinked").innerHTML = emptyRow(5, message);
@@ -203,33 +329,32 @@
       });
       var trailing = companies.reduce(function (sum, row) { return sum + (Number(row.trailing_total) || 0); }, 0);
       var upcoming = data.upcoming || [];
-      document.getElementById("asof").textContent = QC.asOfLabel(data.generated) || "Contracts file loaded.";
+      var matched = awards.filter(function (row) {
+        return (row.source || "usaspending") !== "dod_announcement";
+      });
+      var label = QC.asOfLabel(data.generated) || "Contracts file loaded.";
+      if (data.dod) {
+        if (data.dod.status && data.dod.status !== "ok") label += " · DoD feed not updated this run";
+        else if (data.dod.latest) label += " · DoD announcements through " + monD(data.dod.latest);
+      }
+      document.getElementById("asof").textContent = label;
       document.getElementById("stats").innerHTML =
-        "<div class=\"stat\"><b>" + awards.length + "</b><span>matched awards</span></div>" +
+        "<div class=\"stat\"><b>" + matched.length + "</b><span>matched awards</span></div>" +
         "<div class=\"stat\"><b>" + compact(trailing) + "</b><span>matched trailing</span></div>" +
         "<div class=\"stat\"><b>" + unlinked.length + "</b><span>unlinked, $10M+</span></div>";
-      document.getElementById("upcoming").innerHTML = upcoming.length ? upcoming.map(function (row) {
-        return cells([
-          td(QC.esc(row.deadline || "")),
-          td(QC.esc(row.agency || "")),
-          td(QC.esc(row.description || ""), "desc"),
-          td(tickerLink(row.ticker))
-        ]);
-      }).join("") : emptyRow(4, "No upcoming notice in this file.");
-      document.getElementById("awards").innerHTML = awards.length ? awards.map(function (row) {
-        return cells([
-          td(QC.esc(row.date || "")),
-          td(QC.esc(row.agency || "")),
-          td(QC.esc(row.recipient || "")),
-          td(tickerLink(row.ticker)),
-          td(money(row.amount), "num"),
-          td(QC.esc(row.description || ""), "desc")
-        ]);
-      }).join("") : emptyRow(6, "No matched awards in this file.");
+      var rest = document.getElementById("show-rest");
+      function drawAwards(all) {
+        var rows = all ? awards : awards.slice(0, 25);
+        document.getElementById("awards").innerHTML = rows.length ? rows.map(awardRow).join("") : emptyRow(6, "No matched awards in this file.");
+        rest.hidden = all || awards.length <= 25;
+      }
+      rest.onclick = function () { drawAwards(true); };
+      drawAwards(false);
+      document.getElementById("upcoming").innerHTML = upcoming.length ? upcoming.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
       document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
         return cells([
           td(tickerLink(row.ticker)),
-          td(QC.esc(row.name || "")),
+          td(QC.esc(row.name || ""), "col-company"),
           td(String(row.awards || 0), "num"),
           td(money(row.trailing_total), "num")
         ]);
@@ -238,7 +363,7 @@
         return cells([
           td(QC.esc(row.date || "")),
           td(QC.esc(row.agency || "")),
-          td(QC.esc(row.recipient || "")),
+          td(QC.esc(row.recipient || ""), "col-recipient"),
           td(money(row.amount), "num"),
           td(QC.esc(row.description || ""), "desc")
         ]);

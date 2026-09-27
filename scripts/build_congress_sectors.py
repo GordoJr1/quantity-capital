@@ -8,7 +8,8 @@ Inputs
   * tickers.json  the site ticker file (SIC codes), used only for tickers the base has never seen.
 Output
   * research/sectors.json  (compact; weekly 13-week sector shares, yearly table, recent-vs-long-run table,
-    auto-computed "biggest shifts" list, incomplete-period markers).
+    eight calendar-quarter columns, the chart's latest 13-week column, auto-computed "biggest shifts" list,
+    incomplete-period markers).
 
 Dedupe with the tape: a tape purchase is dropped as a duplicate of a base (Kadoa) row when chamber, trade date and the
 floor of the amount range are equal, the filer names share a word, and the tickers are equal (or, when either ticker
@@ -280,6 +281,80 @@ def assemble(base_path, tape_path, tickers_path):
 def monday(o): return o - dt.date.fromordinal(o).weekday()
 def iso(o): return dt.date.fromordinal(o).isoformat()
 
+def _as_ord(as_of):
+    return as_of.toordinal() if isinstance(as_of, dt.date) else int(as_of)
+
+def quarter_windows(as_of):
+    """8 calendar quarters ending with the quarter that contains as_of, oldest first.
+
+    as_of is a datetime.date or a date ordinal. Returns (label, start_ordinal, end_ordinal).
+    """
+    d = as_of if isinstance(as_of, dt.date) else dt.date.fromordinal(int(as_of))
+    idx = d.year * 4 + (d.month - 1) // 3          # newest quarter, 0 = Q1
+    out = []
+    for i in range(idx - 7, idx + 1):
+        y, qq = divmod(i, 4)
+        start = dt.date(y, qq * 3 + 1, 1)
+        end = dt.date(y, 12, 31) if qq == 3 else dt.date(y, qq * 3 + 4, 1) - dt.timedelta(days=1)
+        out.append((f'Q{qq + 1} {y}', start.toordinal(), end.toordinal()))
+    return out
+
+def quarter_shade(end_ord, as_of):
+    """Same two levels as the chart: quarter last day vs as_of−45 / as_of−69."""
+    ao = _as_ord(as_of)
+    if end_ord >= ao - LAG_DAYS: return 'incomplete'
+    if end_ord >= ao - FILL_DAYS: return 'filling'
+    return None
+
+def quarter_marks(as_of):
+    """Quarter labels and shade, without counts. Each item is label, shade, partial, start, end."""
+    rows = []
+    for label, a, b in quarter_windows(as_of):
+        shade = quarter_shade(b, as_of)
+        rows.append(dict(label=label, start=iso(a), end=iso(b), shade=shade, partial=shade is not None))
+    return rows
+
+def quarter_share_table(purchases, as_of):
+    """Counts and sector shares for quarter_windows. purchases are {t: ordinal, b: sector}."""
+    wins = quarter_windows(as_of)
+    si = {s: i for i, s in enumerate(SECTORS)}
+    counts = [[0] * len(SECTORS) for _ in wins]
+    totals = [0] * len(wins)
+    spans = [(a, b) for _, a, b in wins]
+    lo, hi = spans[0][0], spans[-1][1]
+    for p in purchases:
+        t = p['t']
+        if t < lo or t > hi: continue
+        for i, (a, b) in enumerate(spans):
+            if a <= t <= b:
+                counts[i][si[p['b']]] += 1
+                totals[i] += 1
+                break
+    quarters, shares = [], []
+    for i, (label, a, b) in enumerate(wins):
+        shade = quarter_shade(b, as_of)
+        tot = totals[i]
+        quarters.append(dict(label=label, start=iso(a), end=iso(b), purchases=tot, partial=shade is not None, shade=shade))
+        if tot < MIN_N:
+            shares.append([None] * len(SECTORS))
+        else:
+            shares.append([round(float(counts[i][j] / tot * 100), 1) for j in range(len(SECTORS))])
+    return quarters, shares
+
+def current_column(as_of, share, total):
+    """Chart's latest point: 13 weeks ending the week of as_of. share/total come from series()."""
+    ao = _as_ord(as_of)
+    start = monday(ao) - 7 * (ROLL - 1)
+    if share[SECTORS[0]]:
+        shares = {s: share[s][-1] for s in SECTORS}
+    else:
+        shares = {s: None for s in SECTORS}
+        total = 0
+    return {
+        'from': iso(start), 'to': iso(ao), 'weeks': ROLL, 'purchases': int(total),
+        'partial': True, 'shade': 'incomplete', 'shares': shares,
+    }
+
 def series(S, as_of):
     import numpy as np
     w0, w1 = monday(min(p['t'] for p in S)), monday(as_of)
@@ -291,12 +366,16 @@ def series(S, as_of):
     R = cs[ROLL:] - cs[:-ROLL]                  # R[i] = window ending at week i + ROLL - 1
     weeks, share = [], {s: [] for s in SECTORS}
     start = SERIES_FROM.toordinal()
+    last_counts = [0] * len(SECTORS)
+    last_total = 0
     for i in range(len(R)):
         wk = w0 + 7 * (i + ROLL - 1)
         if wk < start: continue
         tot = R[i].sum(); weeks.append(iso(wk))
         for j, s in enumerate(SECTORS): share[s].append(round(float(R[i, j] / tot * 100), 1) if tot >= MIN_N else None)
-    return weeks, share
+        last_counts = [int(R[i, j]) for j in range(len(SECTORS))]
+        last_total = int(tot)
+    return weeks, share, last_counts, last_total
 
 def shares_of(counts):
     tot = sum(counts.values())
@@ -393,7 +472,7 @@ def build(base, tape, tickers, n_boot):
     P, as_of, info = assemble(base, tape, tickers)
     S = [p for p in P if p['b'] in SECTORS]
     stock_other = sum(1 for p in P if p['b'] == 'Other')
-    weeks, share = series(S, as_of)
+    weeks, share, _last_counts, last_total = series(S, as_of)
     tests, meta = shift_tests(S, as_of, n_boot)
     hist = [tests]
     for k in range(1, PERSIST):
@@ -404,10 +483,14 @@ def build(base, tape, tickers, n_boot):
     shown.sort(key=lambda r: (order[r['window']], -abs(r['diff'])))
     lines = [sentence(r, meta) for r in shown] or [NONE_TEXT]
     ym = {(r['sector'], r['window']): r for r in tests}
-    compare = [dict(sector=s, label=LABELS[s], longrun=round(ym[(s, '3y')]['longrun'], 1), last3y=round(ym[(s, '3y')]['recent'], 1),
-                    last12m=round(ym[(s, '12m')]['recent'], 1)) for s in SECTORS]
     lo_series = SERIES_FROM.toordinal()
     S2 = [p for p in S if p['t'] >= lo_series]
+    q_cols, q_shares = quarter_share_table(S2, as_of)
+    cur = current_column(as_of, share, last_total)
+    compare = [dict(sector=s, label=LABELS[s], longrun=round(ym[(s, '3y')]['longrun'], 1), last3y=round(ym[(s, '3y')]['recent'], 1),
+                    last12m=round(ym[(s, '12m')]['recent'], 1),
+                    quarters=[q_shares[i][j] for i in range(len(q_cols))], current=cur['shares'][s])
+               for j, s in enumerate(SECTORS)]
     out = {
         'version': 1,
         'generated_at': dt.datetime.now().astimezone().isoformat(timespec='seconds'),
@@ -421,7 +504,9 @@ def build(base, tape, tickers, n_boot):
         'sectors': SECTORS, 'labels': LABELS,
         'weeks': weeks, 'share': share,
         'yearly': yearly(S2, as_of),
-        'compare': {'longrun_years': meta['longrun_years'], 'cutoff': meta['cutoff'], 'windows': meta['windows'], 'rows': compare},
+        'compare': {'longrun_years': meta['longrun_years'], 'cutoff': meta['cutoff'], 'windows': meta['windows'],
+                    'quarters': q_cols, 'current': {k: cur[k] for k in ('from', 'to', 'weeks', 'purchases', 'partial', 'shade')},
+                    'rows': compare},
         'shifts': {'lines': lines, 'items': [{k: r[k] for k in ('sector', 'window', 'longrun', 'recent', 'diff')} for r in shown],
                    'rule': (f'Count-share change of at least {MIN_PP:g} points against the long-run average; member-cluster bootstrap interval excludes zero '
                             f'(Bonferroni over {N_TESTS} tests) both counting trades and counting each member equally; same direction by at least '

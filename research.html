@@ -214,12 +214,28 @@
     #congress-sectors .sx-legend { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 8px 0 0; padding: 0; font-size: 0.78rem; color: var(--paper); }
     #congress-sectors .sx-legend li { display: inline-flex; align-items: center; gap: 6px; }
     #congress-sectors .sx-sw { display: inline-block; width: 12px; height: 12px; border: 1px solid #1c2430; flex: 0 0 12px; }
-    #congress-sectors .sx-table { margin-top: 10px; }
+    #congress-sectors .sx-table { margin-top: 10px; max-width: 100%; overflow-x: auto; }
     #congress-sectors .sx-table caption { caption-side: top; text-align: left; color: var(--mute); font-size: 0.8rem; padding: 6px 10px; }
-    #congress-sectors .sx-table td.num { color: var(--paper); }
+    #congress-sectors .sx-table th, #congress-sectors .sx-table td { padding: 4px 5px; }
+    #congress-sectors .sx-table td.num { color: var(--paper); white-space: nowrap; font-size: 0.78rem; padding: 3px 4px; }
+    #congress-sectors .sx-table th.num { white-space: normal; line-height: 1.15; letter-spacing: 0.03em; vertical-align: bottom; }
+    #congress-sectors .sx-table th:first-child,
+    #congress-sectors .sx-table td:first-child {
+      position: sticky; left: 0; z-index: 1; background: var(--panel); box-shadow: 1px 0 0 #3a4452;
+    }
+    #congress-sectors .sx-table thead th:first-child { z-index: 2; }
+    #congress-sectors .sx-table tr.sx-purch td { color: var(--mute); font-size: 0.72rem; }
+    #congress-sectors .sx-table th.sx-incomplete,
+    #congress-sectors .sx-table td.sx-incomplete,
+    #congress-sectors .sx-table tr.sx-purch td.sx-incomplete { background: rgba(26, 29, 38, 0.9); color: var(--paper); }
+    #congress-sectors .sx-table th.sx-filling,
+    #congress-sectors .sx-table td.sx-filling,
+    #congress-sectors .sx-table tr.sx-purch td.sx-filling { background: rgba(26, 29, 38, 0.45); color: var(--paper); }
+    #congress-sectors .sx-note { color: var(--mute); font-size: 0.78rem; line-height: 1.4; margin: 6px 10px 2px; }
     @media (max-width: 820px) {
       #congress-sectors .sx-legend { font-size: 0.72rem; gap: 4px 10px; }
-      #congress-sectors .sx-table th, #congress-sectors .sx-table td { font-size: 0.74rem; padding: 6px 4px; }
+      #congress-sectors .sx-table th, #congress-sectors .sx-table td { font-size: 0.74rem; padding: 4px 3px; }
+      #congress-sectors .sx-table td.num { font-size: 0.78rem; white-space: nowrap; padding: 3px 4px; }
       #congress-sectors .sx-table th.num { white-space: normal; letter-spacing: 0.04em; }
     }
 </style>
@@ -380,9 +396,10 @@
       <div class="table-wrap sx-table" id="sx-table">
         <table>
           <caption>Each sector's share of purchases: long-run average and recent periods</caption>
-          <thead><tr><th>Sector</th><th class="num" id="sx-th-lr"></th><th class="num" id="sx-th-3y"></th><th class="num" id="sx-th-12m"></th></tr></thead>
+          <thead></thead>
           <tbody id="sx-rows"></tbody>
         </table>
+        <p class="sx-note">Shaded columns are not fully reported yet: dark includes the last 45 days, light includes trades from 45 to 69 days ago. Purchases = stock purchases counted in that column.</p>
       </div>
       <p class="data" id="sx-data"></p>
     </article>
@@ -555,9 +572,41 @@
       item("#1a1d26", "Last 45 days: not fully reported yet", "0.9");
       item("#1a1d26", "45 to 69 days ago: some trades still being reported", "0.45");
       var c = d.compare, cut = shortDate(c.cutoff);
-      document.getElementById("sx-th-lr").textContent = c.longrun_years[0] + "\u2013" + c.longrun_years[1] + " average";
-      document.getElementById("sx-th-3y").textContent = "3 years to " + cut;
-      document.getElementById("sx-th-12m").textContent = "12 months to " + cut;
+      function shadeClass(shade) {
+        if (shade === "incomplete") return "sx-incomplete";
+        if (shade === "filling") return "sx-filling";
+        return "";
+      }
+      function shadeTitle(shade) {
+        if (shade === "incomplete") return "Last 45 days: not fully reported yet";
+        if (shade === "filling") return "45 to 69 days ago: some trades still being reported";
+        return "";
+      }
+      var thead = document.querySelector("#sx-table thead");
+      thead.textContent = "";
+      var hr = document.createElement("tr");
+      function th(text, num, shade) {
+        var h = document.createElement("th");
+        var sc = shadeClass(shade);
+        h.className = (num ? "num" : "") + (sc ? (num ? " " : "") + sc : "");
+        h.textContent = text;
+        if (sc) h.title = shadeTitle(shade);
+        hr.appendChild(h);
+      }
+      th("Sector", false, null);
+      th(c.longrun_years[0] + "\u2013" + c.longrun_years[1] + " average", true, null);
+      c.quarters.forEach(function (q) { th(q.label, true, q.shade); });
+      th("3 years to " + cut, true, null);
+      th("12 months to " + cut, true, null);
+      th("Current (" + d.window_weeks + " weeks to " + shortDate(c.current.to) + ")", true, c.current.shade);
+      thead.appendChild(hr);
+      function cellNum(tr, v, shade) {
+        var n = document.createElement("td");
+        var sc = shadeClass(shade);
+        n.className = "num" + (sc ? " " + sc : "");
+        n.textContent = v == null ? "\u2013" : v.toFixed(1) + "%";
+        tr.appendChild(n);
+      }
       var rows = c.rows.slice().sort(function (a, b) { return b.longrun - a.longrun; });
       var tb = document.getElementById("sx-rows");
       tb.textContent = "";
@@ -565,9 +614,34 @@
         var tr = document.createElement("tr"), td = document.createElement("td"), sw = document.createElement("span");
         sw.className = "sx-sw"; sw.style.background = COLORS[r.sector] || "#888"; sw.style.marginRight = "6px"; sw.style.verticalAlign = "-1px";
         td.appendChild(sw); td.appendChild(document.createTextNode(r.label)); tr.appendChild(td);
-        [r.longrun, r.last3y, r.last12m].forEach(function (v) { var n = document.createElement("td"); n.className = "num"; n.textContent = v.toFixed(1) + "%"; tr.appendChild(n); });
+        cellNum(tr, r.longrun, null);
+        r.quarters.forEach(function (v, i) { cellNum(tr, v, c.quarters[i].shade); });
+        cellNum(tr, r.last3y, null);
+        cellNum(tr, r.last12m, null);
+        cellNum(tr, r.current, c.current.shade);
         tb.appendChild(tr);
       });
+      var pr = document.createElement("tr");
+      pr.className = "sx-purch";
+      var pl = document.createElement("td");
+      pl.textContent = "Purchases";
+      pr.appendChild(pl);
+      pr.appendChild(document.createElement("td"));
+      c.quarters.forEach(function (q) {
+        var n = document.createElement("td");
+        var sc = shadeClass(q.shade);
+        n.className = "num" + (sc ? " " + sc : "");
+        n.textContent = Number(q.purchases).toLocaleString("en-US");
+        pr.appendChild(n);
+      });
+      pr.appendChild(document.createElement("td"));
+      pr.appendChild(document.createElement("td"));
+      var nc = document.createElement("td");
+      var nsc = shadeClass(c.current.shade);
+      nc.className = "num" + (nsc ? " " + nsc : "");
+      nc.textContent = Number(c.current.purchases).toLocaleString("en-US");
+      pr.appendChild(nc);
+      tb.appendChild(pr);
       var cv = d.coverage;
       document.getElementById("sx-data").textContent = "Data: " + Number(cv.purchases).toLocaleString("en-US") + " stock purchases made since " + cv.from.slice(0, 4) +
         " by " + cv.members + " current and former members of Congress, as reported by " + longDate(d.as_of) + ". Sources: an open dataset of the official filings, up to September 22, 2026, plus our own daily collection.";

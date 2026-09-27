@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-27T11:10:51Z",
+  "generated": "2026-09-27T22:09:07Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -2998,6 +2998,13 @@
     {
       "deadline": "2026-10-05",
       "agency": "DEPT OF DEFENSE",
+      "description": "61--POWER SUPPLY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/eeb942ce968f482d84bd5150daf82c11/view"
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "DEPT OF DEFENSE",
       "description": "61--POWER SUPPLY,UNINTERRU",
       "ticker": null
     },
@@ -3177,18 +3184,11 @@
       "description": "MTI hats",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/9ae94dfdb65043cabf46dc3349be3d2a/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Sources Sought for Base Supply Services, Hurlburt Field",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/abc90d561da24b7ea81451d55b946492/view"
     }
   ],
   "dod": {
     "latest": "2026-09-25",
-    "fetched": "2026-09-27T11:10:51Z",
+    "fetched": "2026-09-27T22:09:07Z",
     "status": "ok",
     "rows": 130
   }

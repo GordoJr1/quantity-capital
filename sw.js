@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v231";
+const CACHE = "qc-shell-v233";
 const SHELL = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const SHELL = [
   "./claims.html",
   "./claims-db.html",
   "./contracts.html",
+  "./research.html",
   "./claims-db.js?v=5",
   "./claims-neighbors.js?v=1",
   "./claims-map.js?v=22",
@@ -15,6 +16,7 @@ const SHELL = [
   "./shell.css?v=164",
   "./shell.css?v=165",
   "./shell.css?v=168",
+  "./shell.css?v=169",
   "./politician.html",
   "./ticker.html",
   "./signals.html",

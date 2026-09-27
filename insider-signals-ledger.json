@@ -25500,6 +25500,19 @@
      "trade_px": 61.45,
      "ccy": "CAD",
      "added_on": null
+    },
+    {
+     "key": "rose-mike|TRMLF|2026-09-25|open_market",
+     "filer": "Rose, Mike",
+     "filer_id": "rose-mike",
+     "role": "Officer",
+     "title": "Senior Officer",
+     "trade_date": "2026-09-25",
+     "filed_date": "2026-09-25",
+     "value_usd": 216139.0,
+     "trade_px": 61.15,
+     "ccy": "CAD",
+     "added_on": "2026-09-27"
     }
    ],
    "exit": null,
@@ -41380,6 +41393,48 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "ELE|2026-09-24|baker-david-christopher",
+   "ticker": "ELE",
+   "company": "Elemental Royalty Corp.",
+   "commodity": "Gold",
+   "company_type": "Royalty",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": true,
+   "recorded_on": "2026-09-27",
+   "recorded_floor": "2026-09-27",
+   "signal_filed": "2026-09-24",
+   "signal_trade": "2026-09-24",
+   "entry_after": "2026-09-27",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 1334217637.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-09-25",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "baker-david-christopher|ELE|2026-09-24|open_market",
+     "filer": "Baker, David Christopher",
+     "filer_id": "baker-david-christopher",
+     "role": "Officer",
+     "title": "Chief Investment Officer",
+     "trade_date": "2026-09-24",
+     "filed_date": "2026-09-24",
+     "value_usd": 29507.0,
+     "trade_px": 28.14,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -41575,6 +41630,7 @@
   "baker-david-christopher|ELE|2025-11-25|open_market",
   "baker-david-christopher|ELE|2026-05-20|open_market",
   "baker-david-christopher|ELE|2026-06-25|open_market",
+  "baker-david-christopher|ELE|2026-09-24|open_market",
   "baker-vernon-casey|JAGGF|2025-04-15|open_market",
   "baker-vernon-casey|JAGGF|2025-05-13|open_market",
   "balaskas-christos|EGO|2026-06-23|open_market",
@@ -44406,6 +44462,7 @@
   "mumford-thomas|THSGF|2026-07-15|open_market",
   "muniz-quintanilla-daniel|NG|2026-02-06|open_market",
   "murdoch-douglas-blair|NAR.V|2026-09-16|open_market",
+  "murdoch-douglas-blair|NAR.V|2026-09-23|open_market",
   "murphy-michael-tikal|PREKF|2025-04-16|open_market",
   "murphy-michael-tikal|PREKF|2025-04-17|open_market",
   "murphy-michael-tikal|PREKF|2025-12-31|open_market",
@@ -45021,6 +45078,7 @@
   "rose-mike|TRMLF|2026-08-05|open_market",
   "rose-mike|TRMLF|2026-08-21|open_market",
   "rose-mike|TRMLF|2026-09-11|open_market",
+  "rose-mike|TRMLF|2026-09-25|open_market",
   "rosenthal-michael-stuart|MP|2026-05-20|open_market",
   "rosenthal-michael-stuart|MP|2026-06-09|open_market",
   "rosmus-roger|GOTRF|2025-04-04|open_market",
@@ -45949,5 +46007,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-09-26"
+ "last_run_date": "2026-09-27"
 }

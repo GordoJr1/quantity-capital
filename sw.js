@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v233";
+const CACHE = "qc-shell-v234";
 const SHELL = [
   "./",
   "./index.html",
@@ -95,7 +95,8 @@ self.addEventListener("fetch", (event) => {
     || /\/tape\/(?:page|all|filers)\.json$/.test(url.pathname)
     || /\/tape\/kind\/[^/]+\.json$/.test(url.pathname)
     || /\/tape\/politicians\/[^/]+\.json$/.test(url.pathname)
-    || /\/tape\/tickers\/[^/]+\.json$/.test(url.pathname);
+    || /\/tape\/tickers\/[^/]+\.json$/.test(url.pathname)
+    || /\/research\/sectors\.json$/.test(url.pathname);
   const isData = isTrade
     || /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|contracts|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-follow|price-checks)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname)

@@ -572,6 +572,8 @@
       item("#1a1d26", "Last 45 days: not fully reported yet", "0.9");
       item("#1a1d26", "45 to 69 days ago: some trades still being reported", "0.45");
       var c = d.compare, cut = shortDate(c.cutoff);
+      var qs = Array.isArray(c.quarters) ? c.quarters : [];
+      var cur = c.current && typeof c.current === "object" ? c.current : null;
       function shadeClass(shade) {
         if (shade === "incomplete") return "sx-incomplete";
         if (shade === "filling") return "sx-filling";
@@ -595,10 +597,10 @@
       }
       th("Sector", false, null);
       th(c.longrun_years[0] + "\u2013" + c.longrun_years[1] + " average", true, null);
-      c.quarters.forEach(function (q) { th(q.label, true, q.shade); });
+      qs.forEach(function (q) { th(q.label, true, q.shade); });
       th("3 years to " + cut, true, null);
       th("12 months to " + cut, true, null);
-      th("Current (" + d.window_weeks + " weeks to " + shortDate(c.current.to) + ")", true, c.current.shade);
+      if (cur) th("Current (" + d.window_weeks + " weeks to " + shortDate(cur.to) + ")", true, cur.shade);
       thead.appendChild(hr);
       function cellNum(tr, v, shade) {
         var n = document.createElement("td");
@@ -615,33 +617,39 @@
         sw.className = "sx-sw"; sw.style.background = COLORS[r.sector] || "#888"; sw.style.marginRight = "6px"; sw.style.verticalAlign = "-1px";
         td.appendChild(sw); td.appendChild(document.createTextNode(r.label)); tr.appendChild(td);
         cellNum(tr, r.longrun, null);
-        r.quarters.forEach(function (v, i) { cellNum(tr, v, c.quarters[i].shade); });
+        qs.forEach(function (q, i) { cellNum(tr, (r.quarters || [])[i], q.shade); });
         cellNum(tr, r.last3y, null);
         cellNum(tr, r.last12m, null);
-        cellNum(tr, r.current, c.current.shade);
+        if (cur) cellNum(tr, r.current, cur.shade);
         tb.appendChild(tr);
       });
-      var pr = document.createElement("tr");
-      pr.className = "sx-purch";
-      var pl = document.createElement("td");
-      pl.textContent = "Purchases";
-      pr.appendChild(pl);
-      pr.appendChild(document.createElement("td"));
-      c.quarters.forEach(function (q) {
-        var n = document.createElement("td");
-        var sc = shadeClass(q.shade);
-        n.className = "num" + (sc ? " " + sc : "");
-        n.textContent = Number(q.purchases).toLocaleString("en-US");
-        pr.appendChild(n);
-      });
-      pr.appendChild(document.createElement("td"));
-      pr.appendChild(document.createElement("td"));
-      var nc = document.createElement("td");
-      var nsc = shadeClass(c.current.shade);
-      nc.className = "num" + (nsc ? " " + nsc : "");
-      nc.textContent = Number(c.current.purchases).toLocaleString("en-US");
-      pr.appendChild(nc);
-      tb.appendChild(pr);
+      var note = document.querySelector("#sx-table .sx-note");
+      if (qs.length || cur) {
+        if (note) note.hidden = false;
+        var pr = document.createElement("tr");
+        pr.className = "sx-purch";
+        var pl = document.createElement("td");
+        pl.textContent = "Purchases";
+        pr.appendChild(pl);
+        pr.appendChild(document.createElement("td"));
+        qs.forEach(function (q) {
+          var n = document.createElement("td");
+          var sc = shadeClass(q.shade);
+          n.className = "num" + (sc ? " " + sc : "");
+          n.textContent = Number(q.purchases).toLocaleString("en-US");
+          pr.appendChild(n);
+        });
+        pr.appendChild(document.createElement("td"));
+        pr.appendChild(document.createElement("td"));
+        if (cur) {
+          var nc = document.createElement("td");
+          var nsc = shadeClass(cur.shade);
+          nc.className = "num" + (nsc ? " " + nsc : "");
+          nc.textContent = Number(cur.purchases).toLocaleString("en-US");
+          pr.appendChild(nc);
+        }
+        tb.appendChild(pr);
+      } else if (note) note.hidden = true;
       var cv = d.coverage;
       document.getElementById("sx-data").textContent = "Data: " + Number(cv.purchases).toLocaleString("en-US") + " stock purchases made since " + cv.from.slice(0, 4) +
         " by " + cv.members + " current and former members of Congress, as reported by " + longDate(d.as_of) + ". Sources: an open dataset of the official filings, up to September 22, 2026, plus our own daily collection.";

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28T11:11:32Z",
+  "generated": "2026-09-28T22:09:16Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,457 @@
     "unlinked": 17
   },
   "awards": [
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Raytheon Co.",
+      "ticker": "RTX",
+      "amount": 20699334581.0,
+      "ceiling": false,
+      "obligated": 154266225.0,
+      "mod": false,
+      "fms": true,
+      "contract": "FA8556-26-C-B001",
+      "cap_pct": 8.109,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "was awarded a not-to-exceed $20,699,334,581 fixed-price incentive firm and firm-fixed-price-undefinitized contract action multi-year contract for the Advanced\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Amentum Technology Inc.",
+      "ticker": "AMTM",
+      "amount": 572358987.0,
+      "ceiling": false,
+      "obligated": 15561950.0,
+      "mod": false,
+      "fms": false,
+      "contract": "",
+      "cap_pct": 12.198,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $572,358,987 cost-plus-incentive-fee for North American Aerospace Defense Command Cheyenne Mountain Complex - Integrated Tactical Warning/At\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Rockwell Collins Inc.",
+      "ticker": "RTX",
+      "amount": 249717034.0,
+      "ceiling": true,
+      "obligated": 0.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N6893626D5007",
+      "cap_pct": 0.098,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $249,717,034 cost-plus-fixed-fee, cost, firm-fixed-price, indefinite-delivery/indefinite-quantity contract to provide products and services for GP\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Rotary and Mission Systems",
+      "ticker": "LMT",
+      "amount": 155680800.0,
+      "ceiling": false,
+      "obligated": 222406.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N00024-23-C-5117",
+      "cap_pct": 0.13,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "was awarded a $155,680,800 cost-plus-award-fee type modification to previously-awarded contract N00024-23-C-5117 to exercise option items supporting systems en\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "DLA",
+      "recipient": "Boston Scientific Corp.",
+      "ticker": "BSX",
+      "amount": 135683214.0,
+      "ceiling": true,
+      "obligated": null,
+      "mod": false,
+      "fms": false,
+      "contract": "SPE2DE-26-D-0020",
+      "cap_pct": 0.213,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a maximum $135,683,214 firm-fixed-price with economic-price-adjustment, indefinite-delivery/indefinite-quantity contract for cardiovascular pr\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Rotary and Mission Systems",
+      "ticker": "LMT",
+      "amount": 72219389.0,
+      "ceiling": false,
+      "obligated": 36109694.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N00024-21-G-5102",
+      "cap_pct": 0.06,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $72,219,389 fixed-price, incentive-fee undefinitized contract action under previously awarded Basic Ordering Agreement N00024-21-G-5102 for AEGIS\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "L3Harris Fuzing and Ordnance Systems Inc.",
+      "ticker": "LHX",
+      "amount": 52319903.0,
+      "ceiling": false,
+      "obligated": 3693480.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N00174-26-C-1001",
+      "cap_pct": 0.118,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $52,319,903 firm-fixed-price modification to previously-awarded contract N00174-26-C-1001 for proximity fuzes to upgrade the Advanced Precision Ki\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Etolin Strait Development Group LLC",
+      "ticker": "OLN",
+      "amount": 42000000.0,
+      "ceiling": true,
+      "obligated": null,
+      "n_awardees": 29,
+      "mod": false,
+      "fms": false,
+      "contract": "N0017826D4316",
+      "cap_pct": null,
+      "cap_asof": null,
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "are awarded a combined $42,000,000 firm-fixed-price, indefinite-delivery/indefinite-quantity contract for facility repairs and renovations in multiple building\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Northrop Grumman Systems Corp.",
+      "ticker": "NOC",
+      "amount": 36987335.0,
+      "ceiling": false,
+      "obligated": 16183490.0,
+      "mod": true,
+      "fms": false,
+      "contract": "FA8615-17-C-6047",
+      "cap_pct": 0.051,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $36,987,335 modification (P00187) to previously awarded (FA8615-17-C-6047) for F-16 Integrated Viper Electronic Warfare Suite - Electronic W\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Raytheon Co.",
+      "ticker": "RTX",
+      "amount": 30193246.0,
+      "ceiling": false,
+      "obligated": 29636970.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N0001924C0032",
+      "cap_pct": 0.012,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a not-to-exceed $30,193,246 undefinitized, cost-plus incentive-fee modification (P00008) to previously awarded contract (N0001924C0032). This modifi\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Army",
+      "recipient": "DRS Sustainment Systems Inc.",
+      "ticker": "DRS",
+      "amount": 28553756.0,
+      "ceiling": false,
+      "obligated": null,
+      "mod": true,
+      "fms": false,
+      "contract": "W912CH-26-F-0282",
+      "cap_pct": 0.288,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "was awarded a $28,553,756 modification (P00005) to contract W912CH-26-F-0282 for additional Early Entry Fluid Distribution Systems and related support equipmen\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Honeywell Aerospace",
+      "ticker": "HONAV",
+      "amount": 25608698.0,
+      "ceiling": false,
+      "obligated": 500000.0,
+      "mod": false,
+      "fms": false,
+      "contract": "FA9453-26-C-X026",
+      "cap_pct": null,
+      "cap_asof": null,
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $25,608,698 cost-plus-fixed-fee contract for the compact strategic gyroscope-maturation project. This contract provides for radiation-harden\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Northrop Grumman Systems Corp.",
+      "ticker": "NOC",
+      "amount": 22320854.0,
+      "ceiling": false,
+      "obligated": 3682496.0,
+      "mod": false,
+      "fms": false,
+      "contract": "FA8579-26-C-0013",
+      "cap_pct": 0.031,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $22,320,854 firm-fixed-price contract for F-35 radar sustainment. This contract provides for sustainment for the F-35 radar. Work will be pe\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Raytheon Technologies, Raytheon Missiles and Defense",
+      "ticker": "RTX",
+      "amount": 21663323.0,
+      "ceiling": false,
+      "obligated": 21663323.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N0001926F1096",
+      "cap_pct": 0.008,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $21,663,323 cost-plus-fixed-fee, firm-fixed-price order (N0001926F1096) against a previously issued basic ordering agreement (N0001925G0009). This\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Northrop Grumman Systems Corp.",
+      "ticker": "NOC",
+      "amount": 19849996.0,
+      "ceiling": false,
+      "obligated": 12814613.0,
+      "mod": false,
+      "fms": false,
+      "contract": "",
+      "cap_pct": 0.027,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $19,849,996 firm-fixed-price job order (JO) against previously issued basic ordering agreement (BOA) (N0016425GJW77) for the procurement of test p\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Raytheon Technologies, Raytheon Missiles and Defense",
+      "ticker": "RTX",
+      "amount": 19508454.0,
+      "ceiling": false,
+      "obligated": 8610501.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N0001926F1195",
+      "cap_pct": 0.008,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $19,508,454 firm-fixed-price order (N0001926F1195) against a previously issued basic ordering agreement (N0001925G0009). This order procures 260 f\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Lockheed Martin Rotary and Mission Systems",
+      "ticker": "LMT",
+      "amount": 18899971.0,
+      "ceiling": false,
+      "obligated": 18899971.0,
+      "mod": true,
+      "fms": false,
+      "contract": "FA8730-21-C-0022",
+      "cap_pct": 0.016,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded an $18,899,971 modification (P00092) to a previously awarded contract (FA8730-21-C-0022) for Three-Dimensional Expeditionary Long-Range Radar.\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Textron Aviation Inc.",
+      "ticker": "TXT",
+      "amount": 18557557.0,
+      "ceiling": false,
+      "obligated": 18557557.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N0001926C1020",
+      "cap_pct": 0.141,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded an $18,557,557 firm-fixed-price contract to procure one UC-12W+ aircraft and associated spare parts in support of Marine Corps requirements. Work wi\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Eaton Mission Systems Division",
+      "ticker": "ETN",
+      "amount": 17198701.0,
+      "ceiling": false,
+      "obligated": 11774604.0,
+      "mod": false,
+      "fms": true,
+      "contract": "FA8213-26-C-0010",
+      "cap_pct": 0.01,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $17,198,701 contract for Universal Water Activated Release System (UWARS). This contract provides UWARS units to support and enhance aircrew\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Sikorsky Aircraft Corp.",
+      "ticker": "LMT",
+      "amount": 15490826.0,
+      "ceiling": false,
+      "obligated": 15490826.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N0001926F1205",
+      "cap_pct": 0.013,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $15,490,826 cost-plus-fixed-fee order (N0001926F1205) against a previously issued basic ordering agreement (N0001923G0002). This order provides no\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "The Boeing Co.",
+      "ticker": "BA",
+      "amount": 13781013.0,
+      "ceiling": false,
+      "obligated": 2635114.0,
+      "mod": false,
+      "fms": true,
+      "contract": "FA8526-26-F-B021",
+      "cap_pct": 0.009,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a $13,781,0130 cost-plus-fixed-fee, firm-fixed-price contract for cargo ramp lock actuators This contract provides for CRLAs for the C-17 flee\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Rockwell Collins Inc., Government Systems",
+      "ticker": "RTX",
+      "amount": 13763859.0,
+      "ceiling": false,
+      "obligated": 163624.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N6134017C0007",
+      "cap_pct": 0.005,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $13,763,859 modification (P00075) to a previously awarded firm-fixed-price contract (N6134017C0007). This modification establishes contract line i\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Aeronautics Co.",
+      "ticker": "LMT",
+      "amount": 12127945.0,
+      "ceiling": false,
+      "obligated": 2212810.0,
+      "mod": true,
+      "fms": true,
+      "contract": "N0001924F2584",
+      "cap_pct": 0.01,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $12,127,945 modification (P0002) to a cost-plus-fixed-fee order (N0001924F2584) against a previously issued basic ordering agreement (N0001924G001\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Corp., Rotary and Mission Systems",
+      "ticker": "LMT",
+      "amount": 12106110.0,
+      "ceiling": false,
+      "obligated": 1900000.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N00024-21-C-5105",
+      "cap_pct": 0.01,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "is awarded a $12,106,110 cost-plus-incentive-fee modification to previously awarded contract N00024-21-C-5105 to exercise options for Combat System Ship Integr\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Lockheed Martin Global Inc.",
+      "ticker": "LMT",
+      "amount": 11236734.0,
+      "ceiling": false,
+      "obligated": 11236734.0,
+      "mod": true,
+      "fms": true,
+      "contract": "FA2383-23-C-B001",
+      "cap_pct": 0.009,
+      "cap_asof": "2026-09-25",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
+      "description": "has been awarded a maximum $11,236,734 modification (P00012) to a previously awarded contract (FA2383-23-C-B001) for spare radar parts. The modification brings\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-09-26",
       "agency": "Environmental Protection Agency",
@@ -2719,6 +3170,13 @@
     },
     {
       "deadline": "2026-09-28",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Repair CARES Tower 6th Floor Cleveland VA Medical Center, Cleveland, OH",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e9299832d50a4dd3991f6b7de693e881/view"
+    },
+    {
+      "deadline": "2026-09-28",
       "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
       "description": "Rotations for Medical Genetics and Genomic Medicine Residency and Fellowship Training Programs",
       "ticker": null
@@ -2789,6 +3247,13 @@
     {
       "deadline": "2026-09-29",
       "agency": "DEPT OF DEFENSE",
+      "description": "CAP,PILLOW BLOCK",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fff4eea28d004450bfecfadd327ab51d/view"
+    },
+    {
+      "deadline": "2026-09-29",
+      "agency": "DEPT OF DEFENSE",
       "description": "Cultural Relations Specialist (CRS) - CJTF HOA",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/fd00d07cd4f04133b0d818dfed39b01c/view"
@@ -2839,6 +3304,27 @@
     },
     {
       "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "EOS M400-4 Lease",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f84a1bc36cfe406c83885d6ad257deee/view"
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "INTERNATIONAL BOUNDARY AND WATER COMMISSION: US-MEXICO",
+      "description": "Flexible Base Material for NIWTP Levee Road Resurfacing",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f4fd5c740bba4a12bad1aedb264e9105/view"
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "LD5 Anchor Bar Refurbishment",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/db7ea0fb36de4b49870b137e08873759/view"
+    },
+    {
+      "deadline": "2026-09-30",
       "agency": "ENERGY, DEPARTMENT OF",
       "description": "Long-Duration Energy Storage (LDES) Battery System",
       "ticker": null,
@@ -2857,6 +3343,13 @@
       "description": "RFQ 471924 DUNE VD Warm Bias SHV Cables",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/f4894e8e080e4ffb97e3dc700840d73b/view"
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Tobyhanna Army Depot DERP Tasks for Remediation",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d4cd8bb64d934649bcc23f43b237eaf0/view"
     },
     {
       "deadline": "2026-09-30",
@@ -2888,6 +3381,13 @@
     },
     {
       "deadline": "2026-10-02",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "GSA Pre-solicitation Notice for Sole Source in Marathon FL (6FL0665)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/50c43edb07bb465292bff64a82474b22/view"
+    },
+    {
+      "deadline": "2026-10-02",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
       "description": "H156--Site Visit Questions and Answers| WNY Chute, Barrier, & Door Inspections",
       "ticker": null
@@ -2915,6 +3415,34 @@
     {
       "deadline": "2026-10-02",
       "agency": "DEPT OF DEFENSE",
+      "description": "Market Intelligence - Richmond ARC - CM at Risk",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dd0a9a00cfb94fb29a681af6a6570565/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Request for Information (RFI) for Silent Anvil Air-Launched Torpedo (SAA-LT) Standoff Delivery Solutions",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/de6d74241e9b46319d99d1e29a6ea0b6/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "FEDERAL DEPOSIT INSURANCE CORPORATION",
+      "description": "Request for Information - Enterprise Laptop Acquisition",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d0e047e211ce4e988e73dc172d4722c5/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "TREASURY, DEPARTMENT OF THE",
+      "description": "SAP Software Subscription, Maintenance, and SAP N2 Cloud Hosting",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d128371e9b154eb9a8bf9d0235cf067e/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
       "description": "Towbar",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/5a5141c3c5444259906a1cbb6e4cd018/view"
@@ -2925,6 +3453,20 @@
       "description": "United States Marine Corps Communication Systems (UCS) Integrated Product Team (IPT) Support",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/6c20da183ee34546a429087779f1eb9b/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "V129--Patient Assisted Parking Services",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b30db1ef47194f6087f9acdf9bc74c34/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "VALVE, GATE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b9238c1d8095439f8dbca5cfe24fde19/view"
     },
     {
       "deadline": "2026-10-02",
@@ -2973,6 +3515,13 @@
       "description": "28--AIR INTAKE,TURBINE ENG",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/eddf8c9f53cf4e9086f749f1327972a7/view"
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "3550--Project Name: Veteran Self-Employment Plan \u2013 AI Vending Machines; Project Number: None; and Station Location: Sioux Falls, South Dakota, Veterans Affairs\u2026",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f4afdd89f43d467395d3946782500f2b/view"
     },
     {
       "deadline": "2026-10-05",
@@ -3030,138 +3579,43 @@
     },
     {
       "deadline": "2026-10-05",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "Insulated Floor Matting",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd62eedc4dfb457d90892c761910050e/view"
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Leica PM, RM and Calibration",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/8ae103ab7c97467abad773d8f1781e1e/view"
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Lessors of Nonresidential Office Space for Lease",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dc98df475c81439b8c4cef937b791a57/view"
+    },
+    {
+      "deadline": "2026-10-05",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
       "description": "W065--MRI",
       "ticker": null
     },
     {
-      "deadline": "2026-10-06",
+      "deadline": "2026-10-05",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--PARTS KIT,FASTENER",
+      "description": "Wiring Harness Branched",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/5498f7d1014740d3800e449323abf56f/view"
-    },
-    {
-      "deadline": "2026-10-06",
-      "agency": "DEPT OF DEFENSE",
-      "description": "ENGINE TURBINE BLADE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/7aa3d5b8e2024865a363b9ebfa734770/view"
-    },
-    {
-      "deadline": "2026-10-06",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Gym Membership Services BPA - AUS",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-06",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "Lake Tahoe Basin Janitorial",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-06",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
-      "description": "Provide Leased Modular Buildings - Nationwide",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/967721c7a3454699a7864f2061172f65/view"
-    },
-    {
-      "deadline": "2026-10-07",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
-      "description": "TSA ATSS RE-COMPETITION",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c6c53ff14bf243ada6ab83795e6eba16/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "25--ACTUATOR,HYDRAULIC-",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e77fd83d82d74e6aa660c4aa80efa96d/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "30--CONNECTING LINK,RIG",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fec27153d8e24ed39c75e6f8fe95dd8e/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "31--BEARING,SLEEVE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/6c8db0529fac48a6b6b5b6acbb69c562/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "43--PUMP UNIT,CENTRIFUGAL",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f7015a773f1440d4aedaeb34289793d0/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "48--STEM,FLUID VALVE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ed3fef41e2c049bcab0f6922113ac908/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "49--MAINTENANCE KIT,TORPED",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fcab14ce068a47ba9b8976c6eb8571e2/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "53--SPRING,FLAT",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e97c9a93649343ffbf82b7491e36da66/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "53--TURNBUCKLE",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "59--CABLE ASSEMBLY,RADIO F",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/a377e9c358a44f74927a55da54476844/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "59--CIRCUIT CARD ASSEMBLY",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f74f4d9c22104b9bba9066d8cddb44cd/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "59--HEADSET,ELECTRICAL",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f72a5e2e33284a0e83426bd2916513c2/view"
-    },
-    {
-      "deadline": "2026-10-08",
-      "agency": "DEPT OF DEFENSE",
-      "description": "59--RELAY,ELECTROMAGNETIC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e747e0292ad84626a5d1dcd5552b33fe/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/e936eec45a1d4197bb1c472f58d0851a/view"
     }
   ],
   "dod": {
-    "latest": "2026-09-25",
-    "fetched": "2026-09-28T11:11:32Z",
+    "latest": "2026-09-28",
+    "fetched": "2026-09-28T22:09:16Z",
     "status": "ok",
-    "rows": 127
+    "rows": 152
   }
 }

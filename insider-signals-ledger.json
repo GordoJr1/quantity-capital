@@ -23338,6 +23338,32 @@
      "trade_px": 5.45,
      "ccy": "CAD",
      "added_on": null
+    },
+    {
+     "key": "yip-tom|TPNEF|2026-09-24|open_market",
+     "filer": "Yip, Tom",
+     "filer_id": "yip-tom",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-09-24",
+     "filed_date": "2026-09-25",
+     "value_usd": 71251.0,
+     "trade_px": 6.7,
+     "ccy": "CAD",
+     "added_on": "2026-09-28"
+    },
+    {
+     "key": "awde-jonathan-charles-timothy|TPNEF|2026-09-25|open_market",
+     "filer": "Awde, Jonathan Charles Timothy",
+     "filer_id": "awde-jonathan-charles-timothy",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-09-25",
+     "filed_date": "2026-09-25",
+     "value_usd": 187332.0,
+     "trade_px": 6.625,
+     "ccy": "CAD",
+     "added_on": "2026-09-28"
     }
    ],
    "exit": null,
@@ -40924,9 +40950,22 @@
      "ccy": "USD"
     }
    ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "open",
+   "exit": {
+    "date": "2026-09-25",
+    "reason": "sale",
+    "px": 8.61,
+    "recorded_on": "2026-09-28",
+    "price_stale": false
+   },
+   "pending_exit": {
+    "reason": "sale",
+    "trigger_filed": "2026-09-24",
+    "trigger_key": "hamming-bryce|TGB|2026-09-22|sale_open_market",
+    "trigger_by": "Hamming, Bryce",
+    "exit_after": "2026-09-24",
+    "seen_on": "2026-09-28"
+   },
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -41608,6 +41647,7 @@
   "awde-jonathan-charles-timothy|TPNEF|2026-06-11|open_market",
   "awde-jonathan-charles-timothy|TPNEF|2026-06-16|open_market",
   "awde-jonathan-charles-timothy|TPNEF|2026-06-18|open_market",
+  "awde-jonathan-charles-timothy|TPNEF|2026-09-25|open_market",
   "ayotte-genevieve|LXM.V|2026-09-03|open_market",
   "babcock-gordon-j|LGO|2026-01-08|open_market",
   "backens-mark|VRMTF|2026-05-19|open_market",
@@ -43220,6 +43260,7 @@
   "hamming-bryce|TGB|2026-08-10|open_market",
   "hamming-bryce|TGB|2026-08-25|open_market",
   "hamming-bryce|TGB|2026-09-15|open_market",
+  "hamming-bryce|TGB|2026-09-22|open_market",
   "hand-scott-mckee|USAS|2026-03-31|open_market",
   "handford-ronald|GPTRF|2025-04-22|open_market",
   "handford-ronald|GPTRF|2025-04-25|open_market",
@@ -45964,6 +46005,7 @@
   "yilmaz-mehmet|EGO|2026-06-18|open_market",
   "yilmaz-mehmet|EGO|2026-09-17|open_market",
   "yip-jeffrey-patrick|NGXXF|2025-04-09|open_market",
+  "yip-tom|TPNEF|2026-09-24|open_market",
   "yopps-steven-wayne|IAUX|2026-05-15|open_market",
   "young-richard-scott|IAUX|2026-03-25|open_market",
   "young-richard-scott|IAUX|2026-08-18|open_market",

@@ -1,73 +1,10 @@
 {
-  "generated": "2026-09-29T22:22:39.887760+00:00",
+  "generated": "2026-09-29T23:00:56.787256+00:00",
   "tapeCollected": "2026-09-29T22:20:18.316742+00:00",
   "priceAsof": "2026-09-28",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
-    {
-      "code": "MRVL",
-      "name": "Marvell Technology Inc",
-      "action": "buy-dip",
-      "score": 7.879,
-      "why": "Just landed, weekly washed out, monthly still up",
-      "last": 251.9,
-      "pxAsof": "2026-09-28",
-      "buyPx": 218.72,
-      "chgSinceBuy": 0.1517,
-      "lastBuy": "2026-08-07",
-      "nBuyers": 3,
-      "buyHigh": 5045000,
-      "heatRank": 27,
-      "heat": 0.515,
-      "landed": true,
-      "landedAt": "2026-09-25T22:21:20.366354+00:00",
-      "lagDays": 49,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": true,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "Gilbert Cisneros",
-          "id": "gilbert-cisneros"
-        }
-      ],
-      "weekly": {
-        "rsi": 46.6,
-        "sma20": 234.28,
-        "sma40": 170.74,
-        "vs20": 7.5,
-        "ret4w": 12.7,
-        "ret13w": 2.7,
-        "fromHigh": -18.9,
-        "trend": "UP",
-        "recentLow": 216.62
-      },
-      "monthly": {
-        "rsi": 68.8,
-        "sma10": 166.38,
-        "vs10": 51.4,
-        "trend": "UP"
-      },
-      "invalidation": 216.62,
-      "flags": [
-        "Landed",
-        "Whale",
-        "Cluster",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
     {
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
@@ -131,7 +68,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 1
     }
   ],
   "avoid": [

@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-28T23:00:58.729963+00:00",
+  "generated": "2026-09-29T11:12:03.467628+00:00",
   "tapeCollected": "2026-09-28T22:20:24.603701+00:00",
-  "priceAsof": "2026-09-25",
+  "priceAsof": "2026-09-28",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
@@ -9,7 +9,7 @@
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
       "action": "buy-dip",
-      "score": 9.1,
+      "score": 9.075,
       "why": "Just landed, weekly washed out, monthly intact",
       "last": 146.23,
       "pxAsof": "2026-09-25",
@@ -19,7 +19,7 @@
       "nBuyers": 4,
       "buyHigh": 310000,
       "heatRank": 1,
-      "heat": 3.009,
+      "heat": 2.807,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 17,
@@ -75,7 +75,7 @@
       "code": "MRVL",
       "name": "Marvell Technology Inc",
       "action": "buy-dip",
-      "score": 7.904,
+      "score": 7.879,
       "why": "Just landed, weekly washed out, monthly still up",
       "last": 261.94,
       "pxAsof": "2026-09-25",
@@ -84,8 +84,8 @@
       "lastBuy": "2026-08-07",
       "nBuyers": 3,
       "buyHigh": 5045000,
-      "heatRank": 28,
-      "heat": 0.552,
+      "heatRank": 27,
+      "heat": 0.515,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 49,
@@ -148,7 +148,7 @@
       "nBuyers": 1,
       "buyHigh": 6000000,
       "heatRank": 58,
-      "heat": 0.261,
+      "heat": 0.244,
       "landed": true,
       "landedAt": "2026-08-25T11:17:22.724711+00:00",
       "lagDays": 28,
@@ -187,6 +187,60 @@
         "Monthly intact"
       ],
       "rank": 3
+    },
+    {
+      "code": "INTC",
+      "name": "Intel Corporation",
+      "action": "buy-dip",
+      "score": 6.36,
+      "why": "Just landed, weekly washed out, monthly still up",
+      "last": 123.0,
+      "pxAsof": "2026-09-25",
+      "buyPx": 92.32,
+      "chgSinceBuy": 0.3323,
+      "lastBuy": "2026-07-24",
+      "nBuyers": 1,
+      "buyHigh": 1000000,
+      "heatRank": 122,
+      "heat": 0.077,
+      "landed": true,
+      "landedAt": "2026-08-25T11:17:22.724711+00:00",
+      "lagDays": 32,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": true,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Nancy Pelosi",
+          "id": "nancy-pelosi"
+        }
+      ],
+      "weekly": {
+        "rsi": 44.6,
+        "sma20": 107.56,
+        "sma40": 81.58,
+        "vs20": 14.4,
+        "ret4w": 37.5,
+        "ret13w": -4.1,
+        "fromHigh": -8.2,
+        "trend": "UP",
+        "recentLow": 89.47
+      },
+      "monthly": {
+        "rsi": 74.0,
+        "sma10": 82.46,
+        "vs10": 49.2,
+        "trend": "UP"
+      },
+      "invalidation": 89.47,
+      "flags": [
+        "Landed",
+        "Whale",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 4
     }
   ],
   "avoid": [
@@ -194,7 +248,7 @@
       "code": "WDAY",
       "name": "Workday, Inc.",
       "action": "avoid",
-      "score": 3.285,
+      "score": 3.26,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 189.45,
       "pxAsof": "2026-09-25",
@@ -203,8 +257,8 @@
       "lastBuy": "2026-08-18",
       "nBuyers": 3,
       "buyHigh": 1030000,
-      "heatRank": 18,
-      "heat": 0.698,
+      "heatRank": 17,
+      "heat": 0.651,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 38,
@@ -257,7 +311,7 @@
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 2.678,
+      "score": 2.608,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 176.11,
       "pxAsof": "2026-09-25",
@@ -265,9 +319,9 @@
       "chgSinceBuy": -0.0291,
       "lastBuy": "2026-08-26",
       "nBuyers": 4,
-      "buyHigh": 90000,
+      "buyHigh": 75000,
       "heatRank": 4,
-      "heat": 1.372,
+      "heat": 1.222,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -276,10 +330,6 @@
       "whale": false,
       "cluster": true,
       "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
         {
           "name": "Scott Scott Franklin",
           "id": "c-scott-franklin"
@@ -291,6 +341,10 @@
         {
           "name": "Gilbert Cisneros",
           "id": "gilbert-cisneros"
+        },
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
         }
       ],
       "weekly": {
@@ -322,7 +376,7 @@
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 2.071,
+      "score": 2.05,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 516.17,
       "pxAsof": "2026-09-25",
@@ -332,7 +386,7 @@
       "nBuyers": 3,
       "buyHigh": 230000,
       "heatRank": 19,
-      "heat": 0.632,
+      "heat": 0.589,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
@@ -384,7 +438,7 @@
       "code": "MRK",
       "name": "Merck & Company, Inc.",
       "action": "avoid",
-      "score": 1.691,
+      "score": 1.666,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 148.78,
       "pxAsof": "2026-09-25",
@@ -394,7 +448,7 @@
       "nBuyers": 2,
       "buyHigh": 150000,
       "heatRank": 5,
-      "heat": 1.081,
+      "heat": 1.009,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -441,7 +495,7 @@
       "code": "ATRC",
       "name": "- Select UMA Account # 1 AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.225,
+      "score": 1.2,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 58.38,
       "pxAsof": "2026-09-25",
@@ -450,8 +504,8 @@
       "lastBuy": "2026-08-20",
       "nBuyers": 1,
       "buyHigh": 15000,
-      "heatRank": 42,
-      "heat": 0.41,
+      "heatRank": 41,
+      "heat": 0.382,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,

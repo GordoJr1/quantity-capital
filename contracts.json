@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-28T22:09:16Z",
+  "generated": "2026-09-29T11:11:07Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,14 +13,14 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-15",
-    "end": "2026-09-28"
+    "start": "2026-09-16",
+    "end": "2026-09-29"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 29,
-    "matched": 12,
-    "unlinked": 17
+    "kept": 33,
+    "matched": 13,
+    "unlinked": 20
   },
   "awards": [
     {
@@ -473,6 +473,17 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4613098/contracts-for-sept-28-2026/",
       "description": "has been awarded a maximum $11,236,734 modification (P00012) to a previously awarded contract (FA2383-23-C-B001) for spare radar parts. The modification brings\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-27",
+      "agency": "Homeland Security",
+      "recipient": "LOCKHEED MARTIN CORP",
+      "ticker": "LMT",
+      "amount": 7004765.0,
+      "description": "ENGINE NACELLES",
+      "naics": "336413",
+      "award_id": "70Z02326C91270001",
+      "source": "usaspending"
     },
     {
       "date": "2026-09-26",
@@ -2933,6 +2944,12 @@
       "trailing_total": 8358577.91
     },
     {
+      "ticker": "LMT",
+      "name": "Lockheed Martin Corporation",
+      "awards": 1,
+      "trailing_total": 7004765.0
+    },
+    {
       "ticker": "ACM",
       "name": "AECOM",
       "awards": 1,
@@ -2959,11 +2976,32 @@
   ],
   "unlinked": [
     {
+      "date": "2026-09-27",
+      "agency": "Treasury",
+      "recipient": "CARAHSOFT TECHNOLOGY CORP",
+      "amount": 18188860.2,
+      "description": "SERVICENOW ENTERPRISE"
+    },
+    {
+      "date": "2026-09-27",
+      "agency": "Justice",
+      "recipient": "BERING GLOBAL SOLUTIONS, LLC",
+      "amount": 10537080.0,
+      "description": "DISTRIBUTION SUPPLY AND SERVICE CENTER CONTRACT"
+    },
+    {
       "date": "2026-09-26",
       "agency": "Homeland Security",
       "recipient": "CLARK CONSTRUCTION GROUP LLC",
       "amount": 332000000.0,
       "description": "THIS TASK ORDER IS FOR A DESIGN BUILD PROJECT IN LAREDO, TX"
+    },
+    {
+      "date": "2026-09-26",
+      "agency": "Homeland Security",
+      "recipient": "CARAHSOFT TECHNOLOGY CORP",
+      "amount": 17340253.03,
+      "description": "SERVICENOW (SNOW) LICENSES IN SUPPORT OF OCIO"
     },
     {
       "date": "2026-09-25",
@@ -3080,146 +3118,6 @@
   ],
   "upcoming": [
     {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "(AFDW/CCP) Toilet Partition Replacement",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/db127c6d5b1a4d11838aae8e16f45430/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "100 CES - Snow Broom Cores",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/2238baf2bdcd43e287aa574eab0c0917/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "12--DISPLAY UNIT,HELMET - AND OTHER REPLACEMENT PARTS, IN REPAIR/MODIFICATION OF",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/8e22cf01f748400abfbc050c1a1a550b/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
-      "description": "30 FT Tournament Contender Boat",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "47--HOSE,NONMETALLIC",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
-      "description": "AMOC Projectors",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Alert Facility Cleaning Request",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/826e6c1f6f7e42228ec0b5ee4c252f44/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CONCRETE JERSEY BARRIERS",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "DA10--DSS DataBridge Maintenance and Support (VA-27-00000586)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/9fb79bd386284be58bb305b54a90fc42/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "IDIQ contract for assorted compressed gases and cylinders",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Indoor Firing Range Targeting Retrieval System",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "Portable Mainline Inspection System (Pipe Cameras)",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Preventative and corrective maintenance on U.S. Navy Diving Equipment, Flexible Hoses, Divers Life Support Systems (DLSS)",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Program Manager Counterproliferation (PMCP) Service Support",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "Repair CARES Tower 6th Floor Cleveland VA Medical Center, Cleveland, OH",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e9299832d50a4dd3991f6b7de693e881/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
-      "description": "Rotations for Medical Genetics and Genomic Medicine Residency and Fellowship Training Programs",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "SEAL Pro D w/ Productively Pack",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "SERVOVALVE ASSY",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/49fd4a52c28f4ab2ba6cf0390e87f043/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Schriever Cyber Threat Intelligence Software",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION",
-      "description": "Space Power and Reactor Capabilities (SPARC) - Draft Request for Proposals (DRFP)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/cf0e4a5ec0da46f091691e5c7a4b449c/view"
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Vertical Tank Storage System Demolition and Removal",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-28",
-      "agency": "DEPT OF DEFENSE",
-      "description": "office furniture",
-      "ticker": null
-    },
-    {
       "deadline": "2026-09-29",
       "agency": "DEPT OF DEFENSE",
       "description": "*******Solicitation Canceled**********Office Furniture",
@@ -3299,6 +3197,13 @@
     {
       "deadline": "2026-09-30",
       "agency": "DEPT OF DEFENSE",
+      "description": "554 RHS 50 K Water Well Drilling System (Deployable)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/af79f8ec9d8442c08d0c6348bfa09aac/view"
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
       "description": "Diamond Substrate",
       "ticker": null
     },
@@ -3315,6 +3220,13 @@
       "description": "Flexible Base Material for NIWTP Levee Road Resurfacing",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/f4fd5c740bba4a12bad1aedb264e9105/view"
+    },
+    {
+      "deadline": "2026-09-30",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Joint Marianas Fire and Emergency Services (JRM F&ES) Class B Uniform",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d1204d20a6a94be285e8d6499a2ed4fb/view"
     },
     {
       "deadline": "2026-09-30",
@@ -3360,6 +3272,13 @@
     },
     {
       "deadline": "2026-10-01",
+      "agency": "DEPT OF DEFENSE",
+      "description": "DRS ASSAULT KITCHEN UTENSILS",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b792ff6438714419ad5fc7a7e253b9ed/view"
+    },
+    {
+      "deadline": "2026-10-01",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
       "description": "H930--Generator Preventative Maintenance",
       "ticker": null,
@@ -3378,6 +3297,13 @@
       "description": "Contract Management Support Services",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/8b909316811a4711b650360f72c1c3ca/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "JUSTICE, DEPARTMENT OF",
+      "description": "FCC Allenwood Grease Trap Pumping and Cleaning FY27",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d6555506d27c403cb2665aceab098622/view"
     },
     {
       "deadline": "2026-10-02",
@@ -3467,6 +3393,13 @@
       "description": "VALVE, GATE",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/b9238c1d8095439f8dbca5cfe24fde19/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "VALVE, MANUAL BLEED",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ef3a1f58102b4179b657ee3635921c61/view"
     },
     {
       "deadline": "2026-10-02",
@@ -3610,11 +3543,128 @@
       "description": "Wiring Harness Branched",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/e936eec45a1d4197bb1c472f58d0851a/view"
+    },
+    {
+      "deadline": "2026-10-05",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Y1PZ--578-19-026: Installation of Hines Gate Control at the Hines VA Hospital in Hines, IL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ebcbaa01f89a4393a9960a84633dc21b/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "15--FITTING ASSEMBLY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f11e82774435408baaaee22304755f80/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "15--PANEL,LANDING,AIRCR",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee76ab3f1ede4f759c4ed5390676e3c5/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--PARTS KIT,FASTENER",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/5498f7d1014740d3800e449323abf56f/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--RING,SEAL,NOZZLE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd79dca08d8c435e8d6c4f4c203a4aee/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CAP,SOCKET HEAD",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f7b605ec85ac417294632d04775fcb41/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f3d84414efbc45fd921fe996738cb3bd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fa8e6a94d2734936a9958089662d014a/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ENGINE TURBINE BLADE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/7aa3d5b8e2024865a363b9ebfa734770/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Gym Membership Services BPA - AUS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lake Tahoe Basin Janitorial",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Laundry and Dry Cleaning Service for Osan Commissary and Osan CDC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/144e97dc596846428e0b1fa217ce3e3d/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
+      "description": "Provide Leased Modular Buildings - Nationwide",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/967721c7a3454699a7864f2061172f65/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/faaaf9d406624f208b22c99596527a18/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d3fa4ebfda8c43d5b364b815ee4c29b3/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/c446b2c680104d6481df7b26371206c6/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b1cf50efd9264b0ca9ea2f771026389f/view"
     }
   ],
   "dod": {
     "latest": "2026-09-28",
-    "fetched": "2026-09-28T22:09:16Z",
+    "fetched": "2026-09-29T11:11:07Z",
     "status": "ok",
     "rows": 152
   }

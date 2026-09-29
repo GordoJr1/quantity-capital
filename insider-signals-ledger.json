@@ -31025,7 +31025,13 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-09-28",
+    "reason": "sale",
+    "px": 3.54,
+    "recorded_on": "2026-09-29",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-09-25",
@@ -31034,7 +31040,7 @@
     "exit_after": "2026-09-25",
     "seen_on": "2026-09-26"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "STRESS",
    "exit_252_date": null,
@@ -41407,8 +41413,8 @@
    "signal_filed": "2026-09-25",
    "signal_trade": "2026-09-21",
    "entry_after": "2026-09-26",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-09-28",
+   "entry_px": 7.06,
    "mcap_usd_basis": 544848761.0,
    "stale63_basis": 0.0,
    "basis_date": "2026-09-25",
@@ -41431,7 +41437,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   },
   {
    "id": "ELE|2026-09-24|baker-david-christopher",
@@ -41449,8 +41459,8 @@
    "signal_filed": "2026-09-24",
    "signal_trade": "2026-09-24",
    "entry_after": "2026-09-27",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-09-28",
+   "entry_px": 27.92,
    "mcap_usd_basis": 1334217637.0,
    "stale63_basis": 0.0159,
    "basis_date": "2026-09-25",
@@ -41473,7 +41483,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   }
  ],
  "seen_keys": [
@@ -44407,6 +44421,8 @@
   "mirko-john-martin|RKMSF|2026-09-04|open_market",
   "mirko-john-martin|RKMSF|2026-09-11|open_market",
   "mirko-john-martin|RKMSF|2026-09-16|open_market",
+  "mirko-john-martin|RKMSF|2026-09-23|open_market",
+  "mirko-john-martin|RKMSF|2026-09-25|open_market",
   "misiano-daniel|DNGDF|2025-04-08|open_market",
   "misiano-daniel|DNGDF|2026-05-29|open_market",
   "misiano-daniel|DNGDF|2026-05-30|open_market",
@@ -46049,5 +46065,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-09-28"
+ "last_run_date": "2026-09-29"
 }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T11:40:57.495123+00:00",
+  "generated": "2026-09-30T22:10:18.253533+00:00",
   "tapeCollected": "2026-09-30T11:20:17.910318+00:00",
   "priceAsof": "2026-09-29",
   "windowDays": 90,
@@ -69,6 +69,59 @@
         "Monthly intact"
       ],
       "rank": 1
+    },
+    {
+      "code": "MTZ",
+      "name": "Mastec Inc",
+      "action": "watch",
+      "score": 6.424,
+      "why": "Landed \u00b7 Conflict \u00b7 Deep washout \u00b7 Monthly intact",
+      "last": 210.23,
+      "pxAsof": "2026-09-29",
+      "buyPx": 266.26,
+      "chgSinceBuy": -0.2104,
+      "lastBuy": "2026-08-21",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 23,
+      "heat": 0.505,
+      "landed": true,
+      "landedAt": "2026-09-15T11:20:21.799563+00:00",
+      "lagDays": 25,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Thomas H. Kean",
+          "id": "thomas-h-kean"
+        }
+      ],
+      "weekly": {
+        "rsi": 16.5,
+        "sma20": 306.62,
+        "sma40": 307.44,
+        "vs20": -31.4,
+        "ret4w": -11.4,
+        "ret13w": -43.7,
+        "fromHigh": -46.9,
+        "trend": "DOWN",
+        "recentLow": 210.23
+      },
+      "monthly": {
+        "rsi": 52.1,
+        "sma10": 297.92,
+        "vs10": -29.4,
+        "trend": "DOWN"
+      },
+      "invalidation": 197.62,
+      "flags": [
+        "Landed",
+        "Deep washout",
+        "Monthly intact"
+      ],
+      "rank": 2
     }
   ],
   "avoid": [

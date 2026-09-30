@@ -31344,6 +31344,19 @@
      "trade_px": 1.28,
      "ccy": "CAD",
      "added_on": null
+    },
+    {
+     "key": "thompson-sean-robert|BKRRF|2026-09-29|open_market",
+     "filer": "Thompson, Sean Robert",
+     "filer_id": "thompson-sean-robert",
+     "role": "Officer",
+     "title": "Head of Investor Relations",
+     "trade_date": "2026-09-29",
+     "filed_date": "2026-09-29",
+     "value_usd": 18728.0,
+     "trade_px": 1.062,
+     "ccy": "CAD",
+     "added_on": "2026-09-30"
     }
    ],
    "exit": null,
@@ -41501,6 +41514,48 @@
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.004
+  },
+  {
+   "id": "MLMLF|2026-09-28|kaszas-stephen-douglas",
+   "ticker": "MLMLF",
+   "company": "McFarlane Lake Mining",
+   "commodity": "Gold",
+   "company_type": "Explorer",
+   "venue": "CSE/NEO",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": true,
+   "recorded_on": "2026-09-30",
+   "recorded_floor": "2026-09-29",
+   "signal_filed": "2026-09-28",
+   "signal_trade": "2026-09-25",
+   "entry_after": "2026-09-29",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 206477721.0,
+   "stale63_basis": 0.2381,
+   "basis_date": "2026-09-29",
+   "last_financing_filed": "2026-09-14",
+   "td_since_financing": 10,
+   "caution": true,
+   "insiders": [
+    {
+     "key": "kaszas-stephen-douglas|MLMLF|2026-09-25|open_market",
+     "filer": "Kaszas, Stephen Douglas",
+     "filer_id": "kaszas-stephen-douglas",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-09-25",
+     "filed_date": "2026-09-28",
+     "value_usd": 21914.0,
+     "trade_px": 0.62,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -41527,6 +41582,7 @@
   "ainsworth-garrett-paul|MKVNF|2026-03-03|open_market",
   "ainsworth-garrett-paul|MKVNF|2026-03-17|open_market",
   "ainsworth-garrett-paul|MKVNF|2026-04-14|open_market",
+  "ainsworth-garrett-paul|MKVNF|2026-09-29|open_market",
   "al-joundi-ammar|AEM|2026-06-29|open_market",
   "aldcorn-gordon|PMOMF|2025-08-29|open_market",
   "alderson-anna-marie|ATUUF|2022-08-11|open_market",
@@ -42935,6 +42991,7 @@
   "farmer-iain-wesley|OR|2026-09-17|open_market",
   "farncomb-andrew|CTMCF|2026-09-11|open_market",
   "farrant-michael-hugh|NBRK.CN|2026-09-16|open_market",
+  "farrant-michael-hugh|NBRK.CN|2026-09-25|open_market",
   "farstad-lisa|FRHLF|2025-12-03|open_market",
   "feng-rui|TINFF|2025-04-02|open_market",
   "feng-rui|TINFF|2025-04-07|open_market",
@@ -43632,6 +43689,7 @@
   "karwowska-malgorzata|NCAUF|2026-06-25|open_market",
   "kasum-randolph-michael|DNO.V|2026-09-15|open_market",
   "kaszas-stephen-douglas|MLMLF|2026-02-06|open_market",
+  "kaszas-stephen-douglas|MLMLF|2026-09-25|open_market",
   "katusa-marin|OFSTF|2025-04-04|open_market",
   "katusa-marin|OFSTF|2025-04-07|open_market",
   "katusa-marin|OFSTF|2025-04-08|open_market",
@@ -44388,6 +44446,7 @@
   "miller-barry|INXS.V|2026-09-17|open_market",
   "miller-barry|INXS.V|2026-09-18|open_market",
   "miller-barry|INXS.V|2026-09-21|open_market",
+  "miller-barry|INXS.V|2026-09-25|open_market",
   "miller-brian-claude|ATEPF|2025-06-26|open_market",
   "miller-lucille|TRMLF|2025-08-14|open_market",
   "mills-russell|ERYTF|2026-07-30|open_market",
@@ -45696,6 +45755,7 @@
   "thompson-mark|NTR|2026-08-07|open_market",
   "thompson-mark|NTR|2026-08-18|open_market",
   "thompson-miles-frederick|LRAXF|2025-04-07|open_market",
+  "thompson-sean-robert|BKRRF|2026-09-29|open_market",
   "thomson-andrew|NBRK.CN|2026-09-21|open_market",
   "thorburn-karin-sigrid|BMM|2025-07-23|open_market",
   "thorburn-karin-sigrid|BMM|2025-07-24|open_market",
@@ -45847,6 +45907,8 @@
   "vint-michael|EQX|2025-06-20|open_market",
   "vis-darcy-berend|INXS.V|2026-09-11|open_market",
   "vis-darcy-berend|INXS.V|2026-09-15|open_market",
+  "vis-darcy-berend|INXS.V|2026-09-24|open_market",
+  "vis-darcy-berend|INXS.V|2026-09-29|open_market",
   "vizquerra-jose|AGMRF|2025-04-17|open_market",
   "volker-patricia-mary|DNN|2025-04-10|open_market",
   "volker-patricia-mary|DNN|2026-06-11|open_market",
@@ -46079,5 +46141,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-09-29"
+ "last_run_date": "2026-09-30"
 }

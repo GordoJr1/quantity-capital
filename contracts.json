@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-29T22:09:05Z",
+  "generated": "2026-09-30T11:11:00Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,14 +13,14 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-16",
-    "end": "2026-09-29"
+    "start": "2026-09-17",
+    "end": "2026-09-30"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 33,
-    "matched": 13,
-    "unlinked": 20
+    "kept": 40,
+    "matched": 14,
+    "unlinked": 26
   },
   "awards": [
     {
@@ -1233,6 +1233,17 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4614322/contracts-for-sept-28-2026/",
       "description": "is awarded a $9,326,000 firm-fixed-price modification to previously awarded contract N00024-22-C-5522 to procure spares and software licenses in support of Com\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "National Archives and Records Administration",
+      "recipient": "IRON MOUNTAIN INFORMATION MANAGEMENT LLC",
+      "ticker": "IRM",
+      "amount": 8806385.6,
+      "description": "THIS TASK ORDER IS FOR SERVICES TO COORDINATE AND PROVIDE STAFF AND TRANSPORTATION SERVICES TO PERFORM SHELF-TO-SHELF TRANSFER OF FEDERAL RECORDS BETWEEN VARIO\u2026",
+      "naics": "493110",
+      "award_id": "88310326F00213",
+      "source": "usaspending"
     },
     {
       "date": "2026-09-27",
@@ -3698,6 +3709,12 @@
       "trailing_total": 9738016.0
     },
     {
+      "ticker": "IRM",
+      "name": "Iron Mountain Inc",
+      "awards": 1,
+      "trailing_total": 8806385.6
+    },
+    {
       "ticker": "IQV",
       "name": "Iqvia Holdings Inc",
       "awards": 1,
@@ -3735,6 +3752,48 @@
     }
   ],
   "unlinked": [
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "KALEO, INC.",
+      "amount": 96058494.0,
+      "description": "THIS ACQUISITION WILL ALLOW BARDA TO INVEST PROJECT BIOSHIELD FUNDS FOR LATE-STAGE CLINICAL DEVELOPMENT, REGULATORY APPROVAL FOR 2-PAM AUTOINJECTORS (AS A DRUG\u2026"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "CHENEGA ENTERPRISE SYSTEMS & SOLUTIONS, LLC",
+      "amount": 37385494.95,
+      "description": "EO 14398 - CDC EMERGENCY MASS NOTIFICATION SYSTEM (EMNS)"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "ICF INCORPORATED, L.L.C.",
+      "amount": 14781831.44,
+      "description": "THE STATE AND TERRITORY CHILD CARE CAPACITY BUILDING CENTER (STCBC)"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "BANYAN COMMUNICATIONS, INC.",
+      "amount": 14283929.0,
+      "description": "THE PURPOSE OF THIS TASK ORDER IS TO OBTAIN COMMUNICATIONS, MARKETING AND ADVERTISING SERVICES TO PROMOTE BEHAVIOR CHANGE BY INCREASING THE AWARENESS, UNDERSTA\u2026"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "SIEMENS MEDICAL SOLUTIONS USA, INC.",
+      "amount": 12107393.0,
+      "description": "NIMH: SUPPLY: MAGNETOM TERRA.X IMPULSE EDITION MRI SYSTEM"
+    },
+    {
+      "date": "2026-09-28",
+      "agency": "Health and Human Services",
+      "recipient": "KNEXUS RESEARCH LLC",
+      "amount": 10595133.03,
+      "description": "HHS ADVANCED AI USER PILOT"
+    },
     {
       "date": "2026-09-27",
       "agency": "Treasury",
@@ -3877,104 +3936,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "*******Solicitation Canceled**********Office Furniture",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "100 FSS BASE THEATER AUDIO VISUAL EQUIPMENT",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d76b20bd7ea74e58b9c6c527711f86ae/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
-      "description": "384-well Viaflo Head",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Building 269 Mold Remediation Services",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CAP,PILLOW BLOCK",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fff4eea28d004450bfecfadd327ab51d/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CH-53K Electrical Optical (EO) / Infrared (IR) Sensor System Competition",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e6eb76345e7e496c978146f6bfe4da31/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Cultural Relations Specialist (CRS) - CJTF HOA",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fd00d07cd4f04133b0d818dfed39b01c/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Heating Ventilation and Air Conditioning, Industrial Water Treatment Services",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "K LOADER PARTS SUPPLY AT AL MINHAD AIRBASE, UNITED ARAB EMIRATES",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e089e6e095eb4f018b219908b0a49442/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
-      "description": "Microencapsulation Fluidics System",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
-      "description": "Procure Brand Name or Equal UTM UTX and BBR ammunition for the Federal Law Enforcement Training Center (FLETC) in Charleston, SC.",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "Repair Hail Damage Booneville, AR",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Repair of CCTV Fiber Connection",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ede11c7d6c7a44a6aa9816abcbc2e1f6/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Sources Sought for Engineering, Sustainment, and Integration Support Services for LATTICE-FORTRESS Systems from Anduril Industries, Inc.",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b40f4fe5e3844441abc75d7dcbbb5737/view"
-    },
-    {
-      "deadline": "2026-09-29",
-      "agency": "DEPT OF DEFENSE",
-      "description": "TRANSMITTER, PRESSURE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b5fb299b12cd41fcb0a7dffd965eeee4/view"
-    },
     {
       "deadline": "2026-09-30",
       "agency": "DEPT OF DEFENSE",
@@ -4247,6 +4208,13 @@
     {
       "deadline": "2026-10-03",
       "agency": "DEPT OF DEFENSE",
+      "description": "Portable Oxygen Regulator Test Set (PORTS)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/bd678ad6451c40538c3f3ef450ee5f6f/view"
+    },
+    {
+      "deadline": "2026-10-03",
+      "agency": "DEPT OF DEFENSE",
       "description": "Tester, Fuel Integrity",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/d5becc3eda3c47d8bd9cddd173bcb887/view"
@@ -4422,11 +4390,107 @@
       "description": "Y1PZ--578-19-026: Installation of Hines Gate Control at the Hines VA Hospital in Hines, IL",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/ebcbaa01f89a4393a9960a84633dc21b/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "15--FITTING ASSEMBLY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f11e82774435408baaaee22304755f80/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "15--PANEL,LANDING,AIRCR",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee76ab3f1ede4f759c4ed5390676e3c5/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--PARTS KIT,FASTENER",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/5498f7d1014740d3800e449323abf56f/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--RING,SEAL,NOZZLE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd79dca08d8c435e8d6c4f4c203a4aee/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CAP,SOCKET HEAD",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f7b605ec85ac417294632d04775fcb41/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f3d84414efbc45fd921fe996738cb3bd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fa8e6a94d2734936a9958089662d014a/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "6910--CRUCIAL LEARNING-GETTING THINGS DONE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dd829696703843bfa66634de5b799f84/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONSTRUCT US SPACE FORCE INTEGRATION FACILITY, F/10852 WPAFB, OHIO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7e196637f9e46f8ad603ddf8d175056/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ENGINE TURBINE BLADE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/7aa3d5b8e2024865a363b9ebfa734770/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "Elevator Maintenance & Related Services (Columbus, OH & Dayton, OH)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dc625c8250bc451f97d1847c5895a2cd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "G001--Cremation and related services for unclaimed remains Portland VAMC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d99a7e9d1ed84dac988281520f46c7e8/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Gym Membership Services BPA - AUS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lake Tahoe Basin Janitorial",
+      "ticker": null
     }
   ],
   "dod": {
     "latest": "2026-09-29",
-    "fetched": "2026-09-29T22:09:05Z",
+    "fetched": "2026-09-30T11:11:00Z",
     "status": "ok",
     "rows": 194
   }

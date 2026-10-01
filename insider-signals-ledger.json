@@ -25539,6 +25539,19 @@
      "trade_px": 61.15,
      "ccy": "CAD",
      "added_on": "2026-09-27"
+    },
+    {
+     "key": "rose-mike|TRMLF|2026-09-29|open_market",
+     "filer": "Rose, Mike",
+     "filer_id": "rose-mike",
+     "role": "Officer",
+     "title": "Senior Officer",
+     "trade_date": "2026-09-29",
+     "filed_date": "2026-09-29",
+     "value_usd": 212598.0,
+     "trade_px": 60.28,
+     "ccy": "CAD",
+     "added_on": "2026-10-01"
     }
    ],
    "exit": null,
@@ -41531,8 +41544,8 @@
    "signal_filed": "2026-09-28",
    "signal_trade": "2026-09-25",
    "entry_after": "2026-09-29",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-09-30",
+   "entry_px": 0.5,
    "mcap_usd_basis": 206477721.0,
    "stale63_basis": 0.2381,
    "basis_date": "2026-09-29",
@@ -41555,7 +41568,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   }
  ],
  "seen_keys": [
@@ -42276,6 +42293,8 @@
   "bowles-lee-phillip|VRDN.CN|2026-09-09|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-09-15|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-09-16|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-09-23|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-09-25|open_market",
   "boyd-robert-t|ENDGF|2025-08-05|open_market",
   "boyd-robert-t|ENDGF|2025-08-06|open_market",
   "boyd-robert-t|ENDGF|2025-11-06|open_market",
@@ -42413,6 +42432,7 @@
   "bures-peter|SLCRF|2026-09-15|open_market",
   "bures-peter|SLCRF|2026-09-22|open_market",
   "bures-peter|SLCRF|2026-09-23|open_market",
+  "bures-peter|SLCRF|2026-09-29|open_market",
   "burke-malcolm-patrick|YMMCF|2026-09-17|open_market",
   "burns-george-raymond|EGO|2026-05-12|open_market",
   "burns-george-raymond|EGO|2026-06-23|open_market",
@@ -43079,6 +43099,7 @@
   "fortin-andy|CHXMF|2025-05-05|open_market",
   "fowler-brian-philip|NSGCF|2026-08-04|open_market",
   "fowler-brian-philip|NSGCF|2026-08-05|open_market",
+  "fowler-brian-philip|NSGCF|2026-09-23|open_market",
   "frame-michael-macgregor|SXGC.TO|2025-12-08|open_market",
   "frame-riley-millar|PEYUF|2025-06-19|open_market",
   "frame-riley-millar|PEYUF|2025-10-20|open_market",
@@ -44536,6 +44557,7 @@
   "moreau-anthony|AMEGF|2026-09-22|open_market",
   "moreland-w-benjamin|LNG|2025-11-04|open_market",
   "morgan-blake|WSR.CN|2026-09-10|open_market",
+  "morgan-blake|WSR.CN|2026-09-25|open_market",
   "morihira-shaina-brianne|FRHLF|2025-06-06|open_market",
   "morihira-shaina-brianne|FRHLF|2025-06-09|open_market",
   "morihira-shaina-brianne|FRHLF|2025-12-16|open_market",
@@ -45212,6 +45234,7 @@
   "rose-mike|TRMLF|2026-08-21|open_market",
   "rose-mike|TRMLF|2026-09-11|open_market",
   "rose-mike|TRMLF|2026-09-25|open_market",
+  "rose-mike|TRMLF|2026-09-29|open_market",
   "rosenthal-michael-stuart|MP|2026-05-20|open_market",
   "rosenthal-michael-stuart|MP|2026-06-09|open_market",
   "rosmus-roger|GOTRF|2025-04-04|open_market",
@@ -45883,6 +45906,7 @@
   "varshney-peeyush-kumar|ZNX.V|2026-09-16|open_market",
   "varshney-peeyush-kumar|ZNX.V|2026-09-17|open_market",
   "varshney-peeyush-kumar|ZNX.V|2026-09-18|open_market",
+  "varshney-peeyush-kumar|ZNX.V|2026-09-25|open_market",
   "vauramo-pekka-juhani|B|2026-02-12|open_market",
   "vdovin-victor|SNWGF|2026-04-23|open_market",
   "vejvoda-josef|STLRF|2026-03-13|open_market",
@@ -46037,6 +46061,7 @@
   "williams-chad|NFGC|2025-10-24|open_market",
   "williams-chad|NFGC|2026-03-30|open_market",
   "williams-chad|NFGC|2026-05-27|open_market",
+  "williams-richard-david|WINS.V|2026-09-28|open_market",
   "williams-shane|LGCXF|2025-09-25|open_market",
   "williams-shane|WRLGF|2025-07-21|open_market",
   "williams-shane|WRLGF|2026-06-10|open_market",
@@ -46144,5 +46169,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-09-30"
+ "last_run_date": "2026-10-01"
 }

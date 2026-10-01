@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-30T23:00:56.399913+00:00",
+  "generated": "2026-10-01T11:11:58.031363+00:00",
   "tapeCollected": "2026-09-30T22:20:19.357835+00:00",
-  "priceAsof": "2026-09-29",
+  "priceAsof": "2026-09-30",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
@@ -9,7 +9,7 @@
       "code": "PG",
       "name": "Procter & Gamble Company (The)",
       "action": "watch",
-      "score": 7.05,
+      "score": 7.025,
       "why": "Landed \u00b7 Cluster \u00b7 Monthly intact",
       "last": 148.32,
       "pxAsof": "2026-09-29",
@@ -19,7 +19,7 @@
       "nBuyers": 4,
       "buyHigh": 310000,
       "heatRank": 1,
-      "heat": 2.619,
+      "heat": 2.444,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 17,
@@ -69,59 +69,6 @@
         "Monthly intact"
       ],
       "rank": 1
-    },
-    {
-      "code": "MTZ",
-      "name": "Mastec Inc",
-      "action": "watch",
-      "score": 6.424,
-      "why": "Landed \u00b7 Conflict \u00b7 Deep washout \u00b7 Monthly intact",
-      "last": 210.23,
-      "pxAsof": "2026-09-29",
-      "buyPx": 266.26,
-      "chgSinceBuy": -0.2104,
-      "lastBuy": "2026-08-21",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 23,
-      "heat": 0.505,
-      "landed": true,
-      "landedAt": "2026-09-15T11:20:21.799563+00:00",
-      "lagDays": 25,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Thomas H. Kean",
-          "id": "thomas-h-kean"
-        }
-      ],
-      "weekly": {
-        "rsi": 16.5,
-        "sma20": 306.62,
-        "sma40": 307.44,
-        "vs20": -31.4,
-        "ret4w": -11.4,
-        "ret13w": -43.7,
-        "fromHigh": -46.9,
-        "trend": "DOWN",
-        "recentLow": 210.23
-      },
-      "monthly": {
-        "rsi": 52.1,
-        "sma10": 297.92,
-        "vs10": -29.4,
-        "trend": "DOWN"
-      },
-      "invalidation": 197.62,
-      "flags": [
-        "Landed",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 2
     }
   ],
   "avoid": [
@@ -129,7 +76,7 @@
       "code": "WDAY",
       "name": "Workday, Inc.",
       "action": "avoid",
-      "score": 3.235,
+      "score": 3.21,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 189.17,
       "pxAsof": "2026-09-29",
@@ -139,7 +86,7 @@
       "nBuyers": 3,
       "buyHigh": 1030000,
       "heatRank": 16,
-      "heat": 0.608,
+      "heat": 0.567,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 38,
@@ -192,7 +139,7 @@
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 2.583,
+      "score": 2.558,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 177.12,
       "pxAsof": "2026-09-29",
@@ -202,7 +149,7 @@
       "nBuyers": 4,
       "buyHigh": 75000,
       "heatRank": 4,
-      "heat": 1.141,
+      "heat": 1.064,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -254,10 +201,63 @@
       "rank": 2
     },
     {
+      "code": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "action": "avoid",
+      "score": 2.025,
+      "why": "Signals heat, but weekly RSI is stretched into the highs",
+      "last": 186.97,
+      "pxAsof": "2026-09-29",
+      "buyPx": 132.38,
+      "chgSinceBuy": 0.4124,
+      "lastBuy": "2026-07-17",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 149,
+      "heat": 0.028,
+      "landed": true,
+      "landedAt": "2026-09-08T11:22:45.026760+00:00",
+      "lagDays": 53,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Gilbert Cisneros",
+          "id": "gilbert-cisneros"
+        }
+      ],
+      "weekly": {
+        "rsi": 76.2,
+        "sma20": 152.05,
+        "sma40": 149.92,
+        "vs20": 23.0,
+        "ret4w": 7.3,
+        "ret13w": 44.6,
+        "fromHigh": -1.4,
+        "trend": "UP",
+        "recentLow": 167.23
+      },
+      "monthly": {
+        "rsi": 55.3,
+        "sma10": 151.65,
+        "vs10": 23.3,
+        "trend": "UP"
+      },
+      "invalidation": 167.23,
+      "flags": [
+        "Landed",
+        "Monthly intact",
+        "Weekly extended"
+      ],
+      "rank": 3
+    },
+    {
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 2.029,
+      "score": 2.008,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 508.96,
       "pxAsof": "2026-09-29",
@@ -267,7 +267,7 @@
       "nBuyers": 3,
       "buyHigh": 230000,
       "heatRank": 18,
-      "heat": 0.55,
+      "heat": 0.513,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
@@ -313,66 +313,13 @@
         "Monthly intact",
         "Weekly extended"
       ],
-      "rank": 3
-    },
-    {
-      "code": "PLTR",
-      "name": "Palantir Technologies Inc.",
-      "action": "avoid",
-      "score": 2.025,
-      "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 186.97,
-      "pxAsof": "2026-09-29",
-      "buyPx": 132.38,
-      "chgSinceBuy": 0.4124,
-      "lastBuy": "2026-07-17",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 149,
-      "heat": 0.03,
-      "landed": true,
-      "landedAt": "2026-09-08T11:22:45.026760+00:00",
-      "lagDays": 53,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Gilbert Cisneros",
-          "id": "gilbert-cisneros"
-        }
-      ],
-      "weekly": {
-        "rsi": 76.2,
-        "sma20": 152.05,
-        "sma40": 149.92,
-        "vs20": 23.0,
-        "ret4w": 7.3,
-        "ret13w": 44.6,
-        "fromHigh": -1.4,
-        "trend": "UP",
-        "recentLow": 167.23
-      },
-      "monthly": {
-        "rsi": 55.3,
-        "sma10": 151.65,
-        "vs10": 23.3,
-        "trend": "UP"
-      },
-      "invalidation": 167.23,
-      "flags": [
-        "Landed",
-        "Monthly intact",
-        "Weekly extended"
-      ],
       "rank": 4
     },
     {
       "code": "ATRC",
       "name": "- Select UMA Account # 1 AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.175,
+      "score": 1.15,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 58.05,
       "pxAsof": "2026-09-29",
@@ -382,7 +329,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 41,
-      "heat": 0.357,
+      "heat": 0.333,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-30T22:09:23Z",
+  "generated": "2026-10-01T11:10:58Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,14 +13,14 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-17",
-    "end": "2026-09-30"
+    "start": "2026-09-18",
+    "end": "2026-10-01"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 40,
-    "matched": 14,
-    "unlinked": 26
+    "kept": 53,
+    "matched": 19,
+    "unlinked": 34
   },
   "awards": [
     {
@@ -461,6 +461,17 @@
     },
     {
       "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "LEIDOS BIOMEDICAL RESEARCH INC",
+      "ticker": "LDOS",
+      "amount": 72167416.0,
+      "description": "FUNCTIONAL PRECISION MEDICINE AND RESPONSE ASSAYS",
+      "naics": "541715",
+      "award_id": "75N91026F00034",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-09-29",
       "agency": "DOD",
       "branch": "Navy",
       "recipient": "Raytheon",
@@ -711,6 +722,50 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4614270/contracts-for-sept-29-2026/",
       "description": "is awarded a $9,326,000 firm-fixed-price modification to previously awarded contract N00024-22-C-5522 to procure spares and software licenses in support of Com\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "National Aeronautics and Space Administration",
+      "recipient": "AMENTUM SERVICES, INC.",
+      "ticker": "AMTM",
+      "amount": 3430029.45,
+      "description": "KPLSS II FY27 CUSTOMER FUNDING 80KSC026F7031",
+      "naics": "541330",
+      "award_id": "80KSC026F7031",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "AGILENT TECHNOLOGIES INC",
+      "ticker": "A",
+      "amount": 2597905.77,
+      "description": "AGILENT LAB EQUIPMENT EO13498",
+      "naics": "334516",
+      "award_id": "75D30126F21724",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "FEDEX CUSTOM CRITICAL INC",
+      "ticker": "FDX",
+      "amount": 1500000.0,
+      "description": "GROUND TRANSPORTATION LOGISTICS SERVICES IN SUPPORT OF ROUTINE, RAPID, SURGE, EXERCISE, AND EMERGENCY RESPONSE MISSIONS, IN ACCORDANCE WITH THE BPA AND THIS CA\u2026",
+      "naics": "492110",
+      "award_id": "75A50326F63001",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "National Aeronautics and Space Administration",
+      "recipient": "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION",
+      "ticker": "SAIC",
+      "amount": 1450000.0,
+      "description": "THE CONTRACTOR SHALL PROVIDE OPERATIONS & MAINTENANCE (O&M), DEVELOPMENT, AND MIGRATION SUPPORT FOR NASA SCIENCE MISSION DIRECTORATE (SMD) PUBLIC WEBSITES (SCI\u2026",
+      "naics": "541611",
+      "award_id": "80HQTR26FA072",
+      "source": "usaspending"
     },
     {
       "date": "2026-09-28",
@@ -3795,22 +3850,22 @@
   ],
   "companies": [
     {
+      "ticker": "LDOS",
+      "name": "Leidos Holdings, Inc.",
+      "awards": 4,
+      "trailing_total": 103288052.0
+    },
+    {
       "ticker": "ACN",
       "name": "Accenture plc",
       "awards": 2,
       "trailing_total": 39889870.730000004
     },
     {
-      "ticker": "LDOS",
-      "name": "Leidos Holdings, Inc.",
-      "awards": 3,
-      "trailing_total": 31120636.0
-    },
-    {
       "ticker": "SAIC",
       "name": "SCIENCE APPLICATIONS INTERNATIONAL CORPORATION",
-      "awards": 1,
-      "trailing_total": 10275630.21
+      "awards": 2,
+      "trailing_total": 11725630.21
     },
     {
       "ticker": "PLTR",
@@ -3843,10 +3898,28 @@
       "trailing_total": 5412677.74
     },
     {
+      "ticker": "AMTM",
+      "name": "Amentum Holdings, Inc.",
+      "awards": 1,
+      "trailing_total": 3430029.45
+    },
+    {
       "ticker": "GD",
       "name": "General Dynamics Corporation",
       "awards": 1,
       "trailing_total": 2999797.89
+    },
+    {
+      "ticker": "A",
+      "name": "Agilent Technologies",
+      "awards": 1,
+      "trailing_total": 2597905.77
+    },
+    {
+      "ticker": "FDX",
+      "name": "FedEx Corporation",
+      "awards": 1,
+      "trailing_total": 1500000.0
     },
     {
       "ticker": "HON",
@@ -3862,6 +3935,62 @@
     }
   ],
   "unlinked": [
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "KETCHUM INC.",
+      "amount": 64990000.0,
+      "description": "NATIONAL TOBACCO EDUCATION CAMPAIGN"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "SEQIRUS INC",
+      "amount": 42769479.0,
+      "description": "FORMULATION AND FILLING OF MF59-ADJUVANTED CELL-BASED A/HENAN/4-10CNIC/2022 (H3N8)-LIKE VACCINE AND CLINICAL TRIAL IMPLEMENTATION"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Energy",
+      "recipient": "QAYAQ GOVERNMENT SOLUTIONS LLC",
+      "amount": 33000000.0,
+      "description": "DESIGN AND CONSTRUCT A NEW MULTI-PURPOSE BUILDING ON THE OFFICE OF SECURE TRANSPORTATION'S (OST) TRAINING COMMAND (TRACOM) SITE IN FORT CHAFFEE, AR"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "NATIONAL OPINION RESEARCH CENTER",
+      "amount": 19912675.98,
+      "description": "NSECE 2029 - 2029 NATIONAL SURVEY OF EARLY CARE AND EDUCATION IS A NATIONALLY REPRESENTATIVE STUDY ADMINISTERED BY ACF'S OFFICE OF EARLY CHILDHOOD DEVELOPMENT."
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Energy",
+      "recipient": "GENERAL ATOMICS",
+      "amount": 19497353.27,
+      "description": "GENERAL ATOMICS - LITHIUM PROCESSING CAPABILITY DEMONSTRATION AND PURIFICATION SERVICES"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "National Aeronautics and Space Administration",
+      "recipient": "TROY SIERRA JV LLC",
+      "amount": 18657351.63,
+      "description": "THE TFOME III CONTRACT IS CONDUCTING THE PROCUREMENT OF OF SPECIAL TEST EQUIPMENT CONSISTING OF A THERMAL VACUUM CHAMBER SHELL AND THERMAL SHROUD FOR \"VACUUM C\u2026"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "ACUMEN LLC",
+      "amount": 12919772.39,
+      "description": "BEST 1 CONTRACT"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "EMENDATA LLC",
+      "amount": 10136034.0,
+      "description": "INDEPENDENTLY AND NOT AS AN AGENT OF THE GOVERNMENT, THE CONTRACTOR SHALL FURNISH ALL THE NECESSARY SERVICES, QUALIFIED PERSONNEL, MATERIAL, EQUIPMENT, AND FAC\u2026"
+    },
     {
       "date": "2026-09-28",
       "agency": "Health and Human Services",
@@ -4047,96 +4176,6 @@
   ],
   "upcoming": [
     {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "412th TW PA Installation Portable LED Screen",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e33228605b4843e5bde27b1d657766f9/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "554 RHS 50 K Water Well Drilling System (Deployable)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/af79f8ec9d8442c08d0c6348bfa09aac/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Diamond Substrate",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "EOS M400-4 Lease",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f84a1bc36cfe406c83885d6ad257deee/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "INTERNATIONAL BOUNDARY AND WATER COMMISSION: US-MEXICO",
-      "description": "Flexible Base Material for NIWTP Levee Road Resurfacing",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f4fd5c740bba4a12bad1aedb264e9105/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Joint Marianas Fire and Emergency Services (JRM F&ES) Class B Uniform",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d1204d20a6a94be285e8d6499a2ed4fb/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "LD5 Anchor Bar Refurbishment",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/db7ea0fb36de4b49870b137e08873759/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "STATE, DEPARTMENT OF",
-      "description": "Light Fixture Replacement (version 2)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/8cc5c68101fe4c4aacb56ebe8fef36bf/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "ENERGY, DEPARTMENT OF",
-      "description": "Long-Duration Energy Storage (LDES) Battery System",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e423f59603f44feba2c22eb294596f0b/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "PUMP ASSEMBLY, AFT - SPRRA127RA001",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/6d10705eb0de44769ea704d72c51d2b8/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "ENERGY, DEPARTMENT OF",
-      "description": "RFQ 471924 DUNE VD Warm Bias SHV Cables",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f4894e8e080e4ffb97e3dc700840d73b/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Tobyhanna Army Depot DERP Tasks for Remediation",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d4cd8bb64d934649bcc23f43b237eaf0/view"
-    },
-    {
-      "deadline": "2026-09-30",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "Vyntus Maintenance",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ad13b1161f8b4cbb95b8a612b7120229/view"
-    },
-    {
       "deadline": "2026-10-01",
       "agency": "DEPT OF DEFENSE",
       "description": "DRS ASSAULT KITCHEN UTENSILS",
@@ -4177,6 +4216,13 @@
       "description": "Lodging Agent Services for AMS Off-Base-Lodging (amended)",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/f894463242484b0e87f2db0958abca31/view"
+    },
+    {
+      "deadline": "2026-10-01",
+      "agency": "DEPT OF DEFENSE",
+      "description": "POWER SUPPLY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e03d20d005bd4453b4c64c1dee48a886/view"
     },
     {
       "deadline": "2026-10-01",
@@ -4287,6 +4333,13 @@
       "description": "NAICS 237990 PSC Y1PZ--CONS: 909CM3030 Fort Custer NC - Cemetery Expansion and Site Improvements (VA-26-00046764)",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/eccf047b0d974a89a39cb88625ee35bf/view"
+    },
+    {
+      "deadline": "2026-10-02",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Repair of NIIN 016691341; NOMEN: RECEIVER-TRANSMITTER,RADAR",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e3850bdf5fd24bbcb3bc22549355eac0/view"
     },
     {
       "deadline": "2026-10-02",
@@ -4598,11 +4651,88 @@
       "description": "15--PANEL,LANDING,AIRCR",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/ee76ab3f1ede4f759c4ed5390676e3c5/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--PARTS KIT,FASTENER",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/5498f7d1014740d3800e449323abf56f/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--RING,SEAL,NOZZLE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd79dca08d8c435e8d6c4f4c203a4aee/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CAP,SOCKET HEAD",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f7b605ec85ac417294632d04775fcb41/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f3d84414efbc45fd921fe996738cb3bd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--SCREW,CLOSE TOLERANCE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fa8e6a94d2734936a9958089662d014a/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "6910--CRUCIAL LEARNING-GETTING THINGS DONE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dd829696703843bfa66634de5b799f84/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "Amendment 0001",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f24c97f722b34d1e94822986cb9d03c7/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONSTRUCT US SPACE FORCE INTEGRATION FACILITY, F/10852 WPAFB, OHIO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7e196637f9e46f8ad603ddf8d175056/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ENGINE TURBINE BLADE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/7aa3d5b8e2024865a363b9ebfa734770/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "Elevator Maintenance & Related Services (Columbus, OH & Dayton, OH)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dc625c8250bc451f97d1847c5895a2cd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Fortified Rice, Pinto Beans, Vegetable Oil and Corn-Soy Blend Plus for use in International Food Assistance Programs.",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/424d33ebf4234327a1b5b0a0eac2781a/view"
     }
   ],
   "dod": {
     "latest": "2026-09-30",
-    "fetched": "2026-09-30T22:09:23Z",
+    "fetched": "2026-10-01T11:10:58Z",
     "status": "ok",
     "rows": 200
   }

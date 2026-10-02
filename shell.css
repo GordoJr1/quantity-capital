@@ -1903,13 +1903,15 @@ a.qc-follow-tag:hover { background: rgba(227, 180, 26, 0.12); }
 @media (max-width: 480px) {
   .qc-file-notes {
     flex-wrap: nowrap;
+    justify-content: flex-start;
     overflow: hidden;
     width: 100%;
     max-width: 100%;
   }
   .qc-file-note {
-    flex: 1 1 0;
+    flex: 0 1 auto;
     min-width: 0;
+    max-width: min(100%, 15rem);
   }
   .qc-file-note.is-extra { display: none !important; }
   .qc-file-note-more {

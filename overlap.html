@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1a1d26" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Quantity" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
+  <link rel="prefetch" href="politician-insider-overlap.json">
+  <title>Overlap — Quantity Capital</title>
+  <meta name="description" content="Members of Congress and company insiders who traded the same ticker in the same calendar week." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --steel: #1c2430; --panel: #2a3340; --paper: #d8dde3; --white: #eef2f5;
+      --caution: #e3b41a; --mute: #8b96a3; --ink: #1a1d26; --teal: #36999d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
+    body {
+      font-family: "IBM Plex Sans", sans-serif; color: var(--white);
+      background: linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)), url("city.jpg?v=15") 50% 30% / cover fixed;
+      min-height: 100vh;
+    }
+    .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
+    a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
+    .mark span { color: var(--teal); }
+    .muted { color: var(--mute); font-size: 0.92rem; line-height: 1.45; margin: 0 0 16px; }
+    .lede { max-width: 72ch; }
+    button.chip {
+      background: #151b24; border: 1px solid #4a5563; color: var(--paper);
+      padding: 8px 14px; font-size: 0.9rem; text-decoration: none;
+      display: inline-flex; align-items: center; min-height: 44px; cursor: pointer;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    button.chip.on { border-color: var(--caution); color: var(--caution); background: rgba(227, 180, 26, 0.08); }
+    .windows { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 0 22px; border: 1px solid #4a5563; background: var(--panel); }
+    .stat { padding: 12px 14px; border-right: 1px solid #3a4452; min-width: 0; }
+    .stat:last-child { border-right: 0; }
+    .stat b { display: block; font-family: "Barlow Condensed", sans-serif; font-size: 1.6rem; color: var(--caution); letter-spacing: 0.04em; }
+    .stat span { color: var(--mute); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .rep-wrap { overflow-x: auto; max-width: 100%; border: 1px solid #4a5563; background: var(--panel); }
+    table.rep { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.rep th, table.rep td { padding: 10px 12px; border-bottom: 1px solid #3a4452; vertical-align: top; text-align: left; }
+    table.rep th {
+      color: var(--mute); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      font-family: "Barlow Condensed", sans-serif; font-weight: 600; white-space: nowrap;
+    }
+    table.rep tbody tr:last-child td { border-bottom: 0; }
+    table.rep tbody tr:hover { background: rgba(54, 153, 157, 0.08); }
+    .tk, .who {
+      color: var(--white); text-decoration: none;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .tk { font-size: 1.2rem; }
+    .who { font-size: 1.05rem; }
+    .tk:hover, .who:hover { color: var(--teal); }
+    .firm { display: block; margin-top: 2px; font-size: 0.78rem; }
+    .firm a { color: var(--mute); text-decoration: none; }
+    .firm a:hover { color: var(--teal); }
+    .who-line { margin: 0 0 8px; }
+    .who-line:last-child { margin-bottom: 0; }
+    .sub {
+      display: block; color: var(--mute); font-size: 0.78rem; line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .more { color: var(--mute); font-size: 0.78rem; margin-top: 4px; }
+    .buy { color: #7dcf7a; }
+    .sell { color: #ef7a74; }
+    .opp { color: var(--caution); }
+    .mix { color: var(--paper); }
+    .match {
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em;
+      text-transform: uppercase; font-size: 1.05rem; white-space: nowrap;
+    }
+    .week { white-space: nowrap; }
+    .more-row { margin: 8px 0 28px; }
+    .more-row button {
+      background: transparent; border: 1px solid var(--caution); color: var(--caution);
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 10px 16px; min-height: 44px; cursor: pointer;
+    }
+    footer { border-top: 2px solid var(--caution); margin-top: 20px; }
+    footer .wrap {
+      display: flex; justify-content: space-between; padding: 18px 0 36px;
+      font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mute); gap: 12px;
+    }
+    footer a { color: var(--caution); }
+    .tabbar { display: none; }
+    @media (max-width: 820px) {
+      .wrap { width: calc(100% - 24px); }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .stat:nth-child(2), .stat:nth-child(4) { border-right: 0; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid #3a4452; }
+      .week { white-space: normal; }
+      table.rep thead { display: none; }
+      table.rep, table.rep tbody, table.rep tr, table.rep td { display: block; width: 100%; }
+      table.rep tr {
+        border-bottom: 1px solid #4a5563;
+        border-left: 6px solid var(--teal);
+        padding: 4px 0 8px;
+      }
+      table.rep td { border-bottom: 0; padding: 8px 12px; }
+      table.rep td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--mute);
+        font-family: "Barlow Condensed", sans-serif;
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+      }
+      table.rep tbody tr:hover { background: transparent; }
+      .rep-wrap { overflow: visible; border-left-width: 0; background: transparent; }
+      .tabbar { overflow: hidden; }
+    }
+  </style>
+  <link rel="stylesheet" href="shell.css?v=169" />
+</head>
+<body>
+  <a class="qc-skip" href="#main">Skip to content</a>
+  <header class="qc-header">
+    <div class="wrap qc-header-inner">
+      <a class="mark" href="index.html">Quantity <span>Capital</span></a>
+      <nav class="qc-nav" aria-label="Insider tape">
+        <a href="insiders.html" title="Officer trade tape">Tape</a>
+        <a href="insider-landed.html" title="New insider filings">Filed</a>
+        <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+        <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+        <a href="overlap.html" class="on" aria-current="page" title="Congress and a company insider, same week">Overlap</a>
+        <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
+      </nav>
+      <div class="qc-modes">
+        <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
+        <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+      </div>
+    </div>
+  </header>
+  <div class="wrap" id="main">
+    <div class="page-head">
+      <h1>Overlap</h1>
+      <p class="asof" id="asof"></p>
+    </div>
+    <p class="lede muted">A member of Congress and a company insider both traded this ticker in the same calendar week. Same week is not evidence of coordination.</p>
+    <div class="stats" id="stats">
+      <div class="stat"><b id="n-rows">—</b><span>Rows</span></div>
+      <div class="stat"><b id="n-tickers">—</b><span>Tickers</span></div>
+      <div class="stat"><b id="n-same">—</b><span>Same side</span></div>
+      <div class="stat"><b id="n-opp">—</b><span>Opposite</span></div>
+    </div>
+    <div class="windows" id="filters" role="group" aria-label="Filter overlaps">
+      <button type="button" class="chip on" data-f="all" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-f="same" aria-pressed="false">Same side</button>
+      <button type="button" class="chip" data-f="opposite" aria-pressed="false">Opposite</button>
+    </div>
+    <p class="muted" id="empty" hidden></p>
+    <div class="rep-wrap" id="table-wrap" hidden>
+      <table class="rep">
+        <thead>
+          <tr>
+            <th scope="col">Ticker</th>
+            <th scope="col">Week</th>
+            <th scope="col">Congress</th>
+            <th scope="col">Insiders</th>
+            <th scope="col">Sides</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="more-row" id="more-row" hidden>
+      <button type="button" id="more">Show all</button>
+    </div>
+  </div>
+  <footer>
+    <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
+  </footer>
+  <script src="qc.js?v=129"></script>
+  <script>
+    (function () {
+      var QCAPI = window.QC || {};
+      var payload = null;
+      var filter = "all";
+      var shown = 80;
+
+      function esc(s) {
+        if (QCAPI.esc) return QCAPI.esc(s);
+        return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function prettyDay(iso) {
+        var parts = String(iso || "").split("-");
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var y = Number(parts[0]), m = Number(parts[1]), d = Number(parts[2]);
+        if (!y || !m || !d) return "";
+        return months[m - 1] + " " + d + ", " + y;
+      }
+
+      function money(n) {
+        if (n == null || n === "" || !isFinite(Number(n))) return "—";
+        if (QCAPI.formatMoney) return QCAPI.formatMoney(Math.abs(Number(n)));
+        return "$" + Number(n).toLocaleString("en-US");
+      }
+
+      function amount(raw) {
+        if (!raw) return "—";
+        if (QCAPI.formatAmountRange) return QCAPI.formatAmountRange(raw);
+        return String(raw);
+      }
+
+      function matchMeta(m) {
+        if (m === "both buy") return { cls: "buy", label: "Both buy" };
+        if (m === "both sell") return { cls: "sell", label: "Both sell" };
+        if (m === "opposite") return { cls: "opp", label: "Opposite" };
+        return { cls: "mix", label: "Mixed" };
+      }
+
+      function sideWord(side) {
+        var cls = side === "Sell" ? "sell" : "buy";
+        return "<span class=\"" + cls + "\">" + esc(side || "") + "</span>";
+      }
+
+      function tickerCell(code) {
+        var t = encodeURIComponent(code || "");
+        return "<a class=\"tk\" href=\"ticker.html?t=" + t + "\">" + esc(code) + "</a>" +
+          "<span class=\"firm\"><a href=\"insider-ticker.html?t=" + t + "\">Insider tape</a></span>";
+      }
+
+      function polLine(p) {
+        var name = esc(p.name || "Member");
+        var who = p.id
+          ? "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(p.id) + "\">" + name + "</a>"
+          : "<span class=\"who\">" + name + "</span>";
+        var bits = [p.chamber, prettyDay(p.trade_date)].filter(Boolean).map(esc);
+        return "<div class=\"who-line\">" + who +
+          "<span class=\"sub\">" + sideWord(p.side) + " · " + esc(amount(p.amount)) +
+          (bits.length ? " · " + bits.join(" · ") : "") + "</span></div>";
+      }
+
+      function insLine(p) {
+        var name = esc(p.name || "Insider");
+        var who = p.id
+          ? "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(p.id) + "\">" + name + "</a>"
+          : "<span class=\"who\">" + name + "</span>";
+        var title = p.title ? esc(p.title) + " · " : "";
+        return "<div class=\"who-line\">" + who +
+          "<span class=\"sub\">" + title + sideWord(p.side) + " · " + esc(money(p.value)) +
+          (p.trade_date ? " · " + esc(prettyDay(p.trade_date)) : "") + "</span></div>";
+      }
+
+      function people(list, more, line) {
+        var html = (list || []).map(line).join("");
+        if (more > 0) html += "<div class=\"more\">+" + more + " more</div>";
+        return html || "—";
+      }
+
+      function visibleRows() {
+        var rows = (payload && payload.rows) || [];
+        if (filter === "same") return rows.filter(function (r) { return r.match === "both buy" || r.match === "both sell"; });
+        if (filter === "opposite") return rows.filter(function (r) { return r.match === "opposite"; });
+        return rows;
+      }
+
+      function setStat(id, value) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = value;
+      }
+
+      function paint() {
+        var empty = document.getElementById("empty");
+        var wrap = document.getElementById("table-wrap");
+        var body = document.getElementById("rows");
+        var moreRow = document.getElementById("more-row");
+        if (!payload) {
+          if (empty) {
+            empty.hidden = false;
+            empty.textContent = "Not built yet";
+          }
+          if (wrap) wrap.hidden = true;
+          if (moreRow) moreRow.hidden = true;
+          return;
+        }
+        var stats = payload.stats || {};
+        setStat("n-rows", (stats.rows || 0).toLocaleString("en-US"));
+        setStat("n-tickers", (stats.tickers || 0).toLocaleString("en-US"));
+        setStat("n-same", (stats.same_side || 0).toLocaleString("en-US"));
+        setStat("n-opp", (stats.opposite || 0).toLocaleString("en-US"));
+        var asof = document.getElementById("asof");
+        if (asof) {
+          var when = QCAPI.asOfLabel ? QCAPI.asOfLabel(payload.generated) : "";
+          var since = payload.window_start ? "Since " + prettyDay(payload.window_start) : "";
+          asof.textContent = [when, since].filter(Boolean).join(" · ");
+        }
+        var rows = visibleRows();
+        if (!rows.length) {
+          if (empty) {
+            empty.hidden = false;
+            empty.textContent = "No rows in this view.";
+          }
+          if (wrap) wrap.hidden = true;
+          if (moreRow) moreRow.hidden = true;
+          if (body) body.innerHTML = "";
+          return;
+        }
+        if (empty) empty.hidden = true;
+        if (wrap) wrap.hidden = false;
+        var slice = rows.slice(0, shown);
+        if (body) {
+          body.innerHTML = slice.map(function (r) {
+            var meta = matchMeta(r.match);
+            return "<tr>" +
+              "<td data-label=\"Ticker\">" + tickerCell(r.ticker) + "</td>" +
+              "<td class=\"week\" data-label=\"Week\">" + esc(r.label || r.week || "") + "</td>" +
+              "<td data-label=\"Congress\">" + people(r.politicians, r.politicians_more, polLine) + "</td>" +
+              "<td data-label=\"Insiders\">" + people(r.insiders, r.insiders_more, insLine) + "</td>" +
+              "<td data-label=\"Sides\"><span class=\"match " + meta.cls + "\">" + esc(meta.label) + "</span></td>" +
+              "</tr>";
+          }).join("");
+        }
+        if (moreRow) moreRow.hidden = rows.length <= shown;
+      }
+
+      document.getElementById("filters").addEventListener("click", function (e) {
+        var btn = e.target.closest("button[data-f]");
+        if (!btn) return;
+        filter = btn.getAttribute("data-f") || "all";
+        shown = 80;
+        document.querySelectorAll("#filters button").forEach(function (el) {
+          var on = el === btn;
+          el.classList.toggle("on", on);
+          el.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        paint();
+      });
+      document.getElementById("more").addEventListener("click", function () {
+        shown = 100000;
+        paint();
+      });
+
+      fetch("politician-insider-overlap.json", { cache: "no-store" })
+        .then(function (res) {
+          if (!res.ok) throw new Error(String(res.status));
+          return res.json();
+        })
+        .then(function (data) {
+          if (!data || !Array.isArray(data.rows)) throw new Error("shape");
+          payload = data;
+          paint();
+        })
+        .catch(function () {
+          payload = null;
+          paint();
+        });
+
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js", { updateViaCache: "none" }).catch(function () {});
+      }
+    })();
+  </script>
+  <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Insider tape">
+    <a href="insiders.html" title="Officer trade tape">Tape</a>
+    <a href="insider-landed.html" title="New insider filings">Filed</a>
+    <a href="insider-signals.html" title="Insider buy heat">Heat</a>
+    <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+    <a href="overlap.html" class="on" aria-current="page" title="Congress and a company insider, same week">Overlap</a>
+    <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
+  </nav>
+</body>
+</html>

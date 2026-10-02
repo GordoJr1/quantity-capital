@@ -645,6 +645,7 @@
         <a href="insider-landed.html" title="New insider filings">Filed</a>
         <a href="insider-signals.html" title="Insider buy heat">Heat</a>
         <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+        <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
         <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
       </nav>
       <div class="qc-modes">
@@ -697,7 +698,7 @@
     </div>
     <footer>Not investment advice · Form 4 / public insider prints</footer>
   </div>
-  <script src="qc.js?v=126"></script>
+  <script src="qc.js?v=131"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
@@ -768,12 +769,13 @@
     document.getElementById("who").textContent = ticker;
     document.title = ticker + " — Quantity Capital";
     const back = document.getElementById("back");
-    if (filerId) {
-      back.href = "insider.html?id=" + encodeURIComponent(filerId);
-      back.textContent = "← Insider";
-    } else {
-      back.href = "insiders.html";
-      back.textContent = "← Insiders";
+    if (back) {
+      if (filerId) {
+        back.href = "insider.html?id=" + encodeURIComponent(filerId);
+        back.textContent = "← Insider";
+      }
+      back.setAttribute("data-qc-back-fallback", back.getAttribute("href") || "insiders.html");
+      if (window.QC) QC.bindBack(back);
     }
 
     const cutoff = new Date();
@@ -1136,6 +1138,7 @@
     <a href="insider-landed.html" title="New insider filings">Filed</a>
     <a href="insider-signals.html" title="Insider buy heat">Heat</a>
     <a href="insider-board.html" title="Officer leaderboard">Leaders</a>
+    <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
     <a href="insider-checks.html" title="Price-file hygiene">Checks</a>
   </nav>
 </body>

@@ -1,0 +1,994 @@
+{
+  "generated": "2026-10-02T00:59:36+00:00",
+  "window_start": "2024-10-01",
+  "method": "One row per ticker and ISO week (Monday-Sunday) by trade date. Window is the 24 calendar months ending on the newest trade_date in either tape. Members of Congress only: chamber House or Senate (case-insensitive). White House and any other chamber drop. Politician sides: purchase=Buy, sale=Sell; exchange dropped. Insider sides: purchase=Buy, sale=Sell, sale_post=Sell; award, exercise, and exchange dropped. A politician row counts only when asset_type is exactly Stock (Stock Option, Non-Public Stock, bonds, municipals, and other types drop). Blank tickers and non-tickers (--, N/A, NA, NONE) drop. Each person is one line per side; the three largest on each side are kept.",
+  "stats": {
+    "rows": 27,
+    "tickers": 18,
+    "same_side": 11,
+    "opposite": 12,
+    "mixed": 4
+  },
+  "rows": [
+    {
+      "ticker": "DVN",
+      "week": "2026-09-14",
+      "label": "Week of Sep 14, 2026",
+      "politicians": [
+        {
+          "id": "kevin-hern",
+          "name": "Kevin Hern",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$15,001–$50,000",
+          "trade_date": "2026-09-14"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "lowe-robert-ferrall-iii",
+          "name": "Lowe Robert Ferrall III",
+          "title": "EVP EXPLORATION & PRODUCTION",
+          "side": "Sell",
+          "value": 344218.2,
+          "trade_date": "2026-09-14"
+        },
+        {
+          "id": "gaspar-clay-m",
+          "name": "Gaspar Clay M",
+          "title": "PRESIDENT AND CEO",
+          "side": "Buy",
+          "value": 199876.04,
+          "trade_date": "2026-09-14"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "mixed"
+    },
+    {
+      "ticker": "NEM",
+      "week": "2026-06-29",
+      "label": "Week of Jun 29, 2026",
+      "politicians": [
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-06-30"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "toth-peter",
+          "name": "Toth Peter",
+          "title": "EVP, Chief Sustain & Dev Off",
+          "side": "Sell",
+          "value": 277140,
+          "trade_date": "2026-07-01"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "EQT",
+      "week": "2026-06-01",
+      "label": "Week of Jun 1, 2026",
+      "politicians": [
+        {
+          "id": "thomas-h-kean",
+          "name": "Thomas H. Kean",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-06-01"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "rice-toby-z",
+          "name": "Rice Toby Z.",
+          "title": "PRESIDENT & CEO",
+          "side": "Sell",
+          "value": 5264080.11,
+          "trade_date": "2026-06-05"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "ALB",
+      "week": "2026-05-11",
+      "label": "Week of May 11, 2026",
+      "politicians": [
+        {
+          "id": "john-boozman",
+          "name": "John Boozman",
+          "chamber": "Senate",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-05-15"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "masters-j-kent",
+          "name": "Masters J Kent",
+          "title": "Chairman & CEO",
+          "side": "Sell",
+          "value": 3011766.41,
+          "trade_date": "2026-05-15"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "IAUX",
+      "week": "2026-03-23",
+      "label": "Week of Mar 23, 2026",
+      "politicians": [
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-03-23"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "young-richard-scott",
+          "name": "Young, Richard Scott",
+          "title": "President, CEO & Director",
+          "side": "Buy",
+          "value": 1932800,
+          "trade_date": "2026-03-25"
+        },
+        {
+          "id": "butler-jr-ronald",
+          "name": "Butler, Jr., Ronald",
+          "title": "Director",
+          "side": "Buy",
+          "value": 24999,
+          "trade_date": "2026-03-25"
+        },
+        {
+          "id": "savarie-david-roger",
+          "name": "Savarie, David Roger",
+          "title": "Executive VP & General Counsel",
+          "side": "Buy",
+          "value": 12545,
+          "trade_date": "2026-03-25"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "NEE",
+      "week": "2026-03-16",
+      "label": "Week of Mar 16, 2026",
+      "politicians": [
+        {
+          "id": "richard-dean-dr-mccormick",
+          "name": "Richard Dean Dr McCormick",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-03-19"
+        },
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-03-19"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "bolster-brian-w",
+          "name": "Bolster Brian W",
+          "title": "Pres. and CEO of Sub",
+          "side": "Sell",
+          "value": 39602.84,
+          "trade_date": "2026-03-17"
+        },
+        {
+          "id": "may-james-michael",
+          "name": "May James Michael",
+          "title": "Treasurer and Asst. Secretary",
+          "side": "Sell",
+          "value": 29239.48,
+          "trade_date": "2026-03-17"
+        },
+        {
+          "id": "gough-william-john",
+          "name": "Gough William John",
+          "title": "VP, Controller & CAO",
+          "side": "Sell",
+          "value": 8605.29,
+          "trade_date": "2026-03-17"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "mixed"
+    },
+    {
+      "ticker": "CVX",
+      "week": "2026-02-23",
+      "label": "Week of Feb 23, 2026",
+      "politicians": [
+        {
+          "id": "david-j-taylor",
+          "name": "David J. Taylor",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-02-26"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "pate-r-hewitt",
+          "name": "Pate R. Hewitt",
+          "title": "Chief Legal Officer",
+          "side": "Sell",
+          "value": 6600563.92,
+          "trade_date": "2026-02-27"
+        },
+        {
+          "id": "bonner-eimear-p",
+          "name": "BONNER EIMEAR P",
+          "title": "Chief Financial Officer",
+          "side": "Sell",
+          "value": 5284074.75,
+          "trade_date": "2026-02-27"
+        },
+        {
+          "id": "gustavson-jeff-b",
+          "name": "GUSTAVSON JEFF B",
+          "title": "President, New Energies",
+          "side": "Sell",
+          "value": 1240324.68,
+          "trade_date": "2026-02-27"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "EXE",
+      "week": "2026-02-16",
+      "label": "Week of Feb 16, 2026",
+      "politicians": [
+        {
+          "id": "julia-letlow",
+          "name": "Julia Letlow",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-02-17"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "lacy-christopher-w",
+          "name": "Lacy Christopher W",
+          "title": "EVP - GENERAL COUNSEL",
+          "side": "Sell",
+          "value": 806343.72,
+          "trade_date": "2026-02-20"
+        },
+        {
+          "id": "gallagher-matthew",
+          "name": "Gallagher Matthew",
+          "title": "Director",
+          "side": "Buy",
+          "value": 100660,
+          "trade_date": "2026-02-19"
+        },
+        {
+          "id": "turco-daniel-f",
+          "name": "Turco Daniel F",
+          "title": "EVP-MARKETING & COMMERCIAL",
+          "side": "Sell",
+          "value": 73644.8,
+          "trade_date": "2026-02-18"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 1,
+      "match": "mixed"
+    },
+    {
+      "ticker": "CVX",
+      "week": "2026-02-09",
+      "label": "Week of Feb 9, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$15,001–$50,000",
+          "trade_date": "2026-02-10"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "booth-thomas-ryder",
+          "name": "Booth Thomas Ryder",
+          "title": "Chief Technology & Eng Ofr",
+          "side": "Sell",
+          "value": 2310063.53,
+          "trade_date": "2026-02-12"
+        },
+        {
+          "id": "wirth-michael-k",
+          "name": "Wirth Michael K",
+          "title": "Chairman and CEO",
+          "side": "Sell",
+          "value": 1431287.78,
+          "trade_date": "2026-02-10"
+        },
+        {
+          "id": "nelson-mark-a",
+          "name": "NELSON MARK A",
+          "title": "Vice Chairman",
+          "side": "Sell",
+          "value": 513973.2,
+          "trade_date": "2026-02-10"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 5,
+      "match": "opposite"
+    },
+    {
+      "ticker": "EQT",
+      "week": "2026-02-09",
+      "label": "Week of Feb 9, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-02-10"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "rice-toby-z",
+          "name": "Rice Toby Z.",
+          "title": "PRESIDENT & CEO",
+          "side": "Sell",
+          "value": 1525084.7,
+          "trade_date": "2026-02-13"
+        },
+        {
+          "id": "jordan-william-e",
+          "name": "Jordan William E.",
+          "title": "CHIEF LEGAL & POLICY OFFICER",
+          "side": "Sell",
+          "value": 320560.7,
+          "trade_date": "2026-02-13"
+        },
+        {
+          "id": "knop-jeremy",
+          "name": "Knop Jeremy",
+          "title": "CHIEF FINANCIAL OFFICER",
+          "side": "Sell",
+          "value": 276183.5,
+          "trade_date": "2026-02-13"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 5,
+      "match": "opposite"
+    },
+    {
+      "ticker": "PAAS",
+      "week": "2026-01-26",
+      "label": "Week of Jan 26, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$50,001–$100,000",
+          "trade_date": "2026-01-27"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "emerson-christopher",
+          "name": "Emerson, Christopher",
+          "title": "Senior Vice President of Exploration & Geology",
+          "side": "Sell",
+          "value": 230750,
+          "trade_date": "2026-01-26"
+        },
+        {
+          "id": "winckler-gillian",
+          "name": "Winckler, Gillian",
+          "title": "Director",
+          "side": "Sell",
+          "value": 138843,
+          "trade_date": "2026-01-26"
+        },
+        {
+          "id": "fisekci-siren",
+          "name": "Fisekci, Siren",
+          "title": "Vice President of Investor Relations & Corporate Communications",
+          "side": "Sell",
+          "value": 92355,
+          "trade_date": "2026-01-26"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "NEE",
+      "week": "2026-01-19",
+      "label": "Week of Jan 19, 2026",
+      "politicians": [
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-01-23"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "reagan-ronald-r",
+          "name": "Reagan Ronald R",
+          "title": "EVP, Eng., Const. & ISC",
+          "side": "Sell",
+          "value": 920210,
+          "trade_date": "2026-01-22"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "CCJ",
+      "week": "2026-01-05",
+      "label": "Week of Jan 5, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-01-09"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "gitzel-tim-scott",
+          "name": "Gitzel, Tim Scott",
+          "title": "CEO & Director",
+          "side": "Sell",
+          "value": 3552750,
+          "trade_date": "2026-01-07"
+        },
+        {
+          "id": "mooney-ronald-liam",
+          "name": "Mooney, Ronald Liam",
+          "title": "Senior VP & Chief Legal Officer",
+          "side": "Sell",
+          "value": 542640,
+          "trade_date": "2026-01-05"
+        },
+        {
+          "id": "aitken-lisa-lorene",
+          "name": "Aitken, Lisa Lorene",
+          "title": "Senior VP & Chief Marketing Officer",
+          "side": "Sell",
+          "value": 136860,
+          "trade_date": "2026-01-05"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "CVX",
+      "week": "2026-01-05",
+      "label": "Week of Jan 5, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$15,001–$50,000",
+          "trade_date": "2026-01-09"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "wirth-michael-k",
+          "name": "Wirth Michael K",
+          "title": "Chairman and CEO",
+          "side": "Sell",
+          "value": 52271977.63,
+          "trade_date": "2026-01-05"
+        },
+        {
+          "id": "bonner-eimear-p",
+          "name": "BONNER EIMEAR P",
+          "title": "Chief Financial Officer",
+          "side": "Sell",
+          "value": 4676526.7,
+          "trade_date": "2026-01-05"
+        },
+        {
+          "id": "knowles-alana-k",
+          "name": "Knowles Alana K",
+          "title": "Controller",
+          "side": "Sell",
+          "value": 1313137.8,
+          "trade_date": "2026-01-05"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "MOS",
+      "week": "2026-01-05",
+      "label": "Week of Jan 5, 2026",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2026-01-09"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "bauer-philip-eugene",
+          "name": "Bauer Philip Eugene",
+          "title": "Sr. VP, Gen Counsel & Corp Sec",
+          "side": "Sell",
+          "value": 43509.78,
+          "trade_date": "2026-01-05"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "CVX",
+      "week": "2025-12-15",
+      "label": "Week of Dec 15, 2025",
+      "politicians": [
+        {
+          "id": "julie-johnson",
+          "name": "Julie Johnson",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-12-18"
+        },
+        {
+          "id": "michael-patrick-guest",
+          "name": "Michael Patrick Guest",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-12-16"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "wirth-michael-k",
+          "name": "Wirth Michael K",
+          "title": "Chairman and CEO",
+          "side": "Sell",
+          "value": 124998.72,
+          "trade_date": "2025-12-17"
+        },
+        {
+          "id": "nelson-mark-a",
+          "name": "NELSON MARK A",
+          "title": "Vice Chairman",
+          "side": "Sell",
+          "value": 40220.88,
+          "trade_date": "2025-12-17"
+        },
+        {
+          "id": "pate-r-hewitt",
+          "name": "Pate R. Hewitt",
+          "title": "Chief Legal Officer",
+          "side": "Sell",
+          "value": 28408.8,
+          "trade_date": "2025-12-17"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 6,
+      "match": "both sell"
+    },
+    {
+      "ticker": "IAUX",
+      "week": "2025-12-08",
+      "label": "Week of Dec 8, 2025",
+      "politicians": [
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-12-12"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "seaman-john",
+          "name": "Seaman, John",
+          "title": "Director",
+          "side": "Buy",
+          "value": 26000,
+          "trade_date": "2025-12-09"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both buy"
+    },
+    {
+      "ticker": "CVX",
+      "week": "2025-11-17",
+      "label": "Week of Nov 17, 2025",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-11-18"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "hess-john-b",
+          "name": "HESS JOHN B",
+          "title": "Director",
+          "side": "Sell",
+          "value": 82749549.44,
+          "trade_date": "2025-11-21"
+        },
+        {
+          "id": "gustavson-jeff-b",
+          "name": "GUSTAVSON JEFF B",
+          "title": "Vice President",
+          "side": "Sell",
+          "value": 1401282.67,
+          "trade_date": "2025-11-21"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "WPM",
+      "week": "2025-11-17",
+      "label": "Week of Nov 17, 2025",
+      "politicians": [
+        {
+          "id": "gilbert-cisneros",
+          "name": "Gilbert Cisneros",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-11-18"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "hodaly-haytham-henry",
+          "name": "Hodaly, Haytham Henry",
+          "title": "President, CEO & Director",
+          "side": "Buy",
+          "value": 142820,
+          "trade_date": "2025-11-17"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both buy"
+    },
+    {
+      "ticker": "EOG",
+      "week": "2025-11-10",
+      "label": "Week of Nov 10, 2025",
+      "politicians": [
+        {
+          "id": "julie-johnson",
+          "name": "Julie Johnson",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-11-13"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "donaldson-michael-p",
+          "name": "Donaldson Michael P",
+          "title": "EVP & Chief Legal Officer",
+          "side": "Sell",
+          "value": 40406.4,
+          "trade_date": "2025-11-14"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "MOS",
+      "week": "2025-11-10",
+      "label": "Week of Nov 10, 2025",
+      "politicians": [
+        {
+          "id": "ro-khanna",
+          "name": "Ro Khanna",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-11-10"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "kuzenko-jody-lynne",
+          "name": "Kuzenko Jody Lynne",
+          "title": "Director",
+          "side": "Buy",
+          "value": 17488.05,
+          "trade_date": "2025-11-11"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "FNV",
+      "week": "2025-09-01",
+      "label": "Week of Sep 1, 2025",
+      "politicians": [
+        {
+          "id": "thomas-h-kean",
+          "name": "Thomas H. Kean",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-09-03"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "tek-bonavie",
+          "name": "Tek, Bonavie",
+          "title": "Vice President of Finance & Investor Relations",
+          "side": "Sell",
+          "value": 65776,
+          "trade_date": "2025-09-02"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "FANG",
+      "week": "2025-06-16",
+      "label": "Week of Jun 16, 2025",
+      "politicians": [
+        {
+          "id": "lisa-mcclain",
+          "name": "Lisa McClain",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-06-17"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "meloy-charles-alvin",
+          "name": "Meloy Charles Alvin",
+          "title": "Director",
+          "side": "Sell",
+          "value": 955499.26,
+          "trade_date": "2025-06-17"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "opposite"
+    },
+    {
+      "ticker": "RGLD",
+      "week": "2025-06-09",
+      "label": "Week of Jun 9, 2025",
+      "politicians": [
+        {
+          "id": "lisa-mcclain",
+          "name": "Lisa McClain",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-06-09"
+        },
+        {
+          "id": "lisa-mcclain",
+          "name": "Lisa McClain",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-06-10"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "libner-paul",
+          "name": "Libner Paul",
+          "title": "SVP & CFO",
+          "side": "Sell",
+          "value": 353920,
+          "trade_date": "2025-06-10"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "mixed"
+    },
+    {
+      "ticker": "LNG",
+      "week": "2025-05-12",
+      "label": "Week of May 12, 2025",
+      "politicians": [
+        {
+          "id": "jefferson-shreve",
+          "name": "Jefferson Shreve",
+          "chamber": "House",
+          "side": "Sell",
+          "amount": "$15,001–$50,000",
+          "trade_date": "2025-05-12"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "mitchelmore-lorraine",
+          "name": "Mitchelmore Lorraine",
+          "title": "Director",
+          "side": "Sell",
+          "value": 131553,
+          "trade_date": "2025-05-14"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both sell"
+    },
+    {
+      "ticker": "OXY",
+      "week": "2025-05-05",
+      "label": "Week of May 5, 2025",
+      "politicians": [
+        {
+          "id": "jefferson-shreve",
+          "name": "Jefferson Shreve",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$15,001–$50,000",
+          "trade_date": "2025-05-08"
+        },
+        {
+          "id": "marjorie-taylor-greene",
+          "name": "Marjorie Taylor Greene",
+          "chamber": "House",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-05-05"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "moore-jack-b",
+          "name": "MOORE JACK B",
+          "title": "Director",
+          "side": "Sell",
+          "value": 89107.76,
+          "trade_date": "2025-05-05"
+        },
+        {
+          "id": "bailey-vicky-a",
+          "name": "BAILEY VICKY A",
+          "title": "Director",
+          "side": "Sell",
+          "value": 81889.1,
+          "trade_date": "2025-05-05"
+        },
+        {
+          "id": "gould-andrew",
+          "name": "GOULD ANDREW",
+          "title": "Director",
+          "side": "Sell",
+          "value": 75019.73,
+          "trade_date": "2025-05-05"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 2,
+      "match": "opposite"
+    },
+    {
+      "ticker": "EOG",
+      "week": "2025-04-14",
+      "label": "Week of Apr 14, 2025",
+      "politicians": [
+        {
+          "id": "katie-britt",
+          "name": "Katie Britt",
+          "chamber": "Senate",
+          "side": "Buy",
+          "amount": "$1,001–$15,000",
+          "trade_date": "2025-04-14"
+        }
+      ],
+      "insiders": [
+        {
+          "id": "leitzell-jeffrey-r",
+          "name": "Leitzell Jeffrey R.",
+          "title": "EVP & COO",
+          "side": "Buy",
+          "value": 322.92,
+          "trade_date": "2025-04-14"
+        }
+      ],
+      "politicians_more": 0,
+      "insiders_more": 0,
+      "match": "both buy"
+    }
+  ]
+}

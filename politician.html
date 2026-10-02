@@ -631,6 +631,14 @@
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=169" />
+  <style>
+    .qc-txn .opt-tag.opt-call, .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
+    .qc-txn .opt-tag.opt-put, .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
+    @media (max-width: 899px) {
+      .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag { display: inline-block !important; flex: 0 0 auto; }
+      .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tk:has(.opt-tag) .qc-txn-kind { display: none !important; }
+    }
+  </style>
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -710,7 +718,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=130"></script>
+  <script src="qc.js?v=131"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;

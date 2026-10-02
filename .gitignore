@@ -10,6 +10,11 @@ qc.sqlite.tmp-wal
 qc.sqlite.tmp-shm
 scripts/qc_sqlite/.cache/
 scripts/qc_sqlite/export/
+scripts/qc_sqlite/jev_usage.log
+.cache/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
 claims/.cache/
 claims/.db/
 claims/.build/

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import io
 import json
+import os
 import sqlite3
 import sys
 import tempfile
@@ -156,6 +157,240 @@ class AnalysisErrors(unittest.TestCase):
         self.assertEqual(stats["errors"], 1)
         self.assertEqual(sorted(r["code"] for r in play), ["AAA", "BBB"])
         self.assertTrue(next(r for r in play if r["code"] == "BBB")["jev_error"])
+
+
+def _notes_db() -> sqlite3.Connection:
+    con = sqlite3.connect(":memory:")
+    con.executescript(
+        """
+        CREATE TABLE people (
+          filer_id TEXT PRIMARY KEY, name TEXT, display TEXT, chamber TEXT,
+          state TEXT, party TEXT, district TEXT, bioguide TEXT, opensecrets TEXT
+        );
+        CREATE TABLE tickers (
+          ticker TEXT PRIMARY KEY, name TEXT, industry TEXT, sic TEXT,
+          market_cap REAL, shares REAL, px REAL, cap_asof TEXT, cap_currency TEXT, cap_src TEXT
+        );
+        CREATE TABLE politician_trades (
+          trade_id TEXT PRIMARY KEY, filer TEXT, filer_id TEXT, chamber TEXT, ticker TEXT,
+          asset TEXT, asset_type TEXT, side TEXT, amount_raw TEXT, amount_low REAL,
+          amount_high REAL, amount_mid REAL, trade_date TEXT, filed_date TEXT,
+          owner TEXT, source TEXT, added TEXT
+        );
+        CREATE TABLE insider_trades (
+          trade_id TEXT PRIMARY KEY, filer TEXT, filer_id TEXT, title TEXT, ticker TEXT,
+          company TEXT, side TEXT, trade_date TEXT, filed_date TEXT
+        );
+        """
+    )
+    con.execute("INSERT INTO people VALUES ('a', 'Ann Example', 'Ann Example', 'House', 'TX', 'D', '', '', '')")
+    con.execute("INSERT INTO tickers(ticker, name, industry) VALUES ('NVDA', 'NVIDIA Corp', 'Semiconductors')")
+    return con
+
+
+def _trade(con, trade_id, day, filed, mid, side="purchase", ticker="NVDA", chamber="House"):
+    con.execute(
+        """
+        INSERT INTO politician_trades(
+          trade_id, filer, filer_id, chamber, ticker, asset, side, amount_raw, amount_mid, trade_date, filed_date
+        ) VALUES (?, 'Ann Example', 'a', ?, ?, 'NVIDIA Corp Common Stock', ?, '$1,001-$15,000', ?, ?, ?)
+        """,
+        (trade_id, chamber, ticker, side, mid, day, filed),
+    )
+
+
+class FilingNotes(unittest.TestCase):
+    def test_cache_key_is_stable(self):
+        import filing_notes
+
+        fields = filing_notes.canonical_state({
+            "member": "Ann Example",
+            "chamber": "House",
+            "state": "TX",
+            "party": "D",
+            "committees": ["Senate Committee on Armed Services", "House Committee on Energy and Commerce"],
+            "ticker": "NVDA",
+            "company": "NVIDIA Corp",
+            "industry": "Semiconductors",
+            "asset": "NVIDIA Corp Common Stock",
+            "transaction": "purchase",
+            "amount_range": "$1,001-$15,000",
+        })
+        digest = filing_notes.fields_sha(fields)
+        self.assertEqual(filing_notes.cache_key("t1", digest), filing_notes.cache_key("t1", digest))
+        self.assertNotEqual(filing_notes.cache_key("t1", digest), filing_notes.cache_key("t2", digest))
+        changed = dict(fields)
+        changed["asset"] = "Some Other Issuer"
+        self.assertNotEqual(digest, filing_notes.fields_sha(changed))
+        self.assertNotIn("trade_date", fields)
+        self.assertNotIn("lag", fields)
+        self.assertNotIn("amount_mid", fields)
+
+    def test_chip_templates_and_committee_threshold(self):
+        import filing_notes
+
+        chips = filing_notes.code_chips({
+            "lag": 52,
+            "ticker": "NVDA",
+            "first": True,
+            "largest": "purchase",
+            "ratio": 3.02,
+            "own": 4,
+            "others": 2,
+            "insiders": True,
+        })
+        self.assertEqual(chips, [
+            "Filed 52d late",
+            "First NVDA trade",
+            "Largest buy on record",
+            "3x usual size",
+            "Cluster: 4 trades ±7d, 2 other members ±7d",
+            "Insiders bought same week",
+        ])
+        self.assertIsNone(filing_notes.usual_label(1.9))
+        self.assertEqual(filing_notes.code_chips({"lag": 45, "ticker": "NVDA", "first": False}) , [])
+        self.assertEqual(
+            filing_notes.code_chips({"largest": "sale", "ticker": "XOM", "first": True, "lag": 10}),
+            ["First XOM trade", "Largest sale on record"],
+        )
+
+        low = {"committee_p3": 0.849, "is_broad_fund": 0.79, "is_derivative": 0.8, "home_state_industry": 0.8,
+               "asset_matches_company": 0.21}
+        self.assertEqual(
+            filing_notes.jev_chips(low, ["Senate Committee on Armed Services"]),
+            ["Option/derivative", "Home-state company"],
+        )
+        high = dict(low)
+        high["committee_p3"] = filing_notes.COMMITTEE_P3_MIN
+        high["is_broad_fund"] = filing_notes.NOUL_MIN
+        high["asset_matches_company"] = filing_notes.ASSET_MISMATCH_MAX
+        self.assertEqual(
+            filing_notes.jev_chips(high, ["Senate Committee on Armed Services"]),
+            [
+                "Committee link: Armed Services",
+                "Broad fund",
+                "Option/derivative",
+                "Home-state company",
+                "Asset may not match ticker",
+            ],
+        )
+        self.assertEqual(filing_notes.COMMITTEE_P3_MIN, 0.85)
+        self.assertTrue(filing_notes.jev_chips({"committee_p3": 0.85}, [])[0].startswith("Committee link"))
+        self.assertFalse(filing_notes.jev_chips({"committee_p3": 0.8499}, ["Armed Services"]))
+
+    def test_run_writes_templates_and_makes_no_network_call(self):
+        import filing_notes
+        import jev_common
+
+        def boom(*_a, **_k):
+            raise AssertionError("jev_common.ask must not run on the daily path")
+
+        saved = jev_common.ask
+        jev_common.ask = boom
+        con = _notes_db()
+        _trade(con, "t1", "2020-01-01", "2020-01-10", 10000)
+        _trade(con, "t2", "2021-01-01", "2021-01-10", 10000)
+        _trade(con, "t3", "2022-01-01", "2022-01-10", 10000)
+        _trade(con, "t4", "2024-01-01", "2024-02-22", 100000)
+        con.execute(
+            "INSERT INTO insider_trades(trade_id, ticker, side, trade_date) VALUES ('i1', 'NVDA', 'purchase', '2024-01-03')"
+        )
+        con.execute(
+            "INSERT INTO politician_trades(trade_id, filer, filer_id, chamber, ticker, side, amount_mid, trade_date, filed_date) "
+            "VALUES ('wh', 'Staff', 's', 'White House', 'NVDA', 'purchase', 1, '2024-01-01', '2024-01-02')"
+        )
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                dest = Path(d) / "filing-notes.json"
+                meta = filing_notes.run(con, out_path=dest, bios={})
+                payload = json.loads(dest.read_text(encoding="utf-8"))
+        finally:
+            jev_common.ask = saved
+            con.close()
+        self.assertEqual(meta["filings"], 4)
+        self.assertEqual(meta["committee_p3_min"], 0.85)
+        self.assertNotIn("wh", payload["notes"])
+        self.assertEqual(payload["notes"]["t1"], ["First NVDA trade"])
+        self.assertIn("Filed 52d late", payload["notes"]["t4"])
+        self.assertIn("Largest buy on record", payload["notes"]["t4"])
+        self.assertIn("10x usual size", payload["notes"]["t4"])
+        self.assertIn("Insiders bought same week", payload["notes"]["t4"])
+        self.assertNotIn("First NVDA trade", payload["notes"]["t4"])
+
+    def test_second_judge_run_makes_no_calls(self):
+        import filing_notes
+        import jev_common
+        from types import SimpleNamespace
+
+        calls = []
+
+        def fake_ask(state, questions, **kwargs):
+            calls.append(kwargs.get("tag"))
+            committee = SimpleNamespace(score=0.2, confidence=0.4, probabilities={"0": 0.7, "1": 0.1, "2": 0.1, "3": 0.1})
+            noul = SimpleNamespace(noul=0.05)
+            answers = {
+                "committee_overlap": committee,
+                "asset_matches_company": noul,
+                "is_broad_fund": noul,
+                "is_derivative": noul,
+                "home_state_industry": noul,
+            }
+            return SimpleNamespace(model="jev-1.13.0", answers=answers, usage=SimpleNamespace(input_tokens=12, output_tokens=1))
+
+        saved_ask = jev_common.ask
+        saved_env = os.environ.get("QC_FILING_JUDGMENTS")
+        con = _notes_db()
+        _trade(con, "t1", "2024-01-01", "2024-01-20", 8000)
+        _trade(con, "t2", "2024-06-01", "2024-06-20", 8000)
+        jev_common.ask = fake_ask
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                os.environ["QC_FILING_JUDGMENTS"] = str(Path(d) / "filing_judgments.sqlite")
+                with redirect_stdout(io.StringIO()):
+                    first = filing_notes.judge(
+                        backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object(),
+                        question_set={"stub": True},
+                    )
+                    second = filing_notes.judge(backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object())
+        finally:
+            jev_common.ask = saved_ask
+            if saved_env is None:
+                os.environ.pop("QC_FILING_JUDGMENTS", None)
+            else:
+                os.environ["QC_FILING_JUDGMENTS"] = saved_env
+            con.close()
+        self.assertEqual(first["calls"], 2)
+        self.assertEqual(second["calls"], 0)
+        self.assertEqual(sorted(calls), ["t1", "t2"])
+
+    def test_run_boards_calls_filing_notes(self):
+        import filing_notes
+
+        saved = filing_notes.run
+        hit = {}
+
+        def fake(con, **_k):
+            hit["con"] = con
+            return {"filings": 0}
+
+        filing_notes.run = fake
+        con = sqlite3.connect(":memory:")
+        try:
+            with redirect_stdout(io.StringIO()):
+                rebuild.run_boards(
+                    con,
+                    skip_jev=True,
+                    skip_tells=True,
+                    skip_analysis=True,
+                    skip_paper=True,
+                    skip_insider=True,
+                    skip_overlap=True,
+                    excel=False,
+                )
+        finally:
+            filing_notes.run = saved
+            con.close()
+        self.assertIs(hit.get("con"), con)
 
 
 if __name__ == "__main__":

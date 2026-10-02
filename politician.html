@@ -630,7 +630,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=171" />
   <style>
     .qc-txn .opt-tag.opt-call, .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
     .qc-txn .opt-tag.opt-put, .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
@@ -718,7 +718,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=132"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -1750,6 +1750,7 @@
         return;
       }
       paint(rows, {});
+      QC.loadFilingNotes().then(() => { if (tapeRows.length) paintTape(); });
       paintHeroFacts(bio);
       paintBio(bio, findOverlaps(bio, rows, {}));
       const bioPerson = (bios.people || {})[id] || {};

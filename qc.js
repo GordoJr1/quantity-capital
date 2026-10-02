@@ -1614,7 +1614,52 @@
       strikeHtml +
       expHtml +
       optLineHtml +
+      filingNotesChipsHtml(filingNotesFor(t && t.id)) +
     "</li>";
+  }
+
+  let filingNotesMap = null;
+  let filingNotesPromise = null;
+
+  function loadFilingNotes() {
+    if (filingNotesPromise) return filingNotesPromise;
+    filingNotesPromise = fetch("filing-notes.json", { credentials: "omit" })
+      .then(function (res) { return res && res.ok ? res.json() : null; })
+      .then(function (data) {
+        const notes = data && data.notes;
+        filingNotesMap = notes && typeof notes === "object" ? notes : {};
+        return filingNotesMap;
+      })
+      .catch(function () {
+        filingNotesMap = {};
+        return filingNotesMap;
+      });
+    return filingNotesPromise;
+  }
+
+  function filingNotesFor(id) {
+    if (!filingNotesMap || id == null || id === "") return null;
+    const row = filingNotesMap[id];
+    if (!row) return null;
+    if (Array.isArray(row)) return row;
+    if (Array.isArray(row.chips)) return row.chips;
+    return null;
+  }
+
+  function filingNotesChipsHtml(chips) {
+    if (!chips || !chips.length) return "";
+    const clean = [];
+    for (let i = 0; i < chips.length; i++) {
+      const text = String(chips[i] || "").trim();
+      if (text) clean.push(text);
+    }
+    if (!clean.length) return "";
+    const body = clean.map(function (text, i) {
+      return "<span class=\"qc-file-note" + (i >= 3 ? " is-extra" : "") + "\">" + esc(text) + "</span>";
+    }).join("");
+    const extra = clean.length > 3 ? clean.length - 3 : 0;
+    const more = extra ? "<span class=\"qc-file-note-more\">+" + extra + "</span>" : "";
+    return "<span class=\"qc-file-notes\">" + body + more + "</span>";
   }
 
   function compareFiledDesc(a, b) {
@@ -2206,6 +2251,9 @@
     tapeSectionHeading: tapeSectionHeading,
     TAPE_PAGE: 120,
     politicianTapeListHtml: politicianTapeListHtml,
+    loadFilingNotes: loadFilingNotes,
+    filingNotesFor: filingNotesFor,
+    filingNotesChipsHtml: filingNotesChipsHtml,
     compareFiledDesc: compareFiledDesc,
     compareAddedDesc: compareAddedDesc,
     sliceTapeRows: sliceTapeRows,

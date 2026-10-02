@@ -667,7 +667,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=126"></script>
+  <script src="qc.js?v=130"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
@@ -681,7 +681,7 @@
     let view = params.get("view") === "issuers" ? "issuers" : "tape";
     if (location.hash === "#basket") view = "basket";
     let emptyOnly = params.get("empty") === "1";
-    let q = "";
+    let q = params.get("q") || "";
     let showAll = false;
     let all = [];
     let companies = [];
@@ -752,7 +752,10 @@
       return s;
     }
 
+    let qSyncTimer = 0;
     function syncUrl() {
+      clearTimeout(qSyncTimer);
+      qSyncTimer = 0;
       const p = new URLSearchParams();
       if (view === "issuers") p.set("view", "issuers");
       else {
@@ -760,9 +763,14 @@
         if (side) p.set("side", side);
       }
       if (emptyOnly) p.set("empty", "1");
+      if (q && String(q).trim()) p.set("q", String(q).trim());
       const qs = p.toString();
       const hash = view === "basket" ? "#basket" : "";
       history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + hash);
+    }
+    function syncUrlSoon() {
+      clearTimeout(qSyncTimer);
+      qSyncTimer = setTimeout(syncUrl, 200);
     }
 
     function issuerBlob(co) {
@@ -1328,11 +1336,32 @@
       showAll = false;
       paint(all, collected);
     });
-    document.getElementById("q").addEventListener("input", (e) => {
+    const qInput = document.getElementById("q");
+    if (qInput && q) qInput.value = q;
+    function onSearchInput(e) {
       q = e.target.value;
       showAll = false;
       paint(all, collected);
-    });
+      syncUrlSoon();
+    }
+    if (qInput) {
+      qInput.addEventListener("input", onSearchInput);
+      qInput.addEventListener("search", onSearchInput);
+    }
+    function searchNeedsFlush() {
+      if (qSyncTimer) return true;
+      const current = new URLSearchParams(location.search).get("q") || "";
+      return current !== String(q || "").trim();
+    }
+    document.addEventListener("click", (e) => {
+      const a = e.target && e.target.closest && e.target.closest("a[href]");
+      if (!a || !searchNeedsFlush()) return;
+      let u;
+      try { u = new URL(a.getAttribute("href"), location.href); } catch (err) { return; }
+      if (u.origin === location.origin && u.pathname === location.pathname && u.search === location.search) return;
+      syncUrl();
+    }, true);
+    window.addEventListener("pagehide", () => { if (searchNeedsFlush()) syncUrl(); });
     document.getElementById("show-all").addEventListener("click", () => {
       showAll = !showAll;
       paint(all, collected);

@@ -639,7 +639,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=129"></script>
+  <script src="qc.js?v=130"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -702,12 +702,13 @@
     document.getElementById("who").textContent = ticker;
     document.title = ticker + " — Quantity Capital";
     const back = document.getElementById("back");
-    if (filerId) {
-      back.href = "politician.html?id=" + encodeURIComponent(filerId);
-      back.textContent = "← Politician";
-    } else {
-      back.href = "index.html";
-      back.textContent = "← Tape";
+    if (back) {
+      if (filerId) {
+        back.href = "politician.html?id=" + encodeURIComponent(filerId);
+        back.textContent = "← Politician";
+      }
+      back.setAttribute("data-qc-back-fallback", back.getAttribute("href") || "index.html");
+      if (window.QC) QC.bindBack(back);
     }
 
     const cutoff = new Date();

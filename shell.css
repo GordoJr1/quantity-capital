@@ -1858,3 +1858,72 @@ a.qc-follow-tag:hover { background: rgba(227, 180, 26, 0.12); }
   .qc-follow-alerts .tk { grid-area: tk; }
   .qc-follow-alerts .when { grid-area: when; }
 }
+
+/* Filing-note chips. Facts about the filing, not a recommendation. */
+.qc-file-notes {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 4px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  margin: 1px 0 2px;
+}
+.qc-file-note,
+.qc-file-note-more {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
+  border: 1px solid #3a4452;
+  border-radius: 999px;
+  padding: 0 6px;
+  color: #c5ced6;
+  background: rgba(15, 18, 24, 0.45);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+.qc-file-note-more { display: none; }
+@media (min-width: 1280px) {
+  .qc-txn-tape .qc-file-notes,
+  table.tape-table .qc-file-notes {
+    display: inline-flex;
+    flex-wrap: wrap;
+    vertical-align: baseline;
+  }
+}
+@media (max-width: 480px) {
+  .qc-file-notes {
+    flex-wrap: nowrap;
+    overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+  }
+  .qc-file-note {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .qc-file-note.is-extra { display: none !important; }
+  .qc-file-note-more {
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+  .qc-txn-tape .qc-txn-co-name,
+  .qc-txn-tape .qc-txn-company .qc-txn-co-name,
+  table.tape-table .co {
+    display: none !important;
+  }
+  .qc-txn-list.qc-tape-list .ch,
+  .qc-txn-tape .ch,
+  .tix-who .ch {
+    display: none !important;
+  }
+}

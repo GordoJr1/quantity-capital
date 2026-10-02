@@ -1596,7 +1596,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=170" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1944,7 +1944,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=132"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2159,8 +2159,9 @@
         const co = displayCompany(t.company, t.code);
         const sym = shownCode(t);
         const meta = [co || sym, t.industry || "—", t.owner].join(" · ");
+        const noteHtml = QC.filingNotesChipsHtml(QC.filingNotesFor(t.id));
         const trCls = (bad ? " has-err" : "") + (fresh ? " just-in" : "");
-        return "<tr" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
+        return "<tr data-id=\"" + escapeHtml(t.id || "") + "\"" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
           stampHtml(t.trade_date).replace("</td>", flag + "</td>") +
           "<td class=\"desk-only\">" + escapeHtml(t.trade_date) + flag + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.filed_date) + "</td>" +
@@ -2174,7 +2175,7 @@
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
           "<td class=\"tix-amt\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</td>" +
           "<td class=\"desk-only\">" + escapeHtml(t.owner) + "</td>" +
-          "<td class=\"tix-meta\">" + escapeHtml(meta) + "</td>" +
+          "<td class=\"tix-meta\">" + escapeHtml(meta) + noteHtml + "</td>" +
           "</tr>";
       }).join("");
     }
@@ -3077,6 +3078,11 @@
         await apply();
         bindBoard(data.boards || { activity: [], traders: [], conflicts: [], stocks: [] });
         markTapeReady();
+        QC.loadFilingNotes().then(() => {
+          if (!lastFiltered || !lastFiltered.length) return;
+          renderDesk(lastFiltered, true);
+          renderTape(lastFiltered);
+        });
       } catch (err) {
         bindPicker([]);
         markTapeReady();

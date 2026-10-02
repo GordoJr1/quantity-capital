@@ -95,6 +95,29 @@ Same scaffolding as `collect/build_analysis.py` (90-day window, heat, weekly/mon
 
 Default `python scripts/qc_sqlite/analysis.py` calls Jev (needs `TYPESAFE_API_KEY`). `--skip-jev` is rules-only. `signals.html` still fetches `analysis.json`. Do not rewrite `build_analysis.py`.
 
+## Filing notes (`filing-notes.json`)
+
+Congress filings only (House and Senate). `rebuild.py` calls `filing_notes.run(con)` from `run_boards()`, after the insider boards and before the Excel export. That path does **no network** and does **not** call Jev. It computes lag, first-trade, size-versus-the-member's-median, ±7-day cluster, and same-week insider purchases in code, then reads cached Jev judgments if the cache file exists. A missing cache still writes code-only chips.
+
+Chip text is templated in code. Jev returns a Score and four Nouls only.
+
+| Question | Primitive | Chip |
+| --- | --- | --- |
+| `committee_overlap` | Score, 4 levels | `Committee link: …` only when P(level 3 direct jurisdiction) ≥ **0.85** |
+| `asset_matches_company` | Noul | `Asset may not match ticker` when noul ≤ **0.20** |
+| `is_broad_fund` | Noul | `Broad fund` when noul ≥ **0.80** |
+| `is_derivative` | Noul | `Option/derivative` when noul ≥ **0.80** |
+| `home_state_industry` | Noul | `Home-state company` when noul ≥ **0.80** |
+
+The judge step is **not** in `update-trades.bat` or the daily publish loop. After this lands, run it by hand (about $1 for a full history, cap defaults to $3):
+
+```
+python scripts/qc_sqlite/filing_notes.py judge --backfill --workers 12 --max-usd 3
+python scripts/qc_sqlite/filing_notes.py run
+```
+
+`judge` loads `TYPESAFE_API_KEY` from `%USERPROFILE%\.grok\typesafe.env` and sends one `system_one` call per uncached filing (all five questions) through `jev_common.ask` (`jev-1.13.0`). A second `judge` immediately after the backfill sends nothing. Cache file: `QC_FILING_JUDGMENTS` if set, else `Desktop\Groks folder\.cache\filing_judgments.sqlite` when that folder exists, else `scripts/qc_sqlite/.cache/filing_judgments.sqlite`. Key is sha256 of `trade_id + fields sha256 + question_version + model`. The fields are the member, chamber, state, party, committees, ticker, company, sector, industry, asset text, transaction type, and amount-range text. Dates, lags, and amounts-to-compute are not sent.
+
 ## What Jev decides
 
 | Call | Primitive | Used for |

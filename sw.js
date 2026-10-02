@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v243";
+const CACHE = "qc-shell-v244";
 const SHELL = [
   "./",
   "./index.html",
@@ -17,6 +17,7 @@ const SHELL = [
   "./shell.css?v=165",
   "./shell.css?v=168",
   "./shell.css?v=169",
+  "./shell.css?v=170",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -41,6 +42,7 @@ const SHELL = [
   "./qc.js?v=129",
   "./qc.js?v=130",
   "./qc.js?v=131",
+  "./qc.js?v=132",
   "./insider-track.js?v=4",
   "./insider-track.css?v=4",
   "./manifest.webmanifest",
@@ -101,7 +103,7 @@ self.addEventListener("fetch", (event) => {
     || /\/tape\/tickers\/[^/]+\.json$/.test(url.pathname)
     || /\/research\/sectors\.json$/.test(url.pathname);
   const isData = isTrade
-    || /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|contracts|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-repeatable-scorecard|insider-follow|price-checks|politician-insider-overlap)\.json$/.test(url.pathname)
+    || /(?:^|\/)(trades|trades-lite|bios|tickers|traders|analysis|tells|backtest|contracts|insider-trades|insider-trades-lite|insider-analysis|insider-companies|insider-repeatable|insider-repeatable-scorecard|insider-follow|price-checks|politician-insider-overlap|filing-notes)\.json$/.test(url.pathname)
     || /(?:^|\/)prices\/[^/]+\.json$/.test(url.pathname)
     || /(?:^|\/)beta\/[^/]+\.json$/.test(url.pathname)
     || /(?:^|\/)canada\/[^/]+\.json$/.test(url.pathname);

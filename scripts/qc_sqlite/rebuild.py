@@ -1680,6 +1680,10 @@ def run_boards(
             overlap_mod.run(con)
         except Exception as exc:
             log(f"Overlap board failed: {type(exc).__name__}: {exc}; keeping previous JSON")
+    log("Filing notes…")
+    import filing_notes as filing_notes_mod
+
+    filing_notes_mod.run(con)
     if excel:
         log("Excel export…")
         import export_excel as excel_mod

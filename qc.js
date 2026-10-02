@@ -1,6 +1,13 @@
 /* Shared tape helpers for Quantity Capital pages. */
 (function (global) {
   const BAD_TICKERS = { LLC: 1, THE: 1, AND: 1, INC: 1, CORP: 1, CLASS: 1, NONE: 1, NA: 1, CMN: 1, COM: 1, NPV: 1, ETF: 1, FUND: 1 };
+  // Words OCR'd or parsed as the underlying on option rows. Not blanked on stock rows (EXP and ING are real tickers).
+  const OPTION_FALSE_TICKERS = { EXP: 1, FOR: 1, ING: 1, ETF: 1, CALL: 1, PUT: 1, USD: 1 };
+  const OPTION_OCR_UNDER = { INJ: "JNJ", X5P: "XSP" };
+
+  function isOptionFalseTicker(code) {
+    return !!OPTION_FALSE_TICKERS[String(code || "").toUpperCase()];
+  }
 
   function esc(s) {
     return String(s || "").replace(/[&<>"']/g, (c) => ({
@@ -93,9 +100,10 @@
   }
 
   function optionKind(a) {
-    if (/\bputs?\b|\bput\/|>ut\//i.test(a)) return "Put";
-    if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|=all\//i.test(a)) return "Call";
-    if (/\bcalls?\b/i.test(a) && /strike|expir|flex euro|option type/i.test(a)) return "Call";
+    const s = String(a || "");
+    if (/\bputs?\b|\bput\/|>ut\/|purix|purnse/i.test(s)) return "Put";
+    if (/\bcall options?\b|\boption type:\s*call\b|\bcalls?\s*\/|sall\/|tall\/|tallv|=all\/|icall\//i.test(s)) return "Call";
+    if (/\bcalls?\b/i.test(s) && /strike|expir|flex euro|option type/i.test(s)) return "Call";
     return "";
   }
 
@@ -118,11 +126,13 @@
     }
     expRaw = String(expRaw || "").replace(/[.,;:\s]+$/, "");
     let under = String(t.ticker || "").toUpperCase();
-    const um = a.match(/\b(?:call|put|sall|tall|=all|>ut)\s*\/\s*([A-Z]{1,5})\b/i);
+    const um = a.match(/(?:^|[^A-Z])(?:call|put|sall|tall|=all|>ut|icall)\s*\/\s*([A-Z0-9]{1,5})\b/i)
+      || a.match(/TALLV([A-Z]{2,5})/i);
     if (um) {
       under = um[1].toUpperCase();
-      if (under === "INJ") under = "JNJ";
+      if (OPTION_OCR_UNDER[under]) under = OPTION_OCR_UNDER[under];
     }
+    if (isOptionFalseTicker(under)) under = "";
     return {
       kind: kind,
       strike: formatOptionStrike(strikeHit && strikeHit[1]),
@@ -141,9 +151,9 @@
   function optionTag(t) {
     if (!isOptionLike(t)) return "";
     const o = optionMeta(t);
-    if (o.kind !== "Call" && o.kind !== "Put") return "";
-    const letter = o.kind === "Put" ? "P" : "C";
-    return "<span class=\"opt-tag\" title=\"" + esc(o.kind) + "\">" + esc(letter) + "</span>";
+    const kind = (o.kind === "Call" || o.kind === "Put") ? o.kind : "Option";
+    const cls = kind === "Call" ? " opt-call" : kind === "Put" ? " opt-put" : "";
+    return "<span class=\"opt-tag" + cls + "\">" + esc(kind) + "</span>";
   }
 
   function isEtfLike(t) {
@@ -1090,8 +1100,9 @@
     const lookup = (file && file.tickers) || {};
     const extra = ((file && file.assets) || {})[t && t.asset] || {};
     const opt = optionMeta(t);
-    let code = String(t && t.ticker || extra.ticker || opt.under || "").toUpperCase();
-    if (isOptionLike(t) && (code === "ING" || code === "FOR" || code === "EXP" || code === "ETF")) code = "";
+    const recovered = opt.under && !isOptionFalseTicker(opt.under) ? opt.under : "";
+    let code = String(recovered || (t && t.ticker) || extra.ticker || "").toUpperCase();
+    if (isOptionLike(t) && isOptionFalseTicker(code)) code = "";
     if (isChartTicker(code)) return code;
     if (skipNameResolve(t)) return code;
     return resolveTickerFromName(t && t.asset, file, classHint(t && t.asset)) || code;
@@ -1168,6 +1179,16 @@
   function tapeSymbol(t) {
     const ticker = String((t && t.ticker) || "");
     const code = String((t && t.code) || "");
+    if (isOptionLike(t)) {
+      const under = optionMeta(t).under;
+      const picks = [under, code, ticker];
+      for (let i = 0; i < picks.length; i++) {
+        const c = String(picks[i] || "").toUpperCase();
+        if (!c || c === "\u2014" || isOptionFalseTicker(c) || !isChartTicker(c)) continue;
+        return c;
+      }
+      return "\u2014";
+    }
     if (isChartTicker(ticker)) return ticker;
     if (isChartTicker(code)) return code;
     return ticker || code;
@@ -1499,13 +1520,14 @@
     const name = String((t && t.filer) || "");
     const nameHref = opts.nameHref || "";
     const tickerHref = opts.tickerHref || "";
+    const showCode = code && code !== "\u2014" ? code : (isOptionLike(t) ? "\u2014" : "");
+    const linkCode = !!(tickerHref && showCode && showCode !== "\u2014");
     const nameHtml = name
       ? (nameHref
           ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
     const optTag = optionTag(t);
-    const showCode = code && code !== "—" ? code : "";
     let strikeHtml = "";
     let expHtml = "";
     let optLineHtml = "";
@@ -1526,7 +1548,7 @@
     }
     const co = "<span class=\"qc-txn-tk\">" + esc(showCode) + optTag + tapeKindHtml(t) + "</span>" +
       "<span class=\"qc-txn-co-name\">" + esc(company) + "</span>";
-    const companyHtml = tickerHref
+    const companyHtml = linkCode
       ? "<a class=\"qc-txn-company\" href=\"" + esc(tickerHref) + "\">" + co + "</a>"
       : "<span class=\"qc-txn-company\">" + co + "</span>";
 
@@ -1542,16 +1564,16 @@
       ? "<span class=\"qc-txn-held " + delta + "\">" + esc(held || "—") + "</span>"
       : "";
     const whoParts = [];
-    if (code) {
-      whoParts.push(tickerHref
-        ? "<a class=\"qc-txn-tk\" href=\"" + esc(tickerHref) + "\">" + esc(code) + "</a>"
-        : "<span class=\"qc-txn-tk\">" + esc(code) + "</span>");
+    if (showCode) {
+      whoParts.push(linkCode
+        ? "<a class=\"qc-txn-tk\" href=\"" + esc(tickerHref) + "\">" + esc(showCode) + "</a>"
+        : "<span class=\"qc-txn-tk\">" + esc(showCode) + "</span>");
     }
     if (lastHtml) whoParts.push(lastHtml);
     const metaParts = [];
     if (t && t.trade_date) metaParts.push("<span>" + esc(prettyDate(t.trade_date)) + "</span>");
     if (company) {
-      metaParts.push(tickerHref
+      metaParts.push(linkCode
         ? "<a class=\"qc-txn-co\" href=\"" + esc(tickerHref) + "\">" + esc(company) + "</a>"
         : "<span class=\"qc-txn-co\">" + esc(company) + "</span>");
     }
@@ -2021,37 +2043,85 @@
     }
   }
 
-  function canHistoryBack(ref) {
-    if (history.length < 2) return false;
-    if (!ref || !isQcHref(ref)) return false;
+  function parseHref(href) {
     try {
-      if (pageFile(new URL(ref, location.href).pathname) === pageFile(location.pathname)) return false;
+      const u = new URL(href, location.href);
+      return { file: pageFile(u.pathname), search: u.search, hash: u.hash };
     } catch (e) {
-      return false;
+      return null;
     }
+  }
+
+  function listQueryMatchesStored(ref) {
+    const stored = storedReturn();
+    if (!ref || !stored) return false;
+    const r = parseHref(ref);
+    const s = parseHref(stored);
+    if (!r || !s || !LIST_FILES[r.file] || r.file !== s.file) return false;
+    return r.search === s.search;
+  }
+
+  function resolveDest(fallbackHref) {
+    const stored = storedReturn();
+    const ref = document.referrer;
+    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
+    const fallback = fallbackHref || "index.html";
+    let dest = fallback;
+    if (fromRef) {
+      const r = parseHref(fromRef);
+      const s = stored ? parseHref(stored) : null;
+      if (r && s && LIST_FILES[r.file] && r.file === s.file) dest = stored;
+      else if (r && isPersonPage(fromRef)) dest = fromRef;
+      else if (stored) dest = stored;
+      else dest = fromRef;
+    } else if (stored) {
+      dest = stored;
+    }
+    const here = pageFile(location.pathname);
+    const d = parseHref(dest);
+    if (!d || d.file === here) dest = fallback;
+    const f = parseHref(dest);
+    if (!f || f.file === here) dest = "index.html";
+    return dest;
+  }
+
+  function canHistoryBack(ref, dest) {
+    if (history.length < 2) return false;
+    if (!ref || !dest || !isQcHref(ref)) return false;
+    const r = parseHref(ref);
+    const d = parseHref(dest);
+    if (!r || !d) return false;
+    if (r.file === pageFile(location.pathname)) return false;
+    if (r.file !== d.file || r.search !== d.search) return false;
+    if (LIST_FILES[r.file] && !listQueryMatchesStored(ref)) return false;
     return true;
   }
 
   function bindBack(el) {
-    if (!el || el.dataset.qcBack === "1") return;
-    el.dataset.qcBack = "1";
-    const fallbackHref = el.getAttribute("href") || "index.html";
-    const fallbackLabel = String(el.textContent || "← Back").replace(/\s+/g, " ").trim();
-    const stored = storedReturn();
-    const ref = document.referrer;
-    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
-    const dest = stored || fromRef || fallbackHref;
-    if (!isPersonPage(fallbackHref)) {
+    if (!el) return;
+    // Fallback stays the page default. A second bindBack must not treat the resolved href as the default.
+    if (!el.getAttribute("data-qc-back-fallback")) {
+      el.setAttribute("data-qc-back-fallback", el.getAttribute("href") || "index.html");
+    }
+    if (!el.getAttribute("data-qc-back-label")) {
+      el.setAttribute("data-qc-back-label", String(el.textContent || "← Back").replace(/\s+/g, " ").trim());
+    }
+    const fallbackHref = el.getAttribute("data-qc-back-fallback") || "index.html";
+    const fallbackLabel = el.getAttribute("data-qc-back-label") || "← Back";
+    const dest = resolveDest(fallbackHref);
+    if (isQcHref(dest) || dest === fallbackHref) {
       el.href = dest;
       el.textContent = labelFor(dest, fallbackLabel);
     }
+    if (el.dataset.qcBack === "1") return;
+    el.dataset.qcBack = "1";
     el.addEventListener("click", function (e) {
       if (e.defaultPrevented) return;
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (canHistoryBack(document.referrer)) {
-        e.preventDefault();
-        history.back();
-      }
+      const href = el.getAttribute("href") || dest;
+      if (!canHistoryBack(document.referrer, href)) return;
+      e.preventDefault();
+      history.back();
     });
   }
 

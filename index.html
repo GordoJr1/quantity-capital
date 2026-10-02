@@ -1671,6 +1671,76 @@
       .desk .qc-txn-tape.on { border-color: var(--caution); background: rgba(227, 180, 26, 0.1); }
       .desk .qc-txn-tape:hover { background: rgba(227, 180, 26, 0.05); }
       .desk .qc-txn-list.qc-tape-list .day { padding: 0 12px; }
+
+      /* Options desk: Strike/Exp in, company name out, chart narrower so Value isn't clipped. */
+      body.tape-opt .desk {
+        grid-template-columns: minmax(0, 1.9fr) minmax(200px, 0.4fr);
+      }
+      body.tape-opt .desk .qc-txn-list.qc-tape-list {
+        overflow: visible;
+      }
+      body.tape-opt .desk .qc-txn-tape {
+        overflow: visible;
+      }
+      body.tape-opt .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
+      body.tape-opt .desk .qc-txn-tape {
+        column-gap: 6px;
+        grid-template-columns: 5.1rem minmax(4.2rem, 0.9fr) minmax(6.4rem, 0.7fr) 3.5rem 5.2rem 3.6rem minmax(6.8rem, max-content);
+        grid-template-areas: "date id co strike exp chip hero";
+      }
+      body.tape-opt .desk .qc-txn-tape .qc-txn-hero,
+      body.tape-opt .desk .qc-txn-cols .qc-txn-hero {
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+        min-width: max-content;
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-coname,
+      body.tape-opt .desk .qc-txn-tape .qc-txn-company .qc-txn-co-name {
+        display: none !important;
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-strike,
+      body.tape-opt .desk .qc-txn-strike {
+        display: block;
+        grid-area: strike;
+        min-width: 0;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+        color: var(--paper, #d8dde3);
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-exp,
+      body.tape-opt .desk .qc-txn-exp {
+        display: block;
+        grid-area: exp;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--paper, #d8dde3);
+      }
+      body.tape-opt .desk .qc-txn-cols .qc-txn-strike,
+      body.tape-opt .desk .qc-txn-cols .qc-txn-exp {
+        color: inherit;
+        font-variant-numeric: normal;
+      }
+    }
+    @media (min-width: 1200px) {
+      body.tape-opt .desk {
+        grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.62fr);
+      }
+    }
+    .qc-txn .opt-tag.opt-call,
+    .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
+    .qc-txn .opt-tag.opt-put,
+    .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
+    @media (max-width: 899px) {
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape .opt-tag {
+        display: inline-block !important;
+        flex: 0 0 auto;
+      }
+      body.tape-opt .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tk:has(.opt-tag) .qc-txn-kind {
+        display: none !important;
+      }
     }
   </style>
 </head>
@@ -1874,7 +1944,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=129"></script>
+  <script src="qc.js?v=131"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2087,7 +2157,8 @@
         const flag = (bad ? errBadge() : "") +
           (fresh ? "<span class=\"landed-tag\" title=\"This print was added to Quantity Capital recently — the trade itself may be older.\">New</span>" : "");
         const co = displayCompany(t.company, t.code);
-        const meta = [co || t.code, t.industry || "—", t.owner].join(" · ");
+        const sym = shownCode(t);
+        const meta = [co || sym, t.industry || "—", t.owner].join(" · ");
         const trCls = (bad ? " has-err" : "") + (fresh ? " just-in" : "");
         return "<tr" + (trCls ? " class=\"" + trCls.trim() + "\"" : "") + ">" +
           stampHtml(t.trade_date).replace("</td>", flag + "</td>") +
@@ -2096,9 +2167,9 @@
           "<td class=\"tix-who\"><a href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" +
             escapeHtml(t.filer) + "</a></td>" +
           "<td class=\"tix-side " + cls + "\">" + escapeHtml(sideLabel(t.side)) + "</td>" +
-          "<td class=\"tix-tk\">" + (isChartTicker(t.code)
-            ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
-            : escapeHtml(t.code)) + optionTag(t) + "</td>" +
+          "<td class=\"tix-tk\">" + (sym !== "—" && isChartTicker(sym)
+            ? "<a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(sym) + "\">" + escapeHtml(sym) + "</a>"
+            : escapeHtml(sym)) + optionTag(t) + "</td>" +
           "<td class=\"desk-only\"><span class=\"co\">" + escapeHtml(co || t.code || "—") + "</span></td>" +
           "<td class=\"desk-only ind\">" + escapeHtml(t.industry || "—") + "</td>" +
           "<td class=\"tix-amt\">" + escapeHtml(QC.formatAmountRange(t.amount)) + "</td>" +
@@ -2214,12 +2285,20 @@
       
     }
 
+    function shownCode(t) {
+      if (!isOptionLike(t)) return t.code || "";
+      const s = QC.tapeSymbol(t);
+      return !s || s === "—" ? "—" : s;
+    }
+
     function tapeRowHtml(t) {
-      const code = t.code || t.ticker || "";
+      const code = shownCode(t);
+      const optMode = document.body.classList.contains("tape-opt");
       return QC.politicianTapeRowHtml(t, {
         nameHref: t.filer_id ? "politician.html?id=" + encodeURIComponent(t.filer_id) : "",
-        tickerHref: isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) : "",
-        selected: t.id === activeId
+        tickerHref: code !== "—" && isChartTicker(code) ? "ticker.html?t=" + encodeURIComponent(code) : "",
+        selected: t.id === activeId,
+        showOptionMeta: optMode
       });
     }
 
@@ -2250,10 +2329,14 @@
       groupRowsByFiledDate(restRows).forEach(([key, rows]) => {
         parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
       });
+      const optCols = document.body.classList.contains("tape-opt")
+        ? "<span class=\"qc-txn-strike\">Strike</span><span class=\"qc-txn-exp\">Exp</span>"
+        : "";
       const colsHtml = QC.tapePhoneColsHtml() + "<li class=\"qc-txn-cols\" aria-hidden=\"true\">" +
         "<span class=\"qc-txn-date\">Date</span>" +
         "<span class=\"qc-txn-id\">Name</span>" +
         "<span class=\"qc-txn-company\">Ticker</span>" +
+        optCols +
         "<span class=\"qc-txn-coname\">Company</span>" +
         "<span class=\"qc-txn-chip\">Trade</span>" +
         "<span class=\"qc-txn-hero\">Value</span>" +
@@ -2273,11 +2356,12 @@
       }
       const ch = chamberClass(t.chamber);
       const fresh = QC.isLanded(t, 72);
-      const tickerHtml = isChartTicker(t.code)
-        ? "<a href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">" + escapeHtml(t.code) + "</a>"
-        : escapeHtml(t.code);
-      const co = displayCompany(t.company, t.code);
-      const coShow = co && co.toUpperCase() !== String(t.code || "").toUpperCase() ? co : "";
+      const sym = shownCode(t);
+      const tickerHtml = sym !== "—" && isChartTicker(sym)
+        ? "<a href=\"ticker.html?t=" + encodeURIComponent(sym) + "\">" + escapeHtml(sym) + "</a>"
+        : escapeHtml(sym || "—");
+      const co = displayCompany(t.company, sym);
+      const coShow = co && co.toUpperCase() !== String(sym || "").toUpperCase() ? co : "";
       head.innerHTML =
         "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + escapeHtml(t.filer) + "\">" + escapeHtml(t.filer) + "</a>" +
         "<div class=\"chips\">" +
@@ -2288,11 +2372,11 @@
             "</span>" : "") +
           (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
         "</div>" +
-        "<p class=\"asset\" title=\"" + escapeHtml([t.code, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
+        "<p class=\"asset\" title=\"" + escapeHtml([sym, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
           (coShow ? " " + escapeHtml(coShow) : "") + "</p>" +
         "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
-      const tickerBtn = isChartTicker(t.code)
-        ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(t.code) + "\">Open ticker</a>"
+      const tickerBtn = sym !== "—" && isChartTicker(sym)
+        ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(sym) + "\">Open ticker</a>"
         : "";
       foot.innerHTML =
         "<div class=\"cta\">" +
@@ -2437,14 +2521,15 @@
         clearChart("Select a print on the wire.");
         return;
       }
-      if (!isChartTicker(t.code) || typeof drawChart !== "function" || typeof slicePriceRange !== "function") {
-        clearChart(t.code && t.code !== "—" ? "No daily prices on file for " + t.code + "." : "This print has no charted ticker.");
+      const sym = shownCode(t);
+      if (!isChartTicker(sym) || typeof drawChart !== "function" || typeof slicePriceRange !== "function") {
+        clearChart(sym && sym !== "—" ? "No daily prices on file for " + sym + "." : "This print has no charted ticker.");
         return;
       }
-      loadPrices(t.code).then((points) => {
+      loadPrices(sym).then((points) => {
         if (token !== chartToken) return;
         if (!points || points.length < 2) {
-          clearChart("No daily prices on file for " + t.code + ".");
+          clearChart("No daily prices on file for " + sym + ".");
           return;
         }
         clearChart("");
@@ -2479,7 +2564,7 @@
       const next = deskRows.find((t) => t.id === id);
       if (!next) return;
       const prev = activeTrade();
-      const tickerChanged = prev && prev.code !== next.code;
+      const tickerChanged = prev && shownCode(prev) !== shownCode(next);
       userPicked = true;
       activeId = id;
       if (tickerChanged) chartRange = "3m";

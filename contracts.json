@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-01T22:09:30Z",
+  "generated": "2026-10-02T11:10:58Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,16 +13,180 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-18",
-    "end": "2026-10-01"
+    "start": "2026-09-19",
+    "end": "2026-10-02"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 53,
+    "kept": 54,
     "matched": 19,
-    "unlinked": 34
+    "unlinked": 35
   },
   "awards": [
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "U.S. Transportation Command",
+      "recipient": "United Parcel Service Co.",
+      "ticker": "UPS",
+      "amount": 4216308442.0,
+      "ceiling": true,
+      "obligated": null,
+      "n_awardees": 30,
+      "mod": false,
+      "fms": false,
+      "contract": "",
+      "cap_pct": null,
+      "cap_asof": null,
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "were awarded a $4,216,308,442 indefinite-delivery/indefinite-quantity, fixed-price with economic-price-adjustments, multiple award contract. This contract is f\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "U.S. Transportation Command",
+      "recipient": "Southwest Airlines Co.",
+      "ticker": "LUV",
+      "amount": 4216308442.0,
+      "ceiling": true,
+      "obligated": null,
+      "n_awardees": 30,
+      "mod": false,
+      "fms": false,
+      "contract": "",
+      "cap_pct": null,
+      "cap_asof": null,
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "were awarded a $4,216,308,442 indefinite-delivery/indefinite-quantity, fixed-price with economic-price-adjustments, multiple award contract. This contract is f\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "General Electric Co.",
+      "ticker": "GE",
+      "amount": 113031099.0,
+      "ceiling": false,
+      "obligated": null,
+      "mod": false,
+      "fms": false,
+      "contract": "N00383-27-D-U701",
+      "cap_pct": 0.035,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "is being awarded $113,031,099 for a not-to-exceed and ceiling-price, performance-based logistics contract to provide sustainment support for two critical T700\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Raytheon Co.",
+      "ticker": "RTX",
+      "amount": 83764240.0,
+      "ceiling": false,
+      "obligated": null,
+      "mod": false,
+      "fms": false,
+      "contract": "N00383-26-F-9U01",
+      "cap_pct": 0.033,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "was awarded $83,764,240 for a firm-fixed-price contract to provide logistics, spare and repair support for the APY-10 Radar. The five-year fixed-price performa\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Amentum Services Inc.",
+      "ticker": "AMTM",
+      "amount": 78958165.0,
+      "ceiling": false,
+      "obligated": 7171927.0,
+      "mod": false,
+      "fms": false,
+      "contract": "FA6800-26-F-0020",
+      "cap_pct": 1.782,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "was awarded a $78,958,165 firm-fixed-price task order for HH-60W helicopter maintenance services at Joint Base Andrews. This contract provides for rotary-wing\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "L3Harris Interstate Electronics Corp.",
+      "ticker": "LHX",
+      "amount": 46850128.0,
+      "ceiling": false,
+      "obligated": null,
+      "mod": false,
+      "fms": false,
+      "contract": "N0003027C2001",
+      "cap_pct": 0.106,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "is being awarded a $46,850,128 cost-plus-incentive-fee and cost-plus-fixed-fee contract (N0003027C2001) for services and support for flight test instrumentatio\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "CACI Inc.-Federal, Chantilly, Virginia, is receiving a cost-plus-fixed-fee modification",
+      "ticker": "CACI",
+      "amount": 19989459.0,
+      "ceiling": false,
+      "obligated": null,
+      "mod": true,
+      "fms": false,
+      "contract": "N3220526F0025",
+      "cap_pct": 0.148,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "CACI Inc.-Federal, Chantilly, Virginia, is receiving a cost-plus-fixed-fee modification (P00001) to Military Sealift Command's (MSC) Integrated Business System\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Raytheon",
+      "ticker": "RTX",
+      "amount": 11571421.0,
+      "ceiling": false,
+      "obligated": 271421.0,
+      "mod": true,
+      "fms": false,
+      "contract": "N00024-22-C-5400",
+      "cap_pct": 0.005,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "was awarded an $11,571,421 firm-fixed-price modification to previously awarded contract (N00024-22-C-5400) to support the procurement of spare parts for Seeker\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Lockheed Martin Rotary Mission Systems",
+      "ticker": "LMT",
+      "amount": 9753909.0,
+      "ceiling": false,
+      "obligated": 9753909.0,
+      "mod": true,
+      "fms": false,
+      "contract": "FA8820-25-C-B002",
+      "cap_pct": 0.008,
+      "cap_asof": "2026-09-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
+      "description": "has been awarded a $9,753,909 modification (P00008) to a previously awarded contract (FA8820-25-C-B002) for the Space Fence System (SFS) AN/FSY-3, Radar, Space\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-09-30",
       "agency": "DOD",
@@ -3683,169 +3847,6 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4591558/contracts-for-sept-4-2026/",
       "description": "was awarded a $17,515,469 firm-fixed-price, indefinite-delivery/indefinite-quantity contract for Outlaw communication subcomponents and training. Bids were sol\u2026",
       "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-04",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "Leidos Inc.",
-      "ticker": "LDOS",
-      "amount": 9951332.0,
-      "ceiling": false,
-      "obligated": 60000.0,
-      "mod": false,
-      "fms": false,
-      "contract": "FA9453-26-C-X020",
-      "cap_pct": 0.065,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4591558/contracts-for-sept-4-2026/",
-      "description": "has been awarded a $9,951,332 cost-plus-fixed-fee contract for comprehensive research, analysis, and experimentation on space-based and hybrid communication te\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 862848000.0,
-      "ceiling": true,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W15QKN-26-D-A072",
-      "cap_pct": 1.256,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "was awarded an $862,848,000 firm-fixed-price, indefinite-delivery/indefinite-quantity contract to manufacture, inspect, test, package and deliver M1156 precisi\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "General Dynamics Missions Systems Inc.",
-      "ticker": "GD",
-      "amount": 194139485.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": true,
-      "fms": false,
-      "contract": "N0003026C7000",
-      "cap_pct": 0.216,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "is being awarded a $194,139,485 cost-plus-fixed-fee modification (PZ0002) to a previously awarded unpriced letter contract (N0003026C7000). This value includes\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Booz Allen Hamilton Inc.",
-      "ticker": "BAH",
-      "amount": 49902262.0,
-      "ceiling": true,
-      "obligated": null,
-      "n_awardees": 6,
-      "mod": false,
-      "fms": false,
-      "contract": "W912HQ-26-D-A009",
-      "cap_pct": null,
-      "cap_asof": null,
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "will compete for each order of the $49,902,262 firm-fixed-price, indefinite-delivery/indefinite-quantity contract for navigation and civil works data analysis\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "The Boeing Co.",
-      "ticker": "BA",
-      "amount": 31505637.0,
-      "ceiling": false,
-      "obligated": 277003.0,
-      "mod": true,
-      "fms": true,
-      "contract": "N0001925F0254",
-      "cap_pct": 0.021,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "is awarded a $31,505,637 modification (P00002) to a cost-plus-fixed-fee order (N0001925F0254) against previously issued basic ordering agreement (N0001921G0006\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Lockheed Martin Corp. Rotary and Mission Systems",
-      "ticker": "LMT",
-      "amount": 17788458.0,
-      "ceiling": false,
-      "obligated": 2116252.0,
-      "mod": true,
-      "fms": false,
-      "contract": "N6339425C0005",
-      "cap_pct": 0.015,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "is awarded a $17,788,458 cost-plus-fixed-fee modification to previously awarded contract N6339425C0005 to exercise options for Aegis design agent field enginee\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Lockheed Martin Corp.",
-      "ticker": "LMT",
-      "amount": 14600000.0,
-      "ceiling": true,
-      "obligated": 307955.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N00024-26-F-6263",
-      "cap_pct": 0.012,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "is awarded a $14,600,000 firm-fixed-price delivery order (N00024-26-F-6263) under a previously awarded indefinite-delivery/indefinite quantity contract (N00024\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-03",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Lockheed Martin Rotary and Mission Systems",
-      "ticker": "LMT",
-      "amount": 9453398.0,
-      "ceiling": false,
-      "obligated": 2440920.0,
-      "mod": true,
-      "fms": false,
-      "contract": "N00024-15-C-5151",
-      "cap_pct": 0.008,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4590748/contracts-for-sept-3-2026/",
-      "description": "is awarded a $9,453,398 cost-plus-incentive-fee and cost-only modification to previously awarded contract (N00024-15-C-5151) for Aegis Ship Integration and Tes\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-02",
-      "agency": "DOD",
-      "branch": "SOCOM",
-      "recipient": "The Boeing Co.",
-      "ticker": "BA",
-      "amount": 55387192.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W91215-16-G-0001",
-      "cap_pct": 0.038,
-      "cap_asof": "2026-09-30",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4589493/contracts-for-sept-2-2026/",
-      "description": "is being awarded a $55,387,192 firm-fixed-price order (W91215-16-G-0001) for basic ordering agreement H9224126FE046 for the procurement of the Active Parallel\u2026",
-      "source": "dod_announcement"
     }
   ],
   "companies": [
@@ -3955,6 +3956,13 @@
       "recipient": "QAYAQ GOVERNMENT SOLUTIONS LLC",
       "amount": 33000000.0,
       "description": "DESIGN AND CONSTRUCT A NEW MULTI-PURPOSE BUILDING ON THE OFFICE OF SECURE TRANSPORTATION'S (OST) TRAINING COMMAND (TRACOM) SITE IN FORT CHAFFEE, AR"
+    },
+    {
+      "date": "2026-09-29",
+      "agency": "Health and Human Services",
+      "recipient": "CHARTWELL RX LLC",
+      "amount": 21932640.0,
+      "description": "BULK PHARMACEUTICAL BUY FOR SNS WAREHOUSES (CHARTWELL RX, LLC)"
     },
     {
       "date": "2026-09-29",
@@ -4175,83 +4183,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-10-01",
-      "agency": "DEPT OF DEFENSE",
-      "description": "DRS ASSAULT KITCHEN UTENSILS",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b792ff6438714419ad5fc7a7e253b9ed/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "DEPT OF DEFENSE",
-      "description": "DRY CARGO VOYAGE CHARTER",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ffe1061dee11430bb7bba1c7f721b70d/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "INTERIOR, DEPARTMENT OF THE",
-      "description": "F--Air Tactical Group Supervision (ATGS)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ecb6e98e431748728f51155db7b76cda/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "H930--Generator Preventative Maintenance",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f8f52a2fb5e54ade9e0518c540296246/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "H958--Physicist Services Manchester VAMC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fe44ab901d2347b6b67e4cf301315773/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "J079--556 NEW Sterilizer Repair",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/7e370ef0e1724aea94c2d0aed4321bc0/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Lodging Agent Services for AMS Off-Base-Lodging (amended)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f894463242484b0e87f2db0958abca31/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "DEPT OF DEFENSE",
-      "description": "POWER SUPPLY",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e03d20d005bd4453b4c64c1dee48a886/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "S222--Grease Trap/Vault Cleaning",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fc77cafa47b8445495f162fa73f674db/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "S222--Grease Trap/Vault Cleaning",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/4f392cbb2a044fb7aa306b612b4f2891/view"
-    },
-    {
-      "deadline": "2026-10-01",
-      "agency": "DEPT OF DEFENSE",
-      "description": "SPE60527Q0200 - SOUTHPORT, NC 8,500 GALS GASOLINE, PREM UNL (MUP), without Ethanol, REQUIRED DELIVERY DATE (RDD) 02 OCTOBER 2026",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ec2d6ee0888a416a9868b824e86f02e2/view"
-    },
     {
       "deadline": "2026-10-02",
       "agency": "DEPT OF DEFENSE",
@@ -4728,11 +4659,86 @@
       "description": "Amendment 0001",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/f24c97f722b34d1e94822986cb9d03c7/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "CONSTRUCT US SPACE FORCE INTEGRATION FACILITY, F/10852 WPAFB, OHIO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7e196637f9e46f8ad603ddf8d175056/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ENGINE TURBINE BLADE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/7aa3d5b8e2024865a363b9ebfa734770/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "Elevator Maintenance & Related Services (Columbus, OH & Dayton, OH)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dc625c8250bc451f97d1847c5895a2cd/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "FILLER VALVE,AIRCRA",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ba8b9b2cd4524bfba3f13e0f9c0e58bf/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Fortified Rice, Pinto Beans, Vegetable Oil and Corn-Soy Blend Plus for use in International Food Assistance Programs.",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/424d33ebf4234327a1b5b0a0eac2781a/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "G001--Cremation and related services for unclaimed remains Portland VAMC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d99a7e9d1ed84dac988281520f46c7e8/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Gym Membership Services BPA - AUS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Industrial Variable Frequency Drives (VFDs)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7439b90122f430491502f4df98f502f/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lake Tahoe Basin Janitorial",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Laundry and Dry Cleaning Service for Osan Commissary and Osan CDC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/144e97dc596846428e0b1fa217ce3e3d/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "NOM: BULKHEAD,AIRCRAFT PR: 7013232963, NSN: 1560-017279075: IAW P/N: 68A332002-2063 RFP: SPE4A527R0009",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d692509218d8452bae41b2064667b921/view"
     }
   ],
   "dod": {
-    "latest": "2026-09-30",
-    "fetched": "2026-10-01T22:09:30Z",
+    "latest": "2026-10-01",
+    "fetched": "2026-10-02T11:10:58Z",
     "status": "ok",
     "rows": 200
   }

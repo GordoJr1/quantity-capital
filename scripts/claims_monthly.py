@@ -16,6 +16,14 @@ Either command shallow-clones origin/main and, inside that clone, runs:
 
     py -3 scripts/claims_db.py --all --refresh --no-jev --skip-tiles
 
+If the truststore package can be imported, that process is started through a
+small bootstrap that calls truststore.inject_into_ssl() first, so Python uses
+the Windows certificate store. certifi alone is missing an intermediate that
+Yukon's site needs. Certificate verification is never turned off. When
+truststore is missing, the same claims_db.py command runs on the default
+certifi bundle. The log line is either "TLS: Windows trust store via truststore"
+or "TLS: default certifi (truststore missing)".
+
 A single-province trial that does not use the real snapshot folder:
 
     py -3 scripts/claims_monthly.py --provinces nunavut --snapshots %TEMP%\qc-claims-monthly-test
@@ -32,6 +40,7 @@ can be copied together into the Groks collect folder and run from there.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import re
@@ -162,25 +171,55 @@ def prepare_repo(repo_arg: Path | None, stamp: str) -> Path:
     return dest
 
 
-def pipeline_command(repo: Path, provinces: list[str] | None) -> list[str]:
-    script = repo / "scripts" / "claims_db.py"
-    cmd = [sys.executable, "-u", str(script)]
+def _truststore_importable() -> bool:
+    try:
+        return importlib.util.find_spec("truststore") is not None
+    except (ImportError, ValueError):
+        return False
+
+
+def _claims_args(provinces: list[str] | None) -> list[str]:
+    args: list[str] = []
     if provinces:
         for name in provinces:
-            cmd.extend(["--province", name])
+            args.extend(["--province", name])
     else:
-        cmd.append("--all")
-    cmd.extend(PIPELINE_FLAGS)
+        args.append("--all")
+    args.extend(PIPELINE_FLAGS)
+    if "--publish" in args or any("qc.sqlite" in part for part in args):
+        raise MonthlyError("refusing to publish or to touch qc.sqlite")
+    return args
+
+
+def pipeline_command(repo: Path, provinces: list[str] | None) -> tuple[list[str], str]:
+    """Argv for claims_db.py. Uses truststore when it imports. Never skips TLS verify."""
+    script = str(repo / "scripts" / "claims_db.py")
+    args = _claims_args(provinces)
+    if _truststore_importable():
+        # One argv entry for the bootstrap. Not a shell string.
+        code = (
+            "import truststore,runpy,sys; "
+            "truststore.inject_into_ssl(); "
+            f"sys.argv=[{script!r}]+{args!r}; "
+            f"runpy.run_path({script!r}, run_name='__main__')"
+        )
+        cmd = [sys.executable, "-u", "-c", code]
+        note = "TLS: Windows trust store via truststore"
+    else:
+        cmd = [sys.executable, "-u", script, *args]
+        note = "TLS: default certifi (truststore missing)"
     if "--publish" in cmd or any("qc.sqlite" in part for part in cmd):
         raise MonthlyError("refusing to publish or to touch qc.sqlite")
-    return cmd
+    return cmd, note
 
 
-def stream_pipeline(cmd: list[str], repo: Path, log_path: Path) -> int:
+def stream_pipeline(cmd: list[str], repo: Path, log_path: Path, tls_note: str) -> int:
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    print(tls_note, flush=True)
     print(f"log: {log_path}", flush=True)
     print("command: " + subprocess.list2cmdline(cmd), flush=True)
     with log_path.open("w", encoding="utf-8", errors="replace", newline="\n") as log:
+        log.write(tls_note + "\n")
         log.write("command: " + subprocess.list2cmdline(cmd) + "\n")
         log.write(f"cwd: {repo}\n\n")
         log.flush()
@@ -342,8 +381,8 @@ def execute(args: argparse.Namespace, timer: StepTimer) -> int:
     repo = prepare_repo(args.repo, stamp)
     timer.mark("repo")
 
-    cmd = pipeline_command(repo, args.provinces)
-    code = stream_pipeline(cmd, repo, log_path)
+    cmd, tls_note = pipeline_command(repo, args.provinces)
+    code = stream_pipeline(cmd, repo, log_path, tls_note)
     timer.mark("pipeline")
     if code != 0:
         print(f"pipeline failed ({code}). log: {log_path}", file=sys.stderr)

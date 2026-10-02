@@ -13,6 +13,7 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=2" />
   <link rel="prefetch" href="insider-analysis.json">
   <link rel="prefetch" href="insider-repeatable.json">
+  <link rel="prefetch" href="insider-repeatable-scorecard.json">
   <link rel="prefetch" href="insider-follow.json">
   <link rel="prefetch" href="insider-form4.json">
   <title>Insider leaders — Quantity Capital</title>
@@ -128,6 +129,11 @@
     table.rep .rank { color: var(--mute); font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; }
     table.rep tbody tr:first-child .rank { color: var(--caution); }
     table.rep .mobile-firm { display: none; }
+    table.rep th.since, table.rep td.since { white-space: nowrap; }
+    .rep-live { margin: -8px 0 14px; color: var(--paper); font-size: 0.92rem; line-height: 1.45; }
+    .rep-live b { font-weight: 600; }
+    .rep-live .up { color: #7dcf7a; }
+    .rep-live .down { color: #ef7a74; }
     .card.follow-card { border-left-color: var(--caution); }
     .card .qc-follow-tag { margin-left: 8px; vertical-align: 0.2em; }
     table.rep .qc-follow-tag { margin-left: 8px; }
@@ -157,8 +163,11 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
       h1 { font-size: 1.35rem; }
       table.rep .desk-firm { display: none; }
+      table.rep .desk-vs { display: none; }
       table.rep .mobile-firm { display: block; }
-      table.rep th, table.rep td { padding: 7px 8px; }
+      table.rep th, table.rep td { padding: 7px 5px; }
+      table.rep th.since { white-space: normal; line-height: 1.15; min-width: 4.6rem; }
+      .rep-wrap { overflow-x: hidden; }
     }
   </style>
   <link rel="stylesheet" href="shell.css?v=169" />
@@ -200,7 +209,7 @@
       <summary>How repeatable is scored</summary>
       <div class="body">
         <p>Open-market buys only — Form 4 code P and SEDI nature 10. Awards, option exercises, gifts, private or prospectus prints, and sales are out. Copy the print at the first <code>prices/</code> close after the public filing date, since an after-hours print can’t be bought at that day’s close (10-day slack). Score the 30 / 90 / 180-day close after that. Same officer, ticker, and filing date collapse to one copy so split lots do not count twice.</p>
-        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Scheduled Form 4 10b5-1 buys are dropped before that floor. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Officers who also clear 70% 90-day hit and a positive average sit on Follow — one company is enough. Not a recommendation.</p>
+        <p class="muted" style="margin-top:10px;">Average return is the equal-weight mean of per-ticker means, so one name cannot dominate. Hit rate is the share of those copy trades that finished up. Floor is five clustered open-market buys in the last 18 months that also complete the selected horizon. Scheduled Form 4 10b5-1 buys are dropped before that floor. Vs ticker is the copy’s return minus the same name from the insider’s trade-date close to the same exit. Rank is average return, then hit rate. Officers who also clear 70% 90-day hit and a positive average sit on Follow — one company is enough. Not a recommendation. The Since filing vs SPY column is the first close after that officer’s latest open-market filing, marked to the latest close, minus SPY over the same dates. Past results, not a forecast.</p>
       </div>
     </details>
     <details class="how" id="how-follow" hidden>
@@ -211,6 +220,7 @@
       </div>
     </details>
     <div class="stats" id="stats"></div>
+    <p class="rep-live" id="rep-live" hidden></p>
     <div class="board-tabs" role="tablist" aria-label="Leaderboard">
       <button type="button" role="tab" id="board-tab-leaders" aria-selected="true" aria-controls="board" data-board="leaders" class="on">Performers</button>
       <button type="button" role="tab" id="board-tab-traders" aria-selected="false" aria-controls="board" data-board="traders">Active traders</button>
@@ -240,6 +250,7 @@
     let data = null;
     let repeatable = null;
     let followData = null;
+    let scorecard = null;
     const TOP = 30;
 
     function signedMoney(n) {
@@ -355,6 +366,38 @@
       }
     }
 
+    function sinceExcess(row) {
+      const pick = scorecard && scorecard.picks ? scorecard.picks[row.id] : null;
+      if (!pick || pick.excess == null || isNaN(pick.excess)) return null;
+      return pick.excess;
+    }
+
+    function priceAsOfShort(iso) {
+      const pretty = QC.prettyDate(String(iso || "").slice(0, 10));
+      if (!pretty || pretty === "—") return "";
+      return pretty.replace(/, \d{4}$/, "");
+    }
+
+    function scorecardSummaryHtml() {
+      const s = scorecard && scorecard.summary;
+      if (!s || s.n == null) return "";
+      const beat = s.beat != null ? s.beat : 0;
+      const rate = s.n ? Math.round((s.hit || 0) * 100) + "%" : "—";
+      const asof = priceAsOfShort(scorecard.asof);
+      return "Since filing, vs SPY: avg <b class=\"" + cls(s.avg) + "\">" + signedPct(s.avg) +
+        "</b> · median <b class=\"" + cls(s.median) + "\">" + signedPct(s.median) +
+        "</b> · beat SPY on " + beat + " of " + s.n + " (" + rate + ")" +
+        (asof ? " · prices to " + asof : "");
+    }
+
+    function paintScoreLine() {
+      const el = document.getElementById("rep-live");
+      if (!el) return;
+      const html = board === "repeatable" && repeatable ? scorecardSummaryHtml() : "";
+      el.hidden = !html;
+      el.innerHTML = html;
+    }
+
     function repeatableTable(rows) {
       const h = horizon + "d";
       const head = "<thead><tr>" +
@@ -362,7 +405,8 @@
         "<th class=\"num\">Buys</th>" +
         "<th class=\"num\">" + h + " hit</th>" +
         "<th class=\"num\">Avg " + h + "</th>" +
-        "<th class=\"num\">vs ticker</th>" +
+        "<th class=\"num desk-vs\">vs ticker</th>" +
+        "<th class=\"num since\">Since filing vs SPY</th>" +
         "</tr></thead>";
       const body = rows.map((row, i) => {
         const w = row[String(horizon)] || {};
@@ -372,6 +416,7 @@
           : QC.esc(firm);
         const titleBit = row.title ? QC.esc(row.title) : "";
         const onFollow = !!followIds()[row.id];
+        const excess = sinceExcess(row);
         return "<tr>" +
           "<td class=\"rank\">" + String(i + 1).padStart(2, "0") + "</td>" +
           "<td><a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" +
@@ -383,7 +428,8 @@
           "<td class=\"num\">" + (w.n != null ? w.n : "—") + "</td>" +
           "<td class=\"num\">" + hitPct(w.hit) + "</td>" +
           "<td class=\"num " + cls(w.avg) + "\">" + signedPct(w.avg) + "</td>" +
-          "<td class=\"num " + cls(w.vs) + "\">" + signedPct(w.vs) + "</td>" +
+          "<td class=\"num desk-vs " + cls(w.vs) + "\">" + signedPct(w.vs) + "</td>" +
+          "<td class=\"num since " + cls(excess) + "\">" + signedPct(excess) + "</td>" +
           "</tr>";
       }).join("");
       return "<div class=\"rep-wrap\"><table class=\"rep\">" + head + "<tbody>" + body + "</tbody></table></div>";
@@ -404,6 +450,7 @@
       document.getElementById("how-repeat").hidden = !isRep;
       document.getElementById("how-follow").hidden = !isFollow;
       document.getElementById("rep-windows").hidden = !isRep;
+      paintScoreLine();
       paintFollowAlerts();
       document.querySelectorAll("#rep-windows button").forEach((b) => {
         b.classList.toggle("on", Number(b.dataset.h) === horizon);
@@ -514,6 +561,17 @@
         document.getElementById("asof").textContent = "";
         document.getElementById("board").innerHTML = "<p class=\"muted\">Could not load the repeatable board.</p>";
       }
+    });
+
+    fetch("insider-repeatable-scorecard.json").then((r) => {
+      if (!r.ok) return null;
+      return r.json();
+    }).then((payload) => {
+      scorecard = payload && typeof payload === "object" ? payload : null;
+      paint();
+    }).catch(() => {
+      scorecard = null;
+      paint();
     });
 
     QC.loadFollow().then((payload) => {

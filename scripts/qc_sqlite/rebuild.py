@@ -5,6 +5,8 @@ Usage (from the quantity-capital repo root):
   python scripts/qc_sqlite/rebuild.py --skip-jev
   python scripts/qc_sqlite/rebuild.py --skip-tells
   python scripts/qc_sqlite/rebuild.py --skip-analysis
+  python scripts/qc_sqlite/rebuild.py --boards-only
+  python scripts/qc_sqlite/rebuild.py --skip-overlap
   python3 scripts/ingest_canada_mine_production.py --sqlite qc.sqlite --apply
   python scripts/qc_sqlite/tells.py
   python scripts/qc_sqlite/analysis.py
@@ -1647,6 +1649,7 @@ def run_boards(
     skip_analysis: bool,
     skip_paper: bool,
     skip_insider: bool,
+    skip_overlap: bool,
     excel: bool,
 ) -> None:
     if not skip_tells:
@@ -1669,6 +1672,14 @@ def run_boards(
         import insider_boards as insider_mod
 
         insider_mod.run(con, skip_jev=skip_jev)
+    if not skip_overlap:
+        log("Overlap board…")
+        try:
+            import overlap as overlap_mod
+
+            overlap_mod.run(con)
+        except Exception as exc:
+            log(f"Overlap board failed: {type(exc).__name__}: {exc}; keeping previous JSON")
     if excel:
         log("Excel export…")
         import export_excel as excel_mod
@@ -1682,6 +1693,7 @@ def rebuild_boards(
     skip_analysis: bool = False,
     skip_paper: bool = False,
     skip_insider: bool = False,
+    skip_overlap: bool = False,
     excel: bool = False,
 ) -> int:
     if not DB_PATH.exists():
@@ -1692,6 +1704,7 @@ def rebuild_boards(
             skip_analysis=skip_analysis,
             skip_paper=skip_paper,
             skip_insider=skip_insider,
+            skip_overlap=skip_overlap,
             excel=excel,
         )
         return 0
@@ -1707,6 +1720,7 @@ def rebuild_boards(
             skip_analysis=skip_analysis,
             skip_paper=skip_paper,
             skip_insider=skip_insider,
+            skip_overlap=skip_overlap,
             excel=excel,
         )
         meta_set(con, "boards_refreshed_at", now_iso())
@@ -1722,7 +1736,7 @@ def rebuild_boards(
     return 0
 
 
-def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = False, skip_paper: bool = False, skip_insider: bool = False, excel: bool = False) -> None:
+def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = False, skip_paper: bool = False, skip_insider: bool = False, skip_overlap: bool = False, excel: bool = False) -> None:
     tmp = DB_PATH.with_suffix(".sqlite.tmp")
     if tmp.exists():
         tmp.unlink()
@@ -1782,6 +1796,7 @@ def rebuild(skip_jev: bool, skip_tells: bool = False, skip_analysis: bool = Fals
             skip_analysis=skip_analysis,
             skip_paper=skip_paper,
             skip_insider=skip_insider,
+            skip_overlap=skip_overlap,
             excel=excel,
         )
         meta_set(con, "built_finished_at", now_iso())
@@ -1809,6 +1824,7 @@ def main() -> int:
     parser.add_argument("--skip-analysis", action="store_true", help="Skip analysis.json / signals book")
     parser.add_argument("--skip-paper", action="store_true", help="Skip paper Jev flags on backtest.json (read-only)")
     parser.add_argument("--skip-insider", action="store_true", help="Skip insider boards")
+    parser.add_argument("--skip-overlap", action="store_true", help="Skip politician/insider same-week overlap board")
     parser.add_argument("--excel", action="store_true", help="Write Desktop xlsx exports")
     parser.add_argument(
         "--boards-only",
@@ -1824,6 +1840,7 @@ def main() -> int:
             skip_analysis=args.skip_analysis,
             skip_paper=args.skip_paper,
             skip_insider=args.skip_insider,
+            skip_overlap=args.skip_overlap,
             excel=args.excel,
         )
     rebuild(
@@ -1832,6 +1849,7 @@ def main() -> int:
         skip_analysis=args.skip_analysis,
         skip_paper=args.skip_paper,
         skip_insider=args.skip_insider,
+        skip_overlap=args.skip_overlap,
         excel=args.excel,
     )
     return 0

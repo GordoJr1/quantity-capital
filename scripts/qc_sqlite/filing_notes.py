@@ -738,6 +738,7 @@ def judge(
     con: sqlite3.Connection | None = None,
     bios: dict[str, Any] | None = None,
     client: Any = None,
+    question_set: dict[str, Any] | None = None,
     recent_days: int = 120,
 ) -> dict[str, Any]:
     """Judge uncached Congress filings. The only function that calls Jev."""
@@ -748,15 +749,7 @@ def judge(
         uri = "file:" + DB_PATH.as_posix() + "?mode=ro"
         con = sqlite3.connect(uri, uri=True)
     assert con is not None
-    owns_client = client is None
-    if owns_client:
-        load_typesafe_env()
-        if not os.environ.get("TYPESAFE_API_KEY"):
-            raise SystemExit("TYPESAFE_API_KEY missing")
-        from typesafe_sdk import TypeSafeClient
-
-        client = TypeSafeClient(model=JEV_MODEL, timeout=120.0)
-    qset = questions()
+    owns_client = False
     filings = build_filings(con, bios)
     cache = _open_cache_rw(judgments_path())
     have = _cached_keys(cache)
@@ -775,6 +768,45 @@ def judge(
         pending = pending[:limit]
 
     workers = max(1, min(int(workers), 16))
+    if not pending:
+        summary = {
+            "backfill": bool(backfill),
+            "filings": len(filings),
+            "queued": 0,
+            "calls": 0,
+            "stored": 0,
+            "errors": 0,
+            "skipped": 0,
+            "input_tokens": 0,
+            "cost_usd": 0.0,
+            "stopped_for_cap": False,
+            "cache": str(judgments_path()),
+            "question_version": QUESTION_VERSION,
+            "model": JEV_MODEL,
+            "committee_p3_min": COMMITTEE_P3_MIN,
+        }
+        print(
+            f"judge backfill={int(backfill)} uncached=0 workers={workers} max_usd={max_usd}",
+            flush=True,
+        )
+        print("judge_done " + json.dumps(summary, sort_keys=True), flush=True)
+        cache.close()
+        if owns_con:
+            con.close()
+        return summary
+
+    if client is None:
+        owns_client = True
+        load_typesafe_env()
+        if not os.environ.get("TYPESAFE_API_KEY"):
+            cache.close()
+            if owns_con:
+                con.close()
+            raise SystemExit("TYPESAFE_API_KEY missing")
+        from typesafe_sdk import TypeSafeClient
+
+        client = TypeSafeClient(model=JEV_MODEL, timeout=120.0)
+    qset = question_set if question_set is not None else questions()
     stop = threading.Event()
     log_lock = threading.Lock()
     original_log = jev_common.log_usage

@@ -347,7 +347,10 @@ class FilingNotes(unittest.TestCase):
             with tempfile.TemporaryDirectory() as d:
                 os.environ["QC_FILING_JUDGMENTS"] = str(Path(d) / "filing_judgments.sqlite")
                 with redirect_stdout(io.StringIO()):
-                    first = filing_notes.judge(backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object())
+                    first = filing_notes.judge(
+                        backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object(),
+                        question_set={"stub": True},
+                    )
                     second = filing_notes.judge(backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object())
         finally:
             jev_common.ask = saved_ask

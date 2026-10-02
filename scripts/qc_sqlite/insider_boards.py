@@ -260,6 +260,15 @@ def run(con: sqlite3.Connection, skip_jev: bool = False) -> dict[str, Any]:
                 break
     ingest_json_list(con, QC_ROOT / "insider-analysis.json", "insider_analysis_book", "code")
     ingest_json_list(con, QC_ROOT / "insider-repeatable.json", "insider_repeatable_filers", "id")
+    try:
+        import repeatable_scorecard
+
+        repeatable_scorecard.run(con)
+    except Exception as exc:
+        log(
+            "repeatable scorecard failed: "
+            f"{type(exc).__name__}: {exc}; keeping previous insider-repeatable-scorecard.json"
+        )
     jev_stats = gate_follow(con, skip_jev)
     con.execute(
         "INSERT INTO meta(key, value) VALUES(?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",

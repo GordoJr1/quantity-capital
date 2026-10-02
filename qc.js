@@ -2043,37 +2043,85 @@
     }
   }
 
-  function canHistoryBack(ref) {
-    if (history.length < 2) return false;
-    if (!ref || !isQcHref(ref)) return false;
+  function parseHref(href) {
     try {
-      if (pageFile(new URL(ref, location.href).pathname) === pageFile(location.pathname)) return false;
+      const u = new URL(href, location.href);
+      return { file: pageFile(u.pathname), search: u.search, hash: u.hash };
     } catch (e) {
-      return false;
+      return null;
     }
+  }
+
+  function listQueryMatchesStored(ref) {
+    const stored = storedReturn();
+    if (!ref || !stored) return false;
+    const r = parseHref(ref);
+    const s = parseHref(stored);
+    if (!r || !s || !LIST_FILES[r.file] || r.file !== s.file) return false;
+    return r.search === s.search;
+  }
+
+  function resolveDest(fallbackHref) {
+    const stored = storedReturn();
+    const ref = document.referrer;
+    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
+    const fallback = fallbackHref || "index.html";
+    let dest = fallback;
+    if (fromRef) {
+      const r = parseHref(fromRef);
+      const s = stored ? parseHref(stored) : null;
+      if (r && s && LIST_FILES[r.file] && r.file === s.file) dest = stored;
+      else if (r && isPersonPage(fromRef)) dest = fromRef;
+      else if (stored) dest = stored;
+      else dest = fromRef;
+    } else if (stored) {
+      dest = stored;
+    }
+    const here = pageFile(location.pathname);
+    const d = parseHref(dest);
+    if (!d || d.file === here) dest = fallback;
+    const f = parseHref(dest);
+    if (!f || f.file === here) dest = "index.html";
+    return dest;
+  }
+
+  function canHistoryBack(ref, dest) {
+    if (history.length < 2) return false;
+    if (!ref || !dest || !isQcHref(ref)) return false;
+    const r = parseHref(ref);
+    const d = parseHref(dest);
+    if (!r || !d) return false;
+    if (r.file === pageFile(location.pathname)) return false;
+    if (r.file !== d.file || r.search !== d.search) return false;
+    if (LIST_FILES[r.file] && !listQueryMatchesStored(ref)) return false;
     return true;
   }
 
   function bindBack(el) {
-    if (!el || el.dataset.qcBack === "1") return;
-    el.dataset.qcBack = "1";
-    const fallbackHref = el.getAttribute("href") || "index.html";
-    const fallbackLabel = String(el.textContent || "← Back").replace(/\s+/g, " ").trim();
-    const stored = storedReturn();
-    const ref = document.referrer;
-    const fromRef = (ref && isQcHref(ref)) ? toLocal(ref) : "";
-    const dest = stored || fromRef || fallbackHref;
-    if (!isPersonPage(fallbackHref)) {
+    if (!el) return;
+    // Fallback stays the page default. A second bindBack must not treat the resolved href as the default.
+    if (!el.getAttribute("data-qc-back-fallback")) {
+      el.setAttribute("data-qc-back-fallback", el.getAttribute("href") || "index.html");
+    }
+    if (!el.getAttribute("data-qc-back-label")) {
+      el.setAttribute("data-qc-back-label", String(el.textContent || "← Back").replace(/\s+/g, " ").trim());
+    }
+    const fallbackHref = el.getAttribute("data-qc-back-fallback") || "index.html";
+    const fallbackLabel = el.getAttribute("data-qc-back-label") || "← Back";
+    const dest = resolveDest(fallbackHref);
+    if (isQcHref(dest) || dest === fallbackHref) {
       el.href = dest;
       el.textContent = labelFor(dest, fallbackLabel);
     }
+    if (el.dataset.qcBack === "1") return;
+    el.dataset.qcBack = "1";
     el.addEventListener("click", function (e) {
       if (e.defaultPrevented) return;
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (canHistoryBack(document.referrer)) {
-        e.preventDefault();
-        history.back();
-      }
+      const href = el.getAttribute("href") || dest;
+      if (!canHistoryBack(document.referrer, href)) return;
+      e.preventDefault();
+      history.back();
     });
   }
 

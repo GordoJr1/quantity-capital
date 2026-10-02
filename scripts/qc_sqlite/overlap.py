@@ -31,6 +31,8 @@ MONTHS = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", 
 METHOD = (
     "One row per ticker and ISO week (Monday-Sunday) by trade date. "
     "Window is the 24 calendar months ending on the newest trade_date in either tape. "
+    "Members of Congress only: chamber House or Senate (case-insensitive). "
+    "White House and any other chamber drop. "
     "Politician sides: purchase=Buy, sale=Sell; exchange dropped. "
     "Insider sides: purchase=Buy, sale=Sell, sale_post=Sell; award, exercise, and exchange dropped. "
     "A politician row counts only when asset_type is exactly Stock "
@@ -234,6 +236,7 @@ def build(con: sqlite3.Connection, *, months: int = WINDOW_MONTHS, cap: int = SH
                amount_raw, amount_mid, trade_date
         FROM politician_trades
         WHERE trade_date >= ?
+          AND lower(trim(coalesce(chamber, ''))) IN ('house', 'senate')
           AND lower(trim(coalesce(asset_type, ''))) = 'stock'
           AND lower(trim(coalesce(side, ''))) IN ('purchase', 'sale')
         """,

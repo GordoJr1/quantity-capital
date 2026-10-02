@@ -130,6 +130,21 @@ class Overlap(unittest.TestCase):
         self.assertEqual(rows[0]["label"], "Week of Sep 7, 2026")
         self.assertEqual(rows[0]["insiders"][0]["id"], "early")
 
+    def test_white_house_same_week_does_not_match(self) -> None:
+        self._pol(
+            "FANG",
+            "2026-09-15",
+            chamber="White House",
+            filer="Donald J. Trump",
+            filer_id="donald-j-trump",
+            side="sale",
+        )
+        self._ins("FANG", "2026-09-16", side="sale")
+        self._pol("AAPL", "2026-09-15", chamber="senate", filer="Ann Senator", filer_id="p-sen")
+        self._ins("AAPL", "2026-09-15", filer_id="i2", filer="Officer Two")
+        rows = overlap.build(self.con)["rows"]
+        self.assertEqual([(r["ticker"], r["politicians"][0]["chamber"]) for r in rows], [("AAPL", "senate")])
+
     def test_award_dropped(self) -> None:
         self._pol("AMZN", "2026-09-15")
         self._ins("AMZN", "2026-09-15", side="award", value=90000)

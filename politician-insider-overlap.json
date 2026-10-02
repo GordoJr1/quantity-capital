@@ -1,13 +1,13 @@
 {
-  "generated": "2026-10-02T00:47:56+00:00",
+  "generated": "2026-10-02T00:59:36+00:00",
   "window_start": "2024-10-01",
-  "method": "One row per ticker and ISO week (Monday-Sunday) by trade date. Window is the 24 calendar months ending on the newest trade_date in either tape. Politician sides: purchase=Buy, sale=Sell; exchange dropped. Insider sides: purchase=Buy, sale=Sell, sale_post=Sell; award, exercise, and exchange dropped. A politician row counts only when asset_type is exactly Stock (Stock Option, Non-Public Stock, bonds, municipals, and other types drop). Blank tickers and non-tickers (--, N/A, NA, NONE) drop. Each person is one line per side; the three largest on each side are kept.",
+  "method": "One row per ticker and ISO week (Monday-Sunday) by trade date. Window is the 24 calendar months ending on the newest trade_date in either tape. Members of Congress only: chamber House or Senate (case-insensitive). White House and any other chamber drop. Politician sides: purchase=Buy, sale=Sell; exchange dropped. Insider sides: purchase=Buy, sale=Sell, sale_post=Sell; award, exercise, and exchange dropped. A politician row counts only when asset_type is exactly Stock (Stock Option, Non-Public Stock, bonds, municipals, and other types drop). Blank tickers and non-tickers (--, N/A, NA, NONE) drop. Each person is one line per side; the three largest on each side are kept.",
   "stats": {
-    "rows": 35,
-    "tickers": 20,
-    "same_side": 15,
-    "opposite": 14,
-    "mixed": 6
+    "rows": 27,
+    "tickers": 18,
+    "same_side": 11,
+    "opposite": 12,
+    "mixed": 4
   },
   "rows": [
     {
@@ -75,118 +75,6 @@
       "match": "opposite"
     },
     {
-      "ticker": "FANG",
-      "week": "2026-06-15",
-      "label": "Week of Jun 15, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2026-06-16"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "meloy-charles-alvin",
-          "name": "Meloy Charles Alvin",
-          "title": "Director",
-          "side": "Sell",
-          "value": 15593331.53,
-          "trade_date": "2026-06-16"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "both sell"
-    },
-    {
-      "ticker": "DVN",
-      "week": "2026-06-08",
-      "label": "Week of Jun 8, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2026-06-12"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "alexander-andrea",
-          "name": "Alexander Andrea",
-          "title": "SVP & CHIEF ADMIN OFFICER",
-          "side": "Sell",
-          "value": 841320,
-          "trade_date": "2026-06-10"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "both sell"
-    },
-    {
-      "ticker": "EQT",
-      "week": "2026-06-08",
-      "label": "Week of Jun 8, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2026-06-12"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "rice-toby-z",
-          "name": "Rice Toby Z.",
-          "title": "PRESIDENT & CEO",
-          "side": "Sell",
-          "value": 92539.26,
-          "trade_date": "2026-06-08"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "both sell"
-    },
-    {
-      "ticker": "EXE",
-      "week": "2026-06-08",
-      "label": "Week of Jun 8, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$15,001–$50,000",
-          "trade_date": "2026-06-12"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "wichterich-michael",
-          "name": "Wichterich Michael",
-          "title": "Interim President and CEO",
-          "side": "Buy",
-          "value": 88900,
-          "trade_date": "2026-06-12"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "opposite"
-    },
-    {
       "ticker": "EQT",
       "week": "2026-06-01",
       "label": "Week of Jun 1, 2026",
@@ -215,34 +103,6 @@
       "match": "opposite"
     },
     {
-      "ticker": "CVX",
-      "week": "2026-05-18",
-      "label": "Week of May 18, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$50,001–$100,000",
-          "trade_date": "2026-05-18"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "hess-john-b",
-          "name": "HESS JOHN B",
-          "title": "Director",
-          "side": "Sell",
-          "value": 73414765.34,
-          "trade_date": "2026-05-20"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "both sell"
-    },
-    {
       "ticker": "ALB",
       "week": "2026-05-11",
       "label": "Week of May 11, 2026",
@@ -269,70 +129,6 @@
       "politicians_more": 0,
       "insiders_more": 0,
       "match": "opposite"
-    },
-    {
-      "ticker": "AMR",
-      "week": "2026-05-11",
-      "label": "Week of May 11, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$15,001–$50,000",
-          "trade_date": "2026-05-15"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "courtis-kenneth-s",
-          "name": "Courtis Kenneth S.",
-          "title": "Director",
-          "side": "Buy",
-          "value": 2838325.25,
-          "trade_date": "2026-05-12"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "opposite"
-    },
-    {
-      "ticker": "IAUX",
-      "week": "2026-05-11",
-      "label": "Week of May 11, 2026",
-      "politicians": [
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Buy",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2026-05-15"
-        },
-        {
-          "id": "donald-j-trump",
-          "name": "Donald J. Trump",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2026-05-15"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "yopps-steven-wayne",
-          "name": "Yopps, Steven Wayne",
-          "title": "Director",
-          "side": "Buy",
-          "value": 73500,
-          "trade_date": "2026-05-15"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "mixed"
     },
     {
       "ticker": "IAUX",
@@ -993,58 +789,6 @@
       "politicians_more": 0,
       "insiders_more": 0,
       "match": "opposite"
-    },
-    {
-      "ticker": "HIVE",
-      "week": "2025-10-13",
-      "label": "Week of Oct 13, 2025",
-      "politicians": [
-        {
-          "id": "jackson-lane",
-          "name": "Jackson Lane",
-          "chamber": "White House",
-          "side": "Buy",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2025-10-14"
-        },
-        {
-          "id": "jackson-lane",
-          "name": "Jackson Lane",
-          "chamber": "White House",
-          "side": "Sell",
-          "amount": "$1,001–$15,000",
-          "trade_date": "2025-10-15"
-        }
-      ],
-      "insiders": [
-        {
-          "id": "holmes-frank-edward",
-          "name": "Holmes, Frank Edward",
-          "title": "Executive Chairman",
-          "side": "Sell",
-          "value": 1096680,
-          "trade_date": "2025-10-14"
-        },
-        {
-          "id": "rossy-luke",
-          "name": "Rossy, Luke",
-          "title": "Chief Operating Officer",
-          "side": "Sell",
-          "value": 218423.52,
-          "trade_date": "2025-10-16"
-        },
-        {
-          "id": "kilic-aydin",
-          "name": "Kilic, Aydin",
-          "title": "President & CEO",
-          "side": "Sell",
-          "value": 156120,
-          "trade_date": "2025-10-15"
-        }
-      ],
-      "politicians_more": 0,
-      "insiders_more": 0,
-      "match": "mixed"
     },
     {
       "ticker": "FNV",

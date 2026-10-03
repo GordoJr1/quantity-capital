@@ -931,8 +931,8 @@ summary:focus-visible,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-date {
     display: block;
     grid-area: date;
-    color: var(--mute, #8b96a3);
-    font-size: 0.68rem;
+    color: #b7c1cc;
+    font-size: calc(0.68rem + 1px);
     white-space: nowrap;
     min-width: 0;
   }
@@ -1193,8 +1193,9 @@ summary:focus-visible,
   }
   .qc-txn .qc-txn-date {
     grid-area: date;
-    color: var(--mute, #8b96a3);
-    font-size: 0.72rem;
+    /* Visible date cell on desktop tape rows. #209 only recolored .qc-txn-meta/.qc-txn-when, which this grid hides. */
+    color: #b7c1cc;
+    font-size: calc(0.72rem + 1px);
     white-space: nowrap;
   }
   .qc-txn .qc-txn-sh {

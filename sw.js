@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v246";
+const CACHE = "qc-shell-v247";
 const SHELL = [
   "./",
   "./index.html",
@@ -21,6 +21,7 @@ const SHELL = [
   "./shell.css?v=171",
   "./shell.css?v=172",
   "./shell.css?v=173",
+  "./shell.css?v=174",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -158,8 +159,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   if (isDoc) {
+    // Revalidate with the server (ETag, usually a 304) instead of taking the
+    // browser's 10-minute HTTP cache copy, so a publish shows on the next load.
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: "no-cache" })
+        .catch(() => fetch(event.request))
         .then((res) => {
           storeIfOk(res);
           return res;

@@ -596,6 +596,325 @@
     .desk.issuers-only { display: block; }
     .desk.issuers-only .focus { display: none; }
   </style>
+  <style id="qc-insiders-v2">
+    /* Insiders v2 look, DESKTOP ONLY (Gordo approved mockup insiders-v1, 2026-10-03): the Politicians
+       index.html #qc-v2-look on the Insiders page. Style only; same markup, data and features.
+       Everything sits inside min-width: 900px, so phones stay exactly as before. */
+    @media (min-width: 900px) {
+      :root {
+        --v2-card: #222a36; --v2-chart: #18202b; --v2-line: #344050; --v2-border: #3a4452; --v2-sub: #b7c1cc;
+        --v2-sell-text: #ffb4ae; --v2-buy-text: #7dcf7a; --v2-sell-bar: #e0625c; --v2-buy-bar: #3fb35c;
+        --v2-chip-fg: #9be3a2; --v2-chip-bg: #1f3b2c; --v2-chip-bd: #3f7a52;
+        --v2-teal-fg: #8fdde0; --v2-teal-bd: #2d6f73;
+      }
+
+      /* ---------- page head ---------- */
+      #main > .page-head { padding-top: 18px; margin-bottom: 16px; align-items: baseline; }
+      #main > .page-head h1 {
+        font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 30px; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--white);
+      }
+      #main > .page-head .asof { color: var(--v2-sub); font-size: 14px; }
+
+      /* ---------- follow prints: rounded card like a leaderboard card ---------- */
+      #follow-alerts .qc-follow-alerts {
+        margin: 0 0 18px; background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 14px; overflow: hidden;
+      }
+      #follow-alerts .qc-follow-alerts .hd { padding: 14px 16px 10px; }
+      #follow-alerts .qc-follow-alerts .hd > span:first-child {
+        font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.08em;
+        text-transform: uppercase; color: var(--white);
+      }
+      #follow-alerts .qc-follow-alerts .acts a,
+      #follow-alerts .qc-follow-alerts .acts button {
+        border-radius: 10px; border: 1px solid var(--v2-border); background: transparent; color: var(--paper);
+        font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.1em; padding: 7px 12px;
+      }
+      #follow-alerts .qc-follow-alerts .acts a:hover,
+      #follow-alerts .qc-follow-alerts .acts button:hover { border-color: var(--v2-buy-bar); color: var(--v2-buy-text); }
+      #follow-alerts .qc-follow-alerts .list { padding: 0 16px 6px; }
+      #follow-alerts .qc-follow-alerts a.hit {
+        border: 0; border-top: 1px solid var(--v2-line); border-radius: 0; padding: 10px 0; background: transparent;
+      }
+      #follow-alerts .qc-follow-alerts a.hit:hover { background: rgba(255, 255, 255, 0.03); }
+      #follow-alerts .qc-follow-alerts .who { font-size: 15px; font-weight: 600; color: var(--white); }
+      #follow-alerts .qc-follow-alerts .side { font-size: 15px; font-weight: 700; }
+      #follow-alerts .qc-follow-alerts .side.up { color: var(--v2-buy-text); }
+      #follow-alerts .qc-follow-alerts .side.down { color: var(--v2-sell-text); }
+      #follow-alerts .qc-follow-alerts .tk { color: var(--paper); font-weight: 700; font-size: 14px; letter-spacing: 0.03em; }
+      #follow-alerts .qc-follow-alerts .when { color: var(--v2-sub); font-size: 14px; }
+
+      /* ---------- view + window chips, search: rounded controls; "on" = green like the chart range ---------- */
+      #windows { gap: 8px; margin: 0 0 14px; }
+      #windows .chip {
+        min-height: 40px; padding: 8px 14px; border-radius: 10px; background: var(--v2-card); border: 1px solid var(--v2-border);
+        color: var(--paper); font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.1em;
+      }
+      #windows .chip:hover { border-color: #56657a; color: var(--white); }
+      #windows .chip.on { color: #04140a; background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); }
+      #windows .chip[data-view="basket"] { margin-right: 14px; }
+      #windows .chip:focus-visible { outline: 2px solid var(--caution); outline-offset: 2px; }
+      #main .picker input {
+        min-height: 42px; background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 10px;
+        color: var(--white); font-family: "IBM Plex Sans", sans-serif; font-size: 15px; padding: 10px 14px;
+      }
+      #main .picker input::placeholder { color: #8b96a3; }
+      #main .picker input:focus { outline: 2px solid var(--caution); outline-offset: 1px; }
+      #main .picker { margin-bottom: 18px; }
+      #main .count { color: var(--v2-sub); font-size: 15px; }
+      #main .more-row .btn {
+        border-radius: 10px; border: 1px solid var(--v2-border); color: var(--white); background: transparent;
+        font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.1em;
+      }
+
+      /* ---------- row chips: rounded like the Politicians filing notes; strength kept (filled / outline / dashed) ---------- */
+      #rows .qc-txn-tag.qc-basket-chip,
+      #rows button.qc-warn-chip,
+      #basket .qc-txn-tag, #focus .qc-txn-tag { border-radius: 6px; }
+      #rows .qc-txn-tag.qc-basket-chip,
+      #rows button.qc-warn-chip,
+      #focus .qc-txn-tag {
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+        line-height: 1.45; padding: 1px 8px; text-transform: none;
+      }
+      #basket .qc-txn-tag {
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+        line-height: 1.45; padding: 1px 8px; text-transform: none;
+      }
+      #rows .qc-txn-tag.qc-basket-chip { color: var(--v2-teal-fg); border: 1px solid var(--v2-teal-bd); background: rgba(45, 111, 115, 0.16); }
+      #rows .qc-txn-tag.qc-basket-chip.is-exit { color: var(--v2-sub); border-color: var(--v2-border); background: transparent; }
+      #rows button.qc-warn-chip.is-mod { color: #c5ced6; border: 1px solid #56657a; background: rgba(15, 18, 24, 0.45); }
+      #rows button.qc-warn-chip.is-strong { color: #eef2f5; border: 1px solid #5c6570; background: #4b5462; }
+      #rows button.qc-warn-chip.is-weak { color: var(--v2-sub); border: 1px dashed #6b7582; background: transparent; }
+      #rows button.qc-warn-chip.is-dot { padding: 0; border-radius: 999px; }
+      #rows .qc-follow-tag, #rows .qc-plan-tag {
+        border-radius: 6px; font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+        text-transform: none; line-height: 1.45; padding: 0 7px;
+      }
+      #rows .qc-follow-tag { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border: 1px solid var(--v2-chip-bd); }
+      #rows .qc-plan-tag { color: var(--paper); background: transparent; border: 1px solid var(--v2-border); }
+      .qc-warn-pop {
+        background: #0f151e; border: 1px solid var(--v2-border); border-radius: 12px; padding: 12px 14px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55); max-width: 340px;
+      }
+      .qc-warn-pop .qc-warn-explain { font-size: 14px; color: var(--paper); line-height: 1.45; }
+      .qc-warn-pop a { color: var(--v2-teal-fg); }
+
+      /* ---------- tape: Politicians wire rows, person kept on every row ---------- */
+      #desk { column-gap: 24px; }
+      /* live bug: .desk { display: grid } beats [hidden], so Basket view showed an empty "Loading chart…" card */
+      #desk[hidden] { display: none; }
+      #desk .qc-txn-list.qc-tape-list,
+      #desk .qc-txn-list:has(.qc-txn) {
+        gap: 0; border: 0; border-radius: 0; background: transparent; overflow: visible; margin-bottom: 20px;
+      }
+      #desk .qc-txn-list > .qc-txn-cols { display: none !important; }
+      #desk .qc-txn-list > li.qc-txn-tape {
+        position: relative; display: grid;
+        grid-template-columns: minmax(0, max-content) minmax(0, 1fr) auto;
+        grid-template-areas: "co co hero" "id date chip";
+        column-gap: 0; row-gap: 3px; align-items: baseline;
+        padding: 13px 8px 13px 26px; margin: 0;
+        background: transparent; border: 0; border-bottom: 1px solid var(--v2-line); border-radius: 10px 10px 0 0;
+        overflow: visible; cursor: pointer; outline: none;
+      }
+      #desk .qc-txn-list > li.qc-txn-tape::before {
+        content: ""; position: absolute; left: 4px; top: 13px; bottom: 13px; width: 7px; border-radius: 4px; background: #6b7582;
+      }
+      #desk li.qc-txn-tape.buy::before { background: var(--v2-buy-bar); }
+      #desk li.qc-txn-tape.sell::before { background: var(--v2-sell-bar); }
+      #desk li.qc-txn-tape.postex::before { background: #c5726b; }
+      #desk li.qc-txn-tape.exercise::before { background: #2a6d72; }
+      #desk li.qc-txn-tape.award::before { background: #9a8a4a; }
+      #desk li.qc-txn-tape.exch::before { background: #6b7582; }
+      #desk .qc-txn-list > li.qc-txn-tape:hover { background: rgba(255, 255, 255, 0.03); }
+      #desk .qc-txn-list > li.qc-txn-tape.on {
+        background: rgba(54, 153, 157, 0.11); box-shadow: inset 0 0 0 1px rgba(79, 185, 189, 0.45);
+        border-bottom-color: transparent; border-radius: 10px;
+      }
+
+      /* line 1: TICKER · Company  [chips]                       amount */
+      #desk li.qc-txn-tape a.qc-txn-company {
+        grid-area: co; display: flex; align-items: center; flex-wrap: nowrap; gap: 0; min-width: 0; overflow: hidden;
+        font-family: "IBM Plex Sans", sans-serif; font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: 0;
+        text-transform: none; color: var(--white); text-decoration: none; padding-right: 16px;
+      }
+      #desk li.qc-txn-tape a.qc-txn-company .qc-txn-tk {
+        display: contents; font-family: "IBM Plex Sans", sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.02em;
+        text-transform: none; color: var(--white); overflow: visible;
+      }
+      #desk li.qc-txn-tape a.qc-txn-company .qc-txn-co-name {
+        order: 1; display: block; flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-size: 17px; font-weight: 600; color: var(--white);
+      }
+      #desk li.qc-txn-tape a.qc-txn-company .qc-txn-co-name::before { content: "\00a0\00b7\00a0"; color: var(--v2-sub); display: inline-block; white-space: pre; }
+      #desk li.qc-txn-tape a.qc-txn-company .qc-txn-tag,
+      #desk li.qc-txn-tape a.qc-txn-company .qc-warn-chip { order: 2; flex: 0 0 auto; margin-left: 8px; }
+      #desk li.qc-txn-tape a.qc-txn-company:hover .qc-txn-co-name { text-decoration: underline; text-underline-offset: 3px; }
+      #desk li.qc-txn-tape .qc-txn-end,
+      #desk li.qc-txn-tape .qc-txn-tbl { display: contents; }
+      #desk li.qc-txn-tape .qc-txn-hero,
+      #desk li.qc-txn-tape .qc-txn-hero.is-empty {
+        grid-area: hero; justify-self: end; text-align: right; white-space: nowrap;
+        font-family: "IBM Plex Sans", sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--paper);
+        font-variant-numeric: tabular-nums;
+      }
+      #desk li.qc-txn-tape .qc-txn-hero.is-shares { display: none; }
+      #desk li.qc-txn-tape .qc-txn-hero.is-empty { color: var(--v2-sub); font-weight: 400; }
+
+      /* line 2: Person [Follow] [Plan] · traded <date>                       kind */
+      #desk li.qc-txn-tape .qc-txn-id { grid-area: id; display: block; min-width: 0; }
+      #desk li.qc-txn-tape .qc-txn-id-line { display: flex; align-items: center; min-width: 0; }
+      #desk li.qc-txn-tape .qc-txn-id-line a.qc-txn-name,
+      #desk li.qc-txn-tape .qc-txn-id-line .qc-txn-name {
+        flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-size: 15px; font-weight: 400; line-height: 1.4; color: var(--v2-sub); text-decoration: none;
+      }
+      #desk li.qc-txn-tape a.qc-txn-name:hover { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+      #desk li.qc-txn-tape .qc-txn-date {
+        grid-area: date; display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        font-size: 15px; line-height: 1.4; color: var(--v2-sub);
+      }
+      #desk li.qc-txn-tape .qc-txn-date::before { content: "\00a0\00b7\00a0traded\00a0"; }
+      #desk li.qc-txn-tape .qc-txn-chip {
+        grid-area: chip; justify-self: end; padding: 0; margin: 0 0 0 16px; background: transparent; border: 0;
+        font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+        white-space: nowrap;
+      }
+      #desk li.qc-txn-tape.buy .qc-txn-chip { color: var(--v2-buy-text); }
+      #desk li.qc-txn-tape.sell .qc-txn-chip { color: var(--v2-sell-text); }
+
+      /* chart card (same rules as the Politicians chart card) */
+      #desk .focus {
+        top: calc(var(--site-header-h, 62px) + 12px); background: var(--v2-card); border: 1px solid var(--v2-border);
+        border-radius: 16px; padding: 18px 16px 16px;
+      }
+      #desk .focus .who { display: block; margin: 0 0 8px; font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--white); overflow-wrap: anywhere; }
+      #desk .focus .who:hover { color: var(--v2-teal-fg); }
+      #desk .focus .chips { gap: 6px; margin: 0 0 12px; }
+      #desk .focus .ch {
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;
+        padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px; color: var(--paper); background: rgba(15, 18, 24, 0.35);
+      }
+      #desk .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+      #desk .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); }
+      #desk .focus .asset a { font-family: "IBM Plex Sans", sans-serif; font-weight: 700; letter-spacing: 0.03em; text-transform: none; margin-right: 4px; }
+      #desk .focus .quiet { margin: 0 0 14px; color: var(--v2-sub); font-size: 14px; }
+      #desk .focus .range { background: var(--v2-chart); border: 1px solid var(--v2-line); padding: 3px; margin: 0 0 12px; }
+      #desk .focus .range button { color: var(--v2-sub); font-family: "Barlow Condensed", sans-serif; font-size: 14px; padding: 5px 12px; }
+      #desk .focus .range button.on { color: #04140a; background: var(--v2-buy-bar); box-shadow: none; }
+      #desk .focus .chart-wrap {
+        background: var(--v2-chart); border: 1px solid var(--v2-line); border-radius: 14px;
+        padding: 14px 14px 10px 52px; backdrop-filter: none; -webkit-backdrop-filter: none; margin-bottom: 14px;
+      }
+      #desk .focus #chart-svg { height: 330px; max-height: 330px; }
+      #desk .focus .chart-y span { color: var(--v2-sub); font-size: 13px; font-weight: 600; }
+      #desk .focus .chart-x { color: var(--v2-sub); font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; }
+      #desk .focus .chart-note { color: var(--v2-sub); font-size: 15px; }
+      #desk .focus .mark-pop {
+        width: max-content; background: #0f151e; border: 1px solid var(--v2-border); border-radius: 12px;
+        padding: 9px 12px 10px; box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55); backdrop-filter: none; -webkit-backdrop-filter: none;
+      }
+      #desk .focus .mark-pop .pop-header { margin: 0; padding: 0; border: 0; align-items: flex-start; }
+      #desk .focus .mark-pop .pop-badge,
+      #desk .focus .mark-pop .pop-badge.buy,
+      #desk .focus .mark-pop .pop-badge.sell {
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; padding: 3px 7px; border-radius: 6px; box-shadow: none;
+      }
+      #desk .focus .mark-pop .pop-badge.sell { color: var(--v2-sell-text); background: rgba(212, 90, 85, 0.16); border: 1px solid rgba(224, 98, 92, 0.45); }
+      #desk .focus .mark-pop .pop-badge.buy { color: var(--v2-buy-text); background: rgba(47, 158, 74, 0.16); border: 1px solid rgba(63, 179, 92, 0.45); }
+      #desk .focus .mark-pop .pop-title { font-family: "IBM Plex Sans", sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--white); }
+      #desk .focus .mark-pop .pop-single-detail { margin: 4px 0 0; font-family: "IBM Plex Sans", sans-serif; font-size: 14px; gap: 4px; }
+      #desk .focus .mark-pop .pop-single-amt { color: var(--paper); font-weight: 600; }
+      #desk .focus .mark-pop .pop-single-date { color: var(--v2-sub); font-weight: 400; }
+      #desk .focus .cta { gap: 10px; }
+      #desk .focus .btn {
+        border-radius: 10px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: 0.1em;
+        padding: 10px 16px; color: var(--white); border: 1px solid var(--v2-border); background: transparent; min-height: 42px;
+      }
+      #desk .focus .btn.fill { background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a; }
+
+      /* track record ("Past buys") inside the chart card: an inner rounded panel like the chart */
+      #desk .focus .qc-track-fold {
+        margin: 0 0 14px; background: var(--v2-chart); border: 1px solid var(--v2-line); border-radius: 14px; overflow: hidden;
+      }
+      #desk .focus .qc-track-fold > summary {
+        padding: 11px 14px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--white);
+      }
+      #desk .focus .qc-track-fold > summary::marker { color: var(--v2-buy-text); }
+      #desk .focus .qc-track-fold > .qc-track { padding: 0 8px 10px; }
+      #desk .focus .qc-track-fold .qc-track-caveat, #desk .focus .qc-track-fold .qc-track-note, #desk .focus .qc-track-fold .qc-track-line { padding: 0 6px; }
+      #desk .focus .qc-track-scroll { border: 1px solid var(--v2-line); border-radius: 10px; background: rgba(15, 18, 24, 0.35); }
+
+      /* ---------- issuers list: Politicians-style rows ---------- */
+      #rows > li.qc-issuer {
+        position: relative; background: transparent; border: 0; border-bottom: 1px solid var(--v2-line); border-radius: 10px 10px 0 0;
+        margin: 0; padding: 12px 8px 12px 26px;
+      }
+      #rows > li.qc-issuer:hover { background: rgba(255, 255, 255, 0.03); }
+      #rows > li.qc-issuer.qc-issuer-empty { border-left: 0; }
+      #rows > li.qc-issuer.qc-issuer-empty::before { content: ""; position: absolute; left: 4px; top: 11px; bottom: 11px; width: 7px; border-radius: 4px; background: #9a8a4a; }
+      #rows .qc-issuer-main { align-items: baseline; }
+      #rows .qc-issuer-main .qc-txn-tk { font-family: "IBM Plex Sans", sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.02em; color: var(--white); }
+      #rows .qc-issuer-name { font-size: 16px; font-weight: 600; color: var(--white); }
+      #rows .qc-issuer-main:hover, #rows .qc-issuer-main:hover .qc-txn-tk { color: var(--v2-teal-fg); }
+      #rows .qc-issuer-meta { color: var(--v2-sub); font-size: 14px; }
+      #rows > li.qc-issuer-cols { color: var(--v2-sub); font-size: 14px; font-weight: 600; padding: 0 8px 10px 26px; border-bottom: 1px solid var(--v2-line); }
+      #rows .qc-empty-filings { border-radius: 6px; font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: none; padding: 2px 8px; color: #f0d078; border-color: #9a8a4a; background: rgba(154, 138, 74, 0.14); }
+
+      /* ---------- basket (paper basket): one rounded card, inner panels like the chart card ---------- */
+      #basket.qc-track {
+        background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 16px; padding: 18px 20px 12px; margin: 4px 0 24px;
+      }
+      #basket.qc-track > h2 {
+        font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 30px; letter-spacing: 0.06em; margin: 0 0 10px; color: var(--white);
+      }
+      #basket h3 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 0.08em; color: var(--white); margin: 20px 0 10px; }
+      #basket .qc-track-note { color: var(--v2-sub); font-size: 14px; line-height: 1.5; max-width: 980px; }
+      #basket .qc-track-line { color: var(--paper); font-size: 15px; }
+      #basket .qc-txn-tag.qc-mini-tag { color: #c5ced6; border: 1px solid #56657a; background: rgba(15, 18, 24, 0.45); }
+      #basket .qc-txn-tag.qc-mini-tag.hot { color: #f0d078; border-color: #9a8a4a; }
+      #basket .qc-txn-tag.qc-backfill-tag { color: var(--v2-sub); border: 1px dashed #6b7582; background: transparent; }
+      #basket .qc-stats { gap: 10px 12px; }
+      #basket .qc-stats > div {
+        background: var(--v2-chart); border: 1px solid var(--v2-line); border-radius: 12px; padding: 10px 12px;
+      }
+      #basket .qc-stats dt { color: var(--v2-sub); font-size: 13px; font-weight: 600; letter-spacing: 0.08em; }
+      #basket .qc-stats dd { font-size: 20px; font-weight: 700; color: var(--white); margin-top: 2px; }
+      #basket .qc-pos-list { border-top: 1px solid var(--v2-line); }
+      #basket .qc-pos { padding: 12px 6px; border-bottom: 1px solid var(--v2-line); }
+      #basket .qc-pos-tk a { font-family: "IBM Plex Sans", sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.02em; }
+      #basket .qc-pos-tk .qc-co { margin-left: 0; font-size: 16px; font-weight: 600; color: var(--white); }
+      #basket .qc-pos-tk .qc-co::before { content: "\00a0\00b7\00a0"; color: var(--v2-sub); }
+      #basket .qc-pos-nums { font-size: 15px; font-weight: 700; }
+      #basket .qc-pos-nums .up, #basket .up { color: var(--v2-buy-text); }
+      #basket .qc-pos-nums .down, #basket .down { color: var(--v2-sell-text); }
+      #basket .qc-vs { color: var(--v2-sub); font-weight: 400; }
+      #basket .qc-pos-meta { color: var(--v2-sub); font-size: 14px; margin-top: 3px; }
+      #basket .qc-pos-tags { gap: 6px; margin-top: 7px; }
+      #basket .qc-track-fold {
+        background: var(--v2-chart); border: 1px solid var(--v2-line); border-radius: 14px; margin: 16px 0 8px; overflow: hidden;
+      }
+      #basket .qc-track-fold > summary {
+        padding: 12px 14px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.1em;
+        text-transform: uppercase; color: var(--white);
+      }
+      #basket .qc-track-fold > summary::marker { color: var(--v2-buy-text); }
+      #basket .qc-track-fold .qc-stats > div { background: var(--v2-card); }
+      #basket .qc-track-fold > .qc-track-body { padding: 0 16px 14px; }
+      #basket .qc-limits li { color: var(--v2-sub); font-size: 14px; }
+      #basket button.qc-track-more {
+        border-radius: 10px; background: transparent; border: 1px solid var(--v2-border); color: var(--white);
+        font-weight: 700; font-size: 15px; letter-spacing: 0.1em;
+      }
+      .qc-track-scroll { border-radius: 10px; }
+      .qc-track th { color: var(--v2-sub); }
+      .qc-track td { border-bottom-color: var(--v2-line); }
+      .qc-track .up, .qc-track button.qc-xp.up { color: var(--v2-buy-text); }
+      .qc-track .down, .qc-track button.qc-xp.down { color: var(--v2-sell-text); }
+    }
+  </style>
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>

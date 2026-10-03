@@ -50,6 +50,7 @@ const SHELL = [
   "./insider-track.js?v=4",
   "./insider-track.css?v=4",
   "./insider-track.css?v=5",
+  "./insider-track.css?v=6",
   "./manifest.webmanifest",
   "./refresh.js",
   "./chart.js",

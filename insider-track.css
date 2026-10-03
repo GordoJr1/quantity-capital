@@ -295,7 +295,8 @@ button.qc-warn-chip {
   padding: 0;
   border-radius: 999px;
   font-size: 0;
-  overflow: hidden;
+  /* Visible so the phone ::after hit box is not clipped to the 9px dot. */
+  overflow: visible;
 }
 .qc-warn-chip.is-dot .qc-warn-label {
   position: absolute;
@@ -315,6 +316,18 @@ button.qc-warn-chip {
     width: max(100%, 40px);
     height: 40px;
     transform: translate(-50%, -50%);
+  }
+  /* Dot sits on the lower line of a 49px row. A centered 40px box hangs out of the
+     row and the row's overflow clips it. Shift the hit box up; the painted dot stays. */
+  button.qc-warn-chip.is-dot {
+    z-index: 1;
+    overflow: visible;
+  }
+  button.qc-warn-chip.is-dot::after {
+    width: 40px;
+    height: 40px;
+    top: calc(50% - 8px);
+    background: transparent;
   }
 }
 @media (max-width: 899px) {

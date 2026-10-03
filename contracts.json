@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-02T22:09:12Z",
+  "generated": "2026-10-03T11:10:59Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,16 +13,52 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-19",
-    "end": "2026-10-02"
+    "start": "2026-09-20",
+    "end": "2026-10-03"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 54,
-    "matched": 19,
-    "unlinked": 35
+    "kept": 73,
+    "matched": 36,
+    "unlinked": 37
   },
   "awards": [
+    {
+      "date": "2026-10-02",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Northrop Grumman Corp.",
+      "ticker": "NOC",
+      "amount": 29219125.0,
+      "ceiling": false,
+      "obligated": 3067753.0,
+      "mod": false,
+      "fms": true,
+      "contract": "N00024-26-C-5207",
+      "cap_pct": 0.043,
+      "cap_asof": "2026-10-01",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4618190/contracts-for-oct-2-2026/",
+      "description": "was awarded a $29,219,125 cost-plus-incentive-fee, cost-plus-fixed-fee, firm-fixed-price, and cost only contract for low-rate initial production units and main\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-02",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Northrop Grumman Systems Corp.",
+      "ticker": "NOC",
+      "amount": 10407606.0,
+      "ceiling": false,
+      "obligated": 10407606.0,
+      "mod": true,
+      "fms": false,
+      "contract": "FA8615-17-C-6047",
+      "cap_pct": 0.015,
+      "cap_asof": "2026-10-01",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4618190/contracts-for-oct-2-2026/",
+      "description": "has been awarded a $10,407,606 modification (P00189) to a previously awarded contract (FA8615-17-C-6047) for F-16 Integrated Viper Electronic Warfare Suite-Ele\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-10-01",
       "agency": "DOD",
@@ -135,6 +171,17 @@
     },
     {
       "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 25000000.0,
+      "description": "MAIL MANIFEST SERIVCES",
+      "naics": "561499",
+      "award_id": "36C77027N0010",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
       "agency": "DOD",
       "branch": "Navy",
       "recipient": "CACI Inc.-Federal, Chantilly, Virginia, is receiving a cost-plus-fixed-fee modification",
@@ -150,6 +197,39 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
       "description": "CACI Inc.-Federal, Chantilly, Virginia, is receiving a cost-plus-fixed-fee modification (P00001) to Military Sealift Command's (MSC) Integrated Business System\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 17499999.99,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0007",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 17182394.04,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0009",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 13755868.69,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0006",
+      "source": "usaspending"
     },
     {
       "date": "2026-10-01",
@@ -171,6 +251,17 @@
     },
     {
       "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 10871523.0,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0005",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
       "agency": "DOD",
       "branch": "Air Force",
       "recipient": "Lockheed Martin Rotary Mission Systems",
@@ -186,6 +277,138 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4616977/contracts-for-oct-1-2026/",
       "description": "has been awarded a $9,753,909 modification (P00008) to a previously awarded contract (FA8820-25-C-B002) for the Space Fence System (SFS) AN/FSY-3, Radar, Space\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 9000000.0,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0008",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDEX SUPPLY CHAIN DISTRIBUTION SYSTEM, INC.",
+      "ticker": "FDX",
+      "amount": 8730005.06,
+      "description": "MAIL MANIFEST SERVICES",
+      "naics": "561499",
+      "award_id": "36C77027N0004",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "ABBOTT LABORATORIES INC.",
+      "ticker": "ABT",
+      "amount": 2923392.1,
+      "description": "EXERCISE ORDERING PERIOD",
+      "naics": "334516",
+      "award_id": "36C26127N0094",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "ABBOTT LABORATORIES INC.",
+      "ticker": "ABT",
+      "amount": 2135156.93,
+      "description": "EXERCISE ORDERING PERIOD",
+      "naics": "334516",
+      "award_id": "36C26127N0101",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "QUEST DIAGNOSTICS INCORPORATED",
+      "ticker": "DGX",
+      "amount": 1465942.18,
+      "description": "REFERENCE LABORATORY",
+      "naics": "621511",
+      "award_id": "36C26227N0087",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "QUEST DIAGNOSTICS INCORPORATED",
+      "ticker": "DGX",
+      "amount": 1399157.01,
+      "description": "REFERENCE LABORATORY",
+      "naics": "621511",
+      "award_id": "36C26227N0107",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "ABBOTT LABORATORIES INC.",
+      "ticker": "ABT",
+      "amount": 1301576.89,
+      "description": "CHEMISTRY & IMMUNOASSAY ANALYZER CPRR",
+      "naics": "334516",
+      "award_id": "36C26127N0114",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "QUEST DIAGNOSTICS INCORPORATED",
+      "ticker": "DGX",
+      "amount": 1260060.08,
+      "description": "FY27 TASK ORDER. EO 14398 REQUIREMENT.",
+      "naics": "621511",
+      "award_id": "36C26127N0039",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "QUEST DIAGNOSTICS INCORPORATED",
+      "ticker": "DGX",
+      "amount": 1162517.68,
+      "description": "FY27 QUEST TASK ORDER. EO 14398 REQUIREMENT.",
+      "naics": "621511",
+      "award_id": "36C26127N0040",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "ABBOTT LABORATORIES INC.",
+      "ticker": "ABT",
+      "amount": 1098701.68,
+      "description": "VAPAHCS CHEMISTRY & IMMUNOASSAY ANALYZER CPRR",
+      "naics": "334516",
+      "award_id": "36C26127N0025",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "QUEST DIAGNOSTICS INCORPORATED",
+      "ticker": "DGX",
+      "amount": 1092442.0,
+      "description": "FY27 QUEST TASK ORDER. EO 14398 REQUIREMENT.",
+      "naics": "621511",
+      "award_id": "36C26127N0037",
+      "source": "usaspending"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "BOSTON SCIENTIFIC CORP",
+      "ticker": "BSX",
+      "amount": 1047938.5,
+      "description": "THERASPHERE Y90",
+      "naics": "339113",
+      "award_id": "36C26227N0072",
+      "source": "usaspending"
     },
     {
       "date": "2026-09-30",
@@ -3811,45 +4034,15 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4591558/contracts-for-sept-4-2026/",
       "description": "is awarded a $40,100,000 cost-plus-fixed-fee and cost-only modification to previously awarded contract N00024-20-C-5392 for engineering integration, technical\u2026",
       "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-04",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "Lockheed Martin Rotary Mission Systems",
-      "ticker": "LMT",
-      "amount": 20314866.0,
-      "ceiling": false,
-      "obligated": 20314866.0,
-      "mod": true,
-      "fms": false,
-      "contract": "FA8629-14-C-2403",
-      "cap_pct": 0.017,
-      "cap_asof": "2026-10-01",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4591558/contracts-for-sept-4-2026/",
-      "description": "has been awarded a $20,314,866 modification (P00372) to a previously awarded contract (FA8629-14-C-2403) for HH-60W repairs. The modification will bring the to\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-04",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Griffon Aerospace Inc.",
-      "ticker": "GFF",
-      "amount": 17515469.0,
-      "ceiling": true,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W58RGZ-26-F-A016",
-      "cap_pct": 0.41,
-      "cap_asof": "2026-10-01",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4591558/contracts-for-sept-4-2026/",
-      "description": "was awarded a $17,515,469 firm-fixed-price, indefinite-delivery/indefinite-quantity contract for Outlaw communication subcomponents and training. Bids were sol\u2026",
-      "source": "dod_announcement"
     }
   ],
   "companies": [
+    {
+      "ticker": "FDX",
+      "name": "FedEx Corporation",
+      "awards": 8,
+      "trailing_total": 103539790.78
+    },
     {
       "ticker": "LDOS",
       "name": "Leidos Holdings, Inc.",
@@ -3887,10 +4080,22 @@
       "trailing_total": 8358577.91
     },
     {
+      "ticker": "ABT",
+      "name": "Abbott Laboratories",
+      "awards": 4,
+      "trailing_total": 7458827.6
+    },
+    {
       "ticker": "LMT",
       "name": "Lockheed Martin Corporation",
       "awards": 1,
       "trailing_total": 7004765.0
+    },
+    {
+      "ticker": "DGX",
+      "name": "Quest Diagnostics Incorporated",
+      "awards": 5,
+      "trailing_total": 6380118.95
     },
     {
       "ticker": "ACM",
@@ -3917,16 +4122,16 @@
       "trailing_total": 2597905.77
     },
     {
-      "ticker": "FDX",
-      "name": "FedEx Corporation",
-      "awards": 1,
-      "trailing_total": 1500000.0
-    },
-    {
       "ticker": "HON",
       "name": "Honeywell International Inc.",
       "awards": 1,
       "trailing_total": 1350851.0
+    },
+    {
+      "ticker": "BSX",
+      "name": "Boston Scientific Corporation",
+      "awards": 1,
+      "trailing_total": 1047938.5
     },
     {
       "ticker": "PLXS",
@@ -3936,6 +4141,20 @@
     }
   ],
   "unlinked": [
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDERAL EXPRESS CORPORATION",
+      "amount": 25000000.0,
+      "description": "NGDS FED EX"
+    },
+    {
+      "date": "2026-10-01",
+      "agency": "Veterans Affairs",
+      "recipient": "FEDERAL EXPRESS CORPORATION",
+      "amount": 15002500.0,
+      "description": "NGDS FED EX SHIPPING"
+    },
     {
       "date": "2026-09-29",
       "agency": "Health and Human Services",
@@ -4183,206 +4402,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "(TMDE) for the Emerson/Rosemount Compact Annubar Multivariable Flow Meter.",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/a97284e0f4a44f409392c01c71c8ce5d/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "2-STEP SEALED BID - TINKER AFB WWYK250019 Remove and Replace Fire Sprinkler in Plasma Booth Dust Collectors and Replace the Building F/A System, B3221",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f36afb4b9d0a4a58b62d211ded6887d9/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "GENERAL SERVICES ADMINISTRATION",
-      "description": "6ID0103 - Lewiston, ID Office or Retail Space for Lease (3,784 - 4,162 ABOA SF)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fdd5dd80e0134b469a1668d4a8f7a965/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Aviator\u2019s Night Vision Imaging System (ANVIS) Commercial Off-the-Shelf (COTS) Solutions",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d4e5382b2a574a1ea883c4eccfcf653f/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Aviator\u2019s Night Vision Imaging System (ANVIS) Commercial Off-the-Shelf (COTS) Solutions",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ad4cc5474bbe4d0aa7e7f1b140cb7b6d/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Coatings and Sealants OO-ALC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/883be1ed3ec64391b56b5159270e8ef3/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Contract Management Support Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/8b909316811a4711b650360f72c1c3ca/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "JUSTICE, DEPARTMENT OF",
-      "description": "FCC Allenwood Grease Trap Pumping and Cleaning FY27",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d6555506d27c403cb2665aceab098622/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "GENERAL SERVICES ADMINISTRATION",
-      "description": "GSA Pre-solicitation Notice for Sole Source in Marathon FL (6FL0665)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/50c43edb07bb465292bff64a82474b22/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "H156--Site Visit Questions and Answers| WNY Chute, Barrier, & Door Inspections",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
-      "description": "Health Information Management Support Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b9f654fb9a064b93b706896aa4cfb07a/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "J061--Triennial Circuit Breaker and Feeder Testing",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/86fe7bfd33f94211b83e60d0768e8bdf/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "GENERAL SERVICES ADMINISTRATION",
-      "description": "Lease Space in Scottsbluff, NE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e5c578821b1447a2b99a7a90951f3bed/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "Lucky Peak Nursery New Greenhouse",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Market Intelligence - Richmond ARC - CM at Risk",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/dd0a9a00cfb94fb29a681af6a6570565/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "NAICS 237990 PSC Y1PZ--CONS: 909CM3030 Fort Custer NC - Cemetery Expansion and Site Improvements (VA-26-00046764)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/eccf047b0d974a89a39cb88625ee35bf/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "Q403--RFP Medical Disability Examinations-Next Generation (MDE-NG)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/62217469c9c5463f972d170797d1ccb2/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Repair of NIIN 016691341; NOMEN: RECEIVER-TRANSMITTER,RADAR",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e3850bdf5fd24bbcb3bc22549355eac0/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Request for Information (RFI) for Silent Anvil Air-Launched Torpedo (SAA-LT) Standoff Delivery Solutions",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/de6d74241e9b46319d99d1e29a6ea0b6/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "FEDERAL DEPOSIT INSURANCE CORPORATION",
-      "description": "Request for Information - Enterprise Laptop Acquisition",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d0e047e211ce4e988e73dc172d4722c5/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "TREASURY, DEPARTMENT OF THE",
-      "description": "SAP Software Subscription, Maintenance, and SAP N2 Cloud Hosting",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d128371e9b154eb9a8bf9d0235cf067e/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Towbar",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/5a5141c3c5444259906a1cbb6e4cd018/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "United States Marine Corps Communication Systems (UCS) Integrated Product Team (IPT) Support",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/6c20da183ee34546a429087779f1eb9b/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "V129--Patient Assisted Parking Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b30db1ef47194f6087f9acdf9bc74c34/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "V129--Patient Assisted Parking Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f31894c0d1464e4e9c2af1f612660d94/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "VALVE, GATE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b9238c1d8095439f8dbca5cfe24fde19/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "VALVE, MANUAL BLEED",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ef3a1f58102b4179b657ee3635921c61/view"
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "VOIP for Norfolk and Phil areas",
-      "ticker": null
-    },
-    {
-      "deadline": "2026-10-02",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Vacuum Relief Furnace",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/746919c70fe4478a9319e72a1cd54f16/view"
-    },
     {
       "deadline": "2026-10-03",
       "agency": "DEPT OF DEFENSE",
@@ -4736,11 +4755,212 @@
       "description": "FILLER VALVE,AIRCRA",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/ba8b9b2cd4524bfba3f13e0f9c0e58bf/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Fortified Rice, Pinto Beans, Vegetable Oil and Corn-Soy Blend Plus for use in International Food Assistance Programs.",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/424d33ebf4234327a1b5b0a0eac2781a/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "G001--Cremation and related services for unclaimed remains Portland VAMC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d99a7e9d1ed84dac988281520f46c7e8/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Gym Membership Services BPA - AUS",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Industrial Variable Frequency Drives (VFDs)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7439b90122f430491502f4df98f502f/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Lake Tahoe Basin Janitorial",
+      "ticker": null
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Laundry and Dry Cleaning Service for Osan Commissary and Osan CDC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/144e97dc596846428e0b1fa217ce3e3d/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "NOM: BULKHEAD,AIRCRAFT PR: 7013232963, NSN: 1560-017279075: IAW P/N: 68A332002-2063 RFP: SPE4A527R0009",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d692509218d8452bae41b2064667b921/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "GENERAL SERVICES ADMINISTRATION",
+      "description": "NOTICE OF INTENT TO RENEW LEASE TO HOUSE 7,844 ANSI/BOMA OFFICE AREA SQUARE FEET OF OFFICE AND RELATED SPACE IN WEST PLAINS, MO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/5691d9c2dec44601a55e4a97256c4255/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "HOMELAND SECURITY, DEPARTMENT OF",
+      "description": "Provide Leased Modular Buildings - Nationwide",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/967721c7a3454699a7864f2061172f65/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Radio Accessories For Custer/Gallatin National Forest, West Yellowstone",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e75ac0386bc7444ea5608eac871e7404/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Request for Information on Water Desalination Equipment",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/842697191e1e47beb7202254905c40bf/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Request for Quote for Office Furniture and Installation Fresno, CA USDA Location",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d5529361e1e9462a8b73690ab3f2f1c8/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Snow Removal Services, Westville Lake, Southbridge, MA",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e9abaa5b0a4c4d0cb77eb3dbdd85dfb6/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "TUGCON, OPEN-OCEAN TOW",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/eda34393d3d843acb5fd2852c8982c54/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "USS STOCKDALE (DDG-106) New Work RCC 84N",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/88637fea036b43ba9c92c4fdf51c6622/view"
+    },
+    {
+      "deadline": "2026-10-06",
+      "agency": "DEPT OF DEFENSE",
+      "description": "VALVE ASSEMBLY,MANI_End_Item_F101_NSN_4810011438543JF_PN_721599D",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f4acab1c371c4c09b43eab6882bcdb46/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "15617 - Wagner Paint Proportioner",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/a0c47cd452b84f858e22fc9bf8d142fa/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "31--BEARING,ROLLER,NEEDLE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/a5124210bf0c43d39f8f5fe8e97ae587/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/faaaf9d406624f208b22c99596527a18/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d3fa4ebfda8c43d5b364b815ee4c29b3/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/c446b2c680104d6481df7b26371206c6/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--NUT,SELF-LOCKING,DO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b1cf50efd9264b0ca9ea2f771026389f/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "53--RIVET,BLIND",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f3c9397fa12041368f9fe46616581f47/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "59--CONNECTOR ASSEMBLY,ELE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e940aaea15e04eafb34e6065cb58e54f/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "62--LAMP,CARTRIDGE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/3bb5791f26c34a1ea5ee84db2dbd8413/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "62--LAMP-AERIAL REFUEL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/127bc9a9273141e4bacd469f393dd28a/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "85-DAY DRY CARGO TIME CHARTER",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee5292a1d1e64ad7a01423e028191b6d/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
+      "description": "8710--Research Grade Food and Bedding in support of VA Portland Healthcare System, Veterinary Medical Unit (VMU)",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/cffd09f9aa94486880361c23c12c4bb0/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "B1030 Radar Absorbent Material (RAM) Relocation Services",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd1f89b7a3f549659d1e5e75714caafb/view"
     }
   ],
   "dod": {
-    "latest": "2026-10-01",
-    "fetched": "2026-10-02T22:09:12Z",
+    "latest": "2026-10-02",
+    "fetched": "2026-10-03T11:10:59Z",
     "status": "ok",
     "rows": 200
   }

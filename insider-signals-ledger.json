@@ -41627,48 +41627,6 @@
    "cost_rt": 0.03
   },
   {
-   "id": "TALMF|2026-10-01|hicks-scott-victor-andrew",
-   "ticker": "TALMF",
-   "company": "Talamore Mining",
-   "commodity": "Gold",
-   "company_type": "Explorer",
-   "venue": "US/OTC",
-   "ccy": "USD",
-   "cgroup": "precious",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-10-01",
-   "recorded_floor": "2026-10-01",
-   "signal_filed": "2026-10-01",
-   "signal_trade": "2026-10-01",
-   "entry_after": "2026-10-01",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 866501209.0,
-   "stale63_basis": 0.0794,
-   "basis_date": "2026-09-30",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "hicks-scott-victor-andrew|TALMF|2026-10-01|open_market",
-     "filer": "Hicks, Scott Victor Andrew",
-     "filer_id": "hicks-scott-victor-andrew",
-     "role": "Director",
-     "title": "Director",
-     "trade_date": "2026-10-01",
-     "filed_date": "2026-10-01",
-     "value_usd": 102177.0,
-     "trade_px": 5.108872,
-     "ccy": "USD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "OMZNF|2026-10-02|burzynski-john-feliks",
    "ticker": "OMZNF",
    "company": "Osisko Metals",
@@ -41709,6 +41667,52 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "TALMF|2026-10-01|hicks-scott-victor-andrew",
+   "ticker": "TALMF",
+   "company": "Talamore Mining",
+   "commodity": "Gold",
+   "company_type": "Explorer",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-01",
+   "recorded_floor": "2026-10-01",
+   "signal_filed": "2026-10-01",
+   "signal_trade": "2026-10-01",
+   "entry_after": "2026-10-01",
+   "entry_date": "2026-10-02",
+   "entry_px": 5.65,
+   "mcap_usd_basis": 866501209.0,
+   "stale63_basis": 0.0794,
+   "basis_date": "2026-09-30",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "hicks-scott-victor-andrew|TALMF|2026-10-01|open_market",
+     "filer": "Hicks, Scott Victor Andrew",
+     "filer_id": "hicks-scott-victor-andrew",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-10-01",
+     "filed_date": "2026-10-01",
+     "value_usd": 102177.0,
+     "trade_px": 5.108872,
+     "ccy": "USD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   }
  ],
  "seen_keys": [
@@ -42571,6 +42575,7 @@
   "bures-peter|SLCRF|2026-09-22|open_market",
   "bures-peter|SLCRF|2026-09-23|open_market",
   "bures-peter|SLCRF|2026-09-29|open_market",
+  "bures-peter|SLCRF|2026-10-02|open_market",
   "burke-malcolm-patrick|YMMCF|2026-09-17|open_market",
   "burns-george-raymond|EGO|2026-05-12|open_market",
   "burns-george-raymond|EGO|2026-06-23|open_market",
@@ -46125,6 +46130,8 @@
   "wallster-dale|SMPEF|2026-06-16|open_market",
   "wallster-dale|SMPEF|2026-06-17|open_market",
   "wallster-dale|SMPEF|2026-06-18|open_market",
+  "wallster-dale|SMPEF|2026-09-29|open_market",
+  "wallster-dale|SMPEF|2026-09-30|open_market",
   "walsh-audra-beth|TPNEF|2026-01-12|open_market",
   "walsh-audra-beth|TPNEF|2026-05-26|open_market",
   "wares-robert|OMZNF|2025-06-24|open_market",
@@ -46320,5 +46327,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-02"
+ "last_run_date": "2026-10-03"
 }

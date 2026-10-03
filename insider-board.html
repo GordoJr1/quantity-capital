@@ -35,7 +35,7 @@
     }
     .wrap { width: min(1680px, calc(100% - 48px)); margin: 0 auto; }
     header { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 2px solid var(--teal); }
-    .mark, h1, .kicker, nav, .chip, .who, .tk, .subhead, .rate b, .rank, .back, .board-tabs button {
+    .mark, h1, .kicker, nav, .chip, .tk, .subhead, .rate b, .rank, .back, .board-tabs button {
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.08em; text-transform: uppercase;
     }
     a.mark { font-weight: 700; letter-spacing: 0.18em; font-size: 1rem; color: inherit; text-decoration: none; }
@@ -82,8 +82,9 @@
     .card { background: var(--panel); border: 1px solid #4a5563; border-left: 6px solid var(--teal); padding: 14px 16px; margin: 0 0 10px; }
     .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
     .who, .tk { color: var(--white); text-decoration: none; font-size: 1.35rem; overflow-wrap: anywhere; }
+    .who { font-family: "IBM Plex Sans", sans-serif; letter-spacing: 0; text-transform: none; font-weight: 650; }
     .who:hover, .tk:hover { color: var(--teal); }
-    .co { color: var(--paper); font-size: 0.86rem; margin-top: 4px; }
+    .co { color: #b7c1cc; font-size: calc(0.86rem + 1px); margin-top: 4px; }
     .rate { text-align: right; line-height: 1; }
     .rate b { display: block; font-size: 1.7rem; }
     .rate b.up { color: #7dcf7a; }
@@ -91,10 +92,10 @@
     .rate span { display: block; margin-top: 4px; color: var(--mute); font-size: 0.68rem; letter-spacing: 0.1em; }
     .rank { color: var(--mute); margin-right: 8px; }
     .card:first-child .rank { color: var(--caution); }
-    .meta { color: var(--mute); font-size: 0.82rem; margin-top: 8px; }
+    .meta { color: #b7c1cc; font-size: calc(0.82rem + 1px); margin-top: 8px; }
     .more-row { margin: 8px 0 36px; }
     .more-row button {
-      background: transparent; border: 1px solid var(--caution); color: var(--caution);
+      background: #e3b41a; border: 1px solid #e3b41a; color: #1a1204;
       font-family: "Barlow Condensed", sans-serif; letter-spacing: 0.12em; text-transform: uppercase;
       padding: 10px 16px; min-height: 44px; cursor: pointer;
     }
@@ -170,7 +171,7 @@
       .rep-wrap { overflow-x: hidden; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=173" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -187,7 +188,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -242,7 +243,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     const params = new URLSearchParams(location.search);
     let board = ["leaders", "traders", "names", "repeatable", "follow"].indexOf(params.get("b")) >= 0 ? params.get("b") : "leaders";
@@ -273,7 +274,7 @@
       return "<article class=\"card\">" +
         "<div class=\"card-top\">" +
           "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
-            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(row.name) + "</a>" +
+            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(QC.titleCaseName(row.name)) + "</a>" +
             "<div class=\"co\">" + QC.esc(row.title || "") + " · " + row.nBuy + " buys / " + row.nSell + " sells · " +
               row.nTickers + " name" + (row.nTickers === 1 ? "" : "s") + "</div>" +
             "<div class=\"meta\">Spent " + QC.formatMoney(row.invested) +
@@ -288,7 +289,7 @@
       return "<article class=\"card\">" +
         "<div class=\"card-top\">" +
           "<div><span class=\"rank\">" + String(row.rank).padStart(2, "0") + "</span>" +
-            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(row.name) + "</a>" +
+            "<a class=\"who\" href=\"insider.html?id=" + encodeURIComponent(row.id) + "\">" + QC.esc(QC.titleCaseName(row.name)) + "</a>" +
             "<div class=\"co\">" + QC.esc(row.title || "") + " · last print " + QC.esc(QC.prettyDate(row.last)) + "</div>" +
             "<div class=\"meta\">" + row.nBuy + " buys / " + row.nSell + " sells · spent " + QC.formatMoney(row.invested) + "</div>" +
           "</div>" +
@@ -488,6 +489,7 @@
         const btn = document.getElementById("more");
         more.hidden = rows.length <= TOP;
         btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         return;
       }
 
@@ -514,6 +516,7 @@
         const btn = document.getElementById("more");
         more.hidden = rows.length <= TOP;
         btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         return;
       }
 
@@ -536,6 +539,7 @@
       const btn = document.getElementById("more");
       more.hidden = rows.length <= TOP;
       btn.textContent = showAll ? "Show top 30" : "Show all " + rows.length;
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
     fetch("insider-analysis.json").then((r) => r.json()).then((payload) => {

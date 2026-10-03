@@ -102,17 +102,17 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
-  <link rel="stylesheet" href="insider-track.css?v=4" />
+  <link rel="stylesheet" href="shell.css?v=173" />
+  <link rel="stylesheet" href="insider-track.css?v=6" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
-    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
-    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
-    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
-    .qc-txn.postex .qc-txn-chip { background: #c5726b; color: #fff; }
-    .qc-txn.exercise .qc-txn-chip { background: #2a6d72; color: #fff; }
+    .qc-txn-chip { border: 0; border-radius: 0; background: transparent; color: #d7dee6; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 700; padding: 0; }
+    .qc-txn.buy .qc-txn-chip { background: transparent; color: #7dcf7a; }
+    .qc-txn.sell .qc-txn-chip { background: transparent; color: #ffb4ae; }
+    .qc-txn.postex .qc-txn-chip { background: transparent; color: #ffc3bc; }
+    .qc-txn.exercise .qc-txn-chip { background: transparent; color: #9adfe2; }
     .qc-txn.postex { border-left-color: #c5726b; }
     .qc-txn-hero, .qc-txn .qc-txn-hero, .qc-txn-hero.is-shares, .qc-txn-hero small { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
@@ -290,11 +290,11 @@
     }
     .focus .who {
       display: block;
-      font-family: "Barlow Condensed", sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-size: 1.42rem;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 1.28rem;
       line-height: 0.95;
       margin: 0 0 6px;
       color: var(--white);
@@ -330,7 +330,7 @@
       margin-right: 6px;
     }
     .focus .asset a:hover { color: var(--teal); }
-    .focus .quiet { color: var(--mute); font-size: 0.76rem; margin: 0 0 8px; }
+    .focus .quiet { color: #b7c1cc; font-size: calc(0.76rem + 1px); margin: 0 0 8px; }
     .focus .cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 0; }
     .focus .btn {
       display: inline-flex;
@@ -612,7 +612,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -668,7 +668,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
@@ -994,6 +994,7 @@
           document.getElementById("rows").innerHTML = "<li class=\"muted\">No insider prints in this window.</li>";
         }
       }
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
       markActiveRow();
       paintFocus();
       const focusEl = document.getElementById("focus");

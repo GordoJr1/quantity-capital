@@ -185,7 +185,7 @@
       .avoid-row { grid-template-columns: 40px minmax(0, 1fr); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=173" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -202,7 +202,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -237,7 +237,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     let showAllPerf = false;
 
@@ -403,6 +403,7 @@
       document.getElementById("heat").innerHTML = (data.heat || []).slice(0, 20).map(heatCard).join("") ||
         "<p class=\"muted\">No officer buys in the window.</p>";
       paintPerf(data);
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
     function paintPerf(data) {
       const perf = data.performance || [];

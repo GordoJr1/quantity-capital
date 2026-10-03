@@ -757,7 +757,7 @@
       border-color: var(--caution);
       color: var(--caution);
     }
-    .board-note { color: var(--mute); font-size: 0.82rem; margin: 0 0 12px; line-height: 1.4; }
+    .board-note { color: #b7c1cc; font-size: calc(0.82rem + 1px); margin: 0 0 12px; line-height: 1.4; }
     .board-col-title { display: none; }
     .board-col { display: none; padding: 0; }
     .board-col.on { display: block; }
@@ -803,11 +803,12 @@
       }
       #board .board-list a {
         display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        overflow-wrap: anywhere;
         font-size: 0.86rem;
-        line-height: 1.2;
+        line-height: 1.25;
       }
       #board .board-stock a {
         display: inline;
@@ -928,19 +929,20 @@
     .board-list a {
       color: var(--white);
       text-decoration: none;
-      font-family: "Barlow Condensed", sans-serif;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 600;
     }
     .board-list a:hover { color: var(--caution); }
-    .board-why { display: block; color: var(--mute); font-size: 0.75rem; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
+    .board-why { display: block; color: #b7c1cc; font-size: calc(0.75rem + 1px); text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; }
     .board-val {
       font-family: "Barlow Condensed", sans-serif;
       color: var(--caution);
       font-size: 1.05rem;
       white-space: nowrap;
     }
-    #board-more { margin-top: 12px; }
+    #board-more { margin-top: 12px; background: #e3b41a; color: #1a1204; border-color: #e3b41a; }
     .tk-link {
       color: inherit;
       text-decoration: underline;
@@ -1221,10 +1223,10 @@
       min-width: 0;
     }
     .desk .who {
-      font-family: "Barlow Condensed", sans-serif;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      font-family: "IBM Plex Sans", sans-serif;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-transform: none;
       font-size: 1.08rem;
       line-height: 1.05;
       text-decoration: none;
@@ -1274,8 +1276,8 @@
     }
     .desk .asset a:hover { color: var(--teal); }
     .desk .meta {
-      color: var(--mute);
-      font-size: 0.75rem;
+      color: #b7c1cc;
+      font-size: calc(0.75rem + 1px);
       margin-top: 2px;
       letter-spacing: 0;
       text-transform: none;
@@ -1291,27 +1293,30 @@
     }
     .desk .print .pill {
       border: 0;
-      border-radius: 999px;
-      color: #fff;
+      border-radius: 0;
+      color: #d7dee6;
       font-family: "IBM Plex Sans", sans-serif;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.74rem;
-      padding: 4px 11px;
+      padding: 0;
       line-height: 1.2;
       letter-spacing: 0;
       text-transform: none;
       text-align: center;
+      background: transparent;
     }
-    .desk .print.buy .pill { background: var(--buy); color: #fff; }
-    .desk .print.sell .pill { background: var(--sell); color: #fff; }
+    .desk .print.buy .pill { background: transparent; color: #7dcf7a; }
+    .desk .print.sell .pill { background: transparent; color: #ffb4ae; }
     .desk .hero {
       font-weight: 700;
       font-size: 1.22rem;
       color: #eef2f5;
       letter-spacing: -0.02em;
-      line-height: 1;
+      line-height: 1.15;
       font-variant-numeric: tabular-nums;
-      white-space: nowrap;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      min-width: 0;
     }
     .desk .print .tag {
       display: inline-block;
@@ -1343,7 +1348,7 @@
     }
     .focus .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
     .focus .asset { white-space: normal; display: block; margin: 0 0 2px; font-size: 0.95rem; }
-    .focus .quiet { color: var(--mute); font-size: 0.76rem; margin: 0 0 8px; }
+    .focus .quiet { color: #b7c1cc; font-size: calc(0.76rem + 1px); margin: 0 0 8px; }
     .focus .cta { margin-top: 0; }
     .focus .btn {
       display: inline-flex;
@@ -1596,14 +1601,14 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=171" />
+  <link rel="stylesheet" href="shell.css?v=173" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
     .qc-txn-end { grid-area: end; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: max-content; }
-    .qc-txn-chip { border: 0; border-radius: 999px; background: #5c6570; color: #fff; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 600; padding: 4px 11px; }
-    .qc-txn.buy .qc-txn-chip { background: #2f9e4a; color: #fff; }
-    .qc-txn.sell .qc-txn-chip { background: #d45a55; color: #fff; }
+    .qc-txn-chip { border: 0; border-radius: 0; background: transparent; color: #d7dee6; text-transform: none; letter-spacing: 0; font-family: "IBM Plex Sans", sans-serif; font-weight: 700; padding: 0; }
+    .qc-txn.buy .qc-txn-chip { background: transparent; color: #7dcf7a; }
+    .qc-txn.sell .qc-txn-chip { background: transparent; color: #ffb4ae; }
     .qc-txn-hero, .qc-txn .qc-txn-hero { color: #eef2f5; }
     .qc-txn-hero { font-weight: 700; font-family: "IBM Plex Sans", sans-serif; }
     .qc-txn-id-line { display: flex; align-items: baseline; min-width: 0; max-width: 100%; overflow: hidden; }
@@ -1646,7 +1651,7 @@
 
       .desk .qc-txn-list.qc-tape-list > .qc-txn-cols,
       .desk .qc-txn-tape {
-        grid-template-columns: 5.1rem minmax(8rem, 1.45fr) 3.7rem minmax(6.5rem, 1.75fr) 4.6rem minmax(3.6rem, 0.52fr);
+        grid-template-columns: 5.1rem minmax(8rem, 1.35fr) 3.7rem minmax(4rem, 1.2fr) minmax(2.4rem, auto) minmax(4.4rem, max-content);
         grid-template-areas: "date id co coname chip hero";
       }
       .desk .qc-txn-tape .qc-txn-company { display: contents; }
@@ -1662,6 +1667,7 @@
       }
       .desk .qc-txn-tape .qc-txn-hero {
         font-family: "JetBrains Mono", monospace; font-variant-numeric: tabular-nums; font-size: 0.84rem; font-weight: 600; letter-spacing: 0.01em; color: #eef2f5;
+        min-width: 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
       .desk .qc-txn-tape .qc-txn-hero.is-empty {
         font-family: "IBM Plex Sans", sans-serif;
@@ -1760,7 +1766,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -1944,7 +1950,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=132"></script>
+  <script src="qc.js?v=133"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2318,6 +2324,7 @@
       if (!box) return;
       if (!deskRows.length) {
         box.innerHTML = "<li class=\"muted\">No trades match these filters.</li>";
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         return;
       }
       const pinN = Math.min(deskPinCount, deskRows.length);
@@ -2343,6 +2350,7 @@
         "<span class=\"qc-txn-hero\">Value</span>" +
       "</li>";
       box.innerHTML = colsHtml + parts.join("");
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
     function paintFocus() {
@@ -2364,7 +2372,7 @@
       const co = displayCompany(t.company, sym);
       const coShow = co && co.toUpperCase() !== String(sym || "").toUpperCase() ? co : "";
       head.innerHTML =
-        "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + escapeHtml(t.filer) + "\">" + escapeHtml(t.filer) + "</a>" +
+        "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\" title=\"" + escapeHtml(QC.titleCaseName(t.filer)) + "\">" + escapeHtml(QC.titleCaseName(t.filer)) + "</a>" +
         "<div class=\"chips\">" +
           (t.chamber ? "<span class=\"ch " + ch + "\">" + escapeHtml(t.chamber) + "</span>" : "") +
           (t.owner ? "<span class=\"ch\">" + escapeHtml(ownerLabel(t.owner)) + "</span>" : "") +
@@ -2807,13 +2815,10 @@
         if (mode === "stocks") {
           const tone = r.buys > r.sells ? "up" : r.sells > r.buys ? "down" : "flat";
           const coName = displayCompany(r.name, r.code);
-          const co = coName && coName !== r.code
-            ? "<span class=\"board-co\" title=\"" + escapeHtml(coName) + "\">" + escapeHtml(coName) + "</span>"
-            : "";
           const stockTitle = [r.code, coName && coName !== r.code ? coName : ""].filter(Boolean).join(" · ");
           return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
             "<span class=\"board-stock\"><a class=\"tk-link\" href=\"ticker.html?t=" + encodeURIComponent(r.code) + "\" title=\"" + escapeHtml(stockTitle) + "\">" +
-            escapeHtml(r.code) + "</a>" + co + "</span>" +
+            escapeHtml(r.code) + "</a></span>" +
             "<span class=\"board-val " + tone + "\">" + r.trades + (r.trades === 1 ? " trade" : " trades") + "</span></li>";
         }
         if (mode === "traders") {
@@ -2828,17 +2833,18 @@
           }).join("");
           return "<li class=\"board-trader\" data-id=\"" + escapeHtml(r.id) + "\">" +
             "<span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-            "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(r.name) + "\">" +
-            escapeHtml(r.name) + "</a></span>" +
+            "<span class=\"board-who\"><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(QC.titleCaseName(r.name)) + "\">" +
+            escapeHtml(QC.titleCaseName(r.name)) + "</a></span>" +
             "<span class=\"board-val " + cls + "\">" + signedMoney(r.pnl) + "</span>" +
             "<ul class=\"board-sectors\">" + (secs || "<li class=\"sec-name\">No priced stock trades.</li>") + "</ul></li>";
         }
         const val = mode === "activity"
           ? r.trades + (r.trades === 1 ? " trade" : " trades")
           : r.conflicts + (r.conflicts === 1 ? " ticker" : " tickers");
+        const person = QC.titleCaseName(r.name);
         return "<li><span class=\"board-rank\">" + String(i + 1).padStart(2, "0") + "</span>" +
-          "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(r.name) + "\">" +
-          escapeHtml(r.name) + "</a></span>" +
+          "<span><a href=\"politician.html?id=" + encodeURIComponent(r.id) + "\" title=\"" + escapeHtml(person) + "\">" +
+          escapeHtml(person) + "</a></span>" +
           "<span class=\"board-val\">" + escapeHtml(val) + "</span></li>";
       }
       const paint = () => {

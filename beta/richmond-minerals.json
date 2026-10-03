@@ -1,0 +1,70 @@
+{
+  "schema": "qc-issuer-profile-v1",
+  "id": "richmond-minerals",
+  "kind": "explorer",
+  "stage": "exploration",
+  "generated": "2026-09-24",
+  "disclaimer": "Insiders-watchlist shell from insider-companies.json + market-caps.json. No production or reserves until a filing pass. Do not invent ounces. Not S&P. Not investment advice.",
+  "units": {
+    "mass": "kt",
+    "gold": "koz",
+    "grade": "g/t Au",
+    "currency": "USD"
+  },
+  "issuer": {
+    "name": "Richmond Minerals Inc.",
+    "short": "Richmond Minerals Inc.",
+    "tickers": [
+      {
+        "symbol": "RMD.V",
+        "exchange": "TSXV",
+        "chart": "insider-ticker.html?t=RMD.V"
+      }
+    ],
+    "hq": "Canada",
+    "commodity": "gold",
+    "country": "Canada",
+    "watchlist_type": "Explorer"
+  },
+  "method": {
+    "production_basis": "Not gathered. Do not invent ounces.",
+    "resources_basis": "Not gathered. Do not invent ounces."
+  },
+  "kpis": {
+    "attr_koz_2025": null,
+    "attr_pp_koz": null,
+    "attr_mi_incl_koz": null,
+    "attr_inf_koz": null,
+    "market_cap": 3621339,
+    "market_cap_usd": 2565115,
+    "market_cap_cur": "CAD",
+    "shares": 36213387,
+    "px": 0.1,
+    "price_asof": "2026-10-02"
+  },
+  "guidance_2026": {
+    "basis": "none — mcap watchlist shell",
+    "total_koz": null
+  },
+  "production": [],
+  "assets": [],
+  "reserves_resources": {
+    "as_of": null,
+    "projects": []
+  },
+  "sources": [
+    {
+      "title": "Quantity Capital market-caps.json",
+      "date": "2026-09-23",
+      "what": "Yahoo sharesOutstanding × last prices/ close when shares exist"
+    }
+  ],
+  "meta": {
+    "layer": "mcap-watchlist",
+    "watchlist": "insiders-mcap",
+    "mcap_rank": 1023,
+    "mcap_updated": "2026-10-03",
+    "alerts": [],
+    "filing_backed": false
+  }
+}

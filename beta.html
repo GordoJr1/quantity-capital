@@ -410,8 +410,8 @@
       .tabbar a[href="claims.html"] { display: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
-  <link rel="stylesheet" href="insider-track.css?v=4" />
+  <link rel="stylesheet" href="shell.css?v=172" />
+  <link rel="stylesheet" href="insider-track.css?v=5" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -553,7 +553,7 @@
       <p class="legal">Not investment advice. © Quantity Capital</p>
     </div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
@@ -2417,6 +2417,7 @@
       paintValeLayout();
       paintMinesInset();
       paintInsiderActivity();
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
     function historyTickers() {
       const out = [];

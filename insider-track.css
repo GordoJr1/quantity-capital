@@ -305,6 +305,18 @@ button.qc-warn-chip {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
 }
+@media (max-width: 820px) {
+  button.qc-warn-chip { position: relative; }
+  button.qc-warn-chip::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 40px);
+    height: 40px;
+    transform: translate(-50%, -50%);
+  }
+}
 @media (max-width: 899px) {
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-tk,
   .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk {

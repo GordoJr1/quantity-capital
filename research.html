@@ -135,7 +135,7 @@
       .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
   <style>
     #main.wrap { width: min(960px, calc(100% - 48px)); max-width: 960px; }
     @media (max-width: 1100px) {
@@ -252,7 +252,7 @@
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
       </div>
     </div>
@@ -717,7 +717,7 @@
       .catch(fail);
   })();
   </script>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>

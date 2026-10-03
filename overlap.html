@@ -125,7 +125,7 @@
       .tabbar { overflow: hidden; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -142,7 +142,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -187,7 +187,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=132"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     (function () {
       var QCAPI = window.QC || {};
@@ -314,6 +314,7 @@
           if (wrap) wrap.hidden = true;
           if (moreRow) moreRow.hidden = true;
           if (body) body.innerHTML = "";
+          if (window.QC && QC.restoreScroll) QC.restoreScroll();
           return;
         }
         if (empty) empty.hidden = true;
@@ -331,6 +332,7 @@
               "</tr>";
           }).join("");
         }
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         if (moreRow) moreRow.hidden = rows.length <= shown;
       }
 

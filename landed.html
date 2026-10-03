@@ -229,7 +229,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -245,7 +245,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -272,7 +272,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     const WINDOWS = [72, 168, 336];
     const params = new URLSearchParams(location.search);
@@ -377,6 +377,7 @@
       if (!rows.length) {
         document.getElementById("board").innerHTML =
           "<p class=\"muted\">Nothing new has landed in this window. Morning and 6 PM drops show up here.</p>";
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         return;
       }
       document.getElementById("board").innerHTML = drops.map((d) => {
@@ -390,6 +391,7 @@
           groupFilers(d.rows).map(filerCard).join("") +
         "</section>";
       }).join("");
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
     function paintWindows() {

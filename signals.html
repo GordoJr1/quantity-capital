@@ -444,7 +444,7 @@
       h1 { font-size: 1.35rem; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -460,7 +460,7 @@
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
-        <a class="qc-mode" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
       </div>
@@ -494,7 +494,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     const MEGA = {
       AAPL: 1, MSFT: 1, NVDA: 1, AMZN: 1, GOOGL: 1, GOOG: 1, META: 1, TSLA: 1,
@@ -1018,6 +1018,7 @@
       paintStats(ranked);
       if (!ranked.length) {
         heat.innerHTML = "<li class=\"muted\">No listed-stock buys in this window. Filings lag the trade — try 90 days.</li>";
+        if (window.QC && QC.restoreScroll) QC.restoreScroll();
         return;
       }
       const top = ranked.slice(0, 36);
@@ -1035,6 +1036,7 @@
       heat.innerHTML = rest.length
         ? rest.map((row, i) => cardHtml(row, i, maxHeat, now, prices[row.code])).join("")
         : "";
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
     document.getElementById("windows").addEventListener("click", (e) => {

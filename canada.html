@@ -140,7 +140,7 @@
       .pickers { grid-template-columns: 1fr 1fr; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
 </head>
 <body>
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -234,7 +234,7 @@
       <p class="legal">Not investment advice. Not legal title. © Quantity Capital</p>
     </div>
   </footer>
-  <script src="qc.js?v=131"></script>
+  <script src="qc.js?v=133"></script>
   <script>
     const state = { data: null, commodity: "gold", year: null, join: null, seriesOpen: false, ownerPages: {}, ownerSkip: {} };
     const SERIES_PREVIEW = 5;
@@ -669,6 +669,7 @@
       paintProvinces(c);
       paintMines(c);
       syncUrl();
+      if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
     function boot(data) {

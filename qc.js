@@ -318,6 +318,22 @@
       const n = parseInt(raw.replace(/[^\d]/g, ""), 10);
       if (n) return formatMoney(n);
     }
+    const over = raw.match(/^(?:over|above|more than)\s+\$([\d,]+)/i);
+    if (over) {
+      const n = parseInt(over[1].replace(/[^\d]/g, ""), 10);
+      if (n) return ">" + formatMoney(n);
+    }
+    const under = raw.match(/^(?:under|below|less than)\s+\$([\d,]+)/i);
+    if (under) {
+      const n = parseInt(under[1].replace(/[^\d]/g, ""), 10);
+      if (n) return "<" + formatMoney(n);
+    }
+    return raw;
+  }
+
+  function amountTitle(amount, shown) {
+    const raw = String(amount || "").trim();
+    if (!raw || !shown || raw === shown) return "";
     return raw;
   }
 
@@ -1250,8 +1266,10 @@
     const chip = txnChipLabel(t);
     const fullLabel = txnLabel(t);
     let heroHtml = "";
+    const amtTip = amountTitle(t && t.amount, hero.text);
+    const amtAttr = amtTip ? " title=\"" + esc(amtTip) + "\"" : "";
     if (hero.kind === "usd" && hero.text) {
-      heroHtml = "<span class=\"qc-txn-hero\">" + esc(hero.text) + "</span>";
+      heroHtml = "<span class=\"qc-txn-hero\"" + amtAttr + ">" + esc(hero.text) + "</span>";
     } else {
       if (hero.kind === "shares" && hero.text) {
         heroHtml = "<span class=\"qc-txn-hero is-shares\">" + esc(hero.text) + "<small> sh</small></span>";
@@ -1606,7 +1624,11 @@
       "</div></div>" +
       "<div class=\"qc-txn-end\">" +
         "<span class=\"qc-txn-chip\">" + esc(txnLabel(t) || sideLabel(t && t.side)) + "</span>" +
-        "<span class=\"qc-txn-hero\">" + esc(formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—")) + "</span>" +
+        (function () {
+          const shown = formatAmountRange(t && t.amount) || (Number(t && t.value) ? formatMoney(Number(t.value)) : "—");
+          const tip = amountTitle(t && t.amount, shown);
+          return "<span class=\"qc-txn-hero\"" + (tip ? " title=\"" + esc(tip) + "\"" : "") + ">" + esc(shown) + "</span>";
+        })() +
       "</div>" +
       (sub ? "<div class=\"qc-txn-sub\">" + sub + "</div>" : "") +
       "<div class=\"qc-txn-tbl\">" + tapeDateHtml(t && t.trade_date) + lastHtml + shHtml + afterHtml + heldHtml + "</div>" +
@@ -1990,6 +2012,7 @@
     "ticker.html": "Ticker",
     "insider.html": "Insider",
     "insider-ticker.html": "Ticker",
+    "overlap.html": "Overlap",
     "claims.html": "Claims",
     "beta.html": "Beta",
     "canada.html": "Canada"
@@ -2006,10 +2029,14 @@
     "insider-signals.html": 1,
     "insider-board.html": 1,
     "insider-checks.html": 1,
+    "overlap.html": 1,
     "claims.html": 1,
     "beta.html": 1,
     "canada.html": 1
   };
+  if (LIST_FILES[pageFile(location.pathname)] && "scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
   const DRILL_FILES = {
     "politician.html": 1,
     "ticker.html": 1,
@@ -2050,6 +2077,144 @@
 
   function hereUrl() {
     return location.pathname + location.search + location.hash;
+  }
+
+  const SCROLL_PREFIX = "qc:sy:";
+  const SCROLL_BACK = "qc:scroll-back";
+  let scrollSaveTimer = 0;
+  let scrollArmed = false;
+  let scrollYTarget = 0;
+  let scrollUntil = 0;
+  let scrollObs = null;
+  let scrollRaf = 0;
+
+  function isListPage() {
+    return !!LIST_FILES[pageFile(location.pathname)];
+  }
+
+  function scrollStorageKey() {
+    return SCROLL_PREFIX + location.pathname + location.search;
+  }
+
+  function saveScrollPos() {
+    if (!isListPage()) return;
+    try {
+      sessionStorage.setItem(scrollStorageKey(), String(Math.round(window.scrollY || window.pageYOffset || 0)));
+    } catch (e) {}
+  }
+
+  function markScrollBack() {
+    if (!isListPage()) return;
+    saveScrollPos();
+    try {
+      sessionStorage.setItem(SCROLL_BACK, location.pathname + location.search);
+    } catch (e) {}
+  }
+
+  function saveScrollSoon() {
+    if (scrollSaveTimer) return;
+    scrollSaveTimer = setTimeout(function () {
+      scrollSaveTimer = 0;
+      saveScrollPos();
+    }, 150);
+  }
+
+  function readScrollTarget() {
+    try {
+      const n = parseInt(sessionStorage.getItem(scrollStorageKey()) || "0", 10);
+      return isFinite(n) && n > 0 ? n : 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  function navIsBack() {
+    try {
+      const list = performance.getEntriesByType && performance.getEntriesByType("navigation");
+      const nav = list && list[0];
+      return !!(nav && nav.type === "back_forward");
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function shouldRestoreScroll() {
+    try {
+      if (sessionStorage.getItem(SCROLL_BACK) === location.pathname + location.search) return true;
+    } catch (e) {}
+    return navIsBack();
+  }
+
+  function maxScrollY() {
+    const d = document.documentElement;
+    const b = document.body;
+    const h = Math.max(d ? d.scrollHeight : 0, b ? b.scrollHeight : 0, d ? d.offsetHeight : 0);
+    return Math.max(0, h - (window.innerHeight || 0));
+  }
+
+  function stopScrollRestore(done) {
+    if (scrollRaf) {
+      cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+    }
+    if (scrollObs) {
+      scrollObs.disconnect();
+      scrollObs = null;
+    }
+    if (done) scrollArmed = false;
+  }
+
+  function pumpScrollRestore() {
+    if (!scrollArmed) return;
+    const y = scrollYTarget;
+    const max = maxScrollY();
+    if (max + 2 >= y) {
+      window.scrollTo(0, y);
+      if (Math.abs((window.scrollY || window.pageYOffset || 0) - y) <= 4) {
+        stopScrollRestore(true);
+        return;
+      }
+    }
+    if (Date.now() >= scrollUntil) {
+      if (max > 0) window.scrollTo(0, Math.min(y, max));
+      const reached = Math.abs((window.scrollY || window.pageYOffset || 0) - y) <= 4;
+      stopScrollRestore(reached);
+      return;
+    }
+    scrollRaf = requestAnimationFrame(pumpScrollRestore);
+  }
+
+  function ensureScrollObs() {
+    if (scrollObs || typeof MutationObserver !== "function") return;
+    const root = document.body || document.documentElement;
+    if (!root) return;
+    scrollObs = new MutationObserver(function () {
+      if (scrollArmed) pumpScrollRestore();
+    });
+    scrollObs.observe(root, { childList: true, subtree: true });
+  }
+
+  function restoreScroll() {
+    if (!isListPage() || !scrollArmed) return;
+    const y = readScrollTarget();
+    if (!y) {
+      scrollArmed = false;
+      return;
+    }
+    scrollYTarget = y;
+    scrollUntil = Date.now() + 3000;
+    ensureScrollObs();
+    if (scrollRaf) cancelAnimationFrame(scrollRaf);
+    scrollRaf = 0;
+    pumpScrollRestore();
+  }
+
+  function armScrollRestore(force) {
+    if (!isListPage()) return;
+    if (!force && !shouldRestoreScroll()) return;
+    scrollArmed = true;
+    try { sessionStorage.removeItem(SCROLL_BACK); } catch (e) {}
+    restoreScroll();
   }
 
   function rememberReturn() {
@@ -2171,9 +2336,20 @@
   }
 
   function watchListReturn() {
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     rememberReturn();
-    window.addEventListener("pagehide", rememberReturn);
-    window.addEventListener("pageshow", rememberReturn);
+    window.addEventListener("pagehide", function () {
+      markScrollBack();
+      rememberReturn();
+    });
+    window.addEventListener("pageshow", function (e) {
+      rememberReturn();
+      if (e && e.persisted) armScrollRestore(true);
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") saveScrollPos();
+    });
+    window.addEventListener("scroll", saveScrollSoon, { passive: true });
     document.addEventListener("click", function (e) {
       const a = e.target.closest && e.target.closest("a[href]");
       if (!a) return;
@@ -2182,6 +2358,7 @@
         if (u.origin !== location.origin) return;
         if (pageFile(u.pathname) === pageFile(location.pathname) &&
             u.search === location.search && u.hash === location.hash) return;
+        markScrollBack();
         rememberReturn();
       } catch (err) {}
     }, true);
@@ -2200,6 +2377,7 @@
     const file = pageFile(location.pathname);
     if (LIST_FILES[file]) {
       watchListReturn();
+      armScrollRestore(false);
       return;
     }
     if (DRILL_FILES[file]) {
@@ -2297,6 +2475,7 @@
     loadForm4: loadForm4,
     applyForm4: applyForm4,
     rememberReturn: rememberReturn,
+    restoreScroll: restoreScroll,
     bindBack: bindBack,
     companySymbols: companySymbols,
     issuerPrimaryTicker: issuerPrimaryTicker,

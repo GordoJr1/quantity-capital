@@ -7,11 +7,19 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png?v=2" />
   <title>Claims database — Quantity Capital</title>
   <meta name="description" content="Draft provincial claims database. Not legal title. Not investment advice." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
-  <link rel="stylesheet" href="shell.css?v=169" />
+  <link rel="stylesheet" href="shell.css?v=172" />
   <style>
-    html { height: 100%; overflow: hidden; }
-    body { display: flex; flex-direction: column; height: 100%; min-height: 100vh; overflow: hidden; background: #0b1016; }
+    html { height: 100%; overflow: hidden; margin: 0; }
+    body {
+      display: flex; flex-direction: column; height: 100%; min-height: 100vh;
+      margin: 0; overflow: hidden; background: #0b1016; color: #eef2f5;
+      font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+    }
+    a { color: #8fd4d6; }
     .map-stage { position: relative; flex: 1; min-height: 0; }
     #map { position: absolute; inset: 0; background: #0b1016; }
     .hud, .layers, .status {
@@ -22,7 +30,7 @@
       top: 12px; left: 12px; right: 12px; display: flex; gap: 16px; align-items: center;
       padding: 10px 14px; border-radius: 10px; max-width: 1100px; margin: 0 auto;
     }
-    .hud h1 { font-size: 15px; margin: 0; }
+    .hud h1 { font-size: 15px; margin: 0; color: #eef2f5; font-family: "IBM Plex Sans", "Segoe UI", sans-serif; font-weight: 650; }
     .hud p { margin: 0; color: #9aa8b8; font-size: 12px; letter-spacing: 0; text-transform: none; }
     #search-form { position: relative; flex: 1; }
     #search {
@@ -45,10 +53,10 @@
       top: 84px; left: 12px; padding: 12px 14px; border-radius: 10px; min-width: 220px;
       max-height: 46vh; overflow: auto; color: #e8eef6;
     }
-    .layers h2 { font-size: 11px; letter-spacing: 0.08em; color: #9aa8b8; margin: 8px 0 6px; }
+    .layers h2 { font-size: 11px; letter-spacing: 0.08em; color: #eef2f5; margin: 8px 0 6px; font-family: "IBM Plex Sans", "Segoe UI", sans-serif; }
     .layers h2:first-child { margin-top: 0; }
-    .layers label { display: flex; gap: 8px; align-items: center; font-size: 13px; margin: 4px 0; }
-    .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; cursor: pointer; }
+    .layers label { display: flex; gap: 8px; align-items: center; font-size: 13px; margin: 0; min-height: 40px; padding: 4px 2px; }
+    .swatch { display: flex; gap: 6px; align-items: center; font-size: 12px; margin: 0; min-height: 40px; padding: 4px 0; cursor: pointer; }
     .swatch i { width: 10px; height: 10px; border-radius: 2px; display: block; }
     .status {
       left: 12px; right: 12px; bottom: 12px; padding: 8px 12px; border-radius: 8px;

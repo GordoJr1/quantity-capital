@@ -20,6 +20,7 @@ const SHELL = [
   "./shell.css?v=170",
   "./shell.css?v=171",
   "./shell.css?v=172",
+  "./shell.css?v=173",
   "./politician.html",
   "./ticker.html",
   "./signals.html",

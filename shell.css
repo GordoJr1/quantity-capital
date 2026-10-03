@@ -1669,35 +1669,34 @@ summary:focus-visible,
 }
 .ident-nav .back { color: var(--teal, #36999d); text-decoration: none; }
 @media (max-width: 820px) {
+  /* Hit area only. Negative margin cancels the padding so the line stays the text height. */
   a.back,
   .ident-nav .back {
-    display: inline-flex;
-    align-items: center;
-    min-height: 40px;
-    padding: 8px 10px 8px 0;
-    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    padding: 12px 10px 12px 0;
+    margin: -12px 0;
   }
   a.qc-txn-name,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk,
   table.tape-table .tix-who a {
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    min-height: 40px;
-    box-sizing: border-box;
+    /* Extra hit area hangs down into the row, not above it. */
+    padding-top: 4px;
+    padding-bottom: 20px;
+    margin-top: -4px;
+    margin-bottom: -20px;
   }
-  a.qc-txn-name::after,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk::after,
-  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk::after,
-  table.tape-table .tix-who a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: 40px;
-    transform: translateY(-50%);
+  .qc-txn-list.qc-tape-list > .qc-txn-tape a.qc-txn-tk,
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-company .qc-txn-tk {
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+  }
+  .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-who-line {
+    max-height: calc(0.82rem * 1.25);
+    overflow: visible;
   }
 }
 .holdings > .kicker,

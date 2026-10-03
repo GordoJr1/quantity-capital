@@ -1,77 +1,10 @@
 {
-  "generated": "2026-10-03T01:58:22.914352+00:00",
+  "generated": "2026-10-03T02:48:53.115414+00:00",
   "tapeCollected": "2026-10-02T22:20:18.232395+00:00",
   "priceAsof": "2026-10-01",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
-  "book": [
-    {
-      "code": "PG",
-      "name": "Procter & Gamble Company (The)",
-      "action": "buy-dip",
-      "score": 8.975,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 143.95,
-      "pxAsof": "2026-10-01",
-      "buyPx": 145.58,
-      "chgSinceBuy": -0.0112,
-      "lastBuy": "2026-09-08",
-      "nBuyers": 4,
-      "buyHigh": 310000,
-      "heatRank": 1,
-      "heat": 2.127,
-      "landed": true,
-      "landedAt": "2026-09-25T22:21:20.366354+00:00",
-      "lagDays": 17,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        },
-        {
-          "name": "Lloyd Doggett",
-          "id": "lloyd-doggett"
-        },
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        }
-      ],
-      "weekly": {
-        "rsi": 40.3,
-        "sma20": 146.55,
-        "sma40": 147.95,
-        "vs20": -1.8,
-        "ret4w": -1.7,
-        "ret13w": -4.9,
-        "fromHigh": -4.9,
-        "trend": "DOWN",
-        "recentLow": 143.78
-      },
-      "monthly": {
-        "rsi": 41.1,
-        "sma10": 147.95,
-        "vs10": -2.7,
-        "trend": "DOWN"
-      },
-      "invalidation": 134.83,
-      "flags": [
-        "Landed",
-        "Cluster",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    }
-  ],
+  "book": [],
   "avoid": [
     {
       "code": "WDAY",

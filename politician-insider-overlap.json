@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03T01:58:29+00:00",
+  "generated": "2026-10-03T02:48:59+00:00",
   "window_start": "2024-10-02",
   "method": "One row per ticker and ISO week (Monday-Sunday) by trade date. Window is the 24 calendar months ending on the newest trade_date in either tape. Members of Congress only: chamber House or Senate (case-insensitive). White House and any other chamber drop. Politician sides: purchase=Buy, sale=Sell; exchange dropped. Insider sides: purchase=Buy, sale=Sell, sale_post=Sell; award, exercise, and exchange dropped. A politician row counts only when asset_type is exactly Stock (Stock Option, Non-Public Stock, bonds, municipals, and other types drop). Blank tickers and non-tickers (--, N/A, NA, NONE) drop. Each person is one line per side; the three largest on each side are kept.",
   "stats": {

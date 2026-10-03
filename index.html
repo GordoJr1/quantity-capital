@@ -1599,7 +1599,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=174" />
+  <link rel="stylesheet" href="shell.css?v=175" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -2065,6 +2065,73 @@
       letter-spacing: 0.1em; padding: 10px 16px; color: var(--white); border: 1px solid var(--v2-border); background: transparent;
     }
     .focus .btn.fill { background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a; }
+  </style>
+  <style id="qc-tape-2b">
+    /* Phone wire (<900px): one-line rows grouped by person + trade date (mockup tape-2b, 2026-10-03). Desktop untouched. */
+    @media (max-width: 899px) {
+      #wire > li.day, #wire > li.day.fresh { margin-top: 20px; padding-bottom: 8px; }
+      #wire > li.day:first-child { margin-top: 0; }
+      #wire > li.w1-g { border-bottom: 1px solid var(--v2-line); padding: 10px 0 4px; }
+      #wire .w1-ghead { padding: 0 2px 4px; }
+      #wire .w1-gline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; }
+      #wire .w1-gname { color: var(--white); font-weight: 700; font-size: 16px; text-decoration: none; }
+      #wire a.w1-gname:hover { text-decoration: underline; text-underline-offset: 3px; }
+      #wire .w1-gdate { color: var(--v2-sub); font-size: 14px; }
+      #wire .w1-gsub { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 4px; color: var(--v2-sub); font-size: 13px; }
+      #wire .w1-rows { list-style: none; margin: 0; padding: 0; }
+      #wire .w1-chip {
+        display: inline-block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        border: 1px solid var(--v2-border); border-radius: 6px; padding: 1px 8px; background: rgba(15, 18, 24, 0.45);
+        color: #c5ced6; font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 400; line-height: 1.5;
+      }
+      #wire .w1-clus { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+      #wire li.w1 {
+        position: relative; min-height: 44px; padding: 4px 2px 4px 20px; border-top: 1px solid rgba(52, 64, 80, 0.55);
+        display: flex; flex-direction: column; justify-content: center; outline: none;
+      }
+      #wire li.w1:first-child { border-top: 0; }
+      #wire li.w1:focus-visible { outline: 2px solid var(--caution); outline-offset: 2px; }
+      #wire li.w1::before {
+        content: ""; position: absolute; left: 2px; top: 9px; bottom: 9px; width: 6px; border-radius: 4px; background: #6b7582;
+      }
+      #wire li.w1.sell::before { background: var(--v2-sell-bar); }
+      #wire li.w1.buy::before { background: var(--v2-buy-bar); }
+      #wire li.w1.postex::before { background: #c5726b; }
+      #wire li.w1.exercise::before { background: #2a6d72; }
+      #wire li.w1.award::before { background: #9a8a4a; }
+      #wire li.w1.exch::before { background: #6b7582; }
+      #wire .w1-line { display: flex; align-items: center; min-width: 0; }
+      #wire .w1-tk {
+        flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; min-width: 0;
+        color: var(--white); font-size: 16px; line-height: 1.3; text-decoration: none;
+      }
+      #wire a.w1-tk:hover b { text-decoration: underline; text-underline-offset: 3px; }
+      #wire .w1-tk b { font-weight: 700; letter-spacing: 0.02em; }
+      #wire .w1-kind {
+        display: inline-block; padding: 1px 6px; border: 1px solid var(--v2-border); border-radius: 6px;
+        font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--paper); line-height: 1.3;
+      }
+      #wire .w1-co {
+        flex: 0 1 auto; min-width: 0; margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        color: var(--v2-sub); font-size: 13px; font-weight: 400; line-height: 1.3;
+      }
+      #wire .w1-chips { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; min-width: 0; margin-left: 8px; max-width: 58%; }
+      #wire .w1-chips:empty { display: none; }
+      #wire .w1-key { flex: 0 1 auto; min-width: 0; max-width: 100%; }
+      #wire .w1-more, #wire .w1-all { flex: 0 0 auto; color: var(--v2-sub); font-size: 13px; font-weight: 600; }
+      #wire .w1-all { display: none; }
+      #wire li.w1.tight .w1-key, #wire li.w1.tight .w1-more { display: none; }
+      #wire li.w1.tight .w1-all { display: inline; }
+      #wire li.w1.snug .w1-co { margin-left: 4px; }
+      #wire li.w1.snug .w1-chips { margin-left: 5px; }
+      #wire li.w1.snug .w1-gap { min-width: 4px; }
+      #wire .w1-gap { flex: 1 1 0; min-width: 8px; }
+      #wire .w1-amt {
+        flex: 0 0 auto; color: var(--paper); font-size: 15px; font-weight: 600; white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      #wire .w1-opt { margin: -4px 0 4px; color: var(--v2-sub); font-size: 13px; }
+    }
   </style>
 </head>
 <body>
@@ -2670,7 +2737,163 @@
 
     function filedGroupHtml(rows, heading, extraCls) {
       const cls = extraCls ? " class=\"day " + extraCls + "\"" : " class=\"day\"";
-      return "<li" + cls + "><h2>" + heading + "</h2></li>" + rows.map(wireRowHtml).join("");
+      const body = DESK_MQ.matches ? rows.map(wireRowHtml).join("") : w1GroupsHtml(rows);
+      return "<li" + cls + "><h2>" + heading + "</h2></li>" + body;
+    }
+
+    /* ---------- Phone wire (<900px): one-line rows grouped by person + trade date (tape-2b, 2026-10-03) ----------
+       Group header = name · traded date · N trades, plus one "Cluster ±7d" note for the group's own-ticker clusters.
+       Row = side bar, ticker (+ Call/Put/Bond/No ticker), short company, one key chip + "+N", amount (right, no wrap).
+       Desktop keeps wireRowHtml above. */
+    const W1_CO_MAX = 14;
+    const W1_DROP = /^(inc|incorporated|corp|corporation|co|company|companies|cos|ltd|limited|holdings?|group|plc|llc|l\.?p|n\.?v|s\.?a|ag|se|the)$/i;
+    function w1ShortCo(name) {
+      let s = String(name || "").replace(/\s+/g, " ").trim();
+      if (!s || s === "\u2014") return { full: "", abbr: "" };
+      const full = s;
+      /* the company field sometimes carries the holder first ("Hern Family Revocable Trust ONEOK, Inc.") or a filer note ("… D: …") */
+      s = s.replace(/\s+D:.*$/, "");
+      const holder = s.match(/^.*?\b(?:Trust|Foundation)\s+(.+)$/);
+      if (holder && holder[1].length >= 3) s = holder[1];
+      s = s.replace(/\b(cl|class)\s+[a-z]\b/ig, " ").replace(/\((the)\)/ig, " ").replace(/\([^)]*\)/g, " ")
+        .replace(/[.,]/g, " ").replace(/\s+/g, " ").trim();
+      let words = s.split(" ").filter(Boolean);
+      words = words.filter((w, i) => !(W1_DROP.test(w.replace(/\.$/, "")) && (i > 0 || /^the$/i.test(w))));
+      while (words.length && /^[&\-\/]$/.test(words[words.length - 1])) words.pop();
+      const clean = words.join(" ");
+      if (!clean) return { full, abbr: "" };
+      let abbr = clean;
+      if (abbr.length > W1_CO_MAX) {
+        let out = "";
+        for (const w of words) { const nx = out ? out + " " + w : w; if (nx.length > W1_CO_MAX) break; out = nx; }
+        out = out.replace(/\s*[&\-\/]$/, "");
+        /* keep the word cut when it still says enough (>= 8 chars); otherwise hard cut at 13 + "…" */
+        abbr = out.length >= 8 ? out : clean.slice(0, W1_CO_MAX - 1).replace(/\s+$/, "") + "\u2026";
+      }
+      return { full, abbr };
+    }
+    const w1OwnCluster = (c) => /^Cluster: \d+ trades ±7d$/.test(c);
+    function w1Rank(c) {
+      if (c === "Plan") return 0;
+      if (/^First /.test(c)) return 0;
+      if (/usual size$/.test(c)) return 1;
+      if (/record/i.test(c)) return 2;
+      if (/^Committee/.test(c)) return 3;
+      if (/^Insiders/.test(c)) return 4;
+      if (/^Cluster/.test(c)) return 6;
+      return 5;
+    }
+    function w1Ticker(t) {
+      const c = shownCode(t);
+      return c && c !== "\u2014" ? c : "";
+    }
+    function w1Kind(t) {
+      return QC.tapeKindLabel(t) || (w1Ticker(t) ? "" : "No ticker");
+    }
+    function w1PersonGroups(rows) {
+      const out = [];
+      let cur = null;
+      (rows || []).forEach((t) => {
+        const key = (t.filer_id || t.filer || "") + "|" + (t.trade_date || "");
+        if (!cur || cur.key !== key) { cur = { key, rows: [] }; out.push(cur); }
+        cur.rows.push(t);
+      });
+      return out;
+    }
+    function w1RowHtml(t) {
+      const sym = w1Ticker(t);
+      const kind = w1Kind(t);
+      const cls = QC.txnClass(t) || (t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : "");
+      const side = QC.txnLabel(t) || sideLabel(t.side) || "";
+      const tkHref = sym && isChartTicker(sym) ? "ticker.html?t=" + encodeURIComponent(sym) : "";
+      const tkInner = (sym ? "<b>" + escapeHtml(sym) + "</b>" : "") + (kind ? "<span class=\"w1-kind\">" + escapeHtml(kind) + "</span>" : "");
+      const tk = tkHref
+        ? "<a class=\"w1-tk\" href=\"" + tkHref + "\">" + tkInner + "</a>"
+        : "<span class=\"w1-tk\">" + tkInner + "</span>";
+      const co = w1ShortCo(t.company);
+      const coHtml = co.abbr && co.abbr.toUpperCase() !== sym.toUpperCase()
+        ? "<span class=\"w1-co\" title=\"" + escapeHtml(co.full) + "\">" + escapeHtml(co.abbr) + "</span>" : "";
+      const notes = (QC.filingNotesFor(t.id) || []).map((c) => String(c || "").trim()).filter(Boolean);
+      const rest = notes.filter((c) => !w1OwnCluster(c) && c !== "Option/derivative");
+      if (t.plan) rest.unshift("Plan");
+      rest.sort((a, b) => w1Rank(a) - w1Rank(b));
+      const key = rest[0] ? "<span class=\"w1-chip w1-key\" title=\"" + escapeHtml(rest.join(" · ")) + "\">" + escapeHtml(rest[0]) + "</span>" : "";
+      const more = rest.length > 1 ? "<span class=\"w1-more\" title=\"" + escapeHtml(rest.slice(1).join(" · ")) + "\">+" + (rest.length - 1) + "</span>" : "";
+      const all = rest.length ? "<span class=\"w1-all\" title=\"" + escapeHtml(rest.join(" · ")) + "\">+" + rest.length + "</span>" : "";
+      const shown = QC.formatAmountRange(t.amount) || (Number(t.value) ? formatMoney(Number(t.value)) : "\u2014");
+      const rawAmt = String(t.amount || "").trim();
+      const tip = rawAmt && rawAmt !== shown ? " title=\"" + escapeHtml(rawAmt) + "\"" : "";
+      let optLine = "";
+      if (document.body.classList.contains("tape-opt") && isOptionLike(t)) {
+        const o = optionMeta(t);
+        const bits = [];
+        if (o.strike) bits.push("Strike $" + o.strike);
+        if (o.exp) bits.push("Exp " + o.exp);
+        if (bits.length) optLine = "<div class=\"w1-opt\">" + escapeHtml(bits.join(" \u00b7 ")) + "</div>";
+      }
+      const on = t.id === activeId;
+      return "<li class=\"w1" + (cls ? " " + cls : "") + (on ? " on" : "") + "\"" +
+        (t.id ? " data-id=\"" + escapeHtml(t.id) + "\"" : "") +
+        " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
+        (side ? "<span class=\"sr-only\">" + escapeHtml(side) + ": </span>" : "") +
+        "<div class=\"w1-line\">" + tk + coHtml +
+          "<span class=\"w1-chips\">" + key + more + all + "</span>" +
+          "<span class=\"w1-gap\"></span>" +
+          "<span class=\"w1-amt\"" + tip + ">" + escapeHtml(shown) + "</span>" +
+        "</div>" + optLine + "</li>";
+    }
+    function w1GroupsHtml(rows) {
+      return w1PersonGroups(rows).map((g) => {
+        const t = g.rows[0];
+        const n = g.rows.length;
+        const name = QC.titleCaseName(t.filer) || t.filer || "";
+        const nameHtml = t.filer_id
+          ? "<a class=\"w1-gname\" href=\"politician.html?id=" + encodeURIComponent(t.filer_id) + "\">" + escapeHtml(name) + "</a>"
+          : "<span class=\"w1-gname\">" + escapeHtml(name) + "</span>";
+        const when = (t.trade_date ? "traded " + prettyDate(t.trade_date) : "") + (n > 1 ? " \u00b7 " + n + " trades" : "");
+        const clus = [];
+        g.rows.forEach((r) => {
+          const c = (QC.filingNotesFor(r.id) || []).find(w1OwnCluster);
+          const tk = w1Ticker(r) || w1Kind(r);
+          if (c && !clus.some((x) => x.tk === tk)) clus.push({ tk, n: c.match(/\d+/)[0] });
+        });
+        const clusHtml = clus.length
+          ? "<div class=\"w1-gsub\"><span class=\"w1-chip w1-clus\">Cluster ±7d: " +
+            clus.map((x) => escapeHtml(x.tk) + " " + x.n).join(" · ") + "</span></div>"
+          : "";
+        return "<li class=\"w1-g\"><div class=\"w1-ghead\"><div class=\"w1-gline\">" + nameHtml +
+          (when ? "<span class=\"w1-gdate\">" + escapeHtml(when) + "</span>" : "") + "</div>" + clusHtml + "</div>" +
+          "<ol class=\"w1-rows\">" + g.rows.map(w1RowHtml).join("") + "</ol></li>";
+      }).join("");
+    }
+    /* Name gives way first (ellipsis). A few px short: tighten gaps. Squeezed under ~5 chars: the key chip collapses to "+N". */
+    function w1Fit(box) {
+      if (!box) return;
+      box.querySelectorAll(".w1.tight, .w1.snug").forEach((r) => r.classList.remove("tight", "snug"));
+      /* read every width first, then write classes (one layout pass, even for the full 19k-row list) */
+      const marks = [];
+      box.querySelectorAll(".w1 .w1-co").forEach((co) => {
+        const need = co.scrollWidth, have = co.clientWidth;
+        if (need <= have) return;
+        const r = co.closest(".w1");
+        const deficit = need - have;
+        const tight = deficit > 12 && (have < 56 || have < 0.6 * need) && !!r.querySelector(".w1-key");
+        marks.push([r, deficit <= 12 ? "snug" : (tight ? "tight" : "")]);
+      });
+      marks.forEach(([r, cls]) => { if (cls) r.classList.add(cls); });
+    }
+    let w1FitBound = false;
+    function w1AfterPaint(box) {
+      requestAnimationFrame(() => w1Fit(box));
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => w1Fit(box));
+      if (!w1FitBound) {
+        w1FitBound = true;
+        window.addEventListener("resize", () => {
+          if (DESK_MQ.matches) return;
+          clearTimeout(w1AfterPaint._t);
+          w1AfterPaint._t = setTimeout(() => w1Fit(document.getElementById("wire")), 80);
+        });
+      }
     }
 
     function paintWire() {
@@ -2697,6 +2920,7 @@
         parts.push(filedGroupHtml(rows, escapeHtml(filedHeading(key))));
       });
       box.innerHTML = parts.join("");
+      if (!DESK_MQ.matches) w1AfterPaint(box);
       if (window.QC && QC.restoreScroll) QC.restoreScroll();
     }
 
@@ -2976,12 +3200,12 @@
         wire.dataset.bound = "1";
         wire.addEventListener("click", (e) => {
           if (e.target.closest("a")) return;
-          const row = e.target.closest(".w-row[data-id]");
+          const row = e.target.closest(".w-row[data-id], .w1[data-id]");
           if (row) selectDesk(row.getAttribute("data-id"));
         });
         wire.addEventListener("keydown", (e) => {
           if (e.key !== "Enter" && e.key !== " ") return;
-          const row = e.target.closest(".w-row[data-id]");
+          const row = e.target.closest(".w-row[data-id], .w1[data-id]");
           if (!row) return;
           e.preventDefault();
           selectDesk(row.getAttribute("data-id"));

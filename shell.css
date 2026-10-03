@@ -59,12 +59,16 @@ html {
   top: 0;
   z-index: 70;
   margin: 0;
-  padding: 0;
+  /* Safe area: pad the sticky header itself so it stays below the iOS status bar after scrolling
+     (viewport-fit=cover + black-translucent). env() is 0 on desktop browsers. */
+  padding: env(safe-area-inset-top, 0px) 0 0;
   border-bottom: 2px solid var(--teal, #36999d);
   background: var(--shell-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+/* The header now carries the inset; drop the older per-page body padding so it is not doubled. */
+body { padding-top: 0 !important; }
 .qc-header-inner {
   display: flex;
   align-items: center;

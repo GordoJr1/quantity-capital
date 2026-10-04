@@ -1046,7 +1046,6 @@
     /* Mobile: insider-style card tape. Desktop ≥900: wire + chart. */
     .desk-status { display: none; }
     .desk { display: block; }
-    .desk .focus { display: none; }
     #tape .table-wrap { display: none !important; }
     @media (min-width: 900px) {
       .desk-status {
@@ -1119,13 +1118,6 @@
         min-width: 0;
         padding: 0;
         margin: 0;
-      }
-      .desk .focus {
-        display: block;
-        grid-column: 2;
-        grid-row: 1 / -1;
-        align-self: start;
-        min-width: 0;
       }
       #board .board-list { max-width: 1040px; }
     }
@@ -1238,7 +1230,7 @@
       white-space: nowrap;
     }
     .desk .who:hover { color: var(--teal); }
-    .desk .ch {
+    .focus .ch {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -1248,10 +1240,10 @@
       color: var(--paper);
       white-space: nowrap;
     }
-    .desk .ch.sen { border-color: var(--teal); color: var(--teal); }
-    .desk .ch.wh { border-color: var(--caution); color: var(--caution); }
-    .desk .ch.hot { border-color: var(--caution); color: var(--caution); }
-    .desk .ch.bad { border-color: #ef7a74; color: #ef7a74; }
+    .focus .ch.sen { border-color: var(--teal); color: var(--teal); }
+    .focus .ch.wh { border-color: var(--caution); color: var(--caution); }
+    .focus .ch.hot { border-color: var(--caution); color: var(--caution); }
+    .focus .ch.bad { border-color: #ef7a74; color: #ef7a74; }
     .desk .asset {
       grid-area: asset;
       margin: 0;
@@ -1998,7 +1990,6 @@
       .desk .wire-count { grid-column: 1; grid-row: 2; }
       .desk .wire-day0 { grid-column: 1; grid-row: 3; }
       .desk .wire { grid-column: 1; grid-row: 4; }
-      .desk .focus { grid-column: 2; grid-row: 3 / -1; }
       #wire > li.w-row { cursor: pointer; border-radius: 10px; }
       #wire > li.w-row:hover { background: rgba(255, 255, 255, 0.03); }
       #wire > li.w-row.on {
@@ -2013,21 +2004,21 @@
       border-radius: 16px; padding: 18px 18px 16px;
     }
     .focus .who,
-    .desk .focus .who {
+    .focus .who {
       display: block; margin: 0 0 8px; font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--white);
       white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere;
     }
     .focus .chips { gap: 6px; margin: 0 0 12px; }
-    .desk .focus .ch {
+    .focus .ch {
       font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;
       padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px; color: var(--paper);
       background: rgba(15, 18, 24, 0.35);
     }
-    .desk .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
-    .desk .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
-    .desk .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
-    .desk .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
-    .desk .focus .asset a {
+    .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
+    .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+    .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
+    .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
+    .focus .asset a {
       font-family: "IBM Plex Sans", sans-serif; font-weight: 700; letter-spacing: 0.03em; text-transform: none; margin-right: 4px;
     }
     .focus .quiet { margin: 0 0 14px; color: var(--v2-sub); font-size: 14px; }
@@ -2075,6 +2066,79 @@
       letter-spacing: 0.1em; padding: 10px 16px; color: var(--white); border: 1px solid var(--v2-border); background: transparent;
     }
     .focus .btn.fill { background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a; }
+
+    /* ---------- chart on top (Gordo: charts above tables, 2026-10-04; sticky + phone strip 2026-10-04 pm) ----------
+       The chart card is the first thing in the wire column, directly above the wire list.
+       Desktop (>=900px): one wide card (who / range / buttons left, chart right) that sticks under the site header
+       while the wire scrolls. The desk is a plain block here so the sticky card is bounded by the wire column only:
+       the leaderboard and filters above scroll away normally and never sit under it.
+       Phone (<900px): a ~150px strip (name, ticker line, sparkline). Tap it to open the full chart in place; tap again to close. */
+    .chart-top { margin: 0 0 14px; padding: 0; }
+    .chart-top .focus { display: block; position: static; top: auto; min-width: 0; }
+    .chart-top .focus-chart { min-width: 0; }
+    .strip-toggle, .spark { display: none; }
+    @media (min-width: 900px) {
+      .desk, body.tape-opt .desk { display: block; }
+      .desk .wire-col { display: block; }
+      .chart-top {
+        position: sticky; top: calc(var(--site-header-h, 58px) + 6px); z-index: 8; margin: 0 0 12px;
+      }
+      .chart-top .focus {
+        display: grid; grid-template-columns: minmax(300px, 0.34fr) minmax(0, 1fr);
+        grid-template-areas: "head chart" "range chart" "foot chart"; grid-template-rows: auto auto 1fr;
+        column-gap: 24px; align-items: start; padding: 10px 16px 8px;
+        background: var(--v2-card, #222a36); box-shadow: 0 10px 24px rgba(5, 8, 12, 0.55);
+      }
+      .chart-top #focus-head { grid-area: head; min-width: 0; }
+      .chart-top #focus-chart { display: contents; }
+      .chart-top .focus .range { grid-area: range; justify-self: start; }
+      .chart-top .focus .chart-wrap { grid-area: chart; margin-bottom: 0; }
+      .chart-top #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
+      .chart-top #focus-foot .cta { flex-wrap: nowrap; gap: 8px; }
+      .chart-top #focus-foot .btn { padding: 9px 13px; white-space: nowrap; }
+      .chart-top .focus .who, .chart-top .focus .who a { margin-bottom: 4px; }
+      .chart-top .focus .chips { margin: 0 0 6px; }
+      /* ticker + company + industry on one line; the industry drops out (wraps onto a clipped 2nd line) when it doesn't fit */
+      .chart-top .focus .asset-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; height: 1.45em; overflow: hidden; margin: 0 0 8px; }
+      .chart-top .focus .asset-line .asset { flex: 0 1 auto; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .chart-top .focus .asset-line .quiet { flex: 0 0 auto; margin: 0; white-space: nowrap; }
+      .chart-top .focus .range { margin: 0 0 8px; }
+      .chart-top .focus .chart-wrap { padding-top: 6px; padding-bottom: 4px; }
+      .chart-top .focus #chart-svg { height: 160px; max-height: 160px; }
+    }
+    @media (max-width: 899px) {
+      .chart-top { margin: 2px 0 12px; }
+      .chart-top .focus { position: relative; padding: 12px 12px 10px; border-radius: 14px; cursor: pointer; }
+      .chart-top .focus.open { cursor: auto; }
+      .chart-top .focus .who, .chart-top .focus .who a { font-size: 19px; margin: 0 0 4px; padding-right: 78px; }
+      .chart-top .focus .chips { margin: 0 0 6px; }
+      .chart-top .focus .quiet { margin: 0 0 8px; }
+      .chart-top .focus .range { margin: 0 0 8px; }
+      .chart-top .focus .chart-wrap { padding: 10px 8px 8px 44px; margin-bottom: 8px; }
+      .chart-top .focus #chart-svg { height: 170px; max-height: 170px; }
+      .chart-top #focus-foot { display: none; }
+      .chart-top .strip-toggle {
+        display: inline-flex; align-items: center; gap: 6px; position: absolute; top: 10px; right: 10px; z-index: 2;
+        font: 600 12px/1 "IBM Plex Sans", sans-serif; letter-spacing: 0.05em; color: var(--v2-sub, #b7c1cc);
+        padding: 6px 9px; border: 1px solid var(--v2-border, #3a4452); border-radius: 6px; background: rgba(15, 18, 24, 0.35); cursor: pointer;
+      }
+      .chart-top .strip-toggle::after { content: "\25BE"; font-size: 11px; }
+      .chart-top .focus.open .strip-toggle::after { content: "\25B4"; }
+      .chart-top .focus:not(.open) .chips,
+      .chart-top .focus:not(.open) .quiet,
+      .chart-top .focus:not(.open) #focus-chart { display: none; }
+      .chart-top .focus:not(.open) .asset { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 6px; }
+      .chart-top .focus:not(.open) .spark { display: block; }
+      .chart-top .spark { height: 52px; }
+      .chart-top .spark svg { display: block; width: 100%; height: 52px; }
+      .chart-top .spark-note { display: block; line-height: 52px; color: var(--v2-sub, #b7c1cc); font-size: 13px; }
+    }
+    .spark .spark-line { fill: none; stroke: #67e8f9; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    .spark .spark-area { fill: rgba(103, 232, 249, 0.10); stroke: none; }
+    .spark .spark-dot { fill: #f0d078; stroke: #0f1218; stroke-width: 2; }
+    .spark .spark-dot.buy { fill: var(--v2-buy-bar, #3fb35c); }
+    .spark .spark-dot.sell { fill: var(--v2-sell-bar, #e0625c); }
+    .spark .spark-end { fill: #f8fafc; }
   </style>
   <style id="qc-tape-2b">
     /* Phone wire (<900px): one-line rows grouped by person + trade date (mockup tape-2b, 2026-10-03). Desktop untouched. */
@@ -2305,26 +2369,33 @@
       <div class="desk-status" id="desk-status"></div>
       <div class="desk" id="desk">
         <div class="wire-col">
+          <!-- Chart card, directly above the wire list (Gordo: charts above tables, 2026-10-04).
+               Desktop: sticks under the header while the wire scrolls; it lives inside .wire-col so the leaderboard never sits under it.
+               Phone: a ~150px strip (name, ticker, sparkline); tap to open the full chart, tap again to close. -->
+          <section class="chart-top" id="chart-top" aria-label="Chart of the selected trade">
+            <aside class="focus" id="focus">
+              <button type="button" class="strip-toggle" id="strip-toggle" aria-expanded="false" aria-controls="focus-chart">Chart</button>
+              <div id="focus-head"></div>
+              <div class="spark" id="spark" aria-hidden="true"></div>
+              <div class="focus-chart" id="focus-chart">
+                <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+                <div class="chart-wrap" id="chart-wrap" role="tabpanel">
+                  <div class="chart-frame">
+                    <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
+                    <div class="chart-x" id="chart-x"></div>
+                  </div>
+                  <div class="chart-y" id="chart-y" aria-hidden="true"></div>
+                  <div class="mark-pop" id="mark-pop" hidden></div>
+                </div>
+              </div>
+              <div id="focus-foot"></div>
+            </aside>
+          </section>
           <h2 class="kicker wire-kicker" id="wire-title">Wire</h2>
           <p class="count wire-count"><span id="tape-count"></span><span class="wire-legend" aria-hidden="true"><span class="lg sell">Sell</span><span class="lg buy">Buy</span></span></p>
           <div class="wire-day0" id="wire-day0" hidden></div>
           <ol class="wire w-list" id="wire" aria-labelledby="wire-title"></ol>
         </div>
-        <aside class="focus" id="focus">
-          <div id="focus-head"></div>
-          <div class="focus-chart" id="focus-chart">
-            <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-            <div class="chart-wrap" id="chart-wrap" role="tabpanel">
-              <div class="chart-frame">
-                <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
-                <div class="chart-x" id="chart-x"></div>
-              </div>
-              <div class="chart-y" id="chart-y" aria-hidden="true"></div>
-              <div class="mark-pop" id="mark-pop" hidden></div>
-            </div>
-          </div>
-          <div id="focus-foot"></div>
-        </aside>
       </div>
       <div class="table-wrap">
         <table class="tape-table">
@@ -3007,9 +3078,9 @@
             "</span>" : "") +
           (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
         "</div>" +
-        "<p class=\"asset\" title=\"" + escapeHtml([sym, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
+        "<div class=\"asset-line\"><p class=\"asset\" title=\"" + escapeHtml([sym, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
           (coShow ? " " + escapeHtml(coShow) : "") + "</p>" +
-        "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
+        (t.industry ? "<p class=\"quiet\" title=\"" + escapeHtml(t.industry) + "\">" + escapeHtml(t.industry) + "</p>" : "") + "</div>";
       const tickerBtn = sym !== "—" && isChartTicker(sym)
         ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(sym) + "\">Open ticker</a>"
         : "";
@@ -3065,7 +3136,7 @@
     /* v2: the trade card sits in a headroom band above the plot (CHART_POP_BAND, passed to
        drawChart as pad.t), centred on the pin's x, with a dashed line down to the pin. It never
        covers the price line or the pin. */
-    const CHART_POP_BAND = 92;
+    const CHART_POP_BAND = 66; // desktop: card starts 4px above the plot box, ~66px tall; keeps the sticky chart short (was 92)
     function dockPop(pop, wrap, svg, rec, buy) {
       if (!pop || !wrap || !svg || !rec) return;
       const wr = wrap.getBoundingClientRect();
@@ -3086,7 +3157,8 @@
       const pinY = oy + Number(rec.yPct || 0) * sr.height;
       const inner = wrap.clientWidth;
       const left = Math.max(margin, Math.min(inner - w - margin, pinX - w / 2));
-      const top = oy + 6;
+      // Desktop sticky card: the card may start in the chart-wrap's top padding, so the band (pad.t) stays short.
+      const top = DESK_MQ.matches ? Math.max(2, oy - 4) : oy + 6;
       pop.style.left = left + "px";
       pop.style.top = top + "px";
       const cardBottom = top + h;
@@ -3165,6 +3237,66 @@
       el.textContent = note;
     }
 
+    // Phone chart strip (<900px): closed by default; a tap opens the full chart in place and a second tap closes it.
+    let stripOpen = false;
+    function setStripOpen(open) {
+      stripOpen = !!open;
+      const card = document.getElementById("focus");
+      const btn = document.getElementById("strip-toggle");
+      if (card) card.classList.toggle("open", stripOpen);
+      if (btn) {
+        btn.setAttribute("aria-expanded", stripOpen ? "true" : "false");
+        btn.textContent = stripOpen ? "Close" : "Chart";
+      }
+      paintChart();
+    }
+    function bindStrip() {
+      const card = document.getElementById("focus");
+      if (!card || card.dataset.strip) return;
+      card.dataset.strip = "1";
+      card.addEventListener("click", (e) => {
+        if (DESK_MQ.matches) return;
+        if (e.target.closest("#strip-toggle")) { setStripOpen(!stripOpen); return; }
+        if (!stripOpen) {
+          // Closed strip: any tap opens it (links included), so the first tap never leaves the page.
+          e.preventDefault();
+          setStripOpen(true);
+          return;
+        }
+        if (e.target.closest("a, button, #focus-chart, .mark-pop")) return;
+        setStripOpen(false);
+      });
+    }
+    // Small sparkline for the closed phone strip: the same price slice as the full chart, plus the trade-date dot.
+    function paintSpark(slice, note, tradeIso, side) { // side: "buy" | "sell" | ""
+      const box = document.getElementById("spark");
+      if (!box || DESK_MQ.matches) return;
+      if (!slice || slice.length < 2) {
+        box.innerHTML = "<span class=\"spark-note\">" + escapeHtml(note || "No chart for this print.") + "</span>";
+        return;
+      }
+      const w = Math.max(100, Math.round(box.clientWidth || 320));
+      const h = Math.max(30, Math.round(box.clientHeight || 52));
+      const p = 5;
+      const ys = slice.map((q) => Number(q[1]));
+      const lo = Math.min.apply(null, ys);
+      const hi = Math.max.apply(null, ys);
+      const span = hi - lo || 1;
+      const X = (i) => p + (i * (w - 2 * p)) / (slice.length - 1);
+      const Y = (v) => p + (1 - (v - lo) / span) * (h - 2 * p);
+      const line = slice.map((q, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(Number(q[1])).toFixed(1)).join(" ");
+      const area = line + " L" + X(slice.length - 1).toFixed(1) + " " + h + " L" + X(0).toFixed(1) + " " + h + " Z";
+      let dot = "";
+      if (tradeIso && tradeIso >= String(slice[0][0])) {
+        let k = slice.findIndex((q) => String(q[0]) >= tradeIso);
+        if (k < 0) k = slice.length - 1;
+        dot = "<circle class=\"spark-dot " + (side || "") + "\" cx=\"" + X(k).toFixed(1) + "\" cy=\"" + Y(ys[k]).toFixed(1) + "\" r=\"5\"></circle>";
+      }
+      const end = "<circle class=\"spark-end\" cx=\"" + X(slice.length - 1).toFixed(1) + "\" cy=\"" + Y(ys[ys.length - 1]).toFixed(1) + "\" r=\"3\"></circle>";
+      box.innerHTML = "<svg viewBox=\"0 0 " + w + " " + h + "\" width=\"" + w + "\" height=\"" + h + "\" focusable=\"false\">" +
+        "<path class=\"spark-area\" d=\"" + area + "\"></path><path class=\"spark-line\" d=\"" + line + "\"></path>" + dot + end + "</svg>";
+    }
+
     function paintChart() {
       const t = activeTrade();
       const token = ++chartToken;
@@ -3172,17 +3304,21 @@
       paintRange();
       if (!t) {
         clearChart("Select a print on the wire.");
+        paintSpark(null, "Select a print on the wire.");
         return;
       }
       const sym = shownCode(t);
       if (!isChartTicker(sym) || typeof drawChart !== "function" || typeof slicePriceRange !== "function") {
-        clearChart(sym && sym !== "—" ? "No daily prices on file for " + sym + "." : "This print has no charted ticker.");
+        const note = sym && sym !== "—" ? "No daily prices on file for " + sym + "." : "This print has no charted ticker.";
+        clearChart(note);
+        paintSpark(null, note);
         return;
       }
       loadPrices(sym).then((points) => {
         if (token !== chartToken) return;
         if (!points || points.length < 2) {
           clearChart("No daily prices on file for " + sym + ".");
+          paintSpark(null, "No daily prices on file for " + sym + ".");
           return;
         }
         clearChart("");
@@ -3193,20 +3329,26 @@
           paintRange();
         }
         const slice = slicePriceRange(points, chartRange);
+        paintSpark(slice, "", tradeIso, (window.QC && QC.txnClass && QC.txnClass(t)) || (t.side === "purchase" ? "buy" : t.side === "sale" ? "sell" : ""));
+        // Phone strip closed: the sparkline is all that shows; the full chart draws when the strip opens.
+        if (!DESK_MQ.matches && !stripOpen) return;
         const marks = [{
           date: tradeIso,
           side: t.side,
           filer: t.filer,
           amount: t.amount
         }];
+        // Phones: short chart on top of the page, so no reserved band for the trade card and no auto-open (tap the mark to see it).
+        const roomy = DESK_MQ.matches;
         const hits = drawChart(slice, marks, {
           range: chartRange,
           theme: "cyan",
-          pad: { t: CHART_POP_BAND },
+          pad: roomy ? { t: CHART_POP_BAND } : { t: 16, l: 34, r: 22 },
+          height: roomy ? 160 : 170, // desktop: short sticky card (160 is drawChart's floor)
           onMark: showPop
         });
         requestAnimationFrame(() => {
-          if (token !== chartToken) return;
+          if (token !== chartToken || !roomy) return;
           const hit = (hits || []).find((h) => h.date === tradeIso) || (hits && hits[0]);
           if (hit) showPop(hit);
         });
@@ -3224,7 +3366,7 @@
       if (tickerChanged) chartRange = "3m";
       paintWire();
       paintFocus();
-      if (DESK_MQ.matches) paintChart();
+      paintChart();
     }
 
     function renderDesk(filtered, keepPick) {
@@ -3245,10 +3387,11 @@
       renderDeskStatus(filtered, visible);
       paintWire();
       paintFocus();
-      if (DESK_MQ.matches) paintChart();
+      paintChart();
     }
 
     function bindDesk() {
+      bindStrip();
       const wire = document.getElementById("wire");
       const rangeBox = document.getElementById("range");
       if (wire && !wire.dataset.bound) {
@@ -3287,7 +3430,7 @@
           }
         });
         window.addEventListener("resize", () => {
-          if (!DESK_MQ.matches || !activeTrade()) return;
+          if (!activeTrade()) return;
           clearTimeout(bindDesk._fit);
           bindDesk._fit = setTimeout(paintChart, 100);
         });

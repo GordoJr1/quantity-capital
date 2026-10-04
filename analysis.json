@@ -1,10 +1,76 @@
 {
-  "generated": "2026-10-04T22:10:17.222442+00:00",
-  "tapeCollected": "2026-10-04T11:20:18.073090+00:00",
+  "generated": "2026-10-04T22:22:48.178577+00:00",
+  "tapeCollected": "2026-10-04T22:20:19.565695+00:00",
   "priceAsof": "2026-10-02",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
+    {
+      "code": "PG",
+      "name": "Procter & Gamble Company (The)",
+      "action": "buy-dip",
+      "score": 8.729,
+      "why": "Just landed, weekly washed out, monthly intact",
+      "last": 144.91,
+      "pxAsof": "2026-10-02",
+      "buyPx": 145.58,
+      "chgSinceBuy": -0.0046,
+      "lastBuy": "2026-09-08",
+      "nBuyers": 4,
+      "buyHigh": 310000,
+      "heatRank": 2,
+      "heat": 1.985,
+      "landed": true,
+      "landedAt": "2026-09-25T22:21:20.366354+00:00",
+      "lagDays": 17,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": true,
+      "buyers": [
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        },
+        {
+          "name": "David J. Taylor",
+          "id": "david-j-taylor"
+        },
+        {
+          "name": "Lloyd Doggett",
+          "id": "lloyd-doggett"
+        },
+        {
+          "name": "Donald J. Trump",
+          "id": "donald-j-trump"
+        }
+      ],
+      "weekly": {
+        "rsi": 41.8,
+        "sma20": 146.6,
+        "sma40": 147.98,
+        "vs20": -1.2,
+        "ret4w": -1.0,
+        "ret13w": -4.3,
+        "fromHigh": -4.3,
+        "trend": "DOWN",
+        "recentLow": 143.78
+      },
+      "monthly": {
+        "rsi": 41.7,
+        "sma10": 148.05,
+        "vs10": -2.1,
+        "trend": "DOWN"
+      },
+      "invalidation": 143.78,
+      "flags": [
+        "Landed",
+        "Cluster",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 1
+    },
     {
       "code": "MRVL",
       "name": "Marvell Technology Inc",
@@ -65,7 +131,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 1
+      "rank": 2
     },
     {
       "code": "MDY",
@@ -119,7 +185,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 3
     },
     {
       "code": "HD",
@@ -174,7 +240,7 @@
       "flags": [
         "Landed"
       ],
-      "rank": 3
+      "rank": 4
     }
   ],
   "avoid": [

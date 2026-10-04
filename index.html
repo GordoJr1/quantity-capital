@@ -1046,7 +1046,6 @@
     /* Mobile: insider-style card tape. Desktop ≥900: wire + chart. */
     .desk-status { display: none; }
     .desk { display: block; }
-    .desk .focus { display: none; }
     #tape .table-wrap { display: none !important; }
     @media (min-width: 900px) {
       .desk-status {
@@ -1119,13 +1118,6 @@
         min-width: 0;
         padding: 0;
         margin: 0;
-      }
-      .desk .focus {
-        display: block;
-        grid-column: 2;
-        grid-row: 1 / -1;
-        align-self: start;
-        min-width: 0;
       }
       #board .board-list { max-width: 1040px; }
     }
@@ -1238,7 +1230,7 @@
       white-space: nowrap;
     }
     .desk .who:hover { color: var(--teal); }
-    .desk .ch {
+    .focus .ch {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -1248,10 +1240,10 @@
       color: var(--paper);
       white-space: nowrap;
     }
-    .desk .ch.sen { border-color: var(--teal); color: var(--teal); }
-    .desk .ch.wh { border-color: var(--caution); color: var(--caution); }
-    .desk .ch.hot { border-color: var(--caution); color: var(--caution); }
-    .desk .ch.bad { border-color: #ef7a74; color: #ef7a74; }
+    .focus .ch.sen { border-color: var(--teal); color: var(--teal); }
+    .focus .ch.wh { border-color: var(--caution); color: var(--caution); }
+    .focus .ch.hot { border-color: var(--caution); color: var(--caution); }
+    .focus .ch.bad { border-color: #ef7a74; color: #ef7a74; }
     .desk .asset {
       grid-area: asset;
       margin: 0;
@@ -1998,7 +1990,6 @@
       .desk .wire-count { grid-column: 1; grid-row: 2; }
       .desk .wire-day0 { grid-column: 1; grid-row: 3; }
       .desk .wire { grid-column: 1; grid-row: 4; }
-      .desk .focus { grid-column: 2; grid-row: 3 / -1; }
       #wire > li.w-row { cursor: pointer; border-radius: 10px; }
       #wire > li.w-row:hover { background: rgba(255, 255, 255, 0.03); }
       #wire > li.w-row.on {
@@ -2013,21 +2004,21 @@
       border-radius: 16px; padding: 18px 18px 16px;
     }
     .focus .who,
-    .desk .focus .who {
+    .focus .who {
       display: block; margin: 0 0 8px; font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--white);
       white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere;
     }
     .focus .chips { gap: 6px; margin: 0 0 12px; }
-    .desk .focus .ch {
+    .focus .ch {
       font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;
       padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px; color: var(--paper);
       background: rgba(15, 18, 24, 0.35);
     }
-    .desk .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
-    .desk .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
-    .desk .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
-    .desk .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
-    .desk .focus .asset a {
+    .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
+    .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+    .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
+    .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
+    .focus .asset a {
       font-family: "IBM Plex Sans", sans-serif; font-weight: 700; letter-spacing: 0.03em; text-transform: none; margin-right: 4px;
     }
     .focus .quiet { margin: 0 0 14px; color: var(--v2-sub); font-size: 14px; }
@@ -2075,6 +2066,39 @@
       letter-spacing: 0.1em; padding: 10px 16px; color: var(--white); border: 1px solid var(--v2-border); background: transparent;
     }
     .focus .btn.fill { background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a; }
+
+    /* ---------- chart on top (Gordo: charts above tables, 2026-10-04) ----------
+       The chart card sits above the leaderboard and the wire at every width, phones included.
+       Desktop: one wide card (who / chips / buttons on the left, chart on the right); the wire runs full width below.
+       Phone: a short chart card above the collapsed leaderboard; the one-line wire rows are unchanged. */
+    .chart-top { margin: 0 0 14px; }
+    .chart-top + #board { padding-top: 4px; }
+    .chart-top .focus { display: block; position: static; top: auto; min-width: 0; }
+    .chart-top .focus-chart { min-width: 0; }
+    @media (min-width: 900px) {
+      .desk, body.tape-opt .desk { grid-template-columns: minmax(0, 1fr); }
+      .chart-top .focus {
+        display: grid; grid-template-columns: minmax(260px, 0.36fr) minmax(0, 1fr);
+        grid-template-areas: "head chart" "foot chart"; grid-template-rows: auto 1fr;
+        column-gap: 24px; align-items: start; padding: 16px 18px 14px;
+      }
+      .chart-top #focus-head { grid-area: head; min-width: 0; }
+      .chart-top #focus-chart { grid-area: chart; }
+      .chart-top #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
+      .chart-top .focus .chart-wrap { margin-bottom: 0; }
+      .chart-top .focus #chart-svg { height: 250px; max-height: 250px; }
+    }
+    @media (max-width: 899px) {
+      .chart-top { margin: 4px 0 10px; }
+      .chart-top .focus { padding: 12px 12px 10px; border-radius: 14px; }
+      .chart-top .focus .who, .chart-top .focus .who a { font-size: 19px; margin: 0 0 6px; }
+      .chart-top .focus .chips { margin: 0 0 6px; }
+      .chart-top .focus .quiet { margin: 0 0 8px; }
+      .chart-top .focus .range { margin: 0 0 8px; }
+      .chart-top .focus .chart-wrap { padding: 10px 8px 8px 44px; margin-bottom: 8px; }
+      .chart-top .focus #chart-svg { height: 170px; max-height: 170px; }
+      .chart-top #focus-foot { display: none; }
+    }
   </style>
   <style id="qc-tape-2b">
     /* Phone wire (<900px): one-line rows grouped by person + trade date (mockup tape-2b, 2026-10-03). Desktop untouched. */
@@ -2186,6 +2210,25 @@
   </div>
   <div class="tape-scroll">
   <div class="wrap">
+
+    <!-- Chart on top, above the leaderboard and the wire (Gordo: charts above tables, 2026-10-04). -->
+    <section class="chart-top" id="chart-top" aria-label="Chart of the selected trade">
+      <aside class="focus" id="focus">
+        <div id="focus-head"></div>
+        <div class="focus-chart" id="focus-chart">
+          <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
+          <div class="chart-wrap" id="chart-wrap" role="tabpanel">
+            <div class="chart-frame">
+              <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
+              <div class="chart-x" id="chart-x"></div>
+            </div>
+            <div class="chart-y" id="chart-y" aria-hidden="true"></div>
+            <div class="mark-pop" id="mark-pop" hidden></div>
+          </div>
+        </div>
+        <div id="focus-foot"></div>
+      </aside>
+    </section>
 
     <section class="board" id="board">
       <details class="board-fold" id="board-fold">
@@ -2310,21 +2353,6 @@
           <div class="wire-day0" id="wire-day0" hidden></div>
           <ol class="wire w-list" id="wire" aria-labelledby="wire-title"></ol>
         </div>
-        <aside class="focus" id="focus">
-          <div id="focus-head"></div>
-          <div class="focus-chart" id="focus-chart">
-            <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
-            <div class="chart-wrap" id="chart-wrap" role="tabpanel">
-              <div class="chart-frame">
-                <svg id="chart-svg" viewBox="0 0 840 198" preserveAspectRatio="none"></svg>
-                <div class="chart-x" id="chart-x"></div>
-              </div>
-              <div class="chart-y" id="chart-y" aria-hidden="true"></div>
-              <div class="mark-pop" id="mark-pop" hidden></div>
-            </div>
-          </div>
-          <div id="focus-foot"></div>
-        </aside>
       </div>
       <div class="table-wrap">
         <table class="tape-table">
@@ -3199,14 +3227,17 @@
           filer: t.filer,
           amount: t.amount
         }];
+        // Phones: short chart on top of the page, so no reserved band for the trade card and no auto-open (tap the mark to see it).
+        const roomy = DESK_MQ.matches;
         const hits = drawChart(slice, marks, {
           range: chartRange,
           theme: "cyan",
-          pad: { t: CHART_POP_BAND },
+          pad: roomy ? { t: CHART_POP_BAND } : { t: 16, l: 34, r: 22 },
+          height: roomy ? undefined : 170,
           onMark: showPop
         });
         requestAnimationFrame(() => {
-          if (token !== chartToken) return;
+          if (token !== chartToken || !roomy) return;
           const hit = (hits || []).find((h) => h.date === tradeIso) || (hits && hits[0]);
           if (hit) showPop(hit);
         });
@@ -3224,7 +3255,7 @@
       if (tickerChanged) chartRange = "3m";
       paintWire();
       paintFocus();
-      if (DESK_MQ.matches) paintChart();
+      paintChart();
     }
 
     function renderDesk(filtered, keepPick) {
@@ -3245,7 +3276,7 @@
       renderDeskStatus(filtered, visible);
       paintWire();
       paintFocus();
-      if (DESK_MQ.matches) paintChart();
+      paintChart();
     }
 
     function bindDesk() {
@@ -3287,7 +3318,7 @@
           }
         });
         window.addEventListener("resize", () => {
-          if (!DESK_MQ.matches || !activeTrade()) return;
+          if (!activeTrade()) return;
           clearTimeout(bindDesk._fit);
           bindDesk._fit = setTimeout(paintChart, 100);
         });

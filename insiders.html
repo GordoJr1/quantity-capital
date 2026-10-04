@@ -929,6 +929,45 @@
       .qc-track td { border-bottom-color: var(--v2-line); }
       .qc-track .up, .qc-track button.qc-xp.up { color: var(--v2-buy-text); }
       .qc-track .down, .qc-track button.qc-xp.down { color: var(--v2-sell-text); }
+
+      /* ---------- chart on top (Gordo: charts above tables, 2026-10-04) ----------
+         The chart card sits above the list at every width, phones included. Desktop: one wide card
+         (who / chips / buttons left, chart right) and the list runs full width under it. Phone row layout is unchanged. */
+      #desk .focus { position: static; top: auto; }
+      #desk .focus[hidden], #desk.issuers-only .focus { display: none !important; }
+      #desk { grid-template-columns: minmax(0, 1fr); }
+      #desk .wire-col { grid-row: 2; }
+      #desk .focus {
+        grid-row: 1; display: grid; grid-template-columns: minmax(260px, 0.36fr) minmax(0, 1fr);
+        grid-template-areas: "head chart" "past chart" "foot chart"; grid-template-rows: auto auto 1fr;
+        column-gap: 24px; align-items: start; margin: 0 0 16px; padding: 16px 18px 14px;
+      }
+      #desk #focus-head { grid-area: head; min-width: 0; }
+      #desk #focus-past { grid-area: past; min-width: 0; }
+      #desk #focus-chart { grid-area: chart; min-width: 0; }
+      #desk #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
+      #desk .focus .chart-wrap { margin-bottom: 0; }
+      #desk .focus #chart-svg { height: 250px; max-height: 250px; }
+    }
+    /* Chart on top, phones (<900px): short chart card above the list. */
+    @media (max-width: 899px) {
+      #desk { display: flex; flex-direction: column; }
+      #desk .focus {
+        display: block; order: -1; position: static; margin: 0 0 12px; padding: 12px 12px 10px;
+        background: var(--v2-card, #222a35); border: 1px solid var(--v2-border, #3a4452); border-radius: 14px;
+      }
+      #desk .focus[hidden], #desk.issuers-only .focus { display: none !important; }
+      #desk .focus .who { font-size: 19px; margin: 0 0 6px; }
+      #desk .focus .chips { margin: 0 0 6px; }
+      #desk .focus .range { margin: 0 0 8px; }
+      #desk .focus .chart-wrap { padding: 10px 8px 8px 44px; margin-bottom: 4px; }
+      #desk .focus #chart-svg { height: 170px; max-height: 170px; }
+      #desk #focus-foot, #desk #focus-past { display: none; }
+      #desk .focus .ch {
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;
+        padding: 5px 8px; border: 1px solid #3a4452; border-radius: 6px; color: var(--paper); background: rgba(15, 18, 24, 0.35);
+      }
+      #desk .focus .ch.hot { color: #9be3a2; background: #1f3b2c; border-color: #3f7a52; }
     }
   </style>
 </head>
@@ -1342,8 +1381,8 @@
       markActiveRow();
       paintFocus();
       const focusEl = document.getElementById("focus");
-      if (focusEl) focusEl.hidden = !slim;
-      if (slim) paintChart();
+      if (focusEl) focusEl.hidden = false;
+      paintChart();
       if (window.QCTrack) QCTrack.stampTape(deskRows, document.getElementById("rows"));
     }
 
@@ -1579,13 +1618,21 @@
           price: t.price,
           value: t.value
         }];
-        const hits = drawChart(slice, marks, {
+        // Phones: short chart above the list; the trade card opens on tap instead of covering the line.
+        const roomy = DESK_MQ.matches;
+        const hits = drawChart(slice, marks, roomy ? {
           range: chartRange,
           theme: "cyan",
           onMark: showPop
+        } : {
+          range: chartRange,
+          theme: "cyan",
+          height: 170,
+          pad: { t: 16, l: 34, r: 22 },
+          onMark: showPop
         });
         requestAnimationFrame(() => {
-          if (token !== chartToken) return;
+          if (token !== chartToken || !roomy) return;
           const hit = (hits || []).find((h) => h.date === tradeIso) || (hits && hits[0]);
           if (hit) showPop(hit);
         });
@@ -1603,7 +1650,7 @@
       if (tickerChanged) chartRange = "3m";
       markActiveRow();
       paintFocus();
-      if (DESK_MQ.matches) paintChart();
+      paintChart();
     }
 
     function bindDesk() {
@@ -1612,8 +1659,7 @@
       if (list && !list.dataset.bound) {
         list.dataset.bound = "1";
         list.addEventListener("click", (e) => {
-          if (e.target.closest("a")) return;
-          if (!DESK_MQ.matches) return;
+          if (e.target.closest("a, button")) return;
           const row = e.target.closest("li.qc-txn-tape[data-id]");
           if (row) selectDesk(row.getAttribute("data-id"));
         });
@@ -1633,7 +1679,7 @@
           paint(all, collected, true);
         });
         window.addEventListener("resize", () => {
-          if (!DESK_MQ.matches || !activeTrade()) return;
+          if (!activeTrade()) return;
           clearTimeout(bindDesk._fit);
           bindDesk._fit = setTimeout(paintChart, 100);
         });

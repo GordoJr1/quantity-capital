@@ -159,6 +159,70 @@ class AnalysisErrors(unittest.TestCase):
         self.assertTrue(next(r for r in play if r["code"] == "BBB")["jev_error"])
 
 
+
+class AnalysisRefill(unittest.TestCase):
+    """Dropped play names are replaced by the next-ranked non-avoid names, with a call cap."""
+
+    def _run(self, book, drop):
+        import analysis
+        import jev
+
+        asked = []
+        saved = (jev.key_present, analysis.apply_jev_row, jev.store_decision)
+
+        def fake_apply(row):
+            asked.append(row["code"])
+            choice = "drop" if drop(row["code"]) else "ship"
+            return {"code": row["code"], "packed": {"model": "m", "answers": {"ship": {"choice": choice}}}}
+
+        jev.key_present = lambda: True
+        analysis.apply_jev_row = fake_apply
+        jev.store_decision = lambda *a, **k: None
+        try:
+            with redirect_stdout(io.StringIO()):
+                play, avoid, stats = analysis.gate_with_jev(None, book, skip_jev=False)
+        finally:
+            jev.key_present, analysis.apply_jev_row, jev.store_decision = saved
+        return play, avoid, stats, asked
+
+    @staticmethod
+    def _book(n_play, n_avoid):
+        rows = [{"code": f"P{i:02d}", "action": "watch", "score": 100.0 - i, "flags": []} for i in range(n_play)]
+        rows += [{"code": f"A{i:02d}", "action": "avoid", "score": 50.0 - i, "flags": []} for i in range(n_avoid)]
+        rows.sort(key=lambda r: -r["score"])
+        return rows
+
+    def test_no_drops_no_refill(self):
+        play, avoid, stats, asked = self._run(self._book(30, 10), lambda c: False)
+        self.assertEqual(stats["refill"], 0)
+        self.assertEqual(len(asked), 18)
+        self.assertEqual(len(play), 6)
+        self.assertEqual(len(avoid), 5)
+
+    def test_refill_until_target_kept(self):
+        # The first 8 play names are dropped; refill should review P10.. until 10 play names pass.
+        dropped = {f"P{i:02d}" for i in range(8)}
+        play, avoid, stats, asked = self._run(self._book(30, 10), lambda c: c in dropped)
+        self.assertEqual(stats["refill"], 8)
+        self.assertEqual(stats["refill_codes"], [f"P{i:02d}" for i in range(10, 18)])
+        self.assertTrue(all(c.startswith("P") for c in stats["refill_codes"]))  # never refills with avoid names
+        self.assertEqual([r["code"] for r in play], ["P08", "P09", "P10", "P11", "P12", "P13"])
+        self.assertEqual(len(avoid), 5)
+
+    def test_refill_respects_call_cap(self):
+        import analysis
+
+        play, avoid, stats, asked = self._run(self._book(60, 10), lambda c: c.startswith("P"))
+        self.assertEqual(stats["refill"], analysis.JEV_REFILL_MAX)
+        self.assertEqual(len(asked), 18 + analysis.JEV_REFILL_MAX)
+        self.assertEqual(play, [])
+
+    def test_refill_stops_when_list_runs_out(self):
+        play, avoid, stats, asked = self._run(self._book(13, 10), lambda c: c in {"P00", "P01", "P02", "P03", "P04"})
+        self.assertEqual(stats["refill_codes"], ["P10", "P11", "P12"])
+        self.assertEqual(len(play), 6)
+
+
 def _notes_db() -> sqlite3.Connection:
     con = sqlite3.connect(":memory:")
     con.executescript(

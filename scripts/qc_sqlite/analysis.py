@@ -45,6 +45,11 @@ BOOK_CAP = 6
 AVOID_CAP = 5
 JEV_BOOK_POOL = 10
 JEV_AVOID_POOL = 8
+# Refill: when Jev drops play names, review the next-ranked non-avoid names until
+# JEV_BOOK_TARGET play names have passed review or the list runs out.
+# JEV_REFILL_MAX caps the extra Jev calls per run, so the cost stays bounded.
+JEV_BOOK_TARGET = 10
+JEV_REFILL_MAX = 20
 
 DISCLAIMER = (
     "Not a recommendation. Official ranges are not share counts. Weekly/monthly "
@@ -687,11 +692,77 @@ def apply_jev_row(row: dict) -> dict:
     return {"code": row["code"], "packed": packed}
 
 
+def _apply_answer(row: dict, packed: dict, stats: dict) -> None:
+    """Fold one Jev answer into the row (ship/drop, action flip, conflict, borderline)."""
+    ans = packed.get("answers") or {}
+    ship = (ans.get("ship") or {}).get("choice")
+    action = (ans.get("action") or {}).get("choice")
+    aconf = (ans.get("action") or {}).get("confidence")
+    borderline = (ans.get("borderline") or {}).get("score")
+    conflict_noul = (ans.get("conflict_real") or {}).get("noul")
+    row["jev_ship"] = ship
+    row["jev_action"] = action
+    row["jev_action_confidence"] = aconf
+    row["jev_borderline"] = borderline
+    row["jev_conflict_noul"] = conflict_noul
+    row["jev_model"] = packed.get("model")
+    stats["model"] = packed.get("model")
+    stats["n"] += 1
+    if ship == "drop":
+        row["shipped"] = False
+        stats["dropped"].append(row["code"])
+        return
+    row["shipped"] = True
+    if action in ("buy-dip", "watch", "avoid") and aconf is not None and aconf >= 0.55:
+        if action != row["action"]:
+            stats["action_flips"].append((row["code"], row["action"], action))
+        row["action"] = action
+    if row.get("conflict") and conflict_noul is not None and conflict_noul < 0.45:
+        row["conflict"] = False
+        row["conflictWhy"] = []
+        row["flags"] = [f for f in (row.get("flags") or []) if f != "Conflict"]
+    if borderline is not None and borderline < 0.75 and row["action"] == "buy-dip":
+        # close call: keep buy-dip only if weekly washout is still in flags
+        if "Weekly washout" not in (row.get("flags") or []) and "Deep washout" not in (row.get("flags") or []):
+            row["action"] = "watch"
+
+
+def _review(con: sqlite3.Connection, rows: list[dict], stats: dict) -> int:
+    """Ask Jev about each row in parallel. Returns the number of errored calls."""
+    by_code = {r["code"]: r for r in rows}
+    errors = 0
+    with ThreadPoolExecutor(max_workers=6) as pool_ex:
+        futs = [pool_ex.submit(apply_jev_row, row) for row in rows]
+        for fut in as_completed(futs):
+            try:
+                result = fut.result()
+            except Exception as exc:
+                errors += 1
+                log(f"  analysis Jev error: {type(exc).__name__}")
+                continue
+            packed = result["packed"]
+            row = by_code[result["code"]]
+            jev.store_decision(con, "analysis", row["code"], packed)
+            _apply_answer(row, packed, stats)
+    for row in rows:
+        if "shipped" not in row:
+            # Jev errored on this row: keep the rules verdict rather than silently dropping it.
+            row["shipped"] = True
+            row["jev_error"] = True
+    return errors
+
+
+def _kept_play(rows: list[dict]) -> int:
+    return sum(1 for r in rows if r.get("shipped") and r["action"] != "avoid")
+
+
 def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> tuple[list[dict], list[dict], dict]:
-    play_pool = [r for r in book if r["action"] != "avoid"][:JEV_BOOK_POOL]
+    non_avoid = [r for r in book if r["action"] != "avoid"]
+    play_pool = non_avoid[:JEV_BOOK_POOL]
     avoid_pool = [r for r in book if r["action"] == "avoid"][:JEV_AVOID_POOL]
     pool = play_pool + avoid_pool
-    stats = {"ran": False, "n": 0, "errors": 0, "model": None, "dropped": [], "action_flips": []}
+    stats = {"ran": False, "n": 0, "errors": 0, "model": None, "dropped": [], "action_flips": [],
+             "refill": 0, "refill_codes": []}
     if skip_jev:
         log("analysis Jev skipped (--skip-jev)")
         play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]
@@ -705,51 +776,24 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
         return play, avoid, stats
 
     log(f"Jev analysis gate: {len(pool)} candidates")
-    by_code = {r["code"]: r for r in pool}
-    errors = 0
-    with ThreadPoolExecutor(max_workers=6) as pool_ex:
-        futs = [pool_ex.submit(apply_jev_row, row) for row in pool]
-        for fut in as_completed(futs):
-            try:
-                result = fut.result()
-            except Exception as exc:
-                errors += 1
-                log(f"  analysis Jev error: {type(exc).__name__}")
-                continue
-            packed = result["packed"]
-            row = by_code[result["code"]]
-            jev.store_decision(con, "analysis", row["code"], packed)
-            ans = packed.get("answers") or {}
-            ship = (ans.get("ship") or {}).get("choice")
-            action = (ans.get("action") or {}).get("choice")
-            aconf = (ans.get("action") or {}).get("confidence")
-            borderline = (ans.get("borderline") or {}).get("score")
-            conflict_noul = (ans.get("conflict_real") or {}).get("noul")
-            row["jev_ship"] = ship
-            row["jev_action"] = action
-            row["jev_action_confidence"] = aconf
-            row["jev_borderline"] = borderline
-            row["jev_conflict_noul"] = conflict_noul
-            row["jev_model"] = packed.get("model")
-            stats["model"] = packed.get("model")
-            stats["n"] += 1
-            if ship == "drop":
-                row["shipped"] = False
-                stats["dropped"].append(row["code"])
-                continue
-            row["shipped"] = True
-            if action in ("buy-dip", "watch", "avoid") and aconf is not None and aconf >= 0.55:
-                if action != row["action"]:
-                    stats["action_flips"].append((row["code"], row["action"], action))
-                row["action"] = action
-            if row.get("conflict") and conflict_noul is not None and conflict_noul < 0.45:
-                row["conflict"] = False
-                row["conflictWhy"] = []
-                row["flags"] = [f for f in (row.get("flags") or []) if f != "Conflict"]
-            if borderline is not None and borderline < 0.75 and row["action"] == "buy-dip":
-                # close call: keep buy-dip only if weekly washout is still in flags
-                if "Weekly washout" not in (row.get("flags") or []) and "Deep washout" not in (row.get("flags") or []):
-                    row["action"] = "watch"
+    errors = _review(con, pool, stats)
+
+    # Refill: the next-ranked non-avoid names, a batch at a time, until JEV_BOOK_TARGET
+    # play names have passed review, the list runs out, or JEV_REFILL_MAX extra calls are spent.
+    reviewed = {r["code"] for r in pool}
+    queue = [r for r in non_avoid if r["code"] not in reviewed]
+    while stats["n"] > 0 and queue and stats["refill"] < JEV_REFILL_MAX:
+        need = JEV_BOOK_TARGET - _kept_play(pool)
+        if need <= 0:
+            break
+        batch = queue[:min(need, JEV_REFILL_MAX - stats["refill"])]
+        queue = queue[len(batch):]
+        stats["refill"] += len(batch)
+        stats["refill_codes"].extend(r["code"] for r in batch)
+        errors += _review(con, batch, stats)
+        pool.extend(batch)
+    if stats["refill"]:
+        log(f"analysis Jev refill {stats['refill']} (cap {JEV_REFILL_MAX}) kept play {_kept_play(pool)}/{JEV_BOOK_TARGET}")
 
     stats["ran"] = True
     stats["errors"] = errors
@@ -759,11 +803,6 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
         avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
         return play, avoid, stats
 
-    for row in pool:
-        if "shipped" not in row:
-            # Jev errored on this row: keep the rules verdict rather than silently dropping it.
-            row["shipped"] = True
-            row["jev_error"] = True
     shipped = [r for r in pool if r.get("shipped")]
     play = [r for r in shipped if r["action"] != "avoid"]
     play.sort(key=lambda r: -r["score"])

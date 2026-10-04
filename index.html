@@ -181,6 +181,8 @@
       color: var(--caution);
     }
 
+    /* Buttons (e.g. "Show full list") had the browser's gray button fill under amber text (2.74:1). */
+    button.btn { background: transparent; }
     .btn.fill { background: var(--caution); color: #1a1404; }
     .btn.red { border-color: var(--red); color: var(--white); background: var(--red); }
     .btn:hover { opacity: 0.88; }
@@ -1599,7 +1601,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -1972,13 +1974,21 @@
     #wire .w-amt {
       padding-top: 2px; color: var(--paper); font-size: 15px; font-weight: 600; white-space: nowrap;
       font-variant-numeric: tabular-nums;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 3px;
     }
+    /* Side word (Buy / Sell): same size and weight as the Insiders row trade type. Sits under the amount, inside the row's existing height. */
+    #wire .w-side, #wire .w1-side {
+      font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; line-height: 1.3; color: var(--paper); white-space: nowrap;
+    }
+    #wire .w-side.buy, #wire .w1-side.buy { color: var(--v2-buy-text); }
+    #wire .w-side.sell, #wire .w-side.postex, #wire .w1-side.sell, #wire .w1-side.postex { color: var(--v2-sell-text); }
     @media (max-width: 899px) {
       /* Phone tape: ticker only (company stays on the ticker page). */
       #wire .w-co:not(.w-co-only) { display: none; }
       #wire > li.w-row { grid-template-columns: minmax(0, 1fr); padding: 12px 2px 12px 22px; }
       #wire > li.w-row::before { left: 2px; top: 12px; bottom: 12px; width: 6px; }
-      #wire .w-amt { padding-top: 6px; }
+      #wire .w-amt { padding-top: 6px; flex-direction: row; align-items: baseline; gap: 8px; }
       #wire .w-head { font-size: 16px; }
       .desk .wire-kicker { font-size: 26px; }
     }
@@ -2130,6 +2140,11 @@
         flex: 0 0 auto; color: var(--paper); font-size: 15px; font-weight: 600; white-space: nowrap;
         font-variant-numeric: tabular-nums;
       }
+      #wire .w1-side { flex: 0 0 auto; margin-right: 6px; font-size: 11px; letter-spacing: 0.05em; }
+      /* Rows with no company name (options desk): the chips give way after the name, so the side word and amount stay on screen. */
+      #wire .w1-chips { flex: 0 1 auto; }
+      #wire .w1-co { flex-shrink: 100; }
+      #wire .w1-key { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       #wire .w1-opt { margin: -4px 0 4px; color: var(--v2-sub); font-size: 13px; }
     }
   </style>
@@ -2147,12 +2162,22 @@
         <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
         <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
         <a href="paper.html" title="Copy on the filed date">Paper</a>
+        <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -2334,7 +2359,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -2361,8 +2386,25 @@
       return false;
     }
 
+    /* Some filings paste a whole form block into the asset name:
+       "Greenbrier Hotel Corporation and Affiliates Company: Greenbrier Hotel … (White Sulphur Springs, WV) Description: Hospitality".
+       Show only the name; the raw text stays in the row tooltip. Display only: the data is unchanged. */
+    function cleanAssetName(name) {
+      let s = String(name || "").replace(/\s+/g, " ").trim();
+      if (!s) return s;
+      const lead = s.match(/^(.*?)\s*\bCompany:\s*(.*)$/);
+      if (lead) {
+        const after = lead[2].replace(/\s*\bDescription:.*$/i, "").replace(/\s*\([^)]*\)\s*$/, "").trim();
+        s = lead[1].trim() || after;
+      }
+      s = s.replace(/\s+(?:Description|Location|Subholding Of|Sub-holding of):\s.*$/i, "").trim();
+      const half = s.length % 2 === 1 ? (s.length - 1) / 2 : -1;
+      if (half > 3 && s.slice(0, half) === s.slice(half + 1)) s = s.slice(0, half);
+      return s;
+    }
+
     function displayCompany(name, ticker) {
-      const s = String(name || "").replace(/\s+/g, " ").trim();
+      const s = cleanAssetName(name);
       const tk = String(ticker || "").trim();
       if (!s || s === "—") return tk && tk !== "—" ? tk : "";
       if (garbageCompany(s)) return tk && tk !== "—" ? tk : "";
@@ -2678,7 +2720,14 @@
       return !s || s === "—" ? "—" : s;
     }
 
-    /* Wire row (v2 look): side bar carries buy/sell; the side word stays for screen readers.
+    /* Visible side word next to the amount, so Buy vs Sell does not rely on the bar color alone
+       (same idea as the Insiders rows, which print the trade type on the right). */
+    function wireSideWord(cls, side) {
+      const map = { buy: "Buy", sell: "Sell", postex: "Sell", exch: "Exch", exercise: "Exercise", award: "Award" };
+      return map[cls] || String(side || "").split(/\s+/)[0] || "";
+    }
+
+    /* Wire row (v2 look): side bar carries buy/sell, plus a short side word under the amount; the full side label stays for screen readers.
        Desktop title = ticker · company; phone (<900px) shows the ticker only (CSS hides .w-co); rows with no ticker keep the company. */
     function wireRowHtml(t) {
       const code = shownCode(t);
@@ -2690,11 +2739,12 @@
       const kind = QC.tapeKindLabel(t);
       const co = displayCompany(t.company, sym);
       const coShow = co && co.toUpperCase() !== String(sym || "").toUpperCase() ? co : "";
+      const rawCo = String(t.company || "").replace(/\s+/g, " ").trim();
       const tkHtml = (sym ? "<span class=\"w-tk\">" + escapeHtml(sym) + "</span>" : "") +
         (kind ? "<span class=\"w-kind\">" + escapeHtml(kind) + "</span>" : "");
       const coHtml = coShow
         ? (sym || kind ? "<span class=\"w-co\"><span class=\"w-dot\" aria-hidden=\"true\"> \u00b7 </span>" : "<span class=\"w-co w-co-only\">") +
-          "<span class=\"w-co-name\">" + escapeHtml(coShow) + "</span></span>"
+          "<span class=\"w-co-name\"" + (rawCo && rawCo !== coShow ? " title=\"" + escapeHtml(rawCo) + "\"" : "") + ">" + escapeHtml(coShow) + "</span></span>"
         : "";
       const titleInner = (sym || kind || coHtml) ? tkHtml + coHtml : "<span class=\"w-tk\">\u2014</span>";
       const title = tkHref
@@ -2712,15 +2762,16 @@
       let optLine = "";
       if (optMode && isOptionLike(t)) {
         const o = optionMeta(t);
-        const bits = [];
-        if (o.strike) bits.push("Strike $" + o.strike);
-        if (o.exp) bits.push("Exp " + o.exp);
-        if (bits.length) optLine = "<div class=\"w-opt\">" + escapeHtml(bits.join(" \u00b7 ")) + "</div>";
+        // Always show both fields on the options desk; "—" when the filing gives none we can read.
+        const bits = ["Strike " + (o.strike ? "$" + o.strike : "\u2014"), "Exp " + (o.exp || "\u2014")];
+        const tipOpt = (!o.strike || !o.exp) ? " title=\"Not stated or unreadable in the filing\"" : "";
+        optLine = "<div class=\"w-opt\"" + tipOpt + ">" + escapeHtml(bits.join(" \u00b7 ")) + "</div>";
       }
       const shown = QC.formatAmountRange(t.amount) || (Number(t.value) ? formatMoney(Number(t.value)) : "\u2014");
       const rawAmt = String(t.amount || "").trim();
       const tip = rawAmt && rawAmt !== shown ? " title=\"" + escapeHtml(rawAmt) + "\"" : "";
       const on = t.id === activeId;
+      const sideWord = wireSideWord(cls, side);
       return "<li class=\"w-row" + (cls ? " " + cls : "") + (on ? " on" : "") + "\"" +
         (t.id ? " data-id=\"" + escapeHtml(t.id) + "\"" : "") +
         " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
@@ -2731,7 +2782,9 @@
           optLine +
           QC.filingNotesChipsHtml(QC.filingNotesFor(t.id)) +
         "</div>" +
-        "<div class=\"w-amt\"" + tip + ">" + escapeHtml(shown) + "</div>" +
+        "<div class=\"w-amt\"" + tip + "><span class=\"w-amt-v\">" + escapeHtml(shown) + "</span>" +
+          (sideWord ? "<span class=\"w-side " + escapeHtml(cls || "other") + "\" aria-hidden=\"true\">" + escapeHtml(sideWord) + "</span>" : "") +
+        "</div>" +
       "</li>";
     }
 
@@ -2748,9 +2801,9 @@
     const W1_CO_MAX = 14;
     const W1_DROP = /^(inc|incorporated|corp|corporation|co|company|companies|cos|ltd|limited|holdings?|group|plc|llc|l\.?p|n\.?v|s\.?a|ag|se|the)$/i;
     function w1ShortCo(name) {
-      let s = String(name || "").replace(/\s+/g, " ").trim();
+      const full = String(name || "").replace(/\s+/g, " ").trim();
+      let s = cleanAssetName(full);
       if (!s || s === "\u2014") return { full: "", abbr: "" };
-      const full = s;
       /* the company field sometimes carries the holder first ("Hern Family Revocable Trust ONEOK, Inc.") or a filer note ("… D: …") */
       s = s.replace(/\s+D:.*$/, "");
       const holder = s.match(/^.*?\b(?:Trust|Foundation)\s+(.+)$/);
@@ -2826,12 +2879,13 @@
       let optLine = "";
       if (document.body.classList.contains("tape-opt") && isOptionLike(t)) {
         const o = optionMeta(t);
-        const bits = [];
-        if (o.strike) bits.push("Strike $" + o.strike);
-        if (o.exp) bits.push("Exp " + o.exp);
-        if (bits.length) optLine = "<div class=\"w1-opt\">" + escapeHtml(bits.join(" \u00b7 ")) + "</div>";
+        // Always show both fields on the options desk; "—" when the filing gives none we can read.
+        const bits = ["Strike " + (o.strike ? "$" + o.strike : "\u2014"), "Exp " + (o.exp || "\u2014")];
+        const tipOpt = (!o.strike || !o.exp) ? " title=\"Not stated or unreadable in the filing\"" : "";
+        optLine = "<div class=\"w1-opt\"" + tipOpt + ">" + escapeHtml(bits.join(" \u00b7 ")) + "</div>";
       }
       const on = t.id === activeId;
+      const sideWord = wireSideWord(cls, side);
       return "<li class=\"w1" + (cls ? " " + cls : "") + (on ? " on" : "") + "\"" +
         (t.id ? " data-id=\"" + escapeHtml(t.id) + "\"" : "") +
         " tabindex=\"0\" role=\"button\" aria-pressed=\"" + (on ? "true" : "false") + "\">" +
@@ -2839,6 +2893,7 @@
         "<div class=\"w1-line\">" + tk + coHtml +
           "<span class=\"w1-chips\">" + key + more + all + "</span>" +
           "<span class=\"w1-gap\"></span>" +
+          (sideWord ? "<span class=\"w1-side " + escapeHtml(cls || "other") + "\" aria-hidden=\"true\">" + escapeHtml(sideWord) + "</span>" : "") +
           "<span class=\"w1-amt\"" + tip + ">" + escapeHtml(shown) + "</span>" +
         "</div>" + optLine + "</li>";
     }

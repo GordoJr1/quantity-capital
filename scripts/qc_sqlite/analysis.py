@@ -188,14 +188,85 @@ def code_of(t: dict) -> str:
     return c
 
 
+_issuer_name = None
+
+
+def _shared_issuer_name():
+    """build-backtest.py's issuer_name (the Python twin of qc.js's company cleaner), loaded once."""
+    global _issuer_name
+    if _issuer_name is None:
+        try:
+            import importlib.util
+
+            root = HERE.parents[1]
+            if str(root) not in sys.path:
+                sys.path.insert(0, str(root))
+            spec = importlib.util.spec_from_file_location("qc_build_backtest", root / "build-backtest.py")
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)  # type: ignore[union-attr]
+            _issuer_name = (mod.issuer_name, re.compile(rf"^(?:{mod.BROKERS})\b", re.I))
+        except Exception as exc:  # keep the book building with the local rules only
+            log(f"analysis: shared issuer_name unavailable ({type(exc).__name__}); local name rules only")
+            _issuer_name = False
+    return _issuer_name or None
+
+
+# Words that continue a company name after a broker word (FIS, FNF, GSBD, ...).
+BROKER_COMPANY_TAIL = re.compile(r"(?:national|financial|bdc|capital corp|private credit)\b", re.I)
+# ... unless an account label follows the broker word ("Fidelity Rollover IRA ...").
+ACCOUNT_AFTER_BROKER = re.compile(
+    r"(?:-|:|advisors?\b|rollover\b|ira\b|roth\b|brokerage\b|account\b|select uma\b|uma\b|joint\b)", re.I
+)
+# ... and fund names ("Vanguard S&P 500 ETF", "Schwab U.S. Dividend Equity ETF").
+FUND_WORDS = re.compile(r"\b(?:etf|fund|fd|portfolio|(?:mid|small|large)[- ]cap)\b", re.I)
+# Holder prefix ending in a separator: "Smith Family Trust - Apple Inc", "Doe Foundation: Apple Inc".
+HOLDER_PREFIX = re.compile(r"^[^>]{0,80}?\b(?:trust|foundation)\b(?:\s+(?:u/a|dtd|fbo)\b[^:-]*)?\s*[-:]\s+(?=\S)", re.I)
+
+
 def clean_name(name: str, code: str) -> str:
     s = re.sub(r"\s+", " ", name or "").strip()
     s = (s.split(">")[-1] or s).strip()
+    # Filing junk: leading dashes/bullets, "D:" notes, holder prefixes.
+    s = re.sub(r"^[\s\-\u2013\u2014\u2022*]+", "", s)
+    s = re.sub(r"^L:\s*[A-Z]{2}\b\s*", "", s)  # location tag: "L: US D: ..."
+    if re.match(r"^D:\s", s):
+        # Leading free-text note; the real name trails it. A trade narrative
+        # ("Buy 247 shares ... cusip ...") can't be split reliably: use the code.
+        if re.search(r"[;$]|\bcusip\b|\bshares of\b|\bcapital call\b", s, re.I):
+            return code
+        s = re.sub(r"^D:\s+(?:mutual fund\s+)?", "", s, flags=re.I)
+    s = re.sub(r"\s+[DC]:\s.*$", "", s)
+    s = re.sub(r"^\d{4}\s+(?:family\s+)?trust\s+(?=\S)", "", s, flags=re.I)  # "1989 Trust Vanguard ..."
+    shared = _shared_issuer_name()
+    if shared:
+        issuer_name, broker_re = shared
+        m = broker_re.match(s)
+        rest = s[m.end():].lstrip() if m else ""
+        # A broker word followed straight by a name is part of the company
+        # ("Fidelity National Information Services"), not an account prefix.
+        keep = ""
+        if m and not ACCOUNT_AFTER_BROKER.match(rest) and (BROKER_COMPANY_TAIL.match(rest) or FUND_WORDS.search(rest)):
+            keep = m.group(0)
+        out = issuer_name(code, s)
+        if keep and not out.lower().startswith(keep.lower()) and out != (code or "").upper():
+            out = keep + " " + out
+        if out == (code or "").upper():
+            return out or code
+        s = out
     s = re.sub(r"^(?:joint ownership\s+)?(?:lpl account)\s+", "", s, flags=re.I)
     s = re.sub(r"^morgan stanley ira(?:\s*-\s*\S+)?\s+", "", s, flags=re.I)
-    s = re.sub(r"^(?:bank of america|morgan stanley|ubs)\s+", "", s, flags=re.I)
+    unbanked = re.sub(r"^(?:bank of america|morgan stanley|ubs)\s+", "", s, flags=re.I)
+    if not re.match(r"^(?:corp(?:oration)?|inc|co|company|group|plc|ag)\b\.?$", unbanked, re.I):
+        s = unbanked  # but keep the bank's own name ("Bank of America Corporation")
+    s = re.sub(r"^(?:select uma account|uma account|account)\s*#\s*\d+\s+", "", s, flags=re.I)
     s = re.sub(r"^[A-Z]{1,4}\d{2,5}\s+", "", s)
-    s = re.sub(r"\s*-\s*$", "", s)
+    s = re.sub(r"^(?:advisors?|corporate bond|municipal bond|treasury bond)\s+", "", s, flags=re.I)
+    held = HOLDER_PREFIX.sub("", s)
+    if held != s and len(held) >= 3:
+        s = held
+    s = re.sub(r"^[\s\-\u2013\u2014]+|\s*-\s*$", "", s)
+    if not re.search(r"[A-Za-z]{2}", s) or re.fullmatch(r"[DCL]:", s):
+        return code  # nothing name-like left ("1", "D:")
     return s or code
 
 

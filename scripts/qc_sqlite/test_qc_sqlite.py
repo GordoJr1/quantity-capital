@@ -160,6 +160,45 @@ class AnalysisErrors(unittest.TestCase):
 
 
 
+class AnalysisNames(unittest.TestCase):
+    """clean_name strips filing prefixes but keeps real company names."""
+
+    CASES = [
+        ("ATRC", "Morgan Stanley - Select UMA Account # 1 AtriCure, Inc. -", "AtriCure, Inc."),
+        ("ATRC", "- Select UMA Account # 1 AtriCure, Inc.", "AtriCure, Inc."),
+        ("ATRC", "150 Main Street Trust > Bank of America AtriCure, Inc. - Common Stock", "AtriCure, Inc."),
+        ("UAL", "Daniel Goldman Grandchildren 1986 Trust > TACS R3K United Airlines Holdings, Inc.", "United Airlines Holdings, Inc."),
+        ("HQY", "Daniel Goldman 12/9/2011 Trust > Aperio Group LLC HealthEquity, Inc.", "HealthEquity, Inc."),
+        ("KMX", "150 Main Street Trust > Wells Fargo Advisors CarMax Inc", "CarMax Inc"),
+        ("TYL", "Fidelity Rollover IRA Tyler Technologies, Inc.", "Tyler Technologies, Inc."),
+        ("NYT", "Charles Schwab Brokerage Account 924 New York Times Company", "New York Times Company"),
+        ("AEP", "D: Corporate bond American Electric Power Company, Inc.", "American Electric Power Company, Inc."),
+        ("AAPL", "Apple Inc. D: sold entire holding", "Apple Inc."),
+        ("AAPL", "Smith Family Trust - Apple Inc.", "Apple Inc."),
+        ("VOO", "1989 Trust Vanguard S&P 500 ETF", "Vanguard S&P 500 ETF"),
+        ("MRNA", "Daniel Goldman Grandchildren 1986 Trust > TLH", "MRNA"),
+        # real names must survive
+        ("FIS", "Fidelity National Information Services, Inc.", "Fidelity National Information Services, Inc."),
+        ("BAC", "Bank of America Corporation", "Bank of America Corporation"),
+        ("NTRS", "Northern Trust Corporation", "Northern Trust Corporation"),
+        ("HD", "Home Depot, Inc. (The)", "Home Depot, Inc. (The)"),
+        ("MDY", "S&P Midcap 400 SPDR", "S&P Midcap 400 SPDR"),
+        ("MS", "Morgan Stanley", "Morgan Stanley"),
+        ("VNO", "L: US D:", "VNO"),
+        ("FQAL", "L: US D: mutual fund Fidelity Quality Factor ETF", "Fidelity Quality Factor ETF"),
+        ("IGSB", "D: 11/3/23 Buy 247 shares of EOG Resources, Inc, cusip 26875P101, ticker EOG. iShares 1-5 Year ETF", "IGSB"),
+        ("SCHD", "Schwab U.S. Dividend Equity ETF", "Schwab U.S. Dividend Equity ETF"),
+        ("VTI", "Fidelity Rollover IRA Vanguard Total Stock Market ETF", "Vanguard Total Stock Market ETF"),
+    ]
+
+    def test_cases(self):
+        import analysis
+
+        for code, raw, want in self.CASES:
+            with self.subTest(code=code, raw=raw):
+                self.assertEqual(analysis.clean_name(raw, code), want)
+
+
 class AnalysisRefill(unittest.TestCase):
     """Dropped play names are replaced by the next-ranked non-avoid names, with a call cap."""
 

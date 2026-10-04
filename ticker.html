@@ -580,7 +580,7 @@
       body { padding-bottom: calc(44px + env(safe-area-inset-bottom, 0px) + 8px); }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <style>
     .qc-txn .opt-tag.opt-call, .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
     .qc-txn .opt-tag.opt-put, .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
@@ -601,12 +601,22 @@
         <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
         <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
         <a href="paper.html" title="Copy on the filed date">Paper</a>
+        <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -647,7 +657,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const params = new URLSearchParams(location.search);
@@ -1024,6 +1034,7 @@
     <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
     <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
     <a href="paper.html" title="Copy on the filed date">Paper</a>
+    <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
   </nav>
 </body>
 </html>

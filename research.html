@@ -135,7 +135,7 @@
       .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <style>
     #main.wrap { width: min(960px, calc(100% - 48px)); max-width: 960px; }
     @media (max-width: 1100px) {
@@ -254,6 +254,15 @@
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found" class="on" aria-current="page">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -717,10 +726,14 @@
       .catch(fail);
   })();
   </script>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
+  <nav class="tabbar" aria-label="Contracts and research">
+    <a href="contracts.html" title="Federal contract awards">Contracts</a>
+    <a href="research.html" class="on" aria-current="page" title="What our studies found">Research</a>
+  </nav>
 </body>
 </html>

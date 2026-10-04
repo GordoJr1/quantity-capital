@@ -321,7 +321,9 @@
         const pct = slot.coverage != null ? Math.round(slot.coverage * 1000) / 10 + "%" : "—";
         return (slot.name || key) + " " + pct;
       });
-      subEl.textContent = "Draft · " + (data.titles || 0).toLocaleString() + " titles · " + cov + " linked · index " + ms + " ms";
+      // Load time is a debug figure: keep it out of the page text (hover the line to see it).
+      subEl.textContent = "Draft · " + (data.titles || 0).toLocaleString() + " titles · " + cov + " linked";
+      subEl.title = "Index loaded in " + ms + " ms";
       setStatus((bits.join(" · ") || "Claims") + ". Not legal title.");
       renderLegend();
     })

@@ -406,11 +406,9 @@
       #chart-svg { min-height: 0; height: 200px; max-height: 200px; flex: none; }
       .mines-inset { display: none !important; }
       .pipe-row.split { display: block; }
-      .qc-nav a[href="claims.html"],
-      .tabbar a[href="claims.html"] { display: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <link rel="stylesheet" href="insider-track.css?v=6" />
 </head>
 <body class="qc-v2">
@@ -428,6 +426,15 @@
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles" class="on" aria-current="page">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -553,7 +560,7 @@
       <p class="legal">Not investment advice. © Quantity Capital</p>
     </div>
   </footer>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>

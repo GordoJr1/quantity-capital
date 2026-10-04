@@ -80,6 +80,9 @@
       padding: 0 4px;
     }
     a.rowlink { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+    /* Dates stay on one line; the agency tag wraps instead of being cut. */
+    .table-wrap td:first-child { white-space: nowrap; }
+    td.agency .qc-txn-tag.qc-mini-tag { white-space: normal; max-width: 100%; box-sizing: border-box; overflow-wrap: anywhere; }
     .sub {
       display: block;
       color: var(--mute);
@@ -121,9 +124,8 @@
       table.awards td.agency, table.awards th:nth-child(2) { width: 32%; }
       table.upcoming td.num, table.upcoming th.num { width: 34%; white-space: normal; }
       table.upcoming td.agency {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: normal;
+        overflow-wrap: anywhere;
       }
       .awards td:first-child, .awards th:first-child { width: 4.7rem; white-space: nowrap; font-size: 0.68rem; }
       .sub { white-space: normal; }
@@ -131,11 +133,11 @@
     @media (max-width: 420px) {
       .cap-pct { display: none; }
       .awards .agency-name-long { display: none; }
-      .awards td.agency { overflow: hidden; font-size: 0.68rem; line-height: 1.15; }
+      .awards td.agency { font-size: 0.68rem; line-height: 1.15; overflow-wrap: anywhere; }
       .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
 </head>
 <body class="qc-v2">
   <a class="qc-skip" href="#main">Skip to content</a>
@@ -150,6 +152,15 @@
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -208,7 +219,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script>
     function money(n) {
       if (n == null || !isFinite(Number(n))) return "—";
@@ -386,8 +397,9 @@
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>
-  <nav class="tabbar" aria-label="Federal contracts">
+  <nav class="tabbar" aria-label="Contracts and research">
     <a href="contracts.html" class="on" aria-current="page" title="Federal contract awards">Contracts</a>
+    <a href="research.html" title="What our studies found">Research</a>
   </nav>
 </body>
 </html>

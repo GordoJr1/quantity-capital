@@ -102,7 +102,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <link rel="stylesheet" href="insider-track.css?v=6" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -593,6 +593,14 @@
       font-weight: 600;
     }
     .qc-issuer-meta { color: var(--mute); font-size: 0.82rem; flex: 0 0 auto; }
+    /* Phones: let a long company name use up to two lines instead of being cut after a few words. */
+    @media (max-width: 820px) {
+      .qc-issuer-name {
+        white-space: normal; text-overflow: clip; overflow-wrap: anywhere; line-height: 1.25;
+        display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2;
+      }
+      .qc-issuer-main { align-items: flex-start; }
+    }
     .desk.issuers-only { display: block; }
     .desk.issuers-only .focus { display: none; }
   </style>
@@ -776,6 +784,14 @@
         font-size: 15px; line-height: 1.4; color: var(--v2-sub);
       }
       #desk li.qc-txn-tape .qc-txn-date::before { content: "\00a0\00b7\00a0traded\00a0"; }
+      /* No clipped names or dates when the list column is narrow (about 820-1100px): wrap instead. */
+      #desk li.qc-txn-tape a.qc-txn-company { flex-wrap: wrap; row-gap: 2px; }
+      #desk li.qc-txn-tape a.qc-txn-company .qc-txn-co-name { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+      #desk li.qc-txn-tape .qc-txn-id-line { flex-wrap: wrap; row-gap: 2px; overflow: visible; }
+      #desk li.qc-txn-tape .qc-txn-id-line a.qc-txn-name,
+      #desk li.qc-txn-tape .qc-txn-id-line .qc-txn-name { white-space: normal; overflow: visible; text-overflow: clip; }
+      #desk .qc-txn-list > li.qc-txn-tape { grid-template-columns: minmax(0, max-content) 1fr auto; }
+      #desk li.qc-txn-tape .qc-txn-date { overflow: visible; text-overflow: clip; min-width: max-content; }
       #desk li.qc-txn-tape .qc-txn-chip {
         grid-area: chip; justify-self: end; padding: 0; margin: 0 0 0 16px; background: transparent; border: 0;
         font-family: "IBM Plex Sans", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
@@ -934,6 +950,15 @@
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -987,7 +1012,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>

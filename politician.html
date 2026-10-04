@@ -636,7 +636,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=176" />
+  <link rel="stylesheet" href="shell.css?v=177" />
   <style>
     .qc-txn .opt-tag.opt-call, .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
     .qc-txn .opt-tag.opt-put, .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
@@ -657,12 +657,22 @@
         <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
         <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
         <a href="paper.html" title="Copy on the filed date">Paper</a>
+        <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
       </nav>
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
+        <details class="qc-more">
+          <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
+          <div class="qc-more-menu">
+            <a href="beta.html" title="Issuer mine profiles">Mines</a>
+            <a href="claims.html" title="Mining claims map">Claims</a>
+            <a href="canada.html" title="Canadian mining totals">Canada</a>
+            <a href="research.html" title="What our studies found">Research</a>
+          </div>
+        </details>
       </div>
     </div>
   </header>
@@ -724,7 +734,7 @@
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=133"></script>
+  <script src="qc.js?v=134"></script>
   <script src="chart.js?v=122"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
@@ -921,6 +931,9 @@
     let bookRange = "3y";
     let selectedKey = "";
     let selectedTradeId = "";
+    // Chart-only default when nothing is picked: the largest charted holding (else the newest
+    // charted trade). It never filters the tape and never shows the selection chip.
+    let autoChartKey = "";
     let showAllTiles = false;
     let showAllTape = false;
     let tileSort = "size";
@@ -1010,7 +1023,7 @@
     }
 
     function visibleKey() {
-      return selectedKey;
+      return selectedKey || autoChartKey;
     }
 
     function visibleTradeId() {
@@ -1394,14 +1407,49 @@
       return priceCache[code];
     }
 
+    function defaultChartKeys(book) {
+      const keys = [];
+      const add = (k) => {
+        if (k && k.indexOf("T:") === 0 && isChartTicker(k.slice(2)) && keys.indexOf(k) < 0) keys.push(k);
+      };
+      (book.positions || []).forEach((p) => add(p && p.key));
+      tapeRows.slice()
+        .sort((a, b) => String(b.trade_date || "").localeCompare(String(a.trade_date || "")))
+        .forEach((t) => { if (!isOptionLike(t)) add(holdingIdentity(t, tickerLookup).key); });
+      return keys.slice(0, 8);
+    }
+
     function paintChart() {
-      const key = visibleKey();
       const token = ++chartToken;
       hidePop();
-      if (!key) {
-        clearChart("Click a holding or a tape row to chart that name.");
+      if (!selectedKey) {
+        const cands = defaultChartKeys(currentBook());
+        const empty = "Click a holding or a tape row to chart that name.";
+        if (!cands.length) {
+          autoChartKey = "";
+          clearChart(empty);
+          return;
+        }
+        (async () => {
+          for (const k of cands) {
+            const pts = await loadPrices(k.slice(2));
+            if (token !== chartToken) return;
+            if (pts && pts.length >= 2) {
+              autoChartKey = k;
+              paintChartKey(k, token);
+              return;
+            }
+          }
+          autoChartKey = "";
+          clearChart(empty);
+        })();
         return;
       }
+      autoChartKey = "";
+      paintChartKey(selectedKey, token);
+    }
+
+    function paintChartKey(key, token) {
       const pos = positionByKey(key, currentBook());
       const t = tradeById(visibleTradeId()) || pickTradeForKey(key);
       const code = key.indexOf("T:") === 0 ? key.slice(2) : "";
@@ -1784,6 +1832,7 @@
     <a href="tells.html" title="Buys that preceded spikes">Patterns</a>
     <a href="signals.html" title="Recency-weighted buy heat">Heat</a>
     <a href="paper.html" title="Copy on the filed date">Paper</a>
+    <a href="overlap.html" title="Congress and a company insider, same week">Overlap</a>
   </nav>
 </body>
 </html>

@@ -79,7 +79,7 @@
         const d = new Date(iso + "T00:00:00");
         if (!isNaN(d.getTime()) && d.getMonth() === mo - 1 && d.getDate() === day) return prettyOptionDate(iso);
       }
-      return s;
+      return "";
     }
     m = s.match(/^(\d{1,2})[./-](\d{4})$/);
     if (m) {
@@ -96,7 +96,41 @@
       const d = new Date(m[1] + " 1, " + y);
       if (!isNaN(d.getTime())) return d.toLocaleString("en-US", { month: "short", year: "2-digit" });
     }
-    return s;
+    // Anything else is OCR noise from a scanned filing ("Q7/atfe026", "M60"): show nothing, not junk.
+    return "";
+  }
+
+  // Last plausible day of a raw expiry ("03/14/2026", "2026-03-14", "03/2026", "Mar 26"), or null.
+  function optionExpLastDay(raw) {
+    const s = String(raw || "").trim();
+    let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$/);
+    if (m) {
+      let y = m[3];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      return new Date(Number(y), Number(m[1]) - 1, Number(m[2]));
+    }
+    m = s.match(/^(\d{1,2})[./-](\d{4})$/);
+    if (m) return new Date(Number(m[2]), Number(m[1]), 0);
+    m = s.match(/^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2,4})$/i);
+    if (m) {
+      let y = m[2];
+      if (y.length === 2) y = (Number(y) >= 70 ? "19" : "20") + y;
+      const first = new Date(m[1] + " 1, " + y);
+      return isNaN(first.getTime()) ? null : new Date(first.getFullYear(), first.getMonth() + 1, 0);
+    }
+    return null;
+  }
+
+  // An option cannot expire before it trades, and listed/FLEX options run at most a few years.
+  function plausibleOptionExp(raw, tradeDate) {
+    const last = optionExpLastDay(raw);
+    if (!last || isNaN(last.getTime())) return true;
+    const td = new Date(String(tradeDate || "") + "T00:00:00");
+    if (isNaN(td.getTime())) return true;
+    const days = (last.getTime() - td.getTime()) / 86400000;
+    return days >= -3 && days <= 366 * 12;
   }
 
   function optionKind(a) {
@@ -110,14 +144,18 @@
   function optionMeta(t) {
     const a = String(t.asset || "");
     const kind = optionKind(a);
+    // "10 shares @ 233.09 net 2,249" is a share fill price, not a strike.
+    const sharePriceAt = /\b\d[\d,]*\s+(?:shares?\s+)?@\s*\$?\s*[\d,.]+\s+(?:sale\s+)?net\b/i.test(a);
     const strikeHit = a.match(/strike\s*price(?:\s+of)?\s*[:;,]?\s*\$?\s*([\d,.]+)/i)
-      || a.match(/@\s*\$?\s*([\d,.]+)/)
+      || (sharePriceAt ? null : a.match(/@\s*\$?\s*([\d,.]+)/))
       || a.match(/FLEX\s+EURO(?:\s+P[IM]+)?[^\d]{0,12}(\d{1,4}(?:\.\d+)?)\s+EXP/i)
       || a.match(/\b[A-Z]{1,5}\s+(\d{2,4}(?:\.\d+)?)\s+(?:calls?|puts?)\b/);
     const expHit = a.match(/expires?\s*[:;,]?\s*([\d./-]+)/i)
       || a.match(/exp(?:iration)?(?:\s+date)?\s+(?:of\s+)?([\d./-]+)/i)
       || a.match(/\bEXP\b[^\d]{0,10}(\d{1,2}[./-]\d{1,2}[./-]\d{2,4}|\d{4}-\d{1,2}-\d{1,2}|\d{1,2}[./-]\d{4})/i)
-      || a.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2})\s+[A-Z]{1,5}\s+[\d.]+\s+(?:call|put)/i);
+      || a.match(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+(\d{2})\s+[A-Z]{1,5}\s+[\d.]+\s+(?:call|put)/i)
+      // FLEX lines where OCR lost the EXP word ("FLEX EURO PM @ 187.5 ae 06/05/2026").
+      || a.match(/FLEX\s+EURO\b.{0,40}?\b(\d{1,2}\/\d{1,2}\/\d{4})\b/i);
     let expRaw = "";
     if (expHit) {
       expRaw = (expHit[2] && /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/i.test(expHit[1]))
@@ -136,7 +174,7 @@
     return {
       kind: kind,
       strike: formatOptionStrike(strikeHit && strikeHit[1]),
-      exp: formatOptionExp(expRaw),
+      exp: plausibleOptionExp(expRaw, t.trade_date) ? formatOptionExp(expRaw) : "",
       under: under
     };
   }
@@ -1554,9 +1592,11 @@
       let exp = "";
       if (isOptionLike(t)) {
         const o = optionMeta(t);
+        strike = "\u2014";
+        exp = "\u2014";
         if (o.kind === "Call" || o.kind === "Put") {
-          if (o.strike) strike = "$" + o.strike;
-          exp = o.exp || "";
+          strike = o.strike ? "$" + o.strike : "\u2014";
+          exp = o.exp || "\u2014";
           const detail = optionDetailText(o);
           if (detail) optLineHtml = "<div class=\"qc-txn-optline\">" + esc(detail) + "</div>";
         }
@@ -2032,7 +2072,8 @@
     "overlap.html": 1,
     "claims.html": 1,
     "beta.html": 1,
-    "canada.html": 1
+    "canada.html": 1,
+    "contracts.html": 1
   };
   if (LIST_FILES[pageFile(location.pathname)] && "scrollRestoration" in history) {
     history.scrollRestoration = "manual";
@@ -2373,6 +2414,24 @@
     }
   }
 
+  // Phone header "More" menu (static <details class="qc-more"> in each page header):
+  // close it on an outside tap or Escape. It still works without this script.
+  function bootMoreMenu() {
+    document.addEventListener("click", function (e) {
+      document.querySelectorAll("details.qc-more[open]").forEach(function (d) {
+        if (!d.contains(e.target)) d.removeAttribute("open");
+      });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      document.querySelectorAll("details.qc-more[open]").forEach(function (d) {
+        d.removeAttribute("open");
+        const s = d.querySelector("summary");
+        if (s) s.focus();
+      });
+    });
+  }
+
   function bootNav() {
     const file = pageFile(location.pathname);
     if (LIST_FILES[file]) {
@@ -2388,6 +2447,7 @@
     }
   }
 
+  bootMoreMenu();
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", bootNav);
   else bootNav();
 

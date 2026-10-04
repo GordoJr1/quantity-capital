@@ -1966,3 +1966,213 @@ a.qc-follow-tag:hover { background: rgba(227, 180, 26, 0.12); }
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   Sitewide v2 look (2026-10-03). The Tape page (index.html #qc-v2-look) colors,
+   cards, chips and buttons for every other page. Opt-in per page:
+     body.qc-v2        full look (all widths)
+     body.qc-v2-phone  Insiders only: colors, fonts and buttons below 900px;
+                       its desktop look lives in insiders.html #qc-insiders-v2.
+   index.html carries neither class, so the Tape page is untouched.
+   Style only: no layout of rows, tables, charts or maps changes here.
+   ========================================================================== */
+:root {
+  --v2-card: #222a36; --v2-chart: #18202b; --v2-line: #344050; --v2-border: #3a4452; --v2-sub: #b7c1cc;
+  --v2-sell-text: #ffb4ae; --v2-buy-text: #7dcf7a; --v2-sell-bar: #e0625c; --v2-buy-bar: #3fb35c;
+  --v2-chip-fg: #9be3a2; --v2-chip-bg: #1f3b2c; --v2-chip-bd: #3f7a52;
+  --v2-teal-fg: #8fdde0; --v2-teal-bd: #2d6f73;
+  --v2-gold-fg: #f0d078; --v2-gold-bd: #9a8a4a; --v2-gold-bg: rgba(154, 138, 74, 0.14);
+}
+
+/* ---------- headings, kicker, muted text ---------- */
+body.qc-v2 .page-head h1,
+body.qc-v2 #main > h1, body.qc-v2 main > h1, body.qc-v2 .wrap > h1 {
+  font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.06em; color: var(--white, #eef2f5);
+}
+body.qc-v2 .page-head:not(.ident) h1 { font-size: 30px; line-height: 1.1; }
+body.qc-v2 .page-head .asof, body.qc-v2 .asof { color: var(--v2-sub); }
+body.qc-v2 .kicker { color: var(--v2-buy-text); }
+body.qc-v2 .lede { color: var(--paper, #d8dde3); }
+body.qc-v2 .muted, body.qc-v2 .drop-meta, body.qc-v2 .count { color: var(--v2-sub); }
+
+/* ---------- cards and panels: rounded slate like the Tape leaderboard cards ---------- */
+body.qc-v2 .panel, body.qc-v2 article.study,
+body.qc-v2 .explain, body.qc-v2 .holdings, body.qc-v2 .allocator, body.qc-v2 .bio-wrap,
+body.qc-v2 details.how, body.qc-v2 .paper-filters,
+body.qc-v2 .stage, body.qc-v2 .exited, body.qc-v2 .issuer-chart, body.qc-v2 .mines-inset {
+  background: var(--v2-card); border-color: var(--v2-border); border-radius: 14px;
+}
+/* accent cards: the colored left stripe carries meaning (buy, avoid, watch, conflict...), so only
+   the other three sides and the fill change */
+body.qc-v2 .card, body.qc-v2 .play, body.qc-v2 .lead, body.qc-v2 .avoid-row {
+  background: var(--v2-card); border-top-color: var(--v2-border); border-right-color: var(--v2-border);
+  border-bottom-color: var(--v2-border); border-radius: 14px;
+}
+/* pages whose plain cards used the yellow brand stripe: the Tape's green instead */
+body.qc-v2-cards .card:not(.now):not(.conflict):not(.follow-card) { border-left-color: var(--v2-buy-bar); }
+body.qc-v2 .bio article { background: var(--v2-chart); border-top-color: var(--v2-line); border-right-color: var(--v2-line); border-bottom-color: var(--v2-line); border-radius: 12px; }
+body.qc-v2 .holdings .focus { background: var(--v2-chart); border-color: var(--v2-line); border-radius: 12px; }
+body.qc-v2 .explain h3, body.qc-v2 .bio h3, body.qc-v2 .bio .subhead { color: var(--white, #eef2f5); }
+body.qc-v2 .rank { color: var(--v2-sub); }
+body.qc-v2 .card:first-child .rank, body.qc-v2 table.rep tbody tr:first-child .rank { color: var(--v2-buy-text); }
+body.qc-v2 .rate { color: var(--white, #eef2f5); }
+body.qc-v2 .ago, body.qc-v2 .opp, body.qc-v2 .did-mean, body.qc-v2 a.claim, body.qc-v2 #claims-line a,
+body.qc-v2 .sources a, body.qc-v2 .mine-pop a, body.qc-v2 .mines-inset-head a { color: var(--v2-teal-fg); }
+body.qc-v2 .alloc-sort-label, body.qc-v2 .bio .subhead { color: var(--v2-sub); }
+body.qc-v2 .who-list a:hover, body.qc-v2 .card h3 a:hover, body.qc-v2 .tk:hover, body.qc-v2 .tk-link:hover,
+body.qc-v2 .issuer-chart-head a:hover, body.qc-v2 .who:hover { color: var(--v2-teal-fg); }
+
+/* ---------- section heads ---------- */
+body.qc-v2 .drop-head { border-bottom: 1px solid var(--v2-line); }
+body.qc-v2 .gate, body.qc-v2 .lag { color: var(--v2-buy-text); }
+body.qc-v2 h2 { color: var(--white, #eef2f5); }
+
+/* ---------- stat strips: one rounded card, white numbers ---------- */
+body.qc-v2 .stats { background: var(--v2-card); border-color: var(--v2-border); border-radius: 14px; overflow: hidden; }
+body.qc-v2 .stat { border-color: var(--v2-line); }
+body.qc-v2 .stat b { color: var(--white, #eef2f5); }
+body.qc-v2 .stat span, body.qc-v2 .stat small { color: var(--v2-sub); }
+body.qc-v2 .alloc-total b, body.qc-v2 .hold-tile .amt, body.qc-v2 .sel-chip b, body.qc-v2 td.num { color: var(--white, #eef2f5); }
+
+/* ---------- chips and toggle buttons: rounded; "on" = solid green like the chart range ---------- */
+body.qc-v2 a.chip, body.qc-v2 button.chip,
+body.qc-v2 .board-tabs button, body.qc-v2 .rep-windows button, body.qc-v2 .alloc-sort button {
+  border-radius: 10px; background: var(--v2-card); border: 1px solid var(--v2-border); color: var(--paper, #d8dde3);
+  font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.1em;
+}
+body.qc-v2 a.chip:hover, body.qc-v2 button.chip:hover, body.qc-v2 .board-tabs button:hover, body.qc-v2 .rep-windows button:hover, body.qc-v2 .alloc-sort button:hover {
+  border-color: #56657a; color: var(--white, #eef2f5);
+}
+body.qc-v2 a.chip.on, body.qc-v2 button.chip.on,
+body.qc-v2 .board-tabs button.on, body.qc-v2 .rep-windows button.on, body.qc-v2 .alloc-sort button.on {
+  color: #04140a; background: var(--v2-buy-bar); border-color: var(--v2-buy-bar);
+}
+body.qc-v2 .board-tabs { border-color: var(--v2-border); border-radius: 12px; overflow: hidden; }
+body.qc-v2 .alloc-sort-label { color: var(--v2-sub); }
+body.qc-v2 .hold-tile { border-radius: 10px; }
+body.qc-v2 .hold-tile.on { border-color: var(--v2-buy-bar); }
+body.qc-v2 .tag, body.qc-v2 .label, body.qc-v2 .opt-tag, body.qc-v2 .holdings .focus .chip { border-radius: 6px; }
+body.qc-v2 .tag.hot { color: var(--v2-chip-fg); border-color: var(--v2-chip-bd); background: var(--v2-chip-bg); }
+body.qc-v2 .tag.warn, body.qc-v2 .opt-tag, body.qc-v2 .qc-empty-filings { color: var(--v2-gold-fg); border-color: var(--v2-gold-bd); background: var(--v2-gold-bg); }
+body.qc-v2 .label { color: var(--v2-chip-fg); border-color: var(--v2-chip-bd); background: var(--v2-chip-bg); }
+body.qc-v2 .bar > i { background: var(--v2-buy-bar); }
+
+/* ---------- buttons ---------- */
+body.qc-v2 .btn, body.qc-v2 .more-row button, body.qc-v2 button.more, body.qc-v2 .series-more,
+body.qc-v2 .hold-toggle, body.qc-v2 .clear-btn, body.qc-v2 .landed-chip, body.qc-v2 button.qc-track-more,
+body.qc-v2 #search-form button.dl, body.qc-v2 .qc-follow-alerts .acts a, body.qc-v2 .qc-follow-alerts .acts button {
+  border-radius: 10px; border: 1px solid var(--v2-border); background: transparent; color: var(--white, #eef2f5);
+  font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.1em;
+}
+body.qc-v2 .btn:hover, body.qc-v2 .more-row button:hover, body.qc-v2 button.more:hover, body.qc-v2 .series-more:hover,
+body.qc-v2 .hold-toggle:hover, body.qc-v2 .clear-btn:hover, body.qc-v2 .landed-chip:hover,
+body.qc-v2 #search-form button.dl:hover { border-color: var(--v2-buy-bar); color: var(--v2-buy-text); background: transparent; }
+body.qc-v2 .btn.fill, body.qc-v2 #search-form button[type="submit"] {
+  border-radius: 10px; background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a;
+}
+
+/* ---------- details / folds ---------- */
+body.qc-v2 details.how > summary, body.qc-v2 .bio-wrap > summary, body.qc-v2 .paper-filters > summary, body.qc-v2 .play-more > summary {
+  color: var(--white, #eef2f5); font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.1em;
+}
+body.qc-v2 details.how > summary::before, body.qc-v2 .paper-filters > summary::before { color: var(--v2-buy-text); }
+body.qc-v2 details.how .body { color: var(--paper, #d8dde3); }
+
+/* ---------- inputs ---------- */
+body.qc-v2 .picker input, body.qc-v2 .picker select, body.qc-v2 .filters input, body.qc-v2 .filters select, body.qc-v2 #search {
+  background-color: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 10px; color: var(--white, #eef2f5);
+}
+body.qc-v2 .picker input:focus, body.qc-v2 .picker select:focus, body.qc-v2 #search:focus { outline: 2px solid var(--caution, #e3b41a); outline-offset: 1px; }
+
+/* ---------- tables ---------- */
+body.qc-v2 .table-wrap, body.qc-v2 .rep-wrap, body.qc-v2 .qc-track-scroll { background: var(--v2-card); border-color: var(--v2-border); border-radius: 14px; }
+body.qc-v2 th { color: var(--v2-sub); }
+body.qc-v2 th, body.qc-v2 td { border-color: var(--v2-line); }
+body.qc-v2 table.rep tr { border-bottom-color: var(--v2-line); }
+body.qc-v2 .tickets li { border-color: var(--v2-line); }
+
+/* ---------- shared trade lists (shell .qc-txn) ---------- */
+body.qc-v2 .qc-txn-list:has(.qc-txn) { border-color: var(--v2-border); }
+body.qc-v2 .qc-txn { border-top-color: var(--v2-border); border-right-color: var(--v2-border); border-bottom-color: var(--v2-border); }
+body.qc-v2 .qc-txn-head, body.qc-v2 .qc-txn-cols { color: var(--v2-sub); }
+
+body.qc-v2 .qc-txn-list > .day h2, body.qc-v2 .qc-pol-desk .day h2 { color: var(--paper, #d8dde3); }
+body.qc-v2 .qc-txn-list > .day.fresh h2, body.qc-v2 .qc-pol-desk .day.fresh h2 { color: var(--v2-buy-text); }
+body.qc-v2 .qc-txn-tag.hot { color: var(--v2-chip-fg); border-color: var(--v2-chip-bd); background: var(--v2-chip-bg); border-radius: 6px; }
+body.qc-v2 .tape-more button { border-radius: 10px; border-color: var(--v2-border); color: var(--white, #eef2f5); }
+body.qc-v2 .tape-more button:hover { border-color: var(--v2-buy-bar); color: var(--v2-buy-text); }
+body.qc-v2 .ticket-more > summary { color: var(--v2-buy-text); }
+
+/* ---------- price pill + chart ranges (ticker pages) ---------- */
+body.qc-v2 .price-pill { background: var(--v2-card); border-color: var(--v2-border); border-radius: 12px; color: var(--white, #eef2f5); }
+body.qc-v2 .price-pill b { color: var(--white, #eef2f5); }
+body.qc-v2 .range { background: var(--v2-chart); border-color: var(--v2-line); }
+body.qc-v2 .range button.on { color: #04140a; background: var(--v2-buy-bar); box-shadow: none; }
+
+/* ---------- map pages: floating panels as rounded cards ---------- */
+body.qc-v2 .hud, body.qc-v2 .layers, body.qc-v2 .status { border-color: var(--v2-border); border-radius: 14px; }
+body.qc-v2 #search-results { border-color: var(--v2-border); border-radius: 12px; background: var(--v2-card); }
+body.qc-v2 #search-results button { border-color: var(--v2-line); }
+body.qc-v2 .hit .who, body.qc-v2 .pop .holder { color: var(--v2-buy-text); }
+body.qc-v2 button.camp { border-color: var(--v2-border); border-radius: 10px; }
+body.qc-v2 .maplibregl-popup-content { border-color: var(--v2-border); border-radius: 12px; }
+
+/* ---------- follow prints (insider pages) ---------- */
+body.qc-v2 .qc-follow-alerts { background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 14px; }
+body.qc-v2 .qc-follow-alerts .hd { color: var(--white, #eef2f5); }
+body.qc-v2 .qc-follow-alerts .acts a:hover, body.qc-v2 .qc-follow-alerts .acts button:hover { border-color: var(--v2-buy-bar); color: var(--v2-buy-text); }
+body.qc-v2 .qc-follow-tag { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); border-radius: 6px; }
+body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-border); border-radius: 6px; }
+
+/* ---------- phones: 44px tap targets for controls this layer styles ---------- */
+@media (max-width: 899px) {
+  body.qc-v2 a.chip, body.qc-v2 button.chip,
+  body.qc-v2 .board-tabs button, body.qc-v2 .rep-windows button, body.qc-v2 .alloc-sort button,
+  body.qc-v2 .btn, body.qc-v2 .more-row button, body.qc-v2 button.more, body.qc-v2 .series-more,
+  body.qc-v2 .hold-toggle, body.qc-v2 .clear-btn, body.qc-v2 .landed-chip, body.qc-v2 button.qc-track-more,
+  body.qc-v2 .qc-follow-alerts .acts a, body.qc-v2 .qc-follow-alerts .acts button,
+  body.qc-v2 .range button, body.qc-v2 .ranges button {
+    min-height: 44px;
+  }
+  body.qc-v2 details.how > summary, body.qc-v2 .bio-wrap > summary, body.qc-v2 .paper-filters > summary,
+  body.qc-v2 .play-more > summary, body.qc-v2 details > summary { min-height: 44px; box-sizing: border-box; align-content: center; }
+  body.qc-v2 .picker input, body.qc-v2 .picker select, body.qc-v2 .filters input, body.qc-v2 .filters select { min-height: 44px; }
+  body.qc-v2 .holdings .focus .range button { min-height: 44px; min-width: 44px; }
+  /* overlap phone cards keep their square teal stripe on the left edge */
+  body.qc-v2 .rep-wrap { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+  /* tiny close "x" on chart popovers: invisible 44px hit area, same look */
+  body.qc-v2 .holdings .focus .mark-pop .pop-close { position: relative; }
+  body.qc-v2 .holdings .focus .mark-pop .pop-close::after { content: ""; position: absolute; inset: -11px; }
+  /* map pages: search box, buttons and map zoom controls */
+  body.qc-v2 #search-form input, body.qc-v2 #search-form button, body.qc-v2 #search { min-height: 44px; }
+  body.qc-v2 .maplibregl-ctrl-group button { width: 44px; height: 44px; }
+  body.qc-v2 .layers label, body.qc-v2 .layers .swatch { min-height: 44px; }
+}
+
+/* ---------- Insiders on phones: colors, fonts and buttons only (row layout unchanged) ---------- */
+@media (max-width: 899px) {
+  body.qc-v2-phone .qc-follow-alerts { background: var(--v2-card); border-color: var(--v2-border); border-radius: 14px; }
+  body.qc-v2-phone .qc-follow-alerts .hd > span:first-child { color: var(--white, #eef2f5); font-weight: 700; }
+  body.qc-v2-phone .qc-follow-alerts .acts a,
+  body.qc-v2-phone .qc-follow-alerts .acts button {
+    border-radius: 10px; border-color: var(--v2-border); color: var(--paper, #d8dde3); min-height: 44px;
+  }
+  body.qc-v2-phone .qc-follow-alerts a.hit { border-color: var(--v2-line); }
+  body.qc-v2-phone .qc-follow-alerts .side.up { color: var(--v2-buy-text); }
+  body.qc-v2-phone .qc-follow-alerts .side.down { color: var(--v2-sell-text); }
+  body.qc-v2-phone #windows .chip {
+    border-radius: 10px; background: var(--v2-card); border-color: var(--v2-border); color: var(--paper, #d8dde3); font-weight: 700;
+  }
+  body.qc-v2-phone #windows .chip.on { color: #04140a; background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); }
+  body.qc-v2-phone .picker input { background: var(--v2-card); border-color: var(--v2-border); border-radius: 10px; }
+  body.qc-v2-phone .more-row .btn { border-radius: 10px; border: 1px solid var(--v2-border); color: var(--white, #eef2f5); min-height: 44px; }
+  body.qc-v2-phone .qc-txn-list.qc-tape-list { background: var(--v2-card); border-color: var(--v2-border); }
+  body.qc-v2-phone .qc-txn-list.qc-tape-list > .day h2 { color: var(--paper, #d8dde3); }
+  body.qc-v2-phone .qc-txn-list.qc-tape-list > .day.fresh h2 { color: var(--v2-buy-text); }
+  body.qc-v2-phone .qc-follow-alerts .hd { color: var(--white, #eef2f5); }
+  body.qc-v2-phone .qc-txn-tag.qc-basket-chip { color: var(--v2-teal-fg); border-color: var(--v2-teal-bd); }
+  body.qc-v2-phone .qc-follow-tag { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+  body.qc-v2-phone .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-border); }
+  body.qc-v2-phone #basket .stat b, body.qc-v2-phone #basket .qc-stats dd { color: var(--white, #eef2f5); }
+  body.qc-v2-phone .qc-issuer { background: var(--v2-card); border-color: var(--v2-border); }
+}

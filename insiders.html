@@ -930,34 +930,48 @@
       .qc-track .up, .qc-track button.qc-xp.up { color: var(--v2-buy-text); }
       .qc-track .down, .qc-track button.qc-xp.down { color: var(--v2-sell-text); }
 
-      /* ---------- chart on top (Gordo: charts above tables, 2026-10-04) ----------
-         The chart card sits above the list at every width, phones included. Desktop: one wide card
-         (who / chips / buttons left, chart right) and the list runs full width under it. Phone row layout is unchanged. */
-      #desk .focus { position: static; top: auto; }
+      /* ---------- chart on top (Gordo: charts above tables, 2026-10-04; sticky + phone strip 2026-10-04 pm) ----------
+         The chart card sits directly above the list. Desktop: one wide card (who / range / buttons left, chart right)
+         that sticks under the site header while the list scrolls; #desk is a flex column so the card is bounded by the
+         list only (follow prints, tabs and search above scroll away normally). Phone: see the <900px block below. */
       #desk .focus[hidden], #desk.issuers-only .focus { display: none !important; }
-      #desk { grid-template-columns: minmax(0, 1fr); }
-      #desk .wire-col { grid-row: 2; }
+      #desk { display: flex; flex-direction: column; align-items: stretch; }
+      #desk .wire-col { order: 2; min-width: 0; }
       #desk .focus {
-        grid-row: 1; display: grid; grid-template-columns: minmax(260px, 0.36fr) minmax(0, 1fr);
-        grid-template-areas: "head chart" "past chart" "foot chart"; grid-template-rows: auto auto 1fr;
-        column-gap: 24px; align-items: start; margin: 0 0 16px; padding: 16px 18px 14px;
+        order: 1; position: sticky; top: calc(var(--site-header-h, 58px) + 6px); z-index: 8;
+        display: grid; grid-template-columns: minmax(300px, 0.34fr) minmax(0, 1fr);
+        grid-template-areas: "head chart" "past chart" "range chart" "foot chart"; grid-template-rows: auto auto auto 1fr;
+        column-gap: 24px; align-items: start; margin: 0 0 14px; padding: 10px 16px 8px;
+        background: var(--v2-card, #222a36); box-shadow: 0 10px 24px rgba(5, 8, 12, 0.55);
       }
       #desk #focus-head { grid-area: head; min-width: 0; }
-      #desk #focus-past { grid-area: past; min-width: 0; }
-      #desk #focus-chart { grid-area: chart; min-width: 0; }
+      #desk #focus-past { grid-area: past; min-width: 0; margin: 0 0 6px; }
+      #desk #focus-chart { display: contents; }
+      #desk .focus .range { grid-area: range; justify-self: start; margin: 0 0 8px; }
+      #desk .focus .chart-wrap { grid-area: chart; margin-bottom: 0; padding-top: 6px; padding-bottom: 4px; }
       #desk #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
-      #desk .focus .chart-wrap { margin-bottom: 0; }
-      #desk .focus #chart-svg { height: 250px; max-height: 250px; }
+      #desk #focus-foot .cta { flex-wrap: nowrap; gap: 8px; }
+      #desk #focus-foot .btn { padding: 9px 13px; white-space: nowrap; }
+      #desk .focus .who { margin-bottom: 4px; }
+      #desk .focus .chips { margin: 0 0 6px; }
+      /* ticker + company + commodity on one line; the commodity drops out (clipped 2nd line) when it doesn't fit */
+      #desk .focus .asset-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; height: 1.45em; overflow: hidden; margin: 0 0 8px; }
+      #desk .focus .asset-line .asset { flex: 0 1 auto; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #desk .focus .asset-line .quiet { flex: 0 0 auto; margin: 0; white-space: nowrap; }
+      #desk .focus #chart-svg { height: 180px; max-height: 180px; }
     }
-    /* Chart on top, phones (<900px): short chart card above the list. */
+    .strip-toggle, .spark { display: none; }
+    /* Chart strip, phones (<900px): a ~150px strip (name, ticker line, sparkline) above the list.
+       Tap it to open the full chart in place; tap again to close. Starts closed. */
     @media (max-width: 899px) {
-      #desk { display: flex; flex-direction: column; }
+      #desk { display: flex; flex-direction: column; align-items: stretch; }
       #desk .focus {
-        display: block; order: -1; position: static; margin: 0 0 12px; padding: 12px 12px 10px;
+        display: block; order: -1; position: relative; margin: 0 0 12px; padding: 12px 12px 10px; cursor: pointer;
         background: var(--v2-card, #222a35); border: 1px solid var(--v2-border, #3a4452); border-radius: 14px;
       }
+      #desk .focus.open { cursor: auto; }
       #desk .focus[hidden], #desk.issuers-only .focus { display: none !important; }
-      #desk .focus .who { font-size: 19px; margin: 0 0 6px; }
+      #desk .focus .who { font-size: 19px; margin: 0 0 4px; padding-right: 78px; }
       #desk .focus .chips { margin: 0 0 6px; }
       #desk .focus .range { margin: 0 0 8px; }
       #desk .focus .chart-wrap { padding: 10px 8px 8px 44px; margin-bottom: 4px; }
@@ -968,7 +982,40 @@
         padding: 5px 8px; border: 1px solid #3a4452; border-radius: 6px; color: var(--paper); background: rgba(15, 18, 24, 0.35);
       }
       #desk .focus .ch.hot { color: #9be3a2; background: #1f3b2c; border-color: #3f7a52; }
+      #desk .strip-toggle {
+        display: inline-flex; align-items: center; gap: 6px; position: absolute; top: 10px; right: 10px; z-index: 2;
+        font: 600 12px/1 "IBM Plex Sans", sans-serif; letter-spacing: 0.05em; color: var(--v2-sub, #b7c1cc);
+        padding: 6px 9px; border: 1px solid var(--v2-border, #3a4452); border-radius: 6px; background: rgba(15, 18, 24, 0.35); cursor: pointer;
+      }
+      #desk .strip-toggle::after { content: "\25BE"; font-size: 11px; }
+      #desk .focus.open .strip-toggle::after { content: "\25B4"; }
+      #desk .focus:not(.open) .chips,
+      #desk .focus:not(.open) .quiet,
+      #desk .focus:not(.open) #focus-chart { display: none; }
+      #desk .focus:not(.open) .asset { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 0 6px; }
+      #desk .focus:not(.open) .spark { display: block; }
+      /* Closed strip is one row here (name + ticker left, sparkline right, ~64px): Insiders already stacks the
+         follow prints, the view chips and the search above the list, and the first two rows must fit on a 390x844 screen. */
+      #desk .focus:not(.open) {
+        display: grid; grid-template-columns: minmax(0, 1fr) minmax(110px, 40%) auto; grid-template-areas: "head spark tog";
+        column-gap: 10px; align-items: center; padding: 8px 8px 8px 12px; margin-bottom: 8px;
+      }
+      #desk .focus:not(.open) #focus-head { grid-area: head; min-width: 0; }
+      #desk .focus:not(.open) .spark { grid-area: spark; }
+      #desk .focus:not(.open) .strip-toggle { grid-area: tog; position: static; padding: 8px 7px; font-size: 0; gap: 0; }
+      #desk .focus:not(.open) .strip-toggle::after { font-size: 12px; }
+      #desk .focus:not(.open) .who { font-size: 17px; margin: 0 0 2px; padding-right: 0; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #desk .focus:not(.open) .asset { font-size: 13px; margin: 0; }
+      #desk .spark { height: 44px; }
+      #desk .spark svg { display: block; width: 100%; height: 44px; }
+      #desk .spark-note { display: block; line-height: 1.3; color: var(--v2-sub, #b7c1cc); font-size: 12px; }
     }
+    .spark .spark-line { fill: none; stroke: #67e8f9; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+    .spark .spark-area { fill: rgba(103, 232, 249, 0.10); stroke: none; }
+    .spark .spark-dot { fill: #f0d078; stroke: #0f1218; stroke-width: 2; }
+    .spark .spark-dot.buy { fill: var(--v2-buy-bar, #3fb35c); }
+    .spark .spark-dot.sell { fill: var(--v2-sell-bar, #e0625c); }
+    .spark .spark-end { fill: #f8fafc; }
   </style>
 </head>
 <body class="qc-v2-phone">
@@ -1021,7 +1068,9 @@
         <ol class="qc-txn-list qc-tape-list" id="rows"></ol>
       </div>
       <aside class="focus" id="focus">
+        <button type="button" class="strip-toggle" id="strip-toggle" aria-expanded="false" aria-controls="focus-chart">Chart</button>
         <div id="focus-head"><p class="quiet">Loading chart…</p></div>
+        <div class="spark" id="spark" aria-hidden="true"></div>
         <details class="qc-track-fold" id="focus-past" hidden>
           <summary>Past buys</summary>
           <div id="focus-past-body" class="qc-track"></div>
@@ -1427,9 +1476,9 @@
           (owner === "indirect" ? "<span class=\"ch\">Indirect</span>" : "") +
           (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
         "</div>" +
-        "<p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
+        "<div class=\"asset-line\"><p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
           (coShow ? " " + esc(coShow) : "") + "</p>" +
-        "<p class=\"quiet\">" + esc(t.commodity || t.title || "") + "</p>";
+        ((t.commodity || t.title) ? "<p class=\"quiet\" title=\"" + esc(t.commodity || t.title) + "\">" + esc(t.commodity || t.title) + "</p>" : "") + "</div>";
       const tickerBtn = chartable
         ? "<a class=\"btn\" href=\"insider-ticker.html?t=" + encodeURIComponent(code) + "\">Open ticker</a>"
         : "";
@@ -1580,6 +1629,66 @@
       el.textContent = note;
     }
 
+    // Phone chart strip (<900px): closed by default; a tap opens the full chart in place and a second tap closes it.
+    let stripOpen = false;
+    function setStripOpen(open) {
+      stripOpen = !!open;
+      const card = document.getElementById("focus");
+      const btn = document.getElementById("strip-toggle");
+      if (card) card.classList.toggle("open", stripOpen);
+      if (btn) {
+        btn.setAttribute("aria-expanded", stripOpen ? "true" : "false");
+        btn.textContent = stripOpen ? "Close" : "Chart";
+      }
+      paintChart();
+    }
+    function bindStrip() {
+      const card = document.getElementById("focus");
+      if (!card || card.dataset.strip) return;
+      card.dataset.strip = "1";
+      card.addEventListener("click", (e) => {
+        if (DESK_MQ.matches) return;
+        if (e.target.closest("#strip-toggle")) { setStripOpen(!stripOpen); return; }
+        if (!stripOpen) {
+          // Closed strip: any tap opens it (links included), so the first tap never leaves the page.
+          e.preventDefault();
+          setStripOpen(true);
+          return;
+        }
+        if (e.target.closest("a, button, summary, #focus-chart, .mark-pop")) return;
+        setStripOpen(false);
+      });
+    }
+    // Small sparkline for the closed phone strip: the same price slice as the full chart, plus the trade-date dot.
+    function paintSpark(slice, note, tradeIso, side) { // side: "buy" | "sell" | ""
+      const box = document.getElementById("spark");
+      if (!box || DESK_MQ.matches) return;
+      if (!slice || slice.length < 2) {
+        box.innerHTML = "<span class=\"spark-note\">" + esc(note || "No chart for this print.") + "</span>";
+        return;
+      }
+      const w = Math.max(100, Math.round(box.clientWidth || 320));
+      const h = Math.max(30, Math.round(box.clientHeight || 52));
+      const p = 5;
+      const ys = slice.map((q) => Number(q[1]));
+      const lo = Math.min.apply(null, ys);
+      const hi = Math.max.apply(null, ys);
+      const span = hi - lo || 1;
+      const X = (i) => p + (i * (w - 2 * p)) / (slice.length - 1);
+      const Y = (v) => p + (1 - (v - lo) / span) * (h - 2 * p);
+      const line = slice.map((q, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(Number(q[1])).toFixed(1)).join(" ");
+      const area = line + " L" + X(slice.length - 1).toFixed(1) + " " + h + " L" + X(0).toFixed(1) + " " + h + " Z";
+      let dot = "";
+      if (tradeIso && tradeIso >= String(slice[0][0])) {
+        let k = slice.findIndex((q) => String(q[0]) >= tradeIso);
+        if (k < 0) k = slice.length - 1;
+        dot = "<circle class=\"spark-dot " + (side || "") + "\" cx=\"" + X(k).toFixed(1) + "\" cy=\"" + Y(ys[k]).toFixed(1) + "\" r=\"5\"></circle>";
+      }
+      const end = "<circle class=\"spark-end\" cx=\"" + X(slice.length - 1).toFixed(1) + "\" cy=\"" + Y(ys[ys.length - 1]).toFixed(1) + "\" r=\"3\"></circle>";
+      box.innerHTML = "<svg viewBox=\"0 0 " + w + " " + h + "\" width=\"" + w + "\" height=\"" + h + "\" focusable=\"false\">" +
+        "<path class=\"spark-area\" d=\"" + area + "\"></path><path class=\"spark-line\" d=\"" + line + "\"></path>" + dot + end + "</svg>";
+    }
+
     function paintChart() {
       const t = activeTrade();
       const token = ++chartToken;
@@ -1587,18 +1696,23 @@
       paintRange();
       if (!t) {
         clearChart("Select a print on the tape.");
+        paintSpark(null, "Select a print on the tape.");
         return;
       }
       const code = String(t.ticker || "").toUpperCase();
       if (!QC.isChartTicker(code) || typeof drawChart !== "function" || typeof slicePriceRange !== "function") {
-        clearChart(code && code !== "—" ? "No daily prices on file for " + code + "." : "This print has no charted ticker.");
+        const note = code && code !== "—" ? "No daily prices on file for " + code + "." : "This print has no charted ticker.";
+        clearChart(note);
+        paintSpark(null, note);
         return;
       }
       clearChart("Loading chart…");
+      paintSpark(null, "Loading chart…");
       loadPrices(code).then((points) => {
         if (token !== chartToken) return;
         if (!points || points.length < 2) {
           clearChart("No daily prices on file for " + code + ".");
+          paintSpark(null, "No daily prices on file for " + code + ".");
           return;
         }
         clearChart("");
@@ -1609,6 +1723,9 @@
           paintRange();
         }
         const slice = slicePriceRange(points, chartRange);
+        paintSpark(slice, "", tradeIso, sideBadge(t.side).label === "SELL" ? "sell" : t.side === "purchase" ? "buy" : "");
+        // Phone strip closed: the sparkline is all that shows; the full chart draws when the strip opens.
+        if (!DESK_MQ.matches && !stripOpen) return;
         const marks = [{
           date: tradeIso,
           side: t.side,
@@ -1623,6 +1740,7 @@
         const hits = drawChart(slice, marks, roomy ? {
           range: chartRange,
           theme: "cyan",
+          height: 180, // short sticky desktop card
           onMark: showPop
         } : {
           range: chartRange,
@@ -1654,6 +1772,7 @@
     }
 
     function bindDesk() {
+      bindStrip();
       const list = document.getElementById("rows");
       const rangeBox = document.getElementById("range");
       if (list && !list.dataset.bound) {

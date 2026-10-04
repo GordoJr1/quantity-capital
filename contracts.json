@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-03T22:07:21Z",
+  "generated": "2026-10-04T11:11:03Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,8 +13,8 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-20",
-    "end": "2026-10-03"
+    "start": "2026-09-21",
+    "end": "2026-10-04"
   },
   "trailing_days": 365,
   "counts": {
@@ -4403,20 +4403,6 @@
   ],
   "upcoming": [
     {
-      "deadline": "2026-10-03",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Portable Oxygen Regulator Test Set (PORTS)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bd678ad6451c40538c3f3ef450ee5f6f/view"
-    },
-    {
-      "deadline": "2026-10-03",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Tester, Fuel Integrity",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d5becc3eda3c47d8bd9cddd173bcb887/view"
-    },
-    {
       "deadline": "2026-10-04",
       "agency": "DEPT OF DEFENSE",
       "description": "Artic Blend Lavatory Fluid",
@@ -4956,11 +4942,25 @@
       "description": "B1030 Radar Absorbent Material (RAM) Relocation Services",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/fd1f89b7a3f549659d1e5e75714caafb/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "BRAND NAME EQUIPMENT NOTICE OF INTENT - CNMF MOF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d308814dcbd84518a8f3000500ae4814/view"
+    },
+    {
+      "deadline": "2026-10-07",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Brand Name ASHCROFT PRESSURE GAGE, ASHCROFT MODEL 1279, PART NUMBER: 45-1279-SS-S-09-L-X6B-XMF-XT1-XC4-1500#",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/bbba2e94c79e42fb8b7799e93e39507b/view"
     }
   ],
   "dod": {
     "latest": "2026-10-02",
-    "fetched": "2026-10-03T22:07:21Z",
+    "fetched": "2026-10-04T11:11:03Z",
     "status": "ok",
     "rows": 200
   }

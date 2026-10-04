@@ -1119,6 +1119,13 @@
         padding: 0;
         margin: 0;
       }
+      .desk .focus {
+        display: block;
+        grid-column: 2;
+        grid-row: 1 / -1;
+        align-self: start;
+        min-width: 0;
+      }
       #board .board-list { max-width: 1040px; }
     }
     .desk .day {
@@ -1230,7 +1237,7 @@
       white-space: nowrap;
     }
     .desk .who:hover { color: var(--teal); }
-    .focus .ch {
+    .desk .ch {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -1240,10 +1247,10 @@
       color: var(--paper);
       white-space: nowrap;
     }
-    .focus .ch.sen { border-color: var(--teal); color: var(--teal); }
-    .focus .ch.wh { border-color: var(--caution); color: var(--caution); }
-    .focus .ch.hot { border-color: var(--caution); color: var(--caution); }
-    .focus .ch.bad { border-color: #ef7a74; color: #ef7a74; }
+    .desk .ch.sen { border-color: var(--teal); color: var(--teal); }
+    .desk .ch.wh { border-color: var(--caution); color: var(--caution); }
+    .desk .ch.hot { border-color: var(--caution); color: var(--caution); }
+    .desk .ch.bad { border-color: #ef7a74; color: #ef7a74; }
     .desk .asset {
       grid-area: asset;
       margin: 0;
@@ -1990,6 +1997,7 @@
       .desk .wire-count { grid-column: 1; grid-row: 2; }
       .desk .wire-day0 { grid-column: 1; grid-row: 3; }
       .desk .wire { grid-column: 1; grid-row: 4; }
+      .desk .focus { grid-column: 2; grid-row: 3 / -1; }
       #wire > li.w-row { cursor: pointer; border-radius: 10px; }
       #wire > li.w-row:hover { background: rgba(255, 255, 255, 0.03); }
       #wire > li.w-row.on {
@@ -2004,21 +2012,21 @@
       border-radius: 16px; padding: 18px 18px 16px;
     }
     .focus .who,
-    .focus .who {
+    .desk .focus .who {
       display: block; margin: 0 0 8px; font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--white);
       white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere;
     }
     .focus .chips { gap: 6px; margin: 0 0 12px; }
-    .focus .ch {
+    .desk .focus .ch {
       font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.05em; line-height: 1;
       padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px; color: var(--paper);
       background: rgba(15, 18, 24, 0.35);
     }
-    .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
-    .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
-    .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
-    .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
-    .focus .asset a {
+    .desk .focus .ch.sen { color: #8fdde0; border-color: #2d6f73; }
+    .desk .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+    .desk .focus .ch.bad { color: #ef7a74; border-color: #ef7a74; }
+    .desk .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); overflow-wrap: anywhere; }
+    .desk .focus .asset a {
       font-family: "IBM Plex Sans", sans-serif; font-weight: 700; letter-spacing: 0.03em; text-transform: none; margin-right: 4px;
     }
     .focus .quiet { margin: 0 0 14px; color: var(--v2-sub); font-size: 14px; }
@@ -2067,44 +2075,20 @@
     }
     .focus .btn.fill { background: var(--v2-buy-bar); border-color: var(--v2-buy-bar); color: #04140a; }
 
-    /* ---------- chart on top (Gordo: charts above tables, 2026-10-04; sticky + phone strip 2026-10-04 pm) ----------
-       The chart card is the first thing in the wire column, directly above the wire list.
-       Desktop (>=900px): one wide card (who / range / buttons left, chart right) that sticks under the site header
-       while the wire scrolls. The desk is a plain block here so the sticky card is bounded by the wire column only:
-       the leaderboard and filters above scroll away normally and never sit under it.
-       Phone (<900px): a ~150px strip (name, ticker line, sparkline). Tap it to open the full chart in place; tap again to close. */
-    .chart-top { margin: 0 0 14px; padding: 0; }
-    .chart-top .focus { display: block; position: static; top: auto; min-width: 0; }
-    .chart-top .focus-chart { min-width: 0; }
+    /* ---------- chart: right-hand column on desktop, compact strip on phones (Gordo, 2026-10-04) ----------
+       Desktop (>=900px): the pre-#219 layout. The chart card is the sticky right-hand column of the .desk grid,
+       beside the wire. Its wrapper (.chart-top, first in .wire-col) is display: contents there, so the card itself
+       is the grid item and sticks the same way it did before.
+       Phone (<900px): the #219 strip above the wire (name, ticker line, sparkline). Tap it to open the full chart
+       in place; tap again to close. Unchanged from #219. */
     .strip-toggle, .spark { display: none; }
     @media (min-width: 900px) {
-      .desk, body.tape-opt .desk { display: block; }
-      .desk .wire-col { display: block; }
-      .chart-top {
-        position: sticky; top: calc(var(--site-header-h, 58px) + 6px); z-index: 8; margin: 0 0 12px;
-      }
-      .chart-top .focus {
-        display: grid; grid-template-columns: minmax(300px, 0.34fr) minmax(0, 1fr);
-        grid-template-areas: "head chart" "range chart" "foot chart"; grid-template-rows: auto auto 1fr;
-        column-gap: 24px; align-items: start; padding: 10px 16px 8px;
-        background: var(--v2-card, #222a36); box-shadow: 0 10px 24px rgba(5, 8, 12, 0.55);
-      }
-      .chart-top #focus-head { grid-area: head; min-width: 0; }
-      .chart-top #focus-chart { display: contents; }
-      .chart-top .focus .range { grid-area: range; justify-self: start; }
-      .chart-top .focus .chart-wrap { grid-area: chart; margin-bottom: 0; }
-      .chart-top #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
-      .chart-top #focus-foot .cta { flex-wrap: nowrap; gap: 8px; }
-      .chart-top #focus-foot .btn { padding: 9px 13px; white-space: nowrap; }
-      .chart-top .focus .who, .chart-top .focus .who a { margin-bottom: 4px; }
-      .chart-top .focus .chips { margin: 0 0 6px; }
-      /* ticker + company + industry on one line; the industry drops out (wraps onto a clipped 2nd line) when it doesn't fit */
-      .chart-top .focus .asset-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; height: 1.45em; overflow: hidden; margin: 0 0 8px; }
-      .chart-top .focus .asset-line .asset { flex: 0 1 auto; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      .chart-top .focus .asset-line .quiet { flex: 0 0 auto; margin: 0; white-space: nowrap; }
-      .chart-top .focus .range { margin: 0 0 8px; }
-      .chart-top .focus .chart-wrap { padding-top: 6px; padding-bottom: 4px; }
-      .chart-top .focus #chart-svg { height: 160px; max-height: 160px; }
+      .chart-top { display: contents; }
+    }
+    @media (max-width: 899px) {
+      .chart-top { margin: 0 0 14px; padding: 0; }
+      .chart-top .focus { display: block; position: static; top: auto; min-width: 0; }
+      .chart-top .focus-chart { min-width: 0; }
     }
     @media (max-width: 899px) {
       .chart-top { margin: 2px 0 12px; }
@@ -2369,9 +2353,8 @@
       <div class="desk-status" id="desk-status"></div>
       <div class="desk" id="desk">
         <div class="wire-col">
-          <!-- Chart card, directly above the wire list (Gordo: charts above tables, 2026-10-04).
-               Desktop: sticks under the header while the wire scrolls; it lives inside .wire-col so the leaderboard never sits under it.
-               Phone: a ~150px strip (name, ticker, sparkline); tap to open the full chart, tap again to close. -->
+          <!-- Chart card. Desktop: sticky right-hand column of the desk grid (wrapper is display: contents).
+               Phone: a ~130px strip above the wire (name, ticker, sparkline); tap to open the full chart, tap again to close. -->
           <section class="chart-top" id="chart-top" aria-label="Chart of the selected trade">
             <aside class="focus" id="focus">
               <button type="button" class="strip-toggle" id="strip-toggle" aria-expanded="false" aria-controls="focus-chart">Chart</button>
@@ -3078,9 +3061,9 @@
             "</span>" : "") +
           (isFilingError(t) ? "<span class=\"ch bad\">Filing error</span>" : "") +
         "</div>" +
-        "<div class=\"asset-line\"><p class=\"asset\" title=\"" + escapeHtml([sym, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
+        "<p class=\"asset\" title=\"" + escapeHtml([sym, coShow].filter(Boolean).join(" ")) + "\">" + tickerHtml +
           (coShow ? " " + escapeHtml(coShow) : "") + "</p>" +
-        (t.industry ? "<p class=\"quiet\" title=\"" + escapeHtml(t.industry) + "\">" + escapeHtml(t.industry) + "</p>" : "") + "</div>";
+        "<p class=\"quiet\">" + escapeHtml(t.industry || "") + "</p>";
       const tickerBtn = sym !== "—" && isChartTicker(sym)
         ? "<a class=\"btn\" href=\"ticker.html?t=" + encodeURIComponent(sym) + "\">Open ticker</a>"
         : "";
@@ -3136,7 +3119,7 @@
     /* v2: the trade card sits in a headroom band above the plot (CHART_POP_BAND, passed to
        drawChart as pad.t), centred on the pin's x, with a dashed line down to the pin. It never
        covers the price line or the pin. */
-    const CHART_POP_BAND = 66; // desktop: card starts 4px above the plot box, ~66px tall; keeps the sticky chart short (was 92)
+    const CHART_POP_BAND = 92;
     function dockPop(pop, wrap, svg, rec, buy) {
       if (!pop || !wrap || !svg || !rec) return;
       const wr = wrap.getBoundingClientRect();
@@ -3157,8 +3140,7 @@
       const pinY = oy + Number(rec.yPct || 0) * sr.height;
       const inner = wrap.clientWidth;
       const left = Math.max(margin, Math.min(inner - w - margin, pinX - w / 2));
-      // Desktop sticky card: the card may start in the chart-wrap's top padding, so the band (pad.t) stays short.
-      const top = DESK_MQ.matches ? Math.max(2, oy - 4) : oy + 6;
+      const top = oy + 6;
       pop.style.left = left + "px";
       pop.style.top = top + "px";
       const cardBottom = top + h;
@@ -3338,13 +3320,18 @@
           filer: t.filer,
           amount: t.amount
         }];
-        // Phones: short chart on top of the page, so no reserved band for the trade card and no auto-open (tap the mark to see it).
+        // Phones: short chart in the opened strip, so no reserved band for the trade card and no auto-open (tap the mark to see it).
         const roomy = DESK_MQ.matches;
+        if (roomy) {
+          // Back from the phone strip's 170px chart: let the desktop CSS height apply again.
+          const svgEl = document.getElementById("chart-svg");
+          if (svgEl) svgEl.style.height = "";
+        }
         const hits = drawChart(slice, marks, {
           range: chartRange,
           theme: "cyan",
           pad: roomy ? { t: CHART_POP_BAND } : { t: 16, l: 34, r: 22 },
-          height: roomy ? 160 : 170, // desktop: short sticky card (160 is drawChart's floor)
+          height: roomy ? undefined : 170,
           onMark: showPop
         });
         requestAnimationFrame(() => {

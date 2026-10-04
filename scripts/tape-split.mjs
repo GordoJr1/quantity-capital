@@ -17,7 +17,8 @@ const sandbox = {
   },
   location: { pathname: "/", search: "", hash: "" },
   navigator: { serviceWorker: null },
-  localStorage: { getItem() { return null; }, setItem() {} }
+  localStorage: { getItem() { return null; }, setItem() {} },
+  history: { scrollRestoration: "auto", replaceState() {}, pushState() {} }
 };
 sandbox.window = sandbox;
 sandbox.global = sandbox;

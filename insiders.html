@@ -929,39 +929,10 @@
       .qc-track td { border-bottom-color: var(--v2-line); }
       .qc-track .up, .qc-track button.qc-xp.up { color: var(--v2-buy-text); }
       .qc-track .down, .qc-track button.qc-xp.down { color: var(--v2-sell-text); }
-
-      /* ---------- chart on top (Gordo: charts above tables, 2026-10-04; sticky + phone strip 2026-10-04 pm) ----------
-         The chart card sits directly above the list. Desktop: one wide card (who / range / buttons left, chart right)
-         that sticks under the site header while the list scrolls; #desk is a flex column so the card is bounded by the
-         list only (follow prints, tabs and search above scroll away normally). Phone: see the <900px block below. */
-      #desk .focus[hidden], #desk.issuers-only .focus { display: none !important; }
-      #desk { display: flex; flex-direction: column; align-items: stretch; }
-      #desk .wire-col { order: 2; min-width: 0; }
-      #desk .focus {
-        order: 1; position: sticky; top: calc(var(--site-header-h, 58px) + 6px); z-index: 8;
-        display: grid; grid-template-columns: minmax(300px, 0.34fr) minmax(0, 1fr);
-        grid-template-areas: "head chart" "past chart" "range chart" "foot chart"; grid-template-rows: auto auto auto 1fr;
-        column-gap: 24px; align-items: start; margin: 0 0 14px; padding: 10px 16px 8px;
-        background: var(--v2-card, #222a36); box-shadow: 0 10px 24px rgba(5, 8, 12, 0.55);
-      }
-      #desk #focus-head { grid-area: head; min-width: 0; }
-      #desk #focus-past { grid-area: past; min-width: 0; margin: 0 0 6px; }
-      #desk #focus-chart { display: contents; }
-      #desk .focus .range { grid-area: range; justify-self: start; margin: 0 0 8px; }
-      #desk .focus .chart-wrap { grid-area: chart; margin-bottom: 0; padding-top: 6px; padding-bottom: 4px; }
-      #desk #focus-foot { grid-area: foot; min-width: 0; align-self: end; }
-      #desk #focus-foot .cta { flex-wrap: nowrap; gap: 8px; }
-      #desk #focus-foot .btn { padding: 9px 13px; white-space: nowrap; }
-      #desk .focus .who { margin-bottom: 4px; }
-      #desk .focus .chips { margin: 0 0 6px; }
-      /* ticker + company + commodity on one line; the commodity drops out (clipped 2nd line) when it doesn't fit */
-      #desk .focus .asset-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; height: 1.45em; overflow: hidden; margin: 0 0 8px; }
-      #desk .focus .asset-line .asset { flex: 0 1 auto; min-width: 0; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-      #desk .focus .asset-line .quiet { flex: 0 0 auto; margin: 0; white-space: nowrap; }
-      #desk .focus #chart-svg { height: 180px; max-height: 180px; }
     }
+    /* Desktop (>=900px): the chart stays the sticky right-hand column beside the list (pre-#219 layout, Gordo 2026-10-04). */
     .strip-toggle, .spark { display: none; }
-    /* Chart strip, phones (<900px): a ~150px strip (name, ticker line, sparkline) above the list.
+    /* Chart strip, phones (<900px): a compact strip (name, ticker line, sparkline) above the list (from #219, unchanged).
        Tap it to open the full chart in place; tap again to close. Starts closed. */
     @media (max-width: 899px) {
       #desk { display: flex; flex-direction: column; align-items: stretch; }
@@ -1476,9 +1447,9 @@
           (owner === "indirect" ? "<span class=\"ch\">Indirect</span>" : "") +
           (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
         "</div>" +
-        "<div class=\"asset-line\"><p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
+        "<p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
           (coShow ? " " + esc(coShow) : "") + "</p>" +
-        ((t.commodity || t.title) ? "<p class=\"quiet\" title=\"" + esc(t.commodity || t.title) + "\">" + esc(t.commodity || t.title) + "</p>" : "") + "</div>";
+        "<p class=\"quiet\">" + esc(t.commodity || t.title || "") + "</p>";
       const tickerBtn = chartable
         ? "<a class=\"btn\" href=\"insider-ticker.html?t=" + encodeURIComponent(code) + "\">Open ticker</a>"
         : "";
@@ -1737,10 +1708,14 @@
         }];
         // Phones: short chart above the list; the trade card opens on tap instead of covering the line.
         const roomy = DESK_MQ.matches;
+        if (roomy) {
+          // Back from the phone strip's 170px chart: let the desktop CSS height apply again.
+          const svgEl = document.getElementById("chart-svg");
+          if (svgEl) svgEl.style.height = "";
+        }
         const hits = drawChart(slice, marks, roomy ? {
           range: chartRange,
           theme: "cyan",
-          height: 180, // short sticky desktop card
           onMark: showPop
         } : {
           range: chartRange,

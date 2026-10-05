@@ -1,63 +1,10 @@
 {
-  "generated": "2026-10-05T22:22:48.304402+00:00",
+  "generated": "2026-10-05T23:01:01.065298+00:00",
   "tapeCollected": "2026-10-05T22:20:19.860308+00:00",
   "priceAsof": "2026-10-02",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
-    {
-      "code": "MTZ",
-      "name": "Mastec Inc",
-      "action": "watch",
-      "score": 6.256,
-      "why": "Landed \u00b7 Conflict \u00b7 Deep washout \u00b7 Monthly intact",
-      "last": 215.93,
-      "pxAsof": "2026-10-02",
-      "buyPx": 266.26,
-      "chgSinceBuy": -0.189,
-      "lastBuy": "2026-08-21",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 26,
-      "heat": 0.357,
-      "landed": true,
-      "landedAt": "2026-09-15T11:20:21.799563+00:00",
-      "lagDays": 25,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Thomas H. Kean",
-          "id": "thomas-h-kean"
-        }
-      ],
-      "weekly": {
-        "rsi": 17.6,
-        "sma20": 306.91,
-        "sma40": 307.58,
-        "vs20": -29.6,
-        "ret4w": -9.0,
-        "ret13w": -42.2,
-        "fromHigh": -45.5,
-        "trend": "DOWN",
-        "recentLow": 212.85
-      },
-      "monthly": {
-        "rsi": 53.5,
-        "sma10": 298.12,
-        "vs10": -27.6,
-        "trend": "DOWN"
-      },
-      "invalidation": 212.85,
-      "flags": [
-        "Landed",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
     {
       "code": "MRVL",
       "name": "Marvell Technology Inc",
@@ -118,7 +65,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 1
     },
     {
       "code": "HD",
@@ -173,7 +120,7 @@
       "flags": [
         "Landed"
       ],
-      "rank": 3
+      "rank": 2
     }
   ],
   "avoid": [

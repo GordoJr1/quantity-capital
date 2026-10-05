@@ -22,10 +22,10 @@ Preconditions:
 - `insider-analysis.json` and `insider-repeatable.json` are the committed files. Do not rebuild them.
 - Evidence directory is outside the repo.
 
-- **Both viewports.** Run `python .cursor/skills/verify-quantity-capital/qc_verify.py drive leaders --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Exit code 0.
+- **Both viewports.** Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py drive leaders --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Linux and the QC box: `python3 .cursor/skills/verify-quantity-capital/qc_verify.py drive leaders --base http://127.0.0.1:<port> --evidence <evidence-dir>` after `source <venv>/bin/activate` when a venv is required. Exit code 0. Stop the server with `Stop-Process -Id <pid> -Force` on Windows or `kill <pid>` on Linux. Never kill by process name.
 - **Performers.** Wait until `#board article.card a.who` exists. The heading is `Leaders`.
 - **Repeatable.** Choose the tab named `Repeatable` (`#board-tab-repeatable`). The URL contains `b=repeatable`. `table.rep tbody tr` has at least one row.
-- **30 day horizon.** Choose `#rep-windows button[data-h="30"]`. The URL contains `h=30`. A `table.rep th` contains `30d`. `local-after.png` shows the table.
+- **30 day horizon.** Choose `#rep-windows button[data-h="30"]`. The URL contains `h=30`. Any `table.rep th` contains `30d` (the first cell is `#`, so do not read only that one). `local-after.png` shows the table.
 
 ## Gotchas
 

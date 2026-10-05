@@ -22,7 +22,7 @@ Preconditions:
 - `prices/NVDA.json` is already in the clone. Do not run `fetch-prices.py`.
 - Evidence directory is outside the repo.
 
-- **Both viewports.** Run `python .cursor/skills/verify-quantity-capital/qc_verify.py drive ticker-chart --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Exit code 0. The report heading is the company name, not an em dash.
+- **Both viewports.** Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py drive ticker-chart --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Linux and the QC box: the same command with `python3` after `source <venv>/bin/activate` when a venv is required. Exit code 0. The report heading is the company name, not an em dash. Stop the server with `Stop-Process -Id <pid> -Force` on Windows or `kill <pid>` on Linux. Never kill by process name.
 - **Chart ready.** Wait until `#who` is not empty and not an em dash, `#last-px` is a price, and `#chart-svg` has at least one child.
 - **1Y range.** Choose `#range button[data-r="1y"]` (accessible name `1Y`). That button's `aria-selected` is `true`.
 - **Trade list.** `#marks li.qc-txn-tape` has at least one row. `local-after.png` shows the chart.

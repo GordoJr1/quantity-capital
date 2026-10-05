@@ -22,7 +22,7 @@ Preconditions:
 - `insider-trades-lite.json` is the committed file. Do not rebuild it.
 - Evidence directory is outside the repo.
 
-- **Both viewports.** Run `python .cursor/skills/verify-quantity-capital/qc_verify.py drive insiders-tape --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Exit code 0. `insiders-tape/report.json` records the ticker taken from the first visible `.qc-txn-tk`.
+- **Both viewports.** Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py drive insiders-tape --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Linux and the QC box: the same command with `python3` after `source <venv>/bin/activate` when a venv is required. Exit code 0. `insiders-tape/report.json` records the ticker taken from the first visible `.qc-txn-tk`. Stop the server with `Stop-Process -Id <pid> -Force` on Windows or `kill <pid>` on Linux. Never kill by process name.
 - **Ready list.** Wait until `#asof` is non-empty and `#rows li.qc-txn-tape` exists. The list does not say `Could not load insider tape`.
 - **Search that ticker.** Fill `#q` with the first `.qc-txn-tk` token. The URL `q` equals that ticker. Every `#rows .qc-txn-tk` contains it. `local-after.png` shows the filtered list.
 - **Empty query.** Fill `#q` with `zzzz-no-such-ticker`. `#rows` contains `No insider prints in this window.` `local-empty.png` shows that line.

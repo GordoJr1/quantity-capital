@@ -23,7 +23,7 @@ Preconditions:
 - `landed.json` is the committed file. Do not rebuild it.
 - Evidence directory is outside the repo.
 
-- **Both viewports.** Run `python .cursor/skills/verify-quantity-capital/qc_verify.py drive filed --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Exit code 0.
+- **Both viewports.** Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py drive filed --base http://127.0.0.1:<port> --evidence <evidence-dir>`. Linux and the QC box: the same command with `python3` after `source <venv>/bin/activate` when a venv is required. Exit code 0. Stop the server with `Stop-Process -Id <pid> -Force` on Windows or `kill <pid>` on Linux. Never kill by process name.
 - **Ready.** Wait until `#asof` is non-empty and `#board` does not contain `Reading the tape` or `Could not load the tape`. Either drop sections or the sentence `Nothing new has landed in this window` is success.
 - **Last 7 days.** Choose the button named `Last 7 days`. The URL contains `h=168`. `#board` still does not say `Could not load the tape`. `local-after.png` shows the board.
 

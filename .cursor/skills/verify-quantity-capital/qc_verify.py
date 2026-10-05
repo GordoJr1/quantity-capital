@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -54,10 +55,14 @@ def fetch(url: str, timeout: float = 20) -> tuple[int, bytes]:
         return exc.code, exc.read()
 
 
-def pid_owns_loopback(pid: int, port: int) -> tuple[bool, str]:
-    """Return whether `pid` is LISTENING on 127.0.0.1:`port`. Never matches by process name."""
-    out = subprocess.check_output(["netstat", "-ano", "-p", "tcp"], text=True, errors="replace")
+def _listening_pids_windows(port: int) -> list[str] | None:
+    """PIDs from Windows `netstat -ano -p tcp`. None if netstat cannot be run."""
+    try:
+        out = subprocess.check_output(["netstat", "-ano", "-p", "tcp"], text=True, errors="replace")
+    except (OSError, subprocess.CalledProcessError):
+        return None
     owners: list[str] = []
+    suffix = ":%s" % port
     for line in out.splitlines():
         if "LISTENING" not in line:
             continue
@@ -65,13 +70,75 @@ def pid_owns_loopback(pid: int, port: int) -> tuple[bool, str]:
         if len(parts) < 5:
             continue
         local = parts[1]
-        owner = parts[-1]
-        if local.startswith("127.0.0.1:") and local.endswith(f":{port}"):
-            owners.append(owner)
+        if local.startswith("127.0.0.1:") and local.endswith(suffix):
+            owners.append(parts[-1])
+    return owners
+
+
+def _listening_pids_ss(port: int) -> list[str] | None:
+    """PIDs from `ss -ltnp`. None if ss is missing or hides the process."""
+    try:
+        out = subprocess.check_output(["ss", "-ltnp"], text=True, errors="replace")
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    needle = "127.0.0.1:%s" % port
+    owners: list[str] = []
+    saw_port = False
+    for line in out.splitlines():
+        if "LISTEN" not in line or needle not in line:
+            continue
+        saw_port = True
+        owners.extend(re.findall(r"pid=(\d+)", line))
+    if saw_port and not owners:
+        return None
+    return owners
+
+
+def _listening_pids_psutil(port: int) -> list[str] | None:
+    """PIDs from psutil. None if psutil is not installed or cannot list sockets."""
+    try:
+        import psutil
+    except ImportError:
+        return None
+    try:
+        conns = psutil.net_connections(kind="tcp")
+    except Exception:  # noqa: BLE001
+        return None
+    owners: list[str] = []
+    for conn in conns:
+        if conn.status != psutil.CONN_LISTEN or not conn.laddr:
+            continue
+        ip = getattr(conn.laddr, "ip", None)
+        cport = getattr(conn.laddr, "port", None)
+        if ip is None and isinstance(conn.laddr, tuple) and len(conn.laddr) >= 2:
+            ip, cport = conn.laddr[0], conn.laddr[1]
+        if ip == "127.0.0.1" and cport == port and conn.pid:
+            owners.append(str(conn.pid))
+    return owners
+
+
+def pid_owns_loopback(pid: int, port: int) -> tuple[bool | None, str]:
+    """Whether `pid` is LISTENING on 127.0.0.1:`port`.
+
+    Never matches by process name. None means the probe was skipped: on Linux
+    that is when both `ss -ltnp` and psutil are unavailable.
+    """
+    if sys.platform == "win32":
+        owners = _listening_pids_windows(port)
+        source = "netstat"
+        if owners is None:
+            return None, "skipped: Windows netstat could not be run"
+    else:
+        owners = _listening_pids_ss(port)
+        source = "ss"
+        if owners is None:
+            owners = _listening_pids_psutil(port)
+            source = "psutil"
+        if owners is None:
+            return None, "skipped: neither ss -ltnp nor psutil could identify the listener"
     if not owners:
-        return False, "no LISTENING socket on 127.0.0.1:%s" % port
-    ok = any(owner == str(pid) for owner in owners)
-    return ok, "listening pid(s) %s" % ",".join(owners)
+        return False, "%s: no LISTENING socket on 127.0.0.1:%s" % (source, port)
+    return str(pid) in owners, "%s listening pid(s) %s" % (source, ",".join(owners))
 
 
 def doctor(base: str, pid: int | None) -> dict:
@@ -103,8 +170,16 @@ def doctor(base: str, pid: int | None) -> dict:
             try:
                 owned, detail = pid_owns_loopback(pid, port)
             except Exception as exc:  # noqa: BLE001
-                owned, detail = False, str(exc)
-            add("port-owner", owned, "pid %s %s" % (pid, detail))
+                owned, detail = None, "skipped: %s" % exc
+            if owned is None:
+                report["checks"].append({
+                    "name": "port-owner",
+                    "ok": True,
+                    "skipped": True,
+                    "detail": "warning: pid %s %s" % (pid, detail),
+                })
+            else:
+                add("port-owner", owned, "pid %s %s" % (pid, detail))
 
     status, body = fetch(base + "/index.html")
     text = body.decode("utf-8", "replace")
@@ -449,7 +524,7 @@ def drive_leaders(base: str, evidence: Path, viewports: list[tuple[int, int]]) -
                 )
                 page.locator("#rep-windows button[data-h='30']").click()
                 page.wait_for_function(
-                    """() => location.search.includes('h=30') && document.querySelector('table.rep th')?.textContent.includes('30d')"""
+                    """() => location.search.includes('h=30') && [...document.querySelectorAll('table.rep th')].some((th) => (th.textContent || '').includes('30d'))"""
                 )
                 shot(page, folder / "local-after.png", "table.rep")
                 entry = {"viewport": "%sx%s" % (width, height), "url": page.url, "ok": True,

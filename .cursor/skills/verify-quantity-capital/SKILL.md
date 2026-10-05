@@ -13,15 +13,25 @@ Read `features/README.md` before driving. A proof of one feature does not cover 
 
 From the repo root, bind a free loopback port. Do not assume port 8765 is free or that it is the instance under test. The string `127.0.0.1:8765` inside `index.html` is only the copy shown when `file://` fails to load JSON.
 
+Windows:
+
 ```
 python -m http.server <port> --bind 127.0.0.1
+```
+
+Linux and the QC box:
+
+```
+python3 -m http.server <port> --bind 127.0.0.1
 ```
 
 Ready means `http://127.0.0.1:<port>/index.html` returns HTTP 200 and `tape/page.json` parses. Opening the HTML files from disk does not load the tape.
 
 Record the PID of that process. Two runs use two ports. Do not drive a server you did not start. The site is read-only during a drive: filters call `history.replaceState` and do not write files.
 
-Playwright and Pillow must import. Chromium must be installed for Playwright (`python -m playwright install chromium`). If either import fails, create a venv outside the repo and install there. Do not commit the venv.
+Playwright and Pillow must import. Chromium must be installed for Playwright. If either import fails, create a venv outside the repo and install there. Do not commit the venv.
+
+Windows:
 
 ```
 python -m venv %TEMP%\qc-verify-venv
@@ -29,7 +39,16 @@ python -m venv %TEMP%\qc-verify-venv
 %TEMP%\qc-verify-venv\Scripts\python.exe -m playwright install chromium
 ```
 
-Then invoke the helpers with that interpreter.
+Linux and the QC box:
+
+```
+python3 -m venv "${TMPDIR:-/tmp}/qc-verify-venv"
+source "${TMPDIR:-/tmp}/qc-verify-venv/bin/activate"
+python3 -m pip install playwright pillow
+python3 -m playwright install chromium
+```
+
+Then invoke the helpers with that interpreter (`python` on Windows, `python3` on Linux after `source <venv>/bin/activate`).
 
 ### Shell cache
 
@@ -39,11 +58,21 @@ Then invoke the helpers with that interpreter.
 
 Run this before every drive. It is read-only. Exit 0 means the instance is worth driving: loopback base, the PID you started owns `127.0.0.1:<port>`, `index.html` contains the wire, `tape/page.json` has a non-empty `trades` list and a `collected` stamp, and `sw.js` still uses a `qc-shell-v` cache name.
 
+Windows:
+
 ```
 python .cursor/skills/verify-quantity-capital/qc_verify.py doctor --base http://127.0.0.1:<port> --pid <pid> --evidence <evidence-dir>
 ```
 
-`<evidence-dir>` must be outside the repo. Default is `%TEMP%\qc-verify-evidence` (or `QC_VERIFY_EVIDENCE` when set). The doctor writes `<evidence-dir>\doctor.json`.
+Linux and the QC box:
+
+```
+python3 .cursor/skills/verify-quantity-capital/qc_verify.py doctor --base http://127.0.0.1:<port> --pid <pid> --evidence <evidence-dir>
+```
+
+`<evidence-dir>` must be outside the repo. Default is `%TEMP%\qc-verify-evidence` on Windows and `$TMPDIR/qc-verify-evidence` (usually `/tmp/qc-verify-evidence`) on Linux, or `QC_VERIFY_EVIDENCE` when set. The doctor writes `<evidence-dir>/doctor.json`.
+
+The port-owner check uses Windows `netstat -ano -p tcp`. On Linux it uses `ss -ltnp`, then psutil if that cannot see the process. If neither works, that one check is skipped with a warning and doctor still passes the other checks. A socket owned by a different PID still fails.
 
 If Playwright or Pillow is missing, doctor fails and the Launch venv commands apply. Do not point doctor at the live site. Live is a screenshot comparison target only.
 
@@ -51,17 +80,21 @@ If Playwright or Pillow is missing, doctor fails and the Launch venv commands ap
 
 Harness: Python Playwright sync API, headless Chromium, one fresh context per viewport, service workers blocked. Viewports are `390x844` and `1280x800`. Both are required for a full proof of a feature.
 
-```
-python .cursor/skills/verify-quantity-capital/qc_verify.py drive <feature> --base http://127.0.0.1:<port> --evidence <evidence-dir>
-```
+Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py drive <feature> --base http://127.0.0.1:<port> --evidence <evidence-dir>`
+
+Linux and the QC box: `python3 .cursor/skills/verify-quantity-capital/qc_verify.py drive <feature> --base http://127.0.0.1:<port> --evidence <evidence-dir>`
 
 `<feature>` is one of `politician-tape`, `insiders-tape`, `leaders`, `ticker-chart`, `filed`. Recipes, selectors, and observable results are in `features/`. Prefer the ARIA names and ids in those files over coordinates.
 
 `politician-tape` also screenshots the same filtered wire on the live site:
 
+Windows:
+
 ```
 python .cursor/skills/verify-quantity-capital/qc_verify.py drive politician-tape --base http://127.0.0.1:<port> --live https://gordojr1.github.io/quantity-capital --evidence <evidence-dir>
 ```
+
+Linux and the QC box: same command with `python3`.
 
 Drive against the JSON already in the clone (`tape/page.json`, `tape/all.json`, `tape/politicians/<id>.json`, `insider-trades-lite.json`, `insider-analysis.json`, `insider-repeatable.json`, `landed.json`, `prices/<TICKER>.json`). Live Pages is whatever the desktop publish job and GitHub Actions (`daily-update`, `follow-alerts`) last pushed. Do not rebuild to make the two match. A pixel difference is not a failure. A local failure to filter, navigate, or paint the committed JSON is.
 
@@ -71,7 +104,7 @@ On each viewport the script records console warnings and errors, uncaught page e
 
 GitHub Actions check `pr-check` (`.github/workflows/pr-check.yml`, job `check`) is the CI syntax gate: key JSON parses, `node --check` on the shell scripts, `py_compile` and unit tests for the builders. It runs the Jev merge gates `--packet-only`. It does not launch the PWA.
 
-The Jev merge gate is `scripts/run_pr_merge_gate.py` (Work A, claims to Insiders), `scripts/run_claims_beta_gate.py` (Work B), and `scripts/run_canada_commodities_gate.py`, sharing `scripts/qc_gate.py`. `pr-check` calls them with `--packet-only` because CI has no `TYPESAFE_API_KEY`. The QC box runs `--require-jev` (key from `/home/box/shared/typesafe/env` or `%USERPROFILE%\.grok\typesafe.env`). The operator calls that box runner the Model Router bot. The in-repo scripts call the TypeSafe Jev API (Choice / Noul / Score), not Jev Bot. Do not run `--require-jev` from a UI verification. It is not a browser proof and it spends TypeSafe calls.
+The Jev merge gate is `scripts/run_pr_merge_gate.py` (Work A, claims to Insiders), `scripts/run_claims_beta_gate.py` (Work B), and `scripts/run_canada_commodities_gate.py`, sharing `scripts/qc_gate.py`. `pr-check` calls them with `--packet-only` because CI has no `TYPESAFE_API_KEY`. QC, the repo owner bot, owns the merge gate and runs `--require-jev` from the box (key from `/home/box/shared/typesafe/env` or `%USERPROFILE%\.grok\typesafe.env`). The in-repo scripts call the TypeSafe Jev API (Choice / Noul / Score), not Jev Bot. Do not run `--require-jev` from a UI verification. It is not a browser proof and it spends TypeSafe calls.
 
 ## Evidence
 
@@ -95,19 +128,27 @@ Capture both viewports. Do not treat a skipped viewport as verified.
 
 Stitch by hand:
 
-```
-python .cursor/skills/verify-quantity-capital/qc_verify.py stitch --left <local-after.png> --right <live-after.png> --out <local-vs-live.png> --label-left local --label-right live
-```
+Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py stitch --left <local-after.png> --right <live-after.png> --out <local-vs-live.png> --label-left local --label-right live`
+
+Linux and the QC box: the same command with `python3`.
 
 ## Cleanup
 
-Stop only the PID you started. Do not kill by process name (`python`, `chrome`, `http.server`).
+Stop only the PID you started. Never kill by process name (`python`, `python3`, `chrome`, `http.server`).
+
+Windows:
 
 ```
 Stop-Process -Id <pid> -Force
 ```
 
-Confirm with doctor or `netstat` that `127.0.0.1:<port>` is no longer LISTENING. Cleanup does not delete the evidence directory. After a failed drive, stop that PID before starting another server on the same port.
+Linux and the QC box:
+
+```
+kill <pid>
+```
+
+Confirm the port is no longer LISTENING. Windows: `netstat -ano -p tcp`. Linux: `ss -ltnp`. Cleanup does not delete the evidence directory. After a failed drive, stop that PID before starting another server on the same port.
 
 ## Helpers
 
@@ -121,7 +162,7 @@ Confirm with doctor or `netstat` that `127.0.0.1:<port>` is no longer LISTENING.
 | `qc_verify.py drive filed --base http://127.0.0.1:<port> --evidence <dir>` | Politician Filed page, then Last 7 days. |
 | `qc_verify.py stitch --left A --right B --out C` | Side-by-side PNG with Pillow. |
 
-Invoke from the repo root with `python .cursor/skills/verify-quantity-capital/qc_verify.py …`.
+Invoke from the repo root. Windows: `python .cursor/skills/verify-quantity-capital/qc_verify.py …`. Linux and the QC box: `python3 .cursor/skills/verify-quantity-capital/qc_verify.py …` after `source <venv>/bin/activate` when the packages live in that venv.
 
 ## Maintenance
 

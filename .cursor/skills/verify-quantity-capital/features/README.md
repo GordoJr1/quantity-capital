@@ -4,7 +4,8 @@ This directory is the maintained source for verifying the user-facing behavior o
 
 ## Baseline preconditions
 
-- Serve the repo root with `python -m http.server <port> --bind 127.0.0.1`.
+- Serve the repo root. Windows: `python -m http.server <port> --bind 127.0.0.1`. Linux and the QC box: `python3 -m http.server <port> --bind 127.0.0.1`.
+- Stop only that server's PID. Windows: `Stop-Process -Id <pid> -Force`. Linux and the QC box: `kill <pid>`. Never kill by process name.
 - Run `qc_verify.py doctor` and require a loopback base, your server PID on that port, a non-empty `tape/page.json`, and a `qc-shell-v` cache name.
 - Drive only that instance. The live site `https://gordojr1.github.io/quantity-capital/` is a screenshot comparison, not a second app to mutate.
 - Use the JSON already in the clone. Do not rebuild it and do not run `publish.py`.
@@ -15,7 +16,7 @@ This directory is the maintained source for verifying the user-facing behavior o
 
 - Start from the baseline state unless the feature file says otherwise.
 - Prefer accessible names and stable ids (`#filter-company`, `#wire`, `#q`, `role="tab"`) over coordinates.
-- The harness is `python .cursor/skills/verify-quantity-capital/qc_verify.py`.
+- The harness is `python .cursor/skills/verify-quantity-capital/qc_verify.py` on Windows and `python3 .cursor/skills/verify-quantity-capital/qc_verify.py` on Linux and the QC box. If imports are missing, create the venv in `../SKILL.md` and `source <venv>/bin/activate` before `python3`.
 - Treat commands as literal. Keep quoted names, ids, and flags unchanged.
 - Phone width hides `nav.qc-nav` at `max-width: 820px` and shows `nav.tabbar`. Wire row markup changes at `900px` (`li.w-row` above, `li.w1` below). Those are different breakpoints.
 - Below 820px the politician tape's `details.filter-fold` starts closed. Open **Search & filters** before typing.

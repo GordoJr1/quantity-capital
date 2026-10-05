@@ -742,10 +742,14 @@
       }
 
       /* line 1: TICKER · Company  [chips]                       amount */
+      /* The link hugs its text: without justify-self it stretched across the whole "co co" span, so the empty
+         space to the right of the name was part of the link (hover underlined the name, a click left the page
+         instead of selecting the tile). The gap before the amount is a margin, not link padding. */
       #desk li.qc-txn-tape a.qc-txn-company {
-        grid-area: co; display: flex; align-items: center; flex-wrap: nowrap; gap: 0; min-width: 0; overflow: hidden;
+        grid-area: co; justify-self: start; max-width: calc(100% - 16px); margin-right: 16px;
+        display: flex; align-items: center; flex-wrap: nowrap; gap: 0; min-width: 0; overflow: hidden;
         font-family: "IBM Plex Sans", sans-serif; font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: 0;
-        text-transform: none; color: var(--white); text-decoration: none; padding-right: 16px;
+        text-transform: none; color: var(--white); text-decoration: none; padding-right: 0;
       }
       #desk li.qc-txn-tape a.qc-txn-company .qc-txn-tk {
         display: contents; font-family: "IBM Plex Sans", sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.02em;

@@ -1,10 +1,63 @@
 {
-  "generated": "2026-10-05T23:01:01.065298+00:00",
+  "generated": "2026-10-06T01:22:22.707261+00:00",
   "tapeCollected": "2026-10-05T22:20:19.860308+00:00",
   "priceAsof": "2026-10-02",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
+    {
+      "code": "MTZ",
+      "name": "Mastec Inc",
+      "action": "watch",
+      "score": 6.231,
+      "why": "Landed \u00b7 Conflict \u00b7 Deep washout \u00b7 Monthly intact",
+      "last": 215.93,
+      "pxAsof": "2026-10-02",
+      "buyPx": 266.26,
+      "chgSinceBuy": -0.189,
+      "lastBuy": "2026-08-21",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 26,
+      "heat": 0.333,
+      "landed": true,
+      "landedAt": "2026-09-15T11:20:21.799563+00:00",
+      "lagDays": 25,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Thomas H. Kean",
+          "id": "thomas-h-kean"
+        }
+      ],
+      "weekly": {
+        "rsi": 17.6,
+        "sma20": 306.91,
+        "sma40": 307.58,
+        "vs20": -29.6,
+        "ret4w": -9.0,
+        "ret13w": -42.2,
+        "fromHigh": -45.5,
+        "trend": "DOWN",
+        "recentLow": 212.85
+      },
+      "monthly": {
+        "rsi": 53.5,
+        "sma10": 298.12,
+        "vs10": -27.6,
+        "trend": "DOWN"
+      },
+      "invalidation": 212.85,
+      "flags": [
+        "Landed",
+        "Deep washout",
+        "Monthly intact"
+      ],
+      "rank": 1
+    },
     {
       "code": "MRVL",
       "name": "Marvell Technology Inc",
@@ -19,7 +72,7 @@
       "nBuyers": 3,
       "buyHigh": 5045000,
       "heatRank": 29,
-      "heat": 0.34,
+      "heat": 0.317,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 49,
@@ -65,13 +118,13 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 1
+      "rank": 2
     },
     {
       "code": "HD",
       "name": "Home Depot, Inc. (The)",
       "action": "watch",
-      "score": 5.675,
+      "score": 5.65,
       "why": "Landed",
       "last": 282.85,
       "pxAsof": "2026-10-02",
@@ -81,7 +134,7 @@
       "nBuyers": 2,
       "buyHigh": 80000,
       "heatRank": 1,
-      "heat": 2.059,
+      "heat": 1.92,
       "landed": true,
       "landedAt": "2026-10-03T11:20:20.782439+00:00",
       "lagDays": 11,
@@ -120,78 +173,15 @@
       "flags": [
         "Landed"
       ],
-      "rank": 2
+      "rank": 3
     }
   ],
   "avoid": [
     {
-      "code": "WDAY",
-      "name": "Workday, Inc.",
-      "action": "avoid",
-      "score": 3.059,
-      "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 186.14,
-      "pxAsof": "2026-10-02",
-      "buyPx": 190.64,
-      "chgSinceBuy": -0.0236,
-      "lastBuy": "2026-08-18",
-      "nBuyers": 3,
-      "buyHigh": 1030000,
-      "heatRank": 19,
-      "heat": 0.43,
-      "landed": true,
-      "landedAt": "2026-09-25T22:21:20.366354+00:00",
-      "lagDays": 38,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": true,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "Gilbert Cisneros",
-          "id": "gilbert-cisneros"
-        }
-      ],
-      "weekly": {
-        "rsi": 73.1,
-        "sma20": 161.97,
-        "sma40": 154.89,
-        "vs20": 14.9,
-        "ret4w": -4.9,
-        "ret13w": 37.5,
-        "fromHigh": -9.1,
-        "trend": "UP",
-        "recentLow": 185.7
-      },
-      "monthly": {
-        "rsi": 41.5,
-        "sma10": 156.47,
-        "vs10": 19.0,
-        "trend": "UP"
-      },
-      "invalidation": 149.01,
-      "flags": [
-        "Landed",
-        "Whale",
-        "Cluster",
-        "Monthly intact",
-        "Weekly extended"
-      ],
-      "rank": 1
-    },
-    {
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 2.862,
+      "score": 2.837,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 198.9,
       "pxAsof": "2026-10-02",
@@ -201,7 +191,7 @@
       "nBuyers": 4,
       "buyHigh": 75000,
       "heatRank": 7,
-      "heat": 0.806,
+      "heat": 0.752,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -251,7 +241,7 @@
         "Monthly intact",
         "Weekly extended"
       ],
-      "rank": 2
+      "rank": 1
     },
     {
       "code": "PLTR",
@@ -267,7 +257,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 150,
-      "heat": 0.021,
+      "heat": 0.019,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 53,
@@ -304,13 +294,13 @@
         "Monthly intact",
         "Weekly extended"
       ],
-      "rank": 3
+      "rank": 2
     },
     {
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 1.885,
+      "score": 1.864,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 517.53,
       "pxAsof": "2026-10-02",
@@ -319,8 +309,8 @@
       "lastBuy": "2026-08-18",
       "nBuyers": 3,
       "buyHigh": 230000,
-      "heatRank": 21,
-      "heat": 0.391,
+      "heatRank": 20,
+      "heat": 0.364,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
@@ -366,13 +356,71 @@
         "Monthly intact",
         "Weekly extended"
       ],
+      "rank": 3
+    },
+    {
+      "code": "WDAY",
+      "name": "Workday, Inc.",
+      "action": "avoid",
+      "score": 1.863,
+      "why": "Signals heat, but weekly RSI is stretched into the highs",
+      "last": 186.14,
+      "pxAsof": "2026-10-02",
+      "buyPx": 190.64,
+      "chgSinceBuy": -0.0236,
+      "lastBuy": "2026-08-18",
+      "nBuyers": 2,
+      "buyHigh": 1015000,
+      "heatRank": 25,
+      "heat": 0.339,
+      "landed": true,
+      "landedAt": "2026-09-25T22:21:20.366354+00:00",
+      "lagDays": 38,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": true,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Donald J. Trump",
+          "id": "donald-j-trump"
+        },
+        {
+          "name": "Gilbert Cisneros",
+          "id": "gilbert-cisneros"
+        }
+      ],
+      "weekly": {
+        "rsi": 73.1,
+        "sma20": 161.97,
+        "sma40": 154.89,
+        "vs20": 14.9,
+        "ret4w": -4.9,
+        "ret13w": 37.5,
+        "fromHigh": -9.1,
+        "trend": "UP",
+        "recentLow": 185.7
+      },
+      "monthly": {
+        "rsi": 41.5,
+        "sma10": 156.47,
+        "vs10": 19.0,
+        "trend": "UP"
+      },
+      "invalidation": 149.01,
+      "flags": [
+        "Landed",
+        "Whale",
+        "Monthly intact",
+        "Weekly extended"
+      ],
       "rank": 4
     },
     {
       "code": "ATRC",
-      "name": "- Select UMA Account # 1 AtriCure, Inc.",
+      "name": "AtriCure, Inc.",
       "action": "avoid",
-      "score": 1.02,
+      "score": 0.995,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 55.14,
       "pxAsof": "2026-10-02",
@@ -382,7 +430,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 44,
-      "heat": 0.252,
+      "heat": 0.235,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,

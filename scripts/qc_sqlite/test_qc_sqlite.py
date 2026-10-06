@@ -186,9 +186,76 @@ class AnalysisNames(unittest.TestCase):
         ("MS", "Morgan Stanley", "Morgan Stanley"),
         ("VNO", "L: US D:", "VNO"),
         ("FQAL", "L: US D: mutual fund Fidelity Quality Factor ETF", "Fidelity Quality Factor ETF"),
-        ("IGSB", "D: 11/3/23 Buy 247 shares of EOG Resources, Inc, cusip 26875P101, ticker EOG. iShares 1-5 Year ETF", "IGSB"),
+        ("IGSB", "D: 11/3/23 Buy 247 shares of EOG Resources, Inc, cusip 26875P101, ticker EOG. iShares 1-5 Year ETF", "iShares 1-5 Year ETF"),
         ("SCHD", "Schwab U.S. Dividend Equity ETF", "Schwab U.S. Dividend Equity ETF"),
         ("VTI", "Fidelity Rollover IRA Vanguard Total Stock Market ETF", "Vanguard Total Stock Market ETF"),
+        # Reviewer Bot FAIL on #216 (a1ab6b1): the company comes AFTER a mid-name "D:" note; never the holder.
+        ("LAZ", "J French Hill - Revocable Trust D: FULL LIQUIDATION. Lazard, Inc.", "Lazard, Inc."),
+        ("LAZ", "J French Hill - Revocable Trust D: FULL LIQUIDATION. Lazard, Inc. Common Stock", "Lazard, Inc."),
+        ("BCE", "John Marshall Collins Rollover IRA D: Corporate bond BCE, Inc.", "BCE, Inc."),
+        ("WBK", "John Marshall Collins Rollover IRA D: Corporate bond Westpac Banking Corporation", "Westpac Banking Corporation"),
+        ("AI", "Trust One D: 1000 shares/loss C3.ai, Inc.", "C3.ai, Inc."),
+        ("AI", "Trust One D: 1000 shares/loss C3.ai, Inc. Class A", "C3.ai, Inc."),
+        ("AI", "Investment Fund 1 D: Fetal Monitoring Medical Equipment Manufacturing; Palo Alto, CA Rhoda", "AI"),
+        ("DBRG", "Trust One D: 60.8 shares DigitalBridge Group, Inc.", "DigitalBridge Group, Inc."),
+        ("ICLR", "Kevin Hern Insurance Trust D: Sell to close. ICON plc - Ordinary Shares", "ICON plc"),
+        ("ICLR", "Kevin Hern Insurance Trust D: Sell to close. ICON plc -", "ICON plc"),
+        ("ICLR", "Kevin Hern Traditional IRA ICON plc - Ordinary Shares", "ICON plc"),
+        ("ICLR", "John A. James Children\u2019s Trust ICON plc - Ordinary Shares", "ICON plc"),
+        ("BKE", "CRT - Standard Unit Trust D: Account Closing Buckle, Inc.", "Buckle, Inc."),
+        ("BKE", "CRT - Standard Unit Trust D: Portfolio Rebalance Buckle, Inc.", "Buckle, Inc."),
+        ("PRI", "CRT - Standard Unit Trust D: Account Closing Primerica, Inc. Common Stock", "Primerica, Inc."),
+        ("THG", "CRT - Standard Unit Trust D: Portfolio Rebalance Hanover Insurance Group Inc", "Hanover Insurance Group Inc"),
+        # bond-only notes: no clean company, so fall back to the ticker (never "CRT - Standard Unit Trust")
+        ("FRN", "CRT - Standard Unit Trust D: Account Closing PNC Finl Svc 6.875 10/20/34 '33", "FRN"),
+        ("MTN", "CRT - Standard Unit Trust D: Account Closing Wells Fargo 6.491 10/23/34 '33", "MTN"),
+        ("MTN", "D: Ticker 8035 JP Vail Resorts, Inc. Common Stock", "Vail Resorts, Inc."),
+        ("GP", "L: Caldwell, ID, US D: Own/operate mobile home park Kent Street Group", "GP"),
+        ("AEO", "D: Account Closing American Eagle Outfitters, Inc.", "American Eagle Outfitters, Inc."),
+        ("AEO", "D: Portfolio Rebalance American Eagle Outfitters, Inc. Common Stock", "American Eagle Outfitters, Inc."),
+        ("NVDA", "D: Sold 10,000 shares. NVIDIA Corporation - Common Stock", "NVIDIA Corporation"),
+        ("NVDA", "Trust One D: UBS Trust 300 NVIDIA Corporation", "NVIDIA Corporation"),
+        ("NVDA", "Trust One D: 20 shares Schwab + 20 more Schwab NVIDIA Corporation", "NVDA"),
+        # short real names must not become the ticker (no build-backtest issuer_name)
+        ("ACM", "AECOM", "AECOM"),
+        ("ACM", "AECOM Common Stock", "AECOM"),
+        ("AXAHY", "AXA", "AXA"),
+        ("AXAHY", "AXA ADR (AXAHY)", "AXA"),
+        ("NVDA", "NVIDIA", "NVIDIA"),
+        ("NVDA", "NVIDIA CORPORATION CMN ;", "NVIDIA CORPORATION"),
+        # broker words that are part of the real name
+        ("CCF", "Chase Corporation", "Chase Corporation"),
+        ("FXAIX", "Fidelity 500 Index Fund (FXAIX)", "Fidelity 500 Index Fund"),
+        ("FXAIX", "Fidelity 500 Index Fund", "Fidelity 500 Index Fund"),
+        ("VFIAX", "Vanguard 500 Index Fund", "Vanguard 500 Index Fund"),
+        ("VOO", "Vanguard 500 Index Fund ETF Shares (VOO)", "Vanguard 500 Index Fund ETF Shares"),
+        ("UBS", "UBS Group AG Registered Ordinary Shares", "UBS Group AG"),
+        ("UBS", "UBS Group AG", "UBS Group AG"),
+        ("UBS", "Fisher IRA UBS Group AG Registered Ordinary Shares", "UBS Group AG"),
+        ("SCHW", "Charles Schwab Corporation", "Charles Schwab Corporation"),
+        # broker / sleeve prefixes
+        ("NVDA", "Charles Schwab 401K > Schwab 824 NVIDIA Corporation - Common Stock", "NVIDIA Corporation"),
+        ("NVDA", "Rockefeller Capital Management (2) NVIDIA Corporation - Common Stock", "NVIDIA Corporation"),
+        ("NVDA", "Merrill Lynch- Advisor Discretion Account- IRA NVIDIA Corporation - Common Stock", "NVIDIA Corporation"),
+        ("NVDA", "Morgan Stanley Active Assets (1) NVIDIA Corporation - Common Stock", "NVIDIA Corporation"),
+        ("AXAHY", "Daniel Goldman Grandchildren 1986 Trust > TLH ADR AXA SA Sponsored ADR", "AXA SA"),
+        ("AAPL", "P 01/02/202501/03/2025$1,001 - $15,000 Apple Inc. - Common Stock", "Apple Inc."),
+        ("NVDA", "NextEra Energy, Inc. (NEE) [ST] P 03/08/202203/08/2022$1,001 - $15,000 NVIDIA Corporation", "NVIDIA Corporation"),
+        ("ALB", "LIVTR 2000079934SP Albemarle Corporation", "Albemarle Corporation"),
+        ("JNJ", "LIVTR Johnson & Johnson Common Stock", "Johnson & Johnson"),
+        ("MS", "P 05/14/202505/15/2025$1,001 - $15,000 Morgan Stanley Common Stock", "Morgan Stanley"),
+        ("RH", "P 04/04/202504/07/2025$1,001 - $15,000 RH Common Stock", "RH"),
+        ("TOIXX", "TOIXX [GS] P 04/16/202505/30/2025$1,001 - $15,000", "TOIXX"),
+        ("FAS", "S 06/01/202606/01/2026$1,001 - $15,000", "FAS"),
+        ("NSA", "National Storage Affiliates Trust Common Shares of Beneficial Interest D: Exchange of National Storage Affiliates (NSA) for Public Storage (PSA) following acquisition. NVIDIA Corporation - Common Stock (NVDA) [ST] P 07/17/202608/14/2026$1,001 - $15,000 150 Main Street Trust > Bank of America Palantir Technologies Inc. - Class A Common Stock (PLTR) [ST] P", "NSA"),
+        ("CHTR", "Charter Communications, Inc. - Class A Common Stock D: Shares received thru merger Liberty Broadband Corporation - Class C Common Stock (LBRDK) [ST] E 08/20/202609/11/2026$1,001 - $15,000 Roth IRA D: Shares surrendered thru merger", "Charter Communications, Inc."),
+        ("TSLA", "Shares (TME) [ST] Tesla, Inc.", "Tesla, Inc."),
+        ("PTC", "(PAYX) [ST] PTC Inc. - Common Stock", "PTC Inc."),
+        ("GIL", "Kean Family Partnership Gildan Activewear, Inc. Class A Sub. Vot. Common Stock", "Gildan Activewear, Inc."),
+        ("ACN", "Trust 1 Accenture plc Class A Ordinary Shares D: Asset acquired through a S&P Global (SPGI) spinoff.", "Accenture plc"),
+        # idempotence regressions found while fixing
+        ("AZO", "AUTOZONE, INC. CMN- _", "AUTOZONE, INC."),
+        ("CBRE", "CBRE GROUP, INC.CMN CLASS A", "CBRE GROUP, INC."),
     ]
 
     def test_cases(self):
@@ -197,6 +264,30 @@ class AnalysisNames(unittest.TestCase):
         for code, raw, want in self.CASES:
             with self.subTest(code=code, raw=raw):
                 self.assertEqual(analysis.clean_name(raw, code), want)
+
+    def test_idempotent(self):
+        import analysis
+
+        for code, raw, _want in self.CASES:
+            once = analysis.clean_name(raw, code)
+            with self.subTest(code=code, raw=raw):
+                self.assertEqual(analysis.clean_name(once, code), once)
+
+    def test_never_outputs_holder(self):
+        import analysis
+
+        for code, raw, _want in self.CASES:
+            out = analysis.clean_name(raw, code)
+            with self.subTest(code=code, raw=raw):
+                self.assertIsNone(analysis._HOLDER_LEFT.search(out), out)
+
+    def test_no_build_backtest_dependency(self):
+        import analysis
+
+        src = Path(analysis.__file__).read_text(encoding="utf-8")
+        self.assertNotIn("issuer_name", src)
+        self.assertNotIn("spec_from_file_location", src)
+        self.assertNotIn("HERE.parents[1]", src)
 
 
 class AnalysisRefill(unittest.TestCase):

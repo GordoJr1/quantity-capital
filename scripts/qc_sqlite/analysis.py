@@ -188,86 +188,224 @@ def code_of(t: dict) -> str:
     return c
 
 
-_issuer_name = None
-
-
-def _shared_issuer_name():
-    """build-backtest.py's issuer_name (the Python twin of qc.js's company cleaner), loaded once."""
-    global _issuer_name
-    if _issuer_name is None:
-        try:
-            import importlib.util
-
-            root = HERE.parents[1]
-            if str(root) not in sys.path:
-                sys.path.insert(0, str(root))
-            spec = importlib.util.spec_from_file_location("qc_build_backtest", root / "build-backtest.py")
-            mod = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)  # type: ignore[union-attr]
-            _issuer_name = (mod.issuer_name, re.compile(rf"^(?:{mod.BROKERS})\b", re.I))
-        except Exception as exc:  # keep the book building with the local rules only
-            log(f"analysis: shared issuer_name unavailable ({type(exc).__name__}); local name rules only")
-            _issuer_name = False
-    return _issuer_name or None
-
-
-# Words that continue a company name after a broker word (FIS, FNF, GSBD, ...).
-BROKER_COMPANY_TAIL = re.compile(r"(?:national|financial|bdc|capital corp|private credit)\b", re.I)
-# ... unless an account label follows the broker word ("Fidelity Rollover IRA ...").
-ACCOUNT_AFTER_BROKER = re.compile(
-    r"(?:-|:|advisors?\b|rollover\b|ira\b|roth\b|brokerage\b|account\b|select uma\b|uma\b|joint\b)", re.I
+# ---- Filing-name cleanup. Self-contained on purpose: no build-backtest.py import. ----
+_WS = re.compile(r"\s+")
+_NOTE_MARK = re.compile(r"(?<!\S)([DCL]):(?:\s+|$)")
+# Lead-ins that open a "D:" note and end right where the company name starts.
+_NOTE_LEADIN = re.compile(
+    r"^(?:account closing|(?:part of )?(?:advisor-driven )?(?:quarterly )?(?:portfolio )?rebalanc(?:e|ing)|"
+    r"reinvestment of distributions?|(?:call|put) options?|expires?\s+[\d/]+|corporate bond|municipal bond|treasury bond|"
+    r"mutual fund|dividend reinvestment|automatic reinvestment|reinvest(?:ed)? shares|full liquidation|"
+    r"partial liquidation|closed position|existing holding|adr stock|eft|(?:sell|buy) to (?:open|close)|"
+    r"asset (?:inherited|acquired)(?:\s+[A-Z][a-z]{2}\.?\s+\d{4})?|"
+    r"ticker\s+[\w.]+(?:\s+[A-Z]{2})?|[\d.,]+\s+shares?(?:/\w+)?)[.:,]?\s+",
+    re.I,
 )
-# ... and fund names ("Vanguard S&P 500 ETF", "Schwab U.S. Dividend Equity ETF").
-FUND_WORDS = re.compile(r"\b(?:etf|fund|fd|portfolio|(?:mid|small|large)[- ]cap)\b", re.I)
-# Holder prefix ending in a separator: "Smith Family Trust - Apple Inc", "Doe Foundation: Apple Inc".
-HOLDER_PREFIX = re.compile(r"^[^>]{0,80}?\b(?:trust|foundation)\b(?:\s+(?:u/a|dtd|fbo)\b[^:-]*)?\s*[-:]\s+(?=\S)", re.I)
+# Sentence end inside a note: "FULL LIQUIDATION. Lazard, Inc." -> split after the period,
+# but not after an initial or a corporate abbreviation (D.R. Horton, Inc., Corp.).
+_ABBR = {"inc", "corp", "co", "cos", "ltd", "jr", "sr", "st", "no", "mr", "mrs", "dr", "bros", "intl", "hldgs", "plc", "llc", "lp", "sa", "nv", "ag", "u.s", "s.a", "n.v",
+         "sub", "vot", "svs", "ser", "pfd", "dep", "shs", "ord", "cl",
+         "jan", "feb", "mar", "apr", "jun", "jul", "aug", "sep", "sept", "oct", "nov", "dec"}
+_SENT = re.compile(r"(?<=[\w)%/])\.\s+(?=[A-Z0-9]|i[A-Z])")
+# Words a company name practically never has; their presence means the note is still there.
+_NOTE_WORDS = re.compile(
+    r"\b(?:shares?|options?|strike|expir\w*|sold|purchased|bought|reinvest\w*|rebalanc\w*|inherited|"
+    r"contribution|received|surrendered|exercised|liquidation|professionally|position|terms|called|"
+    r"account|ira|401\(?k\)?|brokerage|cusip|ticker|managed|pooled|convertible|due|operates?|engaged)\b|own/operate|"
+    r"[;$%+]|\bmore\b|\d{1,3}(?:,\d{3})+|\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b|\b\d{4}-\d{2}-\d{2}\b",
+    re.I,
+)
+# "Palo Alto, CA" / "Caldwell, ID, US": a place, not a company.
+_PLACE = re.compile(
+    r"\b[A-Z][a-z]+,\s*(?:A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|PA|RI|S[CD]|T[NX]|UT|V[AT]|W[AIVY])\b(?!\.)"
+)
+_SUFFIX = re.compile(
+    r"(?:\s*-\s*|\s+)(?:(?:new )?common stock|common shares?(?: of beneficial interest)?|ordinary shares?|registered ordinary shares|"
+    r"registered|american depositary shares?|(?:un)?sponsored(?: adr)?|unsp/adr|adr|ads|cmn(?:\s+class\s?\w)?|class [a-c](?: sub\.? ?vot\.?(?: common stock)?| common stock| ordinary shares)?|"
+    r"see endnote|\[\w{1,3}\]|\((?!the\))(?:[A-Z][A-Z.\-]{0,6}|\$?[A-Z]{1,5}\$?\w?)\)|[;_]+)\s*$",
+    re.I,
+)
+_TRAILING_TERMS = re.compile(r"\s+(?:option type|rate/coupon|matures|strike price|expires):.*$", re.I)
+# Account labels in front of the company. Each needs an account word after the
+# broker, so "Fidelity National ...", "Morgan Stanley", "UBS Group AG" stay whole.
+_BROKER = r"(?:charles schwab|schwab|chase|stephens|fidelity(?: investments)?|vanguard|merrill lynch|merrill|edward jones|jp ?morgan|j\.p\. morgan|wells fargo|morgan stanley|ubs|td ameritrade|e\*?trade|pershing llc|cetera|lpl|northwestern mutual|rockefeller capital management)"
+_ACCT_WORD = r"(?:select uma|uma|active assets?|unified management|advantage|portfolio management|trust|brokerage|investment|investments|managed|advisors?|rollover|traditional|roth|sep|simple|inherited|joint(?: tbe)?|ira|401\(?k\)?|one|jm|account|tax efficient core|-)"
+_ACCOUNT_PREFIX = re.compile(
+    rf"^{_BROKER}(?:\s*-\s*|\s+)(?:{_ACCT_WORD}(?:\s+|\s*-\s*))*(?:{_ACCT_WORD})(?:\s*#\s*\d+|\s+\d{{1,4}}|\s*\(\d+\))?"
+    rf"(?:\s*\([^)]{{1,20}}\))?(?:\s*-)?\s+(?=\S)",
+    re.I,
+)
+_OTHER_PREFIX = re.compile(
+    r"^(?:(?:joint ownership\s+)?lpl account|morgan stanley ira(?:\s*-\s*\S+)?|tacs r3k|aperio group llc|"
+    r"(?:select uma account|uma account|account)\s*#\s*\d+|joint brokerage|ubs financial services(?:,? inc\.?)?(?:\s+\d{1,4})?|"
+    r"[A-Z][\w&.']*(?:\s+[A-Z][\w&.']*){0,3}\s*-\s*(?:brokerage|gst exempt trust)(?:\s*#\s*\d+)?|"
+    r"\d{4}\s+(?:family\s+)?trust|rollover|"
+    r"(?:charles\s+)?schwab\s+\d{3,4}|cetera|pershing llc|rockefeller capital management(?:\s*\(\d+\))?|tlh(?:\s+adr)?|livtr(?:\s+\d{6,}[A-Z]{0,3})?|"
+    r"(?:[A-Z][\w.'&\u2019-]*\s+(?:-\s+)?){1,6}account(?:\s*#?\s*\d+|\s+[A-Z](?=\s))?)\s+(?=\S)",
+    re.I,
+)
+# Person's retirement account: "Chris IRA ...", "Kevin Hern Traditional IRA ...".
+_PERSON_IRA = re.compile(
+    r"^(?:[A-Z][\w.'\u2019-]*\s+){1,4}(?:(?:traditional|roth|rollover|sep|simple|inherited|spousal)\s+)*(?:IRA|401\(?[kK]\)?)\s+(?=\S)"
+    r"|^[A-Z][a-z]+\s+(?:SEP|Roth)\s+(?=[A-Z])"
+)
+# Holder trust in front of the company: "John A. James Children's Trust ICON plc", "Trust One NVIDIA ...".
+_HOLDER_TRUST = re.compile(
+    r"^(?:trust\s+(?:one|two|three|#?\d+)|trust\s*-\s*\w+|"
+    r"[^>]{0,60}?\b(?:family|revocable|living|irrevocable|insurance|children\u2019?'?s?|grandchildren|gst|exempt|unit|charitable|crt|\w+[\u2019']s|\d{4})\b[^>]{0,30}?\b(?:trust|foundation|partnership)(?:\s*#\s*\d+)?)"
+    r"(?:\s*[-:]\s*|\s+)(?![,&]|(?:corp|corporation|inc|co|company|series|fund|etf|units?|shares|of|reit|realty)\b)(?=[A-Z0-9]|i[A-Z])",
+    re.I,
+)
+# Account/holder words that must never be left in a display name.
+_HOLDER_LEFT = re.compile(
+    r"\b(?:ira|401\(?k\)?|brokerage|account|revocable|rollover|living trust|family trust|unit trust|insurance trust|"
+    r"trust one|tbe|jtwros|ttee|family foundation|family partnership|grandchildren|children\u2019?'?s trust|fbo|u/a|dtd)\b",
+    re.I,
+)
+_PTR_AMOUNT = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+(?:\s|$)")
+_BANK_PREFIX = re.compile(r"^(?:bank of america|morgan stanley|ubs)\s+(?=\S)", re.I)
+# What follows the bank word when the bank itself is the issuer ("UBS Group AG", "Bank of America Corp").
+_BANK_OWN = re.compile(
+    r"^(?:group|ag|corp|corporation|inc|co|company|financial|finance|funding|&|bank|n\.?a\.?|securities|preferred|pfd|dep|"
+    r"depositary|wealth|private|smart|ser|series|london|bonds?|notes?|\d{1,2}(?:\.\d+)?%)(?:\b|$)",
+    re.I,
+)
+
+
+def _sentence_tail(t: str) -> str:
+    """Text after the last real sentence end ("FULL LIQUIDATION. Lazard, Inc." -> "Lazard, Inc.")."""
+    cut = 0
+    for m in _SENT.finditer(t):
+        word = re.findall(r"[\w.]+$", t[: m.start()])
+        w = (word[0] if word else "").lower().rstrip(".")
+        if len(w) < 2 or w in _ABBR or re.fullmatch(r"(?:[a-z]\.)+[a-z]?", w):
+            continue
+        cut = m.end()
+    return t[cut:]
+
+
+def _strip_suffixes(s: str) -> str:
+    s = _TRAILING_TERMS.sub("", s)
+    for _ in range(6):
+        new = re.sub(r"(?:(?<=\.)\s*cmn)?[\s_\-\u2013]*$", "", s, flags=re.I)  # "INC.CMN", "CORP CMN_", "Inc. -"
+        new = _SUFFIX.sub("", new).strip()
+        if new == s or not new:
+            break
+        s = new
+    return s.strip()
+
+
+def _company_after_note(t: str) -> str | None:
+    """The company that ends a free-text note, or None when it can't be told apart."""
+    t = t.split(";")[-1].strip()  # "Call options; Strike price $220; Expires 06/20/2025 Moderna, Inc."
+    for _ in range(3):
+        new = _NOTE_LEADIN.sub("", t)
+        if new == t:
+            break
+        t = new
+    t = _sentence_tail(t)
+    t = _NOTE_LEADIN.sub("", t)
+    t = _strip_suffixes(t)
+    if not _SUFFIX.sub("", " " + t).strip():  # only "Common Stock" / "ADR" left
+        return None
+    if not t or len(t) > 80 or len(t.split()) > 9 or _NOTE_WORDS.search(t) or _PLACE.search(t):
+        return None
+    t = re.sub(r"^(?=[0-9A-Z]{9}\s)(?=\S*\d)\S{9}\s+", "", t)  # leading CUSIP
+    if not re.match(r"[A-Z]|[a-z][A-Z]|\d+[A-Za-z]", t) or not re.search(r"[A-Za-z]{2}", t):
+        return None
+    return t
+
+
+_COMPANY_END = re.compile(
+    r"(?:common stock|ordinary shares?|common shares?|class [a-c]|\b(?:inc|corp|corporation|incorporated|plc|ltd|limited|"
+    r"company|co|n\.?v|s\.?a|ag|se|holdings?|group))\.?\s*-?\s*$",
+    re.I,
+)
+_HOLDER_WORDS = re.compile(r"\b(?:ira|trust|account|brokerage|foundation|partnership|401\(?k\)?|portfolio)\b", re.I)
+
+
+def _head_company(head: str) -> str | None:
+    """The name in front of a trailing note ("Intel Corporation - Common Stock D: Purchased ...")."""
+    head = _strip_prefixes(head.strip())  # "Trust 1 Accenture plc ..." -> "Accenture plc ..."
+    if not head or not _COMPANY_END.search(head) or _HOLDER_WORDS.search(head):
+        return None
+    return head
+
+
+def _strip_prefixes(s: str) -> str:
+    for _ in range(3):
+        before = s
+        for rx in (_ACCOUNT_PREFIX, _OTHER_PREFIX, _PERSON_IRA, _HOLDER_TRUST):
+            rest = rx.sub("", s, count=1)
+            if rest != s and re.search(r"[A-Za-z]{2}", rest):
+                s = rest
+        rest = _BANK_PREFIX.sub("", s, count=1)
+        if rest != s and not _BANK_OWN.match(rest) and _SUFFIX.sub("", " " + rest).strip():
+            s = rest
+        s = re.sub(r"^[\s\-\u2013\u2014]+", "", s)
+        s = re.sub(r"^[A-Z]{1,4}\d{2,5}\s+(?=\S)", "", s)
+        s = re.sub(r"^\d{6,}\s+(?=[A-Za-z])", "", s)  # account number
+        if s == before:
+            break
+    return s
 
 
 def clean_name(name: str, code: str) -> str:
-    s = re.sub(r"\s+", " ", name or "").strip()
-    s = (s.split(">")[-1] or s).strip()
-    # Filing junk: leading dashes/bullets, "D:" notes, holder prefixes.
-    s = re.sub(r"^[\s\-\u2013\u2014\u2022*]+", "", s)
-    s = re.sub(r"^L:\s*[A-Z]{2}\b\s*", "", s)  # location tag: "L: US D: ..."
-    if re.match(r"^D:\s", s):
-        # Leading free-text note; the real name trails it. A trade narrative
-        # ("Buy 247 shares ... cusip ...") can't be split reliably: use the code.
-        if re.search(r"[;$]|\bcusip\b|\bshares of\b|\bcapital call\b", s, re.I):
+    """Company name for display, with filing junk removed.
+
+    House/Senate asset strings put the owner, account and free-text notes
+    ("D: ...", "C: ...", "L: ...") in front of the company. The company is the
+    tail. When the tail can't be told apart from the note, use the ticker:
+    never show an account holder or a note as the name.
+    """
+    code = code or ""
+    s = _WS.sub(" ", name or "").strip()
+    amount = _PTR_AMOUNT.search(s)
+    if amount and _NOTE_MARK.search(s[: amount.start()]):
+        # Several PTR rows glued together behind a note: only the leading name is trustworthy.
+        head = _head_company(s[: _NOTE_MARK.search(s).start()])
+        if head is None:
             return code
-        s = re.sub(r"^D:\s+(?:mutual fund\s+)?", "", s, flags=re.I)
-    s = re.sub(r"\s+[DC]:\s.*$", "", s)
-    s = re.sub(r"^\d{4}\s+(?:family\s+)?trust\s+(?=\S)", "", s, flags=re.I)  # "1989 Trust Vanguard ..."
-    shared = _shared_issuer_name()
-    if shared:
-        issuer_name, broker_re = shared
-        m = broker_re.match(s)
-        rest = s[m.end():].lstrip() if m else ""
-        # A broker word followed straight by a name is part of the company
-        # ("Fidelity National Information Services"), not an account prefix.
-        keep = ""
-        if m and not ACCOUNT_AFTER_BROKER.match(rest) and (BROKER_COMPANY_TAIL.match(rest) or FUND_WORDS.search(rest)):
-            keep = m.group(0)
-        out = issuer_name(code, s)
-        if keep and not out.lower().startswith(keep.lower()) and out != (code or "").upper():
-            out = keep + " " + out
-        if out == (code or "").upper():
-            return out or code
-        s = out
-    s = re.sub(r"^(?:joint ownership\s+)?(?:lpl account)\s+", "", s, flags=re.I)
-    s = re.sub(r"^morgan stanley ira(?:\s*-\s*\S+)?\s+", "", s, flags=re.I)
-    unbanked = re.sub(r"^(?:bank of america|morgan stanley|ubs)\s+", "", s, flags=re.I)
-    if not re.match(r"^(?:corp(?:oration)?|inc|co|company|group|plc|ag)\b\.?$", unbanked, re.I):
-        s = unbanked  # but keep the bank's own name ("Bank of America Corporation")
-    s = re.sub(r"^(?:select uma account|uma account|account)\s*#\s*\d+\s+", "", s, flags=re.I)
-    s = re.sub(r"^[A-Z]{1,4}\d{2,5}\s+", "", s)
-    s = re.sub(r"^(?:advisors?|corporate bond|municipal bond|treasury bond)\s+", "", s, flags=re.I)
-    held = HOLDER_PREFIX.sub("", s)
-    if held != s and len(held) >= 3:
-        s = held
-    s = re.sub(r"^[\s\-\u2013\u2014]+|\s*-\s*$", "", s)
-    if not re.search(r"[A-Za-z]{2}", s) or re.fullmatch(r"[DCL]:", s):
-        return code  # nothing name-like left ("1", "D:")
-    return s or code
+        s = head
+    s = (s.split(">")[-1] or s).strip()
+    # PTR table row: "P 01/02/2025 01/03/2025 $1,001 - $15,000 Apple Inc." -> text after the amount range
+    tail = _PTR_AMOUNT.split(s)[-1].strip()
+    if tail != s and len(re.findall(r"[A-Za-z]", tail)) >= 2:
+        s = tail
+    elif tail != s:  # nothing after the amount: drop the "[GS] P 04/16/2025 ... $1,001 - $15,000" trailer
+        s = re.sub(r"\s*(?:\[[A-Z]{2}\]\s*)?\b[PSE]\s+\d{2}/\d{2}/\d{4}.*$", "", s).strip()
+    ptr_codes = re.findall(r"\(([A-Z][A-Z.]{0,5})\)\s*\[[A-Z]{2}\]", s)
+    if ptr_codes and code.upper() not in ptr_codes:
+        # "Shares (TME) [ST] Tesla, Inc.": the end of another row, then ours
+        after = re.split(r"\[[A-Z]{2}\]\s*", s)[-1].strip()
+        if not re.search(r"[A-Za-z]{2}", after) or re.match(r"[PSE](?:\s|$)", after):
+            return code
+        s = after
+    s = re.sub(r"\s*\[[A-Z]{2}\]\s+[PSE]$", "", s)  # cut-off "(PLTR) [ST] P"
+    s = re.sub(r"^[\s\-\u2013\u2014\u2022*.|;,'\"\u2018\u2019\u201c\u201d]+", "", s)
+    marks = list(_NOTE_MARK.finditer(s))
+    if marks:
+        last = marks[-1]
+        tail = None if last.group(1) == "L" else _company_after_note(s[last.end():])  # a location is never the company
+        if tail is None:
+            tail = _head_company(s[: marks[0].start()])
+        if tail is None:
+            return code
+        s = tail
+    elif _NOTE_WORDS.search(s) or _HOLDER_LEFT.search(s) or len(s) > 80 or re.match(r"[a-z]{2,}[\s,.]", s):
+        tail = _company_after_note(_sentence_tail(s))
+        if tail and tail != s and len(tail) >= 5:
+            s = tail  # "... this is an Inherited IRA. Apple Inc." -> "Apple Inc."
+    s = _strip_prefixes(s)
+    s = _strip_suffixes(s)
+    s = re.sub(r"^[\s\-\u2013\u2014]+", "", s)
+    if not re.search(r"[A-Za-z]{2}", s):
+        return code
+    if _HOLDER_LEFT.search(s):
+        return code  # an account/holder label we could not peel off
+    if s.upper() == "TLH" and code.upper() != "TLH":  # tax-loss-harvest sleeve, not a company
+        return code
+    return s
 
 
 def public_stock(t: dict, code: str) -> bool:

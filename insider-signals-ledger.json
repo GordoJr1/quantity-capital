@@ -41666,48 +41666,6 @@
    "cost_rt": 0.03
   },
   {
-   "id": "OMZNF|2026-10-02|burzynski-john-feliks",
-   "ticker": "OMZNF",
-   "company": "Osisko Metals",
-   "commodity": "Copper",
-   "company_type": "Explorer",
-   "venue": "TSX",
-   "ccy": "CAD",
-   "cgroup": "base_battery_other",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-10-02",
-   "recorded_floor": "2026-10-02",
-   "signal_filed": "2026-10-02",
-   "signal_trade": "2026-10-02",
-   "entry_after": "2026-10-02",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 1081499582.0,
-   "stale63_basis": 0.0952,
-   "basis_date": "2026-10-01",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "burzynski-john-feliks|OMZNF|2026-10-02|open_market",
-     "filer": "Burzynski, John Feliks",
-     "filer_id": "burzynski-john-feliks",
-     "role": "Chair",
-     "title": "Executive Chairman",
-     "trade_date": "2026-10-02",
-     "filed_date": "2026-10-02",
-     "value_usd": 142227.0,
-     "trade_px": 1.77,
-     "ccy": "CAD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "TALMF|2026-10-01|hicks-scott-victor-andrew",
    "ticker": "TALMF",
    "company": "Talamore Mining",
@@ -41749,6 +41707,52 @@
    "pending_exit": null,
    "status": "open",
    "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
+  },
+  {
+   "id": "OMZNF|2026-10-02|burzynski-john-feliks",
+   "ticker": "OMZNF",
+   "company": "Osisko Metals",
+   "commodity": "Copper",
+   "company_type": "Explorer",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "base_battery_other",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-02",
+   "recorded_floor": "2026-10-02",
+   "signal_filed": "2026-10-02",
+   "signal_trade": "2026-10-02",
+   "entry_after": "2026-10-02",
+   "entry_date": "2026-10-05",
+   "entry_px": 1.76,
+   "mcap_usd_basis": 1081499582.0,
+   "stale63_basis": 0.0952,
+   "basis_date": "2026-10-01",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "burzynski-john-feliks|OMZNF|2026-10-02|open_market",
+     "filer": "Burzynski, John Feliks",
+     "filer_id": "burzynski-john-feliks",
+     "role": "Chair",
+     "title": "Executive Chairman",
+     "trade_date": "2026-10-02",
+     "filed_date": "2026-10-02",
+     "value_usd": 142227.0,
+     "trade_px": 1.77,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": true,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.004
@@ -46375,5 +46379,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-05"
+ "last_run_date": "2026-10-06"
 }

@@ -1595,17 +1595,19 @@
         const o = optionMeta(t);
         strike = "\u2014";
         exp = "\u2014";
-        if (o.kind === "Call" || o.kind === "Put") {
+        const named = o.kind === "Call" || o.kind === "Put";
+        if (named) {
           strike = o.strike ? "$" + o.strike : "\u2014";
           exp = o.exp || "\u2014";
           const detail = optionDetailText(o);
           if (detail) optLineHtml = "<div class=\"qc-txn-optline\">" + esc(detail) + "</div>";
-          const bits = [];
-          if (o.strike) bits.push("$" + o.strike);
-          if (o.exp) bits.push(o.exp);
-          if (bits.length) {
-            deskOptHtml = "<div class=\"qc-desk-opt\">" + esc(o.kind + " " + bits.join(" ")) + "</div>";
-          }
+        }
+        const bits = [];
+        if (o.strike) bits.push("$" + o.strike);
+        if (o.exp) bits.push(o.exp);
+        if (bits.length) {
+          deskOptHtml = "<div class=\"qc-desk-opt\">" +
+            esc((named ? o.kind : "Option") + " " + bits.join(" ")) + "</div>";
         }
       }
       strikeHtml = "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>";

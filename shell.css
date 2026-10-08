@@ -2215,9 +2215,12 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
 @media (min-width: 821px) {
   .qc-member-desk {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr);
-    column-gap: 16px;
+    grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.7fr);
+    column-gap: 12px;
     align-items: start;
+  }
+  @media (min-width: 1100px) {
+    .qc-member-desk { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr); column-gap: 16px; }
   }
   @media (min-width: 1200px) {
     .qc-member-desk { grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.95fr); }
@@ -2250,14 +2253,27 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     overflow-y: auto;
   }
   .qc-member-desk .tape-head { margin: 0 0 8px; }
+  /* Amount is the last column. Never let name/company squeeze it off. */
+  .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero,
+  .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-hero {
+    min-width: max-content;
+    overflow: visible;
+    text-overflow: clip;
+  }
   /* Half-width list: drop Strike/Exp columns so the amount stays on screen.
-     Option contract goes on its own line under the ticker — the 4.8rem
-     ticker cell cannot hold Call $27 Aug 14 '26. Stock rows stay one line. */
+     Option contract goes on its own line under the ticker. Stock rows stay
+     one line. Name/company may shrink; hero is max-content. */
   @media (min-width: 900px) {
     .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
     .qc-member-desk .qc-show-opt .qc-txn-tape {
-      grid-template-columns: 5.1rem minmax(7rem, 1.35fr) 4.8rem minmax(6rem, 1.4fr) 4.4rem minmax(5.4rem, max-content);
+      grid-template-columns: 4.4rem minmax(0, 1.1fr) 3.2rem minmax(0, 1.2fr) 3.2rem max-content;
       grid-template-areas: "date id co coname chip hero";
+      column-gap: 8px;
+    }
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-id,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-tk,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-co-name {
+      min-width: 0;
     }
     .qc-member-desk .qc-show-opt .qc-txn-tape:has(.qc-desk-opt) {
       grid-template-areas:

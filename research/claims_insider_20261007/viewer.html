@@ -17,11 +17,12 @@
       --chip: #252920;
     }
     * { box-sizing: border-box; }
-    html, body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 "Segoe UI", system-ui, sans-serif; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 "Segoe UI", system-ui, sans-serif; overflow-x: hidden; }
     header { padding: 16px 20px 8px; border-bottom: 1px solid var(--line); }
     h1 { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
     .sub { color: var(--muted); font-size: 12px; max-width: 72rem; }
     .controls { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 12px 20px; align-items: end; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .view-btns { display: flex; flex-wrap: wrap; gap: 8px; }
     label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
     input, select { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; font: inherit; min-width: 9rem; }
     button { background: var(--chip); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 7px 10px; cursor: pointer; font: inherit; }
@@ -30,20 +31,31 @@
     .status b { color: var(--ink); }
     .err { color: var(--down); padding: 20px; }
     .table-wrap { overflow: auto; max-height: calc(100vh - 220px); width: 100%; }
-    table { border-collapse: collapse; width: 100%; table-layout: fixed; }
-    th, td { padding: 5px 6px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    th { position: sticky; top: 0; background: #22261e; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); cursor: pointer; }
+    table { border-collapse: collapse; width: max-content; min-width: 100%; table-layout: auto; }
+    th, td { padding: 5px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; overflow: visible; }
+    th { position: sticky; top: 0; background: #22261e; font-size: 11px; color: var(--muted); cursor: pointer; font-weight: 650; }
     th.sort { color: var(--gold); }
     td.num { text-align: right; font-variant-numeric: tabular-nums; }
-    th[data-k="company"], td.company { width: 280px; max-width: 280px; }
-    th[data-k="company_type"], td.type { width: 96px; max-width: 96px; }
-    th[data-k="ticker"], td.ticker { width: 72px; max-width: 72px; }
-    th[data-k="province"], td.province { width: 88px; max-width: 88px; }
+    th[data-k="company"], td.company {
+      width: 280px; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
     tr:hover td { background: #1f231c; }
     .added, .new_to_data { color: var(--up); }
     .dropped, .missing_from_data { color: var(--down); }
-    .group-head td { background: #252a20; color: var(--gold); font-weight: 600; }
+    .group-head td { background: #252a20; color: var(--gold); font-weight: 600; white-space: normal; }
     .hidden { display: none; }
+    @media (max-width: 600px) {
+      header { padding: 12px; }
+      h1 { font-size: 16px; }
+      .sub { font-size: 12px; }
+      .controls { flex-direction: column; align-items: stretch; padding: 12px; gap: 10px; }
+      label { width: 100%; }
+      input, select { min-width: 0; width: 100%; min-height: 40px; font-size: 16px; }
+      .view-btns { width: 100%; }
+      button { min-height: 40px; flex: 1 1 30%; }
+      .status { padding: 8px 12px; }
+      .table-wrap { max-height: 55vh; }
+    }
   </style>
 </head>
 <body>
@@ -94,7 +106,7 @@
         <option value="counts_only">counts_only</option>
       </select>
     </label>
-    <div>
+    <div class="view-btns">
       <button type="button" id="view-flat" aria-pressed="true">Flat</button>
       <button type="button" id="view-company" aria-pressed="false">Group by company</button>
       <button type="button" id="view-province" aria-pressed="false">Group by province</button>
@@ -114,20 +126,20 @@
       ["company", "Company"],
       ["ticker", "Ticker"],
       ["company_type", "Type"],
-      ["province", "Province"],
+      ["province", "Prov"],
       ["old_claims", "Old"],
       ["new_claims", "New"],
-      ["change", "Change"],
-      ["abs_change", "|chg|"],
-      ["change_pct", "Change %"],
+      ["change", "Chg"],
+      ["abs_change", "|Chg|"],
+      ["change_pct", "Chg %"],
       ["new_area_ha", "New ha"],
       ["old_area_ha", "Old ha"],
-      ["added", "Added"],
-      ["dropped", "Dropped"],
-      ["change_type", "Change type"],
+      ["added", "Add"],
+      ["dropped", "Drop"],
+      ["change_type", "Chg type"],
       ["basis", "Basis"],
-      ["id_gap", "ID gap"],
-      ["linked", "Linked"]
+      ["id_gap", "Gap"],
+      ["linked", "Link"]
     ];
     const NUM = new Set(["old_claims","new_claims","change","abs_change","change_pct","new_area_ha","old_area_ha","added","dropped","id_gap"]);
     const PV = {on:"ontario", qc:"quebec", bc:"british-columbia", yt:"yukon", nu:"nunavut", nl:"newfoundland", all:"all"};
@@ -216,7 +228,7 @@
       if (k === "company_type") cls.push("type");
       if (k === "ticker") cls.push("ticker");
       if (k === "province") cls.push("province");
-      const title = (k === "company" || k === "company_type") ? ` title="${esc(v)}"` : "";
+      const title = k === "company" ? ` title="${esc(v)}"` : "";
       return `<td class="${cls.join(" ")}"${title}>${esc(v)}</td>`;
     }
 

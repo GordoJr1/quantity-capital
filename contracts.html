@@ -144,6 +144,7 @@
       font-size: 0.82rem;
       font-weight: 400;
     }
+    #company-note { margin: 8px 0 0; }
     button.more {
       margin: 8px 0 0;
       background: transparent;
@@ -196,6 +197,7 @@
         cursor: pointer;
         list-style: none;
         min-height: 44px;
+        overflow-wrap: anywhere;
       }
       .filter-fold > summary::-webkit-details-marker { display: none; }
       .filter-fold > summary::before { content: "▸ "; }
@@ -204,6 +206,7 @@
       .filter-fold .filters { padding: 10px 12px 12px; grid-template-columns: 1fr; }
       .filters input, .filters select { font-size: 16px; min-height: 44px; }
       .check-landed label { min-height: 44px; }
+      .filter-status { display: none; }
       .col-recipient, .col-desc, .col-company { display: none; }
       th, td { padding: 6px 4px; }
       table.awards, table.upcoming { table-layout: fixed; width: 100%; }
@@ -316,6 +319,7 @@
         <tbody id="companies"><tr><td colspan="4" class="note">Loading companies…</td></tr></tbody>
       </table>
     </div>
+    <p class="note" id="company-note" hidden></p>
     <h2>Unlinked · $10 million and up</h2>
     <div class="table-wrap">
       <table class="unlinked">
@@ -597,13 +601,27 @@
       });
       if (seen[keep]) sel.value = keep;
     }
-    function paintTeaser(f) {
+    function paintTeaser(f, countText) {
       var bits = [];
       if (f.q) bits.push(document.getElementById("filter-company").value.trim());
       if (f.agency) bits.push(f.agency);
       if (f.matched) bits.push("matched");
+      if (countText && window.matchMedia("(max-width: 820px)").matches) bits.push(countText);
       var teaser = document.getElementById("filter-teaser");
       if (teaser) teaser.textContent = bits.length ? bits.join(" · ") : "";
+    }
+    function setCompanyHeads(agency) {
+      var table = document.getElementById("companies");
+      table = table && table.closest("table");
+      var heads = table ? table.querySelectorAll("thead th") : [];
+      if (heads.length < 4) return;
+      if (agency) {
+        heads[2].textContent = "Awards (" + agency + ", recent)";
+        heads[3].textContent = "Face value (" + agency + ", recent)";
+      } else {
+        heads[2].textContent = "Awards";
+        heads[3].textContent = "Trailing";
+      }
     }
     function failSoft(message) {
       bookReady = false;
@@ -620,12 +638,17 @@
       document.getElementById("unlinked").innerHTML = emptyRow(5, message);
       var count = document.getElementById("filter-count");
       if (count) count.textContent = "";
+      setCompanyHeads("");
+      var companyNote = document.getElementById("company-note");
+      if (companyNote) {
+        companyNote.hidden = true;
+        companyNote.textContent = "";
+      }
     }
     function apply() {
       if (!bookReady) return;
       var f = readQuery();
       writeQuery();
-      paintTeaser(f);
       var awards = book.awards.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
       var upcoming = book.upcoming.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
       var companies = book.companies.filter(function (row) { return passCompany(row, f.q, f.agency, f.matched); });
@@ -639,11 +662,22 @@
       var shown = awards.length;
       var total = book.awards.length;
       var filtered = !!(f.q || f.agency || f.matched);
+      var countText = shown === total
+        ? Number(total).toLocaleString("en-US") + " awards"
+        : "Showing " + Number(shown).toLocaleString("en-US") + " of " + Number(total).toLocaleString("en-US") + " awards";
       var count = document.getElementById("filter-count");
-      if (count) {
-        count.textContent = shown === total
-          ? Number(total).toLocaleString("en-US") + " awards"
-          : "Showing " + Number(shown).toLocaleString("en-US") + " of " + Number(total).toLocaleString("en-US") + " awards";
+      if (count) count.textContent = countText;
+      paintTeaser(f, countText);
+      setCompanyHeads(f.agency);
+      var companyNote = document.getElementById("company-note");
+      if (companyNote) {
+        if (f.agency) {
+          companyNote.hidden = false;
+          companyNote.textContent = "These numbers are face values from recent awards, not the trailing book.";
+        } else {
+          companyNote.hidden = true;
+          companyNote.textContent = "";
+        }
       }
       var rest = document.getElementById("show-rest");
       function drawAwards(all) {

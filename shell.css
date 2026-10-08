@@ -2201,9 +2201,25 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-header .mark { max-width: calc(100% - 10.75rem); }
 }
 
-/* Narrow desktop (821-980px): the politician nav now has six links (Overlap added); tighten so it stays on one row. */
+/* Narrow desktop (821-980px): six politician links plus Claims in the mode row; keep one line. */
 @media (min-width: 821px) and (max-width: 980px) {
-  .qc-header-inner { gap: 10px 10px; }
-  .qc-nav a { padding: 0 6px; font-size: 0.84rem; }
-  .qc-mode { padding: 0 8px; letter-spacing: 0.08em; }
+  .qc-header-inner { gap: 8px 8px; flex-wrap: nowrap; }
+  .qc-nav { flex-wrap: nowrap; gap: 0 2px; }
+  .qc-nav a { padding: 0 5px; font-size: 0.78rem; letter-spacing: 0.05em; }
+  .qc-modes { gap: 4px; }
+  .qc-mode { padding: 0 6px; letter-spacing: 0.05em; font-size: 0.7rem; }
+  .qc-header .mark { font-size: 0.9rem; letter-spacing: 0.12em; }
+}
+
+/* Desktop-only tape/insiders key hint. Hidden with the phone header. */
+.qc-keys-hint {
+  display: none;
+  margin: 6px 0 0;
+  color: var(--mute, #8b96a3);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+}
+@media (min-width: 821px) {
+  .qc-keys-hint { display: block; }
 }

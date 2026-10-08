@@ -590,6 +590,7 @@ function initLegendMore() {
   if (!btn || btn.dataset.bound) return;
   btn.dataset.bound = "1";
   btn.addEventListener("click", () => {
+    if (currentCompany || btn.hidden) return;
     overviewLegendAll = !overviewLegendAll;
     paintAllLegend(lastLegendFeatures);
   });
@@ -660,7 +661,11 @@ function paintAllLegend(features) {
       if (input.checked) hiddenHolders.delete(name);
       else hiddenHolders.add(name);
       applyHolderFilter();
-      if (!overviewLegendAll) paintAllLegend(lastLegendFeatures);
+      if (!overviewLegendAll) {
+        paintAllLegend(lastLegendFeatures);
+        const again = Array.from(box.querySelectorAll("input[data-holder]")).find((el) => el.getAttribute("data-holder") === name);
+        if (again) again.focus();
+      }
     });
   });
   box.querySelectorAll("label.swatch[data-id]").forEach((lab) => {

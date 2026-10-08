@@ -198,6 +198,8 @@
     .link-bar {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 12px;
     }
+    /* Inside the hold-stage flex, the 12px gap already matches main's link-bar margin. */
+    .hold-stage > .link-bar { margin-bottom: 0; }
     .sel-chip {
       display: none; align-items: center; gap: 8px;
       background: rgba(227, 180, 26, 0.12);
@@ -1196,13 +1198,7 @@
         return;
       }
       board.classList.toggle("expanded", !!showAllTiles);
-      const desk = document.getElementById("pol-desk");
-      const sideCol = window.innerWidth > 820 && desk && !desk.classList.contains("alloc-above");
-      if (!showAllTiles && list.length > 1 && window.innerWidth > 820 && !sideCol) {
-        board.style.gridTemplateColumns = "repeat(" + list.length + ", minmax(0, 1fr))";
-      } else {
-        board.style.gridTemplateColumns = "";
-      }
+      board.style.gridTemplateColumns = "";
       board.innerHTML = list.map((p) => {
         const pct = formatPct(p.value, book.total);
         const color = p.other ? SLICE[SLICE.length - 1] : colorForKey(p.key, book.positions);
@@ -1553,6 +1549,25 @@
         moreBtn.textContent = showAllTape ? "Show first 120" : "Show full list";
         if (full.length <= page) moreRow.hidden = true;
       }
+      enrichOptionChips();
+    }
+
+    function enrichOptionChips() {
+      if (window.innerWidth < 900) return;
+      const list = document.getElementById("rows");
+      if (!list || !QC.optionMeta) return;
+      list.querySelectorAll(".qc-txn-tape[data-id] .opt-tag").forEach((tag) => {
+        const row = tag.closest(".qc-txn-tape[data-id]");
+        const t = row && tradeById(row.getAttribute("data-id"));
+        if (!t) return;
+        const o = QC.optionMeta(t);
+        const bits = [];
+        if (o.strike) bits.push("$" + o.strike);
+        if (o.exp) bits.push(o.exp);
+        if (!bits.length) return;
+        const kind = tag.textContent.trim().split(/\s+/)[0];
+        tag.textContent = kind + " " + bits.join(" ");
+      });
     }
 
     function syncTapeMarks() {
@@ -1566,29 +1581,6 @@
       });
     }
 
-    function placeAllocator() {
-      const desk = document.getElementById("pol-desk");
-      const col = document.getElementById("chart-col");
-      const focus = document.getElementById("focus");
-      const alloc = document.querySelector(".allocator");
-      if (!desk || !col || !focus || !alloc) return;
-      if (window.innerWidth <= 820) {
-        desk.classList.remove("alloc-above");
-        if (alloc.parentElement !== col) col.appendChild(alloc);
-        return;
-      }
-      if (alloc.parentElement !== col) col.appendChild(alloc);
-      desk.classList.remove("alloc-above");
-      const header = document.querySelector(".qc-header");
-      const headerH = header ? header.getBoundingClientRect().height : 62;
-      const need = focus.offsetHeight + alloc.offsetHeight + 20;
-      const avail = window.innerHeight - headerH - 16;
-      if (need > avail) {
-        desk.classList.add("alloc-above");
-        desk.insertBefore(alloc, desk.firstChild);
-      }
-    }
-
     function paintDesk() {
       const book = currentBook();
       const box = document.getElementById("holdings");
@@ -1599,8 +1591,6 @@
       paintSort();
       paintTape();
       requestAnimationFrame(() => {
-        paintTiles(book);
-        placeAllocator();
         paintTiles(book);
         paintChart();
       });
@@ -1719,8 +1709,6 @@
       window.addEventListener("resize", () => {
         clearTimeout(bindDesk._fit);
         bindDesk._fit = setTimeout(() => {
-          placeAllocator();
-          paintTiles(currentBook());
           paintChart();
         }, 120);
       });

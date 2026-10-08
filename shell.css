@@ -2237,26 +2237,20 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     top: calc(var(--site-header-h, 62px) + 8px);
     align-self: start;
     min-width: 0;
+    max-height: calc(100vh - var(--site-header-h, 62px) - 16px);
+    overflow: hidden;
   }
-  .qc-member-desk .tape-head { margin: 0 0 8px; }
-  .qc-member-desk:not(.alloc-above) .tile-board {
+  .qc-member-desk .allocator {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .qc-member-desk .tile-board {
     max-height: 168px;
     overflow-y: auto;
   }
-  .qc-member-desk.alloc-above > .allocator {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    margin: 0 0 10px;
-  }
-  .qc-member-desk.alloc-above .tape-col {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .qc-member-desk.alloc-above .chart-col {
-    grid-column: 2;
-    grid-row: 2;
-  }
-  /* Half-width list: drop Strike/Exp columns so the amount stays on screen. Option chips remain. */
+  .qc-member-desk .tape-head { margin: 0 0 8px; }
+  /* Half-width list: drop Strike/Exp columns so the amount stays on screen.
+     Strike and expiration go on the Call/Put chip (see enrichOptionChips). */
   @media (min-width: 900px) {
     .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
     .qc-member-desk .qc-show-opt .qc-txn-tape {
@@ -2267,5 +2261,11 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-exp,
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-strike,
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-exp { display: none; }
+    .qc-member-desk .qc-txn-tape .qc-txn-tk .opt-tag {
+      max-width: 11.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 }

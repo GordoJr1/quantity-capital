@@ -1583,10 +1583,11 @@
           ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
-    const optTag = optionTag(t);
+    let optTag = optionTag(t);
     let strikeHtml = "";
     let expHtml = "";
     let optLineHtml = "";
+    let deskOptHtml = "";
     if (opts.showOptionMeta) {
       let strike = "";
       let exp = "";
@@ -1594,11 +1595,19 @@
         const o = optionMeta(t);
         strike = "\u2014";
         exp = "\u2014";
-        if (o.kind === "Call" || o.kind === "Put") {
+        const named = o.kind === "Call" || o.kind === "Put";
+        if (named) {
           strike = o.strike ? "$" + o.strike : "\u2014";
           exp = o.exp || "\u2014";
           const detail = optionDetailText(o);
           if (detail) optLineHtml = "<div class=\"qc-txn-optline\">" + esc(detail) + "</div>";
+        }
+        const bits = [];
+        if (o.strike) bits.push("$" + o.strike);
+        if (o.exp) bits.push(o.exp);
+        if (bits.length) {
+          deskOptHtml = "<div class=\"qc-desk-opt\">" +
+            esc((named ? o.kind : "Option") + " " + bits.join(" ")) + "</div>";
         }
       }
       strikeHtml = "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>";
@@ -1676,6 +1685,7 @@
       strikeHtml +
       expHtml +
       optLineHtml +
+      deskOptHtml +
       filingNotesChipsHtml(filingNotesFor(t && t.id)) +
     "</li>";
   }

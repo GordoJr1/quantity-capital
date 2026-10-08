@@ -34,6 +34,14 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
     body { font-family: "IBM Plex Sans", sans-serif; color: var(--white); background: var(--steel); }
+    @media (min-width: 821px) {
+      body {
+        background:
+          linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+          url("city.jpg?v=15") 50% 30% / cover fixed;
+        min-height: 100vh;
+      }
+    }
     @media (display-mode: standalone) {
       body { padding-top: env(safe-area-inset-top, 0px); }
     }
@@ -190,6 +198,8 @@
     .link-bar {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 0 12px;
     }
+    /* Inside the hold-stage flex, the 12px gap already matches main's link-bar margin. */
+    .hold-stage > .link-bar { margin-bottom: 0; }
     .sel-chip {
       display: none; align-items: center; gap: 8px;
       background: rgba(227, 180, 26, 0.12);
@@ -456,6 +466,10 @@
       cursor: crosshair;
       overflow: visible;
     }
+    @media (min-width: 821px) {
+      .qc-member-desk .holdings .focus .chart-wrap { height: auto; }
+      .qc-member-desk .holdings .focus #chart-svg { height: 300px; flex-basis: 300px; }
+    }
     .holdings .focus .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
     }
@@ -636,7 +650,7 @@
       font-family: "IBM Plex Sans", sans-serif;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=180" />
+  <link rel="stylesheet" href="shell.css?v=181" />
   <style>
     .qc-txn .opt-tag.opt-call, .opt-tag.opt-call { border-color: #36999d; color: #8fd4d6; }
     .qc-txn .opt-tag.opt-put, .opt-tag.opt-put { border-color: #8b96a3; color: #b8c0c8; }
@@ -688,12 +702,14 @@
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>
     </details>
+    <div class="stats" id="stats" hidden></div>
+    <div class="qc-member-desk qc-pol-desk" id="pol-desk">
     <section class="holdings" id="holdings" hidden>
-      <div class="link-bar" id="link-bar">
-        <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
-        <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
-      </div>
-      <div class="hold-stage">
+      <div class="hold-stage chart-col" id="chart-col">
+        <div class="link-bar" id="link-bar">
+          <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
+          <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
+        </div>
         <div class="focus" id="focus">
           <div class="range-row">
             <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
@@ -722,21 +738,21 @@
         </aside>
       </div>
     </section>
-    <div class="stats" id="stats" hidden></div>
+    <div class="tape-col">
     <div class="tape-head">
       <p class="kicker">Trade tape</p>
       <p class="count" id="tape-count"></p>
     </div>
-    <div class="qc-pol-desk">
       <ol class="qc-txn-list qc-tape-list qc-show-opt" id="rows" aria-label="Politician tape"></ol>
-    </div>
     <div class="tape-more" id="tape-more-row" hidden>
       <button type="button" id="tape-more">Show full list</button>
     </div>
+    </div>
+    </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
-  <script src="qc.js?v=135"></script>
-  <script src="chart.js?v=122"></script>
+  <script src="qc.js?v=136"></script>
+  <script src="chart.js?v=123"></script>
   <script>
     const isOptionLike = QC.isOptionLike;
     const isBond = QC.isBond;
@@ -1183,11 +1199,7 @@
         return;
       }
       board.classList.toggle("expanded", !!showAllTiles);
-      if (!showAllTiles && list.length > 1 && window.innerWidth > 820) {
-        board.style.gridTemplateColumns = "repeat(" + list.length + ", minmax(0, 1fr))";
-      } else {
-        board.style.gridTemplateColumns = "";
-      }
+      board.style.gridTemplateColumns = "";
       board.innerHTML = list.map((p) => {
         const pct = formatPct(p.value, book.total);
         const color = p.other ? SLICE[SLICE.length - 1] : colorForKey(p.key, book.positions);
@@ -1484,6 +1496,7 @@
           range: bookRange,
           theme: "cyan",
           pad: { l: 36, r: 12, t: 14, b: 14 },
+          selectedId: visibleTradeId(),
           onMark: (rec) => {
             const mid = rec && rec.mark && rec.mark.id;
             if (mid) selectTrade(mid);
@@ -1678,7 +1691,6 @@
       window.addEventListener("resize", () => {
         clearTimeout(bindDesk._fit);
         bindDesk._fit = setTimeout(() => {
-          paintTiles(currentBook());
           paintChart();
         }, 120);
       });

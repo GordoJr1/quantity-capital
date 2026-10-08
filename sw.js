@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v260";
+const CACHE = "qc-shell-v261";
 const SHELL = [
   "./",
   "./index.html",
@@ -30,6 +30,7 @@ const SHELL = [
   "./shell.css?v=178",
   "./shell.css?v=179",
   "./shell.css?v=180",
+  "./shell.css?v=181",
   "./politician.html",
   "./ticker.html",
   "./signals.html",
@@ -58,6 +59,7 @@ const SHELL = [
   "./qc.js?v=133",
   "./qc.js?v=134",
   "./qc.js?v=135",
+  "./qc.js?v=136",
   "./insider-track.js?v=4",
   "./insider-track.css?v=4",
   "./insider-track.css?v=5",
@@ -66,6 +68,7 @@ const SHELL = [
   "./refresh.js",
   "./chart.js",
   "./chart.js?v=122",
+  "./chart.js?v=123",
   "./city.jpg?v=15",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

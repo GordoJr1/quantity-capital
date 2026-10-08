@@ -449,6 +449,7 @@ function drawChart(points, marks, opts) {
     const politician = family === "politician";
     const color = sale ? "#f87171" : "#22c55e";
     const haloBg = sale ? "rgba(248, 113, 113, 0.22)" : "rgba(34, 197, 94, 0.22)";
+    const selected = !!(opts.selectedId && marksList.some((m) => m && m.id === opts.selectedId));
     const id = hit.length;
     const x = cluster.x;
 
@@ -480,9 +481,10 @@ function drawChart(points, marks, opts) {
       ? "<polygon points=\"0,-" + pinRpx + " " + pinRpx + ",0 0," + pinRpx + " -" + pinRpx + ",0\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.6\" />"
       : "<circle cx=\"0\" cy=\"0\" r=\"" + pinRpx + "\" fill=\"" + color + "\" stroke=\"#090d14\" stroke-width=\"1.5\" />";
 
-    return "<g class=\"chart-mark\" data-i=\"" + id + "\" data-family=\"" + (politician ? "politician" : "insider") + "\" style=\"cursor:pointer\">" +
+    return "<g class=\"chart-mark" + (selected ? " is-selected" : "") + "\" data-i=\"" + id + "\" data-family=\"" + (politician ? "politician" : "insider") + "\" style=\"cursor:pointer\">" +
       "<circle cx=\"" + x.toFixed(1) + "\" cy=\"" + cy.toFixed(1) + "\" r=\"" + (isMobile ? 26 : 20) + "\" fill=\"transparent\" />" +
       "<g transform=\"translate(" + x.toFixed(1) + " " + cy.toFixed(1) + ") " + pinScale + "\">" +
+        (selected ? "<circle cx=\"0\" cy=\"0\" r=\"" + (haloRpx + 4) + "\" fill=\"none\" stroke=\"#e3b41a\" stroke-width=\"2.4\" />" : "") +
         (politician ? "" : "<circle cx=\"0\" cy=\"0\" r=\"" + haloRpx + "\" fill=\"" + haloBg + "\" />") +
         pinShape +
         "<text x=\"0\" y=\"" + pinTextY.toFixed(1) + "\" text-anchor=\"middle\" fill=\"" + ink + "\" font-size=\"" + pinFontPx + "\" font-weight=\"800\" font-family=\"Barlow Condensed, sans-serif\" pointer-events=\"none\">" + label + "</text>" +

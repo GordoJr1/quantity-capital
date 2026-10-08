@@ -846,12 +846,20 @@
       toc.appendChild(box);
       var links = toc.querySelectorAll("a");
       function mark(id) {
+        var current = null;
         Array.prototype.forEach.call(links, function (a) {
           var on = a.getAttribute("href") === "#" + id;
           a.classList.toggle("on", on);
-          if (on) a.setAttribute("aria-current", "location");
-          else a.removeAttribute("aria-current");
+          if (on) {
+            a.setAttribute("aria-current", "location");
+            current = a;
+          } else a.removeAttribute("aria-current");
         });
+        if (!current) return;
+        var box = toc.getBoundingClientRect();
+        var link = current.getBoundingClientRect();
+        if (link.bottom > box.bottom) toc.scrollTop += link.bottom - box.bottom;
+        else if (link.top < box.top) toc.scrollTop -= box.top - link.top;
       }
       if ("IntersectionObserver" in window) {
         var seen = [];

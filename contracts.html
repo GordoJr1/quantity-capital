@@ -41,6 +41,7 @@
     h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 0.9; font-weight: 700; }
     h2 { margin: 22px 0 8px; color: var(--paper); font-size: 1.15rem; }
     .lede { color: var(--paper); max-width: 68ch; margin: 8px 0 14px; line-height: 1.45; }
+    .lede-short, details.about-data { display: none; }
     details.about-data { border: 1px solid var(--v2-border, #3a4452); }
     details.about-data > summary {
       cursor: pointer;
@@ -51,9 +52,14 @@
     details.about-data > summary::before { content: "\25B8\00a0"; }
     details.about-data[open] > summary::before { content: "\25BE\00a0"; }
     details.about-data .body { padding: 0 14px 12px; font-size: 0.92rem; line-height: 1.45; }
+    .d-word { display: none; }
     @media (min-width: 821px) {
+      .lede-full { display: none; }
+      .lede-short, details.about-data { display: block; }
       .lede { margin: 4px 0 8px; }
       details.about-data { margin-top: 0; }
+      .d-iso { display: none; }
+      .d-word { display: inline; }
     }
     .stats {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -181,7 +187,8 @@
   <div class="wrap" id="main">
     <p class="kicker">USAspending · date signed</p>
     <h1>Contracts</h1>
-    <p class="lede">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Unmatched awards are listed at $10 million and up.</p>
+    <p class="lede lede-full">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up. Department of Defense awards of $7.5 million and up come from the daily DoD contract announcements (published about 5 PM ET on business days), because USAspending shows DoD awards about 90 days late. In QC research (2019–2026), share prices showed no reliable move after these announcements; this list is a factual record.</p>
+    <p class="lede lede-short">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Unmatched awards are listed at $10 million and up.</p>
     <details class="how about-data">
       <summary>About this data</summary>
       <div class="body">
@@ -290,7 +297,7 @@
       if (!label) return QC.esc(iso || "");
       if (Number(match[1]) !== new Date().getFullYear()) label += ", " + match[1];
       var day = match[1] + "-" + match[2] + "-" + match[3];
-      return "<time datetime=\"" + day + "\" title=\"" + day + "\">" + label + "</time>";
+      return "<time datetime=\"" + day + "\" title=\"" + day + "\"><span class=\"d-word\">" + label + "</span><span class=\"d-iso\">" + day + "</span></time>";
     }
     function dateCell(row) {
       var text = wordDate(row.date || "");

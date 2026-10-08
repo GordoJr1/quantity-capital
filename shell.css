@@ -2117,6 +2117,20 @@ body.qc-v2 .hit .who, body.qc-v2 .pop .holder { color: var(--v2-buy-text); }
 body.qc-v2 button.camp { border-color: var(--v2-border); border-radius: 10px; }
 body.qc-v2 .maplibregl-popup-content { border-color: var(--v2-border); border-radius: 12px; }
 
+@media (min-width: 821px) {
+  body.qc-v2 #search-form .hud-more-btn,
+  body.qc-v2 .layers-toggle,
+  body.qc-v2 .legend-more {
+    border-radius: 10px; border: 1px solid var(--v2-border); background: transparent; color: var(--white, #eef2f5);
+    font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.1em;
+  }
+  body.qc-v2 #search-form .hud-more-btn:hover,
+  body.qc-v2 .layers-toggle:hover, body.qc-v2 .legend-more:hover {
+    border-color: var(--v2-buy-bar); color: var(--v2-buy-text); background: transparent;
+  }
+  body.qc-v2 .hud-more-menu { border-color: var(--v2-border); background: var(--v2-card); }
+}
+
 /* ---------- follow prints (insider pages) ---------- */
 body.qc-v2 .qc-follow-alerts { background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 14px; }
 body.qc-v2 .qc-follow-alerts .hd { color: var(--white, #eef2f5); }

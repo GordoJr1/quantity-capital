@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
-  <link rel="stylesheet" href="shell.css?v=179" />
+  <link rel="stylesheet" href="shell.css?v=180" />
   <style>
     html { height: 100%; overflow: hidden; scrollbar-gutter: auto; margin: 0; }
     body {
@@ -55,6 +55,12 @@
     }
     #search-form button.dl:hover, #search-form button.dl:focus-visible { background: #1c2733; }
     #search-form button.dl:disabled { opacity: 0.45; cursor: default; }
+    /* Phone / ≤820: More chrome is gone; the two download chips stay in the HUD. */
+    .hud-tools { display: contents; }
+    .hud-more-btn { display: none; }
+    .hud-more-menu { display: contents; }
+    .layers-toggle { display: none; }
+    .legend-more { display: none; }
     #search-results {
       position: absolute; top: calc(100% + 6px); left: 0; right: 0;
       background: #121820; border: 1px solid #2a3340; border-radius: 8px;
@@ -108,6 +114,119 @@
         min-height: 40px;
       }
     }
+    @media (min-width: 821px) {
+      .hud-tools {
+        display: block;
+        position: relative;
+        flex: 0 0 auto;
+      }
+      .hud-more-btn {
+        display: inline-flex;
+        align-items: center;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-weight: 650;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+      .hud-more-btn:hover, .hud-more-btn:focus-visible { background: #1c2733; }
+      .hud-more-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        z-index: 5;
+        min-width: 13.5rem;
+        padding: 6px;
+        background: rgba(12, 16, 22, 0.96);
+        border: 1px solid #2a3340;
+        border-radius: 10px;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .hud-tools.is-open .hud-more-menu { display: flex; }
+      .hud-more-menu .dl { width: 100%; }
+      .layers {
+        box-sizing: border-box;
+        min-width: 0;
+        width: 248px;
+        max-width: 248px;
+        max-height: calc(100% - 100px);
+        overflow: auto;
+        padding: 8px 10px 10px;
+      }
+      .layers-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 8px;
+        align-items: start;
+      }
+      .layers-body > h2,
+      .layers-body > .hint,
+      .layers-body > #camps,
+      .layers-body > #legend,
+      .layers-body > #legend-more {
+        grid-column: 1 / -1;
+      }
+      .layers h2 { margin: 6px 0 4px; }
+      .layers-body > label { margin: 0; padding: 2px 0; font-size: 12px; }
+      .layers label.swatch { margin: 0; padding: 3px 0; }
+      .layers .swatch .chip { min-height: 0; width: 10px; height: 10px; }
+      .layers .hint { max-width: none; margin: 0 0 4px; }
+      .layers #legend { max-height: none; overflow: visible; }
+      .layers #legend.legend-scroll { max-height: 36vh; overflow: auto; }
+      .layers-toggle {
+        display: inline-flex;
+        align-items: center;
+        float: right;
+        margin: 0 0 6px 8px;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-weight: 650;
+        cursor: pointer;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      .layers-toggle:hover, .layers-toggle:focus-visible { background: #1c2733; }
+      .layers.is-collapsed {
+        width: auto;
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+        padding: 6px 8px;
+      }
+      .layers.is-collapsed .layers-body { display: none; }
+      .layers.is-collapsed .layers-toggle { float: none; margin: 0; }
+      .legend-more {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 7px 10px;
+        font-weight: 650;
+        cursor: pointer;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      .legend-more[hidden] { display: none !important; }
+      .legend-more:hover, .legend-more:focus-visible { background: #1c2733; }
+    }
     @media (max-width: 720px) {
       .hud { flex-direction: column; align-items: stretch; }
       .layers { top: auto; bottom: 56px; max-height: 36vh; overflow: auto; }
@@ -151,30 +270,39 @@
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
         <button type="submit">Search</button>
-        <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
-        <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
+        <div class="hud-tools" id="hud-more">
+          <button type="button" class="dl hud-more-btn" id="hud-more-btn" aria-expanded="false" aria-controls="hud-more-menu">More</button>
+          <div class="hud-more-menu" id="hud-more-menu">
+            <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
+            <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
+          </div>
+        </div>
         <div id="search-results" hidden></div>
       </form>
     </header>
-    <aside class="layers">
-      <h2>Provinces</h2>
-      <label><input type="checkbox" id="ly-quebec" checked> Quebec</label>
-      <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
-      <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
-      <label><input type="checkbox" id="ly-yukon" checked> Yukon</label>
-      <label><input type="checkbox" id="ly-nunavut" checked> Nunavut</label>
-      <label><input type="checkbox" id="ly-nl" checked> Newfoundland and Labrador</label>
-      <h2>Company</h2>
-      <p class="hint" id="company-hint">Quebec and British Columbia registry tiles, Ontario extracts, plus Yukon, Nunavut, and Newfoundland tiles. Search or click a holder for full titles.</p>
-      <div id="camps" hidden></div>
-      <div id="legend" hidden></div>
+    <aside class="layers" id="layers-panel">
+      <button type="button" class="layers-toggle" id="layers-toggle" aria-expanded="true" aria-controls="layers-body">Hide</button>
+      <div class="layers-body" id="layers-body">
+        <h2>Provinces</h2>
+        <label><input type="checkbox" id="ly-quebec" checked> Quebec</label>
+        <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
+        <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
+        <label><input type="checkbox" id="ly-yukon" checked> Yukon</label>
+        <label><input type="checkbox" id="ly-nunavut" checked> Nunavut</label>
+        <label><input type="checkbox" id="ly-nl" checked> Newfoundland and Labrador</label>
+        <h2>Company</h2>
+        <p class="hint" id="company-hint">Quebec and British Columbia registry tiles, Ontario extracts, plus Yukon, Nunavut, and Newfoundland tiles. Search or click a holder for full titles.</p>
+        <div id="camps" hidden></div>
+        <div id="legend" hidden></div>
+        <button type="button" class="legend-more" id="legend-more" hidden></button>
+      </div>
     </aside>
     <footer class="status" id="status">Quebec GESTIM tiles · Ontario MLAS · BC mineral claims and leases · Yukon, Nunavut, and Newfoundland tiles · Not legal title.</footer>
   </div>
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
   <script src="https://unpkg.com/pmtiles@3.2.1/dist/pmtiles.js"></script>
   <script src="claims-neighbors.js?v=1"></script>
-  <script src="claims-map.js?v=22"></script>
+  <script src="claims-map.js?v=23"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
@@ -187,8 +315,36 @@
     // Close the phone "More" menu on an outside tap or Escape (same as qc.js on the other pages).
     (function () {
       function closeAll(keep) { document.querySelectorAll("details.qc-more[open]").forEach(function (d) { if (d !== keep) d.removeAttribute("open"); }); }
-      document.addEventListener("click", function (e) { closeAll(e.target.closest && e.target.closest("details.qc-more")); });
-      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(null); });
+      function closeHudMore(opts) {
+        var box = document.getElementById("hud-more");
+        var btn = document.getElementById("hud-more-btn");
+        var wasOpen = !!(box && box.classList.contains("is-open"));
+        if (box) box.classList.remove("is-open");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (wasOpen && opts && opts.focus && btn) btn.focus();
+      }
+      document.addEventListener("click", function (e) {
+        closeAll(e.target.closest && e.target.closest("details.qc-more"));
+        var tools = e.target.closest && e.target.closest("#hud-more");
+        if (!tools) closeHudMore();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeAll(null);
+          closeHudMore({ focus: true });
+        }
+      });
+      var moreBtn = document.getElementById("hud-more-btn");
+      if (moreBtn) {
+        moreBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var box = document.getElementById("hud-more");
+          if (!box) return;
+          var open = !box.classList.contains("is-open");
+          box.classList.toggle("is-open", open);
+          moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
     })();
   </script>
 </body>

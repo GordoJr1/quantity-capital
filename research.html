@@ -316,6 +316,16 @@
     }
     .research-toc a:hover { color: var(--v2-teal-fg, #8fdde0); }
     .research-toc a.on:hover { color: var(--v2-chip-fg, #9be3a2); }
+    .research-toc a:focus-visible {
+      color: var(--v2-teal-fg, #8fdde0);
+      outline: 2px solid var(--v2-teal-fg, #8fdde0);
+      outline-offset: 1px;
+    }
+    .research-toc a.on:focus-visible {
+      color: var(--v2-chip-fg, #9be3a2);
+      outline: 2px solid var(--v2-teal-fg, #8fdde0);
+      outline-offset: 1px;
+    }
 </style>
 </head>
 <body class="qc-v2">
@@ -869,15 +879,22 @@
             if (en.isIntersecting) { if (i < 0) seen.push(en.target); }
             else if (i >= 0) seen.splice(i, 1);
           });
-          if (!seen.length) return;
-          seen.sort(function (a, b) {
-            if (a === b) return 0;
-            return (a.compareDocumentPosition(b) & 4) ? -1 : 1;
-          });
-          var pick = seen[0];
-          seen.forEach(function (h) {
-            if (h.getBoundingClientRect().top <= 96) pick = h;
-          });
+          var pick = null;
+          if (seen.length) {
+            seen.sort(function (a, b) {
+              if (a === b) return 0;
+              return (a.compareDocumentPosition(b) & 4) ? -1 : 1;
+            });
+            pick = seen[0];
+            seen.forEach(function (h) {
+              if (h.getBoundingClientRect().top <= 96) pick = h;
+            });
+          } else {
+            Array.prototype.forEach.call(heads, function (h) {
+              if (h.getBoundingClientRect().top <= 96) pick = h;
+            });
+            if (!pick) pick = heads[0];
+          }
           mark(pick.id);
         }, { rootMargin: "-72px 0px -55% 0px", threshold: [0, 1] });
         Array.prototype.forEach.call(heads, function (h) { obs.observe(h); });

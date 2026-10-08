@@ -290,6 +290,19 @@
       if (!href) return text;
       return "<a class=\"rowlink\" href=\"" + QC.esc(href) + "\">" + text + "</a>";
     }
+    var dateWide = window.matchMedia("(min-width: 821px)");
+    function syncDateAria() {
+      var wide = dateWide.matches;
+      Array.prototype.forEach.call(document.querySelectorAll(".d-word"), function (el) {
+        if (wide) el.removeAttribute("aria-hidden");
+        else el.setAttribute("aria-hidden", "true");
+      });
+      Array.prototype.forEach.call(document.querySelectorAll(".d-iso"), function (el) {
+        if (wide) el.setAttribute("aria-hidden", "true");
+        else el.removeAttribute("aria-hidden");
+      });
+    }
+    dateWide.addEventListener("change", syncDateAria);
     function wordDate(iso) {
       var match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ""));
       if (!match) return QC.esc(iso || "");
@@ -297,7 +310,9 @@
       if (!label) return QC.esc(iso || "");
       if (Number(match[1]) !== new Date().getFullYear()) label += ", " + match[1];
       var day = match[1] + "-" + match[2] + "-" + match[3];
-      return "<time datetime=\"" + day + "\" title=\"" + day + "\"><span class=\"d-word\">" + label + "</span><span class=\"d-iso\">" + day + "</span></time>";
+      var wordHidden = dateWide.matches ? "" : " aria-hidden=\"true\"";
+      var isoHidden = dateWide.matches ? " aria-hidden=\"true\"" : "";
+      return "<time datetime=\"" + day + "\" title=\"" + day + "\"><span class=\"d-word\"" + wordHidden + ">" + label + "</span><span class=\"d-iso\"" + isoHidden + ">" + day + "</span></time>";
     }
     function dateCell(row) {
       var text = wordDate(row.date || "");
@@ -395,6 +410,7 @@
         var rows = all ? awards : awards.slice(0, 25);
         document.getElementById("awards").innerHTML = rows.length ? rows.map(awardRow).join("") : emptyRow(6, "No matched awards in this file.");
         rest.hidden = all || awards.length <= 25;
+        syncDateAria();
       }
       rest.onclick = function () { drawAwards(true); };
       drawAwards(false);
@@ -403,6 +419,7 @@
         var rows = all ? upcoming : upcoming.slice(0, 25);
         document.getElementById("upcoming").innerHTML = rows.length ? rows.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
         restUpcoming.hidden = all || upcoming.length <= 25;
+        syncDateAria();
       }
       restUpcoming.onclick = function () { drawUpcoming(true); };
       drawUpcoming(false);
@@ -423,6 +440,7 @@
           td(QC.esc(row.description || ""), "desc")
         ]);
       }).join("") : emptyRow(5, "No unlinked award at $10 million or above.");
+      syncDateAria();
     }
     fetch("contracts.json").then(function (res) {
       if (!res.ok) throw new Error("missing");

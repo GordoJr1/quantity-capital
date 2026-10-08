@@ -3920,9 +3920,12 @@
       };
       if (window.ResizeObserver && bar) new ResizeObserver(sync).observe(bar);
       const compact = window.matchMedia("(max-width: 820px), (orientation: landscape) and (max-height: 620px)");
+      const boardFold = document.querySelector(".board-fold");
       const syncFold = () => { if (fold) fold.open = !compact.matches; };
-      compact.addEventListener("change", () => { syncFold(); });
+      const syncBoardCompact = () => { if (boardFold && compact.matches) boardFold.open = false; };
+      compact.addEventListener("change", () => { syncFold(); syncBoardCompact(); });
       syncFold();
+      syncBoardCompact();
       sync();
       snapTapeHash();
       window.addEventListener("hashchange", () => {

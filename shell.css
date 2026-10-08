@@ -2218,6 +2218,11 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.7fr);
     column-gap: 12px;
     align-items: start;
+    --qc-desk-date: 8rem;
+    --qc-desk-date-short: 3.4rem;
+    --qc-desk-tk: 3.4rem;
+    --qc-desk-chip: 3.4rem;
+    --qc-desk-hero: 7.6rem;
   }
   @media (min-width: 1100px) {
     .qc-member-desk { grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr); column-gap: 16px; }
@@ -2253,26 +2258,42 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     overflow-y: auto;
   }
   .qc-member-desk .tape-head { margin: 0 0 8px; }
-  /* Amount is the last column. Never let name/company squeeze it off. */
+  /* One shared track for date and amount so the header and every row line up.
+     Name and company shrink. 8rem fits "Aug 14, 2026" plus a gap; 7.6rem fits
+     $100K–$250K / $1M–$5M in the hero mono. */
   .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-tape .qc-txn-hero,
-  .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-hero {
-    min-width: max-content;
-    overflow: visible;
+  .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-hero,
+  .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols-phone .qc-txn-hero {
+    min-width: 0;
+    overflow: hidden;
     text-overflow: clip;
+    white-space: nowrap;
+  }
+  @media (max-width: 899px) {
+    .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols-phone,
+    .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-tape {
+      grid-template-columns: var(--qc-desk-date-short) minmax(0, 1.4fr) var(--qc-desk-chip) var(--qc-desk-hero);
+    }
   }
   /* Half-width list: drop Strike/Exp columns so the amount stays on screen.
      Option contract goes on its own line under the ticker. Stock rows stay
-     one line. Name/company may shrink; hero is max-content. */
+     one line. */
   @media (min-width: 900px) {
     .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
     .qc-member-desk .qc-show-opt .qc-txn-tape {
-      grid-template-columns: 4.4rem minmax(0, 1.1fr) 3.2rem minmax(0, 1.2fr) 3.2rem max-content;
+      grid-template-columns: var(--qc-desk-date) minmax(0, 1.1fr) var(--qc-desk-tk) minmax(0, 1.2fr) var(--qc-desk-chip) var(--qc-desk-hero);
       grid-template-areas: "date id co coname chip hero";
       column-gap: 8px;
     }
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-id,
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-tk,
-    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-co-name {
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-co-name,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-chip,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-date,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-hero,
+    .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-id,
+    .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-chip,
+    .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-hero {
       min-width: 0;
     }
     .qc-member-desk .qc-show-opt .qc-txn-tape:has(.qc-desk-opt) {

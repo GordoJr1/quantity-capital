@@ -102,7 +102,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=177" />
+  <link rel="stylesheet" href="shell.css?v=178" />
   <link rel="stylesheet" href="insider-track.css?v=6" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -302,6 +302,7 @@
     }
     .focus .who:hover { color: var(--teal); }
     .focus .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+    .focus-stats { display: none; }
     .focus .ch {
       font-family: "Barlow Condensed", sans-serif;
       letter-spacing: 0.1em;
@@ -817,6 +818,21 @@
         padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px; color: var(--paper); background: rgba(15, 18, 24, 0.35);
       }
       #desk .focus .ch.hot { color: var(--v2-chip-fg); background: var(--v2-chip-bg); border-color: var(--v2-chip-bd); }
+      #desk .focus .focus-stats {
+        display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px;
+      }
+      #desk .focus .focus-stat {
+        display: inline-flex; align-items: baseline; gap: 6px;
+        padding: 5px 8px; border: 1px solid var(--v2-border); border-radius: 6px;
+        background: rgba(15, 18, 24, 0.35);
+        font-family: "IBM Plex Sans", sans-serif; font-size: 12px; font-weight: 600;
+        letter-spacing: 0.04em; line-height: 1.2; color: var(--paper);
+      }
+      #desk .focus .focus-stat-v {
+        font-weight: 700; color: var(--white); letter-spacing: 0; font-variant-numeric: tabular-nums;
+      }
+      #desk .focus .focus-stat.up .focus-stat-v { color: var(--v2-buy-text, #7dcf7a); }
+      #desk .focus .focus-stat.down .focus-stat-v { color: var(--v2-sell-text, #ffb4ae); }
       #desk .focus .asset { margin: 0 0 2px; font-size: 16px; color: var(--white); }
       #desk .focus .asset a { font-family: "IBM Plex Sans", sans-serif; font-weight: 700; letter-spacing: 0.03em; text-transform: none; margin-right: 4px; }
       #desk .focus .quiet { margin: 0 0 14px; color: var(--v2-sub); font-size: 14px; }
@@ -1442,6 +1458,18 @@
       const co = displayCompany(t.company, code);
       const coShow = co && co.toUpperCase() !== code ? co : "";
       const assetTitle = [code, coShow].filter(Boolean).join(" ");
+      const sh = QC.formatSharesQuiet(t.shares);
+      const px = QC.formatPriceQuiet(t.price);
+      const held = QC.formatHeldQuiet(t.held_pct);
+      const delta = QC.positionDelta(t);
+      const statBits = [];
+      if (sh) statBits.push("<span class=\"focus-stat\"><span class=\"focus-stat-k\">Shares</span> <span class=\"focus-stat-v\">" + esc(sh) + "</span></span>");
+      if (px) statBits.push("<span class=\"focus-stat\"><span class=\"focus-stat-k\">Price</span> <span class=\"focus-stat-v\">" + esc(px) + "</span></span>");
+      if (held) {
+        const dcls = (delta === "up" || delta === "down") ? " " + delta : "";
+        statBits.push("<span class=\"focus-stat" + dcls + "\"><span class=\"focus-stat-k\">% Held</span> <span class=\"focus-stat-v\">" + esc(held) + "</span></span>");
+      }
+      const statsHtml = statBits.length ? "<div class=\"focus-stats\">" + statBits.join("") + "</div>" : "";
       head.innerHTML =
         who +
         "<div class=\"chips\">" +
@@ -1451,6 +1479,7 @@
           (owner === "indirect" ? "<span class=\"ch\">Indirect</span>" : "") +
           (fresh ? "<span class=\"ch hot\">Just filed</span>" : "") +
         "</div>" +
+        statsHtml +
         "<p class=\"asset\" title=\"" + esc(assetTitle) + "\">" + tickerHtml +
           (coShow ? " " + esc(coShow) : "") + "</p>" +
         "<p class=\"quiet\">" + esc(t.commodity || t.title || "") + "</p>";

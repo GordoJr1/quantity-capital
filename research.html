@@ -39,6 +39,7 @@
     }
     .kicker { color: var(--caution); margin: 8px 0 4px; font-size: 0.9rem; }
     h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 0.9; font-weight: 700; }
+    body.qc-v2 #main .research-prose > h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.06em; color: var(--white, #eef2f5); }
     h2 { margin: 22px 0 8px; color: var(--paper); font-size: 1.15rem; }
     .lede { color: var(--paper); max-width: 68ch; margin: 8px 0 14px; line-height: 1.45; }
     .stats {
@@ -135,7 +136,7 @@
       .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=177" />
+  <link rel="stylesheet" href="shell.css?v=178" />
   <style>
     #main.wrap { width: min(960px, calc(100% - 48px)); max-width: 960px; }
     @media (max-width: 1100px) {
@@ -239,6 +240,93 @@
       #congress-sectors .sx-table td.num { font-size: 0.78rem; white-space: nowrap; padding: 3px 4px; }
       #congress-sectors .sx-table th.num { white-space: normal; letter-spacing: 0.04em; }
     }
+    #main h2, #main h3 { scroll-margin-top: calc(var(--site-header-h, 62px) + 14px); }
+    .research-toc { display: none; }
+    @media (min-width: 1100px) {
+      #main.wrap {
+        width: min(1184px, calc(100% - 48px));
+        max-width: 1184px;
+        display: grid;
+        grid-template-columns: minmax(760px, 960px) minmax(168px, 200px);
+        column-gap: 24px;
+        align-items: start;
+        justify-content: center;
+      }
+      .research-prose { min-width: 0; }
+      .research-prose figure,
+      .research-prose .table-wrap,
+      .research-prose img { max-width: 100%; }
+      .research-toc {
+        display: block;
+        position: sticky;
+        top: calc(var(--site-header-h, 62px) + 12px);
+        max-height: calc(100vh - var(--site-header-h, 62px) - 28px);
+        overflow: auto;
+        background: var(--v2-card, #222a36);
+        border: 1px solid var(--v2-border, #3a4452);
+        border-radius: 14px;
+        padding: 12px 10px 10px;
+        z-index: 2;
+      }
+      html { scroll-behavior: smooth; }
+    }
+    @media (min-width: 1100px) and (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    .research-toc .toc-kicker {
+      margin: 0 0 8px;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--v2-sub, #b7c1cc);
+    }
+    .research-toc ol { list-style: none; margin: 0; padding: 0; }
+    .research-toc .toc-sec + .toc-sec { margin-top: 8px; }
+    .research-toc a {
+      display: block;
+      text-decoration: none;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 3px 6px;
+      line-height: 1.3;
+    }
+    .research-toc .toc-sec > a {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white, #eef2f5);
+    }
+    .research-toc .toc-studies { padding: 2px 0 2px 8px; }
+    .research-toc .toc-studies:empty { display: none; }
+    .research-toc .toc-studies a {
+      font-family: "IBM Plex Sans", sans-serif;
+      font-size: 12.5px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--v2-sub, #b7c1cc);
+    }
+    .research-toc a.on {
+      color: var(--v2-chip-fg, #9be3a2);
+      background: var(--v2-chip-bg, #1f3b2c);
+      border-color: var(--v2-chip-bd, #3f7a52);
+    }
+    .research-toc a:hover { color: var(--v2-teal-fg, #8fdde0); }
+    .research-toc a.on:hover { color: var(--v2-chip-fg, #9be3a2); }
+    .research-toc a:focus-visible {
+      color: var(--v2-teal-fg, #8fdde0);
+      outline: 2px solid var(--v2-teal-fg, #8fdde0);
+      outline-offset: 1px;
+    }
+    .research-toc a.on:focus-visible {
+      color: var(--v2-chip-fg, #9be3a2);
+      outline: 2px solid var(--v2-teal-fg, #8fdde0);
+      outline-offset: 1px;
+    }
 </style>
 </head>
 <body class="qc-v2">
@@ -267,10 +355,11 @@
     </div>
   </header>
   <div class="wrap" id="main">
+    <div class="research-prose">
     <p class="kicker">What our studies found</p>
     <h1>Research</h1>
     <p class="lede">Quantity Capital tested whether public filings (insider trades, trades by members of Congress, and federal contract awards) are followed by unusual stock moves. This page lists what held up, what did not, and where our own earlier numbers were wrong. It is a research record, not investment advice. Research completed September 26, 2026.</p>
-    <h2>The short version</h2>
+    <h2 id="the-short-version">The short version</h2>
     <div class="panel">
       <ol>
         <li><strong>US insider purchases:</strong> a small edge, about +1.5% to +2.5% a year over similar stocks after trading costs. It is fragile: companies missing from our price data (mostly delisted ones) could erase it. <strong>Canada:</strong> about zero after costs.</li>
@@ -283,7 +372,7 @@
         <li><strong>Luck check:</strong> we ran more than 7,500 tests in all (about 1,100 on insider and politician trades, 6,420 on contracts). The labels below account for this. Even the strongest results passed only the standard luck checks, not the very strictest one.</li>
       </ol>
     </div>
-    <h2>How to read this page</h2>
+    <h2 id="how-to-read">How to read this page</h2>
     <div class="panel">
       <ol>
         <li><strong>"Beat similar stocks"</strong> means the stock did better than a group of companies in the same industry and size range over the same days. We call the gap the <strong>excess return</strong>.</li>
@@ -294,9 +383,9 @@
         <li><strong>Labels:</strong> <strong>Held up</strong> = the result survived these checks. <strong>Didn't hold up</strong> = it failed them or was about zero. <strong>Inconclusive</strong> = the evidence points both ways.</li>
       </ol>
     </div>
-    <h2>Insider trades</h2>
+    <h2 id="insider-trades">Insider trades</h2>
     <article class="study">
-      <h3>1. US insider purchases</h3>
+      <h3 id="study-1">1. US insider purchases</h3>
       <p class="label">Held up (small and fragile)</p>
       <p><strong>Question:</strong> Do stocks beat similar stocks after company insiders report purchasing shares?</p>
       <p><strong>What we found:</strong> Yes, slightly.</p>
@@ -311,14 +400,14 @@
       <p class="data">SEC Form 4 insider filings (SEC Insider Transactions Data Sets), January 2006 to June 2026, about 78,000 purchases at 3,420 companies; prices from Yahoo Finance.</p>
     </article>
     <article class="study">
-      <h3>2. Canadian insider purchases</h3>
+      <h3 id="study-2">2. Canadian insider purchases</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Does the same pattern work in Canada?</p>
       <p><strong>What we found:</strong> No. After fixing the calculation bug (study 4), the result was between −1.6% and +1.6% a year, depending on the holding period. Neither is reliably different from zero. The sample only includes companies that still trade, which if anything flatters this result.</p>
       <p class="data">SEDI insider filings (from cached CEO.CA pages), 2015 to March 2025; prices from Yahoo Finance.</p>
     </article>
     <article class="study">
-      <h3>3. Our first result: +22% a year</h3>
+      <h3 id="study-3">3. Our first result: +22% a year</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Was the early +22% a year real?</p>
       <p><strong>What we found:</strong> No. It came from about 18 months of filings, tested over a 10-month window, during a strong rally in small mining stocks. The rule behind it was picked after trying about 200 variations. It was also measured against one narrow group (similar small miners) in a single market mood. When we re-ran the same rule on 20 years of US data and 10 earlier years of Canadian data, it shrank to a fraction of that size.</p>
@@ -326,7 +415,7 @@
       <figure><a href="research/insider-early-window.png"><img src="research/insider-early-window.png" width="960" height="540" alt="Line chart of the early insider rules from December 2025 to September 2026, each rising 14% to 27% over similar stocks in ten months." loading="lazy" decoding="async"></a><figcaption>The early result. Every rule rose in the same 10 months, which were an unusually strong stretch for small miners. This is the window that produced the +22% figure.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>4. Our second result: +4% to +9% a year</h3>
+      <h3 id="study-4">4. Our second result: +4% to +9% a year</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Was the corrected +4% to +9% a year real?</p>
       <p><strong>What we found:</strong> No. Most of it came from a bug in how we added up the portfolio. The math quietly reset every holding to equal size each day. In thinly traded stocks, the last price hops back and forth across the small gap between the two quoted prices (the <strong>bid-ask spread</strong>), and daily resetting turns that hopping into fake gains. After the fix (each holding left alone from its starting size), US results fell from +3.8% to +1.5% a year (3-month hold), and from +4.2% to +2.5% (6-month hold). Canada fell from +5.4% and +9.4% to −1.6% and +1.6%. What is left is the small US edge in study 1; Canada is about zero (study 2).</p>
@@ -334,7 +423,7 @@
       <figure><a href="research/insider-bounce-fix.png"><img src="research/insider-bounce-fix.png" width="1100" height="660" alt="Bar chart comparing yearly results before and after the portfolio fix; the corrected bars are much smaller, and several turn negative." loading="lazy" decoding="async"></a><figcaption>Blue = the buggy calculation. Orange = corrected. "H63" and "H126" mean holding for 63 or 126 trading days (about 3 or 6 months). "CA" = Canada.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>5. Insider track records</h3>
+      <h3 id="study-5">5. Insider track records</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> If an insider's past purchases did well, do their next ones do better?</p>
       <p><strong>What we found:</strong> No useful link. In our first data, the best past performers did worse next time, and that was explained by their stocks bouncing back from earlier moves. On 20 years of US data there is a faint link, but it is tiny, absent in 2006–2015, and does not survive the luck corrections.</p>
@@ -342,37 +431,37 @@
       <figure><a href="research/insider-skill.png"><img src="research/insider-skill.png" width="960" height="540" alt="Line chart of insiders grouped from worst to best past record; later results do not rise steadily from worst to best." loading="lazy" decoding="async"></a><figcaption>Left = insiders with the worst past record, right = the best. The vertical axis is the next trade's 3-month excess return (0.01 = 1%). The lines do not climb steadily and differ by period.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>6. Exit timing</h3>
+      <h3 id="study-6">6. Exit timing</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Does a clever exit rule beat simply holding for a year?</p>
       <p><strong>What we found:</strong> No. We picked rules using 2006–2015 and checked them on 2016–2026. A plain one-year hold earned +1.9% a year; exiting at the first insider sale or company share offering earned +1.6%, about the same. Very short holds (about one month: −6.3% a year) and automatic loss-limit exits did worse. We compared 11 exit rules, and none was reliably better than a plain hold in the test years, so no winning rule is being claimed.</p>
       <p class="data">SEC Form 4 filings, 2006–2026 (rules chosen on 2006–2015, tested on 2016–2026).</p>
     </article>
     <article class="study">
-      <h3>7. Market stress</h3>
+      <h3 id="study-7">7. Market stress</h3>
       <p class="label">Inconclusive</p>
       <p><strong>Question:</strong> Do insider purchases made during market stress do better?</p>
       <p><strong>What we found:</strong> In the US, purchases made when the market was stressed (S&amp;P 500 more than 10% below its one-year high, or the VIX fear index above 25) beat calm-time purchases by about 2.8 percentage points over 3 months. But the gap depends on the 2008–09 and 2020 crashes, is absent in 2021–2026, and does not appear in Canada. The stress definition was also set using the full history, so it was only partly tested on fresh data, and it fails the strictest luck correction. Only about a quarter of 2008–09 purchases could be priced, so the crisis years are the most affected by missing companies. We keep it as a note, not a rule.</p>
       <p class="data">SEC Form 4 filings, 2006–2026; SEDI filings, 2015–2026; S&amp;P 500 and VIX levels from Yahoo Finance.</p>
       <figure><a href="research/insider-stress.png"><img src="research/insider-stress.png" width="1100" height="495" alt="Bar chart of the stress gap when each past crisis is left out; the gap nearly disappears when all crises are removed." loading="lazy" decoding="async"></a><figcaption>Each bar is the stress-minus-calm gap with one crisis left out. The top two bars drop 2008–09 and 2020 together, or every crisis; the gap shrinks to 1.0 and 0.3 points. Grey = not reliable.</figcaption></figure>
     </article>
-    <h2>Warning signs</h2>
+    <h2 id="warning-signs">Warning signs</h2>
     <article class="study">
-      <h3>8. US company share offerings</h3>
+      <h3 id="study-8">8. US company share offerings</h3>
       <p class="label">Held up (strong)</p>
       <p><strong>Question:</strong> Do stocks lag after a company files to issue new shares?</p>
       <p><strong>What we found:</strong> Yes. About −4% over 6 months against stocks of similar size and price trend. It showed up in both halves: about −3% in 2006–2015 and about −4% in 2016–2026. After full registrations of new shares (SEC forms S-1 or F-1, often a large new issue; about 1,000 cases) the lag was about −21%. This is the strongest result in the research. It passed the standard luck corrections, but not the very strictest one, so the exact size is less certain than the direction. Missing delisted companies are more likely to make the lag look smaller than bigger, because failures often follow share offerings. These figures come from the first study, which used a slightly different sample and comparison group. The stricter re-check in <a href="#warning-signs-second-look">Warning signs: a second look</a> below has the updated numbers.</p>
       <p class="data">SEC filings for new share offerings (forms S-1, F-1, 424B and 8-K item 3.02), 2006–2026, at companies that already had an insider purchase on file; prices from Yahoo Finance.</p>
     </article>
     <article class="study">
-      <h3>9. Canadian insider sales of C$10,000 or more</h3>
+      <h3 id="study-9">9. Canadian insider sales of C$10,000 or more</h3>
       <p class="label">Held up (moderate)</p>
       <p><strong>Question:</strong> Do Canadian stocks lag after an insider reports an open-market sale of C$10,000 or more?</p>
       <p><strong>What we found:</strong> Yes. About −4% over 6 months against similar stocks. When the insider was the CEO or CFO, about −9%. When the insider parted with half or more of their holding, about −5%. The newest period (April 2025 onward) points the same way but is too short to be reliable alone.</p>
       <p class="data">SEDI insider filings (from cached CEO.CA pages), 2015–2026, about 8,600 sales; prices from Yahoo Finance.</p>
     </article>
     <article class="study">
-      <h3>10. An insider's sale soon after their own purchase</h3>
+      <h3 id="study-10">10. An insider's sale soon after their own purchase</h3>
       <p class="label">Held up (weak)</p>
       <p><strong>Question:</strong> Do stocks lag when an insider reports a sale within 6 months of their own purchase?</p>
       <p><strong>What we found:</strong> Slightly. About −2% (US) and −4.5% (Canada) over 6 months, but the samples are small (about 1,000 US and 1,400 Canadian cases) and the newest periods are not reliable. For contrast, ordinary US insider sales, including sales by CEOs and CFOs, showed no warning value at all.</p>
@@ -383,7 +472,7 @@
     <h2 id="warning-signs-second-look">Warning signs: a second look</h2>
     <p>We re-checked the warning signs above on the same 2006–2026 history, this time with a stricter test that each result had to pass twice. It is a re-check, not new evidence. "Similar stocks" means stocks in the same line of business and size group. Each test starts at the first close after the filing was public.</p>
     <article class="study">
-      <h3>What held up on the second look</h3>
+      <h3 id="second-look-held">What held up on the second look</h3>
       <p class="label">Held up</p>
       <p><strong>Question:</strong> Which warning signs still hold up under the stricter test?</p>
       <p><strong>What we found:</strong> These stocks lagged similar stocks over the next 6 months:</p>
@@ -396,7 +485,7 @@
       </ol>
     </article>
     <article class="study">
-      <h3>What did not hold up on the second look</h3>
+      <h3 id="second-look-failed">What did not hold up on the second look</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Which warning signs failed the stricter test?</p>
       <p><strong>What we found:</strong></p>
@@ -429,9 +518,9 @@
       </ol>
       <p class="data">US and Canadian insider-buy filings, 2008–2026 (Canada only in the later years); copies bought after the filing was public and held about 90 days, after trading costs.</p>
     </article>
-    <h2>Members of Congress</h2>
+    <h2 id="members-of-congress">Members of Congress</h2>
     <article class="study">
-      <h3>11. Copying congressional trades</h3>
+      <h3 id="study-11">11. Copying congressional trades</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> After a member's trade became public, did the stocks they purchased beat similar stocks?</p>
       <p><strong>What we found:</strong> No reliable edge. Their purchases beat similar stocks by only about 0.5% over 3 months (not reliable), and the stocks they sold did slightly better (+0.65%). Against the S&amp;P 500, their purchases lagged (−0.18%). No subgroup (Senate, committee members, on-time filers) survived the luck corrections. Committee data only exists for 2025 onward, so committee tests use only 2025–2026 trades. Missing delisted stocks would, if anything, make these returns look better, so they do not explain the lack of an edge.</p>
@@ -440,7 +529,7 @@
       <figure><a href="research/congress-over-time.png"><img src="research/congress-over-time.png" width="1100" height="462" alt="Line chart from 2014 to 2026 of hypothetical groups following congressional purchases and sales; neither line keeps rising after 2021." loading="lazy" decoding="async"></a><figcaption>Hypothetical groups that follow each trade after it became public, after costs. The dashed line marks the start of the fresh test period (2021). The green line is 37 executive-branch officials; it is too small and too erratic to rely on.</figcaption></figure>
     </article>
     <article class="study" id="congress-sectors">
-      <h3>Congress stock purchases by sector</h3>
+      <h3 id="congress-purchases-by-sector">Congress stock purchases by sector</h3>
       <p class="label">Updated every Monday</p>
       <p>Each colored band is one sector's share of stock purchases by members of Congress over the past 13 weeks, counting trades, not dollars. The list names a sector only when its share has moved at least 3 percentage points from its long-run average. The move must also hold when every member counts the same and when the most active members are left out, and it must pass a test for chance. Members can take 45 days or more to report a trade, so the shaded recent weeks are not complete and will change.</p>
       <div class="sx-shifts" aria-live="polite">
@@ -463,9 +552,9 @@
       </div>
       <p class="data" id="sx-data"></p>
     </article>
-    <h2>Federal contracts</h2>
+    <h2 id="federal-contracts">Federal contracts</h2>
     <article class="study">
-      <h3>12. Stock moves after contract awards</h3>
+      <h3 id="study-12">12. Stock moves after contract awards</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Do contractor stocks move after a contract award becomes public?</p>
       <p><strong>What we found:</strong> No reliable move. That holds for Defense and civilian awards, for awards that are large relative to the company, and for small companies. An apparent lag against defense peers disappeared against stocks of similar size and price trend. Of 6,420 tests, only 4 passed the luck filter, and none was confirmed by the other yardsticks. The company list covers contractors listed today, so failed contractors are missing.</p>
@@ -473,7 +562,7 @@
       <figure><a href="research/contracts-after-awards.png"><img src="research/contracts-after-awards.png" width="1320" height="440" alt="Two line charts of stock returns after Defense award announcements; against defense peers they drift down, against size-and-trend matched stocks they stay near zero." loading="lazy" decoding="async"></a><figcaption>Left = compared with other defense stocks. Right = compared with stocks of similar size and recent trend. The left-side drift disappears on the right, so it reflects which stocks were compared, not the awards.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>13. Contract momentum</h3>
+      <h3 id="study-13">13. Contract momentum</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> Do companies whose contract dollars are growing fastest see better stock returns afterwards?</p>
       <p><strong>What we found:</strong> It looked promising on our own data (+4.0% over 6 months for the fastest-growing group versus the slowest). On an independent dataset it was about zero (+0.2%), and it failed the luck corrections. We show contract growth as a fact only.</p>
@@ -481,21 +570,21 @@
       <figure><a href="research/contracts-momentum.png"><img src="research/contracts-momentum.png" width="880" height="418" alt="Bar chart comparing our data with independent data; the independent bars are near zero or negative." loading="lazy" decoding="async"></a><figcaption>Blue = our data. Orange = independent data. Each bar is the return gap between the fastest- and slowest-growing third of companies. "H63/H126" = about 3 or 6 months.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>14. Did members of Congress trade ahead of awards?</h3>
+      <h3 id="study-14">14. Did members of Congress trade ahead of awards?</h3>
       <p class="label">Didn't hold up</p>
       <p><strong>Question:</strong> After a member of Congress traded a contractor's stock, did a large award follow more often than usual?</p>
       <p><strong>What we found:</strong> No. A large award (0.5% of company value or more) followed within 30 days 35.5% of the time, against a normal rate of 33.5%, a difference that could easily be chance. Members on relevant committees in 2025–2026 were slightly below the normal rate.</p>
       <p class="data">Kadoa congressional trades and USAspending awards, fiscal 2017–2026 (719 purchases by 112 members); committee lists for 2025 onward only.</p>
     </article>
     <article class="study">
-      <h3>15. Contract cuts</h3>
+      <h3 id="study-15">15. Contract cuts</h3>
       <p class="label">Inconclusive</p>
       <p><strong>Question:</strong> Do stocks lag after the government cuts a company's contract money?</p>
       <p><strong>What we found:</strong> Unclear. There was a small lag in the earlier years (about −1.7% over 3 months) and none in 2022–2026. Firms that lost contracts and then failed are missing from the data, which could hide a real effect.</p>
       <p class="data">USAspending contract reductions of $10 million or more, fiscal 2016–2026 (1,017 Defense and 355 civilian cases).</p>
     </article>
     <article class="study">
-      <h3>16. Where federal contract money is going</h3>
+      <h3 id="study-16">16. Where federal contract money is going</h3>
       <p class="label">Held up (spending facts, not a stock pattern)</p>
       <p><strong>Question:</strong> Which areas gained and lost the most federal contract dollars this year?</p>
       <p><strong>What we found:</strong> Comparing October–June of fiscal 2026 with the same months of fiscal 2025:</p>
@@ -509,7 +598,7 @@
       <figure><a href="research/contracts-agency-trends.png"><img src="research/contracts-agency-trends.png" width="880" height="550" alt="Bar chart of the fastest-rising and fastest-falling federal agencies by contract dollars; Customs and Border Protection leads the gains, FEMA and USAID lead the drops." loading="lazy" decoding="async"></a><figcaption>Change in contract dollars, October–June 2026 versus 2025. The scale is stretched so that very large gains fit. Agencies with at least $0.5 billion in 2025.</figcaption></figure>
     </article>
     <article class="study">
-      <h3>17. Company contract growth</h3>
+      <h3 id="study-17">17. Company contract growth</h3>
       <p class="label">Held up (spending facts, not a stock pattern)</p>
       <p><strong>Question:</strong> Which listed contractors' contract dollars changed the most?</p>
       <p><strong>What we found:</strong> Contract dollars in the 12 months to June 2026 versus the 12 months before (companies with at least $50 million the prior year). These describe contract dollars only; study 13 found that contract growth did not predict stock returns.</p>
@@ -531,6 +620,8 @@
       <p class="data">USAspending contract transactions of $10 million or more, 12 months to June 2026 versus the prior 12 months.</p>
     </article>
     <p class="note">Every conclusion on this page was checked for timing errors, missing companies, luck across many tests, and the choice of yardstick. Numbers are from Quantity Capital's own research files dated September 26, 2026.</p>
+    </div>
+    <nav class="research-toc" id="research-toc" aria-label="On this page"></nav>
   </div>
   <footer>
     <div class="wrap">
@@ -729,6 +820,97 @@
   <script src="qc.js?v=134"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+  </script>
+  <script>
+    (function () {
+      var toc = document.getElementById("research-toc");
+      var prose = document.querySelector(".research-prose");
+      if (!toc || !prose) return;
+      var heads = prose.querySelectorAll("h2, h3");
+      if (!heads.length) return;
+      var box = document.createElement("div");
+      var label = document.createElement("p");
+      label.className = "toc-kicker";
+      label.textContent = "On this page";
+      box.appendChild(label);
+      var list = document.createElement("ol");
+      list.className = "toc-sections";
+      var sub = null;
+      Array.prototype.forEach.call(heads, function (h) {
+        var a = document.createElement("a");
+        a.href = "#" + h.id;
+        a.textContent = h.textContent.replace(/\s+/g, " ").trim();
+        var li = document.createElement("li");
+        li.appendChild(a);
+        if (h.tagName === "H2") {
+          li.className = "toc-sec";
+          sub = document.createElement("ol");
+          sub.className = "toc-studies";
+          li.appendChild(sub);
+          list.appendChild(li);
+        } else if (sub) {
+          li.className = "toc-study";
+          sub.appendChild(li);
+        }
+      });
+      box.appendChild(list);
+      toc.appendChild(box);
+      var links = toc.querySelectorAll("a");
+      function mark(id) {
+        var current = null;
+        Array.prototype.forEach.call(links, function (a) {
+          var on = a.getAttribute("href") === "#" + id;
+          a.classList.toggle("on", on);
+          if (on) {
+            a.setAttribute("aria-current", "location");
+            current = a;
+          } else a.removeAttribute("aria-current");
+        });
+        if (!current) return;
+        currentId = id;
+        var box = toc.getBoundingClientRect();
+        var link = current.getBoundingClientRect();
+        if (link.bottom > box.bottom) toc.scrollTop += link.bottom - box.bottom;
+        else if (link.top < box.top) toc.scrollTop -= box.top - link.top;
+      }
+      var currentId = "";
+      function follow() {
+        var bandBottom = window.innerHeight * 0.45;
+        var inBand = [];
+        var lastAbove = null;
+        Array.prototype.forEach.call(heads, function (h) {
+          var rect = h.getBoundingClientRect();
+          if (rect.bottom > 72 && rect.top < bandBottom) inBand.push({ h: h, top: rect.top });
+          if (rect.top <= 96) lastAbove = h;
+        });
+        var chosen = null;
+        if (inBand.length) {
+          chosen = inBand[0].h;
+          inBand.forEach(function (item) {
+            if (item.top <= 96) chosen = item.h;
+          });
+        } else {
+          chosen = lastAbove || heads[0];
+        }
+        if (chosen && chosen.id !== currentId) mark(chosen.id);
+      }
+      var queued = false;
+      function schedule() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          queued = false;
+          follow();
+        });
+      }
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      schedule();
+      var start = (location.hash || "").replace(/^#/, "");
+      var known = false;
+      Array.prototype.forEach.call(heads, function (h) { if (h.id === start) known = true; });
+      mark(known ? start : heads[0].id);
+    })();
   </script>
   <script src="refresh.js"></script>
   <nav class="tabbar" aria-label="Contracts and research">

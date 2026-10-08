@@ -2233,16 +2233,15 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-member-desk .chart-col {
     grid-column: 2;
     grid-row: 1;
-    position: sticky;
-    top: calc(var(--site-header-h, 62px) + 8px);
     align-self: start;
     min-width: 0;
-    max-height: calc(100vh - var(--site-header-h, 62px) - 16px);
-    overflow: hidden;
   }
-  .qc-member-desk .allocator {
-    min-height: 0;
-    overflow: hidden;
+  /* Stick the chart card only. The full column (link bar + tiles) is taller than
+     800px once a holding is selected, and a sticky stack that tall slides off the top. */
+  .qc-member-desk .focus {
+    position: sticky;
+    top: calc(var(--site-header-h, 62px) + 8px);
+    z-index: 4;
   }
   .qc-member-desk .tile-board {
     max-height: 168px;

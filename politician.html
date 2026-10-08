@@ -34,6 +34,14 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--ink); color-scheme: dark; scrollbar-gutter: stable; overflow-y: scroll; }
     body { font-family: "IBM Plex Sans", sans-serif; color: var(--white); background: var(--steel); }
+    @media (min-width: 821px) {
+      body {
+        background:
+          linear-gradient(180deg, rgba(26, 29, 38, 0.94), rgba(28, 36, 48, 0.97)),
+          url("city.jpg?v=15") 50% 30% / cover fixed;
+        min-height: 100vh;
+      }
+    }
     @media (display-mode: standalone) {
       body { padding-top: env(safe-area-inset-top, 0px); }
     }
@@ -456,6 +464,10 @@
       cursor: crosshair;
       overflow: visible;
     }
+    @media (min-width: 821px) {
+      .qc-member-desk .holdings .focus .chart-wrap { height: auto; }
+      .qc-member-desk .holdings .focus #chart-svg { height: 300px; flex-basis: 300px; }
+    }
     .holdings .focus .qc-spline-main {
       filter: drop-shadow(0 0 5px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.22));
     }
@@ -687,12 +699,14 @@
       <summary>Bio</summary>
       <div class="bio" id="bio"></div>
     </details>
+    <div class="stats" id="stats" hidden></div>
+    <div class="qc-member-desk qc-pol-desk" id="pol-desk">
     <section class="holdings" id="holdings" hidden>
-      <div class="link-bar" id="link-bar">
-        <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
-        <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
-      </div>
-      <div class="hold-stage">
+      <div class="hold-stage chart-col" id="chart-col">
+        <div class="link-bar" id="link-bar">
+          <span class="sel-chip" id="sel-chip"><i class="sel-dot" id="sel-dot"></i><span id="sel-label"></span></span>
+          <button type="button" class="clear-btn" id="clear-sel">Clear · show all</button>
+        </div>
         <div class="focus" id="focus">
           <div class="range-row">
             <div class="range" id="range" role="tablist" aria-label="Book and chart range"></div>
@@ -721,16 +735,16 @@
         </aside>
       </div>
     </section>
-    <div class="stats" id="stats" hidden></div>
+    <div class="tape-col">
     <div class="tape-head">
       <p class="kicker">Trade tape</p>
       <p class="count" id="tape-count"></p>
     </div>
-    <div class="qc-pol-desk">
       <ol class="qc-txn-list qc-tape-list qc-show-opt" id="rows" aria-label="Politician tape"></ol>
-    </div>
     <div class="tape-more" id="tape-more-row" hidden>
       <button type="button" id="tape-more">Show full list</button>
+    </div>
+    </div>
     </div>
     <footer>Not investment advice · STOCK Act ranges, not share counts</footer>
   </div>
@@ -1182,7 +1196,9 @@
         return;
       }
       board.classList.toggle("expanded", !!showAllTiles);
-      if (!showAllTiles && list.length > 1 && window.innerWidth > 820) {
+      const desk = document.getElementById("pol-desk");
+      const sideCol = window.innerWidth > 820 && desk && !desk.classList.contains("alloc-above");
+      if (!showAllTiles && list.length > 1 && window.innerWidth > 820 && !sideCol) {
         board.style.gridTemplateColumns = "repeat(" + list.length + ", minmax(0, 1fr))";
       } else {
         board.style.gridTemplateColumns = "";
@@ -1483,6 +1499,7 @@
           range: bookRange,
           theme: "cyan",
           pad: { l: 36, r: 12, t: 14, b: 14 },
+          selectedId: visibleTradeId(),
           onMark: (rec) => {
             const mid = rec && rec.mark && rec.mark.id;
             if (mid) selectTrade(mid);
@@ -1549,6 +1566,23 @@
       });
     }
 
+    function placeAllocator() {
+      const desk = document.getElementById("pol-desk");
+      const focus = document.getElementById("focus");
+      const alloc = desk && desk.querySelector(".allocator");
+      if (!desk || !focus || !alloc) return;
+      if (window.innerWidth <= 820) {
+        desk.classList.remove("alloc-above");
+        return;
+      }
+      desk.classList.remove("alloc-above");
+      const header = document.querySelector(".qc-header");
+      const headerH = header ? header.getBoundingClientRect().height : 62;
+      const need = focus.offsetHeight + alloc.offsetHeight + 20;
+      const avail = window.innerHeight - headerH - 16;
+      if (need > avail) desk.classList.add("alloc-above");
+    }
+
     function paintDesk() {
       const book = currentBook();
       const box = document.getElementById("holdings");
@@ -1559,6 +1593,8 @@
       paintSort();
       paintTape();
       requestAnimationFrame(() => {
+        paintTiles(book);
+        placeAllocator();
         paintTiles(book);
         paintChart();
       });
@@ -1677,6 +1713,7 @@
       window.addEventListener("resize", () => {
         clearTimeout(bindDesk._fit);
         bindDesk._fit = setTimeout(() => {
+          placeAllocator();
           paintTiles(currentBook());
           paintChart();
         }, 120);

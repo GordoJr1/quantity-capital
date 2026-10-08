@@ -2207,3 +2207,56 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-nav a { padding: 0 6px; font-size: 0.84rem; }
   .qc-mode { padding: 0 8px; letter-spacing: 0.08em; }
 }
+
+/* Politician member page only: Tape/Insiders desk — list left, sticky chart right.
+   Scoped to .qc-member-desk so Tape, Insiders, ticker, and officer pages stay put. */
+@media (min-width: 821px) {
+  .qc-member-desk {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.82fr);
+    column-gap: 16px;
+    align-items: start;
+  }
+  @media (min-width: 1200px) {
+    .qc-member-desk { grid-template-columns: minmax(0, 1.25fr) minmax(360px, 0.95fr); }
+  }
+  @media (min-width: 1600px) {
+    .qc-member-desk { grid-template-columns: minmax(0, 1.15fr) minmax(420px, 1fr); column-gap: 20px; }
+  }
+  .qc-member-desk .holdings:not([hidden]) { display: contents; }
+  .qc-member-desk .holdings[hidden] { display: none !important; }
+  .qc-member-desk .tape-col {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+  .qc-member-desk .chart-col {
+    grid-column: 2;
+    grid-row: 1;
+    position: sticky;
+    top: calc(var(--site-header-h, 62px) + 8px);
+    align-self: start;
+    min-width: 0;
+  }
+  .qc-member-desk .tape-head { margin: 0 0 8px; }
+  .qc-member-desk.alloc-above .chart-col { display: contents; }
+  .qc-member-desk.alloc-above .allocator {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .qc-member-desk.alloc-above .link-bar {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .qc-member-desk.alloc-above .focus {
+    grid-column: 2;
+    grid-row: 3;
+    position: sticky;
+    top: calc(var(--site-header-h, 62px) + 8px);
+    align-self: start;
+  }
+  .qc-member-desk.alloc-above .tape-col {
+    grid-column: 1;
+    grid-row: 2 / -1;
+  }
+}

@@ -55,6 +55,12 @@
     }
     #search-form button.dl:hover, #search-form button.dl:focus-visible { background: #1c2733; }
     #search-form button.dl:disabled { opacity: 0.45; cursor: default; }
+    /* Phone / ≤820: More wrapper is transparent so the two download chips stay in the HUD. */
+    .hud-more { display: contents; }
+    .hud-more > summary { display: none; }
+    .hud-more-menu { display: contents; }
+    .layers-toggle { display: none; }
+    .legend-more { display: none; }
     #search-results {
       position: absolute; top: calc(100% + 6px); left: 0; right: 0;
       background: #121820; border: 1px solid #2a3340; border-radius: 8px;
@@ -108,6 +114,105 @@
         min-height: 40px;
       }
     }
+    @media (min-width: 821px) {
+      .hud-more {
+        display: block;
+        position: relative;
+        flex: 0 0 auto;
+      }
+      .hud-more > summary.dl {
+        display: inline-flex;
+        align-items: center;
+        list-style: none;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-weight: 650;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .hud-more > summary.dl::-webkit-details-marker { display: none; }
+      .hud-more > summary.dl:hover, .hud-more > summary.dl:focus-visible { background: #1c2733; }
+      .hud-more-menu {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: calc(100% + 6px);
+        z-index: 5;
+        min-width: 13.5rem;
+        padding: 6px;
+        background: rgba(12, 16, 22, 0.96);
+        border: 1px solid #2a3340;
+        border-radius: 10px;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .hud-more[open] .hud-more-menu { display: flex; }
+      .hud-more-menu .dl { width: 100%; }
+      .layers {
+        min-width: 0;
+        width: 252px;
+        max-width: 252px;
+        max-height: calc(100% - 100px);
+        overflow: auto;
+        padding: 10px 12px 12px;
+      }
+      .layers label { margin: 0; padding: 4px 2px; }
+      .swatch { margin: 0; padding: 4px 0; }
+      .layers .hint { max-width: none; }
+      #legend { max-height: 30vh; }
+      .layers-toggle {
+        display: inline-flex;
+        align-items: center;
+        float: right;
+        margin: 0 0 6px 8px;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-weight: 650;
+        cursor: pointer;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      .layers-toggle:hover, .layers-toggle:focus-visible { background: #1c2733; }
+      .layers.is-collapsed {
+        width: auto;
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+        padding: 6px 8px;
+      }
+      .layers.is-collapsed .layers-body { display: none; }
+      .layers.is-collapsed .layers-toggle { float: none; margin: 0; }
+      .legend-more {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+        background: #141a22;
+        color: #e8eef6;
+        border: 1px solid #2a3340;
+        border-radius: 6px;
+        padding: 7px 10px;
+        font-weight: 650;
+        cursor: pointer;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+      .legend-more:hover, .legend-more:focus-visible { background: #1c2733; }
+    }
     @media (max-width: 720px) {
       .hud { flex-direction: column; align-items: stretch; }
       .layers { top: auto; bottom: 56px; max-height: 36vh; overflow: auto; }
@@ -151,23 +256,31 @@
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
         <button type="submit">Search</button>
-        <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
-        <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
+        <details class="hud-more" id="hud-more">
+          <summary class="dl">More</summary>
+          <div class="hud-more-menu">
+            <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
+            <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
+          </div>
+        </details>
         <div id="search-results" hidden></div>
       </form>
     </header>
-    <aside class="layers">
-      <h2>Provinces</h2>
-      <label><input type="checkbox" id="ly-quebec" checked> Quebec</label>
-      <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
-      <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
-      <label><input type="checkbox" id="ly-yukon" checked> Yukon</label>
-      <label><input type="checkbox" id="ly-nunavut" checked> Nunavut</label>
-      <label><input type="checkbox" id="ly-nl" checked> Newfoundland and Labrador</label>
-      <h2>Company</h2>
-      <p class="hint" id="company-hint">Quebec and British Columbia registry tiles, Ontario extracts, plus Yukon, Nunavut, and Newfoundland tiles. Search or click a holder for full titles.</p>
-      <div id="camps" hidden></div>
-      <div id="legend" hidden></div>
+    <aside class="layers" id="layers-panel">
+      <button type="button" class="layers-toggle" id="layers-toggle" aria-expanded="true" aria-controls="layers-body">Hide</button>
+      <div class="layers-body" id="layers-body">
+        <h2>Provinces</h2>
+        <label><input type="checkbox" id="ly-quebec" checked> Quebec</label>
+        <label><input type="checkbox" id="ly-ontario" checked> Ontario</label>
+        <label><input type="checkbox" id="ly-bc" checked> British Columbia</label>
+        <label><input type="checkbox" id="ly-yukon" checked> Yukon</label>
+        <label><input type="checkbox" id="ly-nunavut" checked> Nunavut</label>
+        <label><input type="checkbox" id="ly-nl" checked> Newfoundland and Labrador</label>
+        <h2>Company</h2>
+        <p class="hint" id="company-hint">Quebec and British Columbia registry tiles, Ontario extracts, plus Yukon, Nunavut, and Newfoundland tiles. Search or click a holder for full titles.</p>
+        <div id="camps" hidden></div>
+        <div id="legend" hidden></div>
+      </div>
     </aside>
     <footer class="status" id="status">Quebec GESTIM tiles · Ontario MLAS · BC mineral claims and leases · Yukon, Nunavut, and Newfoundland tiles · Not legal title.</footer>
   </div>
@@ -187,8 +300,21 @@
     // Close the phone "More" menu on an outside tap or Escape (same as qc.js on the other pages).
     (function () {
       function closeAll(keep) { document.querySelectorAll("details.qc-more[open]").forEach(function (d) { if (d !== keep) d.removeAttribute("open"); }); }
-      document.addEventListener("click", function (e) { closeAll(e.target.closest && e.target.closest("details.qc-more")); });
-      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(null); });
+      function closeHudMore(keep) {
+        document.querySelectorAll("details.hud-more[open]").forEach(function (d) {
+          if (d !== keep) d.removeAttribute("open");
+        });
+      }
+      document.addEventListener("click", function (e) {
+        closeAll(e.target.closest && e.target.closest("details.qc-more"));
+        closeHudMore(e.target.closest && e.target.closest("details.hud-more"));
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closeAll(null);
+          closeHudMore(null);
+        }
+      });
     })();
   </script>
 </body>

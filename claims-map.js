@@ -537,6 +537,34 @@ function applyHolderFilter() {
   }
 }
 
+const DESK_CLAIMS_MQ = "(min-width: 821px)";
+const OVERVIEW_LEGEND_TOP = 10;
+let overviewLegendAll = false;
+
+function isDeskClaims() {
+  return window.matchMedia(DESK_CLAIMS_MQ).matches;
+}
+
+function setLayersCollapsed(collapsed) {
+  const panel = document.getElementById("layers-panel") || document.querySelector(".layers");
+  const btn = document.getElementById("layers-toggle");
+  if (!panel) return;
+  panel.classList.toggle("is-collapsed", !!collapsed);
+  if (btn) {
+    btn.setAttribute("aria-expanded", collapsed ? "false" : "true");
+    btn.textContent = collapsed ? "Layers" : "Hide";
+  }
+}
+
+function initLayersToggle() {
+  const btn = document.getElementById("layers-toggle");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const panel = document.getElementById("layers-panel") || document.querySelector(".layers");
+    setLayersCollapsed(!(panel && panel.classList.contains("is-collapsed")));
+  });
+}
+
 function paintAllLegend(features) {
   const box = document.getElementById("legend");
   const hint = document.getElementById("company-hint");
@@ -557,8 +585,13 @@ function paintAllLegend(features) {
     hint.textContent = "No companies with claims in the provinces that are switched on.";
     return;
   }
+  const desk = isDeskClaims();
   hint.hidden = false;
-  hint.textContent = "Every company with extracts. Click a block or holder name to load full titles.";
+  if (desk && !overviewLegendAll) {
+    hint.textContent = "Top 10 holders by title count. Click a name for full titles.";
+  } else {
+    hint.textContent = "Every company with extracts. Click a block or holder name to load full titles.";
+  }
   box.hidden = false;
   const rows = order.map((id) => {
     const c = findIndexed(id) || { holder: id, color: colorForId(id) };
@@ -572,7 +605,10 @@ function paintAllLegend(features) {
       color: colorForId(id),
     };
   }).sort((a, b) => (b.count || 0) - (a.count || 0));
-  box.innerHTML = "<h2>Holders</h2>" + rows.map((r) => {
+  const shown = (desk && !overviewLegendAll && rows.length > OVERVIEW_LEGEND_TOP)
+    ? rows.slice(0, OVERVIEW_LEGEND_TOP)
+    : rows;
+  let html = "<h2>Holders</h2>" + shown.map((r) => {
     const on = !hiddenHolders.has(r.holder);
     return "<label class=\"swatch\"" + (r.id ? " data-id=\"" + r.id + "\"" : "") + "><input type=\"checkbox\" data-holder=\"" +
       r.holder.replace(/"/g, "&quot;") + "\"" + (on ? " checked" : "") +
@@ -580,6 +616,14 @@ function paintAllLegend(features) {
       "<span class=\"nm\">" + r.holder + "</span>" +
       "<span class=\"n\">" + (r.count || 0).toLocaleString("en-CA") + "</span></label>";
   }).join("");
+  if (desk && rows.length > OVERVIEW_LEGEND_TOP) {
+    html += "<button type=\"button\" class=\"legend-more\" id=\"legend-more\">" +
+      (overviewLegendAll
+        ? "Show top 10"
+        : "Show all " + rows.length + " holders") +
+      "</button>";
+  }
+  box.innerHTML = html;
   box.querySelectorAll("input[data-holder]").forEach((input) => {
     input.addEventListener("change", () => {
       const name = input.getAttribute("data-holder");
@@ -596,6 +640,13 @@ function paintAllLegend(features) {
       if (id) selectCompany(id);
     });
   });
+  const more = document.getElementById("legend-more");
+  if (more) {
+    more.addEventListener("click", () => {
+      overviewLegendAll = !overviewLegendAll;
+      paintAllLegend(features);
+    });
+  }
 }
 
 function paintLegend(company, features) {
@@ -1369,6 +1420,7 @@ function showAllClaims(opts) {
   const gen = ++viewGen;
   currentCompany = null;
   currentAssetId = null;
+  overviewLegendAll = false;
   setNeighborsDownloadEnabled(false);
   hiddenHolders = new Set();
   const fit = !!(opts && opts.fit);
@@ -1486,6 +1538,7 @@ function selectCompany(id, assetId) {
   }
   currentCompany = company;
   currentAssetId = assetId || null;
+  if (isDeskClaims()) setLayersCollapsed(false);
   setNeighborsDownloadEnabled(true);
   loadTickerLookups();
   document.getElementById("search-results").hidden = true;
@@ -1656,8 +1709,21 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     closePopup();
     document.getElementById("search-results").hidden = true;
+    const more = document.getElementById("hud-more");
+    if (more) more.removeAttribute("open");
   }
 });
+
+initLayersToggle();
+if (window.matchMedia) {
+  const deskMq = window.matchMedia(DESK_CLAIMS_MQ);
+  const onDeskChange = () => {
+    if (!isDeskClaims()) setLayersCollapsed(false);
+    if (!currentCompany && overviewFc) paintAllClaims(false);
+  };
+  if (deskMq.addEventListener) deskMq.addEventListener("change", onDeskChange);
+  else if (deskMq.addListener) deskMq.addListener(onDeskChange);
+}
 
 map.on("click", () => {
   document.getElementById("search-results").hidden = true;

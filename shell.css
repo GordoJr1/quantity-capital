@@ -513,6 +513,7 @@ summary:focus-visible,
   font-weight: 600;
 }
 .opt-tag .opt-more { display: none; }
+.qc-desk-opt { display: none; }
 .qc-txn-strike,
 .qc-txn-exp,
 .qc-txn-optline { display: none; }
@@ -2250,23 +2251,42 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   }
   .qc-member-desk .tape-head { margin: 0 0 8px; }
   /* Half-width list: drop Strike/Exp columns so the amount stays on screen.
-     Both chip forms are in the HTML; CSS picks Call vs Call $150 Dec 19. */
+     Option contract goes on its own line under the ticker — the 4.8rem
+     ticker cell cannot hold Call $27 Aug 14 '26. Stock rows stay one line. */
   @media (min-width: 900px) {
     .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
     .qc-member-desk .qc-show-opt .qc-txn-tape {
       grid-template-columns: 5.1rem minmax(7rem, 1.35fr) 4.8rem minmax(6rem, 1.4fr) 4.4rem minmax(5.4rem, max-content);
       grid-template-areas: "date id co coname chip hero";
     }
+    .qc-member-desk .qc-show-opt .qc-txn-tape:has(.qc-desk-opt) {
+      grid-template-areas:
+        "date id co coname chip hero"
+        ". . opt opt opt .";
+      row-gap: 2px;
+      align-items: start;
+    }
     .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-strike,
     .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-exp,
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-strike,
     .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-exp { display: none; }
-    .qc-member-desk .qc-txn-tape .qc-txn-tk .opt-tag {
-      max-width: 11.5rem;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+    .qc-member-desk .qc-show-opt .qc-txn-tape:has(.qc-desk-opt) .qc-txn-tk .opt-tag {
+      display: none;
     }
-    .qc-member-desk .opt-tag .opt-more { display: inline; }
+    .qc-member-desk .qc-desk-opt {
+      display: block;
+      grid-area: opt;
+      min-width: 0;
+      overflow: visible;
+      white-space: nowrap;
+      color: var(--mute, #8b96a3);
+      font-family: "JetBrains Mono", monospace;
+      font-variant-numeric: tabular-nums;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      line-height: 1.25;
+      padding: 0 0 1px;
+    }
   }
 }

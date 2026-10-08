@@ -1587,6 +1587,7 @@
     let strikeHtml = "";
     let expHtml = "";
     let optLineHtml = "";
+    let deskOptHtml = "";
     if (opts.showOptionMeta) {
       let strike = "";
       let exp = "";
@@ -1603,9 +1604,7 @@
           if (o.strike) bits.push("$" + o.strike);
           if (o.exp) bits.push(o.exp);
           if (bits.length) {
-            const cls = o.kind === "Call" ? " opt-call" : " opt-put";
-            optTag = "<span class=\"opt-tag" + cls + "\">" + esc(o.kind) +
-              "<span class=\"opt-more\"> " + esc(bits.join(" ")) + "</span></span>";
+            deskOptHtml = "<div class=\"qc-desk-opt\">" + esc(o.kind + " " + bits.join(" ")) + "</div>";
           }
         }
       }
@@ -1684,6 +1683,7 @@
       strikeHtml +
       expHtml +
       optLineHtml +
+      deskOptHtml +
       filingNotesChipsHtml(filingNotesFor(t && t.id)) +
     "</li>";
   }

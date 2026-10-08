@@ -2256,4 +2256,16 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     grid-column: 2;
     grid-row: 2;
   }
+  /* Half-width list: drop Strike/Exp columns so the amount stays on screen. Option chips remain. */
+  @media (min-width: 900px) {
+    .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
+    .qc-member-desk .qc-show-opt .qc-txn-tape {
+      grid-template-columns: 5.1rem minmax(7rem, 1.35fr) 4.8rem minmax(6rem, 1.4fr) 4.4rem minmax(5.4rem, max-content);
+      grid-template-areas: "date id co coname chip hero";
+    }
+    .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-strike,
+    .qc-member-desk .qc-show-opt .qc-txn-cols .qc-txn-exp,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-strike,
+    .qc-member-desk .qc-show-opt .qc-txn-tape .qc-txn-exp { display: none; }
+  }
 }

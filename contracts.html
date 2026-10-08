@@ -113,6 +113,58 @@
       line-height: 1.3;
     }
     .muted { color: var(--mute); }
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 0 0 12px;
+      min-width: 0;
+    }
+    .filters label {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--caution);
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+    }
+    .filters input, .filters select {
+      width: 100%;
+      background: #151b24;
+      border: 1px solid #4a5563;
+      color: var(--white);
+      padding: 10px 12px;
+      font: inherit;
+    }
+    .check-landed {
+      display: flex;
+      align-items: flex-end;
+    }
+    .check-landed label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      margin: 0;
+      min-height: 42px;
+      overflow-wrap: anywhere;
+    }
+    .filter-fold, .filter-row, .filter-status { min-width: 0; }
+    .check-landed input { width: auto; accent-color: var(--caution); }
+    .filter-status { margin: 0 0 8px; }
+    .filter-fold > summary { display: none; }
+    .fold-teaser {
+      display: inline;
+      margin: 0 0 0 0.4em;
+      font-family: "IBM Plex Sans", sans-serif;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--mute);
+      font-size: 0.82rem;
+      font-weight: 400;
+    }
+    #company-note { margin: 8px 0 0; }
     button.more {
       margin: 8px 0 0;
       background: transparent;
@@ -131,12 +183,50 @@
     }
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: var(--caution); }
+    @media (min-width: 821px) {
+      .filter-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 12px 16px;
+        align-items: end;
+      }
+      .filter-fold .filters {
+        margin: 0;
+        gap: 10px 12px;
+        grid-template-columns: minmax(160px, 1.4fr) minmax(140px, 1fr) minmax(180px, auto);
+      }
+    }
     @media (max-width: 820px) {
       .wrap { width: calc(100% - 20px); }
       .stats { grid-template-columns: 1fr; }
       .stat { border-right: 0; border-bottom: 1px solid #3a4452; }
       .stat:last-child { border-bottom: 0; }
       h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+      .filter-fold {
+        border: 1px solid #4a5563;
+        background: #151b24;
+        margin: 0 0 8px;
+      }
+      .filter-fold > summary {
+        display: block;
+        padding: 12px 14px;
+        font-family: "Barlow Condensed", sans-serif;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--caution);
+        cursor: pointer;
+        list-style: none;
+        min-height: 44px;
+        overflow-wrap: anywhere;
+      }
+      .filter-fold > summary::-webkit-details-marker { display: none; }
+      .filter-fold > summary::before { content: "▸ "; }
+      .filter-fold[open] > summary::before { content: "▾ "; }
+      .filter-fold[open] > summary { border-bottom: 1px solid #3a4452; }
+      .filter-fold .filters { padding: 10px 12px 12px; grid-template-columns: 1fr; }
+      .filters input, .filters select { font-size: 16px; min-height: 44px; }
+      .check-landed label { min-height: 44px; }
+      .filter-status { display: none; }
       .col-recipient, .col-desc, .col-company { display: none; }
       th, td { padding: 6px 4px; }
       table.awards, table.upcoming { table-layout: fixed; width: 100%; }
@@ -149,6 +239,12 @@
       }
       .awards td:first-child, .awards th:first-child { width: 4.7rem; white-space: nowrap; font-size: 0.68rem; }
       .sub { white-space: normal; }
+      table.companies { table-layout: fixed; width: 100%; }
+      table.companies th.num {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      table.companies td.num { white-space: nowrap; }
     }
     @media (max-width: 420px) {
       .cap-pct { display: none; }
@@ -202,6 +298,32 @@
       <div class="stat"><b>—</b><span>matched trailing</span></div>
       <div class="stat"><b>—</b><span>unlinked, $10M+</span></div>
     </div>
+    <details class="filter-fold" open>
+      <summary>Search &amp; filters <span class="fold-teaser" id="filter-teaser" aria-live="polite"></span></summary>
+      <div class="filter-row">
+        <div class="filters">
+          <div>
+            <label for="filter-company">Company</label>
+            <input id="filter-company" type="search" placeholder="Name, ticker, or recipient…" autocomplete="off" />
+          </div>
+          <div>
+            <label for="filter-agency">Agency</label>
+            <select id="filter-agency">
+              <option value="">All agencies</option>
+            </select>
+          </div>
+          <div class="check-landed">
+            <label for="filter-matched">
+              <input id="filter-matched" type="checkbox" />
+              Matched to a stock only
+            </label>
+          </div>
+        </div>
+      </div>
+    </details>
+    <div class="filter-status">
+      <p class="count" id="filter-count" aria-live="polite"></p>
+    </div>
     <h2>Recent awards</h2>
     <div class="table-wrap">
       <table class="awards">
@@ -224,13 +346,14 @@
     <button type="button" class="more" id="show-rest-upcoming" hidden>Show the rest</button>
     <h2>Trailing book</h2>
     <div class="table-wrap">
-      <table>
+      <table class="companies">
         <thead>
           <tr><th>Ticker</th><th class="col-company">Company</th><th class="num">Awards</th><th class="num">Trailing</th></tr>
         </thead>
         <tbody id="companies"><tr><td colspan="4" class="note">Loading companies…</td></tr></tbody>
       </table>
     </div>
+    <p class="note" id="company-note" hidden></p>
     <h2>Unlinked · $10 million and up</h2>
     <div class="table-wrap">
       <table class="unlinked">
@@ -269,8 +392,8 @@
     function cells(cols) {
       return "<tr>" + cols.join("") + "</tr>";
     }
-    function td(text, cls) {
-      return "<td" + (cls ? " class=\"" + cls + "\"" : "") + ">" + text + "</td>";
+    function td(text, cls, title) {
+      return "<td" + (cls ? " class=\"" + cls + "\"" : "") + (title ? " title=\"" + QC.esc(title) + "\"" : "") + ">" + text + "</td>";
     }
     function emptyRow(cols, message) {
       return "<tr><td colspan=\"" + cols + "\" class=\"note\">" + QC.esc(message) + "</td></tr>";
@@ -372,7 +495,195 @@
         td(value, "num")
       ]);
     }
+    var book = { awards: [], companies: [], upcoming: [], unlinked: [], names: {} };
+    var showAllAwards = false;
+    var showAllUpcoming = false;
+    var bookReady = false;
+    function words(s) {
+      return String(s || "").toLowerCase().match(/[a-z0-9]+/g) || [];
+    }
+    function agencyKey(name) {
+      var u = String(name || "").toUpperCase().replace(/,/g, " ").replace(/\s+/g, " ").trim();
+      u = u.replace(/^DEPT OF /, "").replace(/^DEPARTMENT OF THE /, "").replace(/^DEPARTMENT OF /, "");
+      u = u.replace(/ DEPARTMENT OF THE$/, "").replace(/ DEPARTMENT OF$/, "");
+      if (u === "DOD" || u === "DEFENSE") return "DOD";
+      if (u === "HOMELAND SECURITY") return "Homeland Security";
+      if (u === "VETERANS AFFAIRS") return "Veterans Affairs";
+      if (u === "HEALTH AND HUMAN SERVICES") return "Health and Human Services";
+      if (u === "ENVIRONMENTAL PROTECTION AGENCY") return "Environmental Protection Agency";
+      if (u === "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION") return "National Aeronautics and Space Administration";
+      if (u === "NATIONAL ARCHIVES AND RECORDS ADMINISTRATION") return "National Archives and Records Administration";
+      if (u === "HOUSING AND URBAN DEVELOPMENT") return "Housing and Urban Development";
+      if (u === "GENERAL SERVICES ADMINISTRATION") return "General Services Administration";
+      if (u === "POSTAL SERVICE") return "Postal Service";
+      if (u === "INTERIOR") return "Interior";
+      if (u === "AGRICULTURE") return "Agriculture";
+      if (u === "LABOR") return "Labor";
+      if (u === "EDUCATION") return "Education";
+      if (u === "ENERGY") return "Energy";
+      if (u === "JUSTICE") return "Justice";
+      if (u === "TRANSPORTATION") return "Transportation";
+      if (u === "TREASURY") return "Treasury";
+      return String(name || "").trim();
+    }
+    function nameFields(row) {
+      return [
+        row.recipient || "",
+        row.name || "",
+        book.names[(row.ticker || "").toUpperCase()] || ""
+      ];
+    }
+    function wordPrefix(field, q) {
+      var list = words(field);
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (list[i].indexOf(q) === 0) return true;
+      }
+      return false;
+    }
+    function wholeWord(field, q) {
+      var list = words(field);
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (list[i] === q) return true;
+      }
+      return false;
+    }
+    function nameHit(row, q) {
+      if (String(row.ticker || "").toLowerCase() === q) return true;
+      var fields = nameFields(row);
+      var i;
+      if (q.length <= 3) {
+        for (i = 0; i < fields.length; i++) {
+          if (wholeWord(fields[i], q)) return true;
+        }
+        return false;
+      }
+      var parts = q.split(/\s+/).filter(Boolean);
+      return parts.every(function (part) {
+        return fields.some(function (field) { return wordPrefix(field, part); });
+      });
+    }
+    function matchQuery(row, q) {
+      if (!q) return true;
+      if (nameHit(row, q)) return true;
+      if (q.length <= 3) return false;
+      var parts = q.split(/\s+/).filter(Boolean);
+      return parts.every(function (part) { return wordPrefix(row.description || "", part); });
+    }
+    function matchRank(row, q) {
+      if (!q) return 0;
+      if (String(row.ticker || "").toLowerCase() === q) return 2;
+      if (nameHit(row, q)) return 1;
+      return 0;
+    }
+    function byRank(q) {
+      return function (a, b) {
+        return matchRank(b, q) - matchRank(a, q);
+      };
+    }
+    function companyStats(row, agency) {
+      if (!agency) return { awards: row.awards || 0, trailing: row.trailing_total };
+      var tk = (row.ticker || "").toUpperCase();
+      var rows = book.awards.filter(function (a) {
+        return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
+      });
+      var sum = 0;
+      rows.forEach(function (a) { sum += Number(a.amount) || 0; });
+      return { awards: rows.length, trailing: sum };
+    }
+    function passRow(row, q, agency, matchedOnly) {
+      if (matchedOnly && !row.ticker) return false;
+      if (agency && agencyKey(row.agency) !== agency) return false;
+      if (q && !matchQuery(row, q)) return false;
+      return true;
+    }
+    function passCompany(row, q, agency, matchedOnly) {
+      if (matchedOnly && !row.ticker) return false;
+      if (q && !matchQuery(row, q)) return false;
+      if (agency) {
+        var tk = (row.ticker || "").toUpperCase();
+        var hit = book.awards.some(function (a) {
+          return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
+        }) || book.upcoming.some(function (a) {
+          return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
+        });
+        if (!hit) return false;
+      }
+      return true;
+    }
+    function readQuery() {
+      return {
+        q: (document.getElementById("filter-company").value || "").trim().toLowerCase(),
+        agency: document.getElementById("filter-agency").value || "",
+        matched: document.getElementById("filter-matched").checked
+      };
+    }
+    function writeQuery() {
+      var f = readQuery();
+      var p = new URLSearchParams();
+      var raw = (document.getElementById("filter-company").value || "").trim();
+      if (raw) p.set("q", raw);
+      if (f.agency) p.set("agency", f.agency);
+      if (f.matched) p.set("matched", "1");
+      var qs = p.toString();
+      if (history.replaceState) {
+        history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash);
+      }
+    }
+    function readFilters() {
+      var p = new URLSearchParams(location.search);
+      if (p.get("q")) document.getElementById("filter-company").value = p.get("q");
+      if (p.get("agency")) document.getElementById("filter-agency").value = agencyKey(p.get("agency"));
+      if (p.get("matched") === "1") document.getElementById("filter-matched").checked = true;
+    }
+    function fillAgencies() {
+      var seen = {};
+      function add(rows) {
+        (rows || []).forEach(function (row) {
+          var name = agencyKey(row.agency);
+          if (name) seen[name] = 1;
+        });
+      }
+      add(book.awards);
+      add(book.upcoming);
+      add(book.unlinked);
+      var sel = document.getElementById("filter-agency");
+      var keep = agencyKey(sel.value);
+      sel.innerHTML = "<option value=\"\">All agencies</option>";
+      Object.keys(seen).sort(function (a, b) { return a.localeCompare(b); }).forEach(function (name) {
+        var opt = document.createElement("option");
+        opt.value = name;
+        opt.textContent = name;
+        sel.appendChild(opt);
+      });
+      if (seen[keep]) sel.value = keep;
+    }
+    function paintTeaser(f, countText) {
+      var bits = [];
+      if (f.q) bits.push(document.getElementById("filter-company").value.trim());
+      if (f.agency) bits.push(f.agency);
+      if (f.matched) bits.push("matched");
+      if (countText && window.matchMedia("(max-width: 820px)").matches) bits.push(countText);
+      var teaser = document.getElementById("filter-teaser");
+      if (teaser) teaser.textContent = bits.length ? bits.join(" · ") : "";
+    }
+    function setCompanyHeads(agency) {
+      var table = document.getElementById("companies");
+      table = table && table.closest("table");
+      var heads = table ? table.querySelectorAll("thead th") : [];
+      if (heads.length < 4) return;
+      var phone = window.matchMedia("(max-width: 820px)").matches;
+      if (agency) {
+        heads[2].textContent = phone ? "Awards*" : "Awards (" + agency + ", recent)";
+        heads[3].textContent = phone ? "Face value*" : "Face value (" + agency + ", recent)";
+      } else {
+        heads[2].textContent = "Awards";
+        heads[3].textContent = "Trailing";
+      }
+    }
     function failSoft(message) {
+      bookReady = false;
       document.getElementById("asof").textContent = message;
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>—</b><span>matched awards</span></div>" +
@@ -384,16 +695,106 @@
       document.getElementById("awards").innerHTML = emptyRow(6, message);
       document.getElementById("companies").innerHTML = emptyRow(4, message);
       document.getElementById("unlinked").innerHTML = emptyRow(5, message);
+      var count = document.getElementById("filter-count");
+      if (count) count.textContent = "";
+      setCompanyHeads("");
+      var companyNote = document.getElementById("company-note");
+      if (companyNote) {
+        companyNote.hidden = true;
+        companyNote.textContent = "";
+      }
+    }
+    function apply() {
+      if (!bookReady) return;
+      var f = readQuery();
+      writeQuery();
+      var awards = book.awards.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
+      var upcoming = book.upcoming.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
+      var companies = book.companies.filter(function (row) { return passCompany(row, f.q, f.agency, f.matched); });
+      var unlinked = book.unlinked.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
+      if (f.q) {
+        awards.sort(byRank(f.q));
+        upcoming.sort(byRank(f.q));
+        unlinked.sort(byRank(f.q));
+        companies.sort(byRank(f.q));
+      }
+      var shown = awards.length;
+      var total = book.awards.length;
+      var filtered = !!(f.q || f.agency || f.matched);
+      var countText = shown === total
+        ? Number(total).toLocaleString("en-US") + " awards"
+        : "Showing " + Number(shown).toLocaleString("en-US") + " of " + Number(total).toLocaleString("en-US") + " awards";
+      var count = document.getElementById("filter-count");
+      if (count) count.textContent = countText;
+      paintTeaser(f, countText);
+      setCompanyHeads(f.agency);
+      var companyNote = document.getElementById("company-note");
+      if (companyNote) {
+        if (f.agency) {
+          companyNote.hidden = false;
+          companyNote.textContent = "These numbers are face values from recent awards, not the trailing book.";
+        } else {
+          companyNote.hidden = true;
+          companyNote.textContent = "";
+        }
+      }
+      var rest = document.getElementById("show-rest");
+      function drawAwards(all) {
+        var rows = all ? awards : awards.slice(0, 25);
+        document.getElementById("awards").innerHTML = rows.length
+          ? rows.map(awardRow).join("")
+          : emptyRow(6, filtered ? "No awards match these filters." : "No matched awards in this file.");
+        rest.hidden = all || awards.length <= 25;
+      }
+      rest.onclick = function () { showAllAwards = true; drawAwards(true); };
+      drawAwards(showAllAwards);
+      var restUpcoming = document.getElementById("show-rest-upcoming");
+      function drawUpcoming(all) {
+        var rows = all ? upcoming : upcoming.slice(0, 25);
+        document.getElementById("upcoming").innerHTML = rows.length
+          ? rows.map(upcomingRow).join("")
+          : emptyRow(5, f.matched
+            ? "No upcoming notice is matched to a stock."
+            : (filtered ? "No upcoming notices match these filters." : "No upcoming notice in this file."));
+        restUpcoming.hidden = all || upcoming.length <= 25;
+      }
+      restUpcoming.onclick = function () { showAllUpcoming = true; drawUpcoming(true); };
+      drawUpcoming(showAllUpcoming);
+      document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
+        var stats = companyStats(row, f.agency);
+        var face = money(stats.trailing);
+        var phone = window.matchMedia("(max-width: 820px)").matches;
+        return cells([
+          td(tickerLink(row.ticker)),
+          td(QC.esc(row.name || ""), "col-company"),
+          td(String(stats.awards || 0), "num"),
+          phone ? td(compact(stats.trailing), "num", face) : td(face, "num")
+        ]);
+      }).join("") : emptyRow(4, filtered ? "No companies match these filters." : "No matched company in this file.");
+      document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
+        return cells([
+          td(wordDate(row.date || "")),
+          td(QC.esc(row.agency || "")),
+          td(QC.esc(row.recipient || ""), "col-recipient"),
+          td(money(row.amount), "num"),
+          td(QC.esc(row.description || ""), "desc")
+        ]);
+      }).join("") : emptyRow(5, filtered ? "No unlinked awards match these filters." : "No unlinked award at $10 million or above.");
+      syncDateAria();
     }
     function paint(data) {
-      var awards = data.awards || [];
-      var companies = data.companies || [];
-      var unlinked = (data.unlinked || []).filter(function (row) {
+      book.awards = data.awards || [];
+      book.companies = data.companies || [];
+      book.unlinked = (data.unlinked || []).filter(function (row) {
         return Number(row.amount) >= 10000000;
       });
-      var trailing = companies.reduce(function (sum, row) { return sum + (Number(row.trailing_total) || 0); }, 0);
-      var upcoming = data.upcoming || [];
-      var matched = awards.filter(function (row) {
+      book.upcoming = data.upcoming || [];
+      book.names = {};
+      book.companies.forEach(function (row) {
+        if (row.ticker) book.names[String(row.ticker).toUpperCase()] = row.name || "";
+      });
+      var trailing = book.companies.reduce(function (sum, row) { return sum + (Number(row.trailing_total) || 0); }, 0);
+      var matched = book.awards.filter(function (row) {
         return (row.source || "usaspending") !== "dod_announcement";
       });
       var label = QC.asOfLabel(data.generated) || "Contracts file loaded.";
@@ -405,44 +806,38 @@
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>" + matched.length + "</b><span>matched awards</span></div>" +
         "<div class=\"stat\"><b>" + compact(trailing) + "</b><span>matched trailing</span></div>" +
-        "<div class=\"stat\"><b>" + unlinked.length + "</b><span>unlinked, $10M+</span></div>";
-      var rest = document.getElementById("show-rest");
-      function drawAwards(all) {
-        var rows = all ? awards : awards.slice(0, 25);
-        document.getElementById("awards").innerHTML = rows.length ? rows.map(awardRow).join("") : emptyRow(6, "No matched awards in this file.");
-        rest.hidden = all || awards.length <= 25;
-        syncDateAria();
-      }
-      rest.onclick = function () { drawAwards(true); };
-      drawAwards(false);
-      var restUpcoming = document.getElementById("show-rest-upcoming");
-      function drawUpcoming(all) {
-        var rows = all ? upcoming : upcoming.slice(0, 25);
-        document.getElementById("upcoming").innerHTML = rows.length ? rows.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
-        restUpcoming.hidden = all || upcoming.length <= 25;
-        syncDateAria();
-      }
-      restUpcoming.onclick = function () { drawUpcoming(true); };
-      drawUpcoming(false);
-      document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
-        return cells([
-          td(tickerLink(row.ticker)),
-          td(QC.esc(row.name || ""), "col-company"),
-          td(String(row.awards || 0), "num"),
-          td(money(row.trailing_total), "num")
-        ]);
-      }).join("") : emptyRow(4, "No matched company in this file.");
-      document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
-        return cells([
-          td(wordDate(row.date || "")),
-          td(QC.esc(row.agency || "")),
-          td(QC.esc(row.recipient || ""), "col-recipient"),
-          td(money(row.amount), "num"),
-          td(QC.esc(row.description || ""), "desc")
-        ]);
-      }).join("") : emptyRow(5, "No unlinked award at $10 million or above.");
-      syncDateAria();
+        "<div class=\"stat\"><b>" + book.unlinked.length + "</b><span>unlinked, $10M+</span></div>";
+      fillAgencies();
+      readFilters();
+      bookReady = true;
+      apply();
     }
+    (function syncFold() {
+      var fold = document.querySelector(".filter-fold");
+      var compact = window.matchMedia("(max-width: 820px)");
+      function applyFold() {
+        if (fold) fold.open = !compact.matches;
+        if (bookReady) apply();
+      }
+      if (compact.addEventListener) compact.addEventListener("change", applyFold);
+      else if (compact.addListener) compact.addListener(applyFold);
+      applyFold();
+    })();
+    document.getElementById("filter-company").addEventListener("input", function () {
+      showAllAwards = false;
+      showAllUpcoming = false;
+      apply();
+    });
+    document.getElementById("filter-agency").addEventListener("change", function () {
+      showAllAwards = false;
+      showAllUpcoming = false;
+      apply();
+    });
+    document.getElementById("filter-matched").addEventListener("change", function () {
+      showAllAwards = false;
+      showAllUpcoming = false;
+      apply();
+    });
     fetch("contracts.json").then(function (res) {
       if (!res.ok) throw new Error("missing");
       return res.json();

@@ -219,6 +219,11 @@
       }
       .awards td:first-child, .awards th:first-child { width: 4.7rem; white-space: nowrap; font-size: 0.68rem; }
       .sub { white-space: normal; }
+      table.companies { table-layout: fixed; width: 100%; }
+      table.companies th.num, table.companies td.num {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
     }
     @media (max-width: 420px) {
       .cap-pct { display: none; }
@@ -265,7 +270,7 @@
       <div class="stat"><b>—</b><span>unlinked, $10M+</span></div>
     </div>
     <details class="filter-fold" open>
-      <summary>Search &amp; filters <span class="fold-teaser" id="filter-teaser"></span></summary>
+      <summary>Search &amp; filters <span class="fold-teaser" id="filter-teaser" aria-live="polite"></span></summary>
       <div class="filter-row">
         <div class="filters">
           <div>
@@ -312,7 +317,7 @@
     <button type="button" class="more" id="show-rest-upcoming" hidden>Show the rest</button>
     <h2>Trailing book</h2>
     <div class="table-wrap">
-      <table>
+      <table class="companies">
         <thead>
           <tr><th>Ticker</th><th class="col-company">Company</th><th class="num">Awards</th><th class="num">Trailing</th></tr>
         </thead>
@@ -615,9 +620,10 @@
       table = table && table.closest("table");
       var heads = table ? table.querySelectorAll("thead th") : [];
       if (heads.length < 4) return;
+      var phone = window.matchMedia("(max-width: 820px)").matches;
       if (agency) {
-        heads[2].textContent = "Awards (" + agency + ", recent)";
-        heads[3].textContent = "Face value (" + agency + ", recent)";
+        heads[2].textContent = phone ? "Awards*" : "Awards (" + agency + ", recent)";
+        heads[3].textContent = phone ? "Face value*" : "Face value (" + agency + ", recent)";
       } else {
         heads[2].textContent = "Awards";
         heads[3].textContent = "Trailing";
@@ -753,7 +759,10 @@
     (function syncFold() {
       var fold = document.querySelector(".filter-fold");
       var compact = window.matchMedia("(max-width: 820px)");
-      function applyFold() { if (fold) fold.open = !compact.matches; }
+      function applyFold() {
+        if (fold) fold.open = !compact.matches;
+        if (bookReady) apply();
+      }
       if (compact.addEventListener) compact.addEventListener("change", applyFold);
       else if (compact.addListener) compact.addListener(applyFold);
       applyFold();

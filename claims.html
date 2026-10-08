@@ -170,14 +170,16 @@
       .layers-body > h2,
       .layers-body > .hint,
       .layers-body > #camps,
-      .layers-body > #legend {
+      .layers-body > #legend,
+      .layers-body > #legend-more {
         grid-column: 1 / -1;
       }
       .layers h2 { margin: 6px 0 4px; }
       .layers-body > label { margin: 0; padding: 2px 0; font-size: 12px; }
-      .swatch { margin: 0; padding: 3px 0; }
+      .layers label.swatch { margin: 0; padding: 3px 0; }
       .layers .hint { max-width: none; margin: 0 0 4px; }
-      #legend { max-height: 36vh; }
+      .layers #legend { max-height: none; overflow: visible; }
+      .layers #legend.legend-scroll { max-height: 36vh; overflow: auto; }
       .layers-toggle {
         display: inline-flex;
         align-items: center;
@@ -290,6 +292,7 @@
         <p class="hint" id="company-hint">Quebec and British Columbia registry tiles, Ontario extracts, plus Yukon, Nunavut, and Newfoundland tiles. Search or click a holder for full titles.</p>
         <div id="camps" hidden></div>
         <div id="legend" hidden></div>
+        <button type="button" class="legend-more" id="legend-more" hidden></button>
       </div>
     </aside>
     <footer class="status" id="status">Quebec GESTIM tiles · Ontario MLAS · BC mineral claims and leases · Yukon, Nunavut, and Newfoundland tiles · Not legal title.</footer>
@@ -310,11 +313,13 @@
     // Close the phone "More" menu on an outside tap or Escape (same as qc.js on the other pages).
     (function () {
       function closeAll(keep) { document.querySelectorAll("details.qc-more[open]").forEach(function (d) { if (d !== keep) d.removeAttribute("open"); }); }
-      function closeHudMore() {
+      function closeHudMore(opts) {
         var box = document.getElementById("hud-more");
         var btn = document.getElementById("hud-more-btn");
+        var wasOpen = !!(box && box.classList.contains("is-open"));
         if (box) box.classList.remove("is-open");
         if (btn) btn.setAttribute("aria-expanded", "false");
+        if (wasOpen && opts && opts.focus && btn) btn.focus();
       }
       document.addEventListener("click", function (e) {
         closeAll(e.target.closest && e.target.closest("details.qc-more"));
@@ -324,7 +329,7 @@
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           closeAll(null);
-          closeHudMore();
+          closeHudMore({ focus: true });
         }
       });
       var moreBtn = document.getElementById("hud-more-btn");

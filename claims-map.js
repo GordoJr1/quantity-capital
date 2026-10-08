@@ -565,9 +565,41 @@ function initLayersToggle() {
   });
 }
 
+let lastLegendFeatures = null;
+
+function hideOverviewLegendMore() {
+  const btn = document.getElementById("legend-more");
+  if (btn) btn.hidden = true;
+}
+
+function syncOverviewLegendMore(rows) {
+  const btn = document.getElementById("legend-more");
+  if (!btn) return;
+  if (isDeskClaims() && rows && rows.length > OVERVIEW_LEGEND_TOP) {
+    btn.hidden = false;
+    btn.textContent = overviewLegendAll
+      ? "Show top 10"
+      : "Show all " + rows.length + " holders";
+  } else {
+    btn.hidden = true;
+  }
+}
+
+function initLegendMore() {
+  const btn = document.getElementById("legend-more");
+  if (!btn || btn.dataset.bound) return;
+  btn.dataset.bound = "1";
+  btn.addEventListener("click", () => {
+    overviewLegendAll = !overviewLegendAll;
+    paintAllLegend(lastLegendFeatures);
+  });
+}
+
 function paintAllLegend(features) {
   const box = document.getElementById("legend");
   const hint = document.getElementById("company-hint");
+  if (features) lastLegendFeatures = features;
+  else features = lastLegendFeatures || [];
   const counts = {};
   const order = [];
   (features || []).forEach((f) => {
@@ -581,6 +613,7 @@ function paintAllLegend(features) {
   });
   if (!order.length) {
     box.hidden = true;
+    hideOverviewLegendMore();
     hint.hidden = false;
     hint.textContent = "No companies with claims in the provinces that are switched on.";
     return;
@@ -605,10 +638,14 @@ function paintAllLegend(features) {
       color: colorForId(id),
     };
   }).sort((a, b) => (b.count || 0) - (a.count || 0));
-  const shown = (desk && !overviewLegendAll && rows.length > OVERVIEW_LEGEND_TOP)
-    ? rows.slice(0, OVERVIEW_LEGEND_TOP)
-    : rows;
-  let html = "<h2>Holders</h2>" + shown.map((r) => {
+  let shown = rows;
+  if (desk && !overviewLegendAll && rows.length > OVERVIEW_LEGEND_TOP) {
+    const top = rows.slice(0, OVERVIEW_LEGEND_TOP);
+    const extra = rows.slice(OVERVIEW_LEGEND_TOP).filter((r) => hiddenHolders.has(r.holder));
+    shown = top.concat(extra);
+  }
+  box.classList.toggle("legend-scroll", !!(desk && overviewLegendAll));
+  box.innerHTML = "<h2>Holders</h2>" + shown.map((r) => {
     const on = !hiddenHolders.has(r.holder);
     return "<label class=\"swatch\"" + (r.id ? " data-id=\"" + r.id + "\"" : "") + "><input type=\"checkbox\" data-holder=\"" +
       r.holder.replace(/"/g, "&quot;") + "\"" + (on ? " checked" : "") +
@@ -616,20 +653,14 @@ function paintAllLegend(features) {
       "<span class=\"nm\">" + r.holder + "</span>" +
       "<span class=\"n\">" + (r.count || 0).toLocaleString("en-CA") + "</span></label>";
   }).join("");
-  if (desk && rows.length > OVERVIEW_LEGEND_TOP) {
-    html += "<button type=\"button\" class=\"legend-more\" id=\"legend-more\">" +
-      (overviewLegendAll
-        ? "Show top 10"
-        : "Show all " + rows.length + " holders") +
-      "</button>";
-  }
-  box.innerHTML = html;
+  syncOverviewLegendMore(rows);
   box.querySelectorAll("input[data-holder]").forEach((input) => {
     input.addEventListener("change", () => {
       const name = input.getAttribute("data-holder");
       if (input.checked) hiddenHolders.delete(name);
       else hiddenHolders.add(name);
       applyHolderFilter();
+      if (!overviewLegendAll) paintAllLegend(lastLegendFeatures);
     });
   });
   box.querySelectorAll("label.swatch[data-id]").forEach((lab) => {
@@ -640,13 +671,6 @@ function paintAllLegend(features) {
       if (id) selectCompany(id);
     });
   });
-  const more = document.getElementById("legend-more");
-  if (more) {
-    more.addEventListener("click", () => {
-      overviewLegendAll = !overviewLegendAll;
-      paintAllLegend(features);
-    });
-  }
 }
 
 function paintLegend(company, features) {
@@ -659,6 +683,7 @@ function paintLegend(company, features) {
   const vis = visibleCounts(company);
   if (vis.total === 0) {
     box.hidden = true;
+    hideOverviewLegendMore();
     hint.hidden = false;
     hint.textContent = "No titles in the provinces that are switched on.";
     return;
@@ -666,6 +691,8 @@ function paintLegend(company, features) {
   hint.hidden = false;
   hint.textContent = "This holder’s titles, plus neighboring claims around them. Overview squares are only on the all-companies view.";
   box.hidden = false;
+  box.classList.remove("legend-scroll");
+  hideOverviewLegendMore();
   const nearbyMap = {};
   (features || []).forEach((f) => {
     const p = f.properties || {};
@@ -1711,12 +1738,17 @@ document.addEventListener("keydown", (e) => {
     document.getElementById("search-results").hidden = true;
     const more = document.getElementById("hud-more");
     const moreBtn = document.getElementById("hud-more-btn");
+    const wasOpen = !!(more && more.classList.contains("is-open"));
     if (more) more.classList.remove("is-open");
-    if (moreBtn) moreBtn.setAttribute("aria-expanded", "false");
+    if (moreBtn) {
+      moreBtn.setAttribute("aria-expanded", "false");
+      if (wasOpen) moreBtn.focus();
+    }
   }
 });
 
 initLayersToggle();
+initLegendMore();
 if (window.matchMedia) {
   const deskMq = window.matchMedia(DESK_CLAIMS_MQ);
   const onDeskChange = () => {

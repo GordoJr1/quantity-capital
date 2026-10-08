@@ -40460,6 +40460,19 @@
      "value_usd": 15961.0,
      "trade_px": 3.52,
      "ccy": "CAD"
+    },
+    {
+     "key": "johnson-kathryn|RIOFF|2026-09-29|open_market",
+     "filer": "Johnson, Kathryn",
+     "filer_id": "johnson-kathryn",
+     "role": "CFO",
+     "title": "CFO, Executive VP & Corporate Secretary",
+     "trade_date": "2026-09-29",
+     "filed_date": "2026-09-29",
+     "value_usd": 13965.0,
+     "trade_px": 3.28,
+     "ccy": "CAD",
+     "added_on": "2026-10-08"
     }
    ],
    "exit": null,
@@ -41899,6 +41912,48 @@
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.004
+  },
+  {
+   "id": "LUCMF|2026-10-01|barnholden-daniel",
+   "ticker": "LUCMF",
+   "company": "Luca Mining",
+   "commodity": "Gold",
+   "company_type": "Producer, Junior",
+   "venue": "TSXV",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": true,
+   "recorded_on": "2026-10-08",
+   "recorded_floor": "2026-10-07",
+   "signal_filed": "2026-10-01",
+   "signal_trade": "2026-10-01",
+   "entry_after": "2026-10-07",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 209148059.0,
+   "stale63_basis": 0.1429,
+   "basis_date": "2026-10-07",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "barnholden-daniel|LUCMF|2026-10-01|open_market",
+     "filer": "Barnholden, Daniel",
+     "filer_id": "barnholden-daniel",
+     "role": "CEO",
+     "title": "CEO & Director",
+     "trade_date": "2026-10-01",
+     "filed_date": "2026-10-01",
+     "value_usd": 15313.0,
+     "trade_px": 1.09,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -42150,6 +42205,7 @@
   "barnholden-daniel|LUCMF|2025-11-19|open_market",
   "barnholden-daniel|LUCMF|2025-11-20|open_market",
   "barnholden-daniel|LUCMF|2026-04-10|open_market",
+  "barnholden-daniel|LUCMF|2026-10-01|open_market",
   "barr-harry|NMTLF|2025-11-07|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-24|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-29|open_market",
@@ -44010,6 +44066,7 @@
   "johnson-kathryn|RIOFF|2026-02-03|open_market",
   "johnson-kathryn|RIOFF|2026-03-17|open_market",
   "johnson-kathryn|RIOFF|2026-09-03|open_market",
+  "johnson-kathryn|RIOFF|2026-09-29|open_market",
   "johnston-amanda|OMZNF|2026-04-16|open_market",
   "johnston-rodney-barton|KNGRF|2026-03-16|open_market",
   "johnston-rodney-barton|KNGRF|2026-06-11|open_market",
@@ -45216,6 +45273,7 @@
   "penner-kody|NRYCF|2026-09-14|open_market",
   "penner-kody|NRYCF|2026-09-21|open_market",
   "penner-kody|NRYCF|2026-09-23|open_market",
+  "penner-kody|NRYCF|2026-10-05|open_market",
   "pennimpede-christopher-paul|CTMCF|2026-06-09|open_market",
   "pennimpede-christopher-paul|CTMCF|2026-06-10|open_market",
   "penny-brian-w|WLBMF|2025-06-09|open_market",
@@ -45953,6 +46011,8 @@
   "stanyer-warren-william|NVSGF|2026-04-24|open_market",
   "stanyer-warren-william|NVSGF|2026-05-04|open_market",
   "stanyer-warren-william|NVSGF|2026-05-27|open_market",
+  "stanyer-warren-william|NVSGF|2026-09-28|open_market",
+  "stanyer-warren-william|NVSGF|2026-10-05|open_market",
   "stares-michael|BNTRF|2013-01-11|open_market",
   "stares-michael|BNTRF|2013-02-04|open_market",
   "stares-michael|BNTRF|2013-02-06|open_market",
@@ -46558,5 +46618,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-07"
+ "last_run_date": "2026-10-08"
 }

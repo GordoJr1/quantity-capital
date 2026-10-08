@@ -2417,7 +2417,12 @@
   function typingField(el) {
     if (!el || el === document.body || el === document.documentElement) return false;
     const tag = String(el.tagName || "").toLowerCase();
-    return tag === "input" || tag === "select" || tag === "textarea";
+    if (tag === "input" || tag === "select" || tag === "textarea") return true;
+    return !!el.isContentEditable;
+  }
+
+  function deskRowKeysOn() {
+    return window.matchMedia("(min-width: 900px)").matches;
   }
 
   function visibleTapeRows(selector) {
@@ -2429,7 +2434,9 @@
   }
 
   // Tape / Insiders: / focuses search, j/k move the visible row (same as a click), Escape blurs search.
-  // Ignored while an input/select/textarea is focused or a modifier is held. Phone More+Escape stays in bootMoreMenu.
+  // Ignored while typing (input/select/textarea/contenteditable), during IME, or with Ctrl/Alt/Meta.
+  // Shift is ignored for j/k but not for / (layouts that type / with Shift). j/k only at 900px+, with the row highlight.
+  // Phone More+Escape stays in bootMoreMenu.
   function bindTapeKeys(opts) {
     opts = opts || {};
     const search = typeof opts.search === "string" ? document.querySelector(opts.search) : opts.search;
@@ -2447,7 +2454,8 @@
     if (bindTapeKeys._bound) return;
     bindTapeKeys._bound = true;
     document.addEventListener("keydown", function (e) {
-      if (e.ctrlKey || e.altKey || e.metaKey || e.shiftKey) return;
+      if (e.ctrlKey || e.altKey || e.metaKey) return;
+      if (e.isComposing) return;
       const key = e.key;
       const typing = typingField(document.activeElement);
 
@@ -2462,7 +2470,9 @@
         if (typeof search.select === "function") search.select();
         return;
       }
+      if (e.shiftKey) return;
       if (key !== "j" && key !== "k" && key !== "J" && key !== "K") return;
+      if (!deskRowKeysOn()) return;
       const rows = visibleTapeRows(rowSel);
       if (!rows.length) return;
       e.preventDefault();

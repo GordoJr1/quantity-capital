@@ -2220,6 +2220,6 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   font-size: 0.72rem;
   letter-spacing: 0.01em;
 }
-@media (min-width: 821px) {
+@media (min-width: 900px) {
   .qc-keys-hint { display: block; }
 }

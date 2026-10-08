@@ -55,9 +55,9 @@
     }
     #search-form button.dl:hover, #search-form button.dl:focus-visible { background: #1c2733; }
     #search-form button.dl:disabled { opacity: 0.45; cursor: default; }
-    /* Phone / ≤820: More wrapper is transparent so the two download chips stay in the HUD. */
-    .hud-more { display: contents; }
-    .hud-more > summary { display: none; }
+    /* Phone / ≤820: More chrome is gone; the two download chips stay in the HUD. */
+    .hud-tools { display: contents; }
+    .hud-more-btn { display: none; }
     .hud-more-menu { display: contents; }
     .layers-toggle { display: none; }
     .legend-more { display: none; }
@@ -115,18 +115,14 @@
       }
     }
     @media (min-width: 821px) {
-      .hud-more {
+      .hud-tools {
         display: block;
         position: relative;
         flex: 0 0 auto;
       }
-      .hud-more > summary.dl {
+      .hud-more-btn {
         display: inline-flex;
         align-items: center;
-        list-style: none;
-        cursor: pointer;
-        user-select: none;
-        -webkit-user-select: none;
         background: #141a22;
         color: #e8eef6;
         border: 1px solid #2a3340;
@@ -137,9 +133,9 @@
         letter-spacing: 0.08em;
         text-transform: uppercase;
         white-space: nowrap;
+        cursor: pointer;
       }
-      .hud-more > summary.dl::-webkit-details-marker { display: none; }
-      .hud-more > summary.dl:hover, .hud-more > summary.dl:focus-visible { background: #1c2733; }
+      .hud-more-btn:hover, .hud-more-btn:focus-visible { background: #1c2733; }
       .hud-more-menu {
         display: none;
         position: absolute;
@@ -154,20 +150,34 @@
         flex-direction: column;
         gap: 6px;
       }
-      .hud-more[open] .hud-more-menu { display: flex; }
+      .hud-tools.is-open .hud-more-menu { display: flex; }
       .hud-more-menu .dl { width: 100%; }
       .layers {
+        box-sizing: border-box;
         min-width: 0;
-        width: 252px;
-        max-width: 252px;
+        width: 248px;
+        max-width: 248px;
         max-height: calc(100% - 100px);
         overflow: auto;
-        padding: 10px 12px 12px;
+        padding: 8px 10px 10px;
       }
-      .layers label { margin: 0; padding: 4px 2px; }
-      .swatch { margin: 0; padding: 4px 0; }
-      .layers .hint { max-width: none; }
-      #legend { max-height: 30vh; }
+      .layers-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 8px;
+        align-items: start;
+      }
+      .layers-body > h2,
+      .layers-body > .hint,
+      .layers-body > #camps,
+      .layers-body > #legend {
+        grid-column: 1 / -1;
+      }
+      .layers h2 { margin: 6px 0 4px; }
+      .layers-body > label { margin: 0; padding: 2px 0; font-size: 12px; }
+      .swatch { margin: 0; padding: 3px 0; }
+      .layers .hint { max-width: none; margin: 0 0 4px; }
+      #legend { max-height: 36vh; }
       .layers-toggle {
         display: inline-flex;
         align-items: center;
@@ -256,13 +266,13 @@
       <form id="search-form" autocomplete="off">
         <input id="search" type="search" placeholder="Search a company to load full titles" aria-label="Search company">
         <button type="submit">Search</button>
-        <details class="hud-more" id="hud-more">
-          <summary class="dl">More</summary>
-          <div class="hud-more-menu">
+        <div class="hud-tools" id="hud-more">
+          <button type="button" class="dl hud-more-btn" id="hud-more-btn" aria-expanded="false" aria-controls="hud-more-menu">More</button>
+          <div class="hud-more-menu" id="hud-more-menu">
             <button type="button" class="dl" id="download-claims" title="Download the claims currently on the map as CSV" disabled>Download data</button>
             <button type="button" class="dl" id="download-neighbors" title="Select a company first" disabled>Download neighbors</button>
           </div>
-        </details>
+        </div>
         <div id="search-results" hidden></div>
       </form>
     </header>
@@ -300,21 +310,34 @@
     // Close the phone "More" menu on an outside tap or Escape (same as qc.js on the other pages).
     (function () {
       function closeAll(keep) { document.querySelectorAll("details.qc-more[open]").forEach(function (d) { if (d !== keep) d.removeAttribute("open"); }); }
-      function closeHudMore(keep) {
-        document.querySelectorAll("details.hud-more[open]").forEach(function (d) {
-          if (d !== keep) d.removeAttribute("open");
-        });
+      function closeHudMore() {
+        var box = document.getElementById("hud-more");
+        var btn = document.getElementById("hud-more-btn");
+        if (box) box.classList.remove("is-open");
+        if (btn) btn.setAttribute("aria-expanded", "false");
       }
       document.addEventListener("click", function (e) {
         closeAll(e.target.closest && e.target.closest("details.qc-more"));
-        closeHudMore(e.target.closest && e.target.closest("details.hud-more"));
+        var tools = e.target.closest && e.target.closest("#hud-more");
+        if (!tools) closeHudMore();
       });
       document.addEventListener("keydown", function (e) {
         if (e.key === "Escape") {
           closeAll(null);
-          closeHudMore(null);
+          closeHudMore();
         }
       });
+      var moreBtn = document.getElementById("hud-more-btn");
+      if (moreBtn) {
+        moreBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var box = document.getElementById("hud-more");
+          if (!box) return;
+          var open = !box.classList.contains("is-open");
+          box.classList.toggle("is-open", open);
+          moreBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
     })();
   </script>
 </body>

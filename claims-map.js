@@ -588,7 +588,7 @@ function paintAllLegend(features) {
   const desk = isDeskClaims();
   hint.hidden = false;
   if (desk && !overviewLegendAll) {
-    hint.textContent = "Top 10 holders by title count. Click a name for full titles.";
+    hint.textContent = "Top 10 by title count. Click a name for full titles.";
   } else {
     hint.textContent = "Every company with extracts. Click a block or holder name to load full titles.";
   }
@@ -1710,7 +1710,9 @@ document.addEventListener("keydown", (e) => {
     closePopup();
     document.getElementById("search-results").hidden = true;
     const more = document.getElementById("hud-more");
-    if (more) more.removeAttribute("open");
+    const moreBtn = document.getElementById("hud-more-btn");
+    if (more) more.classList.remove("is-open");
+    if (moreBtn) moreBtn.setAttribute("aria-expanded", "false");
   }
 });
 

@@ -2201,6 +2201,31 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-header .mark { max-width: calc(100% - 10.75rem); }
 }
 
+/* Contracts desktop: 30px title like the other pages, and table headers stick under the site header.
+   overflow-x:auto on .table-wrap would make a scrollport and break sticky, so desktop turns it off. */
+@media (min-width: 821px) {
+  body.qc-v2.qc-page-contracts #main > h1 {
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+  }
+  body.qc-v2.qc-page-contracts .table-wrap { overflow: visible; }
+  body.qc-v2.qc-page-contracts .table-wrap table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  body.qc-v2.qc-page-contracts .table-wrap thead th {
+    position: sticky;
+    top: var(--site-header-h, 62px);
+    z-index: 4;
+    background: var(--v2-card, #222a36);
+    box-shadow: 0 1px 0 var(--v2-line, #344050);
+  }
+  body.qc-v2.qc-page-contracts table.unlinked thead th { background: #1a212b; }
+  body.qc-v2.qc-page-contracts .table-wrap thead th:first-child { border-top-left-radius: 13px; }
+  body.qc-v2.qc-page-contracts .table-wrap thead th:last-child { border-top-right-radius: 13px; }
+}
+
 /* Narrow desktop (821-980px): six politician links plus Claims in the mode row; keep one line. */
 @media (min-width: 821px) and (max-width: 980px) {
   .qc-header-inner { gap: 8px 8px; flex-wrap: nowrap; }

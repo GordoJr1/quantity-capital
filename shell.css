@@ -2119,6 +2119,20 @@ body.qc-v2 .hit .who, body.qc-v2 .pop .holder { color: var(--v2-buy-text); }
 body.qc-v2 button.camp { border-color: var(--v2-border); border-radius: 10px; }
 body.qc-v2 .maplibregl-popup-content { border-color: var(--v2-border); border-radius: 12px; }
 
+@media (min-width: 821px) {
+  body.qc-v2 #search-form .hud-more-btn,
+  body.qc-v2 .layers-toggle,
+  body.qc-v2 .legend-more {
+    border-radius: 10px; border: 1px solid var(--v2-border); background: transparent; color: var(--white, #eef2f5);
+    font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.1em;
+  }
+  body.qc-v2 #search-form .hud-more-btn:hover,
+  body.qc-v2 .layers-toggle:hover, body.qc-v2 .legend-more:hover {
+    border-color: var(--v2-buy-bar); color: var(--v2-buy-text); background: transparent;
+  }
+  body.qc-v2 .hud-more-menu { border-color: var(--v2-border); background: var(--v2-card); }
+}
+
 /* ---------- follow prints (insider pages) ---------- */
 body.qc-v2 .qc-follow-alerts { background: var(--v2-card); border: 1px solid var(--v2-border); border-radius: 14px; }
 body.qc-v2 .qc-follow-alerts .hd { color: var(--white, #eef2f5); }
@@ -2203,11 +2217,52 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-header .mark { max-width: calc(100% - 10.75rem); }
 }
 
-/* Narrow desktop (821-980px): the politician nav now has six links (Overlap added); tighten so it stays on one row. */
+/* Contracts desktop: 30px title like the other pages, and table headers stick under the site header.
+   overflow-x:auto on .table-wrap would make a scrollport and break sticky, so desktop turns it off. */
+@media (min-width: 821px) {
+  body.qc-v2.qc-page-contracts #main > h1 {
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: 0.06em;
+  }
+  body.qc-v2.qc-page-contracts .table-wrap { overflow: visible; }
+  body.qc-v2.qc-page-contracts .table-wrap table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  body.qc-v2.qc-page-contracts .table-wrap thead th {
+    position: sticky;
+    top: var(--site-header-h, 62px);
+    z-index: 4;
+    background: var(--v2-card, #222a36);
+    box-shadow: 0 1px 0 var(--v2-line, #344050);
+  }
+  body.qc-v2.qc-page-contracts table.unlinked thead th { background: #1a212b; }
+  body.qc-v2.qc-page-contracts .table-wrap thead th:first-child { border-top-left-radius: 13px; }
+  body.qc-v2.qc-page-contracts .table-wrap thead th:last-child { border-top-right-radius: 13px; }
+}
+
+/* Narrow desktop (821-980px): six politician links plus Claims in the mode row; keep one line. */
 @media (min-width: 821px) and (max-width: 980px) {
-  .qc-header-inner { gap: 10px 10px; }
-  .qc-nav a { padding: 0 6px; font-size: 0.84rem; }
-  .qc-mode { padding: 0 8px; letter-spacing: 0.08em; }
+  .qc-header-inner { gap: 8px 8px; flex-wrap: nowrap; }
+  .qc-nav { flex-wrap: nowrap; gap: 0 2px; }
+  .qc-nav a { padding: 0 5px; font-size: 0.78rem; letter-spacing: 0.05em; }
+  .qc-modes { gap: 4px; }
+  .qc-mode { padding: 0 6px; letter-spacing: 0.05em; font-size: 0.7rem; }
+  .qc-header .mark { font-size: 0.9rem; letter-spacing: 0.12em; }
+}
+
+/* Desktop-only tape/insiders key hint. Hidden with the phone header. */
+.qc-keys-hint {
+  display: none;
+  margin: 6px 0 0;
+  color: var(--mute, #8b96a3);
+  font-family: "IBM Plex Sans", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.01em;
+}
+@media (min-width: 900px) {
+  .qc-keys-hint { display: block; }
 }
 
 /* Politician member page only: Tape/Insiders desk — list left, sticky chart right.

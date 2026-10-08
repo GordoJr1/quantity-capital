@@ -487,8 +487,7 @@
       }
       return false;
     }
-    function matchQuery(row, q) {
-      if (!q) return true;
+    function nameHit(row, q) {
       if (String(row.ticker || "").toLowerCase() === q) return true;
       var fields = nameFields(row);
       var i;
@@ -499,10 +498,37 @@
         return false;
       }
       var parts = q.split(/\s+/).filter(Boolean);
-      var hay = fields.concat([row.description || ""]);
       return parts.every(function (part) {
-        return hay.some(function (field) { return wordPrefix(field, part); });
+        return fields.some(function (field) { return wordPrefix(field, part); });
       });
+    }
+    function matchQuery(row, q) {
+      if (!q) return true;
+      if (nameHit(row, q)) return true;
+      if (q.length <= 3) return false;
+      var parts = q.split(/\s+/).filter(Boolean);
+      return parts.every(function (part) { return wordPrefix(row.description || "", part); });
+    }
+    function matchRank(row, q) {
+      if (!q) return 0;
+      if (String(row.ticker || "").toLowerCase() === q) return 2;
+      if (nameHit(row, q)) return 1;
+      return 0;
+    }
+    function byRank(q) {
+      return function (a, b) {
+        return matchRank(b, q) - matchRank(a, q);
+      };
+    }
+    function companyStats(row, agency) {
+      if (!agency) return { awards: row.awards || 0, trailing: row.trailing_total };
+      var tk = (row.ticker || "").toUpperCase();
+      var rows = book.awards.filter(function (a) {
+        return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
+      });
+      var sum = 0;
+      rows.forEach(function (a) { sum += Number(a.amount) || 0; });
+      return { awards: rows.length, trailing: sum };
     }
     function passRow(row, q, agency, matchedOnly) {
       if (matchedOnly && !row.ticker) return false;
@@ -604,6 +630,12 @@
       var upcoming = book.upcoming.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
       var companies = book.companies.filter(function (row) { return passCompany(row, f.q, f.agency, f.matched); });
       var unlinked = book.unlinked.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
+      if (f.q) {
+        awards.sort(byRank(f.q));
+        upcoming.sort(byRank(f.q));
+        unlinked.sort(byRank(f.q));
+        companies.sort(byRank(f.q));
+      }
       var shown = awards.length;
       var total = book.awards.length;
       var filtered = !!(f.q || f.agency || f.matched);
@@ -636,11 +668,12 @@
       restUpcoming.onclick = function () { showAllUpcoming = true; drawUpcoming(true); };
       drawUpcoming(showAllUpcoming);
       document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
+        var stats = companyStats(row, f.agency);
         return cells([
           td(tickerLink(row.ticker)),
           td(QC.esc(row.name || ""), "col-company"),
-          td(String(row.awards || 0), "num"),
-          td(money(row.trailing_total), "num")
+          td(String(stats.awards || 0), "num"),
+          td(money(stats.trailing), "num")
         ]);
       }).join("") : emptyRow(4, filtered ? "No companies match these filters." : "No matched company in this file.");
       document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
@@ -683,6 +716,14 @@
       bookReady = true;
       apply();
     }
+    (function syncFold() {
+      var fold = document.querySelector(".filter-fold");
+      var compact = window.matchMedia("(max-width: 820px)");
+      function applyFold() { if (fold) fold.open = !compact.matches; }
+      if (compact.addEventListener) compact.addEventListener("change", applyFold);
+      else if (compact.addListener) compact.addListener(applyFold);
+      applyFold();
+    })();
     document.getElementById("filter-company").addEventListener("input", function () {
       showAllAwards = false;
       showAllUpcoming = false;

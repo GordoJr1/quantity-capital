@@ -285,7 +285,7 @@
       </div>
     </details>
     <div class="filter-status">
-      <p class="count" id="filter-count"></p>
+      <p class="count" id="filter-count" aria-live="polite"></p>
     </div>
     <h2>Recent awards</h2>
     <div class="table-wrap">
@@ -436,28 +436,89 @@
     var book = { awards: [], companies: [], upcoming: [], unlinked: [], names: {} };
     var showAllAwards = false;
     var showAllUpcoming = false;
-    function hay(row) {
+    var bookReady = false;
+    function words(s) {
+      return String(s || "").toLowerCase().match(/[a-z0-9]+/g) || [];
+    }
+    function agencyKey(name) {
+      var u = String(name || "").toUpperCase().replace(/,/g, " ").replace(/\s+/g, " ").trim();
+      u = u.replace(/^DEPT OF /, "").replace(/^DEPARTMENT OF THE /, "").replace(/^DEPARTMENT OF /, "");
+      u = u.replace(/ DEPARTMENT OF THE$/, "").replace(/ DEPARTMENT OF$/, "");
+      if (u === "DOD" || u === "DEFENSE") return "DOD";
+      if (u === "HOMELAND SECURITY") return "Homeland Security";
+      if (u === "VETERANS AFFAIRS") return "Veterans Affairs";
+      if (u === "HEALTH AND HUMAN SERVICES") return "Health and Human Services";
+      if (u === "ENVIRONMENTAL PROTECTION AGENCY") return "Environmental Protection Agency";
+      if (u === "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION") return "National Aeronautics and Space Administration";
+      if (u === "NATIONAL ARCHIVES AND RECORDS ADMINISTRATION") return "National Archives and Records Administration";
+      if (u === "HOUSING AND URBAN DEVELOPMENT") return "Housing and Urban Development";
+      if (u === "GENERAL SERVICES ADMINISTRATION") return "General Services Administration";
+      if (u === "POSTAL SERVICE") return "Postal Service";
+      if (u === "INTERIOR") return "Interior";
+      if (u === "AGRICULTURE") return "Agriculture";
+      if (u === "LABOR") return "Labor";
+      if (u === "EDUCATION") return "Education";
+      if (u === "ENERGY") return "Energy";
+      if (u === "JUSTICE") return "Justice";
+      if (u === "TRANSPORTATION") return "Transportation";
+      if (u === "TREASURY") return "Treasury";
+      return String(name || "").trim();
+    }
+    function nameFields(row) {
       return [
-        row.ticker, row.recipient, row.name,
-        book.names[(row.ticker || "").toUpperCase()] || "",
-        row.description
-      ].join(" ").toLowerCase();
+        row.recipient || "",
+        row.name || "",
+        book.names[(row.ticker || "").toUpperCase()] || ""
+      ];
+    }
+    function wordPrefix(field, q) {
+      var list = words(field);
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (list[i].indexOf(q) === 0) return true;
+      }
+      return false;
+    }
+    function wholeWord(field, q) {
+      var list = words(field);
+      var i;
+      for (i = 0; i < list.length; i++) {
+        if (list[i] === q) return true;
+      }
+      return false;
+    }
+    function matchQuery(row, q) {
+      if (!q) return true;
+      if (String(row.ticker || "").toLowerCase() === q) return true;
+      var fields = nameFields(row);
+      var i;
+      if (q.length <= 3) {
+        for (i = 0; i < fields.length; i++) {
+          if (wholeWord(fields[i], q)) return true;
+        }
+        return false;
+      }
+      var parts = q.split(/\s+/).filter(Boolean);
+      var hay = fields.concat([row.description || ""]);
+      return parts.every(function (part) {
+        return hay.some(function (field) { return wordPrefix(field, part); });
+      });
     }
     function passRow(row, q, agency, matchedOnly) {
       if (matchedOnly && !row.ticker) return false;
-      if (agency && (row.agency || "") !== agency) return false;
-      if (q && hay(row).indexOf(q) < 0) return false;
+      if (agency && agencyKey(row.agency) !== agency) return false;
+      if (q && !matchQuery(row, q)) return false;
       return true;
     }
     function passCompany(row, q, agency, matchedOnly) {
       if (matchedOnly && !row.ticker) return false;
-      if (q && hay(row).indexOf(q) < 0) return false;
+      if (q && !matchQuery(row, q)) return false;
       if (agency) {
         var tk = (row.ticker || "").toUpperCase();
         var hit = book.awards.some(function (a) {
-          return (a.ticker || "").toUpperCase() === tk && (a.agency || "") === agency;
+          return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
         }) || book.upcoming.some(function (a) {
-          return (a.ticker || "").toUpperCase() === tk && (a.agency || "") === agency;
+          return (a.ticker || "").toUpperCase() === tk && agencyKey(a.agency) === agency;
         });
         if (!hit) return false;
       }
@@ -485,14 +546,14 @@
     function readFilters() {
       var p = new URLSearchParams(location.search);
       if (p.get("q")) document.getElementById("filter-company").value = p.get("q");
-      if (p.get("agency")) document.getElementById("filter-agency").value = p.get("agency");
+      if (p.get("agency")) document.getElementById("filter-agency").value = agencyKey(p.get("agency"));
       if (p.get("matched") === "1") document.getElementById("filter-matched").checked = true;
     }
     function fillAgencies() {
       var seen = {};
       function add(rows) {
         (rows || []).forEach(function (row) {
-          var name = row.agency || "";
+          var name = agencyKey(row.agency);
           if (name) seen[name] = 1;
         });
       }
@@ -500,7 +561,7 @@
       add(book.upcoming);
       add(book.unlinked);
       var sel = document.getElementById("filter-agency");
-      var keep = sel.value;
+      var keep = agencyKey(sel.value);
       sel.innerHTML = "<option value=\"\">All agencies</option>";
       Object.keys(seen).sort(function (a, b) { return a.localeCompare(b); }).forEach(function (name) {
         var opt = document.createElement("option");
@@ -519,6 +580,7 @@
       if (teaser) teaser.textContent = bits.length ? bits.join(" · ") : "";
     }
     function failSoft(message) {
+      bookReady = false;
       document.getElementById("asof").textContent = message;
       document.getElementById("stats").innerHTML =
         "<div class=\"stat\"><b>—</b><span>matched awards</span></div>" +
@@ -534,6 +596,7 @@
       if (count) count.textContent = "";
     }
     function apply() {
+      if (!bookReady) return;
       var f = readQuery();
       writeQuery();
       paintTeaser(f);
@@ -541,20 +604,21 @@
       var upcoming = book.upcoming.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
       var companies = book.companies.filter(function (row) { return passCompany(row, f.q, f.agency, f.matched); });
       var unlinked = book.unlinked.filter(function (row) { return passRow(row, f.q, f.agency, f.matched); });
-      var shown = awards.length + upcoming.length + companies.length + unlinked.length;
-      var total = book.awards.length + book.upcoming.length + book.companies.length + book.unlinked.length;
+      var shown = awards.length;
+      var total = book.awards.length;
+      var filtered = !!(f.q || f.agency || f.matched);
       var count = document.getElementById("filter-count");
       if (count) {
         count.textContent = shown === total
-          ? Number(total).toLocaleString("en-US") + " rows"
-          : "Showing " + Number(shown).toLocaleString("en-US") + " of " + Number(total).toLocaleString("en-US");
+          ? Number(total).toLocaleString("en-US") + " awards"
+          : "Showing " + Number(shown).toLocaleString("en-US") + " of " + Number(total).toLocaleString("en-US") + " awards";
       }
       var rest = document.getElementById("show-rest");
       function drawAwards(all) {
         var rows = all ? awards : awards.slice(0, 25);
         document.getElementById("awards").innerHTML = rows.length
           ? rows.map(awardRow).join("")
-          : emptyRow(6, shown === total ? "No matched awards in this file." : "No awards match these filters.");
+          : emptyRow(6, filtered ? "No awards match these filters." : "No matched awards in this file.");
         rest.hidden = all || awards.length <= 25;
       }
       rest.onclick = function () { showAllAwards = true; drawAwards(true); };
@@ -564,7 +628,9 @@
         var rows = all ? upcoming : upcoming.slice(0, 25);
         document.getElementById("upcoming").innerHTML = rows.length
           ? rows.map(upcomingRow).join("")
-          : emptyRow(5, shown === total ? "No upcoming notice in this file." : "No upcoming notices match these filters.");
+          : emptyRow(5, f.matched
+            ? "No upcoming notice is matched to a stock."
+            : (filtered ? "No upcoming notices match these filters." : "No upcoming notice in this file."));
         restUpcoming.hidden = all || upcoming.length <= 25;
       }
       restUpcoming.onclick = function () { showAllUpcoming = true; drawUpcoming(true); };
@@ -576,7 +642,7 @@
           td(String(row.awards || 0), "num"),
           td(money(row.trailing_total), "num")
         ]);
-      }).join("") : emptyRow(4, shown === total ? "No matched company in this file." : "No companies match these filters.");
+      }).join("") : emptyRow(4, filtered ? "No companies match these filters." : "No matched company in this file.");
       document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
         return cells([
           td(QC.esc(row.date || "")),
@@ -585,7 +651,7 @@
           td(money(row.amount), "num"),
           td(QC.esc(row.description || ""), "desc")
         ]);
-      }).join("") : emptyRow(5, shown === total ? "No unlinked award at $10 million or above." : "No unlinked awards match these filters.");
+      }).join("") : emptyRow(5, filtered ? "No unlinked awards match these filters." : "No unlinked award at $10 million or above.");
     }
     function paint(data) {
       book.awards = data.awards || [];
@@ -614,6 +680,7 @@
         "<div class=\"stat\"><b>" + book.unlinked.length + "</b><span>unlinked, $10M+</span></div>";
       fillAgencies();
       readFilters();
+      bookReady = true;
       apply();
     }
     document.getElementById("filter-company").addEventListener("input", function () {

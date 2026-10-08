@@ -220,10 +220,11 @@
       .awards td:first-child, .awards th:first-child { width: 4.7rem; white-space: nowrap; font-size: 0.68rem; }
       .sub { white-space: normal; }
       table.companies { table-layout: fixed; width: 100%; }
-      table.companies th.num, table.companies td.num {
+      table.companies th.num {
         white-space: normal;
         overflow-wrap: anywhere;
       }
+      table.companies td.num { white-space: nowrap; }
     }
     @media (max-width: 420px) {
       .cap-pct { display: none; }
@@ -363,8 +364,8 @@
     function cells(cols) {
       return "<tr>" + cols.join("") + "</tr>";
     }
-    function td(text, cls) {
-      return "<td" + (cls ? " class=\"" + cls + "\"" : "") + ">" + text + "</td>";
+    function td(text, cls, title) {
+      return "<td" + (cls ? " class=\"" + cls + "\"" : "") + (title ? " title=\"" + QC.esc(title) + "\"" : "") + ">" + text + "</td>";
     }
     function emptyRow(cols, message) {
       return "<tr><td colspan=\"" + cols + "\" class=\"note\">" + QC.esc(message) + "</td></tr>";
@@ -709,11 +710,13 @@
       drawUpcoming(showAllUpcoming);
       document.getElementById("companies").innerHTML = companies.length ? companies.map(function (row) {
         var stats = companyStats(row, f.agency);
+        var face = money(stats.trailing);
+        var phone = window.matchMedia("(max-width: 820px)").matches;
         return cells([
           td(tickerLink(row.ticker)),
           td(QC.esc(row.name || ""), "col-company"),
           td(String(stats.awards || 0), "num"),
-          td(money(stats.trailing), "num")
+          phone ? td(compact(stats.trailing), "num", face) : td(face, "num")
         ]);
       }).join("") : emptyRow(4, filtered ? "No companies match these filters." : "No matched company in this file.");
       document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {

@@ -2265,11 +2265,18 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols .qc-txn-hero,
   .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols-phone .qc-txn-hero {
     min-width: 0;
+    justify-self: stretch;
+    width: 100%;
+    box-sizing: border-box;
     overflow: hidden;
     text-overflow: clip;
     white-space: nowrap;
+    text-align: right;
   }
   @media (max-width: 899px) {
+    .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols-phone {
+      border-left: 3px solid transparent;
+    }
     .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-cols-phone,
     .qc-member-desk .qc-txn-list.qc-tape-list > .qc-txn-tape {
       grid-template-columns: var(--qc-desk-date-short) minmax(0, 1.4fr) var(--qc-desk-chip) var(--qc-desk-hero);

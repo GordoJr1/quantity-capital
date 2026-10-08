@@ -1568,19 +1568,25 @@
 
     function placeAllocator() {
       const desk = document.getElementById("pol-desk");
+      const col = document.getElementById("chart-col");
       const focus = document.getElementById("focus");
-      const alloc = desk && desk.querySelector(".allocator");
-      if (!desk || !focus || !alloc) return;
+      const alloc = document.querySelector(".allocator");
+      if (!desk || !col || !focus || !alloc) return;
       if (window.innerWidth <= 820) {
         desk.classList.remove("alloc-above");
+        if (alloc.parentElement !== col) col.appendChild(alloc);
         return;
       }
+      if (alloc.parentElement !== col) col.appendChild(alloc);
       desk.classList.remove("alloc-above");
       const header = document.querySelector(".qc-header");
       const headerH = header ? header.getBoundingClientRect().height : 62;
       const need = focus.offsetHeight + alloc.offsetHeight + 20;
       const avail = window.innerHeight - headerH - 16;
-      if (need > avail) desk.classList.add("alloc-above");
+      if (need > avail) {
+        desk.classList.add("alloc-above");
+        desk.insertBefore(alloc, desk.firstChild);
+      }
     }
 
     function paintDesk() {

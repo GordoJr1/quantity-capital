@@ -2239,24 +2239,21 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
     min-width: 0;
   }
   .qc-member-desk .tape-head { margin: 0 0 8px; }
-  .qc-member-desk.alloc-above .chart-col { display: contents; }
-  .qc-member-desk.alloc-above .allocator {
+  .qc-member-desk:not(.alloc-above) .tile-board {
+    max-height: 168px;
+    overflow-y: auto;
+  }
+  .qc-member-desk.alloc-above > .allocator {
     grid-column: 1 / -1;
     grid-row: 1;
-  }
-  .qc-member-desk.alloc-above .link-bar {
-    grid-column: 2;
-    grid-row: 2;
-  }
-  .qc-member-desk.alloc-above .focus {
-    grid-column: 2;
-    grid-row: 3;
-    position: sticky;
-    top: calc(var(--site-header-h, 62px) + 8px);
-    align-self: start;
+    margin: 0 0 10px;
   }
   .qc-member-desk.alloc-above .tape-col {
     grid-column: 1;
-    grid-row: 2 / -1;
+    grid-row: 2;
+  }
+  .qc-member-desk.alloc-above .chart-col {
+    grid-column: 2;
+    grid-row: 2;
   }
 }

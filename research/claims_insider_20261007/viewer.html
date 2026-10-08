@@ -29,12 +29,16 @@
     .status { padding: 8px 20px; color: var(--muted); font-size: 13px; }
     .status b { color: var(--ink); }
     .err { color: var(--down); padding: 20px; }
-    .table-wrap { overflow: auto; max-height: calc(100vh - 220px); }
-    table { border-collapse: collapse; width: 100%; min-width: 1100px; }
-    th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+    .table-wrap { overflow: auto; max-height: calc(100vh - 220px); width: 100%; }
+    table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+    th, td { padding: 5px 6px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     th { position: sticky; top: 0; background: #22261e; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); cursor: pointer; }
     th.sort { color: var(--gold); }
     td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    th[data-k="company"], td.company { width: 280px; max-width: 280px; }
+    th[data-k="company_type"], td.type { width: 96px; max-width: 96px; }
+    th[data-k="ticker"], td.ticker { width: 72px; max-width: 72px; }
+    th[data-k="province"], td.province { width: 88px; max-width: 88px; }
     tr:hover td { background: #1f231c; }
     .added, .new_to_data { color: var(--up); }
     .dropped, .missing_from_data { color: var(--down); }
@@ -199,12 +203,21 @@
       }).join("");
     }
 
+    function esc(s) {
+      return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+    }
     function cell(k, r) {
       let v = k === "abs_change" ? absChange(r) : r[k];
       if (v === null || v === undefined) v = "";
-      const cls = ["num"].concat(k === "change" || k === "change_type" || k === "abs_change" ? [r.change_type] : []);
-      if (NUM.has(k)) return `<td class="${cls.join(" ")}">${v}</td>`;
-      return `<td class="${k === "change_type" ? r.change_type : ""}">${v}</td>`;
+      const cls = [];
+      if (NUM.has(k)) cls.push("num");
+      if (k === "change" || k === "change_type" || k === "abs_change") cls.push(r.change_type);
+      if (k === "company") cls.push("company");
+      if (k === "company_type") cls.push("type");
+      if (k === "ticker") cls.push("ticker");
+      if (k === "province") cls.push("province");
+      const title = (k === "company" || k === "company_type") ? ` title="${esc(v)}"` : "";
+      return `<td class="${cls.join(" ")}"${title}>${esc(v)}</td>`;
     }
 
     function rowHtml(r) {

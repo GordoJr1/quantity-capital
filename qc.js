@@ -2414,6 +2414,85 @@
     }
   }
 
+  function typingField(el) {
+    if (!el || el === document.body || el === document.documentElement) return false;
+    const tag = String(el.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "select" || tag === "textarea") return true;
+    return !!el.isContentEditable;
+  }
+
+  function deskRowKeysOn() {
+    return window.matchMedia("(min-width: 900px)").matches;
+  }
+
+  function visibleTapeRows(selector) {
+    return Array.prototype.filter.call(document.querySelectorAll(selector), function (el) {
+      if (!el || !el.getAttribute("data-id")) return false;
+      if (el.hidden || el.getAttribute("aria-hidden") === "true") return false;
+      return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    });
+  }
+
+  // Tape / Insiders: / focuses search, j/k move the visible row (same as a click), Escape blurs search.
+  // Ignored while typing (input/select/textarea/contenteditable), during IME, or with Ctrl/Alt/Meta.
+  // Shift is ignored for j/k but not for / (layouts that type / with Shift). j/k only at 900px+, with the row highlight.
+  // Phone More+Escape stays in bootMoreMenu.
+  function bindTapeKeys(opts) {
+    opts = opts || {};
+    const search = typeof opts.search === "string" ? document.querySelector(opts.search) : opts.search;
+    const rowSel = opts.rows || "";
+    const select = opts.select;
+    if (!search || !rowSel || typeof select !== "function") return;
+
+    if (!search.parentNode || !search.parentNode.querySelector(":scope > .qc-keys-hint")) {
+      const hint = document.createElement("p");
+      hint.className = "qc-keys-hint";
+      hint.textContent = "/ to search · j/k to move";
+      search.insertAdjacentElement("afterend", hint);
+    }
+
+    if (bindTapeKeys._bound) return;
+    bindTapeKeys._bound = true;
+    document.addEventListener("keydown", function (e) {
+      if (e.ctrlKey || e.altKey || e.metaKey) return;
+      if (e.isComposing) return;
+      const key = e.key;
+      const typing = typingField(document.activeElement);
+
+      if (key === "Escape") {
+        if (search && document.activeElement === search) search.blur();
+        return;
+      }
+      if (typing) return;
+      if (key === "/") {
+        e.preventDefault();
+        search.focus();
+        if (typeof search.select === "function") search.select();
+        return;
+      }
+      if (e.shiftKey) return;
+      if (key !== "j" && key !== "k" && key !== "J" && key !== "K") return;
+      if (!deskRowKeysOn()) return;
+      const rows = visibleTapeRows(rowSel);
+      if (!rows.length) return;
+      e.preventDefault();
+      let idx = -1;
+      for (let i = 0; i < rows.length; i++) {
+        if (rows[i].classList.contains("on")) { idx = i; break; }
+      }
+      if (idx < 0) idx = key === "k" || key === "K" ? rows.length - 1 : 0;
+      else idx = key === "k" || key === "K" ? idx - 1 : idx + 1;
+      if (idx < 0) idx = 0;
+      if (idx >= rows.length) idx = rows.length - 1;
+      const id = rows[idx].getAttribute("data-id");
+      select(id);
+      const moved = visibleTapeRows(rowSel).filter(function (el) {
+        return el.getAttribute("data-id") === id;
+      })[0] || rows[idx];
+      if (moved && moved.scrollIntoView) moved.scrollIntoView({ block: "nearest", inline: "nearest" });
+    });
+  }
+
   // Phone header "More" menu (static <details class="qc-more"> in each page header):
   // close it on an outside tap or Escape. It still works without this script.
   function bootMoreMenu() {
@@ -2537,6 +2616,7 @@
     rememberReturn: rememberReturn,
     restoreScroll: restoreScroll,
     bindBack: bindBack,
+    bindTapeKeys: bindTapeKeys,
     companySymbols: companySymbols,
     issuerPrimaryTicker: issuerPrimaryTicker,
     emptyFilingsBadgeHtml: emptyFilingsBadgeHtml,

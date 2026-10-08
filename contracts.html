@@ -41,6 +41,26 @@
     h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 0.9; font-weight: 700; }
     h2 { margin: 22px 0 8px; color: var(--paper); font-size: 1.15rem; }
     .lede { color: var(--paper); max-width: 68ch; margin: 8px 0 14px; line-height: 1.45; }
+    .lede-short, details.about-data { display: none; }
+    details.about-data { border: 1px solid var(--v2-border, #3a4452); }
+    details.about-data > summary {
+      cursor: pointer;
+      padding: 10px 14px;
+      list-style: none;
+    }
+    details.about-data > summary::-webkit-details-marker { display: none; }
+    details.about-data > summary::before { content: "\25B8\00a0"; }
+    details.about-data[open] > summary::before { content: "\25BE\00a0"; }
+    details.about-data .body { padding: 0 14px 12px; font-size: 0.92rem; line-height: 1.45; }
+    .d-word { display: none; }
+    @media (min-width: 821px) {
+      .lede-full { display: none; }
+      .lede-short, details.about-data { display: block; }
+      .lede { margin: 4px 0 8px; }
+      details.about-data { margin-top: 0; }
+      .d-iso { display: none; }
+      .d-word { display: inline; }
+    }
     .stats {
       display: grid; grid-template-columns: repeat(3, 1fr);
       border: 1px solid #4a5563; background: var(--panel); margin: 0 0 8px;
@@ -137,9 +157,9 @@
       .qc-txn-tag.qc-mini-tag { display: inline-block; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=177" />
+  <link rel="stylesheet" href="shell.css?v=179" />
 </head>
-<body class="qc-v2">
+<body class="qc-v2 qc-page-contracts">
   <a class="qc-skip" href="#main">Skip to content</a>
   <header class="qc-header">
     <div class="wrap qc-header-inner">
@@ -151,6 +171,7 @@
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="claims.html" title="Quebec, Ontario, BC, Yukon, Nunavut, and Newfoundland mineral claims">Claims</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
         <details class="qc-more">
           <summary class="qc-mode" title="Mines, Claims, Canada and Research">More</summary>
@@ -167,7 +188,14 @@
   <div class="wrap" id="main">
     <p class="kicker">USAspending · date signed</p>
     <h1>Contracts</h1>
-    <p class="lede">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up. Department of Defense awards of $7.5 million and up come from the daily DoD contract announcements (published about 5 PM ET on business days), because USAspending shows DoD awards about 90 days late. In QC research (2019–2026), share prices showed no reliable move after these announcements; this list is a factual record.</p>
+    <p class="lede lede-full">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Awards with no match stay here only at $10 million and up. Department of Defense awards of $7.5 million and up come from the daily DoD contract announcements (published about 5 PM ET on business days), because USAspending shows DoD awards about 90 days late. In QC research (2019–2026), share prices showed no reliable move after these announcements; this list is a factual record.</p>
+    <p class="lede lede-short">Prime contract awards, types A through D, of at least $1 million. A ticker is the parent or an obvious subsidiary of a company already on the tape. Unmatched awards are listed at $10 million and up.</p>
+    <details class="how about-data">
+      <summary>About this data</summary>
+      <div class="body">
+        <p>Department of Defense awards of $7.5 million and up come from the daily DoD contract announcements, published about 5 PM ET on business days, because USAspending shows DoD awards about 90 days late. In QC research (2019–2026), share prices showed no reliable move after these announcements. This list is a factual record.</p>
+      </div>
+    </details>
     <p class="asof" id="asof"></p>
     <div class="stats" id="stats">
       <div class="stat"><b>—</b><span>matched awards</span></div>
@@ -219,7 +247,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=134"></script>
+  <script src="qc.js?v=135"></script>
   <script>
     function money(n) {
       if (n == null || !isFinite(Number(n))) return "—";
@@ -263,8 +291,32 @@
       if (!href) return text;
       return "<a class=\"rowlink\" href=\"" + QC.esc(href) + "\">" + text + "</a>";
     }
+    var dateWide = window.matchMedia("(min-width: 821px)");
+    function syncDateAria() {
+      var wide = dateWide.matches;
+      Array.prototype.forEach.call(document.querySelectorAll(".d-word"), function (el) {
+        if (wide) el.removeAttribute("aria-hidden");
+        else el.setAttribute("aria-hidden", "true");
+      });
+      Array.prototype.forEach.call(document.querySelectorAll(".d-iso"), function (el) {
+        if (wide) el.setAttribute("aria-hidden", "true");
+        else el.removeAttribute("aria-hidden");
+      });
+    }
+    dateWide.addEventListener("change", syncDateAria);
+    function wordDate(iso) {
+      var match = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ""));
+      if (!match) return QC.esc(iso || "");
+      var label = monD(iso);
+      if (!label) return QC.esc(iso || "");
+      if (Number(match[1]) !== new Date().getFullYear()) label += ", " + match[1];
+      var day = match[1] + "-" + match[2] + "-" + match[3];
+      var wordHidden = dateWide.matches ? "" : " aria-hidden=\"true\"";
+      var isoHidden = dateWide.matches ? " aria-hidden=\"true\"" : "";
+      return "<time datetime=\"" + day + "\" title=\"" + day + "\"><span class=\"d-word\"" + wordHidden + ">" + label + "</span><span class=\"d-iso\"" + isoHidden + ">" + day + "</span></time>";
+    }
     function dateCell(row) {
-      var text = QC.esc(row.date || "");
+      var text = wordDate(row.date || "");
       var href = "";
       if (row.source === "dod_announcement" && row.url) href = row.url;
       else if (row.source === "usaspending" && row.dod_url) href = row.dod_url;
@@ -305,7 +357,7 @@
       ]);
     }
     function upcomingRow(row) {
-      var when = QC.esc(row.deadline || "");
+      var when = wordDate(row.deadline || "");
       var desc = QC.esc(row.description || "");
       if (row.notice_url) {
         when = rowLink(row.notice_url, when);
@@ -359,6 +411,7 @@
         var rows = all ? awards : awards.slice(0, 25);
         document.getElementById("awards").innerHTML = rows.length ? rows.map(awardRow).join("") : emptyRow(6, "No matched awards in this file.");
         rest.hidden = all || awards.length <= 25;
+        syncDateAria();
       }
       rest.onclick = function () { drawAwards(true); };
       drawAwards(false);
@@ -367,6 +420,7 @@
         var rows = all ? upcoming : upcoming.slice(0, 25);
         document.getElementById("upcoming").innerHTML = rows.length ? rows.map(upcomingRow).join("") : emptyRow(5, "No upcoming notice in this file.");
         restUpcoming.hidden = all || upcoming.length <= 25;
+        syncDateAria();
       }
       restUpcoming.onclick = function () { drawUpcoming(true); };
       drawUpcoming(false);
@@ -380,13 +434,14 @@
       }).join("") : emptyRow(4, "No matched company in this file.");
       document.getElementById("unlinked").innerHTML = unlinked.length ? unlinked.map(function (row) {
         return cells([
-          td(QC.esc(row.date || "")),
+          td(wordDate(row.date || "")),
           td(QC.esc(row.agency || "")),
           td(QC.esc(row.recipient || ""), "col-recipient"),
           td(money(row.amount), "num"),
           td(QC.esc(row.description || ""), "desc")
         ]);
       }).join("") : emptyRow(5, "No unlinked award at $10 million or above.");
+      syncDateAria();
     }
     fetch("contracts.json").then(function (res) {
       if (!res.ok) throw new Error("missing");

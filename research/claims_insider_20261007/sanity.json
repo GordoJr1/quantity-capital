@@ -1,0 +1,56 @@
+{
+  "new_titles": 898104,
+  "old_a_titles": 898668,
+  "new_by_province": {
+    "ontario": 404707,
+    "quebec": 253955,
+    "british-columbia": 31219,
+    "newfoundland": 4704,
+    "yukon": 168961,
+    "nunavut": 34558
+  },
+  "old_by_province": {
+    "ontario": 403782,
+    "quebec": 255285,
+    "british-columbia": 31395,
+    "newfoundland": 4694,
+    "yukon": 168961,
+    "nunavut": 34551
+  },
+  "counts_json": {
+    "british-columbia": 31219,
+    "newfoundland": 4704,
+    "nunavut": 34558,
+    "ontario": 404707,
+    "quebec": 253955,
+    "yukon": 168961
+  },
+  "old_a_provinces": {
+    "ontario": 403782,
+    "yukon": 168961,
+    "newfoundland": 4694,
+    "nunavut": 34551,
+    "quebec": 255285,
+    "british-columbia": 31395
+  },
+  "comparison_rows": 11098,
+  "comparison_json_rows": 11098,
+  "comparison_json_bytes": 883294,
+  "comparison_json_under_1mb": true,
+  "juniors_rows": 181,
+  "clusters_main": 545,
+  "buy_events": 1348,
+  "new_equals_counts": true,
+  "old_equals_old_a": true,
+  "viewer_rows_match": true,
+  "claim_ids_rows": 153,
+  "claim_ids_gap_rows": 36,
+  "first_quantum_ontario": {
+    "old_claims": 443,
+    "new_claims": 493,
+    "change": 50,
+    "added": "",
+    "dropped": "",
+    "basis": "counts_only"
+  }
+}

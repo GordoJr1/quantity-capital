@@ -1583,7 +1583,7 @@
           ? "<a class=\"qc-txn-name\" href=\"" + esc(nameHref) + "\">" + esc(name) + "</a>"
           : "<span class=\"qc-txn-name\">" + esc(name) + "</span>")
       : "";
-    const optTag = optionTag(t);
+    let optTag = optionTag(t);
     let strikeHtml = "";
     let expHtml = "";
     let optLineHtml = "";
@@ -1599,6 +1599,14 @@
           exp = o.exp || "\u2014";
           const detail = optionDetailText(o);
           if (detail) optLineHtml = "<div class=\"qc-txn-optline\">" + esc(detail) + "</div>";
+          const bits = [];
+          if (o.strike) bits.push("$" + o.strike);
+          if (o.exp) bits.push(o.exp);
+          if (bits.length) {
+            const cls = o.kind === "Call" ? " opt-call" : " opt-put";
+            optTag = "<span class=\"opt-tag" + cls + "\">" + esc(o.kind) +
+              "<span class=\"opt-more\"> " + esc(bits.join(" ")) + "</span></span>";
+          }
         }
       }
       strikeHtml = "<span class=\"qc-txn-strike\">" + esc(strike) + "</span>";

@@ -1549,25 +1549,6 @@
         moreBtn.textContent = showAllTape ? "Show first 120" : "Show full list";
         if (full.length <= page) moreRow.hidden = true;
       }
-      enrichOptionChips();
-    }
-
-    function enrichOptionChips() {
-      if (window.innerWidth < 900) return;
-      const list = document.getElementById("rows");
-      if (!list || !QC.optionMeta) return;
-      list.querySelectorAll(".qc-txn-tape[data-id] .opt-tag").forEach((tag) => {
-        const row = tag.closest(".qc-txn-tape[data-id]");
-        const t = row && tradeById(row.getAttribute("data-id"));
-        if (!t) return;
-        const o = QC.optionMeta(t);
-        const bits = [];
-        if (o.strike) bits.push("$" + o.strike);
-        if (o.exp) bits.push(o.exp);
-        if (!bits.length) return;
-        const kind = tag.textContent.trim().split(/\s+/)[0];
-        tag.textContent = kind + " " + bits.join(" ");
-      });
     }
 
     function syncTapeMarks() {

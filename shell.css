@@ -512,6 +512,7 @@ summary:focus-visible,
   letter-spacing: 0.1em;
   font-weight: 600;
 }
+.opt-tag .opt-more { display: none; }
 .qc-txn-strike,
 .qc-txn-exp,
 .qc-txn-optline { display: none; }
@@ -2233,7 +2234,7 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   .qc-member-desk .chart-col {
     grid-column: 2;
     grid-row: 1;
-    align-self: start;
+    align-self: stretch;
     min-width: 0;
   }
   /* Stick the chart card only. The full column (link bar + tiles) is taller than
@@ -2249,7 +2250,7 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
   }
   .qc-member-desk .tape-head { margin: 0 0 8px; }
   /* Half-width list: drop Strike/Exp columns so the amount stays on screen.
-     Strike and expiration go on the Call/Put chip (see enrichOptionChips). */
+     Both chip forms are in the HTML; CSS picks Call vs Call $150 Dec 19. */
   @media (min-width: 900px) {
     .qc-member-desk .qc-txn-list.qc-show-opt.qc-tape-list > .qc-txn-cols,
     .qc-member-desk .qc-show-opt .qc-txn-tape {
@@ -2266,5 +2267,6 @@ body.qc-v2 .qc-plan-tag { color: var(--paper, #d8dde3); border-color: var(--v2-b
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .qc-member-desk .opt-tag .opt-more { display: inline; }
   }
 }

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claims change comparison — 2 Oct 2026</title>
+  <style>
+    :root {
+      --bg: #121410;
+      --panel: #1b1e18;
+      --ink: #e8eadf;
+      --muted: #9aa38c;
+      --line: #2c3228;
+      --gold: #d4b45a;
+      --up: #7dcf8a;
+      --down: #e07a6a;
+      --chip: #252920;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.4 "Segoe UI", system-ui, sans-serif; }
+    header { padding: 16px 20px 8px; border-bottom: 1px solid var(--line); }
+    h1 { font-size: 18px; font-weight: 650; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 12px; max-width: 72rem; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 12px 20px; align-items: end; background: var(--panel); border-bottom: 1px solid var(--line); }
+    label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    input, select { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 6px 8px; font: inherit; min-width: 9rem; }
+    button { background: var(--chip); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 7px 10px; cursor: pointer; font: inherit; }
+    button:hover, button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+    .status { padding: 8px 20px; color: var(--muted); font-size: 13px; }
+    .status b { color: var(--ink); }
+    .err { color: var(--down); padding: 20px; }
+    .table-wrap { overflow: auto; max-height: calc(100vh - 220px); }
+    table { border-collapse: collapse; width: 100%; min-width: 1100px; }
+    th, td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+    th { position: sticky; top: 0; background: #22261e; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; color: var(--muted); cursor: pointer; }
+    th.sort { color: var(--gold); }
+    td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    tr:hover td { background: #1f231c; }
+    .added, .new_to_data { color: var(--up); }
+    .dropped, .missing_from_data { color: var(--down); }
+    .group-head td { background: #252a20; color: var(--gold); font-weight: 600; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Claims change comparison</h1>
+    <p class="sub">New snapshot 2 Oct 2026 (898,104 titles, six provinces) vs holder counts from 24 Sep 2026 (OLD A). Title-level added/dropped use OLD B only where it covers the land (Ontario full; Quebec and BC partial). Not investment advice. Not legal title. This page is not in the live site nav.</p>
+  </header>
+  <div class="controls">
+    <label>Province
+      <select id="province">
+        <option value="">All provinces</option>
+        <option value="all">Company totals only</option>
+        <option value="ontario">ontario</option>
+        <option value="quebec">quebec</option>
+        <option value="british-columbia">british-columbia</option>
+        <option value="yukon">yukon</option>
+        <option value="nunavut">nunavut</option>
+        <option value="newfoundland">newfoundland</option>
+      </select>
+    </label>
+    <label>Company search
+      <input id="search" type="search" placeholder="name or ticker">
+    </label>
+    <label>Change type
+      <select id="ctype">
+        <option value="">Any</option>
+        <option value="added">added</option>
+        <option value="dropped">dropped</option>
+        <option value="new_to_data">new_to_data</option>
+        <option value="missing_from_data">missing_from_data</option>
+        <option value="unchanged">unchanged</option>
+      </select>
+    </label>
+    <label>Min |change| (claims)
+      <input id="minabs" type="number" min="0" step="1" value="0">
+    </label>
+    <label>Linked
+      <select id="linked">
+        <option value="">Any</option>
+        <option value="yes">Linked companies</option>
+        <option value="no">Raw holders</option>
+      </select>
+    </label>
+    <div>
+      <button type="button" id="view-flat" aria-pressed="true">Flat</button>
+      <button type="button" id="view-company" aria-pressed="false">Group by company</button>
+      <button type="button" id="view-province" aria-pressed="false">Group by province</button>
+    </div>
+  </div>
+  <div class="status" id="status">Loading comparison.json…</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr id="head"></tr>
+      </thead>
+      <tbody id="body"></tbody>
+    </table>
+  </div>
+  <script>
+    const COLS = [
+      ["company", "Company"],
+      ["ticker", "Ticker"],
+      ["company_type", "Type"],
+      ["province", "Province"],
+      ["old_claims", "Old"],
+      ["new_claims", "New"],
+      ["change", "Change"],
+      ["change_pct", "Change %"],
+      ["new_area_ha", "New ha"],
+      ["old_area_ha", "Old ha"],
+      ["added", "Added"],
+      ["dropped", "Dropped"],
+      ["change_type", "Change type"],
+      ["old_source", "Old src"],
+      ["linked", "Linked"],
+      ["coverage", "Coverage"]
+    ];
+    const NUM = new Set(["old_claims","new_claims","change","change_pct","new_area_ha","old_area_ha","added","dropped"]);
+    let rows = [];
+    let sortKey = "change";
+    let sortDir = -1;
+    let view = "flat";
+
+    function num(v) {
+      if (v === "" || v === null || v === undefined) return null;
+      const n = Number(v);
+      return Number.isFinite(n) ? n : null;
+    }
+    function absChange(r) {
+      const n = num(r.change);
+      return n === null ? 0 : Math.abs(n);
+    }
+
+    function filtered() {
+      const prov = document.getElementById("province").value;
+      const q = document.getElementById("search").value.trim().toLowerCase();
+      const ct = document.getElementById("ctype").value;
+      const minAbs = Number(document.getElementById("minabs").value || 0);
+      const linked = document.getElementById("linked").value;
+      return rows.filter(r => {
+        if (prov && r.province !== prov) return false;
+        if (ct && r.change_type !== ct) return false;
+        if (linked && r.linked !== linked) return false;
+        if (absChange(r) < minAbs) return false;
+        if (q) {
+          const blob = (r.company + " " + r.ticker + " " + (r.company_id || "")).toLowerCase();
+          if (!blob.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function cmp(a, b) {
+      const av = a[sortKey], bv = b[sortKey];
+      const an = NUM.has(sortKey) ? num(av) : null;
+      const bn = NUM.has(sortKey) ? num(bv) : null;
+      let d;
+      if (an !== null || bn !== null) {
+        const x = an === null ? -Infinity : an;
+        const y = bn === null ? -Infinity : bn;
+        d = x - y;
+      } else {
+        d = String(av || "").localeCompare(String(bv || ""), undefined, {sensitivity: "base"});
+      }
+      if (d === 0) d = String(a.company).localeCompare(String(b.company));
+      return d * sortDir;
+    }
+
+    function renderHead() {
+      const tr = document.getElementById("head");
+      tr.innerHTML = COLS.map(([k, lab]) => {
+        const mark = k === sortKey ? (sortDir < 0 ? " ▼" : " ▲") : "";
+        return `<th data-k="${k}" class="${k === sortKey ? "sort" : ""}">${lab}${mark}</th>`;
+      }).join("");
+    }
+
+    function cell(k, r) {
+      let v = r[k];
+      if (v === null || v === undefined) v = "";
+      const cls = ["num"].concat(k === "change" || k === "change_type" ? [r.change_type] : []);
+      if (NUM.has(k)) return `<td class="${cls.join(" ")}">${v}</td>`;
+      return `<td class="${k === "change_type" ? r.change_type : ""}">${v}</td>`;
+    }
+
+    function rowHtml(r) {
+      return `<tr>${COLS.map(([k]) => cell(k, r)).join("")}</tr>`;
+    }
+
+    function render() {
+      const data = filtered().sort(cmp);
+      const body = document.getElementById("body");
+      const nCos = new Set(data.map(r => r.company)).size;
+      document.getElementById("status").innerHTML =
+        `Showing <b>${data.length}</b> rows · <b>${nCos}</b> companies · sort <b>${sortKey}</b> ${sortDir < 0 ? "desc" : "asc"} · view <b>${view}</b>`;
+      if (view === "flat") {
+        body.innerHTML = data.map(rowHtml).join("");
+        return;
+      }
+      const groups = new Map();
+      const key = view === "company" ? r => r.company : r => r.province;
+      for (const r of data) {
+        const k = key(r);
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(r);
+      }
+      const parts = [];
+      for (const [g, list] of groups) {
+        const ch = list.reduce((s, r) => s + (num(r.change) || 0), 0);
+        parts.push(`<tr class="group-head"><td colspan="${COLS.length}">${g} · ${list.length} rows · sum change ${ch}</td></tr>`);
+        for (const r of list) parts.push(rowHtml(r));
+      }
+      body.innerHTML = parts.join("");
+    }
+
+    function setView(name) {
+      view = name;
+      document.getElementById("view-flat").setAttribute("aria-pressed", name === "flat");
+      document.getElementById("view-company").setAttribute("aria-pressed", name === "company");
+      document.getElementById("view-province").setAttribute("aria-pressed", name === "province");
+      render();
+    }
+
+    document.getElementById("head").addEventListener("click", ev => {
+      const th = ev.target.closest("th");
+      if (!th) return;
+      const k = th.getAttribute("data-k");
+      if (k === sortKey) sortDir *= -1;
+      else { sortKey = k; sortDir = NUM.has(k) ? -1 : 1; }
+      renderHead();
+      render();
+    });
+    ["province","search","ctype","minabs","linked"].forEach(id => {
+      document.getElementById(id).addEventListener("input", render);
+      document.getElementById(id).addEventListener("change", render);
+    });
+    document.getElementById("view-flat").onclick = () => setView("flat");
+    document.getElementById("view-company").onclick = () => setView("company");
+    document.getElementById("view-province").onclick = () => setView("province");
+
+    function boot(payload) {
+      const cols = payload.columns;
+      rows = payload.rows.map(arr => {
+        const o = {};
+        cols.forEach((c, i) => o[c] = arr[i]);
+        return o;
+      });
+      renderHead();
+      render();
+    }
+
+    fetch("comparison.json")
+      .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(boot)
+      .catch(err => {
+        document.getElementById("status").innerHTML =
+          `<span class="err">Could not load comparison.json (${err.message}). Serve the repo root with <code>py -3 -m http.server 8000</code> and open <code>/research/claims_insider_20261007/viewer.html</code>.</span>`;
+      });
+  </script>
+</body>
+</html>

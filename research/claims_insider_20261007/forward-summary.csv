@@ -1,0 +1,16 @@
+group,horizon_days,n_events,n_companies,median_return_pct,hit_rate_pct,median_vs_spy_pct,beat_spy_pct,median_vs_basket_pct,beat_basket_pct,median_vs_gld_pct,beat_gld_pct
+claims_linked|after_cluster|all,30,101,31,2.1,50.5,1.2,50.5,-0.9,47.5,0.9,53.5
+claims_linked|after_cluster|all,90,86,30,11.4,60.5,1.7,51.2,-3.6,45.3,2.4,54.7
+claims_linked|after_cluster|all,180,60,23,7.7,56.7,-3.8,48.3,-4.5,40.0,1.4,51.7
+claims_linked|other|all,30,1188,174,4.2,56.7,1.9,55.8,-0.4,48.6,2.4,57.2
+claims_linked|other|all,90,1094,172,16.7,66.6,10.4,63.3,1.3,52.1,10.0,63.2
+claims_linked|other|all,180,887,162,33.3,74.0,23.8,68.9,4.9,55.7,18.7,67.4
+claims_linked|after_cluster|open_market,30,86,24,1.1,50.0,-0.1,48.8,-0.6,48.8,1.0,53.5
+claims_linked|after_cluster|open_market,90,72,23,6.0,54.2,-1.7,45.8,-4.4,44.4,1.9,51.4
+claims_linked|after_cluster|open_market,180,49,18,0.7,51.0,-13.5,40.8,-6.7,34.7,-2.7,46.9
+claims_linked|other|open_market,30,959,139,4.2,57.0,2.0,56.3,-0.4,48.7,2.4,58.1
+claims_linked|other|open_market,90,877,138,15.7,66.6,9.5,62.8,1.4,52.5,10.3,63.2
+claims_linked|other|open_market,180,701,128,35.1,76.5,24.7,70.3,5.0,56.6,19.4,69.0
+not_claims_linked|all,30,2235,310,4.0,58.5,2.1,54.6,0.7,51.9,3.3,60.0
+not_claims_linked|all,90,2047,306,10.0,63.7,4.6,55.7,-2.2,46.8,6.0,59.9
+not_claims_linked|all,180,1590,284,19.7,67.3,8.2,58.4,-2.5,47.7,11.0,60.8

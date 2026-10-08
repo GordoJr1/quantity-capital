@@ -39,6 +39,7 @@
     }
     .kicker { color: var(--caution); margin: 8px 0 4px; font-size: 0.9rem; }
     h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 0.9; font-weight: 700; }
+    body.qc-v2 #main .research-prose > h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: 0.06em; color: var(--white, #eef2f5); }
     h2 { margin: 22px 0 8px; color: var(--paper); font-size: 1.15rem; }
     .lede { color: var(--paper); max-width: 68ch; margin: 8px 0 14px; line-height: 1.45; }
     .stats {
@@ -866,39 +867,45 @@
           } else a.removeAttribute("aria-current");
         });
         if (!current) return;
+        currentId = id;
         var box = toc.getBoundingClientRect();
         var link = current.getBoundingClientRect();
         if (link.bottom > box.bottom) toc.scrollTop += link.bottom - box.bottom;
         else if (link.top < box.top) toc.scrollTop -= box.top - link.top;
       }
-      if ("IntersectionObserver" in window) {
-        var seen = [];
-        var obs = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            var i = seen.indexOf(en.target);
-            if (en.isIntersecting) { if (i < 0) seen.push(en.target); }
-            else if (i >= 0) seen.splice(i, 1);
+      var currentId = "";
+      function follow() {
+        var bandBottom = window.innerHeight * 0.45;
+        var inBand = [];
+        var lastAbove = null;
+        Array.prototype.forEach.call(heads, function (h) {
+          var rect = h.getBoundingClientRect();
+          if (rect.bottom > 72 && rect.top < bandBottom) inBand.push({ h: h, top: rect.top });
+          if (rect.top <= 96) lastAbove = h;
+        });
+        var chosen = null;
+        if (inBand.length) {
+          chosen = inBand[0].h;
+          inBand.forEach(function (item) {
+            if (item.top <= 96) chosen = item.h;
           });
-          var pick = null;
-          if (seen.length) {
-            seen.sort(function (a, b) {
-              if (a === b) return 0;
-              return (a.compareDocumentPosition(b) & 4) ? -1 : 1;
-            });
-            pick = seen[0];
-            seen.forEach(function (h) {
-              if (h.getBoundingClientRect().top <= 96) pick = h;
-            });
-          } else {
-            Array.prototype.forEach.call(heads, function (h) {
-              if (h.getBoundingClientRect().top <= 96) pick = h;
-            });
-            if (!pick) pick = heads[0];
-          }
-          mark(pick.id);
-        }, { rootMargin: "-72px 0px -55% 0px", threshold: [0, 1] });
-        Array.prototype.forEach.call(heads, function (h) { obs.observe(h); });
+        } else {
+          chosen = lastAbove || heads[0];
+        }
+        if (chosen && chosen.id !== currentId) mark(chosen.id);
       }
+      var queued = false;
+      function schedule() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          queued = false;
+          follow();
+        });
+      }
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      schedule();
       var start = (location.hash || "").replace(/^#/, "");
       var known = false;
       Array.prototype.forEach.call(heads, function (h) { if (h.id === start) known = true; });

@@ -1600,7 +1600,7 @@
       text-align: center;
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=178" />
+  <link rel="stylesheet" href="shell.css?v=179" />
   <style id="qc-tape-port">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
     .qc-txn-id { grid-area: id; min-width: 0; overflow: hidden; }
@@ -2267,6 +2267,7 @@
       <div class="qc-modes">
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="claims.html" title="Quebec, Ontario, BC, Yukon, Nunavut, and Newfoundland mineral claims">Claims</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
         <details class="qc-more">
@@ -2360,6 +2361,7 @@
           <div>
             <label for="filter-company">Company</label>
             <input id="filter-company" type="search" placeholder="Name or ticker…" />
+            <p class="qc-keys-hint">/ to search · j/k to move</p>
           </div>
           <div>
             <label for="filter-industry">Sector</label>
@@ -2465,7 +2467,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=134"></script>
+  <script src="qc.js?v=135"></script>
   <script src="chart.js?v=122"></script>
   <script>
     function escapeHtml(s) {
@@ -3898,6 +3900,13 @@
         markTapeReady();
         box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";
       }
+    }
+    if (window.QC && QC.bindTapeKeys) {
+      QC.bindTapeKeys({
+        search: document.getElementById("filter-company"),
+        rows: "#wire .w-row[data-id], #wire .w1[data-id]",
+        select: selectDesk
+      });
     }
     loadTape();
     window.addEventListener("pageshow", (e) => {

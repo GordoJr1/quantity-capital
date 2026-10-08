@@ -102,7 +102,7 @@
       #main { padding-bottom: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="shell.css?v=178" />
+  <link rel="stylesheet" href="shell.css?v=179" />
   <link rel="stylesheet" href="insider-track.css?v=6" />
   <style id="qc-txn-v97">
     .qc-txn { display: grid; grid-template-columns: minmax(0, 1fr) max-content; grid-template-areas: "id end" "meta meta"; column-gap: 10px; row-gap: 2px; align-items: center; min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box; overflow: hidden; border-left-width: 4px; border-radius: 10px; }
@@ -1025,6 +1025,7 @@
       <div class="qc-modes">
         <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
         <a class="qc-mode qc-desk-only" href="beta.html" title="Issuer mine profiles">Beta</a>
+        <a class="qc-mode qc-desk-only" href="claims.html" title="Quebec, Ontario, BC, Yukon, Nunavut, and Newfoundland mineral claims">Claims</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
         <details class="qc-more">
@@ -1048,6 +1049,7 @@
     <div class="windows" id="windows"></div>
     <div class="picker">
       <input id="q" type="search" placeholder="Search officer, ticker, or company" autocomplete="off" />
+      <p class="qc-keys-hint">/ to search · j/k to move</p>
     </div>
     <p class="count" id="tape-count"></p>
     <section id="basket" class="qc-track" hidden>
@@ -1091,7 +1093,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=134"></script>
+  <script src="qc.js?v=135"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=122"></script>
   <script>
@@ -1915,6 +1917,13 @@
       showAll = false;
       paint(all, collected);
     });
+    if (window.QC && QC.bindTapeKeys) {
+      QC.bindTapeKeys({
+        search: document.getElementById("q"),
+        rows: "#rows li.qc-txn-tape[data-id]",
+        select: selectDesk
+      });
+    }
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
   </script>
   <script src="refresh.js"></script>

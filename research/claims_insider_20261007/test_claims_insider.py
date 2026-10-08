@@ -19,6 +19,57 @@ def test_change_type_rules() -> None:
     assert lib.change_type(0, 0) == "unchanged"
 
 
+def test_counts_only_when_old_b_missing_or_partial() -> None:
+    # OLD A has counts, OLD B has no titles for this company-province.
+    row = lib.title_diff_fields(
+        old_claims=443, new_claims=493, old_b_titles=0,
+        province="ontario", linked=True, added=493, dropped=0,
+    )
+    assert row["basis"] == "counts_only"
+    assert row["added"] is None
+    assert row["dropped"] is None
+    assert row["old_source"] == "A"
+    assert row["id_gap"] is None
+    assert row["change"] == 50
+    # Neighbor sliver: 50 of 443 titles is partial, not full coverage.
+    partial = lib.title_diff_fields(
+        old_claims=443, new_claims=493, old_b_titles=50,
+        province="ontario", linked=True, added=443, dropped=0,
+    )
+    assert partial["basis"] == "counts_only"
+    assert partial["added"] is None
+    assert partial["dropped"] is None
+    assert partial["change"] == 50
+    # Unlinked holder, or a province OLD B never loaded.
+    assert lib.title_diff_basis(100, 100, "yukon", True) == "counts_only"
+    assert lib.title_diff_basis(100, 100, "ontario", False) == "counts_only"
+
+
+def test_claim_ids_when_old_b_fully_covers() -> None:
+    row = lib.title_diff_fields(
+        old_claims=400, new_claims=430, old_b_titles=400,
+        province="ontario", linked=True, added=40, dropped=10,
+    )
+    assert row["basis"] == "claim_ids"
+    assert row["added"] == 40
+    assert row["dropped"] == 10
+    assert row["old_source"] == "A+B"
+    assert row["change"] == 30
+    assert row["id_gap"] == 0  # (40 - 10) - 30
+    # 90%–125% band: 360 of 400 still counts as full coverage; 501 of 400 does not.
+    assert lib.title_diff_basis(400, 360, "ontario", True) == "claim_ids"
+    assert lib.title_diff_basis(400, 359, "ontario", True) == "counts_only"
+    assert lib.title_diff_basis(400, 500, "ontario", True) == "claim_ids"
+    assert lib.title_diff_basis(400, 501, "ontario", True) == "counts_only"
+    # Holder-link gap: added - dropped does not match net change.
+    gap = lib.title_diff_fields(
+        old_claims=100, new_claims=110, old_b_titles=100,
+        province="ontario", linked=True, added=20, dropped=2,
+    )
+    assert gap["basis"] == "claim_ids"
+    assert gap["id_gap"] == 8  # (20 - 2) - 10
+
+
 def test_comparison_math_change_and_pct() -> None:
     old_claims, new_claims = 200, 250
     change = new_claims - old_claims

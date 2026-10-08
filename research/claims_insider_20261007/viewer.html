@@ -45,7 +45,7 @@
 <body>
   <header>
     <h1>Claims change comparison</h1>
-    <p class="sub">New snapshot 2 Oct 2026 (898,104 titles, six provinces) vs holder counts from 24 Sep 2026 (OLD A). Title-level added/dropped use OLD B only where it covers the land (Ontario full; Quebec and BC partial). Not investment advice. Not legal title. This page is not in the live site nav.</p>
+    <p class="sub">New snapshot 2 Oct 2026 (898,104 titles, six provinces) vs holder counts from 24 Sep 2026 (OLD A). Title-level added/dropped appear only when basis is claim_ids (OLD B titles are 90–125% of that company’s OLD A count in the province). Otherwise basis is counts_only and added/dropped are blank. Default sort is size of change (|change|). Not investment advice. Not legal title. This page is not in the live site nav.</p>
   </header>
   <div class="controls">
     <label>Province
@@ -83,6 +83,13 @@
         <option value="no">Raw holders</option>
       </select>
     </label>
+    <label>Basis
+      <select id="basis">
+        <option value="">Any</option>
+        <option value="claim_ids">claim_ids</option>
+        <option value="counts_only">counts_only</option>
+      </select>
+    </label>
     <div>
       <button type="button" id="view-flat" aria-pressed="true">Flat</button>
       <button type="button" id="view-company" aria-pressed="false">Group by company</button>
@@ -107,19 +114,21 @@
       ["old_claims", "Old"],
       ["new_claims", "New"],
       ["change", "Change"],
+      ["abs_change", "|chg|"],
       ["change_pct", "Change %"],
       ["new_area_ha", "New ha"],
       ["old_area_ha", "Old ha"],
       ["added", "Added"],
       ["dropped", "Dropped"],
       ["change_type", "Change type"],
-      ["old_source", "Old src"],
-      ["linked", "Linked"],
-      ["coverage", "Coverage"]
+      ["basis", "Basis"],
+      ["id_gap", "ID gap"],
+      ["linked", "Linked"]
     ];
-    const NUM = new Set(["old_claims","new_claims","change","change_pct","new_area_ha","old_area_ha","added","dropped"]);
+    const NUM = new Set(["old_claims","new_claims","change","abs_change","change_pct","new_area_ha","old_area_ha","added","dropped","id_gap"]);
+    const PV = {on:"ontario", qc:"quebec", bc:"british-columbia", yt:"yukon", nu:"nunavut", nl:"newfoundland", all:"all"};
     let rows = [];
-    let sortKey = "change";
+    let sortKey = "abs_change";
     let sortDir = -1;
     let view = "flat";
 
@@ -132,6 +141,13 @@
       const n = num(r.change);
       return n === null ? 0 : Math.abs(n);
     }
+    function changeType(oldC, newC) {
+      if (oldC <= 0 && newC > 0) return "new_to_data";
+      if (oldC > 0 && newC <= 0) return "missing_from_data";
+      if (oldC > 0 && newC > oldC) return "added";
+      if (newC > 0 && newC < oldC) return "dropped";
+      return "unchanged";
+    }
 
     function filtered() {
       const prov = document.getElementById("province").value;
@@ -139,13 +155,15 @@
       const ct = document.getElementById("ctype").value;
       const minAbs = Number(document.getElementById("minabs").value || 0);
       const linked = document.getElementById("linked").value;
+      const basis = document.getElementById("basis").value;
       return rows.filter(r => {
         if (prov && r.province !== prov) return false;
         if (ct && r.change_type !== ct) return false;
         if (linked && r.linked !== linked) return false;
+        if (basis && r.basis !== basis) return false;
         if (absChange(r) < minAbs) return false;
         if (q) {
-          const blob = (r.company + " " + r.ticker + " " + (r.company_id || "")).toLowerCase();
+          const blob = (r.company + " " + r.ticker).toLowerCase();
           if (!blob.includes(q)) return false;
         }
         return true;
@@ -153,6 +171,11 @@
     }
 
     function cmp(a, b) {
+      if (sortKey === "abs_change") {
+        let d = absChange(a) - absChange(b);
+        if (d === 0) d = String(a.company).localeCompare(String(b.company));
+        return d * sortDir;
+      }
       const av = a[sortKey], bv = b[sortKey];
       const an = NUM.has(sortKey) ? num(av) : null;
       const bn = NUM.has(sortKey) ? num(bv) : null;
@@ -177,9 +200,9 @@
     }
 
     function cell(k, r) {
-      let v = r[k];
+      let v = k === "abs_change" ? absChange(r) : r[k];
       if (v === null || v === undefined) v = "";
-      const cls = ["num"].concat(k === "change" || k === "change_type" ? [r.change_type] : []);
+      const cls = ["num"].concat(k === "change" || k === "change_type" || k === "abs_change" ? [r.change_type] : []);
       if (NUM.has(k)) return `<td class="${cls.join(" ")}">${v}</td>`;
       return `<td class="${k === "change_type" ? r.change_type : ""}">${v}</td>`;
     }
@@ -231,7 +254,7 @@
       renderHead();
       render();
     });
-    ["province","search","ctype","minabs","linked"].forEach(id => {
+    ["province","search","ctype","minabs","linked","basis"].forEach(id => {
       document.getElementById(id).addEventListener("input", render);
       document.getElementById(id).addEventListener("change", render);
     });
@@ -240,11 +263,34 @@
     document.getElementById("view-province").onclick = () => setView("province");
 
     function boot(payload) {
-      const cols = payload.columns;
+      const cols = payload.cols || payload.columns;
       rows = payload.rows.map(arr => {
-        const o = {};
-        cols.forEach((c, i) => o[c] = arr[i]);
-        return o;
+        const raw = {};
+        cols.forEach((c, i) => raw[c] = arr[i]);
+        if (raw.co !== undefined) {
+          const o = Number(raw.o) || 0;
+          const n = Number(raw.n) || 0;
+          return {
+            company: raw.co,
+            ticker: raw.tk || "",
+            company_type: raw.ty || "",
+            province: PV[raw.pv] || raw.pv,
+            old_claims: o,
+            new_claims: n,
+            change: n - o,
+            change_pct: o ? ((100 * (n - o) / o).toFixed(1)) : "",
+            new_area_ha: raw.na,
+            old_area_ha: raw.oa,
+            added: raw.a,
+            dropped: raw.d,
+            change_type: changeType(o, n),
+            linked: raw.lk === "y" || raw.lk === "yes" ? "yes" : "no",
+            basis: raw.bs === "ids" ? "claim_ids" : "counts_only",
+            id_gap: raw.g
+          };
+        }
+        raw.change = (Number(raw.new_claims) || 0) - (Number(raw.old_claims) || 0);
+        return raw;
       });
       renderHead();
       render();

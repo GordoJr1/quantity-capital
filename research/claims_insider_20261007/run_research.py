@@ -43,6 +43,40 @@ FOCUS_PRODUCERS = [
 ]
 
 
+PV_SHORT = {
+    "ontario": "on",
+    "quebec": "qc",
+    "british-columbia": "bc",
+    "yukon": "yt",
+    "nunavut": "nu",
+    "newfoundland": "nl",
+    "all": "all",
+}
+VIEWER_COLS = ["co", "tk", "ty", "pv", "o", "n", "na", "oa", "a", "d", "lk", "bs", "g"]
+
+
+def compact_viewer_payload(rows: list[dict]) -> dict:
+    """Column-array JSON. Drops fields the browser can derive (change, pct, type)."""
+    out = []
+    for row in rows:
+        out.append([
+            row.get("company") or "",
+            row.get("ticker") or "",
+            row.get("company_type") or "",
+            PV_SHORT.get(row.get("province") or "", row.get("province") or ""),
+            int(row["old_claims"]),
+            int(row["new_claims"]),
+            row.get("new_area_ha") or "",
+            row.get("old_area_ha") or "",
+            row.get("added") if row.get("added") != "" else "",
+            row.get("dropped") if row.get("dropped") != "" else "",
+            "y" if row.get("linked") == "yes" else "n",
+            "ids" if row.get("basis") == "claim_ids" else "cnt",
+            row.get("id_gap") if row.get("id_gap") != "" else "",
+        ])
+    return {"v": 1, "cols": VIEWER_COLS, "rows": out}
+
+
 def wcsv(path: Path, rows: list[dict], fieldnames: list[str] | None = None) -> None:
     if not rows and not fieldnames:
         return
@@ -248,32 +282,31 @@ def build_comparison(
             rec["new_claims"] += int(new_row.get("count") or 0)
             rec["new_area_ha"] += float(new_area.get((province, holder), 0.0))
 
-    # Title-level added/dropped where OLD B covers it.
+    # Title-level added/dropped only when OLD B fully covers this company-province.
     for rec in rolled.values():
         cid = rec["company_id"]
         province = rec["province"]
-        if rec["linked"] != "yes" or not cid or province not in lib.OLD_B_PROVINCES:
-            rec["added"] = None
-            rec["dropped"] = None
-            rec["old_area_ha"] = None
-            rec["coverage"] = "none" if province not in lib.OLD_B_PROVINCES else "partial"
-            if province == "ontario":
-                rec["coverage"] = "full"
-            rec["old_source"] = "A"
-            continue
-        old_set = old_b["by_co"].get((cid, province), set())
-        new_set = new_title_ids.get((cid, province), set())
-        if province in lib.OLD_B_PARTIAL:
+        linked = rec["linked"] == "yes" and bool(cid)
+        old_set = old_b["by_co"].get((cid, province), set()) if linked else set()
+        new_set = new_title_ids.get((cid, province), set()) if linked else set()
+        if linked and province in lib.OLD_B_PARTIAL:
             universe = old_b["universe"].get(province, set())
             new_set = new_set & universe
-            rec["coverage"] = "partial"
+        fields = lib.title_diff_fields(
+            rec["old_claims"],
+            rec["new_claims"],
+            len(old_set),
+            province,
+            linked,
+            len(new_set - old_set) if linked else None,
+            len(old_set - new_set) if linked else None,
+        )
+        rec.update(fields)
+        if rec["basis"] == "claim_ids":
+            area = old_b["area_co"].get((cid, province))
+            rec["old_area_ha"] = area if area else None
         else:
-            rec["coverage"] = "full"
-        rec["added"] = len(new_set - old_set)
-        rec["dropped"] = len(old_set - new_set)
-        area = old_b["area_co"].get((cid, province))
-        rec["old_area_ha"] = area if area else None
-        rec["old_source"] = "A+B"
+            rec["old_area_ha"] = None
 
     # Company totals
     by_company: dict[str, list[dict]] = defaultdict(list)
@@ -296,27 +329,35 @@ def build_comparison(
             "old_area_ha": None,
             "added": None,
             "dropped": None,
-            "coverage": "mixed" if len({p["coverage"] for p in parts}) > 1 else parts[0]["coverage"],
-            "old_source": "A+B" if any(p["old_source"] == "A+B" for p in parts) else "A",
+            "basis": "counts_only",
+            "old_source": "A",
+            "id_gap": None,
         }
-        areas = [p["old_area_ha"] for p in parts if p["old_area_ha"] is not None]
-        if areas:
-            total["old_area_ha"] = sum(areas)
-        adds = [p["added"] for p in parts if p["added"] is not None]
-        drops = [p["dropped"] for p in parts if p["dropped"] is not None]
-        if adds:
+        active = [p for p in parts if p["old_claims"] or p["new_claims"]]
+        bases = {p["basis"] for p in active} if active else {"counts_only"}
+        if bases == {"claim_ids"}:
+            adds = [p["added"] for p in active]
+            drops = [p["dropped"] for p in active]
+            total["basis"] = "claim_ids"
+            total["old_source"] = "A+B"
             total["added"] = sum(adds)
-        if drops:
             total["dropped"] = sum(drops)
+            total["id_gap"] = (total["added"] - total["dropped"]) - (total["new_claims"] - total["old_claims"])
+            areas = [p["old_area_ha"] for p in active if p["old_area_ha"] is not None]
+            if areas:
+                total["old_area_ha"] = sum(areas)
         parts.append(total)
         for rec in parts:
             rec["change"] = rec["new_claims"] - rec["old_claims"]
             rec["change_pct"] = lib.format_pct(lib.change_pct(rec["old_claims"], rec["new_claims"]))
             rec["change_type"] = lib.change_type(rec["old_claims"], rec["new_claims"])
-            rec["new_area_ha"] = lib.format_num(rec["new_area_ha"], 2)
-            rec["old_area_ha"] = lib.format_num(rec["old_area_ha"], 2) if rec["old_area_ha"] is not None else ""
+            rec["new_area_ha"] = lib.format_num(rec["new_area_ha"], 1)
+            rec["old_area_ha"] = lib.format_num(rec["old_area_ha"], 1) if rec["old_area_ha"] is not None else ""
             rec["added"] = "" if rec["added"] is None else rec["added"]
             rec["dropped"] = "" if rec["dropped"] is None else rec["dropped"]
+            rec["id_gap"] = "" if rec["id_gap"] is None else rec["id_gap"]
+            rec["basis"] = rec.get("basis") or "counts_only"
+            rec["old_source"] = "A+B" if rec["basis"] == "claim_ids" else "A"
             rows.append(rec)
     rows.sort(key=lambda r: (r["company"].casefold(), r["province"] != "all", r["province"]))
     return rows
@@ -1278,16 +1319,15 @@ def main() -> int:
     fields_cmp = [
         "company", "ticker", "company_type", "province", "old_claims", "new_claims", "change",
         "change_pct", "new_area_ha", "old_area_ha", "added", "dropped", "change_type",
-        "old_source", "linked", "coverage", "company_id",
+        "old_source", "linked", "basis", "id_gap", "company_id",
     ]
     print("writing files...")
     wcsv(HERE / "comparison.csv", comparison, fields_cmp)
-    compact = {
-        "generated_at": "2026-10-07",
-        "columns": fields_cmp,
-        "rows": [[row.get(c, "") for c in fields_cmp] for row in comparison],
-    }
-    (HERE / "comparison.json").write_text(json.dumps(compact, separators=(",", ":")), encoding="utf-8")
+    compact = compact_viewer_payload(comparison)
+    json_text = json.dumps(compact, separators=(",", ":"), ensure_ascii=False)
+    json_bytes = len(json_text.encode("utf-8"))
+    (HERE / "comparison.json").write_text(json_text, encoding="utf-8")
+    print("comparison.json bytes", json_bytes, "limit", 1048576, "ok", json_bytes <= 1048576)
 
     wcsv(HERE / "clusters.csv", [
         {**c, "anchor": c["anchor"].isoformat()} for c in clusters_main
@@ -1309,8 +1349,32 @@ def main() -> int:
         "insider_buy_days_since_2025-04-01", "junior_type", "major_type", "junior_id", "major_id",
     ]
     wcsv(HERE / "juniors.csv", juniors, jfields)
-    wcsv(HERE / "new-to-data-linked.csv", new_to_list)
-    wcsv(HERE / "missing-from-data-linked.csv", miss_list)
+    unlinked_new = [
+        {"company": r["company"], "ticker": r["ticker"], "company_type": r["company_type"],
+         "old_claims": r["old_claims"], "new_claims": r["new_claims"], "change": r["change"], "linked": r["linked"]}
+        for r in comparison
+        if r["province"] == "all" and r["linked"] == "no" and r["change_type"] == "new_to_data"
+    ]
+    unlinked_miss = [
+        {"company": r["company"], "ticker": r["ticker"], "company_type": r["company_type"],
+         "old_claims": r["old_claims"], "new_claims": r["new_claims"], "change": r["change"], "linked": r["linked"]}
+        for r in comparison
+        if r["province"] == "all" and r["linked"] == "no" and r["change_type"] == "missing_from_data"
+    ]
+    unlinked_new.sort(key=lambda r: -int(r["new_claims"]))
+    unlinked_miss.sort(key=lambda r: -int(r["old_claims"]))
+    ul_keys = ["company", "ticker", "company_type", "old_claims", "new_claims", "change", "linked"]
+    wcsv(HERE / "new-to-data.csv", unlinked_new, ul_keys)
+    wcsv(HERE / "missing-from-data.csv", unlinked_miss, ul_keys)
+
+    claim_id_rows = [r for r in comparison if r["basis"] == "claim_ids"]
+    gap_rows = [r for r in claim_id_rows if r["id_gap"] != "" and int(r["id_gap"]) != 0]
+    fq = next(
+        (r for r in comparison if r["company"] == "First Quantum Minerals" and r["province"] == "ontario"),
+        None,
+    )
+    print("claim_ids rows", len(claim_id_rows), "id_gap nonzero", len(gap_rows))
+    print("First Quantum Ontario", fq)
 
     sanity = {
         "new_titles": 898104,
@@ -1321,12 +1385,24 @@ def main() -> int:
         "old_a_provinces": expected_old,
         "comparison_rows": len(comparison),
         "comparison_json_rows": len(compact["rows"]),
+        "comparison_json_bytes": json_bytes,
+        "comparison_json_under_1mb": json_bytes <= 1048576,
         "juniors_rows": len(juniors),
         "clusters_main": len(clusters_main),
         "buy_events": len(buy_events),
         "new_equals_counts": dict(new_by_prov) == expected_new,
         "old_equals_old_a": dict(old_by_prov) == expected_old,
         "viewer_rows_match": len(compact["rows"]) == len(comparison),
+        "claim_ids_rows": len(claim_id_rows),
+        "claim_ids_gap_rows": len(gap_rows),
+        "first_quantum_ontario": {
+            "old_claims": fq["old_claims"] if fq else None,
+            "new_claims": fq["new_claims"] if fq else None,
+            "change": fq["change"] if fq else None,
+            "added": fq["added"] if fq else None,
+            "dropped": fq["dropped"] if fq else None,
+            "basis": fq["basis"] if fq else None,
+        },
     }
     (HERE / "sanity.json").write_text(json.dumps(sanity, indent=2), encoding="utf-8")
 
@@ -1360,7 +1436,6 @@ def main() -> int:
         "new_titles": 898104,
     }
     # NOTE.md is curated from these stats in short sentences. Do not overwrite it here.
-    (HERE / "note-stats.json").write_text(json.dumps(stats, indent=2, default=str), encoding="utf-8")
     print("comparison_rows", len(comparison))
     print("juniors_rows", len(juniors))
     print("clusters", len(clusters_main), "companies", stats["n_cluster_companies"])

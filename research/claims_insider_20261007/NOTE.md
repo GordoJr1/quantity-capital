@@ -46,14 +46,19 @@ Quebec versus OLD B is the same trap. OLD B has 35,077 Quebec rows. The new snap
 ## Method
 
 1. **Company.** Use the holders.json company link when it exists. Else use the raw holder name. The `linked` flag records this.
-2. **Claims cluster.** A month with at least 10 new claims, and at least 2x that company's mean monthly count. Months run Jul 2023 – Sep 2026. Months with zero claims stay in the mean. The cluster date is the last issue date in that month. Extra checks use 25+ at 2x, and 50+ at 3x.
-3. **Issue dates.** Take them from the new snapshot for all six provinces. Drop Ontario 2018-04-10 conversion dates. Drop non-ISO dates, years before 1990, and dates after 2026-10-02.
-4. **After-cluster window.** Count 90 days after the cluster date. A buy is after a cluster only if the cluster date is on or before the trade date. No lookahead.
-5. **Insider buys.** Keep `side = purchase` from SEDI and Form 4. Open market means SEDI code 10 or Form 4 P. Placement means SEDI codes 11, 15, and 16.
-6. **Rate test.** Use 1 Apr 2025 – 7 Oct 2026. Insider data is thin before Apr 2025. The unit is a buy-day (company plus date). Expected counts use each company's own share of days inside windows. The p-value uses 20,000 simulations under “no link”.
-7. **Forward returns.** Use one event per company per filing date. Keep trades from 1 Apr 2025. Keep filings within 30 days of the trade. Enter at the first close on or after the filing date. Skip the event if that close is more than 5 days later. Horizons are 30, 90, and 180 calendar days.
-8. **Eight-day window.** OLD A is 24 Sep 2026. The new snapshot is 2 Oct 2026. That gap is 8 days. It is too short for returns. It is context only.
-9. **Juniors next to majors.** Major means type Producer, Major or Producer, Mid-tier, or a company in the mines table. Junior means Explorer (any subtype), Developer (any subtype), Producer, Junior, or Land Banks. Drop Royalty and Other. A mine owner counts as a major even if typed as a junior. Distance is nearest edge-to-edge between claim boxes in the same province, in km. Keep a row when min distance is 5 km or less. Also count that junior's claims within 2 km of that major. Grain is one row per junior × province × major.
+2. **Title-level added/dropped.** Fill them only when `basis = claim_ids`.
+   OLD B fully covers a company-province when all of these hold: the company is linked; the province is Ontario, Quebec, or British Columbia; OLD A `old_claims` is greater than 0; OLD B distinct titles sit between 90% and 125% of that OLD A count.
+   Otherwise `basis = counts_only`. Added and dropped stay blank. `old_source` is A. The net change still comes from OLD A vs the new snapshot.
+   Quebec and BC extracts can still be `claim_ids` if that company's own OLD B rows sit in the 90–125% band. A neighbor sliver, an extract dump far above OLD A, or zero OLD B rows is not full coverage.
+   For `claim_ids` rows, `id_gap` is (added − dropped) minus net change. A nonzero gap is a holder-link difference, not extra staking.
+3. **Claims cluster.** A month with at least 10 new claims, and at least 2x that company's mean monthly count. Months run Jul 2023 – Sep 2026. Months with zero claims stay in the mean. The cluster date is the last issue date in that month. Extra checks use 25+ at 2x, and 50+ at 3x.
+4. **Issue dates.** Take them from the new snapshot for all six provinces. Drop Ontario 2018-04-10 conversion dates. Drop non-ISO dates, years before 1990, and dates after 2026-10-02.
+5. **After-cluster window.** Count 90 days after the cluster date. A buy is after a cluster only if the cluster date is on or before the trade date. No lookahead.
+6. **Insider buys.** Keep `side = purchase` from SEDI and Form 4. Open market means SEDI code 10 or Form 4 P. Placement means SEDI codes 11, 15, and 16.
+7. **Rate test.** Use 1 Apr 2025 – 7 Oct 2026. Insider data is thin before Apr 2025. The unit is a buy-day (company plus date). Expected counts use each company's own share of days inside windows. The p-value uses 20,000 simulations under “no link”.
+8. **Forward returns.** Use one event per company per filing date. Keep trades from 1 Apr 2025. Keep filings within 30 days of the trade. Enter at the first close on or after the filing date. Skip the event if that close is more than 5 days later. Horizons are 30, 90, and 180 calendar days.
+9. **Eight-day window.** OLD A is 24 Sep 2026. The new snapshot is 2 Oct 2026. That gap is 8 days. It is too short for returns. It is context only.
+10. **Juniors next to majors.** Major means type Producer, Major or Producer, Mid-tier, or a company in the mines table. Junior means Explorer (any subtype), Developer (any subtype), Producer, Junior, or Land Banks. Drop Royalty and Other. A mine owner counts as a major even if typed as a junior. Distance is nearest edge-to-edge between claim boxes in the same province, in km. Keep a row when min distance is 5 km or less. Also count that junior's claims within 2 km of that major. Grain is one row per junior × province × major.
 
 ## Part 1 — Company-by-company claims (new snapshot vs OLD A)
 
@@ -68,6 +73,10 @@ Unlinked holders do churn. 39 unlinked names are new to the data. 40 unlinked na
 Much of any Quebec, Yukon, Nunavut, or Newfoundland change versus OLD B is coverage, not real staking. OLD B never held those full provinces at title level. Do not read title-level added or dropped there as new staking.
 
 Holder-count changes versus OLD A are the fair six-province comparison.
+
+First Quantum Minerals (FM.TO) in Ontario is `counts_only`. Net change is +50 (443 → 493). Added and dropped are blank. OLD B did not fully cover that company’s Ontario titles, so a claim-id diff would have shown 493 added. That number was inflated.
+
+153 comparison rows have `basis = claim_ids`. 36 of those have a nonzero `id_gap` (added minus dropped does not match the net change). Those gaps are holder-link differences.
 
 **Largest linked-company count changes, 24 Sep to 2 Oct 2026 (8 days; context only)**
 
@@ -191,7 +200,7 @@ Full list: `juniors.csv`. This is not the old Quebec ~2 km neighbor extract. It 
 - **Issue date is not a staking tape.** The snapshot has no transfer or lapse history.
 - **Ontario conversion.** 127,149 titles carry issue date 2018-04-10. Those dates are not staking. They are dropped from clusters.
 - **Yukon and Nunavut dates.** Some issue_date values are not ISO dates. They are dropped.
-- **OLD B is partial.** Quebec is producer extracts plus neighbors. British Columbia is capped. Title-level added and dropped outside that coverage are blank.
+- **OLD B is partial.** Quebec is producer extracts plus neighbors. British Columbia is capped. Title-level added and dropped are blank unless `basis = claim_ids` (OLD B titles between 90% and 125% of that company’s OLD A count in the province).
 - **Holder links are partial.** About 48% of new titles link to a public company. Unlinked holders are private or unmatched.
 - **Eight-day window.** 24 Sep to 2 Oct 2026 is too short for returns.
 - **Currency.** Many stock returns are CAD. SPY is USD. Excess returns include CAD/USD moves.
@@ -206,7 +215,7 @@ Full list: `juniors.csv`. This is not the old Quebec ~2 km neighbor extract. It 
 
 All in `research/claims_insider_20261007/`:
 
-- `comparison.csv` / `comparison.json` — company × province vs OLD A, with OLD B title-level added/dropped where coverage exists
+- `comparison.csv` / `comparison.json` — company × province vs OLD A. `basis` is `claim_ids` or `counts_only`. Added/dropped only on `claim_ids` rows.
 - `new-to-data.csv` / `missing-from-data.csv` — unlinked holders that appear or vanish (no linked company does)
 - `clusters.csv` — every cluster under the main rule
 - `rate-by-company.csv`, `rate-summary.csv`, `rate-robustness.csv` — Part 2a

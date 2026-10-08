@@ -11,9 +11,9 @@ After merge, GitHub Pages will also serve `viewer.html` at:
 | File | What it is |
 |---|---|
 | `NOTE.md` | The research note. Plain English. Numbers come from the CSVs below. |
-| `comparison.csv` | One row per company per province, plus a `province=all` total. New snapshot vs OLD A holder counts. OLD B title-level `added`/`dropped` where coverage exists. 11,098 rows. |
-| `comparison.json` | Same rows as `comparison.csv`, columnar JSON for the viewer. |
-| `viewer.html` | Standalone browser for the comparison. No site shell. No CDN. |
+| `comparison.csv` | One row per company per province, plus a `province=all` total. New snapshot vs OLD A holder counts. `basis` is `claim_ids` or `counts_only`. Added/dropped only on `claim_ids` rows. 11,098 rows. |
+| `comparison.json` | Same row count as `comparison.csv`. Short keys. Browser derives change, pct, and change type. Must stay ≤ 1,048,576 bytes. |
+| `viewer.html` | Standalone browser. Default sort is size of change (`|chg|`). Basis filter. No site shell. No CDN. |
 | `new-to-data.csv` | Unlinked holders that appear in the new snapshot only (39 names). No linked company is new. |
 | `missing-from-data.csv` | Unlinked holders that appear in OLD A only (40 names). No linked company is missing. |
 | `clusters.csv` | Claim clusters under the main rule (10+ new claims and 2x the company mean). 545 rows. |
@@ -70,6 +70,8 @@ Scripts open sqlite with URI `mode=ro` plus `PRAGMA query_only=ON`. They never w
 
 **Comparison `change_type`:** `new_to_data` (old 0, new > 0), `missing_from_data` (old > 0, new 0), `added` (both > 0 and new > old), `dropped` (both > 0 and new < old), `unchanged`.
 
+**Comparison `basis`:** `claim_ids` only when OLD B fully covers that company in that province. Rule: linked company; province is Ontario, Quebec, or British Columbia; OLD A `old_claims` > 0; OLD B distinct titles for that company-province are between 90% and 125% of `old_claims`. Else `counts_only`: leave `added` and `dropped` blank; show only net change (`new_claims − old_claims`); `old_source` is A, not A+B. Quebec/BC extracts can still be `claim_ids` if that company's own OLD B rows sit in the band. A neighbor sliver, an extract dump far above OLD A, or zero OLD B rows is not full coverage. For `claim_ids` rows, `id_gap` = (added − dropped) − change. A nonzero gap is a holder-link difference.
+
 ## How to re-run
 
 From the repo root of this clone:
@@ -95,6 +97,6 @@ Then open:
 
 `http://localhost:8000/research/claims_insider_20261007/viewer.html`
 
-Filters: province, company search, change type, minimum |change|, linked vs raw holders. Sort by clicking column headers (change and change % work both ways). Toggle flat / group by company / group by province. The status line shows how many rows are on screen.
+Filters: province, company search, change type, minimum |change|, linked vs raw holders, basis (Any / claim_ids / counts_only). Default sort is size of change (`|chg|`, absolute value). Click other headers for signed change, percent, and the rest. Toggle flat / group by company / group by province. The status line shows how many rows are on screen.
 
 `file://` will fail to fetch `comparison.json` in most browsers. Use the local server.

@@ -35,10 +35,22 @@
   },
   "comparison_rows": 11098,
   "comparison_json_rows": 11098,
+  "comparison_json_bytes": 883294,
+  "comparison_json_under_1mb": true,
   "juniors_rows": 181,
   "clusters_main": 545,
   "buy_events": 1348,
   "new_equals_counts": true,
   "old_equals_old_a": true,
-  "viewer_rows_match": true
+  "viewer_rows_match": true,
+  "claim_ids_rows": 153,
+  "claim_ids_gap_rows": 36,
+  "first_quantum_ontario": {
+    "old_claims": 443,
+    "new_claims": 493,
+    "change": 50,
+    "added": "",
+    "dropped": "",
+    "basis": "counts_only"
+  }
 }

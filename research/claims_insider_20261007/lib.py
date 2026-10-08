@@ -31,6 +31,10 @@ PROVINCES = (
 OLD_B_PROVINCES = ("ontario", "quebec", "british-columbia")
 OLD_B_FULL = frozenset({"ontario"})
 OLD_B_PARTIAL = frozenset({"quebec", "british-columbia"})
+# OLD B "fully covers" a company-province when its distinct title count
+# is close to the OLD A holder count (not a neighbor sliver, not an extract dump).
+COVER_MIN_RATIO = 0.9
+COVER_MAX_RATIO = 1.25
 
 SNAPSHOT_DAY = date(2026, 10, 2)
 CLUSTER_WIN0 = date(2023, 7, 1)
@@ -97,6 +101,66 @@ def change_pct(old_claims: int, new_claims: int) -> float | None:
     if old_claims == 0:
         return None
     return 100.0 * (new_claims - old_claims) / old_claims
+
+
+def title_diff_basis(
+    old_claims: int,
+    old_b_titles: int,
+    province: str,
+    linked: bool = True,
+) -> str:
+    """claim_ids only when OLD B fully covers this company in this province.
+
+    Rule: linked company, province is in OLD B (ON/QC/BC), OLD A old_claims > 0,
+    and OLD B distinct titles are between 90% and 125% of old_claims.
+    Otherwise counts_only. Quebec and BC extracts still qualify if that
+    company's own OLD B rows sit in the band. A neighbor sliver, an extract
+    dump far above OLD A, or zero OLD B rows is not full coverage.
+    """
+    if not linked:
+        return "counts_only"
+    if province not in OLD_B_PROVINCES:
+        return "counts_only"
+    if old_claims <= 0 or old_b_titles <= 0:
+        return "counts_only"
+    if old_b_titles < COVER_MIN_RATIO * old_claims:
+        return "counts_only"
+    if old_b_titles > COVER_MAX_RATIO * old_claims:
+        return "counts_only"
+    return "claim_ids"
+
+
+def title_diff_fields(
+    old_claims: int,
+    new_claims: int,
+    old_b_titles: int,
+    province: str,
+    linked: bool,
+    added: int | None,
+    dropped: int | None,
+) -> dict:
+    """Fill basis, added, dropped, old_source, id_gap, change for one comparison row."""
+    change = new_claims - old_claims
+    basis = title_diff_basis(old_claims, old_b_titles, province, linked)
+    if basis == "counts_only":
+        return {
+            "basis": "counts_only",
+            "added": None,
+            "dropped": None,
+            "old_source": "A",
+            "id_gap": None,
+            "change": change,
+        }
+    a = 0 if added is None else int(added)
+    d = 0 if dropped is None else int(dropped)
+    return {
+        "basis": "claim_ids",
+        "added": a,
+        "dropped": d,
+        "old_source": "A+B",
+        "id_gap": (a - d) - change,
+        "change": change,
+    }
 
 
 def change_type(old_claims: int, new_claims: int) -> str:

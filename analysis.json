@@ -1,81 +1,15 @@
 {
-  "generated": "2026-10-08T23:01:01.042155+00:00",
+  "generated": "2026-10-09T11:12:13.080878+00:00",
   "tapeCollected": "2026-10-08T22:20:21.329816+00:00",
-  "priceAsof": "2026-10-07",
+  "priceAsof": "2026-10-08",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
     {
-      "code": "PG",
-      "name": "Procter & Gamble Company (The)",
-      "action": "buy-dip",
-      "score": 7.552,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 147.82,
-      "pxAsof": "2026-10-07",
-      "buyPx": 145.58,
-      "chgSinceBuy": 0.0154,
-      "lastBuy": "2026-09-08",
-      "nBuyers": 4,
-      "buyHigh": 310000,
-      "heatRank": 4,
-      "heat": 1.504,
-      "landed": true,
-      "landedAt": "2026-09-25T22:21:20.366354+00:00",
-      "lagDays": 17,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": true,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        },
-        {
-          "name": "David J. Taylor",
-          "id": "david-j-taylor"
-        },
-        {
-          "name": "Lloyd Doggett",
-          "id": "lloyd-doggett"
-        },
-        {
-          "name": "Donald J. Trump",
-          "id": "donald-j-trump"
-        }
-      ],
-      "weekly": {
-        "rsi": 43.0,
-        "sma20": 146.77,
-        "sma40": 148.13,
-        "vs20": 0.7,
-        "ret4w": 1.8,
-        "ret13w": 0.5,
-        "fromHigh": -2.4,
-        "trend": "MIX",
-        "recentLow": 143.78
-      },
-      "monthly": {
-        "rsi": 43.9,
-        "sma10": 148.34,
-        "vs10": -0.4,
-        "trend": "DOWN"
-      },
-      "invalidation": 143.78,
-      "flags": [
-        "Landed",
-        "Cluster",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
-    {
       "code": "HD",
       "name": "Home Depot, Inc. (The)",
       "action": "watch",
-      "score": 6.7,
+      "score": 6.675,
       "why": "Landed \u00b7 Cluster",
       "last": 285.77,
       "pxAsof": "2026-10-07",
@@ -85,7 +19,7 @@
       "nBuyers": 3,
       "buyHigh": 95000,
       "heatRank": 1,
-      "heat": 3.668,
+      "heat": 3.422,
       "landed": true,
       "landedAt": "2026-10-07T11:20:22.464336+00:00",
       "lagDays": 15,
@@ -129,7 +63,7 @@
         "Landed",
         "Cluster"
       ],
-      "rank": 2
+      "rank": 1
     },
     {
       "code": "MRVL",
@@ -144,8 +78,8 @@
       "lastBuy": "2026-08-07",
       "nBuyers": 3,
       "buyHigh": 5045000,
-      "heatRank": 34,
-      "heat": 0.276,
+      "heatRank": 35,
+      "heat": 0.258,
       "landed": true,
       "landedAt": "2026-09-25T22:21:20.366354+00:00",
       "lagDays": 49,
@@ -191,7 +125,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 2
     }
   ],
   "avoid": [
@@ -199,17 +133,17 @@
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 2.318,
+      "score": 2.251,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 196.64,
       "pxAsof": "2026-10-07",
       "buyPx": 181.38,
       "chgSinceBuy": 0.0841,
       "lastBuy": "2026-08-26",
-      "nBuyers": 4,
-      "buyHigh": 75000,
+      "nBuyers": 3,
+      "buyHigh": 60000,
       "heatRank": 12,
-      "heat": 0.655,
+      "heat": 0.546,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -221,10 +155,6 @@
         {
           "name": "Scott Scott Franklin",
           "id": "c-scott-franklin"
-        },
-        {
-          "name": "Dan Newhouse",
-          "id": "dan-newhouse"
         },
         {
           "name": "Gilbert Cisneros",
@@ -262,10 +192,63 @@
       "rank": 1
     },
     {
+      "code": "PLTR",
+      "name": "Palantir Technologies Inc.",
+      "action": "avoid",
+      "score": 2.01,
+      "why": "Signals heat, but weekly RSI is stretched into the highs",
+      "last": 194.12,
+      "pxAsof": "2026-10-07",
+      "buyPx": 132.38,
+      "chgSinceBuy": 0.4664,
+      "lastBuy": "2026-07-17",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 155,
+      "heat": 0.016,
+      "landed": true,
+      "landedAt": "2026-09-08T11:22:45.026760+00:00",
+      "lagDays": 53,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Gilbert Cisneros",
+          "id": "gilbert-cisneros"
+        }
+      ],
+      "weekly": {
+        "rsi": 75.2,
+        "sma20": 155.0,
+        "sma40": 150.62,
+        "vs20": 25.2,
+        "ret4w": 16.1,
+        "ret13w": 53.1,
+        "fromHigh": 0.0,
+        "trend": "UP",
+        "recentLow": 167.23
+      },
+      "monthly": {
+        "rsi": 56.8,
+        "sma10": 153.3,
+        "vs10": 26.6,
+        "trend": "UP"
+      },
+      "invalidation": 167.23,
+      "flags": [
+        "Landed",
+        "Monthly intact",
+        "Weekly extended"
+      ],
+      "rank": 2
+    },
+    {
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 1.628,
+      "score": 1.607,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 529.76,
       "pxAsof": "2026-10-07",
@@ -275,7 +258,7 @@
       "nBuyers": 3,
       "buyHigh": 230000,
       "heatRank": 26,
-      "heat": 0.317,
+      "heat": 0.296,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,
@@ -321,13 +304,13 @@
         "Monthly intact",
         "Weekly extended"
       ],
-      "rank": 2
+      "rank": 3
     },
     {
       "code": "ATRC",
       "name": "AtriCure, Inc.",
       "action": "avoid",
-      "score": 0.798,
+      "score": 0.773,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 53.31,
       "pxAsof": "2026-10-07",
@@ -336,8 +319,8 @@
       "lastBuy": "2026-08-20",
       "nBuyers": 1,
       "buyHigh": 15000,
-      "heatRank": 50,
-      "heat": 0.205,
+      "heatRank": 49,
+      "heat": 0.191,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 22,
@@ -374,13 +357,13 @@
         "Monthly intact",
         "Weekly extended"
       ],
-      "rank": 3
+      "rank": 4
     },
     {
       "code": "MRNA",
       "name": "MRNA",
       "action": "avoid",
-      "score": 0.744,
+      "score": 0.719,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 196.48,
       "pxAsof": "2026-10-07",
@@ -390,7 +373,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 63,
-      "heat": 0.157,
+      "heat": 0.146,
       "landed": true,
       "landedAt": "2026-09-10T22:20:24.537067+00:00",
       "lagDays": 22,
@@ -422,59 +405,6 @@
         "trend": "UP"
       },
       "invalidation": 137.99,
-      "flags": [
-        "Landed",
-        "Monthly intact",
-        "Weekly extended"
-      ],
-      "rank": 4
-    },
-    {
-      "code": "DJP",
-      "name": "Barclays Bank PLC Index-Linked",
-      "action": "avoid",
-      "score": 0.566,
-      "why": "Signals heat, but weekly RSI is stretched into the highs",
-      "last": 51.93,
-      "pxAsof": "2026-10-07",
-      "buyPx": 46.75,
-      "chgSinceBuy": 0.1108,
-      "lastBuy": "2026-08-06",
-      "nBuyers": 1,
-      "buyHigh": 50000,
-      "heatRank": 69,
-      "heat": 0.11,
-      "landed": true,
-      "landedAt": "2026-09-08T11:22:45.026760+00:00",
-      "lagDays": 33,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 80.3,
-        "sma20": 48.6,
-        "sma40": 46.99,
-        "vs20": 6.9,
-        "ret4w": -1.2,
-        "ret13w": 15.1,
-        "fromHigh": -1.6,
-        "trend": "UP",
-        "recentLow": 50.62
-      },
-      "monthly": {
-        "rsi": 77.8,
-        "sma10": 47.8,
-        "vs10": 8.6,
-        "trend": "UP"
-      },
-      "invalidation": 50.62,
       "flags": [
         "Landed",
         "Monthly intact",

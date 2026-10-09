@@ -31566,7 +31566,13 @@
      "added_on": "2026-10-07"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-08",
+    "reason": "sale",
+    "px": 0.87,
+    "recorded_on": "2026-10-09",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-10-06",
@@ -31575,7 +31581,7 @@
     "exit_after": "2026-10-07",
     "seen_on": "2026-10-07"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -40711,7 +40717,14 @@
     }
    ],
    "exit": null,
-   "pending_exit": null,
+   "pending_exit": {
+    "reason": "sale",
+    "trigger_filed": "2026-10-05",
+    "trigger_key": "macdonald-robert-william-john|SSVFF|2026-09-10|sale_open_market",
+    "trigger_by": "Macdonald, Robert William John",
+    "exit_after": "2026-10-08",
+    "seen_on": "2026-10-09"
+   },
    "status": "open",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
@@ -42039,8 +42052,8 @@
    "signal_filed": "2026-10-01",
    "signal_trade": "2026-10-01",
    "entry_after": "2026-10-07",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-08",
+   "entry_px": 1.08,
    "mcap_usd_basis": 209148059.0,
    "stale63_basis": 0.1429,
    "basis_date": "2026-10-07",
@@ -42063,7 +42076,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   }
  ],
  "seen_keys": [
@@ -42320,6 +42337,7 @@
   "barnholden-daniel|LUCMF|2026-04-10|open_market",
   "barnholden-daniel|LUCMF|2026-10-01|open_market",
   "barr-harry|NMTLF|2025-11-07|open_market",
+  "barron-keith-michael|AUIAF|2026-09-28|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-24|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-29|open_market",
   "bates-kristina-heidi|ALVLF|2026-03-03|open_market",
@@ -43405,6 +43423,7 @@
   "doucet-dominique|SIREF|2026-03-19|open_market",
   "doucet-dominique|SIREF|2026-06-10|open_market",
   "doucet-dominique|SIREF|2026-06-15|open_market",
+  "doucet-dominique|SIREF|2026-09-29|open_market",
   "doulis-christos|BHSIF|2025-10-17|open_market",
   "doulis-christos|BHSIF|2026-01-16|open_market",
   "doulis-christos|BHSIF|2026-01-19|open_market",
@@ -44752,6 +44771,7 @@
   "ma-kevin|KLGDF|2026-06-23|open_market",
   "ma-kevin|KLGDF|2026-07-23|open_market",
   "ma-kevin|KLGDF|2026-07-29|open_market",
+  "ma-kevin|KLGDF|2026-10-08|open_market",
   "macdonald-brandon|ENDMF|2026-06-23|open_market",
   "macdonald-brandon|TKRFF|2025-10-29|open_market",
   "macdonald-leonard-francis|LIFFF|2025-04-04|open_market",
@@ -44760,6 +44780,7 @@
   "macdonald-leonard-francis|LIFFF|2026-08-21|open_market",
   "macdonald-leonard-francis|LIFFF|2026-09-23|open_market",
   "macdonald-robert-william-john|SSVFF|2026-09-04|open_market",
+  "macdonald-robert-william-john|SSVFF|2026-09-23|open_market",
   "macdonald-ronald|PGLDF|2026-08-20|open_market",
   "macdonald-ronald|PGLDF|2026-08-21|open_market",
   "macdougall-craig-stephen|CGAU|2025-11-03|open_market",
@@ -44834,6 +44855,7 @@
   "mance-lili|OMZNF|2026-04-21|open_market",
   "mance-lili|OMZNF|2026-07-30|open_market",
   "maphai-thabane-vincent|SBSW|2026-03-16|open_market",
+  "marchand-erik|VLCJF|2026-10-01|open_market",
   "marcotte-simon|FMANF|2026-07-02|open_market",
   "marcotte-simon|FMANF|2026-07-03|open_market",
   "marcotte-simon|FMANF|2026-07-06|open_market",
@@ -46055,6 +46077,7 @@
   "slack-william-john-walton|ENDMF|2026-05-26|open_market",
   "slack-william-john-walton|ENDMF|2026-06-24|open_market",
   "slepcev-gordana|LMRMF|2025-08-07|open_market",
+  "smith-brandon|MSMGF|2026-10-02|open_market",
   "smith-darin-matthew|DSVSF|2026-06-05|open_market",
   "smith-geoffrey|DNN|2025-04-11|open_market",
   "smith-gregory|EQX|2025-06-13|open_market",
@@ -46195,6 +46218,8 @@
   "staude-john-mark-gardner|RVSDF|2026-04-17|open_market",
   "staude-john-mark-gardner|RVSDF|2026-06-22|open_market",
   "staude-john-mark-gardner|RVSDF|2026-08-19|open_market",
+  "staude-john-mark-gardner|RVSDF|2026-09-29|open_market",
+  "staude-john-mark-gardner|RVSDF|2026-10-07|open_market",
   "stauth-scott-gerald|CNQ|2025-06-19|open_market",
   "stein-david-matthew|KUYAF|2026-02-03|open_market",
   "stephens-david-andrew|EQX|2026-08-10|open_market",
@@ -46421,6 +46446,7 @@
   "trimble-jordan|SYHBF|2025-04-09|open_market",
   "trimble-jordan|SYHBF|2025-08-11|open_market",
   "trimble-jordan|SYHBF|2026-03-19|open_market",
+  "trimble-jordan|SYHBF|2026-09-30|open_market",
   "trimble-jordan|TRDTF|2026-03-19|open_market",
   "tripeny-r-tony|IPX|2026-03-27|open_market",
   "trotman-richard-bryan|GSVRF|2026-04-30|open_market",
@@ -46746,5 +46772,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-08"
+ "last_run_date": "2026-10-09"
 }

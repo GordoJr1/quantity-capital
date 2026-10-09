@@ -2467,7 +2467,7 @@
   <div class="stripe" hidden></div>
   </div>
 
-  <script src="qc.js?v=136"></script>
+  <script src="qc.js?v=137"></script>
   <script src="chart.js?v=123"></script>
   <script>
     function escapeHtml(s) {
@@ -2511,12 +2511,55 @@
       return s;
     }
 
+    /* Desktop company cell: displayIssuer, then the same Trust/Foundation/"D:" strip phone rows use. */
+    function deskHolderStrip(name) {
+      let s = String(name || "").replace(/\s+/g, " ").trim();
+      s = s.replace(/\s+D:.*$/, "");
+      const holder = s.match(/^.*?\b(?:Trust|Foundation)\s+(.+)$/);
+      if (holder && holder[1].length >= 3) {
+        const rest = holder[1].replace(/\s+/g, " ").trim();
+        if (!/^(?:Corp(?:oration)?|Inc\.?|Co(?:mpany)?|Companies|PLC|LLC|Ltd\.?|Limited|Group|Holdings?)\.?$/i.test(rest)) s = rest;
+      }
+      return s;
+    }
+
     function displayCompany(name, ticker) {
-      const s = cleanAssetName(name);
       const tk = String(ticker || "").trim();
+      let s = QC.displayIssuer(tk, name);
+      s = deskHolderStrip(s);
+      s = cleanAssetName(s);
       if (!s || s === "—") return tk && tk !== "—" ? tk : "";
       if (garbageCompany(s)) return tk && tk !== "—" ? tk : "";
       return s;
+    }
+
+    function companyWords(s) {
+      return String(s || "").toLowerCase().match(/[a-z0-9]+/g) || [];
+    }
+
+    function companyWholeWord(field, q) {
+      const list = companyWords(field);
+      for (let i = 0; i < list.length; i++) if (list[i] === q) return true;
+      return false;
+    }
+
+    function companyWordPrefix(field, q) {
+      const list = companyWords(field);
+      for (let i = 0; i < list.length; i++) if (list[i].indexOf(q) === 0) return true;
+      return false;
+    }
+
+    /* Exact ticker first (1-5 letters/digits), else whole words in the displayed issuer. No asset substring. */
+    function companyQueryHit(t, q) {
+      const raw = String(q || "").trim().toLowerCase();
+      if (!raw) return true;
+      const code = String(t.code || "").toLowerCase();
+      if (code === raw) return true;
+      const name = displayCompany(t.company, t.code);
+      if (/^[a-z0-9]{1,5}$/.test(raw)) return companyWholeWord(name, raw);
+      const parts = raw.split(/\s+/).filter(Boolean);
+      if (raw.length <= 3) return companyWholeWord(name, raw);
+      return parts.every((part) => companyWordPrefix(name, part));
     }
 
     function filterActiveCount() {
@@ -3851,10 +3894,7 @@
             if (chamber && (t.chamber || "") !== chamber) return false;
             if (industry && sectorOf(t.industry) !== industry) return false;
             if (onlyLanded && !QC.isLanded(t, 72)) return false;
-            if (companyQ) {
-              const blob = (t.company + " " + t.code + " " + (t.asset || "")).toLowerCase();
-              if (!blob.includes(companyQ)) return false;
-            }
+            if (companyQ && !companyQueryHit(t, companyQ)) return false;
             return true;
           });
           if (!needsFull && data.totals) {
@@ -3898,7 +3938,7 @@
       } catch (err) {
         bindPicker([]);
         markTapeReady();
-        box.innerHTML = "<tr><td colspan=\"9\">Could not load trades.json. Open <a href=\"http://127.0.0.1:8765/#tape\">http://127.0.0.1:8765/</a> — double-clicking the HTML file will not load the list.</td></tr>";
+        box.innerHTML = "<tr><td colspan=\"9\">Could not load tape/page.json. Open <a href=\"http://127.0.0.1:8000/index.html\">http://127.0.0.1:8000/index.html</a> — double-clicking the HTML file will not load the list.</td></tr>";
       }
     }
     if (window.QC && QC.bindTapeKeys) {

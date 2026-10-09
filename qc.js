@@ -562,6 +562,19 @@
   };
 
   const SHARE_TAIL = /\s+(?:Common Stock.*|Class [A-Z].*|Ordinary Shares?.*|American Depositary Shares?.*|\bADS\b.*|Registered Shares.*|Common Shares.*|New York Registry Shares.*|Common Units(?: Representing.*)?|\bVoting\b.*|Series [A-Z]\b.*|\bCMN\b.*)$/i;
+  const DESK_NOTE = /^(?:Dividend Reinvestment|Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account\.?|Sold entire holding\.?|Corporate bond|Municipal bond|Treasury bond|Sell to close\.?|Revocabl\w*)(?:\.\s*|\s+)/i;
+
+  /* Company after a PTR "D:" note, or the text before "D:" when the note has no issuer. */
+  function takeAfterDeskNote(text) {
+    const t = String(text || "");
+    if (!/\bD:\s*/i.test(t)) return t;
+    const idx = t.search(/\bD:\s*/i);
+    const before = t.slice(0, idx).replace(/\s+$/, "");
+    let after = t.slice(idx).replace(/^D:\s*/i, "").trim();
+    after = after.replace(DESK_NOTE, "").trim();
+    const junk = (x) => !x || /^(?:revocabl\w*|llc|inc|corp|corporation|company|plc|common stock)$/i.test(x);
+    return junk(after) ? before : after;
+  }
 
   function issuerName(code, raw) {
     const c = String(code || "").toUpperCase();
@@ -588,11 +601,13 @@
     s = s.replace(/^(?:account(?:\s*#\s*\d+)?|uma account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
     s = s.replace(/^#\s*\d+\s+/, "");
     s = s.replace(/^\d{2,5}\s+/, "");
-    s = s.replace(/^[A-Za-z][A-Za-z.'-]*(?:\s+[A-Za-z][A-Za-z.'-]*)?\s+IRA\s+/i, "");
+    // "Chris IRA …", "Kevin Hern Traditional IRA …", "Sarah Landsman Traditional IRA …"
+    s = s.replace(/^(?:[A-Za-z][A-Za-z.'\u2019-]*\s+){1,4}(?:(?:traditional|roth|rollover|sep|simple|inherited|spousal)\s+)?(?:IRA|401\(?k\)?)\s+/i, "");
     s = s.replace(/^(?:tacs r3k)\s+/i, "");
     s = s.replace(/^\$[\d,]+(?:\.\d+)?\s+(?:F\s+S:\s*Amended\s+\S+\s+)?/i, "");
     s = s.replace(/^(?:CP\s*-?\s*INV|CRT\s*-?\s*Standard Unit Trust|Trust\s*-\s*\S+)\s+/i, "");
-    s = s.replace(/^(?:D:\s*)?(?:Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account|D\/B\/A|Corporate bond|Municipal bond|Treasury bond)\s+/i, "");
+    s = takeAfterDeskNote(s);
+    s = s.replace(/^(?:D:\s*)?(?:Dividend Reinvestment|Portfolio Rebalance|Account Closing|FULL LIQUIDATION\.?|Professionally managed account|D\/B\/A|Corporate bond|Municipal bond|Treasury bond)\s+/i, "");
     s = s.replace(/\b(?:D:\s*)?Portfolio Rebalance\s+/i, "");
     s = s.replace(/^D:\s+/i, "");
     s = s.replace(/^(?:investment account(?:\s*#\s*\d+)?)\b[\s,:-]*/i, "");
@@ -601,6 +616,10 @@
     s = s.replace(/^.*\bD:\s*(?:professionally managed account\.?\s*|sold entire holding\.?\s*|own\/operate\s+(?:mobile home park\s+)?)/i, "");
     s = s.replace(/^C:\s*Sell to Open\s*[–—-]\s*(?:New\s+)?Covered Call Contract\s+/i, "");
     s = s.replace(/^.*\bFamily Partnership\s+/i, "");
+    // Holder trusts/foundations in front of the issuer. Keep "Northern Trust Corporation".
+    s = s.replace(/^.*?\b(?:Children[\u2019']s|Grandchildren(?:\s+\d+)?|Family(?:\s+Revocable)?|Revocable|Living|Irrevocable|Insurance|GST(?:\s+Exempt)?|Charitable)\s+Trust\s+/i, "");
+    s = s.replace(/^.*?\b(?:Family\s+)?Foundation\s+/i, "");
+    s = s.replace(/^.*?\bTrust\s+(?!(?:Corp(?:oration)?|Inc\.?|Co(?:mpany)?|Companies|PLC|LLC|Ltd\.?|Limited|Group|Holdings?|LP|N\.?A\.?|AG|SA|Bancorp|Bank)\b)/i, "");
     s = s.replace(SHARE_TAIL, "");
     if (c) {
       const escCode = c.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -624,8 +643,10 @@
     if (!s || s === "—" || s === "-") return true;
     if (c && s.toUpperCase() === c) return true;
     if (WEAK_ISSUER.test(s)) return true;
-    if (/^D:\s*/i.test(s)) return true;
+    if (/\bD:\s*/i.test(s)) return true;
     if (/\bTrust\s*>/i.test(s) || /\b(?:grandchildren|family)\s+\d*\s*trust\b/i.test(s)) return true;
+    if (/\b(?:children[\u2019']s|family(?:\s+revocable)?|revocable|living|irrevocable|insurance)\s+trust\b/i.test(s)) return true;
+    if (/\b(?:traditional|roth|rollover)\s+ira\b/i.test(s)) return true;
     if (/^[A-Z][A-Z0-9.]{0,6}$/.test(s) && s.toUpperCase() !== c) return true;
     return false;
   }

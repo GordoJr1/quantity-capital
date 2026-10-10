@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T22:22:49.265838+00:00",
+  "generated": "2026-10-10T23:01:04.774691+00:00",
   "tapeCollected": "2026-10-10T22:20:20.424400+00:00",
   "priceAsof": "2026-10-09",
   "windowDays": 90,
@@ -175,59 +175,6 @@
       "rank": 3
     },
     {
-      "code": "TJX",
-      "name": "TJX Companies, Inc. (The)",
-      "action": "buy-dip",
-      "score": 6.915,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 138.76,
-      "pxAsof": "2026-10-09",
-      "buyPx": 130.06,
-      "chgSinceBuy": 0.0669,
-      "lastBuy": "2026-09-25",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 33,
-      "heat": 1.773,
-      "landed": true,
-      "landedAt": "2026-10-09T22:24:38.447662+00:00",
-      "lagDays": 14,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 37.4,
-        "sma20": 147.53,
-        "sma40": 152.01,
-        "vs20": -5.9,
-        "ret4w": 10.1,
-        "ret13w": -8.3,
-        "fromHigh": -17.6,
-        "trend": "DOWN",
-        "recentLow": 126.02
-      },
-      "monthly": {
-        "rsi": 51.2,
-        "sma10": 149.65,
-        "vs10": -7.3,
-        "trend": "DOWN"
-      },
-      "invalidation": 126.02,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 4
-    },
-    {
       "code": "VST",
       "name": "Vistra Corp.",
       "action": "watch",
@@ -245,10 +192,8 @@
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
-      "conflict": true,
-      "conflictWhy": [
-        "Energy / environment"
-      ],
+      "conflict": false,
+      "conflictWhy": [],
       "whale": false,
       "cluster": false,
       "buyers": [
@@ -277,10 +222,9 @@
       "invalidation": 136.21,
       "flags": [
         "Landed",
-        "Conflict",
         "Monthly intact"
       ],
-      "rank": 5
+      "rank": 4
     },
     {
       "code": "PG",
@@ -345,7 +289,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 6
+      "rank": 5
     }
   ],
   "avoid": [

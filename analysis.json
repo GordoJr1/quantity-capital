@@ -1,122 +1,10 @@
 {
-  "generated": "2026-10-10T11:27:37.515580+00:00",
+  "generated": "2026-10-10T11:41:02.258128+00:00",
   "tapeCollected": "2026-10-10T11:20:19.890974+00:00",
   "priceAsof": "2026-10-09",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
-    {
-      "code": "PPG",
-      "name": "PPG Industries",
-      "action": "buy-dip",
-      "score": 8.817,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 103.96,
-      "pxAsof": "2026-10-09",
-      "buyPx": 107.52,
-      "chgSinceBuy": -0.0331,
-      "lastBuy": "2026-09-25",
-      "nBuyers": 2,
-      "buyHigh": 30000,
-      "heatRank": 6,
-      "heat": 3.031,
-      "landed": true,
-      "landedAt": "2026-10-09T22:24:38.447662+00:00",
-      "lagDays": 14,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Lloyd Doggett",
-          "id": "lloyd-doggett"
-        },
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 27.8,
-        "sma20": 113.72,
-        "sma40": 112.58,
-        "vs20": -8.6,
-        "ret4w": -1.5,
-        "ret13w": -11.0,
-        "fromHigh": -17.1,
-        "trend": "DOWN",
-        "recentLow": 103.96
-      },
-      "monthly": {
-        "rsi": 46.0,
-        "sma10": 111.95,
-        "vs10": -7.1,
-        "trend": "DOWN"
-      },
-      "invalidation": 97.72,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 1
-    },
-    {
-      "code": "ALB",
-      "name": "Albemarle Corporation",
-      "action": "buy-dip",
-      "score": 8.115,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 101.27,
-      "pxAsof": "2026-10-09",
-      "buyPx": 109.73,
-      "chgSinceBuy": -0.0771,
-      "lastBuy": "2026-09-25",
-      "nBuyers": 1,
-      "buyHigh": 15000,
-      "heatRank": 32,
-      "heat": 1.773,
-      "landed": true,
-      "landedAt": "2026-10-09T22:24:38.447662+00:00",
-      "lagDays": 14,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 31.2,
-        "sma20": 131.47,
-        "sma40": 153.36,
-        "vs20": -23.0,
-        "ret4w": -13.8,
-        "ret13w": -19.7,
-        "fromHigh": -42.6,
-        "trend": "DOWN",
-        "recentLow": 101.27
-      },
-      "monthly": {
-        "rsi": 53.3,
-        "sma10": 149.66,
-        "vs10": -32.3,
-        "trend": "DOWN"
-      },
-      "invalidation": 95.19,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Deep washout",
-        "Monthly intact"
-      ],
-      "rank": 2
-    },
     {
       "code": "WFC",
       "name": "Wells Fargo & Company",
@@ -172,7 +60,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 1
     },
     {
       "code": "TJX",
@@ -225,7 +113,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 4
+      "rank": 2
     },
     {
       "code": "VST",
@@ -277,7 +165,7 @@
         "Landed",
         "Monthly intact"
       ],
-      "rank": 5
+      "rank": 3
     },
     {
       "code": "PG",
@@ -342,7 +230,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 6
+      "rank": 4
     }
   ],
   "avoid": [

@@ -15808,12 +15808,18 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-09",
+    "reason": "252d",
+    "px": 0.58,
+    "recorded_on": "2026-10-10",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-10-09",
    "cost_rt": 0.06
   },
   {
@@ -15880,12 +15886,18 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-09",
+    "reason": "252d",
+    "px": 0.58,
+    "recorded_on": "2026-10-10",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-10-09",
    "cost_rt": 0.03
   },
   {

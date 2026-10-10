@@ -1,10 +1,68 @@
 {
-  "generated": "2026-10-10T11:41:02.258128+00:00",
+  "generated": "2026-10-10T22:10:36.033092+00:00",
   "tapeCollected": "2026-10-10T11:20:19.890974+00:00",
   "priceAsof": "2026-10-09",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
+    {
+      "code": "PPG",
+      "name": "PPG Industries",
+      "action": "buy-dip",
+      "score": 8.817,
+      "why": "Just landed, weekly washed out, monthly intact",
+      "last": 103.96,
+      "pxAsof": "2026-10-09",
+      "buyPx": 107.52,
+      "chgSinceBuy": -0.0331,
+      "lastBuy": "2026-09-25",
+      "nBuyers": 2,
+      "buyHigh": 30000,
+      "heatRank": 6,
+      "heat": 3.031,
+      "landed": true,
+      "landedAt": "2026-10-09T22:24:38.447662+00:00",
+      "lagDays": 14,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Lloyd Doggett",
+          "id": "lloyd-doggett"
+        },
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        }
+      ],
+      "weekly": {
+        "rsi": 27.8,
+        "sma20": 113.72,
+        "sma40": 112.58,
+        "vs20": -8.6,
+        "ret4w": -1.5,
+        "ret13w": -11.0,
+        "fromHigh": -17.1,
+        "trend": "DOWN",
+        "recentLow": 103.96
+      },
+      "monthly": {
+        "rsi": 46.0,
+        "sma10": 111.95,
+        "vs10": -7.1,
+        "trend": "DOWN"
+      },
+      "invalidation": 97.72,
+      "flags": [
+        "Landed",
+        "Weekly washout",
+        "Deep washout",
+        "Monthly intact"
+      ],
+      "rank": 1
+    },
     {
       "code": "WFC",
       "name": "Wells Fargo & Company",
@@ -60,7 +118,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 1
+      "rank": 2
     },
     {
       "code": "TJX",
@@ -113,7 +171,7 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 3
     },
     {
       "code": "VST",
@@ -165,7 +223,7 @@
         "Landed",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 4
     },
     {
       "code": "PG",
@@ -230,7 +288,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 4
+      "rank": 5
     }
   ],
   "avoid": [

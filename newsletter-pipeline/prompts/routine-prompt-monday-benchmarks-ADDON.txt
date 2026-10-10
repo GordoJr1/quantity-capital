@@ -1,0 +1,40 @@
+=== MONDAY ONLY: BENCHMARK SCOREBOARD ===
+(Insert this block after the NEWS section and before the footer. If the Sunday-only "What to learn next" box is placed after News, keep that box Sunday only; this block is Monday only. On a Monday, put this section after News and before the footer.)
+
+When to add it: only when today is Monday in America/New_York. On all other days, do not add this section and do not read the benchmark sources.
+
+Template: copy the design of the "Benchmark Scoreboard" section in /home/box/shared/ai-learning/benchmarks-preview-v2.html (the part that starts at <tr id="benchmarks"> and ends with the footnote line). Keep the same order:
+1. Dark banner: "🏆 Benchmark Scoreboard", a subtitle with the check date, and the four category pills (Coding, Reasoning, Agents, Overall).
+2. "Headline of the week" card: show the biggest real change of the week. Order of importance: a new No. 1 on any board, then a new model in the top 3, then the largest score increase. If LMArena (Text) has a new No. 1 or a big change, you can use LMArena as this card (like the preview). If nothing changed, write a short "Quiet week" headline that says no leader changed. Never make up a change.
+3. A 2-column grid of cards (tables, same as the template):
+   - Coding: SWE-bench Verified, CursorBench 4.0
+   - Reasoning: ARC-AGI-2, Humanity's Last Exam
+   - Agents: METR time horizons
+   - Overall: Artificial Analysis Intelligence Index
+   Each card has: a top stripe and pill in the category color, the linked benchmark name, a one-line explainer in simple English, the big score, "Leader: <model>", a progress bar for percent scores (SWE-bench, CursorBench, ARC-AGI-2, HLE) or a small pill for other units (METR minutes, index points), a cost-per-task chip when the source gives it, a status chip (green "NEW" if the leader or top 3 changed or a new model joined; grey "No change" if not), and one "This week:" line.
+4. Footnote line: "Scores come from the public leaderboards. Company-reported scores are marked."
+
+Where to get the data (cheap reads with curl or WebFetch; do not use a browser unless a page cannot be read any other way):
+- SWE-bench Verified: curl https://www.swebench.com/ and read the JSON in <script type="application/json" id="leaderboard-data">. Use the "Verified" list, sort by "resolved". If the top entry has "checked" not true, add the small COMPANY-REPORTED badge.
+- CursorBench 4.0: curl https://cursor.com/cursorbench and read the table (rank, model, effort, score %, cost per task). Always add the small "MADE BY CURSOR" badge, and add one small line with the score of Cursor's own model (Composer) if it is in the table. Mirror: https://epoch.ai/benchmarks/cursorbench.
+- ARC-AGI-2: curl https://arcprize.org/media/data/leaderboard/v2.json. Use "evaluations" with datasetId "v2_Semi_Private". Skip "Human Panel". Score = score x 100 (%). Cost = costPerTask (USD).
+- Humanity's Last Exam: curl https://labs.scale.com/leaderboard/humanitys_last_exam. The page has embedded entries with "model", "rank", "score" and "createdAt" (remove the backslash escapes first). Use the first entries list on the page.
+- METR time horizons: curl https://metr.org/assets/benchmark_results_1_1.yaml and use the highest p50_horizon_length estimate (minutes). Also read "LAST UPDATED" on https://metr.org/time-horizons/. If the leader is above 16 hours, add the small note: "METR: values above 16 hours are not reliable."
+- Artificial Analysis Intelligence Index: curl https://artificialanalysis.ai/leaderboards/models and read the first rows of the table (model, index score, cost per task). Read the changelog on https://artificialanalysis.ai/ for new evaluations of the last 7 days.
+- LMArena (Text), for the headline card only: curl https://lmarena.ai/leaderboard/text and read the first row (model, score, and "Preliminary" if shown) and the board date.
+
+Week-to-week change:
+- Before you build the section, read /home/box/shared/ai-learning/benchmarks-last.json (last week's values and check date).
+- For each card, compare today's leader, score and top 3 with that file. Write the "This week:" line from the real difference, for example "GPT-6.1 Sol (Max) joined with 94.2%. The leader did not change." or "No change since <last check date>."
+- After the email is built, overwrite benchmarks-last.json with today's values and today's check date (same structure). Do this only for sources you read successfully; keep the old values for the others.
+
+Rules:
+- Real data only. Never guess, round up, or copy a number from memory or from news posts.
+- If a source cannot be read, keep the card but show "No new data this week" instead of a score, and use the grey status chip. Do not invent a number.
+- Mark company-reported scores with the small COMPANY-REPORTED badge. Mark CursorBench with MADE BY CURSOR.
+- Email-safe only: inline CSS, tables, no JavaScript, no external fonts, no CSS grid. Give a plain background color as a fallback for any gradient.
+- Every <table> and <td> with bgcolor="#FAF8F3" must have class "si-bg". Add it to the existing class attribute (for example class="si-card si-bg"); never add a second class attribute. Do not put si-bg on navy or coloured cells.
+- No personal references (no names of readers, their sites, their bots or their projects).
+- Plain text copy: add a short "BENCHMARK SCOREBOARD" part after NEWS with the headline and one line per benchmark: name, leader, score, cost (if any), and the "This week" line.
+- All other rules of this prompt stay the same.
+=== END MONDAY BENCHMARK SCOREBOARD ===

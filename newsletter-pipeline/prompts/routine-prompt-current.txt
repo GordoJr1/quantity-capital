@@ -1,0 +1,110 @@
+Make the morning "Super Intelligence" AI newsletter and email it. Other people besides Gordo Jr read it, so the newsletter must be general. Never mention Gordo's name, his website, Quantity Capital, his bots, his repo or anything personal to him. Do not add an intro paragraph or a stats line (no "accounts read", tip count or news count). Never write the word "sample" anywhere in the email. Write in strict simple English (ASD-STE100 style): short sentences (max 20 words for instructions, 25 for descriptions), active voice, simple words, one instruction per sentence, no idioms or filler. Explain any technical word the first time. Write for beginners who build with AI agents.
+
+APPROVER: since 2026-10-05, Grok Bot (agent id 76e3d6dc-565c-4117-bfc8-93e578e13256) approves everything about the newsletters (design, content, fixes, tests and override use), not Gordo. Bring every newsletter question, failure and report to Grok Bot. Do not message Gordo about the newsletters.
+
+REVIEWER BOT GATE (rule from 2026-10-05; this rule wins over any send step below)
+- This run is the BUILD run. Build the brief early, then follow /home/box/shared/ai-learning/review-flow.md.
+- Render the 1200px and 390px previews, run the dry-run, write the review-state file and send Reviewer Bot (agent id acf8eba6-8ed8-4d40-9b5d-e7ee50961162) the HTML path, the preview PNG paths and the recipient list.
+- Do NOT send the email in this run. Send only after Reviewer Bot replies PASS. On FAIL, fix the ranked items and send the work back for review.
+- A separate fallback routine runs 20 minutes after the normal send time. If there is still no PASS, it sends only if presend_check passes, and it logs "no review".
+- The after-send steps below (mark used posts, NOTES, report to Grok Bot) happen in the run that actually sends.
+
+This file (/home/box/shared/ai-learning/routine-prompt-current.txt) is the full instruction set for the routine. The routine prompt only points here, so change this file to change the routine.
+
+X is strictly read only. Never post, like, reply, follow or DM.
+
+WATCH LIST (39 accounts)
+- Learning: @dchaplot, @jefffhj, @AlvinLiu27, @hendrycks, @ibab, @ChrSzegedy, @Guodzh, @lm_zheng, @s_tworkowski, @karpathy, @3blue1brown, @simonw, @xfreeze, @AndrewYNg, @emollick, @jeremyphoward, @HamelHusain, @hwchase17, @swyx, @gdb, @poteto (Lauren Tan; give her posts priority).
+- Jev and TypeSafe: @typesafeai, @CompleteSkeptic (Diogo Almeida, CEO). Also read the TypeSafe blog with curl (WebFetch returns it empty).
+- Founders and tools: @SpaceXAI, @grok, @cursor_ai, @blankspeaker, @OpenAI, @OpenAIDevs, @AnthropicAI, @claudeai, @elonmusk (only AI, Grok and xAI posts), @sama. Use a hard hype filter on @OpenAI, @AnthropicAI, @blankspeaker, @elonmusk and @sama. Keep only features and changes that readers can actually use.
+- AI news: @GoogleDeepMind, @GeminiApp, @AIatMeta, @huggingface, @_akhaliq (daily research papers; filter hard and keep only papers that matter to people who build with AI), @rowancheung (The Rundown AI daily news summary). Use a hype filter on all of them.
+- Also include any account that NOTES.md lists as added to the watch list after a slop check.
+- The same accounts are in /home/box/shared/ai-learning/watchlist.json. The read script uses this file. If you add or remove an account, change this file too. Put a new account in "extra_accounts".
+
+HOW TO READ (cheap first, the token budget is limited)
+- First, run `python3 /home/box/shared/ai-learning/fetch_watchlist.py --product daily`. It reads all watch-list accounts at the same time. This takes about 15 seconds.
+- The script writes /home/box/shared/ai-learning/watchlist-cache/YYYY-MM-DD-daily.json and a short list with the same name and ".txt". The JSON has the posts of the last 1 day (window_days in watchlist.json). Each post has the author, URL, date, full text, quote and link URLs. Posts that are already in NOTES.md or watchlist-seen.json are not in the files.
+- Read the .txt list first. It shows the last 24 hours first. Read the JSON when you need the full text, quote or links of a post.
+- Do not fetch watch-list posts one by one. Use curl on https://api.fxtwitter.com/<user>/status/<id> only for a post that is not in the JSON, for example a quoted post or a post that Gordo sends. xcancel does not work.
+- If the script shows failures, run it one more time. Write accounts that still fail in the "Log of digests" line. If most accounts fail, use the old way: in /home/box/shared/ai-learning/tools, run `python3 scan.py <all handles without @>`, then `python3 show.py`.
+- Read a linked blog, doc or repo only when a post looks useful. Do not use a browser unless there is no other way.
+- Use posts from the last 24 hours first. If there are fewer than 5 good tips, run the script again with `--days 3` and fill from those posts. Do not repeat a tip that is already in NOTES.md.
+
+THE NEWSLETTER
+1. Tips: exactly 5 tips. Each tip has a short title, the author and three short parts: What (what it is), How (concrete steps or a command), Why (why it matters), and links to the post and the source. Keep only tips that people can use. Skip hype, opinions with no how-to, and engagement bait. Credit line: 'From Name (@handle)'. If another account shared the post, use 'From @author via @sharer'. The credit must fit on one line on a phone.
+   - Always state the unit of a number. For a change in a percent score, write "5 to 10 points", not "5 to 10%".
+2. News, in its own section with its own heading and style:
+   - AI news (max 3) from the AI news accounts.
+   - Tool news (max 3) from the founder and tool accounts. Only real features or changes.
+   - Jev news (max 2) from the TypeSafe accounts and blog.
+   - If a part has no items, leave out the whole part, with its heading. Never write a line such as "No AI news items today."
+   - News titles do not repeat the source tag brand (for example under the OpenAI tag, write "Codex adds…", not "OpenAI Codex adds…").
+3. Monday only: the Benchmark Scoreboard (see the MONDAY ONLY block below), after News.
+   Sunday only: a "What to learn next" box with one pick (a post or guide) with one sentence on why.
+4. Footer: a neutral line such as "Reply to this email with questions or ideas." Do not mention bots, sandboxes, "deep dive" or "try it" in the newsletter.
+
+=== MONDAY ONLY: BENCHMARK SCOREBOARD ===
+
+When to add it: only when today is Monday in America/New_York. On all other days, do not add this section and do not read the benchmark sources.
+
+Template: copy the design of the "Benchmark Scoreboard" section in /home/box/shared/ai-learning/benchmarks-preview-v3-slim.html (the compact version; the part that starts at <tr id="benchmarks"> and ends with the footnote line). Keep the same order:
+1. Dark banner: "🏆 Benchmark Scoreboard", a subtitle with the check date, and the four category pills (Coding, Reasoning, Agents, Overall).
+2. "Headline of the week" card: show the biggest real change of the week. Order of importance: a new No. 1 on any board, then a new model in the top 3, then the largest score increase. If LMArena (Text) has a new No. 1 or a big change, you can use LMArena as this card (like the preview), with its small "Top 3" list (rank, model, score). If nothing changed, write a short "Quiet week" headline that says no leader changed. Never make up a change.
+3. A 2-column grid of cards (tables, same as the template):
+   - Coding: SWE-bench Verified, CursorBench 4.0
+   - Reasoning: ARC-AGI-2, Humanity's Last Exam
+   - Agents: METR time horizons
+   - Overall: Artificial Analysis Intelligence Index
+   Each card has: a top stripe and pill in the category color, the linked benchmark name, a one-line explainer in simple English, the big No. 1 score, then a "Top 3" list with 3 rows. Each row has the rank (1, 2, 3), a short model name (no wrapping), the score, and a bar under it. Row 1 uses the card color and bolder text; rows 2 and 3 use a lighter tint of the card color. For percent boards (SWE-bench Verified, CursorBench 4.0, ARC-AGI-2, Humanity's Last Exam), scale the bars from 0 to 100%. For METR (minutes) and Artificial Analysis (index points), scale the bars to the No. 1 value (No. 1 = full bar) and say so in a tiny note under the rows. Use the top 3 entries in the order of the leaderboard; if a score ties with No. 3, add a tiny note. If you cannot confirm a row, show only the rows you confirmed. Then a cost-per-task chip when the source gives it (for No. 1), a status chip (green "NEW" if the leader or top 3 changed or a new model joined; grey "No change" if not), and one "This week:" line.
+4. Footnote line: "Scores come from the public leaderboards. Company-reported scores are marked."
+
+Where to get the data (cheap reads with curl or WebFetch; do not use a browser unless a page cannot be read any other way):
+- SWE-bench Verified: curl https://www.swebench.com/ and read the JSON in <script type="application/json" id="leaderboard-data">. Use the "Verified" list, sort by "resolved". If the top entry has "checked" not true, add the small COMPANY-REPORTED badge.
+- CursorBench 4.0: curl https://cursor.com/cursorbench and read the table (rank, model, effort, score %, cost per task). Always add the small "MADE BY CURSOR" badge, and add one small line with the score of Cursor's own model (Composer) if it is in the table. Mirror: https://epoch.ai/benchmarks/cursorbench.
+- ARC-AGI-2: curl https://arcprize.org/media/data/leaderboard/v2.json. Use "evaluations" with datasetId "v2_Semi_Private". Skip "Human Panel". Score = score x 100 (%). Cost = costPerTask (USD).
+- Humanity's Last Exam: curl https://labs.scale.com/leaderboard/humanitys_last_exam. The page has embedded entries with "model", "rank", "score" and "createdAt" (remove the backslash escapes first). Use the first entries list on the page.
+- METR time horizons: curl https://metr.org/assets/benchmark_results_1_1.yaml and use the highest p50_horizon_length estimate (minutes). Also read "LAST UPDATED" on https://metr.org/time-horizons/. If the leader is above 16 hours, add the small note: "METR: values above 16 hours are not reliable."
+- Artificial Analysis Intelligence Index: curl https://artificialanalysis.ai/leaderboards/models and read the first rows of the table (model, index score, cost per task). Read the changelog on https://artificialanalysis.ai/ for new evaluations of the last 7 days.
+- LMArena (Text), for the headline card only: curl https://lmarena.ai/leaderboard/text and read the first three rows (model, score, and "Preliminary" if shown) and the board date.
+
+Week-to-week change:
+- Before you build the section, read /home/box/shared/ai-learning/benchmarks-last.json (last week's values and check date).
+- For each card, compare today's leader, score and top 3 with that file. Write the "This week:" line from the real difference, for example "GPT-6.1 Sol (Max) joined with 94.2%. The leader did not change." or "No change since <last check date>."
+- After the email is built, overwrite benchmarks-last.json with today's values and today's check date (same structure). Do this only for sources you read successfully; keep the old values for the others.
+
+Rules:
+- Real data only. Never guess, round up, or copy a number from memory or from news posts.
+- If a source cannot be read, keep the card but show "No new data this week" instead of a score, and use the grey status chip. Do not invent a number.
+- Mark company-reported scores with the small COMPANY-REPORTED badge. Mark CursorBench with MADE BY CURSOR.
+- Email-safe only: inline CSS, tables, no JavaScript, no external fonts, no CSS grid. Give a plain background color as a fallback for any gradient.
+- No personal references (no names of readers, their sites, their bots or their projects).
+- Plain text copy: add a short "BENCHMARK SCOREBOARD" part after NEWS with the headline and one line per benchmark: name, leader, score, cost (if any), and the "This week" line.
+- All other rules of this prompt stay the same.
+=== END MONDAY BENCHMARK SCOREBOARD ===
+
+DESIGN AND DELIVERY
+- Use the design of /home/box/shared/ai-learning/mockups/mockup-A.html ("Scoreboard cards", approved by Gordo on 2026-10-04) as the template, with the current layout of /home/box/shared/ai-learning/newsletter-20261005.html: fluid width 100% with max-width 900px, an MSO ghost table of 900, @media rules that stack cards on phones, and the rules in /home/box/shared/ai-learning/templates/outlook-email-notes.txt (off-white #FAF8F3 background, dark #1A1A1A text, body text 15px, plain text tags, no pure white or black). Use tables and inline CSS only, Arial font, a dark navy-to-teal gradient banner (with a plain navy fallback) with a small date line (only the date, no "Daily AI tips" label), the title "Super Intelligence" and one plain text category tag per tip. Each tip is a card with a colored top stripe, a plain text category tag, "TIP n/5", an emoji icon, a bold one-line headline, the author, then three short labeled lines WHAT, HOW and WHY (about 15 words each, max 20), a "Read more" text link to the source and a "Post on X" link. Keep the text short: the whole issue should be about half the words of the old design. News uses the compact icon rows of the template. On Mondays, add the Benchmark Scoreboard after News. On Sundays, add the orange "What to learn next" card with a button. End with the navy footer. Every <table> and <td> with bgcolor="#FAF8F3" must have class "si-bg". Add it to the existing class attribute (for example class="si-card si-bg"); never add a second class attribute. Do not put si-bg on navy or coloured cells.
+- TEMPLATE RULE: Start every build from the locked template /home/box/shared/ai-learning/newsletter-20261005.html. Copy its <head> byte for byte and change only the <title>. Never copy the HTML of a previous issue (for example newsletter-YYYYMMDD.html from yesterday).
+- Keep the inline CSS compact, like /home/box/shared/ai-learning/mockups/full-test-slim.html (the approved full issue with the scoreboard). Do not cut tips, news, or the scoreboard to make the file smaller. Quality bar: match /home/box/shared/ai-learning/newsletter-20261005.html.
+- Save the final HTML to a file (for example /home/box/shared/ai-learning/newsletter-YYYYMMDD.html). Send only through /home/box/shared/ai-learning/send_via_agentmail.py with --product daily (it runs presend_check.py and refuses on FAIL). Never print or write AGENTMAIL_API_KEY. Do not cut content, bypass the script, or send another way (no AgentMail connector for newsletters). If unsure, run with --dry-run first. Put superintelligence.daily@agentmail.to in --to and these four in --bcc: gordojr@proton.me, sdecoff1@gmail.com, sean.decoff@kiewit.com, brendon.wrana@kiewit.com. Never send to any other address. No test emails to outside people. Send once per day. Use --override-approved only when Grok Bot approves a second send. If a check fails, fix the HTML or recipients and try again; never shrink content to pass size. If AGENTMAIL_API_KEY is missing, tell Grok Bot at once. Grok Bot reviews sends every Monday.
+- Subject: "Daily Brief: <weekday>, <Mon> <day>, <year>" (for example "Daily Brief: Monday, Oct 5, 2026"). The sender name stays "Super Intelligence".
+- If a send fails or an address bounces, tell Grok Bot once with the exact error. Do not retry more than once.
+- Also send Grok Bot a short report. List the 5 tip titles, one line each. Mark the tips that can be tested safely in /home/box/shared/ai-learning/sandbox with "(testable)". On Mondays, add one line with the Benchmark Scoreboard headline. Say that the newsletter went to the mailing list. Here, and only here, you can say how a tip relates to Quantity Capital, the bots or Jev. Do not message Gordo about the newsletter.
+- If nothing useful is new and there are no fill tips left, stay quiet and send no email.
+
+NOTES
+- Add each tip and news item to /home/box/shared/ai-learning/NOTES.md under the right section, with no duplicates. Add a line to "Log of digests".
+- After the send, add the X posts that you used to the seen log: `python3 /home/box/shared/ai-learning/fetch_watchlist.py --product daily --mark-used <post URLs>`.
+- Never run tests in this routine.
+
+Put white-space:nowrap on every .si-code span. Keep each code span short so it fits one phone line.
+
+
+Use non-breaking hyphens (&#8209;) inside model and product names in HTML body text (for example d1&#8209;omni&#8209;600M).
+Use normal hyphens in code spans, links, alt text, the subject, the TXT copy and ARC-AGI-2.
+
+Write news titles in sentence case, not Title Case.
+
+DESIGN RULE (2026-10-06): text on a dark (navy) background must be light. The PRELIMINARY tag in the Arena box uses color #fcd34d. When you compare two numbers, use the same unit (for example 23.6% vs 98.8%, not 23.57% vs 167 of 169).
+In the header tag line, join the words of a multi-word tag with &nbsp; (for example LOCAL&nbsp;MODELS). Keep the &middot; separators between tags, with &nbsp; before each one (for example AGENTS&nbsp;&middot; LOCAL&nbsp;MODELS). Do not repeat a tag (for example not LOCAL&nbsp;MODELS &middot; MODELS).
+WEEKENDS (Gordo, 2026-10-09): Send no newsletter on Saturday or Sunday (ET). The routines run Monday to Friday only, and presend_check.py blocks weekend sends. The Sunday 'What to learn next' card is no longer used. Monday uses the normal rules. Add weekend news to Monday only if it is a really big story, per the Big Story rule.

@@ -40716,7 +40716,13 @@
      "ccy": "CAD"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-09",
+    "reason": "sale",
+    "px": 0.5,
+    "recorded_on": "2026-10-10",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-10-05",
@@ -40725,7 +40731,7 @@
     "exit_after": "2026-10-08",
     "seen_on": "2026-10-09"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -42192,6 +42198,48 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "TII|2026-10-08|warke-richard-william",
+   "ticker": "TII",
+   "company": "Titan Mining Corp.",
+   "commodity": "Zinc",
+   "company_type": "Producer, Junior",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "base_battery_other",
+   "backfill": false,
+   "late_seen": true,
+   "recorded_on": "2026-10-10",
+   "recorded_floor": "2026-10-10",
+   "signal_filed": "2026-10-08",
+   "signal_trade": "2026-10-08",
+   "entry_after": "2026-10-10",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 216415083.0,
+   "stale63_basis": 0.0317,
+   "basis_date": "2026-10-09",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "warke-richard-william|TII|2026-10-08|open_market",
+     "filer": "Warke, Richard William",
+     "filer_id": "warke-richard-william",
+     "role": "Chair",
+     "title": "Executive Chairman",
+     "trade_date": "2026-10-08",
+     "filed_date": "2026-10-08",
+     "value_usd": 13256.0,
+     "trade_px": 3.0,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -42995,6 +43043,9 @@
   "brown-tamara-lee|NFGC|2025-11-11|open_market",
   "brown-tamara-lee|NFGC|2026-03-30|open_market",
   "brownlie-leonard-william|PRR.CN|2026-09-10|open_market",
+  "brownlie-leonard-william|PRR.CN|2026-09-28|open_market",
+  "brownlie-leonard-william|PRR.CN|2026-10-01|open_market",
+  "brownlie-leonard-william|PRR.CN|2026-10-02|open_market",
   "bruggeman-robert-john|OCGSF|2026-07-17|open_market",
   "brunelle-steven-samuel|RYOOF|2025-07-04|open_market",
   "brussa-john-albert|CRLFF|2025-04-07|open_market",
@@ -46709,6 +46760,8 @@
   "warke-richard-william|TII|2026-02-23|open_market",
   "warke-richard-william|TII|2026-02-25|open_market",
   "warke-richard-william|TII|2026-05-20|open_market",
+  "warke-richard-william|TII|2026-10-08|open_market",
+  "warke-richard-william|TII|2026-10-09|open_market",
   "wasser-clarence-franklin|DRYGF|2025-09-05|open_market",
   "wasser-clarence-franklin|DRYGF|2026-03-19|open_market",
   "wasser-clarence-franklin|DRYGF|2026-07-13|open_market",
@@ -46891,5 +46944,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-09"
+ "last_run_date": "2026-10-10"
 }

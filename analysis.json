@@ -1,7 +1,7 @@
 {
-  "generated": "2026-10-09T23:01:02.259180+00:00",
+  "generated": "2026-10-10T11:12:18.286025+00:00",
   "tapeCollected": "2026-10-09T22:20:19.489547+00:00",
-  "priceAsof": "2026-10-08",
+  "priceAsof": "2026-10-09",
   "windowDays": 90,
   "disclaimer": "Not a recommendation. Official ranges are not share counts. Weekly/monthly from Yahoo closes on file. Regenerated on every site update.",
   "book": [
@@ -9,7 +9,7 @@
       "code": "PPG",
       "name": "PPG Industries",
       "action": "buy-dip",
-      "score": 8.842,
+      "score": 8.817,
       "why": "Just landed, weekly washed out, monthly intact",
       "last": 105.46,
       "pxAsof": "2026-10-08",
@@ -19,7 +19,7 @@
       "nBuyers": 2,
       "buyHigh": 30000,
       "heatRank": 6,
-      "heat": 3.248,
+      "heat": 3.031,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
@@ -67,7 +67,7 @@
       "code": "WFC",
       "name": "Wells Fargo & Company",
       "action": "buy-dip",
-      "score": 8.099,
+      "score": 8.074,
       "why": "Just landed, weekly washed out, monthly intact",
       "last": 82.03,
       "pxAsof": "2026-10-08",
@@ -77,7 +77,7 @@
       "nBuyers": 2,
       "buyHigh": 110000,
       "heatRank": 3,
-      "heat": 4.125,
+      "heat": 3.849,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
@@ -124,7 +124,7 @@
       "code": "CMG",
       "name": "Chipotle Mexican Grill",
       "action": "buy-dip",
-      "score": 7.157,
+      "score": 7.132,
       "why": "Just landed, weekly washed out, monthly intact",
       "last": 32.68,
       "pxAsof": "2026-10-08",
@@ -134,7 +134,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 27,
-      "heat": 2.318,
+      "heat": 2.162,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
@@ -174,63 +174,10 @@
       "rank": 3
     },
     {
-      "code": "ISRG",
-      "name": "Intuitive Surgical, Inc.",
-      "action": "buy-dip",
-      "score": 6.981,
-      "why": "Just landed, weekly washed out, monthly intact",
-      "last": 415.41,
-      "pxAsof": "2026-10-08",
-      "buyPx": 405.18,
-      "chgSinceBuy": 0.0252,
-      "lastBuy": "2026-09-25",
-      "nBuyers": 1,
-      "buyHigh": 30000,
-      "heatRank": 30,
-      "heat": 1.979,
-      "landed": true,
-      "landedAt": "2026-10-09T22:24:38.447662+00:00",
-      "lagDays": 14,
-      "conflict": false,
-      "conflictWhy": [],
-      "whale": false,
-      "cluster": false,
-      "buyers": [
-        {
-          "name": "Ro Khanna",
-          "id": "ro-khanna"
-        }
-      ],
-      "weekly": {
-        "rsi": 47.9,
-        "sma20": 390.24,
-        "sma40": 436.25,
-        "vs20": 6.4,
-        "ret4w": 12.5,
-        "ret13w": 2.1,
-        "fromHigh": -2.5,
-        "trend": "MIX",
-        "recentLow": 366.7
-      },
-      "monthly": {
-        "rsi": 43.3,
-        "sma10": 430.09,
-        "vs10": -3.4,
-        "trend": "DOWN"
-      },
-      "invalidation": 366.7,
-      "flags": [
-        "Landed",
-        "Weekly washout",
-        "Monthly intact"
-      ],
-      "rank": 4
-    },
-    {
       "code": "TJX",
       "name": "TJX Companies, Inc. (The)",
       "action": "buy-dip",
-      "score": 6.94,
+      "score": 6.915,
       "why": "Just landed, weekly washed out, monthly intact",
       "last": 138.75,
       "pxAsof": "2026-10-08",
@@ -240,7 +187,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 33,
-      "heat": 1.9,
+      "heat": 1.773,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
@@ -277,13 +224,13 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 5
+      "rank": 4
     },
     {
       "code": "VST",
       "name": "Vistra Corp.",
       "action": "watch",
-      "score": 6.757,
+      "score": 6.732,
       "why": "Landed \u00b7 Conflict \u00b7 Monthly intact",
       "last": 156.14,
       "pxAsof": "2026-10-08",
@@ -293,14 +240,12 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 19,
-      "heat": 2.509,
+      "heat": 2.341,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
-      "conflict": true,
-      "conflictWhy": [
-        "Energy / environment"
-      ],
+      "conflict": false,
+      "conflictWhy": [],
       "whale": false,
       "cluster": false,
       "buyers": [
@@ -329,7 +274,71 @@
       "invalidation": 136.21,
       "flags": [
         "Landed",
-        "Conflict",
+        "Monthly intact"
+      ],
+      "rank": 5
+    },
+    {
+      "code": "PG",
+      "name": "Procter & Gamble Company (The)",
+      "action": "watch",
+      "score": 6.541,
+      "why": "Landed \u00b7 Cluster \u00b7 Monthly intact",
+      "last": 150.59,
+      "pxAsof": "2026-10-08",
+      "buyPx": 145.27,
+      "chgSinceBuy": 0.0366,
+      "lastBuy": "2026-09-11",
+      "nBuyers": 4,
+      "buyHigh": 325000,
+      "heatRank": 4,
+      "heat": 3.343,
+      "landed": true,
+      "landedAt": "2026-10-09T22:24:38.447662+00:00",
+      "lagDays": 28,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": true,
+      "buyers": [
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        },
+        {
+          "name": "David J. Taylor",
+          "id": "david-j-taylor"
+        },
+        {
+          "name": "Lloyd Doggett",
+          "id": "lloyd-doggett"
+        },
+        {
+          "name": "Donald J. Trump",
+          "id": "donald-j-trump"
+        }
+      ],
+      "weekly": {
+        "rsi": 48.6,
+        "sma20": 146.9,
+        "sma40": 148.2,
+        "vs20": 2.5,
+        "ret4w": 3.7,
+        "ret13w": 2.4,
+        "fromHigh": -0.5,
+        "trend": "MIX",
+        "recentLow": 143.78
+      },
+      "monthly": {
+        "rsi": 45.9,
+        "sma10": 148.62,
+        "vs10": 1.3,
+        "trend": "UP"
+      },
+      "invalidation": 143.78,
+      "flags": [
+        "Landed",
+        "Cluster",
         "Monthly intact"
       ],
       "rank": 6
@@ -350,7 +359,7 @@
       "nBuyers": 1,
       "buyHigh": 1000000,
       "heatRank": 189,
-      "heat": 0.038,
+      "heat": 0.036,
       "landed": true,
       "landedAt": "2026-08-25T11:17:22.724711+00:00",
       "lagDays": 32,
@@ -395,7 +404,7 @@
       "code": "WBD",
       "name": "Warner Bros. Discovery, Inc. - Series A",
       "action": "avoid",
-      "score": 2.757,
+      "score": 2.732,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 30.95,
       "pxAsof": "2026-10-06",
@@ -405,7 +414,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 22,
-      "heat": 2.318,
+      "heat": 2.162,
       "landed": true,
       "landedAt": "2026-10-09T22:24:38.447662+00:00",
       "lagDays": 14,
@@ -448,7 +457,7 @@
       "code": "ACN",
       "name": "Accenture plc",
       "action": "avoid",
-      "score": 2.184,
+      "score": 2.159,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 208.36,
       "pxAsof": "2026-10-08",
@@ -458,7 +467,7 @@
       "nBuyers": 3,
       "buyHigh": 60000,
       "heatRank": 68,
-      "heat": 0.546,
+      "heat": 0.509,
       "landed": true,
       "landedAt": "2026-09-19T13:37:33.750514+00:00",
       "lagDays": 24,
@@ -520,7 +529,7 @@
       "nBuyers": 1,
       "buyHigh": 15000,
       "heatRank": 216,
-      "heat": 0.016,
+      "heat": 0.015,
       "landed": true,
       "landedAt": "2026-09-08T11:22:45.026760+00:00",
       "lagDays": 53,
@@ -563,7 +572,7 @@
       "code": "MSFT",
       "name": "Microsoft Corporation",
       "action": "avoid",
-      "score": 1.576,
+      "score": 1.555,
       "why": "Signals heat, but weekly RSI is stretched into the highs",
       "last": 522.61,
       "pxAsof": "2026-10-08",
@@ -573,7 +582,7 @@
       "nBuyers": 3,
       "buyHigh": 230000,
       "heatRank": 96,
-      "heat": 0.296,
+      "heat": 0.276,
       "landed": true,
       "landedAt": "2026-09-11T22:20:24.565624+00:00",
       "lagDays": 24,

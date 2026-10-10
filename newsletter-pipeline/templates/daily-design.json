@@ -1,0 +1,84 @@
+{
+  "product": "daily",
+  "layout": {
+    "outer_width": "900",
+    "max_width": "900px",
+    "content_width_attr": "100%",
+    "font_family": "Arial,Helvetica,sans-serif",
+    "page_bg": "#FAF8F3"
+  },
+  "header": {
+    "gradient": "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)",
+    "accent": "#5eead4",
+    "navy": "#0f1f3d",
+    "teal": "#0f766e"
+  },
+  "cards": {
+    "stripe_prefix": "border-top:5px solid"
+  },
+  "footer_markers": [
+    "Reply to this email"
+  ],
+  "required_substrings": [
+    "table.si-bg,td.si-bg{background-color:#FAF8F3!important;}",
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)",
+    "width=\"900\"",
+    "width=\"100%\"",
+    "max-width:900px",
+    "@media only screen and (max-width:600px)",
+    "si-main",
+    "si-label",
+    "si-card",
+    "font-family:Arial,Helvetica,sans-serif",
+    "background:#FAF8F3",
+    "#0f1f3d",
+    "#5eead4",
+    "border-top:5px solid",
+    "Super Intelligence",
+    "Reply to this email",
+    "TIP 1/5",
+    "TIP 2/5",
+    "TIP 3/5",
+    "TIP 4/5",
+    "TIP 5/5",
+    "name=\"color-scheme\" content=\"light\"",
+    "name=\"supported-color-schemes\" content=\"light\"",
+    "[data-ogsc]",
+    "#FAF8F3",
+    "#1A1A1A",
+    "width=\"52\"",
+    "Read more"
+  ],
+  "gradients_in_reference": [
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)",
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#1e3a8a 100%)"
+  ],
+  "header_snippet_start": "",
+  "outlook": {
+    "page_bg": "#FAF8F3",
+    "card_bg": "#FAF8F3",
+    "text": "#1A1A1A",
+    "forbid_pure_white": true,
+    "forbid_pure_black": true,
+    "meta_color_scheme": "light",
+    "meta_supported_color_schemes": "light",
+    "data_ogsc_rules": true,
+    "fluid_layout": "outer content width=100% max-width:900px; MSO ghost table width=900; @media max-width:600px stacks WHW + cards, body text >=15px, titles ~20px; desktop uses extra width (scoreboard 2-col cards ~406px); tip/news/benchmark body text 15px/22px (match tips)",
+    "tags": "plain-text with middot separators; no background pill boxes",
+    "icons": "emoji only; no colored square behind icons",
+    "whw_layout": "2-column table desktop (label td width=52 valign=top); stacks label above text on mobile via .si-label/.si-text-col display:block",
+    "read_more": "plain underlined text link (Outlook-safe) or VML bulletproof button",
+    "header": "solid bgcolor=#0f1f3d on header td/table; keep gradient in style; MSO VML solid navy fill best-effort for desktop Outlook dark; force light text via class/data-ogsc",
+    "bgcolor_every_td": "every td/table has solid bgcolor (#FAF8F3 body/cards or #0f1f3d header)",
+    "ios_outlook_dark_note": "Outlook iOS may still force a dark purple surface despite color-scheme=light + data-ogsc/bgcolor; if so, stop chasing \u2014 keep text readable on forced dark via .si-on-dark / header light text",
+    "desktop_width": "900px",
+    "body_font": "15px/22px tip, news, scoreboard card body/notes/Top3/This week"
+  },
+  "forbidden_outlook": [
+    "background:#ffffff",
+    "background:#FFFFFF",
+    "background:#fff;",
+    "color:#000000",
+    "color:#000;"
+  ]
+}

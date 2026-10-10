@@ -1,0 +1,154 @@
+{
+  "date_line": "Friday, Oct 9, 2026",
+  "header_tags": [
+    "EVALS",
+    "SANDBOX",
+    "JEV",
+    "TRAINING",
+    "AGENTS"
+  ],
+  "tips": [
+    {
+      "tag": "EVALS",
+      "emoji": "⚖️",
+      "headline": "Check your AI judge against human labels",
+      "credit": "From Hamel Husain (@HamelHusain)",
+      "what": "A judge is a model that grades outputs. It can usually be the same model as your main task.",
+      "how": "Label a held‑out test set by hand. Measure how often the judge agrees on passes and fails.",
+      "why": "Agreement with people matters most. Try a different judge model only if agreement stays low.",
+      "read_url": "https://hamel.dev/blog/posts/evals-faq/can-i-use-the-same-model-for-both-the-main-task-and-evaluation.html",
+      "post_url": "https://x.com/HamelHusain/status/2108210834988032433",
+      "source_id": "https://hamel.dev/blog/posts/evals-faq/can-i-use-the-same-model-for-both-the-main-task-and-evaluation.html"
+    },
+    {
+      "tag": "SANDBOX",
+      "emoji": "📦",
+      "headline": "Run agent code in one sandbox on every OS",
+      "credit": "From Simon Willison (@simonw)",
+      "what": "MXC is an open‑source Microsoft library. It runs untrusted code, such as model output, in a sandbox.",
+      "how": "Install the Rust, .NET or Node SDK. Set allowed paths and network rules in a JSON policy.",
+      "why": "One setup works on Windows, macOS and Linux. Each system uses its own built‑in sandbox.",
+      "read_url": "https://github.com/microsoft/mxc",
+      "post_url": "https://x.com/simonw/status/2108216753604248000",
+      "source_id": "https://github.com/microsoft/mxc"
+    },
+    {
+      "tag": "JEV",
+      "emoji": "🧭",
+      "headline": "Grade each agent run with several typed questions",
+      "credit": "From Harrison Chase (@hwchase17)",
+      "what": "Jev, a fast decision model from TypeSafe, can judge agent runs in LangSmith, a tracing tool.",
+      "how": "Open the Evaluators tab in a LangSmith tracing project. Ask difficulty and correctness as separate questions.",
+      "why": "Each question gets its own typed answer in one pass. This tells you more than one pass/fail score.",
+      "read_url": "https://www.langchain.com/blog/jev-is-now-available-in-langsmith-evals",
+      "post_url": "https://x.com/hwchase17/status/2108453917277254058",
+      "source_id": "https://www.langchain.com/blog/jev-is-now-available-in-langsmith-evals"
+    },
+    {
+      "tag": "TRAINING",
+      "emoji": "📈",
+      "headline": "Fine‑tune on longer text with less GPU memory",
+      "credit": "From @QGallouedec via @huggingface",
+      "what": "TRL is a Hugging Face library to fine‑tune models. Version 1.15 adds a memory‑saving step by default.",
+      "how": "Run `pip install -U trl`. Rerun your DPO or GRPO job with longer examples on a Linux GPU.",
+      "why": "At 8,192 tokens, peak GPU memory drops 52% to 82%. DPO fits 59,392 tokens, not 10,240.",
+      "read_url": "https://github.com/huggingface/trl/releases/tag/v1.15.0",
+      "post_url": "https://x.com/QGallouedec/status/2108468004128424042",
+      "source_id": "https://github.com/huggingface/trl/releases/tag/v1.15.0"
+    },
+    {
+      "tag": "AGENTS",
+      "emoji": "🤖",
+      "headline": "Build trust in agent output before you scale up",
+      "credit": "From Lauren Tan (@poteto)",
+      "what": "Trusted agents let one person ship far more work. Volume only scales after you trust the output.",
+      "how": "List your ongoing work streams. Give each stream an agent and checks that you trust.",
+      "why": "Without checks that you trust, you cannot review more work. Trust lets your output grow.",
+      "read_url": "https://x.com/poteto/status/2108290818746528017",
+      "post_url": "https://x.com/poteto/status/2108290818746528017",
+      "source_id": "https://x.com/poteto/status/2108290818746528017"
+    }
+  ],
+  "news": {
+    "ai": [
+      {
+        "emoji": "🚀",
+        "tag": "STEPFUN",
+        "title": "Step 5 Preview opens on OpenRouter",
+        "body": "A mixture‑of‑experts model (27B active, 600B total parameters) with a 1M‑token context. It reads text, images and video. It costs $1.00 per million input tokens.",
+        "link_url": "https://openrouter.ai/stepfun/step-5-preview",
+        "link_label": "OpenRouter model page",
+        "source_id": "https://openrouter.ai/stepfun/step-5-preview"
+      },
+      {
+        "emoji": "💻",
+        "tag": "TERMGRADE",
+        "title": "Open training tasks for terminal agents",
+        "body": "1,000 tested RL (reinforcement learning) environments and 36,000 agent runs, failures included. Training gemma‑4‑31B‑it on them added 3.1 points on Terminal‑Bench 2.1.",
+        "link_url": "https://x.com/Weyaxi/status/2108246041548018053",
+        "link_label": "Post by @Weyaxi",
+        "source_id": "https://x.com/Weyaxi/status/2108246041548018053"
+      },
+      {
+        "emoji": "⚙️",
+        "tag": "JETBRAINS",
+        "title": "Mellum2.1 is a fast open model for coding agents",
+        "body": "More RL training for agent coding work. The weights are on Hugging Face. GGUF builds for llama.cpp, Ollama and LM Studio are coming soon.",
+        "link_url": "https://blog.jetbrains.com/ai/2026/10/mellum2-1-gets-to-work-a-fast-open-model-for-coding-agents/",
+        "link_label": "JetBrains blog",
+        "source_id": "https://blog.jetbrains.com/ai/2026/10/mellum2-1-gets-to-work-a-fast-open-model-for-coding-agents/"
+      }
+    ],
+    "tool": [
+      {
+        "emoji": "⚡",
+        "tag": "OPENAI",
+        "title": "Ultrafast mode for GPT‑6.1 Sol",
+        "body": "In the API, set `service_tier` to `ultrafast`. It costs $12 per million input tokens and $60 per million output tokens.",
+        "link_url": "https://developers.openai.com/api/docs/guides/ultrafast-mode",
+        "link_label": "Ultrafast mode docs",
+        "source_id": "https://developers.openai.com/api/docs/guides/ultrafast-mode"
+      },
+      {
+        "emoji": "🎬",
+        "tag": "GROK IMAGINE",
+        "title": "Video 1.5 Lite is in the API",
+        "body": "Make video clips from text or an image. It costs $0.02 per second at 480p and $0.03 per second at 720p.",
+        "link_url": "https://docs.x.ai/developers/models/grok-imagine-video-1.5-lite",
+        "link_label": "xAI model docs",
+        "source_id": "https://docs.x.ai/developers/models/grok-imagine-video-1.5-lite"
+      },
+      {
+        "emoji": "📊",
+        "tag": "CURSOR",
+        "title": "Ask follow‑up questions about a chart",
+        "body": "After `/visualize` draws a chart, ask the next question in the same chat. Cursor answers with a new chart.",
+        "link_url": "https://x.com/cursor_ai/status/2108289748628566496",
+        "link_label": "Post by @cursor_ai",
+        "source_id": "https://x.com/cursor_ai/status/2108289748628566496"
+      }
+    ],
+    "jev": [
+      {
+        "emoji": "🧭",
+        "tag": "TYPESAFE",
+        "title": "Step‑Jev scores each agent step",
+        "body": "Step‑Jev is a Jev judge that grades each step of an agent run. A TypeSafe account says its training reward is stuck.",
+        "link_url": "https://x.com/CompleteSkeptic/status/2108317751286866385",
+        "link_label": "Post by @CompleteSkeptic",
+        "source_id": "https://x.com/CompleteSkeptic/status/2108317751286866385"
+      },
+      {
+        "emoji": "🏷️",
+        "tag": "TYPESAFE",
+        "title": "TypeSafe posts a Jev test on email labels",
+        "body": "TypeSafe posted a test of Jev on email labels. Stay calibrated when you pick a judge.",
+        "link_url": "https://x.com/typesafeai/status/2108261430265029085",
+        "link_label": "Post by @typesafeai",
+        "source_id": "https://x.com/typesafeai/status/2108261430265029085"
+      }
+    ]
+  },
+  "product": "daily",
+  "subject": "Daily Brief: Friday, Oct 9, 2026"
+}

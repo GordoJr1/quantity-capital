@@ -1,0 +1,60 @@
+# Outlook-safe email rules (locked 2026-10-05, desktop 900px + mobile fluid)
+
+## Fluid layout (iPhone / narrow clients)
+- Outer content table: width="100%" with style max-width:900px (NOT fixed 640/760)
+- MSO ghost table: <!--[if mso]><table width="900" ...><tr><td> ... </td></tr></table><![endif]--> wrapping the content table
+- Desktop width lock: 900px (presend design JSON outer_width/max_width must match)
+- Class .si-main on the fluid content table
+- <style> @media only screen and (max-width:600px):
+  - body / main text (.si-body, .si-text, .si-text-col, .si-card) at least 15px
+  - titles (.si-title) about 20px; .si-h1 ~28px
+  - Stack WHAT/HOW/WHY and WHAT HAPPENED / WHY IT MATTERS: WHW tables use class .si-whw; .si-label and .si-text-col {display:block;width:100%}
+  - Stack scoreboard / 2-col cards: .si-card {display:block;width:100%}; hide .si-gutter
+  - Stack .si-pair (Big 3 / data-center 2-across) same as scoreboard
+  - Headline side score panel: .si-headline-main / .si-headline-side stack to full width
+- Viewport: width=device-width,initial-scale=1
+
+## Dark mode
+- Page + cards background: #FAF8F3 (never #FFFFFF / #fff, never #000000 / #000)
+- Body text: #1A1A1A
+- Head meta: color-scheme=light AND supported-color-schemes=light
+- Small <style> with [data-ogsc] / [data-ogsb] force rules for .si-bg, .si-text, .si-header, .si-header-text, .si-accent, .si-tag, .si-tag-dark
+- Solid bgcolor on EVERY td and main table: #FAF8F3 body/cards, #0f1f3d header/navy surfaces
+- Header tables/tds: bgcolor="#0f1f3d" + class="si-header"; keep navy→teal gradient in style; light text uses #FAF8F3 not #fff
+- MSO conditional in <head> forces table.si-bg/td.si-bg to #FAF8F3 and table/td.si-header to navy (desktop Outlook for Windows only).
+- Outer body/table: bgcolor="#FAF8F3" class="si-bg"
+- Every <table> and <td> with bgcolor="#FAF8F3" must have class "si-bg". Add it to the existing class attribute (for example class="si-card si-bg"); never add a second class attribute. Do not put si-bg on navy or coloured cells.
+- Honesty: Outlook iOS may still force dark purple despite best effort. Do not chase endlessly. Prefer readable light text on forced-dark surfaces (.si-on-dark / header light text) and stop.
+
+## Tags
+- Plain text only: CODING · JEV · EVALS (middot separators, letter-spacing)
+- No background, no border-radius pill boxes on category/status tags
+- On dark header use .si-tag-dark (#99f6e4); on light cards use .si-tag (#334155)
+
+## Icons
+- Emoji in a narrow td only — no colored/gray square div behind icons
+
+## WHAT / HOW / WHY (Daily)
+- Desktop: 2-column table: label td width="52" valign="top" class="si-label"; text td valign="top" class="si-text si-text-col"
+- Labels are plain bold teal text (no pill background)
+- Mobile: label stacks above text
+
+## WHAT HAPPENED / WHY IT MATTERS (Exec)
+- Desktop: 2-column table: label td width="122" valign="top" class="si-label"; text td valign="top" class="si-text si-text-col"
+- Mobile: label stacks above text
+
+## Read more
+- Plain underlined text link (preferred for Outlook) OR VML bulletproof button
+- Do not use a filled <td background> + white text box button
+
+## Body text size (locked 2026-10-05)
+- Tip / Big 3 / news / data-center / scoreboard body: 15px / line-height 22px
+- Scoreboard notes, Top 3 rows, explainers, This week: same 15px/22px (not 10–12px)
+- Mobile @media: .si-body/.si-text/.si-text-col/.si-card remain >=15px
+- Exec scoreboard cards: height 390px at desktop 900px to fit taller type
+
+## Exec scoreboard
+- Keep 6 equal cards in 2×3 grid (width="406" class="si-card" at 900px desktop): CursorBench, ARC-AGI-2, Humanity's Last Exam, METR, Artificial Analysis Index, LMArena Text
+- Big 3 cards 1+2 and data-center cards 1+2: 2-across via table.si-pair on desktop; card 3 full width
+- Mobile: cards stack to 1 column
+- Forbidden forever: AI at work, SWE-bench, One number, Watch this

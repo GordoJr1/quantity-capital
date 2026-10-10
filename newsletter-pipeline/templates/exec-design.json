@@ -1,0 +1,140 @@
+{
+  "product": "exec",
+  "layout": {
+    "outer_width": "900",
+    "max_width": "900px",
+    "content_width_attr": "100%",
+    "font_family": "Arial,Helvetica,sans-serif",
+    "page_bg": "#FAF8F3"
+  },
+  "header": {
+    "gradient": "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)",
+    "accent": "#5eead4",
+    "navy": "#0f1f3d",
+    "teal": "#0f766e"
+  },
+  "cards": {
+    "stripe_prefix": "border-top:5px solid"
+  },
+  "footer_markers": [
+    "Each item links to its original source"
+  ],
+  "required_substrings": [
+    "table.si-bg,td.si-bg{background-color:#FAF8F3!important;}",
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)",
+    "width=\"900\"",
+    "width=\"100%\"",
+    "max-width:900px",
+    "@media only screen and (max-width:600px)",
+    "si-main",
+    "si-label",
+    "si-card",
+    "font-family:Arial,Helvetica,sans-serif",
+    "background:#FAF8F3",
+    "#0f1f3d",
+    "#5eead4",
+    "border-top:5px solid",
+    "Super Intelligence",
+    "Executive Brief",
+    "Each item links to its original source",
+    "#99f6e4",
+    "Benchmark Scoreboard",
+    "CursorBench",
+    "ARC-AGI-2",
+    "Humanity's Last Exam",
+    "METR",
+    "Artificial Analysis",
+    "LMArena",
+    "name=\"color-scheme\" content=\"light\"",
+    "name=\"supported-color-schemes\" content=\"light\"",
+    "[data-ogsc]",
+    "#FAF8F3",
+    "#1A1A1A"
+  ],
+  "layouts": {
+    "_note": "presend_check.py picks the layout by marker. Big Story marker: <!-- layout: big-story --> (or data-layout=\"big-story\"). No marker = standard. required_substrings above apply to both layouts; the list below is added per layout.",
+    "standard": {
+      "required_substrings": [
+        "1 OF 3",
+        "2 OF 3",
+        "3 OF 3"
+      ]
+    },
+    "big-story": {
+      "markers": [
+        "<!-- layout: big-story -->",
+        "data-layout=\"big-story\""
+      ],
+      "card_start": "<!-- big-story-card:start -->",
+      "card_end": "<!-- big-story-card:end -->",
+      "required_substrings": [
+        "BIG STORY",
+        "WHAT HAPPENED",
+        "WHY IT MATTERS",
+        "WHAT TO WATCH"
+      ],
+      "min_source_links": 2,
+      "max_source_links": 3,
+      "data_centers": "optional (only with strong new USA items)",
+      "template": "/home/box/shared/ai-learning/templates/exec-bigstory-template.html"
+    }
+  },
+  "gradients_in_reference": [
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 100%)",
+    "background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)"
+  ],
+  "header_snippet_start": "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" bgcolor=\"#0f1f3d\" class=\"si-header\" style=\"background-color:#0f1f3d;background-image:linear-gradient(135deg,#0f1f3d 0%,#134e5e 60%,#0f766e 100%)\"><tr><td",
+  "forbidden_substrings": [
+    "AI at work",
+    "SWE-bench",
+    "SWE-bench Verified",
+    "One number",
+    "Watch this",
+    "One Number",
+    "Watch This"
+  ],
+  "scoreboard_cards": 6,
+  "scoreboard_layout": {
+    "columns": 2,
+    "rows": 3,
+    "card_width": "406",
+    "card_height": "390",
+    "gutter": "16",
+    "order": [
+      "CursorBench 4.0",
+      "ARC-AGI-2",
+      "Humanity's Last Exam",
+      "METR time horizons",
+      "Artificial Analysis Index",
+      "LMArena Text"
+    ],
+    "note": "Every card: category pill, status pill, linked title, one-line explainer, big No. 1 score, Top 3 with bars, 2-line note, one-line This week. No SWE-bench. LMArena headline card stays above the grid. Desktop 2x3 at max-width 900px (card ~406, height 390); mobile stacks to 1 col via .si-card display:block. Big 3 cards 1+2 and data-center cards 1+2 sit 2-across via .si-pair on wide screens. Body/notes/Top3/This week text 15px/22px to match Big 3."
+  },
+  "outlook": {
+    "page_bg": "#FAF8F3",
+    "card_bg": "#FAF8F3",
+    "text": "#1A1A1A",
+    "forbid_pure_white": true,
+    "forbid_pure_black": true,
+    "meta_color_scheme": "light",
+    "meta_supported_color_schemes": "light",
+    "data_ogsc_rules": true,
+    "fluid_layout": "outer content width=100% max-width:900px; MSO ghost table width=900; @media max-width:600px stacks WHW + scoreboard/pair cards, body text >=15px, titles ~20px; desktop: Big 3 + data centers 2-across via .si-pair; scoreboard 2x3; Big 3 / data-center / scoreboard body text 15px/22px",
+    "tags": "plain-text with middot separators; no background pill boxes",
+    "icons": "emoji only; no colored square behind icons",
+    "whw_layout": "2-column table desktop (WHAT HAPPENED / WHY IT MATTERS label width=122); stacks label above text on mobile via .si-label/.si-text-col",
+    "read_more": "plain underlined text link (Outlook-safe) or VML bulletproof button",
+    "header": "solid bgcolor=#0f1f3d on header td/table; keep gradient in style; MSO VML solid navy fill best-effort for desktop Outlook dark; force light text via class/data-ogsc",
+    "bgcolor_every_td": "every td/table has solid bgcolor (#FAF8F3 body/cards or #0f1f3d header)",
+    "ios_outlook_dark_note": "Outlook iOS may still force a dark purple surface despite color-scheme=light + data-ogsc/bgcolor; if so, stop chasing \u2014 keep text readable on forced dark via .si-on-dark / header light text",
+    "desktop_width": "900px",
+    "body_font": "15px/22px Big 3, data centers, scoreboard card body/notes/Top3/This week"
+  },
+  "forbidden_outlook": [
+    "background:#ffffff",
+    "background:#FFFFFF",
+    "background:#fff;",
+    "color:#000000",
+    "color:#000;"
+  ]
+}

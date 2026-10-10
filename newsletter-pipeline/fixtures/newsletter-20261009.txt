@@ -1,0 +1,52 @@
+SUPER INTELLIGENCE - Friday, Oct 9, 2026
+
+TIPS
+1. Check your AI judge against human labels (from Hamel Husain (@HamelHusain))
+   WHAT: A judge is a model that grades outputs. It can usually be the same model as your main task.
+   HOW: Label a held-out test set by hand. Measure how often the judge agrees on passes and fails.
+   WHY: Agreement with people matters most. Try a different judge model only if agreement stays low.
+   Read more: https://hamel.dev/blog/posts/evals-faq/can-i-use-the-same-model-for-both-the-main-task-and-evaluation.html
+   Post on X: https://x.com/HamelHusain/status/2108210834988032433
+
+2. Run agent code in one sandbox on every OS (from Simon Willison (@simonw))
+   WHAT: MXC is an open-source Microsoft library. It runs untrusted code, such as model output, in a sandbox.
+   HOW: Install the Rust, .NET or Node SDK. Set allowed paths and network rules in a JSON policy.
+   WHY: One setup works on Windows, macOS and Linux. Each system uses its own built-in sandbox.
+   Read more: https://github.com/microsoft/mxc
+   Post on X: https://x.com/simonw/status/2108216753604248000
+
+3. Grade each agent run with several typed questions (from Harrison Chase (@hwchase17))
+   WHAT: Jev, a fast decision model from TypeSafe, can judge agent runs in LangSmith, a tracing tool.
+   HOW: Open the Evaluators tab in a LangSmith tracing project. Ask difficulty and correctness as separate questions.
+   WHY: Each question gets its own typed answer in one pass. This tells you more than one pass/fail score.
+   Read more: https://www.langchain.com/blog/jev-is-now-available-in-langsmith-evals
+   Post on X: https://x.com/hwchase17/status/2108453917277254058
+
+4. Fine-tune on longer text with less GPU memory (from @QGallouedec via @huggingface)
+   WHAT: TRL is a Hugging Face library to fine-tune models. Version 1.15 adds a memory-saving step by default.
+   HOW: Run pip install -U trl. Rerun your DPO or GRPO job with longer examples on a Linux GPU.
+   WHY: At 8,192 tokens, peak GPU memory drops 52% to 82%. DPO fits 59,392 tokens, not 10,240.
+   Read more: https://github.com/huggingface/trl/releases/tag/v1.15.0
+   Post on X: https://x.com/QGallouedec/status/2108468004128424042
+
+5. Build trust in agent output before you scale up (from Lauren Tan (@poteto))
+   WHAT: Trusted agents let one person ship far more work. Volume only scales after you trust the output.
+   HOW: List your ongoing work streams. Give each stream an agent and checks that you trust.
+   WHY: Without checks that you trust, you cannot review more work. Trust lets your output grow.
+   Read more: https://x.com/poteto/status/2108290818746528017
+   Post on X: https://x.com/poteto/status/2108290818746528017
+
+NEWS
+AI news
+- Step 5 Preview opens on OpenRouter: A mixture-of-experts model (27B active, 600B total parameters) with a 1M-token context. It reads text, images and video. It costs $1.00 per million input tokens. https://openrouter.ai/stepfun/step-5-preview
+- Open training tasks for terminal agents: 1,000 tested RL (reinforcement learning) environments and 36,000 agent runs, failures included. Training gemma-4-31B-it on them added 3.1 points on Terminal-Bench 2.1. https://x.com/Weyaxi/status/2108246041548018053
+- Mellum2.1 is a fast open model for coding agents: More RL training for agent coding work. The weights are on Hugging Face. GGUF builds for llama.cpp, Ollama and LM Studio are coming soon. https://blog.jetbrains.com/ai/2026/10/mellum2-1-gets-to-work-a-fast-open-model-for-coding-agents/
+Tool news
+- Ultrafast mode for GPT-6.1 Sol: In the API, set service_tier to ultrafast. It costs $12 per million input tokens and $60 per million output tokens. https://developers.openai.com/api/docs/guides/ultrafast-mode
+- Video 1.5 Lite is in the API: Make video clips from text or an image. It costs $0.02 per second at 480p and $0.03 per second at 720p. https://docs.x.ai/developers/models/grok-imagine-video-1.5-lite
+- Ask follow-up questions about a chart: After /visualize draws a chart, ask the next question in the same chat. Cursor answers with a new chart. https://x.com/cursor_ai/status/2108289748628566496
+Jev news
+- Step-Jev scores each agent step: Step-Jev is a Jev judge that grades each step of an agent run. A TypeSafe account says its training reward is stuck. https://x.com/CompleteSkeptic/status/2108317751286866385
+- TypeSafe posts a Jev test on email labels: TypeSafe posted a test of Jev on email labels. Stay calibrated when you pick a judge. https://x.com/typesafeai/status/2108261430265029085
+
+Reply to this email with questions or ideas.

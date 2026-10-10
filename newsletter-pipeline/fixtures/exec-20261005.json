@@ -1,0 +1,274 @@
+{
+  "date_line": "Monday, Oct 5, 2026",
+  "date_phone": "MON, OCT 5",
+  "big3": [
+    {
+      "emoji": "🏛️",
+      "tag": "POLICY",
+      "headline": "The U.S. government now calls AI “Super Intelligence”",
+      "what_happened": "On Sep 29, a White House order told federal agencies to use “Super Intelligence” (SI) instead of “AI”. Six top AI companies also signed a voluntary safety accord that day.",
+      "why_it_matters": "Expect “SI” in federal bids and documents. The accord asks AI makers for outside safety audits, and on Oct 4 the President named a federal AI task force.",
+      "link_url": "https://www.whitehouse.gov/fact-sheets/2026/09/fact-sheet-president-donald-j-trump-inaugurates-the-era-of-super-intelligence/",
+      "link_label": "White House fact sheet",
+      "source_id": "https://www.whitehouse.gov/fact-sheets/2026/09/fact-sheet-president-donald-j-trump-inaugurates-the-era-of-super-intelligence/"
+    },
+    {
+      "emoji": "💰",
+      "tag": "COST",
+      "headline": "OpenAI cuts the price of near-top AI to one-fifth",
+      "what_happened": "On Sep 29, OpenAI released GPT‑6.1 Sol. OpenAI says it is almost as capable as its top model, GPT‑6 Astra, at one-fifth of the standard price.",
+      "why_it_matters": "Lower prices make AI cheaper to use for routine office work, such as reports, documents and spreadsheets.",
+      "link_url": "https://openai.com/index/introducing-gpt-6-1-sol",
+      "link_label": "OpenAI: Introducing GPT‑6.1 Sol",
+      "source_id": "https://openai.com/index/introducing-gpt-6-1-sol"
+    },
+    {
+      "emoji": "🛰️",
+      "tag": "RESEARCH",
+      "headline": "Google puts its AI chips into orbit to test data centers in space",
+      "what_happened": "On Oct 1, Google and Planet launched a test satellite with Google AI chips on a SpaceX rocket. Google says it works as expected.",
+      "why_it_matters": "This is an early research step. Google wants to learn if space can one day hold large AI computer systems.",
+      "link_url": "https://blog.google/innovation-and-ai/models-and-research/google-research/project-suncatcher-prototype/",
+      "link_label": "Google: Project Suncatcher satellite is in orbit",
+      "source_id": "https://blog.google/innovation-and-ai/models-and-research/google-research/project-suncatcher-prototype/"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Project Star",
+      "place_line": "Encinal, Texas · announced Sep 30",
+      "summary": "The U.S. and Korea picked Related Companies and NextEra Energy to build a gas power campus next to a new data center site.",
+      "size": "5 GW data center campus (Related Digital)",
+      "cost": "$22.3 billion (power campus)",
+      "power": "6.47 GW of new natural gas plants; extra power goes to the Texas grid",
+      "who": "Related / NextEra joint venture; Lewis Energy brings the gas",
+      "jobs": "About 8,400 at peak construction; about 170 permanent at the power campus",
+      "timing": "First power as early as 2029, after permits",
+      "link_url": "https://www.prnewswire.com/news-releases/the-united-states-department-of-commerce-and-the-government-of-the-republic-of-korea-announce-strategic-investment-in-project-star-a-22-3-billion-energy-infrastructure-campus-in-encinal-texas-being-jointly-developed-by-related-302895079.html",
+      "link_label": "NextEra / Related announcement",
+      "source_id": "https://www.prnewswire.com/news-releases/the-united-states-department-of-commerce-and-the-government-of-the-republic-of-korea-announce-strategic-investment-in-project-star-a-22-3-billion-energy-infrastructure-campus-in-encinal-texas-being-jointly-developed-by-related-302895079.html"
+    },
+    {
+      "name": "Google AI campus",
+      "place_line": "Armstrong County, near Amarillo, Texas · announced Sep 28",
+      "summary": "Crusoe said it is the developer of the Google AI data center campus. The site is already under construction.",
+      "size": "Not given yet",
+      "cost": "Not given yet",
+      "power": "Direct link to two 265.5 MW wind farms (one runs now, one is under construction); extra wind power goes to the grid",
+      "who": "Crusoe develops it for Google",
+      "jobs": "More than 5,500 skilled workers on site each day",
+      "timing": "Work started in June 2025",
+      "link_url": "https://www.crusoe.ai/resources/newsroom/crusoe-developing-data-center-campus-in-armstrong-county-texas",
+      "link_label": "Crusoe announcement",
+      "source_id": "https://www.crusoe.ai/resources/newsroom/crusoe-developing-data-center-campus-in-armstrong-county-texas"
+    },
+    {
+      "name": "Zone Frontier campus",
+      "place_line": "Potter County, Texas Panhandle · announced Sep 29",
+      "summary": "Zone Frontier leased about 4,077 acres around an existing Xcel Energy substation for 30 years. It now looks for a tenant.",
+      "size": "200 MW at first; could grow past 500 MW",
+      "cost": "Not given yet",
+      "power": "Planned on-site solar and batteries, plus a possible grid link",
+      "who": "Zone Frontier, with HST Technologies",
+      "jobs": "Not given yet",
+      "timing": "Construction starts after Zone signs a tenant",
+      "link_url": "https://www.sec.gov/Archives/edgar/data/1956741/000121390026105332/ea030695301ex99-1.htm",
+      "link_label": "Zone Frontier release (SEC filing)",
+      "source_id": "https://www.sec.gov/Archives/edgar/data/1956741/000121390026105332/ea030695301ex99-1.htm"
+    }
+  ],
+  "scoreboard": {
+    "intro": "A benchmark is a fixed test that compares AI models. Last checked Oct 5, 2026. Words in brackets, such as High or Max, show how long a model can think before it answers."
+  },
+  "headline": {
+    "status": "CHANGED",
+    "title": "Gemini 4 Argon is the new No. 1 on LMArena",
+    "before": "The top model on the ",
+    "link_url": "https://lmarena.ai/leaderboard/text",
+    "link_label": "LMArena Text",
+    "after": " leaderboard is now Gemini 4 Argon (High). It is tagged Preliminary on the live board (Style Control on). People vote for the better of two answers, and the votes give each model a score.",
+    "detail": "It has 1525 points, 20 more than No. 2, Claude Opus 4.6 (High).",
+    "updated": "Leaderboard updated Oct 2, 2026",
+    "score": "1525",
+    "badge": "PRELIMINARY",
+    "source_id": "https://lmarena.ai/leaderboard/text"
+  },
+  "cards": [
+    {
+      "category": "CODING",
+      "status": "NO CHANGE",
+      "link_url": "https://cursor.com/cursorbench",
+      "name": "CursorBench 4.0",
+      "explainer": "AI coding helpers on real, unclear coding jobs.",
+      "score": "57.8",
+      "unit": "%",
+      "rows": [
+        {
+          "name": "Claude Opus 5.5 (Max)",
+          "score": "57.8%",
+          "bar": "57.8"
+        },
+        {
+          "name": "Claude Opus 5.5 (Extra High)",
+          "score": "56.0%",
+          "bar": "56.0"
+        },
+        {
+          "name": "Claude Opus 5.5 (High)",
+          "score": "56.0%",
+          "bar": "56.0"
+        }
+      ],
+      "note": "Bars: 0 to 100%. No. 1 costs $13.43 for each job. Made by Cursor; its own Composer 2.5 scores 27.7%.",
+      "this_week": "No change since Sep 29.",
+      "source_id": "https://cursor.com/cursorbench"
+    },
+    {
+      "category": "REASONING",
+      "status": "CHANGED",
+      "link_url": "https://arcprize.org/leaderboard",
+      "name": "ARC-AGI-2",
+      "explainer": "Grid puzzles: learn a new rule from a few examples.",
+      "score": "95.0",
+      "unit": "%",
+      "rows": [
+        {
+          "name": "GPT‑6 Astra (Max)",
+          "score": "95.0%",
+          "bar": "95.0"
+        },
+        {
+          "name": "GPT‑6.1 Sol (Max)",
+          "score": "94.2%",
+          "bar": "94.2"
+        },
+        {
+          "name": "GPT‑6 Astra (Extra High)",
+          "score": "93.3%",
+          "bar": "93.3"
+        }
+      ],
+      "note": "Bars: 0 to 100%. No. 1 costs $1.12 for each puzzle.",
+      "this_week": "GPT‑6.1 Sol (Max) joined with 94.2%.",
+      "source_id": "https://arcprize.org/leaderboard"
+    },
+    {
+      "category": "REASONING",
+      "status": "NO CHANGE",
+      "link_url": "https://labs.scale.com/leaderboard/humanitys_last_exam",
+      "name": "Humanity's Last Exam",
+      "explainer": "2,500 very hard expert questions in many subjects.",
+      "score": "54.8",
+      "unit": "%",
+      "rows": [
+        {
+          "name": "GPT‑6 Astra",
+          "score": "54.8%",
+          "bar": "54.8"
+        },
+        {
+          "name": "Claude Fable 5.1 (Extra High)",
+          "score": "46.5%",
+          "bar": "46.5"
+        },
+        {
+          "name": "Gemini 3.1 Pro Preview",
+          "score": "46.4%",
+          "bar": "46.4"
+        }
+      ],
+      "note": "Bars: 0 to 100%. Scores from the Scale AI leaderboard.",
+      "this_week": "No new results since Sep 9.",
+      "source_id": "https://labs.scale.com/leaderboard/humanitys_last_exam"
+    },
+    {
+      "category": "AGENTS",
+      "status": "NO CHANGE",
+      "link_url": "https://metr.org/time-horizons/",
+      "name": "METR time horizons",
+      "explainer": "Length of job (in expert time) an AI finishes half the time.",
+      "score": "~17",
+      "unit": " hours",
+      "rows": [
+        {
+          "name": "Claude Mythos Preview (early)",
+          "score": "17.4 h",
+          "bar": "100.0"
+        },
+        {
+          "name": "Claude Opus 4.6",
+          "score": "12.0 h",
+          "bar": "68.8"
+        },
+        {
+          "name": "Gemini 3.1 Pro",
+          "score": "6.4 h",
+          "bar": "36.7"
+        }
+      ],
+      "note": "Bars: scaled to No. 1. METR says results above 16 hours are not reliable.",
+      "this_week": "Stale. Page last updated May 8, 2026.",
+      "source_id": "https://metr.org/time-horizons/"
+    },
+    {
+      "category": "OVERALL",
+      "status": "CHANGED",
+      "link_url": "https://artificialanalysis.ai/",
+      "name": "Artificial Analysis Index",
+      "explainer": "Combines 10 tests into one general intelligence score.",
+      "score": "58",
+      "unit": " points",
+      "rows": [
+        {
+          "name": "Claude Opus 5.5 (Max)",
+          "score": "58",
+          "bar": "100.0"
+        },
+        {
+          "name": "Claude Sonnet 5.5 (Max)",
+          "score": "56",
+          "bar": "96.6"
+        },
+        {
+          "name": "Claude Opus 5.5 (Extra High)",
+          "score": "56",
+          "bar": "96.6"
+        }
+      ],
+      "note": "Bars: scaled to No. 1. No. 1 costs $5.98 for each test job.",
+      "this_week": "Claude Sonnet 5.5 (Max) rose to No. 2.",
+      "source_id": "https://artificialanalysis.ai/"
+    },
+    {
+      "category": "OVERALL",
+      "status": "CHANGED",
+      "link_url": "https://lmarena.ai/leaderboard/text",
+      "name": "LMArena Text",
+      "explainer": "People vote for the better of 2 answers.",
+      "score": "1525",
+      "unit": " score",
+      "rows": [
+        {
+          "name": "Gemini 4 Argon (High)",
+          "score": "1525",
+          "bar": "100.0"
+        },
+        {
+          "name": "Claude Opus 4.6 (High)",
+          "score": "1505",
+          "bar": "84.0"
+        },
+        {
+          "name": "Claude Fable 5 (High)",
+          "score": "1504",
+          "bar": "83.2"
+        }
+      ],
+      "note": "Bars start at 1400. No. 1 = full bar. Tie: Claude Opus 5.5 (High), 1504, is No. 4.",
+      "this_week": "Gemini 4 Argon (High) is the new No. 1.",
+      "source_id": "https://lmarena.ai/leaderboard/text"
+    }
+  ],
+  "product": "exec",
+  "subject": "Executive Brief: Monday, Oct 5, 2026"
+}

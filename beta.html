@@ -422,7 +422,7 @@
         <a href="canada.html" title="Canadian mineral production">Canada</a>
       </nav>
       <div class="qc-modes">
-        <a class="qc-mode" href="index.html" title="Politician STOCK Act tape">Politicians</a>
+        <a class="qc-mode" href="https://gordojr1.github.io/stock-act/" title="Politician STOCK Act tape">Politicians</a>
         <a class="qc-mode" href="insiders.html" title="Officer and director trades">Insiders</a>
         <a class="qc-mode" href="contracts.html" title="Federal contract awards">Contracts</a>
         <a class="qc-mode qc-desk-only" href="research.html" title="What our studies found">Research</a>
@@ -1700,7 +1700,7 @@
     function ensureTapes() {
       if (tapesReady) return tapesReady;
       tapesReady = Promise.all([
-        fetchTape("trades-lite.json"),
+        fetchTape("https://gordojr1.github.io/stock-act/trades-lite.json"),
         fetchTape("insider-trades-lite.json")
       ]).then(([pol, ins]) => {
         polTrades = pol.trades || [];

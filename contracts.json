@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-10T22:09:35Z",
+  "generated": "2026-10-11T11:11:31Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,14 +13,14 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-27",
-    "end": "2026-10-10"
+    "start": "2026-09-28",
+    "end": "2026-10-11"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 87,
+    "kept": 88,
     "matched": 41,
-    "unlinked": 46
+    "unlinked": 47
   },
   "awards": [
     {
@@ -3854,60 +3854,6 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
       "description": "is awarded a $11,502,716 firm-fixed-price modification to previously awarded contract (N0016419DWP49) for the manufacture, test, and delivery AN/SPG-62 Antenna\u2026",
       "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-10",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Accenture Federal Services",
-      "ticker": "ACN",
-      "amount": 480365950.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W519TC-26-C-A059",
-      "cap_pct": 0.375,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4596373/contracts-for-sept-10-2026/",
-      "description": "was awarded a $480,365,950 firm-fixed-price contract to deliver the Joint Enterprise Task Management System to replace legacy task and correspondence managemen\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-10",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "General Dynamics Mission Systems",
-      "ticker": "GD",
-      "amount": 184250000.0,
-      "ceiling": true,
-      "obligated": 10365451.0,
-      "mod": false,
-      "fms": false,
-      "contract": "",
-      "cap_pct": 0.206,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4596373/contracts-for-sept-10-2026/",
-      "description": "is awarded a $184,250,000 firm-fixed-price and cost-plus-fixed-fee, indefinite-delivery/indefinite-quantity contract for the manufacture of Full Rate Productio\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-10",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Lockheed Martin Rotary and Mission Systems",
-      "ticker": "LMT",
-      "amount": 17431951.0,
-      "ceiling": false,
-      "obligated": 17431951.0,
-      "mod": true,
-      "fms": false,
-      "contract": "N00024-20-C-6117",
-      "cap_pct": 0.015,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4596373/contracts-for-sept-10-2026/",
-      "description": "was awarded a $17,431,951 cost-plus-incentive-fee modification to a previously awarded contract (N00024-20-C-6117) to exercise options for hardware spares in s\u2026",
-      "source": "dod_announcement"
     }
   ],
   "companies": [
@@ -4027,6 +3973,13 @@
     }
   ],
   "unlinked": [
+    {
+      "date": "2026-10-09",
+      "agency": "Veterans Affairs",
+      "recipient": "BLUE CORD DESIGN AND CONSTRUCTION, LLC",
+      "amount": 12974316.0,
+      "description": "RENOVATE INTERVENTIONAL RADIOLOGY SUITES"
+    },
     {
       "date": "2026-10-08",
       "agency": "General Services Administration",
@@ -4351,27 +4304,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-10-10",
-      "agency": "DEPT OF DEFENSE",
-      "description": "6110012663542;L5306354-041; PANEL,POWER DISTRIB",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c4a2d3f917c749168f8399915baea692/view"
-    },
-    {
-      "deadline": "2026-10-10",
-      "agency": "GENERAL SERVICES ADMINISTRATION",
-      "description": "PURCHASE AND INSTALL OF MULTIPLE COMPONENTS ON A 2024 CHEVROLET K4500",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f5db250aa73f4842bbeffebe5b16ae75/view"
-    },
-    {
-      "deadline": "2026-10-10",
-      "agency": "DEPT OF DEFENSE",
-      "description": "STARTER, ENGINE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f8a6d5c2772747f7abbf1ea2fdadb1b6/view"
-    },
     {
       "deadline": "2026-10-11",
       "agency": "DEPT OF DEFENSE",
@@ -4910,12 +4842,33 @@
       "description": "59--SWITCH,ROTARY",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/fc46943be25946f78f1956b8b059ca14/view"
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "DEPT OF DEFENSE",
+      "description": "59--SWITCH,THERMOSTATIC",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fca23ce3d5d744718c7a58d61702dcff/view"
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "DEPT OF DEFENSE",
+      "description": "61--WIRE,ELECTRICAL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f200d3735c8340649277d4a60fbcc373/view"
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "DEPT OF DEFENSE",
+      "description": "62--LIGHT,MARKER,SHIP",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fb889c86f5f7478cbb1d1251bd7fe252/view"
     }
   ],
   "dod": {
     "latest": "2026-10-09",
-    "fetched": "2026-10-10T22:09:35Z",
+    "fetched": "2026-10-11T11:11:31Z",
     "status": "ok",
-    "rows": 190
+    "rows": 187
   }
 }

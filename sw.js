@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v262";
+const CACHE = "qc-shell-v263";
 const SHELL = [
   "./",
   "./index.html",
@@ -161,14 +161,18 @@ self.addEventListener("fetch", (event) => {
     })());
     return;
   }
+  // Other data files are network-first too. Do not cache or fall back to a non-ok body.
   if (isData) {
     event.respondWith((async () => {
-      const cached = await caches.match(event.request);
-      const network = fetch(event.request).then((res) => {
+      try {
+        const res = await fetch(event.request);
         storeIfOk(res);
         return res;
-      }).catch(() => cached);
-      return cached || network;
+      } catch (err) {
+        const cached = await caches.match(event.request);
+        if (cached && cached.ok) return cached;
+        throw err;
+      }
     })());
     return;
   }

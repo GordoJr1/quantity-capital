@@ -410,7 +410,13 @@ SELECT
   CASE WHEN c.claim_count IS NOT NULL AND c.claim_count > 0 THEN 1 ELSE 0 END AS has_claims
 FROM politician_trades t
 LEFT JOIN tickers k ON k.ticker = t.ticker
-LEFT JOIN company_tickers ct ON ct.ticker = t.ticker AND ct.is_primary = 1
+LEFT JOIN (
+  SELECT ticker, MIN(company_id) AS company_id
+  FROM company_tickers
+  WHERE is_primary = 1
+  GROUP BY ticker
+  HAVING COUNT(*) = 1
+) ct ON ct.ticker = t.ticker
 LEFT JOIN companies c ON c.company_id = ct.company_id;
 
 CREATE TABLE IF NOT EXISTS paper_legs (

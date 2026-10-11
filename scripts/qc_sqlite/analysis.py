@@ -502,7 +502,11 @@ def resample(closes: list[tuple[str, float]], kind: str) -> list[float]:
     buckets: dict[str, float] = {}
     for d, p in closes:
         dt = datetime.strptime(d, "%Y-%m-%d")
-        key = dt.strftime("%Y-%W") if kind == "W" else dt.strftime("%Y-%m")
+        if kind == "W":
+            iso = dt.isocalendar()
+            key = f"{iso.year:04d}-{iso.week:02d}"
+        else:
+            key = dt.strftime("%Y-%m")
         buckets[key] = p
     return [buckets[k] for k in sorted(buckets)]
 

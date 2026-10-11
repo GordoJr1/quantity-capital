@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T11:27:57.235897+00:00",
+  "generated": "2026-10-11T11:41:06.166892+00:00",
   "tapeCollected": "2026-10-11T11:20:21.496789+00:00",
   "priceAsof": "2026-10-09",
   "windowDays": 90,
@@ -64,6 +64,60 @@
       "rank": 1
     },
     {
+      "code": "ALB",
+      "name": "Albemarle Corporation",
+      "action": "buy-dip",
+      "score": 8.09,
+      "why": "Just landed, weekly washed out, monthly intact",
+      "last": 101.27,
+      "pxAsof": "2026-10-09",
+      "buyPx": 109.73,
+      "chgSinceBuy": -0.0771,
+      "lastBuy": "2026-09-25",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 32,
+      "heat": 1.654,
+      "landed": true,
+      "landedAt": "2026-10-09T22:24:38.447662+00:00",
+      "lagDays": 14,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        }
+      ],
+      "weekly": {
+        "rsi": 31.2,
+        "sma20": 131.47,
+        "sma40": 153.36,
+        "vs20": -23.0,
+        "ret4w": -13.8,
+        "ret13w": -19.7,
+        "fromHigh": -42.6,
+        "trend": "DOWN",
+        "recentLow": 101.27
+      },
+      "monthly": {
+        "rsi": 53.3,
+        "sma10": 149.66,
+        "vs10": -32.3,
+        "trend": "DOWN"
+      },
+      "invalidation": 95.19,
+      "flags": [
+        "Landed",
+        "Weekly washout",
+        "Deep washout",
+        "Monthly intact"
+      ],
+      "rank": 2
+    },
+    {
       "code": "WFC",
       "name": "Wells Fargo & Company",
       "action": "buy-dip",
@@ -118,7 +172,60 @@
         "Weekly washout",
         "Monthly intact"
       ],
-      "rank": 2
+      "rank": 3
+    },
+    {
+      "code": "TJX",
+      "name": "TJX Companies, Inc. (The)",
+      "action": "buy-dip",
+      "score": 6.89,
+      "why": "Just landed, weekly washed out, monthly intact",
+      "last": 138.76,
+      "pxAsof": "2026-10-09",
+      "buyPx": 130.06,
+      "chgSinceBuy": 0.0669,
+      "lastBuy": "2026-09-25",
+      "nBuyers": 1,
+      "buyHigh": 15000,
+      "heatRank": 33,
+      "heat": 1.654,
+      "landed": true,
+      "landedAt": "2026-10-09T22:24:38.447662+00:00",
+      "lagDays": 14,
+      "conflict": false,
+      "conflictWhy": [],
+      "whale": false,
+      "cluster": false,
+      "buyers": [
+        {
+          "name": "Ro Khanna",
+          "id": "ro-khanna"
+        }
+      ],
+      "weekly": {
+        "rsi": 37.4,
+        "sma20": 147.53,
+        "sma40": 152.01,
+        "vs20": -5.9,
+        "ret4w": 10.1,
+        "ret13w": -8.3,
+        "fromHigh": -17.6,
+        "trend": "DOWN",
+        "recentLow": 126.02
+      },
+      "monthly": {
+        "rsi": 51.2,
+        "sma10": 149.65,
+        "vs10": -7.3,
+        "trend": "DOWN"
+      },
+      "invalidation": 126.02,
+      "flags": [
+        "Landed",
+        "Weekly washout",
+        "Monthly intact"
+      ],
+      "rank": 4
     },
     {
       "code": "VST",
@@ -170,7 +277,7 @@
         "Landed",
         "Monthly intact"
       ],
-      "rank": 3
+      "rank": 5
     },
     {
       "code": "PG",
@@ -235,7 +342,7 @@
         "Cluster",
         "Monthly intact"
       ],
-      "rank": 4
+      "rank": 6
     }
   ],
   "avoid": [

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-11T22:09:31Z",
+  "generated": "2026-10-12T11:11:57Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,8 +13,8 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-09-28",
-    "end": "2026-10-11"
+    "start": "2026-09-29",
+    "end": "2026-10-12"
   },
   "trailing_days": 365,
   "counts": {
@@ -2793,7 +2793,7 @@
       "mod": true,
       "fms": false,
       "contract": "FA8109-21-C-0001",
-      "cap_pct": 0.473,
+      "cap_pct": 0.472,
       "cap_asof": "2026-10-09",
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4609970/contracts-for-sept-23-2026/",
       "description": "has been awarded a $99,767,830 modification (P00013) to a previously awarded contract (FA8109-21-C-0001) for Air Force Enterprise Supply Chain Analysis, Planni\u2026",
@@ -3073,7 +3073,7 @@
       "mod": true,
       "fms": false,
       "contract": "W56HZV-20-D-0066",
-      "cap_pct": 0.932,
+      "cap_pct": 0.961,
       "cap_asof": "2026-10-09",
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4607781/contracts-for-sept-21-2026/",
       "description": "was awarded a $697,686,693 modification (P00053) to contract (W56HZV-20-D-0066) for engineering change proposals for the Infantry Squad Vehicle Utility and Inf\u2026",
@@ -3764,96 +3764,6 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4600826/contracts-for-sept-14-2026/",
       "description": "is awarded a $9,200,000 firm-fixed-price modification to a previously awarded contract (N00253-24-C-0001) for a provisioned item order including spare parts an\u2026",
       "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-11",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "The Boeing Co.",
-      "ticker": "BA",
-      "amount": 13400000000.0,
-      "ceiling": false,
-      "obligated": 0.0,
-      "mod": true,
-      "fms": true,
-      "contract": "FA8609-19-D-0007",
-      "cap_pct": 8.906,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
-      "description": "has been awarded a $13,400,000,000 ceiling modification (P00008) to a previously awarded contract (FA8609-19-D-0007) for the addition of Foreign Military Sales\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-11",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Olin Winchester LLC",
-      "ticker": "OLN",
-      "amount": 788361894.0,
-      "ceiling": true,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W519TC-26-D-A024",
-      "cap_pct": 46.451,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
-      "description": "was awarded a $788,361,894 firm-fixed-price, fixed-price-with-economic-price-adjustment, indefinite-delivery/indefinite-quantity contract for the procurement o\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-11",
-      "agency": "DOD",
-      "branch": "Army",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 19999798.0,
-      "ceiling": true,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "W519TC-26-F-A562",
-      "cap_pct": 0.029,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
-      "description": "was awarded a $19,999,798 firm-fixed-price, indefinite-delivery/indefinite-quantity contract to procure non-standard ammunition. Two bids were solicited with t\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-11",
-      "agency": "DOD",
-      "branch": "DLA",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 18730567.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": true,
-      "fms": false,
-      "contract": "SPRTA1-16-F-0353",
-      "cap_pct": 0.027,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
-      "description": "has been awarded a maximum $18,730,567 modification (P00024) to a delivery order (SPRTA1-16-F-0353) issued against a base contract (SPE4AX-16-D-9479) for the m\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-11",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "General Dynamics Mission Systems Inc.",
-      "ticker": "GD",
-      "amount": 11502716.0,
-      "ceiling": false,
-      "obligated": 533539.0,
-      "mod": true,
-      "fms": true,
-      "contract": "",
-      "cap_pct": 0.013,
-      "cap_asof": "2026-10-09",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4599224/contracts-for-sept-11-2026/",
-      "description": "is awarded a $11,502,716 firm-fixed-price modification to previously awarded contract (N0016419DWP49) for the manufacture, test, and delivery AN/SPG-62 Antenna\u2026",
-      "source": "dod_announcement"
     }
   ],
   "companies": [
@@ -4304,20 +4214,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-10-11",
-      "agency": "DEPT OF DEFENSE",
-      "description": "SPE4A627Q0042, 3120-016750959, Bearing, Plain, Spherical, Part#(s) 21807480, H841-0307-137, GBND005038-C",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ef83fe3411a349a3bdf87414e7f4fdfc/view"
-    },
-    {
-      "deadline": "2026-10-11",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "Watson Caring Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d37c54389d3e41e2be601db5a04e1b23/view"
-    },
     {
       "deadline": "2026-10-12",
       "agency": "DEPT OF DEFENSE",
@@ -4863,12 +4759,26 @@
       "description": "62--LIGHT,MARKER,SHIP",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/fb889c86f5f7478cbb1d1251bd7fe252/view"
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "DEPT OF DEFENSE",
+      "description": "65--CASE,MEDICAL INSTRUMEN",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e881d2d441914f1b8e3c3d2f5467a514/view"
+    },
+    {
+      "deadline": "2026-10-13",
+      "agency": "DEPT OF DEFENSE",
+      "description": "65--SENSOR,DENTAL IMAGING",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fe4417b0d70841879f3f6021d0b5fba7/view"
     }
   ],
   "dod": {
     "latest": "2026-10-09",
-    "fetched": "2026-10-11T22:09:31Z",
+    "fetched": "2026-10-12T11:11:57Z",
     "status": "ok",
-    "rows": 187
+    "rows": 182
   }
 }

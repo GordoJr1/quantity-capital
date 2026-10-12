@@ -266,7 +266,7 @@ class RepoTests(unittest.TestCase):
         declared = sw.splitlines()[0]
         cache_m = re.fullmatch(r'const CACHE = "(qc-shell-v\d+)";', declared)
         self.assertIsNotNone(cache_m, "sw.js line 1 must declare const CACHE")
-        self.assertIn(cache_m.group(1), declared)
+        self.assertIn("caches.open(CACHE)", sw)
         self.assertIn("claims-map.js?v=22", sw)
         self.assertIn("claims-db.js?v=5", sw)
 

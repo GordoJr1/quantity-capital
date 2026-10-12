@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -258,7 +259,11 @@ class RepoTests(unittest.TestCase):
         self.assertIn('code: "bc"', script)
         sw = (ROOT / "sw.js").read_text(encoding="utf-8")
         self.assertIn("/claims/tiles/", sw)
-        self.assertIn("qc-shell-v223", sw)
+        # Shell cache name moves. Read the live declaration; do not pin qc-shell-vNNN.
+        declared = sw.splitlines()[0]
+        cache_m = re.fullmatch(r'const CACHE = "(qc-shell-v\d+)";', declared)
+        self.assertIsNotNone(cache_m, "sw.js line 1 must declare const CACHE")
+        self.assertIn(cache_m.group(1), declared)
         self.assertIn("claims-map.js?v=22", sw)
         self.assertIn("claims-db.js?v=5", sw)
 

@@ -124,7 +124,7 @@ def issuer_name(code: str, raw: str) -> str:
         count=1,
         flags=re.I,
     )
-    s = re.sub(r"^CETERA\s+(?=\S)", "", s, count=1, flags=re.I)
+    s = re.sub(r"^CETERA\s+(?=\S)", "", s, count=1)
     s = PTR_OTHER.sub("", s)
     s = PTR_ROW.sub("", s)
     s = re.sub(r"\s+Option Type:.*$", "", s, flags=re.I)

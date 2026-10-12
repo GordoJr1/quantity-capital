@@ -256,6 +256,9 @@ class AnalysisNames(unittest.TestCase):
         # idempotence regressions found while fixing
         ("AZO", "AUTOZONE, INC. CMN- _", "AUTOZONE, INC."),
         ("CBRE", "CBRE GROUP, INC.CMN CLASS A", "CBRE GROUP, INC."),
+        # OKE: independent-manager disclaimer leaked onto the asset, and a Cetera sleeve on the issuer.
+        ("OKE", "are widely diversified, and all investment decisions are made solely by the independent manager, without my input or direction. ONEOK, Inc. Common Stock", "ONEOK, Inc."),
+        ("OKE", "CETERA ONEOK, Inc. Common Stock", "ONEOK, Inc."),
     ]
 
     def test_cases(self):
@@ -288,6 +291,42 @@ class AnalysisNames(unittest.TestCase):
         self.assertNotIn("issuer_name", src)
         self.assertNotIn("spec_from_file_location", src)
         self.assertNotIn("HERE.parents[1]", src)
+
+    def test_oke_filing_assets(self):
+        """Row assets lose the disclaimer and the Cetera sleeve; the issuer is ONEOK, Inc."""
+        import analysis
+
+        disclaimer = (
+            "are widely diversified, and all investment decisions are made solely "
+            "by the independent manager, without my input or direction. ONEOK, Inc. Common Stock"
+        )
+        cetera = "CETERA ONEOK, Inc. Common Stock"
+        kept = "ONEOK, Inc. Common Stock"
+        self.assertEqual(analysis.clean_filing_asset(disclaimer), kept)
+        self.assertEqual(analysis.clean_filing_asset(cetera), kept)
+        self.assertEqual(analysis.clean_filing_asset(kept), kept)
+        self.assertNotIn("independent manager", analysis.clean_filing_asset(disclaimer))
+        self.assertFalse(analysis.clean_filing_asset(cetera).startswith("CETERA"))
+        other = "Apple Inc. - Common Stock"
+        self.assertEqual(analysis.clean_filing_asset(other), other)
+        self.assertEqual(analysis.clean_name(disclaimer, "OKE"), "ONEOK, Inc.")
+        self.assertEqual(analysis.clean_name(cetera, "OKE"), "ONEOK, Inc.")
+
+    def test_issuer_name_oke(self):
+        import importlib.util
+
+        root = HERE.parents[1]
+        if str(root) not in sys.path:
+            sys.path.insert(0, str(root))
+        spec = importlib.util.spec_from_file_location("build_backtest", root / "build-backtest.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        disclaimer = (
+            "are widely diversified, and all investment decisions are made solely "
+            "by the independent manager, without my input or direction. ONEOK, Inc. Common Stock"
+        )
+        self.assertEqual(mod.issuer_name("OKE", disclaimer), "ONEOK, Inc.")
+        self.assertEqual(mod.issuer_name("OKE", "CETERA ONEOK, Inc. Common Stock"), "ONEOK, Inc.")
 
 
 class AnalysisRefill(unittest.TestCase):

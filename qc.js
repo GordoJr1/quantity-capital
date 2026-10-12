@@ -576,9 +576,18 @@
     return junk(after) ? before : after;
   }
 
+  // House PTR disclaimer glued onto the issuer, and a Cetera brokerage sleeve.
+  // Same rules as analysis.clean_filing_asset. Share-class tail stays.
+  function cleanFilingAsset(raw) {
+    let s = String(raw || "").replace(/\s+/g, " ").trim();
+    s = s.replace(/^.*?\bindependent manager, without my input or direction\.\s*/i, "");
+    s = s.replace(/^CETERA\s+(?=\S)/i, "");
+    return s.trim();
+  }
+
   function issuerName(code, raw) {
     const c = String(code || "").toUpperCase();
-    let s = String(raw || "").replace(/\s+/g, " ").trim();
+    let s = cleanFilingAsset(raw);
     if (!s || s === "—") return c && c !== "—" ? c : "";
     // Glued PTR rows and option/note tails that leak into tickers.json names.
     s = s.replace(/^.*\([A-Z]{1,6}\)(?:\s*\[ST\])?\s+[PS]\s+\d{1,2}\/\d{1,2}\/\d{2,4}.*?(?:\$[\d,]+(?:\s*-\s*\$[\d,]+)?)\s+/i, "");
@@ -2621,6 +2630,7 @@
     tapeSymbol: tapeSymbol,
     threeYearCutoff: threeYearCutoff,
     cleanAsset: cleanAsset,
+    cleanFilingAsset: cleanFilingAsset,
     issuerName: issuerName,
     isWeakIssuer: isWeakIssuer,
     displayIssuer: displayIssuer,

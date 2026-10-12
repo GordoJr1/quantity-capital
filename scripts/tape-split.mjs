@@ -58,6 +58,9 @@ function stamp(t, file) {
   const row = QC.enrich(t, file);
   delete row.source;
   delete row.option;
+  // Lookup used the raw asset. Store the cleaned one so a leaked disclaimer
+  // or a Cetera sleeve cannot ride along in the derived tape.
+  if (row.asset) row.asset = QC.cleanFilingAsset(row.asset);
   return row;
 }
 

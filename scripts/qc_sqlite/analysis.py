@@ -350,6 +350,28 @@ def _strip_prefixes(s: str) -> str:
     return s
 
 
+# House PTR disclaimer glued onto the issuer. The sentence is cut off at the
+# front in the tape ("are widely diversified..."), then the real name follows.
+_INDEPENDENT_MANAGER = re.compile(
+    r"^.*?\bindependent manager, without my input or direction\.\s*",
+    re.I,
+)
+# Cetera is a brokerage sleeve, not part of the issuer ("CETERA ONEOK, Inc.").
+_CETERA_SLEEVE = re.compile(r"^CETERA\s+(?=\S)", re.I)
+
+
+def clean_filing_asset(raw: str) -> str:
+    """Stored asset text with a leaked disclaimer and a leading Cetera sleeve removed.
+
+    The share-class tail stays ("ONEOK, Inc. Common Stock"). clean_name peels
+    that down to the issuer. Idempotent, and it leaves unrelated assets alone.
+    """
+    s = _WS.sub(" ", raw or "").strip()
+    s = _INDEPENDENT_MANAGER.sub("", s, count=1)
+    s = _CETERA_SLEEVE.sub("", s, count=1)
+    return s.strip()
+
+
 def clean_name(name: str, code: str) -> str:
     """Company name for display, with filing junk removed.
 
@@ -359,7 +381,7 @@ def clean_name(name: str, code: str) -> str:
     never show an account holder or a note as the name.
     """
     code = code or ""
-    s = _WS.sub(" ", name or "").strip()
+    s = clean_filing_asset(name or "")
     amount = _PTR_AMOUNT.search(s)
     if amount and _NOTE_MARK.search(s[: amount.start()]):
         # Several PTR rows glued together behind a note: only the leading name is trustworthy.

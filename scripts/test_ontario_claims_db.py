@@ -239,6 +239,9 @@ class RepoTests(unittest.TestCase):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn("claims/.db/", text)
         self.assertIn("claims/.build/", text)
+        ignored = {line.strip() for line in text.splitlines() if line.strip()}
+        self.assertIn("*.db", ignored)
+        self.assertIn("*.db-wal", ignored)
 
     def test_viewer_does_not_replace_claims_page(self):
         html = (ROOT / "claims-db.html").read_text(encoding="utf-8")

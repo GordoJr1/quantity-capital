@@ -357,7 +357,8 @@ _INDEPENDENT_MANAGER = re.compile(
     re.I,
 )
 # Cetera is a brokerage sleeve, not part of the issuer ("CETERA ONEOK, Inc.").
-_CETERA_SLEEVE = re.compile(r"^CETERA\s+(?=\S)", re.I)
+# Uppercase only, so "Cetera Financial Group" stays an issuer name.
+_CETERA_SLEEVE = re.compile(r"^CETERA\s+(?=\S)")
 
 
 def clean_filing_asset(raw: str) -> str:

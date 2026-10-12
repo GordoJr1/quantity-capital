@@ -309,6 +309,7 @@ class AnalysisNames(unittest.TestCase):
         self.assertFalse(analysis.clean_filing_asset(cetera).startswith("CETERA"))
         other = "Apple Inc. - Common Stock"
         self.assertEqual(analysis.clean_filing_asset(other), other)
+        self.assertEqual(analysis.clean_filing_asset("Cetera Financial Group"), "Cetera Financial Group")
         self.assertEqual(analysis.clean_name(disclaimer, "OKE"), "ONEOK, Inc.")
         self.assertEqual(analysis.clean_name(cetera, "OKE"), "ONEOK, Inc.")
 

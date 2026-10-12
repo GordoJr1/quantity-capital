@@ -239,6 +239,9 @@ class RepoTests(unittest.TestCase):
         text = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn("claims/.db/", text)
         self.assertIn("claims/.build/", text)
+        ignored = {line.strip() for line in text.splitlines() if line.strip()}
+        self.assertIn("*.db", ignored)
+        self.assertIn("*.db-wal", ignored)
 
     def test_viewer_does_not_replace_claims_page(self):
         html = (ROOT / "claims-db.html").read_text(encoding="utf-8")
@@ -263,7 +266,7 @@ class RepoTests(unittest.TestCase):
         declared = sw.splitlines()[0]
         cache_m = re.fullmatch(r'const CACHE = "(qc-shell-v\d+)";', declared)
         self.assertIsNotNone(cache_m, "sw.js line 1 must declare const CACHE")
-        self.assertIn(cache_m.group(1), declared)
+        self.assertIn("caches.open(CACHE)", sw)
         self.assertIn("claims-map.js?v=22", sw)
         self.assertIn("claims-db.js?v=5", sw)
 

@@ -576,12 +576,13 @@
     return junk(after) ? before : after;
   }
 
-  // House PTR disclaimer glued onto the issuer, and a Cetera brokerage sleeve.
+  // House PTR disclaimer glued onto the issuer, and an uppercase CETERA sleeve.
   // Same rules as analysis.clean_filing_asset. Share-class tail stays.
+  // "Cetera Financial Group" is an issuer name and is left alone.
   function cleanFilingAsset(raw) {
     let s = String(raw || "").replace(/\s+/g, " ").trim();
     s = s.replace(/^.*?\bindependent manager, without my input or direction\.\s*/i, "");
-    s = s.replace(/^CETERA\s+(?=\S)/i, "");
+    s = s.replace(/^CETERA\s+(?=\S)/, "");
     return s.trim();
   }
 

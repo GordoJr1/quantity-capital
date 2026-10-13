@@ -42026,7 +42026,13 @@
      "ccy": "USD"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-12",
+    "reason": "sale",
+    "px": 5.36,
+    "recorded_on": "2026-10-13",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-10-09",
@@ -42035,7 +42041,7 @@
     "exit_after": "2026-10-09",
     "seen_on": "2026-10-09"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -43015,6 +43021,9 @@
   "bowles-lee-phillip|VRDN.CN|2026-09-29|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-10-05|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-10-06|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-10-07|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-10-08|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-10-09|open_market",
   "boyd-robert-t|ENDGF|2025-08-05|open_market",
   "boyd-robert-t|ENDGF|2025-08-06|open_market",
   "boyd-robert-t|ENDGF|2025-11-06|open_market",
@@ -43517,6 +43526,9 @@
   "daun-heye-edmund|KRYXF|2026-08-14|open_market",
   "daun-heye-edmund|KRYXF|2026-09-09|open_market",
   "daun-heye-edmund|KRYXF|2026-09-10|open_market",
+  "davenport-kristien|VRB.V|2026-10-05|open_market",
+  "davenport-kristien|VRB.V|2026-10-06|open_market",
+  "davenport-kristien|VRB.V|2026-10-07|open_market",
   "david-green-karen|CGAU|2025-12-10|open_market",
   "davies-b-p|SKHRF|2026-01-20|open_market",
   "davies-b-p|SKHRF|2026-01-21|open_market",
@@ -46998,5 +47010,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-12"
+ "last_run_date": "2026-10-13"
 }

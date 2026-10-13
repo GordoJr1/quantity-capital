@@ -1,5 +1,5 @@
 {
-  "source": "Senate PTR asset names + SEC SIC industry; bond issuers matched to SEC registrants",
+  "source": "Senate PTR asset names + SEC SIC industry",
   "tickers": {
     "A": {
       "name": "Agilent Technologies",
@@ -12620,6 +12620,11 @@
       "name": "E",
       "industry": "Crude Petroleum & Natural Gas",
       "sic": "1311"
+    },
+    "BHE": {
+      "name": "150 Main Street Trust > Bank of America Benchmark Electronics, Inc.",
+      "industry": "Printed Circuit Boards",
+      "sic": "3672"
     }
   },
   "assets": {
@@ -24626,6 +24631,21 @@
     "LEY JACKSON IND GO": {
       "ticker": "",
       "industry": "Municipal",
+      "sic": null
+    },
+    "150 Main Street Trust > Bank of America - municipal securities California Community Choice Financing Authority Rev Bonds": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "Imperial, CA, Irrigation District Bonds": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "150 Main Street Trust > Bank of America - municipal securities Indiana Finance Authority Health System Rev Bonds D: Value after sale <$1,000. Intuit Inc. - Common Stock (INTU) [ST] S (partial) 09/18/202610/09/2026$1,001 - $15,000": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Health",
       "sic": null
     }
   }

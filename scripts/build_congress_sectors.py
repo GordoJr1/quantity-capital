@@ -49,7 +49,6 @@ WINDOWS = [('3y', 1095, '3 years'), ('12m', 365, '12 months')]
 NONE_TEXT = "No clear shift right now: no sector's change passes all our checks."
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-# ---------------------------------------------------------------------------------------------------------------- classify
 RX_FUND = re.compile(r'\b(etf|etn|fund|funds|index|ishares|spdr|vanguard|proshares|powershares|direxion|wisdomtree|invesco qqq|qqq|'
                      r'select sector|mutual fund|529|target date|target retirement|money market|ultra ?short|s&p 500|nasdaq[- ]100|'
                      r'russell 2000|msci|ark (innovation|genomic)|global x|vaneck|ssga|sector spdr|trust series|unit investment|annuity)\b', re.I)
@@ -191,7 +190,6 @@ def pdate(s):
     try: return dt.date.fromisoformat(str(s)[:10])
     except (TypeError, ValueError): return None
 
-# ---------------------------------------------------------------------------------------------------------------- data
 def load_base(path):
     with gzip.open(path, 'rt', encoding='utf-8') as f: B = json.load(f)
     ep = dt.date.fromisoformat(B['epoch']).toordinal()
@@ -277,7 +275,6 @@ def assemble(base_path, tape_path, tickers_path):
                 tape_old_match_pct=round(sum(old) / len(old) * 100, 1) if old else None, base_filed_through=B['kadoa_snapshot']['filed_through'])
     return P, as_of, info
 
-# ---------------------------------------------------------------------------------------------------------------- stats
 def monday(o): return o - dt.date.fromordinal(o).weekday()
 def iso(o): return dt.date.fromordinal(o).isoformat()
 

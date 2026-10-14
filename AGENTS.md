@@ -2,6 +2,10 @@
 
 Operating notes for Quantity Capital. This is a **static, dependency-free PWA**: plain HTML/CSS/JS pages plus committed JSON data. There is no bundler, package manager, or backend server. See `README.md` for the product description.
 
+## Code comments
+
+Do not add a code comment unless it explains a non-obvious why. Leave out comments that restate the code, mark a section, or describe a temporary workaround. Keep license headers and tool directives (shebangs, noqa, type: ignore, eslint, pragmas).
+
 ## Run it locally
 
 The pages `fetch` their JSON data over HTTP, so the site **must be served** — opening a file from disk (`file://`) breaks data loading and the service worker. Serve the repo root:

@@ -519,9 +519,6 @@ def product_tokens(products: str) -> list[str]:
     return out
 
 
-# ---------------------------------------------------------------------------
-# HTTP
-# ---------------------------------------------------------------------------
 
 def fetch(url: str, timeout: int = 90) -> bytes:
     req = urllib.request.Request(
@@ -548,9 +545,6 @@ def fetch(url: str, timeout: int = 90) -> bytes:
     raise last  # type: ignore[misc]
 
 
-# ---------------------------------------------------------------------------
-# StatCan
-# ---------------------------------------------------------------------------
 
 def parse_statcan_csv(text: str) -> list[dict[str, Any]]:
     rows = list(csv.DictReader(io.StringIO(text)))
@@ -591,9 +585,6 @@ def fetch_statcan() -> list[dict[str, Any]]:
     return parse_statcan_csv(text)
 
 
-# ---------------------------------------------------------------------------
-# NRCan HTML tables
-# ---------------------------------------------------------------------------
 
 class _TableParser(HTMLParser):
     def __init__(self) -> None:
@@ -736,9 +727,6 @@ def fetch_nrcan_year(year: int) -> list[dict[str, Any]]:
     return parse_nrcan_html(html, year)
 
 
-# ---------------------------------------------------------------------------
-# Map 900A
-# ---------------------------------------------------------------------------
 
 def parse_map_layer(payload: dict[str, Any], layer_id: int) -> list[dict[str, Any]]:
     layer = MAP_LAYERS[layer_id]
@@ -786,9 +774,6 @@ def load_map_fixture(path: Path) -> list[dict[str, Any]]:
     return mines
 
 
-# ---------------------------------------------------------------------------
-# Company catalog + linker
-# ---------------------------------------------------------------------------
 
 def mine_keys(name: str) -> set[str]:
     keys = {fold(name), core_key(name), slugify(name)}
@@ -1083,9 +1068,6 @@ def link_mine(
     }
 
 
-# ---------------------------------------------------------------------------
-# Merge
-# ---------------------------------------------------------------------------
 
 def prefer_statcan(series: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """One point per year; StatCan beats NRCan when both exist."""
@@ -1293,9 +1275,6 @@ def attach_statcan_provinces(rows: list[dict[str, Any]]) -> list[dict[str, Any]]
     return out
 
 
-# ---------------------------------------------------------------------------
-# Build
-# ---------------------------------------------------------------------------
 
 def load_offline_production() -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []

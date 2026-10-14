@@ -464,7 +464,6 @@ def parse_article_html(html: str) -> tuple[str, str, list[dict]]:
     if pending_text:
         awards.append(parse_award_paragraph(pending_text, branch))
     return title, pub, awards
-# --- self test ---------------------------------------------------------------
 
 SELF_TESTS = [
     {

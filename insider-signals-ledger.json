@@ -27699,6 +27699,19 @@
      "trade_px": 0.92,
      "ccy": "CAD",
      "added_on": "2026-10-08"
+    },
+    {
+     "key": "anthony-todd|PAGFF|2026-10-14|open_market",
+     "filer": "Anthony, Todd",
+     "filer_id": "anthony-todd",
+     "role": "CEO",
+     "title": "Founder, CEO & Director",
+     "trade_date": "2026-10-14",
+     "filed_date": "2026-10-14",
+     "value_usd": 28121.0,
+     "trade_px": 0.8,
+     "ccy": "CAD",
+     "added_on": "2026-10-14"
     }
    ],
    "exit": null,
@@ -42284,6 +42297,48 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "DSVSF|2026-10-14|shaver-william-m",
+   "ticker": "DSVSF",
+   "company": "Discovery Mining",
+   "commodity": "Silver",
+   "company_type": "Explorer",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-14",
+   "recorded_floor": "2026-10-14",
+   "signal_filed": "2026-10-14",
+   "signal_trade": "2026-10-13",
+   "entry_after": "2026-10-14",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 6702271633.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-10-09",
+   "last_financing_filed": "2026-06-09",
+   "td_since_financing": 86,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "shaver-william-m|DSVSF|2026-10-13|open_market",
+     "filer": "Shaver, William M",
+     "filer_id": "shaver-william-m",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-10-13",
+     "filed_date": "2026-10-14",
+     "value_usd": 421119.0,
+     "trade_px": 11.98,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -42417,6 +42472,7 @@
   "anthony-todd|PAGFF|2026-10-02|open_market",
   "anthony-todd|PAGFF|2026-10-05|open_market",
   "anthony-todd|PAGFF|2026-10-08|open_market",
+  "anthony-todd|PAGFF|2026-10-14|open_market",
   "anwyll-edward-william-drew|MINE|2025-03-14|open_market",
   "anwyll-edward-william-drew|MINE|2026-02-12|open_market",
   "anwyll-edward-william-drew|MINE|2026-04-24|open_market",
@@ -44344,6 +44400,7 @@
   "hrkac-ryan|NVT.V|2026-09-24|open_market",
   "hrkac-ryan|NVT.V|2026-10-01|open_market",
   "hrkac-ryan|NVT.V|2026-10-06|open_market",
+  "hrkac-ryan|NVT.V|2026-10-13|open_market",
   "huang-richard|FFMGF|2025-07-25|open_market",
   "huang-richard|FFMGF|2025-07-30|open_market",
   "huang-richard|FFMGF|2025-09-24|open_market",
@@ -44950,6 +45007,7 @@
   "lostritto-paolo|SGGTF|2026-03-10|open_market",
   "louie-wendy|LGDTF|2025-07-25|open_market",
   "love-william-donald|NBRK.CN|2026-09-16|open_market",
+  "love-william-donald|NBRK.CN|2026-10-13|open_market",
   "low-rick|BHSIF|2026-01-30|open_market",
   "low-rick|BHSIF|2026-02-02|open_market",
   "low-rick|BHSIF|2026-04-28|open_market",
@@ -46198,6 +46256,7 @@
   "shannon-meghan-brianna-sarah|STLRF|2026-06-25|open_market",
   "shannon-meghan-brianna-sarah|STLRF|2026-07-13|open_market",
   "shaver-lon-eric|TINFF|2026-08-06|open_market",
+  "shaver-william-m|DSVSF|2026-10-13|open_market",
   "shaw-robert-peter|SBLRF|2026-08-04|open_market",
   "shearer-courtney-adair|EQMEF|2026-02-03|open_market",
   "shearer-courtney-adair|EQMEF|2026-10-05|open_market",
@@ -46550,6 +46609,7 @@
   "sutherland-colin|APGOF|2026-09-22|open_market",
   "sutton-brayden-robert|GLDFF|2025-04-17|open_market",
   "sutton-brayden-robert|GLDFF|2025-05-28|open_market",
+  "sutton-monty-dwayne|OPW.V|2026-10-09|open_market",
   "swemmer-clinton-john|GENMF|2026-05-19|open_market",
   "swemmer-clinton-john|GENMF|2026-05-21|open_market",
   "swemmer-clinton-john|GENMF|2026-09-28|open_market",
@@ -47011,5 +47071,5 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-13"
+ "last_run_date": "2026-10-14"
 }

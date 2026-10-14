@@ -1,5 +1,5 @@
 {
-  "source": "Senate PTR asset names + SEC SIC industry",
+  "source": "Senate PTR asset names + SEC SIC industry; bond issuers matched to SEC registrants",
   "tickers": {
     "A": {
       "name": "Agilent Technologies",
@@ -12625,6 +12625,26 @@
       "name": "150 Main Street Trust > Bank of America Benchmark Electronics, Inc.",
       "industry": "Printed Circuit Boards",
       "sic": "3672"
+    },
+    "NG": {
+      "name": "Charles Schwab 401K (Hantz) > Schwab 824 Novagold Resources Inc.",
+      "industry": "Gold And Silver Ores",
+      "sic": "1040"
+    },
+    "OXM": {
+      "name": "150 Main Street Trust > Bank of America Oxford Industries, Inc.",
+      "industry": "Men'S & Boys' Furnishgs, Work Clothg, & Allied Garments",
+      "sic": "2320"
+    },
+    "WUXIF": {
+      "name": "150 Main Street Trust > Bank of America WUXI APPTEC CO REG SHS H D: Ticker 2359 HK YETI Holdings, Inc.",
+      "industry": "",
+      "sic": null
+    },
+    "YETI": {
+      "name": "YETI Holdings, Inc.",
+      "industry": "Sporting & Athletic Goods, Nec",
+      "sic": "3949"
     }
   },
   "assets": {
@@ -24646,6 +24666,31 @@
     "150 Main Street Trust > Bank of America - municipal securities Indiana Finance Authority Health System Rev Bonds D: Value after sale <$1,000. Intuit Inc. - Common Stock (INTU) [ST] S (partial) 09/18/202610/09/2026$1,001 - $15,000": {
       "ticker": "",
       "industry": "Municipal \u2014 Health",
+      "sic": null
+    },
+    "Hern Family Foundation GRADY CNTY OKLA SCH FIN AUH EDL FACS 5.000% MAT 9/1/2033": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "MAYES CNTY OKLA PUB FACS AUTH REV 3.000% MAT 9/1/2027": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "OKLAHOMA DEPT TRANSN REV GAN SER 2018 A 5.000% MAT 9/1/2033": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Transportation",
+      "sic": null
+    },
+    "Hern Family Revocable Trust PONTOTOC CNTY OKLA EDL FACS AUTH 5.000% MAT 09/01/2028": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "TULSA OKLA MET UTIL AUTH UTIL REV UTIL 3.000% MAT 4/1/2029": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Water / utility",
       "sic": null
     }
   }

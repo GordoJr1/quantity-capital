@@ -16010,12 +16010,18 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-13",
+    "reason": "252d",
+    "px": 0.17,
+    "recorded_on": "2026-10-15",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-10-13",
    "cost_rt": 0.03
   },
   {
@@ -44465,6 +44471,7 @@
   "garagan-thomas|RMETF|2025-10-16|open_market",
   "garagan-thomas|RMETF|2025-12-01|open_market",
   "garagan-thomas|RMETF|2026-01-23|open_market",
+  "gardiner-thomas|TRO.V|2026-10-13|open_market",
   "garg-shubham|GXRFF|2025-05-05|open_market",
   "garg-shubham|GXRFF|2025-06-11|open_market",
   "garg-shubham|GXRFF|2025-06-12|open_market",

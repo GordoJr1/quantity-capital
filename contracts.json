@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-15T13:03:18Z",
+  "generated": "2026-10-15T22:20:26Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,24 @@
     "unlinked": 48
   },
   "awards": [
+    {
+      "date": "2026-10-15",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Aeronautics Co.",
+      "ticker": "LMT",
+      "amount": 18789801.0,
+      "ceiling": false,
+      "obligated": 18789801.0,
+      "mod": true,
+      "fms": true,
+      "contract": "N0001922C0015",
+      "cap_pct": 0.016,
+      "cap_asof": "2026-10-14",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4626623/contracts-for-oct-15-2026/",
+      "description": "is awarded an $18,789,801 modification (P00011) to a previously awarded cost-plus-incentive-fee and firm-fixed-price contract. This modification adds scope for\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-10-14",
       "agency": "DOD",
@@ -4801,9 +4819,9 @@
     }
   ],
   "dod": {
-    "latest": "2026-10-14",
-    "fetched": "2026-10-15T13:03:18Z",
+    "latest": "2026-10-15",
+    "fetched": "2026-10-15T22:20:26Z",
     "status": "ok",
-    "rows": 183
+    "rows": 184
   }
 }

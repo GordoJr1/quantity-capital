@@ -111,11 +111,51 @@ const research = fs.readFileSync(path.join(root, "research.html"), "utf8");
 check(qc.includes('stockActPage("politician.html")'), "qc.js name page uses stockActPage");
 check(qc.includes('stockActPage("ticker.html")'), "qc.js ticker page uses stockActPage");
 check(!/["']politician\.html["']:\s*"insider\.html"/.test(qc), "INSIDER_FOR no longer maps politician.html");
-check(overlap.includes('QCAPI.stockActPage("politician.html")'), "overlap polLine uses stockActPage");
-check(overlap.includes('QCAPI.stockActPage("ticker.html")'), "overlap tape ticker uses stockActPage");
+check(overlap.includes("window.QCAPI && QCAPI.stockActPage"), "overlap guards stockActPage");
+check(overlap.includes('stockActHref("politician.html")'), "overlap polLine uses stockActHref");
+check(overlap.includes('stockActHref("ticker.html")'), "overlap tape ticker uses stockActHref");
+check(overlap.includes("https://gordojr1.github.io/stock-act/"), "overlap falls back to the Stock Act URL");
 check(overlap.includes("insider-ticker.html?t="), "overlap keeps the insider tape link");
 check(research.includes('QC.stockActPage("ticker.html")'), "research builds Stock Act ticker links");
 check(research.indexOf("insider-ticker.html?t=PLTR") < 0, "research no longer points PLTR at insider-ticker");
+["PLTR", "GVA", "TDY", "PSN", "KTOS", "CNC"].forEach((ticker) => {
+  check(
+    research.includes('href="https://gordojr1.github.io/stock-act/ticker.html?t=' + ticker + '"'),
+    "research default href for " + ticker
+  );
+});
+check(!/<a class="tk" data-sa-ticker="[A-Z]+">/.test(research), "research ticker link missing href");
+
+function extractFunction(source, name) {
+  const start = source.indexOf("function " + name + "(");
+  if (start < 0) return "";
+  let depth = 0;
+  for (let i = source.indexOf("{", start); i < source.length; i++) {
+    if (source[i] === "{") depth += 1;
+    else if (source[i] === "}") {
+      depth -= 1;
+      if (depth === 0) return source.slice(start, i + 1);
+    }
+  }
+  return "";
+}
+
+const hrefFn = extractFunction(overlap, "stockActHref");
+check(hrefFn.indexOf("stockActPage") >= 0, "stockActHref missing");
+function overlapHref(withApi, file) {
+  const pageWindow = { QC: withApi ? QC : undefined };
+  const box = { window: pageWindow, encodeURIComponent: encodeURIComponent };
+  vm.createContext(box);
+  vm.runInContext(
+    "var QCAPI = window.QC || {}; window.QCAPI = window.QC || null;\n" + hrefFn + "\nthis.out = stockActHref(" + JSON.stringify(file) + ");",
+    box
+  );
+  return box.out;
+}
+check(overlapHref(false, "ticker.html") === origin + "ticker.html", "overlap ticker fallback");
+check(overlapHref(false, "politician.html") === origin + "politician.html", "overlap politician fallback");
+check(overlapHref(true, "ticker.html") === origin + "ticker.html", "overlap ticker uses stockActPage when QC loaded");
+check(overlapHref(true, "politician.html") === origin + "politician.html", "overlap politician uses stockActPage when QC loaded");
 
 if (failed) {
   console.error(failed + " failed");

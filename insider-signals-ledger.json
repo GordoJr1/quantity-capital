@@ -26538,7 +26538,13 @@
      "added_on": "2026-10-15"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-15",
+    "reason": "sale",
+    "px": 0.28,
+    "recorded_on": "2026-10-16",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-10-09",
@@ -26547,7 +26553,7 @@
     "exit_after": "2026-10-14",
     "seen_on": "2026-10-15"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -32853,7 +32859,13 @@
      "ccy": "CAD"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-15",
+    "reason": "financing",
+    "px": 0.28,
+    "recorded_on": "2026-10-16",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "financing",
     "trigger_filed": "2026-10-09",
@@ -32862,7 +32874,7 @@
     "exit_after": "2026-10-14",
     "seen_on": "2026-10-15"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -37970,7 +37982,13 @@
      "added_on": "2026-10-15"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-15",
+    "reason": "sale",
+    "px": 1.45,
+    "recorded_on": "2026-10-16",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-10-05",
@@ -37979,7 +37997,7 @@
     "exit_after": "2026-10-14",
     "seen_on": "2026-10-15"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -42555,8 +42573,8 @@
    "signal_filed": "2026-10-14",
    "signal_trade": "2026-10-14",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 0.49,
    "mcap_usd_basis": 34734376.0,
    "stale63_basis": 0.2063,
    "basis_date": "2026-10-14",
@@ -42579,7 +42597,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "DSVSF|2026-10-14|shaver-william-m",
@@ -42597,8 +42619,8 @@
    "signal_filed": "2026-10-14",
    "signal_trade": "2026-10-13",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 11.78,
    "mcap_usd_basis": 6702271633.0,
    "stale63_basis": 0.0159,
    "basis_date": "2026-10-09",
@@ -42621,7 +42643,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   },
   {
    "id": "GENMF|2026-10-09|levy-jamie",
@@ -42639,8 +42665,8 @@
    "signal_filed": "2026-10-09",
    "signal_trade": "2026-10-09",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 0.46,
    "mcap_usd_basis": 225790611.0,
    "stale63_basis": 0.254,
    "basis_date": "2026-10-14",
@@ -42689,7 +42715,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "PMMCF|2026-10-14|van-den-elsen-joseph-michael-james",
@@ -42707,8 +42737,8 @@
    "signal_filed": "2026-10-14",
    "signal_trade": "2026-10-14",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 1.04,
    "mcap_usd_basis": 206549414.0,
    "stale63_basis": 0.1111,
    "basis_date": "2026-10-09",
@@ -42731,7 +42761,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "SLCRF|2026-10-14|bures-peter",
@@ -42749,8 +42783,8 @@
    "signal_filed": "2026-10-14",
    "signal_trade": "2026-10-14",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 36.0,
    "mcap_usd_basis": 136580699.0,
    "stale63_basis": 0.127,
    "basis_date": "2026-10-14",
@@ -42773,7 +42807,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.015
   },
   {
    "id": "WTHVF|2026-10-13|armstrong-kenneth-andrew",
@@ -42791,8 +42829,8 @@
    "signal_filed": "2026-10-13",
    "signal_trade": "2026-10-08",
    "entry_after": "2026-10-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-10-15",
+   "entry_px": 0.29,
    "mcap_usd_basis": 51561835.0,
    "stale63_basis": 0.3333,
    "basis_date": "2026-10-14",
@@ -42815,7 +42853,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   }
  ],
  "seen_keys": [
@@ -45622,6 +45664,7 @@
   "macpherson-derek|WPGCF|2026-06-11|open_market",
   "macritchie-andrew|SKE|2025-11-05|open_market",
   "macritchie-andrew|SKE|2026-04-28|open_market",
+  "macritchie-andrew|WINS.V|2026-10-05|open_market",
   "magee-sean|TGB|2025-09-15|open_market",
   "magee-sean|TGB|2026-01-22|open_market",
   "magee-sean|TGB|2026-02-24|open_market",
@@ -47338,6 +47381,7 @@
   "varshney-peeyush-kumar|ZNX.V|2026-09-17|open_market",
   "varshney-peeyush-kumar|ZNX.V|2026-09-18|open_market",
   "varshney-peeyush-kumar|ZNX.V|2026-09-25|open_market",
+  "varshney-peeyush-kumar|ZNX.V|2026-10-15|open_market",
   "vauramo-pekka-juhani|B|2026-02-12|open_market",
   "vdovin-victor|SNWGF|2026-04-23|open_market",
   "vejvoda-josef|STLRF|2026-03-13|open_market",
@@ -47612,5 +47656,5 @@
   "zerb-wendell-miles|REDRF|2026-10-02|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-15"
+ "last_run_date": "2026-10-16"
 }

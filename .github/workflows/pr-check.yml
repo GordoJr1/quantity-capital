@@ -54,6 +54,7 @@ jobs:
             node --check "$f"
           done
           node scripts/test_sw_cache.js
+          node scripts/test_stock_act_links.js
 
       - name: Builders and Form 4 enrich
         run: |

@@ -99,20 +99,23 @@ fs.readdirSync(root).filter((name) => name.endsWith(".html")).forEach((name) => 
   });
 });
 
-const pagesUrl = "https://gordojr1.github.io/stock-act/trades-lite.json";
+const stockAct = "https://gordojr1.github.io/stock-act/";
+const pagesUrl = stockAct + "trades-lite.json";
 const rawUrl = "https://raw.githubusercontent.com/GordoJr1/stock-act/main/trades-lite.json";
 const qc = fs.readFileSync(path.join(root, "qc.js"), "utf8");
 const beta = fs.readFileSync(path.join(root, "beta.html"), "utf8");
 const morning = fs.readFileSync(path.join(root, "check-morning-tapes.py"), "utf8");
-check(count(qc, pagesUrl) === 1, "pages tape URL once in qc.js");
-check(count(beta, pagesUrl) === 0, "beta.html no longer inlines the pages tape URL");
+check(count(qc, stockAct) === 1, "stock act origin once in qc.js");
+check(qc.includes('const POLITICIAN_TAPE_URL = STOCK_ACT + "trades-lite.json"'), "tape url built from STOCK_ACT");
+check(count(qc, pagesUrl) === 0, "tape url is not a second literal");
+check(count(beta, pagesUrl) === 0, "beta.html does not inline the tape url");
 check(beta.includes("QC.POLITICIAN_TAPE_URL"), "beta.html uses QC.POLITICIAN_TAPE_URL");
 check(count(morning, rawUrl) === 1, "raw tape URL once in check-morning-tapes.py");
 check(morning.includes('POLITICIAN_URL = "' + rawUrl + '"'), "morning check keeps one Python constant");
 
 function walk(dir, acc) {
   fs.readdirSync(dir).forEach((name) => {
-    if (name === ".git" || name === "node_modules" || name === "prices" || name === "test_sw_cache.js") return;
+    if (name === ".git" || name === "node_modules" || name === "prices" || /^test_.*\.js$/.test(name)) return;
     const full = path.join(dir, name);
     if (fs.statSync(full).isDirectory()) walk(full, acc);
     else if (/\.(js|html|py)$/.test(name)) acc.push(full);
@@ -123,8 +126,7 @@ function walk(dir, acc) {
 walk(root, []).forEach((file) => {
   const rel = path.relative(root, file);
   const text = fs.readFileSync(file, "utf8");
-  if (rel !== "qc.js" && count(text, pagesUrl)) console.error("extra pages URL in " + rel);
-  if (rel !== "qc.js") check(count(text, pagesUrl) === 0, "pages URL also in " + rel);
+  if (count(text, pagesUrl)) check(false, "tape url literal in " + rel);
   if (rel !== "check-morning-tapes.py") check(count(text, rawUrl) === 0, "raw URL also in " + rel);
 });
 

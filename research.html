@@ -609,12 +609,12 @@
             <tr><th>Ticker</th><th>Change</th></tr>
           </thead>
           <tbody>
-            <tr><td><a class="tk" href="ticker.html?t=PLTR">PLTR</a></td><td>+277%</td></tr>
-            <tr><td><a class="tk" href="ticker.html?t=GVA">GVA</a></td><td>+259%</td></tr>
-            <tr><td><a class="tk" href="ticker.html?t=TDY">TDY</a></td><td>+157%</td></tr>
-            <tr><td><a class="tk" href="ticker.html?t=PSN">PSN</a></td><td>−61%</td></tr>
-            <tr><td><a class="tk" href="ticker.html?t=KTOS">KTOS</a></td><td>−59%</td></tr>
-            <tr><td><a class="tk" href="ticker.html?t=CNC">CNC</a></td><td>−97%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="PLTR">PLTR</a></td><td>+277%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="GVA">GVA</a></td><td>+259%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="TDY">TDY</a></td><td>+157%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="PSN">PSN</a></td><td>−61%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="KTOS">KTOS</a></td><td>−59%</td></tr>
+            <tr><td><a class="tk" data-sa-ticker="CNC">CNC</a></td><td>−97%</td></tr>
           </tbody>
         </table>
       </div>
@@ -818,9 +818,12 @@
       .catch(fail);
   })();
   </script>
-  <script src="qc.js?v=138"></script>
+  <script src="qc.js?v=141"></script>
   <script>
     if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js", { updateViaCache: "none" });
+    document.querySelectorAll("a[data-sa-ticker]").forEach(function (a) {
+      a.href = QC.stockActPage("ticker.html") + "?t=" + encodeURIComponent(a.getAttribute("data-sa-ticker"));
+    });
   </script>
   <script>
     (function () {

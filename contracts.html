@@ -370,7 +370,7 @@
       <a href="mailto:gordojr@proton.me">Transmit</a>
     </div>
   </footer>
-  <script src="qc.js?v=138"></script>
+  <script src="qc.js?v=141"></script>
   <script>
     function money(n) {
       if (n == null || !isFinite(Number(n))) return "—";
@@ -387,7 +387,7 @@
     }
     function tickerLink(t) {
       if (!t) return "";
-      return "<a class=\"tk\" href=\"ticker.html?t=" + encodeURIComponent(t) + "\">" + QC.esc(t) + "</a>";
+      return "<a class=\"tk\" href=\"insider-ticker.html?t=" + encodeURIComponent(t) + "\">" + QC.esc(t) + "</a>";
     }
     function cells(cols) {
       return "<tr>" + cols.join("") + "</tr>";

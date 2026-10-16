@@ -4,6 +4,12 @@
   // Words OCR'd or parsed as the underlying on option rows. Not blanked on stock rows (EXP and ING are real tickers).
   const OPTION_FALSE_TICKERS = { EXP: 1, FOR: 1, ING: 1, ETF: 1, CALL: 1, PUT: 1, USD: 1 };
   const OPTION_OCR_UNDER = { INJ: "JNJ", X5P: "XSP" };
+  const STOCK_ACT = "https://gordojr1.github.io/stock-act/";
+  const POLITICIAN_TAPE_URL = STOCK_ACT + "trades-lite.json";
+
+  function stockActPage(file) {
+    return STOCK_ACT + String(file || "").replace(/^\//, "");
+  }
 
   function isOptionFalseTicker(code) {
     return !!OPTION_FALSE_TICKERS[String(code || "").toUpperCase()];
@@ -1880,8 +1886,8 @@
       if (last && last.key === key) last.rows.push(t);
       else groups.push({ key: key, rows: [t] });
     });
-    const namePage = opts.namePage || "politician.html";
-    const tickerPage = opts.tickerPage || "ticker.html";
+    const namePage = opts.namePage || stockActPage("politician.html");
+    const tickerPage = opts.tickerPage || stockActPage("ticker.html");
     const blocks = groups.map((g) => {
       const rowHtml = g.rows.map((t) => {
         const nameHref = opts.nameSelf
@@ -2353,6 +2359,33 @@
     return r.search === s.search;
   }
 
+  const INSIDER_FOR = {
+    "ticker.html": "insider-ticker.html",
+    "signals.html": "insider-signals.html",
+    "landed.html": "insider-landed.html"
+  };
+
+  function rewriteRedirectHref(href, base) {
+    let here = base;
+    if (!here) {
+      try { here = location.href; } catch (e) { return href; }
+    }
+    let u;
+    let origin;
+    try {
+      const home = new URL(here);
+      origin = home.origin;
+      u = new URL(href, home);
+    } catch (e) {
+      return href;
+    }
+    if (u.origin !== origin) return href;
+    if (u.pathname.indexOf("/quantity-capital/") !== 0) return href;
+    const next = INSIDER_FOR[pageFile(u.pathname)];
+    if (!next) return href;
+    return next + u.search + u.hash;
+  }
+
   function resolveDest(fallbackHref) {
     const stored = storedReturn();
     const ref = document.referrer;
@@ -2369,9 +2402,10 @@
     } else if (stored) {
       dest = stored;
     }
+    dest = rewriteRedirectHref(dest);
     const here = pageFile(location.pathname);
     const d = parseHref(dest);
-    if (!d || d.file === here) dest = fallback;
+    if (!d || d.file === here) dest = rewriteRedirectHref(fallback);
     const f = parseHref(dest);
     if (!f || f.file === here) dest = "index.html";
     return dest;
@@ -2608,6 +2642,10 @@
     tapeKindLabel: tapeKindLabel,
     tapeSectionHeading: tapeSectionHeading,
     TAPE_PAGE: 120,
+    STOCK_ACT: STOCK_ACT,
+    stockActPage: stockActPage,
+    rewriteRedirectHref: rewriteRedirectHref,
+    POLITICIAN_TAPE_URL: POLITICIAN_TAPE_URL,
     politicianTapeListHtml: politicianTapeListHtml,
     loadFilingNotes: loadFilingNotes,
     filingNotesFor: filingNotesFor,

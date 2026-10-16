@@ -197,7 +197,7 @@
   <footer>
     <div class="wrap"><span>© Quantity Capital</span><a href="mailto:gordojr@proton.me">Transmit</a></div>
   </footer>
-  <script src="qc.js?v=138"></script>
+  <script src="qc.js?v=141"></script>
   <script>
     (function () {
       var QCAPI = window.QC || {};
@@ -246,14 +246,14 @@
 
       function tickerCell(code) {
         var t = encodeURIComponent(code || "");
-        return "<a class=\"tk\" href=\"ticker.html?t=" + t + "\">" + esc(code) + "</a>" +
+        return "<a class=\"tk\" href=\"" + QCAPI.stockActPage("ticker.html") + "?t=" + t + "\">" + esc(code) + "</a>" +
           "<span class=\"firm\"><a href=\"insider-ticker.html?t=" + t + "\">Insider tape</a></span>";
       }
 
       function polLine(p) {
         var name = esc(p.name || "Member");
         var who = p.id
-          ? "<a class=\"who\" href=\"politician.html?id=" + encodeURIComponent(p.id) + "\">" + name + "</a>"
+          ? "<a class=\"who\" href=\"" + QCAPI.stockActPage("politician.html") + "?id=" + encodeURIComponent(p.id) + "\">" + name + "</a>"
           : "<span class=\"who\">" + name + "</span>";
         var bits = [p.chamber, prettyDay(p.trade_date)].filter(Boolean).map(esc);
         return "<div class=\"who-line\">" + who +

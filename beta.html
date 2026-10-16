@@ -443,7 +443,7 @@
       <div class="issuer-info">
         <p class="kicker">Beta</p>
         <div class="qc-who-row">
-          <h1 id="title"><a href="ticker.html?t=NEM">Newmont</a></h1>
+          <h1 id="title"><a href="insider-ticker.html?t=NEM">Newmont</a></h1>
           <p class="qc-warn-host" id="warn-chip" hidden></p>
         </div>
         <p class="lede" id="lede">Gold producer. Filing-backed, not a terminal dump.</p>
@@ -478,7 +478,7 @@
       <div class="issuer-aside">
       <section class="issuer-chart" id="issuer-chart" aria-label="Company price chart">
         <div class="issuer-chart-head">
-          <h2><a id="chart-title" href="ticker.html?t=NEM">Price</a></h2>
+          <h2><a id="chart-title" href="insider-ticker.html?t=NEM">Price</a></h2>
           <div class="range" id="range" role="tablist" aria-label="Chart range"></div>
         </div>
         <div class="chart-wrap" id="chart-wrap">
@@ -560,7 +560,7 @@
       <p class="legal">Not investment advice. © Quantity Capital</p>
     </div>
   </footer>
-  <script src="qc.js?v=139"></script>
+  <script src="qc.js?v=140"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=123"></script>
   <script>
@@ -1509,7 +1509,7 @@
       const row = issuerRow();
       const short = iss.short || iss.name || (row && row.name) || "Mines";
       const ticker = ((iss.tickers || [])[0] || {});
-      const chart = ticker.chart || (ticker.symbol ? "ticker.html?t=" + ticker.symbol : "index.html");
+      const chart = ticker.chart || (ticker.symbol ? "insider-ticker.html?t=" + ticker.symbol : "index.html");
       document.title = short + " — Quantity Capital";
       document.getElementById("title").innerHTML = "<a href=\"" + esc(chart) + "\">" + esc(short) + "</a>";
       const nMines = (row && row.producing_mines != null)
@@ -1620,7 +1620,7 @@
       const tks = ((profile && profile.issuer) || {}).tickers || [];
       const first = tks[0] || {};
       if (first.chart) return first.chart;
-      return tk ? "ticker.html?t=" + encodeURIComponent(tk) : "ticker.html";
+      return tk ? "insider-ticker.html?t=" + encodeURIComponent(tk) : "insider-ticker.html";
     }
     function issuerAliases() {
       const out = [];
@@ -1895,7 +1895,7 @@
       const title = document.getElementById("chart-title");
       const tk = resolveChartTicker();
       const href = chartHref(tk);
-      title.href = href || "ticker.html";
+      title.href = href || "insider-ticker.html";
       title.textContent = tk ? (tk + " price") : "Price";
       paintRange();
       if (!tk) {

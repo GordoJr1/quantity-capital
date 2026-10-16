@@ -1881,8 +1881,8 @@
       if (last && last.key === key) last.rows.push(t);
       else groups.push({ key: key, rows: [t] });
     });
-    const namePage = opts.namePage || "politician.html";
-    const tickerPage = opts.tickerPage || "ticker.html";
+    const namePage = opts.namePage || "insider.html";
+    const tickerPage = opts.tickerPage || "insider-ticker.html";
     const blocks = groups.map((g) => {
       const rowHtml = g.rows.map((t) => {
         const nameHref = opts.nameSelf
@@ -2354,6 +2354,19 @@
     return r.search === s.search;
   }
 
+  const INSIDER_FOR = {
+    "politician.html": "insider.html",
+    "ticker.html": "insider-ticker.html",
+    "signals.html": "insider-signals.html",
+    "landed.html": "insider-landed.html"
+  };
+
+  function rewriteRedirectHref(href) {
+    const parsed = parseHref(href);
+    if (!parsed || !INSIDER_FOR[parsed.file]) return href;
+    return INSIDER_FOR[parsed.file] + parsed.search + parsed.hash;
+  }
+
   function resolveDest(fallbackHref) {
     const stored = storedReturn();
     const ref = document.referrer;
@@ -2370,9 +2383,10 @@
     } else if (stored) {
       dest = stored;
     }
+    dest = rewriteRedirectHref(dest);
     const here = pageFile(location.pathname);
     const d = parseHref(dest);
-    if (!d || d.file === here) dest = fallback;
+    if (!d || d.file === here) dest = rewriteRedirectHref(fallback);
     const f = parseHref(dest);
     if (!f || f.file === here) dest = "index.html";
     return dest;

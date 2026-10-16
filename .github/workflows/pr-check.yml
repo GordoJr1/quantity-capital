@@ -48,11 +48,12 @@ jobs:
       - name: Syntax-check JS
         run: |
           set -euo pipefail
-          for f in claims-map.js claims-neighbors.js qc.js sw.js chart.js refresh.js
+          for f in claims-map.js claims-neighbors.js claims-db.js insider-track.js qc.js sw.js chart.js refresh.js
           do
             echo "node --check $f"
             node --check "$f"
           done
+          node scripts/test_sw_cache.js
 
       - name: Builders and Form 4 enrich
         run: |

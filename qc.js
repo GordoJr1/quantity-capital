@@ -4,6 +4,7 @@
   // Words OCR'd or parsed as the underlying on option rows. Not blanked on stock rows (EXP and ING are real tickers).
   const OPTION_FALSE_TICKERS = { EXP: 1, FOR: 1, ING: 1, ETF: 1, CALL: 1, PUT: 1, USD: 1 };
   const OPTION_OCR_UNDER = { INJ: "JNJ", X5P: "XSP" };
+  const POLITICIAN_TAPE_URL = "https://gordojr1.github.io/stock-act/trades-lite.json";
 
   function isOptionFalseTicker(code) {
     return !!OPTION_FALSE_TICKERS[String(code || "").toUpperCase()];
@@ -2608,6 +2609,7 @@
     tapeKindLabel: tapeKindLabel,
     tapeSectionHeading: tapeSectionHeading,
     TAPE_PAGE: 120,
+    POLITICIAN_TAPE_URL: POLITICIAN_TAPE_URL,
     politicianTapeListHtml: politicianTapeListHtml,
     loadFilingNotes: loadFilingNotes,
     filingNotesFor: filingNotesFor,

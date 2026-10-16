@@ -1,4 +1,4 @@
-const CACHE = "qc-shell-v264";
+const CACHE = "qc-shell-v265";
 const SHELL = [
   "./",
   "./index.html",
@@ -8,35 +8,10 @@ const SHELL = [
   "./claims-db.html",
   "./contracts.html",
   "./research.html",
-  "./claims-db.js?v=5",
   "./claims-db.js?v=6",
   "./claims-neighbors.js?v=1",
-  "./claims-map.js?v=22",
   "./claims-map.js?v=23",
-  "./shell.css",
-  "./shell.css?v=113",
-  "./shell.css?v=164",
-  "./shell.css?v=165",
-  "./shell.css?v=168",
-  "./shell.css?v=169",
-  "./shell.css?v=170",
-  "./shell.css?v=171",
-  "./shell.css?v=172",
-  "./shell.css?v=173",
-  "./shell.css?v=174",
-  "./shell.css?v=175",
-  "./shell.css?v=176",
-  "./shell.css?v=177",
-  "./shell.css?v=178",
-  "./shell.css?v=179",
-  "./shell.css?v=180",
   "./shell.css?v=181",
-  "./politician.html",
-  "./ticker.html",
-  "./signals.html",
-  "./landed.html",
-  "./tells.html",
-  "./paper.html",
   "./insiders.html",
   "./insider-landed.html",
   "./insider-signals.html",
@@ -46,30 +21,11 @@ const SHELL = [
   "./insider-checks.html",
   "./overlap.html",
   "./chart-revamp-mockups.html",
-  "./qc.js",
-  "./qc.js?v=107",
-  "./qc.js?v=113",
-  "./qc.js?v=124",
-  "./qc.js?v=126",
-  "./qc.js?v=128",
-  "./qc.js?v=129",
-  "./qc.js?v=130",
-  "./qc.js?v=131",
-  "./qc.js?v=132",
-  "./qc.js?v=133",
-  "./qc.js?v=134",
-  "./qc.js?v=135",
-  "./qc.js?v=136",
-  "./qc.js?v=137",
-  "./qc.js?v=138",
+  "./qc.js?v=139",
   "./insider-track.js?v=4",
-  "./insider-track.css?v=4",
-  "./insider-track.css?v=5",
   "./insider-track.css?v=6",
   "./manifest.webmanifest",
   "./refresh.js",
-  "./chart.js",
-  "./chart.js?v=122",
   "./chart.js?v=123",
   "./city.jpg?v=15",
   "./icons/icon-192.png",
@@ -77,6 +33,10 @@ const SHELL = [
   "./icons/icon-512-maskable.png",
   "./icons/apple-touch-icon.png"
 ];
+
+function qcShellCachesToDelete(keys, current) {
+  return keys.filter((key) => key.startsWith("qc-shell-") && key !== current);
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -101,7 +61,7 @@ self.addEventListener("notificationclick", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)))
+      Promise.all(qcShellCachesToDelete(keys, CACHE).map((key) => caches.delete(key)))
     ).then(() => self.clients.claim())
   );
 });

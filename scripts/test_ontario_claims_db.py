@@ -267,8 +267,14 @@ class RepoTests(unittest.TestCase):
         cache_m = re.fullmatch(r'const CACHE = "(qc-shell-v\d+)";', declared)
         self.assertIsNotNone(cache_m, "sw.js line 1 must declare const CACHE")
         self.assertIn("caches.open(CACHE)", sw)
-        self.assertIn("claims-map.js?v=22", sw)
-        self.assertIn("claims-db.js?v=5", sw)
+        map_src = re.search(r"claims-map\.js\?v=\d+", live)
+        db_src = re.search(r"claims-db\.js\?v=\d+", html)
+        self.assertIsNotNone(map_src)
+        self.assertIsNotNone(db_src)
+        self.assertIn(map_src.group(0), sw)
+        self.assertIn(db_src.group(0), sw)
+        self.assertNotIn("claims-map.js?v=22", sw)
+        self.assertNotIn("claims-db.js?v=5", sw)
 
     def test_public_issuer_links_keep_site_ids(self):
         aliases = json.loads((ROOT / "claims" / "links" / "aliases.json").read_text(encoding="utf-8"))

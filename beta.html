@@ -560,7 +560,7 @@
       <p class="legal">Not investment advice. © Quantity Capital</p>
     </div>
   </footer>
-  <script src="qc.js?v=138"></script>
+  <script src="qc.js?v=139"></script>
   <script src="insider-track.js?v=4"></script>
   <script src="chart.js?v=123"></script>
   <script>
@@ -1700,7 +1700,7 @@
     function ensureTapes() {
       if (tapesReady) return tapesReady;
       tapesReady = Promise.all([
-        fetchTape("https://gordojr1.github.io/stock-act/trades-lite.json"),
+        fetchTape(QC.POLITICIAN_TAPE_URL),
         fetchTape("insider-trades-lite.json")
       ]).then(([pol, ins]) => {
         polTrades = pol.trades || [];

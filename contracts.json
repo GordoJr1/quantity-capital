@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-19T11:19:51Z",
+  "generated": "2026-10-19T22:19:33Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,24 @@
     "unlinked": 51
   },
   "awards": [
+    {
+      "date": "2026-10-19",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "Lockheed Martin Aeronautics Co.",
+      "ticker": "LMT",
+      "amount": 9376464.0,
+      "ceiling": false,
+      "obligated": 9376464.0,
+      "mod": true,
+      "fms": true,
+      "contract": "N0001923C0003",
+      "cap_pct": 0.007,
+      "cap_asof": "2026-10-16",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4628844/contracts-for-oct-19-2026/",
+      "description": "is awarded a $9,376,464 firm-fixed-price modification (P00029) to a previously awarded contract. This modification adds scope to provide for the upgrades to el\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-10-16",
       "agency": "DOD",
@@ -4422,9 +4440,9 @@
     }
   ],
   "dod": {
-    "latest": "2026-10-16",
-    "fetched": "2026-10-19T11:19:51Z",
+    "latest": "2026-10-19",
+    "fetched": "2026-10-19T22:19:33Z",
     "status": "ok",
-    "rows": 159
+    "rows": 160
   }
 }

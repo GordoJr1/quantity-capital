@@ -16474,12 +16474,18 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-21",
+    "reason": "252d",
+    "px": 0.18,
+    "recorded_on": "2026-10-22",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-10-21",
    "cost_rt": 0.06
   },
   {
@@ -41490,6 +41496,19 @@
      "trade_px": 0.89,
      "ccy": "CAD",
      "added_on": "2026-10-06"
+    },
+    {
+     "key": "hay-morgan|NAUFF|2026-10-22|open_market",
+     "filer": "Hay, Morgan",
+     "filer_id": "hay-morgan",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-10-22",
+     "filed_date": "2026-10-22",
+     "value_usd": 10664.0,
+     "trade_px": 0.6,
+     "ccy": "CAD",
+     "added_on": "2026-10-22"
     }
    ],
    "exit": null,
@@ -43558,6 +43577,48 @@
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.004
+  },
+  {
+   "id": "MAKO|2026-10-22|leisman-akiba-jacob-issachar",
+   "ticker": "MAKO",
+   "company": "Mako Mining",
+   "commodity": "Gold",
+   "company_type": "Explorer",
+   "venue": "TSXV",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-22",
+   "recorded_floor": "2026-10-22",
+   "signal_filed": "2026-10-22",
+   "signal_trade": "2026-10-22",
+   "entry_after": "2026-10-22",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 769805940.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-10-21",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "leisman-akiba-jacob-issachar|MAKO|2026-10-22|open_market",
+     "filer": "Leisman, Akiba Jacob Issachar",
+     "filer_id": "leisman-akiba-jacob-issachar",
+     "role": "CEO",
+     "title": "CEO & Director",
+     "trade_date": "2026-10-22",
+     "filed_date": "2026-10-22",
+     "value_usd": 48415.0,
+     "trade_px": 11.35,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -43932,6 +43993,7 @@
   "berzins-ian-martin|RIINF|2026-08-14|open_market",
   "berzins-ian-martin|RIINF|2026-09-21|open_market",
   "berzins-ian-martin|RIINF|2026-10-21|open_market",
+  "berzins-ian-martin|RIINF|2026-10-22|open_market",
   "besserer-dean-jerry|FMANF|2025-08-06|open_market",
   "besserer-dean-jerry|FMANF|2025-09-23|open_market",
   "besserer-dean-jerry|FMANF|2025-10-20|open_market",
@@ -44863,6 +44925,7 @@
   "deluce-jonathon|AMQFF|2025-11-06|open_market",
   "deluce-jonathon|AMQFF|2025-11-20|open_market",
   "deluce-jonathon|AMQFF|2025-11-24|open_market",
+  "deluce-jonathon|AMQFF|2026-10-22|open_market",
   "deluce-keith-james|AMQFF|2025-04-10|open_market",
   "demare-nick|TKRFF|2025-09-10|open_market",
   "desaulniers-eric|NMG|2026-09-30|open_market",
@@ -45490,6 +45553,7 @@
   "hathaway-peter-leofric|SRCRF|2025-07-28|open_market",
   "hathaway-peter-leofric|SRCRF|2025-07-30|open_market",
   "haugen-tejay-dustin|AETUF|2026-02-23|open_market",
+  "hay-morgan|NAUFF|2026-10-22|open_market",
   "heard-james-william-alexander|TRMLF|2025-08-01|open_market",
   "heard-james-william-alexander|TRMLF|2026-01-08|open_market",
   "heard-james-william-alexander|TRMLF|2026-04-17|open_market",
@@ -46158,6 +46222,7 @@
   "lee-john|CTVFF|2026-04-08|open_market",
   "lei-eugene-chi-yen|HBM|2026-03-27|open_market",
   "leisman-akiba-jacob-issachar|MAKO|2026-01-27|open_market",
+  "leisman-akiba-jacob-issachar|MAKO|2026-10-22|open_market",
   "leitzell-jeffrey-r|EOG|2025-04-14|open_market",
   "leitzell-jeffrey-r|EOG|2025-05-07|open_market",
   "lekstrom-morgan|NEXM|2025-10-31|open_market",
@@ -47040,6 +47105,8 @@
   "peterson-nolan|SALQF|2026-08-07|open_market",
   "peterson-nolan|SALQF|2026-09-11|open_market",
   "peterson-nolan|SALQF|2026-09-30|open_market",
+  "peterson-nolan|SALQF|2026-10-15|open_market",
+  "peterson-nolan|SALQF|2026-10-22|open_market",
   "pettingell-michael|VROYF|2025-07-31|open_market",
   "pettingell-michael|VROYF|2025-09-03|open_market",
   "pettingell-michael|VZLA|2025-08-13|open_market",
@@ -48238,6 +48305,8 @@
   "wasser-clarence-franklin|DRYGF|2025-09-05|open_market",
   "wasser-clarence-franklin|DRYGF|2026-03-19|open_market",
   "wasser-clarence-franklin|DRYGF|2026-07-13|open_market",
+  "wasser-clarence-franklin|DRYGF|2026-10-21|open_market",
+  "wasser-clarence-franklin|DRYGF|2026-10-22|open_market",
   "weber-jason|TARSF|2026-04-02|open_market",
   "weber-jason|TARSF|2026-04-07|open_market",
   "weber-jason|TARSF|2026-05-05|open_market",
@@ -48421,6 +48490,7 @@
   "zerb-wendell-miles|REDRF|2026-08-21|open_market",
   "zerb-wendell-miles|REDRF|2026-10-01|open_market",
   "zerb-wendell-miles|REDRF|2026-10-02|open_market",
+  "zerb-wendell-miles|REDRF|2026-10-16|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
  "last_run_date": "2026-10-22"

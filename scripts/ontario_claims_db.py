@@ -1538,6 +1538,9 @@ def score_prototype(report: dict) -> dict:
     if str(qc) not in sys.path:
         sys.path.insert(0, str(qc))
     import jev  # noqa: WPS433
+    if not jev.enabled():
+        log("jev disabled")
+        return {"skipped": True, "reason": "jev disabled"}
     from typesafe_sdk import Score
 
     if not ensure_typesafe_key():

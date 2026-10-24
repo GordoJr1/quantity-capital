@@ -1013,6 +1013,11 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
         play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]
         avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
         return play, avoid, stats
+    if not jev.enabled():
+        log("jev disabled")
+        play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]
+        avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
+        return play, avoid, stats
     if not jev.key_present():
         log("BLOCKER: TYPESAFE_API_KEY missing; analysis export is rules-only (no Jev gate).")
         play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]

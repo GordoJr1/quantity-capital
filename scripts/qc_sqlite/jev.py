@@ -57,8 +57,7 @@ def enabled() -> bool:
 
 
 def key_present() -> bool:
-    load_typesafe_env()
-    return bool(os.environ.get("TYPESAFE_API_KEY"))
+    return False
 
 
 def _cache_load() -> dict[str, Any]:

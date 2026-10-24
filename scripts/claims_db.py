@@ -1641,12 +1641,15 @@ def stage_claims() -> None:
 
 
 def score_result(report: dict) -> dict:
-    if not ondb.ensure_typesafe_key():
-        raise SystemExit("TYPESAFE_API_KEY missing; cannot score the prototype")
     qc = SCRIPTS / "qc_sqlite"
     if str(qc) not in sys.path:
         sys.path.insert(0, str(qc))
     import jev  # noqa: WPS433
+    if not jev.enabled():
+        log("jev disabled")
+        return {"skipped": True, "reason": "jev disabled"}
+    if not ondb.ensure_typesafe_key():
+        raise SystemExit("TYPESAFE_API_KEY missing; cannot score the prototype")
     from typesafe_sdk import Score
 
     provinces = report.get("provinces") or {}

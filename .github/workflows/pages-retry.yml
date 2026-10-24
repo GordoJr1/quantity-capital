@@ -20,8 +20,6 @@ jobs:
     permissions:
       actions: write
       contents: read
-      deployments: write
-      pages: write
     steps:
       - name: Rebuild Pages (max 2 retries per SHA)
         env:
@@ -40,9 +38,9 @@ jobs:
           fi
           echo "waiting for previous Pages deploy lock to drop"
           sleep 90
-          if gh api -X POST "repos/$REPO/pages/builds"; then
-            echo "requested Pages rebuild of HEAD"
+          if gh workflow run static.yml --ref main -R "$GITHUB_REPOSITORY"; then
+            echo "dispatched Pages deploy"
             exit 0
           fi
-          echo "pages/builds POST failed; rerunning deploy job"
+          echo "::warning::could not dispatch Pages deploy"
           gh run rerun "$FAILED_RUN" --failed -R "$REPO"

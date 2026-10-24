@@ -27,8 +27,7 @@ concurrency:
 
 permissions:
   contents: write
-  pages: write
-  deployments: write
+  actions: write
 
 jobs:
   refresh:
@@ -97,9 +96,8 @@ jobs:
             exit 1
           fi
           if [ "$pushed" = "yes" ]; then
-            # GITHUB_TOKEN commits do not always start pages-build-deployment.
-            sleep 8
-            gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds"
+            # GITHUB_TOKEN pushes do not start static.yml.
+            gh workflow run static.yml --ref main -R "$GITHUB_REPOSITORY" || echo "::warning::could not dispatch Pages deploy"
           fi
           if [ -n "$problems" ]; then
             echo "::error::published, but these steps failed:$problems"

@@ -642,7 +642,9 @@ def run(
 
 
 def questions() -> dict[str, Any]:
-    from typesafe_sdk import Noul, Score
+    print("jev disabled", flush=True)
+    Noul = jev_common.Noul
+    Score = jev_common.Score
 
     return {
         "committee_overlap": Score(
@@ -741,6 +743,7 @@ def judge(
     question_set: dict[str, Any] | None = None,
     recent_days: int = 120,
 ) -> dict[str, Any]:
+    raise jev_common.JevDisabledError("Jev is disabled")
     """Judge uncached Congress filings. The only function that calls Jev."""
     owns_con = con is None
     if owns_con:
@@ -803,9 +806,6 @@ def judge(
             if owns_con:
                 con.close()
             raise SystemExit("TYPESAFE_API_KEY missing")
-        from typesafe_sdk import TypeSafeClient
-
-        client = TypeSafeClient(model=JEV_MODEL, timeout=120.0)
     qset = question_set if question_set is not None else questions()
     stop = threading.Event()
     log_lock = threading.Lock()

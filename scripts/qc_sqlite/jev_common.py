@@ -11,7 +11,6 @@ Never print or log TYPESAFE_API_KEY.
 from __future__ import annotations
 
 import json
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Mapping
@@ -22,7 +21,13 @@ JEV_DISABLED = True
 
 class JevDisabledError(RuntimeError): pass
 
-Choice = Noul = Score = TypeSafeClient = None  # type: ignore
+
+class _Disabled:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        raise JevDisabledError("Jev is disabled")
+
+
+Choice = Noul = Score = TypeSafeClient = _Disabled
 
 ET = ZoneInfo("America/New_York")
 HERE = Path(__file__).resolve().parent
@@ -33,14 +38,6 @@ USD_PER_INPUT_TOKEN = 0.042 / 1_000_000  # docs.typesafe.ai/models: $0.042 per M
 
 def require_sdk() -> None:
     raise JevDisabledError('Jev is disabled (2026-10-24). Use Clef-Flash.')
-    if TypeSafeClient is None:
-        raise ImportError(
-            "typesafe-sdk required: use /home/box/shared/typesafe/.venv/bin/python"
-        )
-    if not os.environ.get("TYPESAFE_API_KEY"):
-        raise RuntimeError(
-            "TYPESAFE_API_KEY missing: set -a; source /home/box/shared/typesafe/env; set +a"
-        )
 
 
 def log_usage(script: str, response: Any, *, n_questions: int, tag: str = "") -> dict[str, Any]:
@@ -73,17 +70,6 @@ def ask(
 ) -> Any:
     """One pinned System One call for all of a script's questions; logs usage."""
     raise JevDisabledError('Jev is disabled (2026-10-24). Use Clef-Flash.')
-    owns = client is None
-    if owns:
-        require_sdk()
-        client = TypeSafeClient(model=JEV_MODEL)
-    try:
-        resp = client.system_one(state, dict(questions), model=JEV_MODEL)
-    finally:
-        if owns and hasattr(client, "close"):
-            client.close()
-    log_usage(script, resp, n_questions=len(questions), tag=tag)
-    return resp
 
 
 def usage_totals(path: Path | None = None) -> dict[str, Any]:

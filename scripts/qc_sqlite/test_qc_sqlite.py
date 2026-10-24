@@ -551,51 +551,31 @@ class FilingNotes(unittest.TestCase):
         self.assertIn("Insiders bought same week", payload["notes"]["t4"])
         self.assertNotIn("First NVDA trade", payload["notes"]["t4"])
 
-    def test_second_judge_run_makes_no_calls(self):
+    def test_judge_raises_and_makes_no_call(self):
         import filing_notes
         import jev_common
-        from types import SimpleNamespace
 
         calls = []
 
-        def fake_ask(state, questions, **kwargs):
-            calls.append(kwargs.get("tag"))
-            committee = SimpleNamespace(score=0.2, confidence=0.4, probabilities={"0": 0.7, "1": 0.1, "2": 0.1, "3": 0.1})
-            noul = SimpleNamespace(noul=0.05)
-            answers = {
-                "committee_overlap": committee,
-                "asset_matches_company": noul,
-                "is_broad_fund": noul,
-                "is_derivative": noul,
-                "home_state_industry": noul,
-            }
-            return SimpleNamespace(model="jev-1.13.0", answers=answers, usage=SimpleNamespace(input_tokens=12, output_tokens=1))
+        def fake_ask(*_a, **_k):
+            calls.append("called")
+            raise AssertionError("jev_common.ask must not run")
 
         saved_ask = jev_common.ask
-        saved_env = os.environ.get("QC_FILING_JUDGMENTS")
         con = _notes_db()
         _trade(con, "t1", "2024-01-01", "2024-01-20", 8000)
-        _trade(con, "t2", "2024-06-01", "2024-06-20", 8000)
         jev_common.ask = fake_ask
         try:
-            with tempfile.TemporaryDirectory() as d:
-                os.environ["QC_FILING_JUDGMENTS"] = str(Path(d) / "filing_judgments.sqlite")
-                with redirect_stdout(io.StringIO()):
-                    first = filing_notes.judge(
+            with redirect_stdout(io.StringIO()):
+                with self.assertRaises(jev_common.JevDisabledError):
+                    filing_notes.judge(
                         backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object(),
                         question_set={"stub": True},
                     )
-                    second = filing_notes.judge(backfill=True, workers=2, max_usd=3, con=con, bios={}, client=object())
         finally:
             jev_common.ask = saved_ask
-            if saved_env is None:
-                os.environ.pop("QC_FILING_JUDGMENTS", None)
-            else:
-                os.environ["QC_FILING_JUDGMENTS"] = saved_env
             con.close()
-        self.assertEqual(first["calls"], 2)
-        self.assertEqual(second["calls"], 0)
-        self.assertEqual(sorted(calls), ["t1", "t2"])
+        self.assertEqual(calls, [])
 
     def test_run_boards_calls_filing_notes(self):
         import filing_notes

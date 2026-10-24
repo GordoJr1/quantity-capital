@@ -540,71 +540,8 @@ def load_typesafe_key() -> str:
 
 def jev_choose(items: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
     """Score ambiguous recipient/candidate sets. Never prints the key."""
-    key = load_typesafe_key()
-    if not key or not items:
-        return {}
-    questions: dict[str, Any] = {}
-    state_rows = []
-    for i, item in enumerate(items):
-        cands = item["candidates"][:8]
-        state_rows.append({"name": item["recipient"], "candidates": cands})
-        criteria = {
-            "none": "None of the candidates is the same company or an obvious parent. A shared generic word is not enough.",
-        }
-        for cand in cands:
-            ticker = cand["ticker"]
-            criteria[ticker] = f"{cand['company']} ({ticker}) is the same company or the obvious parent."
-        questions[f"r{i}"] = {
-            "type": "choice",
-            "instructions": (
-                f"Which listed company, if any, is the same firm or an obvious parent of "
-                f"`rows[{i}].name`? Use only `rows[{i}].candidates`. "
-                "Choose none when the overlap is a generic word, a different company, or unclear."
-            ),
-            "criteria": criteria,
-        }
-    body = {
-        "model": "jev-latest",
-        "state": {"rows": state_rows},
-        "questions": questions,
-    }
-    req = urllib.request.Request(
-        JEV_URL,
-        data=json.dumps(body).encode(),
-        headers={
-            "Authorization": "Bearer " + key,
-            "Content-Type": "application/json",
-            "User-Agent": USER_AGENT,
-        },
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            data = json.loads(resp.read().decode())
-    except urllib.error.HTTPError as exc:
-        print(f"jev http {exc.code}", flush=True)
-        return {}
-    except urllib.error.URLError as exc:
-        print(f"jev unreachable {exc.reason}", flush=True)
-        return {}
-    answers = data.get("answers") or {}
-    out: dict[str, dict[str, Any]] = {}
-    print(f"jev model {data.get('model')}", flush=True)
-    for i, item in enumerate(items):
-        ans = answers.get(f"r{i}") or {}
-        choice = ans.get("choice")
-        probs = ans.get("probabilities") or {}
-        allowed = {c["ticker"] for c in item["candidates"]}
-        if choice not in allowed:
-            choice = "none"
-        prob = float(probs.get(choice) or 0)
-        if choice != "none" and prob < 0.55:
-            choice = "none"
-        out[item["cache_key"]] = {
-            "choice": choice,
-            "confidence": ans.get("confidence"),
-            "prob": prob,
-        }
-    return out
+    print("jev disabled", flush=True)
+    return {}
 
 
 def apply_jev(conn: sqlite3.Connection, pending: list[dict[str, Any]]) -> None:

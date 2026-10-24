@@ -1119,7 +1119,9 @@ def run_schema_jev(con: sqlite3.Connection, skip: bool) -> dict[str, Any]:
         "pilot_calc": "size_vs_cap",
         "source": "fallback",
     }
-    if skip or not jev.key_present():
+    if skip or not jev.enabled() or not jev.key_present():
+        if not skip and not jev.enabled():
+            log("jev disabled")
         meta_set(con, "jev_schema", fallback)
         return fallback
     try:
@@ -1153,6 +1155,10 @@ def run_schema_jev(con: sqlite3.Connection, skip: bool) -> dict[str, Any]:
             )
         )
         return decided
+    except jev.JevDisabledError:
+        log("jev disabled")
+        meta_set(con, "jev_schema", fallback)
+        return fallback
     except Exception as exc:
         log(f"Jev schema call failed ({type(exc).__name__}); using fallback. See README.")
         fallback["error"] = type(exc).__name__
@@ -1183,7 +1189,9 @@ def apply_link_judgment(item: dict[str, Any]) -> dict[str, Any]:
 
 
 def run_link_jev(con: sqlite3.Connection, pending: list[dict[str, Any]], skip: bool) -> None:
-    if skip or not pending:
+    if skip or not pending or not jev.enabled():
+        if not skip and pending and not jev.enabled():
+            log("jev disabled")
         meta_set(con, "jev_links", {"ran": False, "pending": len(pending)})
         return
     if not jev.key_present():
@@ -1198,6 +1206,10 @@ def run_link_jev(con: sqlite3.Connection, pending: list[dict[str, Any]], skip: b
         for fut in as_completed(futs):
             try:
                 results.append(fut.result())
+            except jev.JevDisabledError:
+                log("jev disabled")
+                meta_set(con, "jev_links", {"ran": False, "pending": len(pending)})
+                return
             except Exception as exc:
                 errors += 1
                 log(f"  link Jev error: {type(exc).__name__}: {exc}")
@@ -1322,7 +1334,9 @@ def apply_calc_judgment(row: sqlite3.Row) -> dict[str, Any]:
 
 
 def run_calc_jev(con: sqlite3.Connection, skip: bool) -> None:
-    if skip:
+    if skip or not jev.enabled():
+        if not skip and not jev.enabled():
+            log("jev disabled")
         meta_set(con, "jev_calc", {"ran": False})
         return
     if not jev.key_present():
@@ -1347,6 +1361,10 @@ def run_calc_jev(con: sqlite3.Connection, skip: bool) -> None:
         for fut in as_completed(futs):
             try:
                 r = fut.result()
+            except jev.JevDisabledError:
+                log("jev disabled")
+                meta_set(con, "jev_calc", {"ran": False})
+                return
             except Exception as exc:
                 errors += 1
                 log(f"  calc Jev error: {type(exc).__name__}: {exc}")

@@ -37,17 +37,10 @@ def utc_now() -> str:
 
 
 def hydrate_questions(specs: dict[str, dict[str, Any]], names: list[str]) -> dict[str, Any]:
-    from typesafe_sdk import Choice, Noul, Score
+    import jev_common
 
-    builders = {"Choice": Choice, "Noul": Noul, "Score": Score}
-    out = {}
-    for name in names:
-        spec = specs[name]
-        kwargs: dict[str, Any] = {"instructions": spec["instructions"]}
-        if "criteria" in spec:
-            kwargs["criteria"] = spec["criteria"]
-        out[name] = builders[spec["type"]](**kwargs)
-    return out
+    print("jev disabled", flush=True)
+    raise jev_common.JevDisabledError("Jev is disabled")
 
 
 def try_import_jev():
@@ -79,9 +72,12 @@ def run_jev(
     keep_state: bool = False,
     jev_module: Any = None,
 ) -> dict[str, Any]:
-    injected = jev_module is not None
-    jev = jev_module if injected else try_import_jev()
-    have_sdk = sdk_present()
+    if jev_module is None:
+        print("jev disabled", flush=True)
+        return not_attempted("jev disabled")
+    injected = True
+    jev = jev_module
+    have_sdk = False
     if jev is None or not jev.key_present() or (not injected and not have_sdk):
         out = not_attempted("no_typesafe_key_or_sdk")
         out["environment"] = {

@@ -960,7 +960,7 @@ def maybe_jev_link(owner: str, candidates: list[dict[str, str]]) -> str | None:
             sys.path.insert(0, str(sqlite_dir))
         import jev  # type: ignore
 
-        if not jev.key_present():
+        if not jev.enabled() or not jev.key_present():
             return None
         from typesafe_sdk import Score
 

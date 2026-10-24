@@ -139,7 +139,7 @@ class AnalysisErrors(unittest.TestCase):
             {"code": "AAA", "action": "watch", "score": 3.0, "flags": []},
             {"code": "BBB", "action": "buy-dip", "score": 2.0, "flags": []},
         ]
-        saved = (jev.key_present, analysis.apply_jev_row, jev.store_decision)
+        saved = (jev.key_present, jev.enabled, analysis.apply_jev_row, jev.store_decision)
 
         def fake_apply(row):
             if row["code"] == "BBB":
@@ -147,13 +147,14 @@ class AnalysisErrors(unittest.TestCase):
             return {"code": row["code"], "packed": {"model": "m", "answers": {"ship": {"choice": "ship"}}}}
 
         jev.key_present = lambda: True
+        jev.enabled = lambda: True
         analysis.apply_jev_row = fake_apply
         jev.store_decision = lambda *a, **k: None
         try:
             with redirect_stdout(io.StringIO()):
                 play, avoid, stats = analysis.gate_with_jev(None, book, skip_jev=False)
         finally:
-            jev.key_present, analysis.apply_jev_row, jev.store_decision = saved
+            jev.key_present, jev.enabled, analysis.apply_jev_row, jev.store_decision = saved
         self.assertEqual(stats["errors"], 1)
         self.assertEqual(sorted(r["code"] for r in play), ["AAA", "BBB"])
         self.assertTrue(next(r for r in play if r["code"] == "BBB")["jev_error"])
@@ -338,7 +339,7 @@ class AnalysisRefill(unittest.TestCase):
         import jev
 
         asked = []
-        saved = (jev.key_present, analysis.apply_jev_row, jev.store_decision)
+        saved = (jev.key_present, jev.enabled, analysis.apply_jev_row, jev.store_decision)
 
         def fake_apply(row):
             asked.append(row["code"])
@@ -346,13 +347,14 @@ class AnalysisRefill(unittest.TestCase):
             return {"code": row["code"], "packed": {"model": "m", "answers": {"ship": {"choice": choice}}}}
 
         jev.key_present = lambda: True
+        jev.enabled = lambda: True
         analysis.apply_jev_row = fake_apply
         jev.store_decision = lambda *a, **k: None
         try:
             with redirect_stdout(io.StringIO()):
                 play, avoid, stats = analysis.gate_with_jev(None, book, skip_jev=False)
         finally:
-            jev.key_present, analysis.apply_jev_row, jev.store_decision = saved
+            jev.key_present, jev.enabled, analysis.apply_jev_row, jev.store_decision = saved
         return play, avoid, stats, asked
 
     @staticmethod

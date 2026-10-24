@@ -53,12 +53,7 @@ def try_import_jev():
 
 
 def sdk_present() -> bool:
-    try:
-        import typesafe_sdk  # noqa: F401
-
-        return True
-    except ImportError:
-        return False
+    return False
 
 
 def not_attempted(reason: str) -> dict[str, Any]:

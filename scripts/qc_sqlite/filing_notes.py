@@ -743,8 +743,8 @@ def judge(
     question_set: dict[str, Any] | None = None,
     recent_days: int = 120,
 ) -> dict[str, Any]:
-    raise jev_common.JevDisabledError("Jev is disabled")
     """Judge uncached Congress filings. The only function that calls Jev."""
+    raise jev_common.JevDisabledError("Jev is disabled")
     owns_con = con is None
     if owns_con:
         if not DB_PATH.is_file():

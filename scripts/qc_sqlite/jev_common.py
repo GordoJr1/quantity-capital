@@ -17,10 +17,12 @@ from pathlib import Path
 from typing import Any, Mapping
 from zoneinfo import ZoneInfo
 
-try:
-    from typesafe_sdk import Choice, Noul, Score, TypeSafeClient
-except ImportError:  # pragma: no cover
-    Choice = Noul = Score = TypeSafeClient = None  # type: ignore
+JEV_DISABLED = True
+
+
+class JevDisabledError(RuntimeError): pass
+
+Choice = Noul = Score = TypeSafeClient = None  # type: ignore
 
 ET = ZoneInfo("America/New_York")
 HERE = Path(__file__).resolve().parent
@@ -30,6 +32,7 @@ USD_PER_INPUT_TOKEN = 0.042 / 1_000_000  # docs.typesafe.ai/models: $0.042 per M
 
 
 def require_sdk() -> None:
+    raise JevDisabledError('Jev is disabled (2026-10-24). Use Clef-Flash.')
     if TypeSafeClient is None:
         raise ImportError(
             "typesafe-sdk required: use /home/box/shared/typesafe/.venv/bin/python"
@@ -69,6 +72,7 @@ def ask(
     client: Any = None,
 ) -> Any:
     """One pinned System One call for all of a script's questions; logs usage."""
+    raise JevDisabledError('Jev is disabled (2026-10-24). Use Clef-Flash.')
     owns = client is None
     if owns:
         require_sdk()

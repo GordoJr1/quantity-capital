@@ -1,4 +1,4 @@
-# GitHub-managed pages-build-deployment does not retry a 400 from
+# "Deploy static content to Pages" does not retry a 400 from
 # actions/deploy-pages when a previous SHA is still "in progress"
 # (insider tape deploy can hold that lock through the politician push).
 # Rebuild HEAD, at most twice per SHA (the lock can outlast one retry),
@@ -6,7 +6,7 @@
 name: pages-retry
 on:
   workflow_run:
-    workflows: ["pages build and deployment"]
+    workflows: ["Deploy static content to Pages"]
     types: [completed]
 concurrency:
   group: pages-retry
@@ -21,7 +21,7 @@ jobs:
       actions: write
       contents: read
     steps:
-      - name: Rebuild Pages (max 2 retries per SHA)
+      - name: Retry Deploy static content to Pages (max 2 per SHA)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
@@ -29,16 +29,16 @@ jobs:
           FAILED_RUN: ${{ github.event.workflow_run.id }}
         run: |
           set -euo pipefail
-          fails=$(gh api "repos/$REPO/actions/runs?head_sha=$SHA&per_page=20" \
-            --jq '[.workflow_runs[] | select(.name=="pages build and deployment" and .conclusion=="failure")] | length')
-          echo "failed pages-build-deployment runs for ${SHA:0:7}: $fails"
+          fails=$(gh api -R "$REPO" "repos/$REPO/actions/runs?head_sha=$SHA&per_page=20" \
+            --jq '[.workflow_runs[] | select(.name=="Deploy static content to Pages" and .conclusion=="failure")] | length')
+          echo "failed Deploy static content to Pages runs for ${SHA:0:7}: $fails"
           if [ "${fails:-0}" -ge 3 ]; then
             echo "already retried this SHA; not looping"
             exit 0
           fi
           echo "waiting for previous Pages deploy lock to drop"
           sleep 90
-          if gh workflow run static.yml --ref main -R "$GITHUB_REPOSITORY"; then
+          if gh workflow run static.yml --ref main -R "$REPO"; then
             echo "dispatched Pages deploy"
             exit 0
           fi

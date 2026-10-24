@@ -924,7 +924,11 @@ def jev_state(row: dict) -> dict:
 
 
 def apply_jev_row(row: dict) -> dict:
-    packed = jev.ask(jev_state(row), jev.analysis_questions(), label=f"analysis_ship_v1:{row['code']}")
+    try:
+        packed = jev.ask(jev_state(row), jev.analysis_questions(), label=f"analysis_ship_v1:{row['code']}")
+    except jev.JevDisabledError:
+        log("jev disabled")
+        return {"code": row["code"], "disabled": True}
     return {"code": row["code"], "packed": packed}
 
 
@@ -972,10 +976,15 @@ def _review(con: sqlite3.Connection, rows: list[dict], stats: dict) -> int:
         for fut in as_completed(futs):
             try:
                 result = fut.result()
+            except jev.JevDisabledError:
+                log("jev disabled")
+                return -1
             except Exception as exc:
                 errors += 1
                 log(f"  analysis Jev error: {type(exc).__name__}")
                 continue
+            if result.get("disabled"):
+                return -1
             packed = result["packed"]
             row = by_code[result["code"]]
             jev.store_decision(con, "analysis", row["code"], packed)
@@ -1013,6 +1022,10 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
 
     log(f"Jev analysis gate: {len(pool)} candidates")
     errors = _review(con, pool, stats)
+    if errors < 0:
+        play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]
+        avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
+        return play, avoid, stats
 
     # Refill: the next-ranked non-avoid names, a batch at a time, until JEV_BOOK_TARGET
     # play names have passed review, the list runs out, or JEV_REFILL_MAX extra calls are spent.
@@ -1026,7 +1039,12 @@ def gate_with_jev(con: sqlite3.Connection, book: list[dict], skip_jev: bool) -> 
         queue = queue[len(batch):]
         stats["refill"] += len(batch)
         stats["refill_codes"].extend(r["code"] for r in batch)
-        errors += _review(con, batch, stats)
+        extra = _review(con, batch, stats)
+        if extra < 0:
+            play = [r for r in book if r["action"] != "avoid"][:BOOK_CAP]
+            avoid = [r for r in book if r["action"] == "avoid"][:AVOID_CAP]
+            return play, avoid, stats
+        errors += extra
         pool.extend(batch)
     if stats["refill"]:
         log(f"analysis Jev refill {stats['refill']} (cap {JEV_REFILL_MAX}) kept play {_kept_play(pool)}/{JEV_BOOK_TARGET}")

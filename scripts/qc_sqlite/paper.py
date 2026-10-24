@@ -68,8 +68,7 @@ def log(msg: str) -> None:
 
 
 def paper_questions():
-    from typesafe_sdk import Noul, Score
-
+    raise jev.JevDisabledError("Jev is disabled")
     return {
         "artifact": Noul(
             instructions=(
@@ -137,7 +136,9 @@ def compute_paper(con: sqlite3.Connection, skip_jev: bool = False, path: Path = 
 
 def flag_outlier_legs(con: sqlite3.Connection, legs: list[dict], skip_jev: bool) -> dict:
     stats = {"ran": False, "n": 0, "errors": 0, "model": None, "flagged": []}
-    if skip_jev or not legs:
+    if skip_jev or not legs or not jev.enabled():
+        if not skip_jev and legs and not jev.enabled():
+            log("jev disabled")
         return stats
     if not jev.key_present():
         log("paper Jev skipped (no TYPESAFE_API_KEY)")
@@ -169,6 +170,9 @@ def flag_outlier_legs(con: sqlite3.Connection, legs: list[dict], skip_jev: bool)
         for fut in as_completed(futs):
             try:
                 r = fut.result()
+            except jev.JevDisabledError:
+                log("jev disabled")
+                return stats
             except Exception as exc:
                 errors += 1
                 log(f"  paper Jev error: {type(exc).__name__}")

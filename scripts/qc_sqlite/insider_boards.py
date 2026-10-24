@@ -135,8 +135,7 @@ def ingest_json_list(con: sqlite3.Connection, path: Path, table: str, id_key: st
 
 
 def follow_questions():
-    from typesafe_sdk import Choice, Noul
-
+    raise jev.JevDisabledError("Jev is disabled")
     return {
         "ship": Choice(
             instructions="Should this officer stay on the public insider follow list?",
@@ -159,7 +158,7 @@ def gate_follow(con: sqlite3.Connection, skip_jev: bool) -> dict:
     data = json.loads(path.read_text(encoding="utf-8-sig"))
     follow = data.get("follow") or []
     con.execute("DELETE FROM insider_follow")
-    if skip_jev or not jev.key_present() or not follow:
+    if skip_jev or not jev.enabled() or not jev.key_present() or not follow:
         for rec in follow:
             fid = rec.get("id")
             if fid:
@@ -167,7 +166,9 @@ def gate_follow(con: sqlite3.Connection, skip_jev: bool) -> dict:
                     "INSERT INTO insider_follow(filer_id, shipped, payload_json) VALUES (?,?,?)",
                     (fid, 1, json.dumps(rec)),
                 )
-        if not skip_jev and not jev.key_present():
+        if not skip_jev and not jev.enabled() and follow:
+            log("jev disabled")
+        elif not skip_jev and not jev.key_present():
             log("insider follow Jev skipped (no key)")
             stats["reason"] = "no_key"
         return stats
@@ -199,6 +200,16 @@ def gate_follow(con: sqlite3.Connection, skip_jev: bool) -> dict:
         for fut in as_completed(futs):
             try:
                 r = fut.result()
+            except jev.JevDisabledError:
+                log("jev disabled")
+                for rec in follow:
+                    fid = rec.get("id")
+                    if fid:
+                        con.execute(
+                            "INSERT INTO insider_follow(filer_id, shipped, payload_json) VALUES (?,?,?)",
+                            (fid, 1, json.dumps(rec)),
+                        )
+                return stats
             except Exception as exc:
                 errors += 1
                 log(f"  follow Jev error: {type(exc).__name__}")

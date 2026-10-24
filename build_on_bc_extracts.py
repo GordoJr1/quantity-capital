@@ -353,47 +353,10 @@ def judge_holders(holders: dict, cache_dir: Path | None = None,
     out = dict(cached)
     missing = [h for h in holders if h not in out]
     if missing:
-        key = load_typesafe_key(typesafe_env)
-        use_jev = bool(key)
-        client = None
-        if use_jev:
-            try:
-                os.environ.setdefault("TYPESAFE_API_KEY", key or "")
-                from typesafe_sdk import Noul  # type: ignore
-
-                from typesafe_sdk import TypeSafeClient  # type: ignore
-
-                client = TypeSafeClient(timeout=120.0)
-                question = Noul(
-                    instructions=(
-                        "Is this Ontario MLAS HOLDER string a tenure held (in whole "
-                        "or in part) by Vale Canada Limited / Vale Canada Limitee, "
-                        "as opposed to a different company?"
-                    ),
-                )
-            except Exception as exc:
-                print(f"    jev unavailable ({type(exc).__name__}); substring fallback", flush=True)
-                use_jev = False
+        print("jev disabled", flush=True)
         for holder in missing:
-            if use_jev and client is not None:
-                try:
-                    resp = client.system_one(
-                        state={"holder": holder,
-                               "company": "Vale Canada Limited / Vale Canada Limitee"},
-                        questions={"holder_is_vale": question},
-                        model=JUDGE_MODEL,
-                    )
-                    ans = resp.answers["holder_is_vale"]
-                    out[holder] = {"vale": bool(ans.noul and ans.noul >= 0.5),
-                                   "noul": ans.noul, "method": "jev-noul",
-                                   "model": getattr(resp, "model", JUDGE_MODEL)}
-                except Exception as exc:
-                    print(f"    jev failed for {holder!r}; substring fallback", flush=True)
-                    out[holder] = {"vale": "VALE CANADA LIMITED" in holder.upper(),
-                                   "noul": None, "method": f"substring-fallback ({type(exc).__name__})"}
-            else:
-                out[holder] = {"vale": "VALE CANADA LIMITED" in holder.upper(),
-                               "noul": None, "method": "substring-fallback (no key/sdk)"}
+            out[holder] = {"vale": "VALE CANADA LIMITED" in holder.upper(),
+                           "noul": None, "method": "substring-fallback (no key/sdk)"}
         if slot:
             atomic_write_json(slot, out)
     for holder in holders:

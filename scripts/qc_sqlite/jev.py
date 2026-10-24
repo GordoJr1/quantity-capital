@@ -13,6 +13,7 @@ import threading
 from pathlib import Path
 from typing import Any
 
+from jev_common import JevDisabledError
 from paths import JEV_CACHE, TYPESAFE_ENV
 
 MODEL = "jev-latest"
@@ -49,6 +50,10 @@ def load_typesafe_env() -> None:
             continue
         key, value = line.split("=", 1)
         os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+def enabled() -> bool:
+    return False
 
 
 def key_present() -> bool:
@@ -138,17 +143,7 @@ def _answers_dict(response: Any) -> dict[str, Any]:
 
 
 def _get_client():
-    global _client
-    if _client is not None:
-        return _client
-    with _client_lock:
-        if _client is not None:
-            return _client
-        load_typesafe_env()
-        from typesafe_sdk import TypeSafeClient
-
-        _client = TypeSafeClient(timeout=120.0)
-        return _client
+    raise JevDisabledError("Jev is disabled")
 
 
 def ask(state: Any, questions: dict, *, label: str) -> dict[str, Any]:
@@ -157,21 +152,7 @@ def ask(state: Any, questions: dict, *, label: str) -> dict[str, Any]:
     `questions` is a map of Choice/Noul/Score. The cache is flushed every
     SAVE_EVERY new answers and at interpreter exit (see flush()).
     """
-    global _dirty
-    key = _digest(state, label, questions)
-    with _cache_lock:
-        hit = _cache_load().get(key)
-    if hit:
-        return hit
-    client = _get_client()
-    response = client.system_one(state=state, questions=questions, model=MODEL)
-    packed = _answers_dict(response)
-    with _cache_lock:
-        _cache_load()[key] = packed
-        _dirty += 1
-        if _dirty >= SAVE_EVERY:
-            _cache_save()
-    return packed
+    raise JevDisabledError("Jev is disabled")
 
 
 def round_link_outcome(score_value: float) -> str:
@@ -179,8 +160,7 @@ def round_link_outcome(score_value: float) -> str:
 
 
 def schema_questions():
-    from typesafe_sdk import Choice
-
+    raise JevDisabledError("Jev is disabled")
     return {
         "claims_grain": Choice(
             instructions=(
@@ -236,8 +216,7 @@ def schema_questions():
 
 
 def link_questions():
-    from typesafe_sdk import Noul, Score
-
+    raise JevDisabledError("Jev is disabled")
     return {
         "link_state": Score(
             instructions=(
@@ -287,8 +266,7 @@ def store_decision(con, subject_type: str, subject_id: str, packed: dict[str, An
 
 
 def analysis_questions():
-    from typesafe_sdk import Choice, Noul, Score
-
+    raise JevDisabledError("Jev is disabled")
     return {
         "ship": Choice(
             instructions=(
@@ -346,8 +324,7 @@ def analysis_questions():
 
 
 def calc_questions():
-    from typesafe_sdk import Choice, Noul
-
+    raise JevDisabledError("Jev is disabled")
     return {
         "flag": Choice(
             instructions=(

@@ -29,7 +29,7 @@ jobs:
           FAILED_RUN: ${{ github.event.workflow_run.id }}
         run: |
           set -euo pipefail
-          fails=$(gh api -R "$REPO" "repos/$REPO/actions/runs?head_sha=$SHA&per_page=20" \
+          fails=$(gh api "repos/$REPO/actions/runs?head_sha=$SHA&per_page=20" \
             --jq '[.workflow_runs[] | select(.name=="Deploy static content to Pages" and .conclusion=="failure")] | length')
           echo "failed Deploy static content to Pages runs for ${SHA:0:7}: $fails"
           if [ "${fails:-0}" -ge 3 ]; then

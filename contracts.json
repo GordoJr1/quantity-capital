@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-24T22:19:29Z",
+  "generated": "2026-10-25T11:11:47Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,13 +13,13 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-10-11",
-    "end": "2026-10-24"
+    "start": "2026-10-12",
+    "end": "2026-10-25"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 105,
-    "matched": 46,
+    "kept": 106,
+    "matched": 47,
     "unlinked": 59
   },
   "awards": [
@@ -95,6 +95,17 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4632813/contracts-for-oct-23-2026/",
       "description": "has been awarded a $26,096,110 modification (P00013) to previously awarded contract FA4890-25-C-0002 for the Air Forces Central (AFCENT) Aviation Command and C\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-10-23",
+      "agency": "Veterans Affairs",
+      "recipient": "UNITED PARCEL SERVICE CO.",
+      "ticker": "UPS",
+      "amount": 1000000.0,
+      "description": "UNITED PARCEL SERVICE PHARMACY TASK ORDER",
+      "naics": "492110",
+      "award_id": "36C24827F0031",
+      "source": "usaspending"
     },
     {
       "date": "2026-10-22",
@@ -2917,132 +2928,6 @@
     },
     {
       "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "GE Aviation Systems LLC, Dowty Propellers",
-      "ticker": "GE",
-      "amount": 199700000.0,
-      "ceiling": false,
-      "obligated": 0.0,
-      "mod": false,
-      "fms": true,
-      "contract": "FA8504-26-D-B002",
-      "cap_pct": 0.067,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "has been awarded a $199,700,000 Firm Fixed Price Requirements Indefinite Delivery Contract for three years for the R-391 Propeller Assembly & Component Spares.\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 123781000.0,
-      "ceiling": false,
-      "obligated": 57254000.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N0001926C1022",
-      "cap_pct": 0.158,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded a not-to-exceed $123,781,000 fixed-price incentive (firm-target) contract for the procurement of F-35 APG-85 Lot 7 long-lead materials, parts, compo\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 97004665.0,
-      "ceiling": true,
-      "obligated": 0.0,
-      "mod": true,
-      "fms": true,
-      "contract": "N0001924D0104",
-      "cap_pct": 0.124,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded a $97,004,665 modification (P00005) to previously awarded firm-fixed-price indefinite-delivery/indefinite-quantity contract (N0001924D0104). This mo\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "Northrop Grumman Systems Corp.",
-      "ticker": "NOC",
-      "amount": 87417804.0,
-      "ceiling": false,
-      "obligated": 68372717.0,
-      "mod": true,
-      "fms": false,
-      "contract": "FA8615-17-C-6047",
-      "cap_pct": 0.112,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "has been awarded an $87,417,804 modification (P00188) to previously awarded (FA8615-17-C-6047) for the Integrated Viper Electronic Warfare Suite Electronic War\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Raytheon Company",
-      "ticker": "RTX",
-      "amount": 50071546.0,
-      "ceiling": false,
-      "obligated": 24535058.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N00383-26-F-FZ00",
-      "cap_pct": 0.019,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded $50,071,546 for ceiling-priced delivery order (N00383-26-F-FZ00) under previously awarded basic ordering agreement (N00383-26-G-0028) for the repair\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "DLA",
-      "recipient": "Raytheon Co.",
-      "ticker": "RTX",
-      "amount": 46700000.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "SPRHA4-26-C-0032",
-      "cap_pct": 0.018,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "has been awarded a maximum $46,700,000 firm-fixed-price contract for F-16 Mission Modular Computer line replaceable units. This was a sole-source acquisition u\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Electric Boat Corp.",
-      "ticker": "GD",
-      "amount": 40000000.0,
-      "ceiling": false,
-      "obligated": 19600000.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N00104-26-F-0024",
-      "cap_pct": 0.042,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded $40,000,000 for not-to-exceed delivery order (N00104-26-F-0024) under previously awarded basic ordering agreement (N0024-22-G-4304) for the purchase\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
       "agency": "Health and Human Services",
       "recipient": "LEIDOS BIOMEDICAL RESEARCH INC",
       "ticker": "LDOS",
@@ -3051,78 +2936,6 @@
       "naics": "541715",
       "award_id": "75N91026F00032",
       "source": "usaspending"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "GE Aviation Systems LLC",
-      "ticker": "GE",
-      "amount": 16869310.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": false,
-      "fms": false,
-      "contract": "N00383-26-F-TC08",
-      "cap_pct": 0.006,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded $16,869,310 for firm-fixed delivery order (N00383-26-F-TC08) under previously awarded basic ordering agreement (N00383-22-G-TC01) for the repair of\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "DTRA",
-      "recipient": "General Dynamics Information Technology Inc.",
-      "ticker": "GD",
-      "amount": 16566466.0,
-      "ceiling": false,
-      "obligated": 5911515.0,
-      "mod": false,
-      "fms": false,
-      "contract": "",
-      "cap_pct": 0.018,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is being awarded a cost-plus-fixed-fee contract for Defense Stockpile Management Systems support. This contract provides for the continuation of Defense Stockp\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Elbit Systems C41 and Cyber",
-      "ticker": "ESLT",
-      "amount": 13531765.0,
-      "ceiling": false,
-      "obligated": 0.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N00383-26-D-0012",
-      "cap_pct": 0.039,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "is awarded $13,531,765 for a fixed-price requirement for the repair of four configurations of Navy survival radios to support Naval aviators. The contract does\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-09-24",
-      "agency": "DOD",
-      "branch": "DLA",
-      "recipient": "Raytheon Technologies Corp.",
-      "ticker": "RTX",
-      "amount": 13058854.0,
-      "ceiling": false,
-      "obligated": null,
-      "mod": true,
-      "fms": false,
-      "contract": "SPRTA1-22-F-0162",
-      "cap_pct": 0.005,
-      "cap_asof": "2026-10-23",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4611082/contracts-for-sept-24-2026/",
-      "description": "has been awarded an estimated $13,058,854 modification (P0002) to a two-year delivery order (SPRTA1-22-F-0162) issued against a five-year basic ordering agreem\u2026",
-      "source": "dod_announcement"
     },
     {
       "date": "2026-09-23",
@@ -3255,6 +3068,12 @@
       "trailing_total": 2999797.89
     },
     {
+      "ticker": "UPS",
+      "name": "United Parcel Service, Inc.",
+      "awards": 2,
+      "trailing_total": 2800000.0
+    },
+    {
       "ticker": "A",
       "name": "Agilent Technologies",
       "awards": 1,
@@ -3277,12 +3096,6 @@
       "name": "Constellation Energy Corporation",
       "awards": 1,
       "trailing_total": 1832774.0
-    },
-    {
-      "ticker": "UPS",
-      "name": "United Parcel Service, Inc.",
-      "awards": 1,
-      "trailing_total": 1800000.0
     },
     {
       "ticker": "HON",
@@ -3725,34 +3538,6 @@
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-10-24",
-      "agency": "DEPT OF DEFENSE",
-      "description": "59--ACCESSORY KIT,ELECTRON",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e772ca88161b46b7b871e3eb10ac116d/view"
-    },
-    {
-      "deadline": "2026-10-24",
-      "agency": "STATE, DEPARTMENT OF",
-      "description": "GSO/PAW: Rental for A Ride-On Sweeper Machine with Operator",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d0284779f3ad451cb6b2e80f84ad17ae/view"
-    },
-    {
-      "deadline": "2026-10-24",
-      "agency": "DEPT OF DEFENSE",
-      "description": "NSN 5935-017185180; PN 5160T66P03 or PN 21-901601-003; CONNECTOR,PLUG,ELECTRICAL",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e5da67d0fd3a418d81a4982733b3edbd/view"
-    },
-    {
-      "deadline": "2026-10-24",
-      "agency": "DEPT OF DEFENSE",
-      "description": "SPE4A627Q0111, 3120-014828769, THR MAG BRNG ASSY, PN(s): M8010101, 6511E90FN24",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ec3f4a631a96432f93bd7c7f89287654/view"
-    },
     {
       "deadline": "2026-10-25",
       "agency": "DEPT OF DEFENSE",
@@ -4278,12 +4063,40 @@
       "description": "DCDO - HVAC Maintenance",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/233276dfd7c74b4c8026b4be094581b5/view"
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "DCDO - HVAC Maintenance",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/0fc54f0e3fa3406d9e0e20263b4388fc/view"
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "DCDO - HVAC Maintenance",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/6f3ebe9ac03e4859b09088418a465d52/view"
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "DCDO Grounds",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/9aac40c4f2294c31b32d90d3f30c47c2/view"
+    },
+    {
+      "deadline": "2026-10-26",
+      "agency": "DEPT OF DEFENSE",
+      "description": "DCDO Grounds",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/8864950ba28443999ecbb9d0a89b84a2/view"
     }
   ],
   "dod": {
     "latest": "2026-10-23",
-    "fetched": "2026-10-24T22:19:29Z",
+    "fetched": "2026-10-25T11:11:47Z",
     "status": "ok",
-    "rows": 146
+    "rows": 135
   }
 }

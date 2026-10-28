@@ -43848,61 +43848,6 @@
    "cost_rt": 0.004
   },
   {
-   "id": "BOGO.V|2026-10-26|malcolm-kelly-james",
-   "ticker": "BOGO.V",
-   "company": "Borealis Mining",
-   "commodity": "Gold",
-   "company_type": "Explorer",
-   "venue": "TSXV",
-   "ccy": "CAD",
-   "cgroup": "precious",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-10-26",
-   "recorded_floor": "2026-10-26",
-   "signal_filed": "2026-10-26",
-   "signal_trade": "2026-10-22",
-   "entry_after": "2026-10-26",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 77996331.0,
-   "stale63_basis": 0.1905,
-   "basis_date": "2026-10-23",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "malcolm-kelly-james|BOGO.V|2026-10-22|open_market",
-     "filer": "Malcolm, Kelly James",
-     "filer_id": "malcolm-kelly-james",
-     "role": "CEO",
-     "title": "CEO, President & Director",
-     "trade_date": "2026-10-22",
-     "filed_date": "2026-10-26",
-     "value_usd": 22002.0,
-     "trade_px": 0.78,
-     "ccy": "CAD"
-    },
-    {
-     "key": "malcolm-kelly-james|BOGO.V|2026-10-26|open_market",
-     "filer": "Malcolm, Kelly James",
-     "filer_id": "malcolm-kelly-james",
-     "role": "CEO",
-     "title": "CEO, President & Director",
-     "trade_date": "2026-10-26",
-     "filed_date": "2026-10-26",
-     "value_usd": 13390.0,
-     "trade_px": 0.75,
-     "ccy": "CAD",
-     "added_on": "2026-10-26"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "GMINF|2026-10-23|lafleur-julie",
    "ticker": "GMINF",
    "company": "G Mining Ventures",
@@ -44140,6 +44085,65 @@
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.06
+  },
+  {
+   "id": "BOGO.V|2026-10-26|malcolm-kelly-james",
+   "ticker": "BOGO.V",
+   "company": "Borealis Mining",
+   "commodity": "Gold",
+   "company_type": "Explorer",
+   "venue": "TSXV",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-26",
+   "recorded_floor": "2026-10-26",
+   "signal_filed": "2026-10-26",
+   "signal_trade": "2026-10-22",
+   "entry_after": "2026-10-26",
+   "entry_date": "2026-10-27",
+   "entry_px": 0.78,
+   "mcap_usd_basis": 77996331.0,
+   "stale63_basis": 0.1905,
+   "basis_date": "2026-10-23",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "malcolm-kelly-james|BOGO.V|2026-10-22|open_market",
+     "filer": "Malcolm, Kelly James",
+     "filer_id": "malcolm-kelly-james",
+     "role": "CEO",
+     "title": "CEO, President & Director",
+     "trade_date": "2026-10-22",
+     "filed_date": "2026-10-26",
+     "value_usd": 22002.0,
+     "trade_px": 0.78,
+     "ccy": "CAD"
+    },
+    {
+     "key": "malcolm-kelly-james|BOGO.V|2026-10-26|open_market",
+     "filer": "Malcolm, Kelly James",
+     "filer_id": "malcolm-kelly-james",
+     "role": "CEO",
+     "title": "CEO, President & Director",
+     "trade_date": "2026-10-26",
+     "filed_date": "2026-10-26",
+     "value_usd": 13390.0,
+     "trade_px": 0.75,
+     "ccy": "CAD",
+     "added_on": "2026-10-26"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "SKHRF|2026-10-27|berlet-christopher-james",
@@ -46794,6 +46798,8 @@
   "laycock-mark|KDKCF|2025-07-23|open_market",
   "laycock-mark|KDKCF|2025-07-25|open_market",
   "le-bel-guy|QCCUF|2026-03-05|open_market",
+  "leahy-stephen-martin|ROAD.CN|2026-10-26|open_market",
+  "leahy-stephen-martin|ROAD.CN|2026-10-27|open_market",
   "leavoy-gordon|DSVSF|2025-04-17|open_market",
   "leblanc-ghislain|MJDLF|2025-04-03|open_market",
   "leblanc-ghislain|MJDLF|2025-09-11|open_market",
@@ -49115,5 +49121,5 @@
   "zerb-wendell-miles|REDRF|2026-10-16|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-27"
+ "last_run_date": "2026-10-28"
 }

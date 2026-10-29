@@ -1,5 +1,5 @@
 {
-  "source": "Senate PTR asset names + SEC SIC industry; bond issuers matched to SEC registrants",
+  "source": "Senate PTR asset names + SEC SIC industry",
   "tickers": {
     "A": {
       "name": "Agilent Technologies",
@@ -24746,6 +24746,36 @@
     "Tennessee Energy Ac 5% Edr Idr Due 12/01/35": {
       "ticker": "",
       "industry": "Municipal",
+      "sic": null
+    },
+    "Kansas City MO SCH BE/R/": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "Round Rock TX INDPT SCH BE/R/": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "Rilehardson TX INDPT SCH BE/R/": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "G1 PK TXINDPT SCH D PERMA BE/R/": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "G1 PK TXINDPT SCH D PERMA BE/RY": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "Great Lakes WTR AUTH MIC RV BE/R/": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Water / utility",
       "sic": null
     }
   }

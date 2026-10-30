@@ -17178,12 +17178,18 @@
      "added_on": "2026-10-08"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-10-29",
+    "reason": "252d",
+    "px": 6.46,
+    "recorded_on": "2026-10-30",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-10-29",
    "cost_rt": 0.004
   },
   {
@@ -44244,48 +44250,6 @@
    "cost_rt": 0.015
   },
   {
-   "id": "WHGOF|2026-10-28|pollitt-donovan",
-   "ticker": "WHGOF",
-   "company": "White Gold",
-   "commodity": "Gold",
-   "company_type": "Explorer",
-   "venue": "TSXV",
-   "ccy": "CAD",
-   "cgroup": "precious",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-10-28",
-   "recorded_floor": "2026-10-28",
-   "signal_filed": "2026-10-28",
-   "signal_trade": "2026-10-28",
-   "entry_after": "2026-10-28",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 257754899.0,
-   "stale63_basis": 0.0476,
-   "basis_date": "2026-10-27",
-   "last_financing_filed": "2025-10-16",
-   "td_since_financing": 258,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "pollitt-donovan|WHGOF|2026-10-28|open_market",
-     "filer": "Pollitt, Donovan",
-     "filer_id": "pollitt-donovan",
-     "role": "President/COO",
-     "title": "President & Director",
-     "trade_date": "2026-10-28",
-     "filed_date": "2026-10-28",
-     "value_usd": 33826.0,
-     "trade_px": 1.58,
-     "ccy": "CAD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "RMETF|2026-10-29|reinson-jeffery",
    "ticker": "RMETF",
    "company": "Rackla Metals",
@@ -44326,6 +44290,52 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "WHGOF|2026-10-28|pollitt-donovan",
+   "ticker": "WHGOF",
+   "company": "White Gold",
+   "commodity": "Gold",
+   "company_type": "Explorer",
+   "venue": "TSXV",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-10-28",
+   "recorded_floor": "2026-10-28",
+   "signal_filed": "2026-10-28",
+   "signal_trade": "2026-10-28",
+   "entry_after": "2026-10-28",
+   "entry_date": "2026-10-29",
+   "entry_px": 1.55,
+   "mcap_usd_basis": 257754899.0,
+   "stale63_basis": 0.0476,
+   "basis_date": "2026-10-27",
+   "last_financing_filed": "2025-10-16",
+   "td_since_financing": 258,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "pollitt-donovan|WHGOF|2026-10-28|open_market",
+     "filer": "Pollitt, Donovan",
+     "filer_id": "pollitt-donovan",
+     "role": "President/COO",
+     "title": "President & Director",
+     "trade_date": "2026-10-28",
+     "filed_date": "2026-10-28",
+     "value_usd": 33826.0,
+     "trade_px": 1.58,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.015
   }
  ],
  "seen_keys": [
@@ -45166,6 +45176,7 @@
   "brophy-kenneth|IMTCF|2025-06-04|open_market",
   "brophy-kenneth|IMTCF|2026-06-23|open_market",
   "broshko-erinn|SASKF|2026-03-05|open_market",
+  "brown-andrew-bruce|LTNG.V|2026-10-29|open_market",
   "brown-mark-thomas|TARSF|2025-06-09|open_market",
   "brown-mark-thomas|TARSF|2025-06-30|open_market",
   "brown-mark-thomas|TARSF|2025-07-04|open_market",
@@ -49293,5 +49304,5 @@
   "zerb-wendell-miles|REDRF|2026-10-16|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-10-29"
+ "last_run_date": "2026-10-30"
 }

@@ -436,6 +436,11 @@ def load_link_blocks(path: Path = LINK_BLOCKS_PATH) -> set[tuple[str, str]]:
 
 
 def link_blocks() -> set[tuple[str, str]]:
+    """Return the repo link blocks, read once and cached for the life of the process.
+
+    Edits to link-blocks.json after the first call are not seen until a new
+    process starts. Tests that need other blocks pass match_holder(blocks=...).
+    """
     global _LINK_BLOCKS
     if _LINK_BLOCKS is None:
         _LINK_BLOCKS = load_link_blocks()
@@ -762,6 +767,11 @@ def match_holder(
         names = {normalize_name(party)} | {normalize_name(name) for name, _pct in parse_parties(party)}
         return any((name, company_id) in blocked for name in names)
 
+    def allowed(company_ids: list[str], party: str) -> list[str]:
+        # Drop blocked ids before any length check, so a blocked company
+        # cannot turn a single valid candidate into a tie (or the reverse).
+        return [cid for cid in company_ids if not is_blocked(cid, party)]
+
     def add(company_id: str, method: str, interest: float | None, party: str, extra: dict | None = None) -> None:
         if company_id not in book and method != "alias":
             return
@@ -780,7 +790,7 @@ def match_holder(
         links.append(row)
 
     mapped = extract_map.get(holder)
-    if mapped and mapped in book:
+    if mapped and mapped in book and allowed([mapped], holder):
         add(mapped, "extract_holder", None, holder)
 
     for party, interest in parse_parties(holder) or [("(blank)", None)]:
@@ -792,7 +802,7 @@ def match_holder(
         if not norm:
             continue
         alias_ids = [row["company_id"] for row in aliases if phrase_in(row["phrase"], norm)]
-        alias_ids = [cid for cid in dict.fromkeys(alias_ids) if cid in book]
+        alias_ids = allowed([cid for cid in dict.fromkeys(alias_ids) if cid in book], party)
         if len(alias_ids) == 1:
             add(alias_ids[0], "alias", interest, party)
             continue
@@ -803,7 +813,7 @@ def match_holder(
             cid for cid in exact.get(norm, [])
             if cid in book and norm in (book[cid].get("norms") or [])
         ]
-        named = list(dict.fromkeys(named))
+        named = allowed(list(dict.fromkeys(named)), party)
         if exact_ok(norm) and len(named) == 1:
             add(named[0], "catalog_name", interest, party)
             continue
@@ -817,14 +827,14 @@ def match_holder(
                 cid for cid in exact.get(norm, [])
                 if cid in book and norm in (book[cid].get("exact_norms") or [])
             ]
-            pinned = list(dict.fromkeys(pinned))
+            pinned = allowed(list(dict.fromkeys(pinned)), party)
             if len(pinned) == 1:
                 add(pinned[0], "catalog_name", interest, party)
                 continue
         prefixed = [(phrase, cid) for phrase, cid in phrases if cid in book and phrase_prefix(phrase, norm)]
         if prefixed:
             best_len = max(len(phrase) for phrase, _cid in prefixed)
-            best = list(dict.fromkeys(cid for phrase, cid in prefixed if len(phrase) == best_len))
+            best = allowed(list(dict.fromkeys(cid for phrase, cid in prefixed if len(phrase) == best_len)), party)
             if len(best) == 1:
                 add(best[0], "catalog_name", interest, party)
                 continue
@@ -838,7 +848,7 @@ def match_holder(
         # The company's whole normalized name is this holder's first word
         # ("glencore" inside "glencore canada"). One token, one company.
         if exact_ok(first):
-            whole = [cid for cid in exact.get(first, []) if cid in book]
+            whole = allowed([cid for cid in exact.get(first, []) if cid in book], party)
             if len(whole) == 1:
                 add(whole[0], "catalog_name", interest, party)
                 continue
@@ -846,7 +856,7 @@ def match_holder(
         for cid in token_index.get(first, ()):
             if cid in book and first in _company_first_tokens(book[cid]):
                 owners.append(cid)
-        owners = sorted(dict.fromkeys(owners))
+        owners = allowed(sorted(dict.fromkeys(owners)), party)
         # A shared first token is not enough on its own (Endurance Gold vs
         # Endurance Elements, Champion Bear vs Champion Iron). Aliases cover
         # the known coined-name cases. One or two candidates go to Jev.

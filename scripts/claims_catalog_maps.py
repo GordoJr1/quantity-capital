@@ -32,6 +32,40 @@ def denied_ids() -> dict[str, str]:
     return dict(getattr(shells, "DENIED_BETA_IDS", {}) or {})
 
 
+# Beta-profile commodities with no hard-rock activity. An issuer with one of these
+# and zero focus titles gets no extracts (black-stone-minerals: US oil & gas
+# royalty MLP whose extracts were all shared-word mis-tags, PR #253).
+NON_HARDROCK_COMMODITIES = frozenset({"oil & gas"})
+
+
+def issuer_commodity(root: Path, cid: str) -> str | None:
+    path = root / "beta" / f"{cid}.json"
+    if not path.is_file():
+        return None
+    try:
+        issuer = json.loads(path.read_text(encoding="utf-8")).get("issuer") or {}
+    except (OSError, ValueError):
+        return None
+    value = issuer.get("commodity")
+    return str(value).strip().lower() if value else None
+
+
+def no_hardrock_guard(row: dict, root: Path) -> list[str]:
+    """Drop extracts from a non-hard-rock issuer with no focus titles. Mutates row."""
+    keys = [key for _, key in KINDS if row.get(key)]
+    if not keys or int(row.get("claim_count") or 0) != 0:
+        return []
+    if issuer_commodity(root, str(row.get("id") or "")) not in NON_HARDROCK_COMMODITIES:
+        return []
+    for kind, key in KINDS:
+        row[key] = None
+        if f"{kind}_count" in row:
+            row[f"{kind}_count"] = 0
+        if f"{kind}_bbox" in row:
+            row[f"{kind}_bbox"] = None
+    return [f"{row.get('id')}: dropped extracts {keys} (no hard-rock activity, 0 focus titles)"]
+
+
 def bbox_of(features: list[dict]):
     xs: list[float] = []
     ys: list[float] = []
@@ -104,4 +138,5 @@ def apply_catalog_maps(catalog: dict, root: Path, denied: dict[str, str] | None 
                 row["claim_count"] = total
             if "bbox" in row:
                 row["bbox"] = union([row.get(f"{k}_bbox") for k, _ in KINDS])
+        changes.extend(no_hardrock_guard(row, root))
     return changes

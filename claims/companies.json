@@ -5992,29 +5992,19 @@
         "solstice minerals"
       ],
       "holder": "Solstice Minerals Limited",
-      "claim_count": 548,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": "claims/solstice-minerals.geojson",
       "ontario_extract": "claims/solstice-minerals-ontario.geojson",
       "bc_extract": null,
       "mines": [],
-      "source_note": "auto from qc.sqlite linked parties n=462",
-      "ontario_count": 462,
-      "ontario_bbox": [
-        -93.7438,
-        46.425,
-        -79.7125,
-        51.75
-      ],
+      "source_note": "auto from qc.sqlite linked parties n=462; 0 focus titles after PR #244 retag (extract holders were other companies)",
+      "ontario_count": 0,
+      "ontario_bbox": null,
       "bc_count": 0,
       "bc_bbox": null,
-      "quebec_count": 86,
-      "quebec_bbox": [
-        -77.93333333936799,
-        49.466666666003995,
-        -77.70000000288606,
-        49.52500000763286
-      ]
+      "quebec_count": 0,
+      "quebec_bbox": null
     },
     {
       "id": "falco-resources",
@@ -8322,34 +8312,24 @@
         "metal energy"
       ],
       "holder": "Metal Energy",
-      "claim_count": 39354,
+      "claim_count": 9,
       "color": "#e8b040",
       "extract": "claims/metal-energy.geojson",
       "ontario_extract": "claims/metal-energy-ontario.geojson",
       "bc_extract": "claims/metal-energy-bc.geojson",
       "mines": [],
-      "source_note": "auto from qc.sqlite linked parties n=9",
-      "ontario_count": 25643,
-      "ontario_bbox": [
-        -95.1125,
-        44.8792,
-        -77.4875,
-        52.9875
-      ],
-      "bc_count": 538,
+      "source_note": "auto from qc.sqlite linked parties n=9; 9 BC focus titles after PR #244 retag (extract holders were other companies)",
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 9,
       "bc_bbox": [
-        -133.605,
-        49.229,
-        -115.8925,
-        59.6083
+        -121.12,
+        50.3499,
+        -120.845,
+        50.4207
       ],
-      "quebec_count": 13173,
-      "quebec_bbox": [
-        -79.4333333333333,
-        45.308333332818776,
-        -63.33333333328141,
-        57.12500001054585
-      ]
+      "quebec_count": 0,
+      "quebec_bbox": null
     },
     {
       "id": "pacific-empire-minerals",

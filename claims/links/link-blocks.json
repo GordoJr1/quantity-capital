@@ -1,0 +1,13 @@
+{
+  "note": "Curated holder party -> company id pairs that must never link. Phrases are compared after normalize_name(). Each block overrides a loose exact_norms entry in public-issuers.json or a mis-tagged extract holder. Not legal title.",
+  "blocks": [
+    {"phrase": "churchill diamond", "company_id": "churchill-resources-inc", "note": "Churchill Diamond Corporation (Nunavut) is not Churchill Resources Inc. (CRI.V)."},
+    {"phrase": "solstice gold", "company_id": "solstice-minerals", "note": "Solstice Gold Corp. is not Solstice Minerals Limited (SLS.AX). Came in through the solstice-minerals extract."},
+    {"phrase": "borealis exploration", "company_id": "borealis-mining", "note": "Borealis Exploration Limited is not Borealis Mining."},
+    {"phrase": "equinox resources canada", "company_id": "equinox-gold", "note": "Equinox Resources (Canada) Inc. is not Equinox Gold Corp."},
+    {"phrase": "guardian exploration", "company_id": "guardian-metal-resources", "note": "Guardian Exploration Inc. is not Guardian Metal Resources (Nunavut and Yukon)."},
+    {"phrase": "go metals", "company_id": "metal-energy", "note": "Go Metals Corp. is not Metal Energy. Came in through the metal-energy extract. The catalog name links it to go-metals-corp."},
+    {"phrase": "labrador uranium", "company_id": "labrador-gold", "note": "Labrador Uranium Inc. is not Labrador Gold."},
+    {"phrase": "selkirk mining", "company_id": "selkirk-copper-mines", "note": "Selkirk Mining Corp. is not Selkirk Copper Mines."}
+  ]
+}

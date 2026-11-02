@@ -1318,7 +1318,6 @@
     "Borealis Mining"
    ],
    "exact_norms": [
-    "borealis exploration",
     "borealis mining"
    ]
   },
@@ -1956,7 +1955,6 @@
     "Churchill Resources Inc."
    ],
    "exact_norms": [
-    "churchill diamond",
     "churchill explorations",
     "churchill resources"
    ]
@@ -2774,8 +2772,7 @@
     "Equinox Gold Corp."
    ],
    "exact_norms": [
-    "equinox gold",
-    "equinox resources canada"
+    "equinox gold"
    ]
   },
   {
@@ -4315,15 +4312,30 @@
    ]
   },
   {
+   "id": "guardian-exploration-inc",
+   "name": "Guardian Exploration Inc.",
+   "tickers": [
+    "GX.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Guardian Exploration Inc."
+   ],
+   "exact_norms": [
+    "guardian exploration"
+   ]
+  },
+  {
    "id": "guardian-metal-resources",
    "name": "Guardian Metal Resources",
    "tickers": [
-    "GX.V",
     "GMTL",
     "GMET.L"
    ],
    "exchanges": [
-    "TSXV",
     "US",
     "other",
     "LSE"
@@ -4333,7 +4345,6 @@
     "Guardian Metal Resources"
    ],
    "exact_norms": [
-    "guardian exploration",
     "guardian metal resources"
    ]
   },
@@ -5063,8 +5074,7 @@
    "exact_norms": [
     "labrador gold",
     "labrador iron mines",
-    "labrador resources",
-    "labrador uranium"
+    "labrador resources"
    ]
   },
   {
@@ -7745,8 +7755,7 @@
    ],
    "exact_norms": [
     "selkirk copper mines",
-    "selkirk metals",
-    "selkirk mining"
+    "selkirk metals"
    ]
   },
   {
@@ -8004,14 +8013,29 @@
    ]
   },
   {
+   "id": "solstice-gold-corp",
+   "name": "Solstice Gold Corp.",
+   "tickers": [
+    "SGC.V"
+   ],
+   "exchanges": [
+    "TSXV"
+   ],
+   "on_site": false,
+   "names": [
+    "Solstice Gold Corp."
+   ],
+   "exact_norms": [
+    "solstice gold"
+   ]
+  },
+  {
    "id": "solstice-minerals",
    "name": "Solstice Minerals Limited",
    "tickers": [
-    "SGC.V",
     "SLS.AX"
    ],
    "exchanges": [
-    "TSXV",
     "ASX"
    ],
    "on_site": true,
@@ -8019,7 +8043,6 @@
     "Solstice Minerals Limited"
    ],
    "exact_norms": [
-    "solstice gold",
     "solstice minerals"
    ]
   },

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Issuers with no hard-rock activity (beta commodity oil & gas) and zero focus titles get no extracts."""
+"""Issuers with no hard-rock activity (beta commodity oil & gas, any spelling) and zero focus titles get no extracts."""
 from __future__ import annotations
 
 import json
@@ -57,6 +57,30 @@ class NoHardrockGuard(unittest.TestCase):
         r = row("oilco", 0)
         cm.no_hardrock_guard(r, self.root)
         self.assertEqual(cm.no_hardrock_guard(r, self.root), [])
+
+    def test_commodity_variants(self):
+        for text in ("oil & gas", "Oil & Gas", "oil and gas", "Oil And Gas", "oil&gas", "oil & gas, midstream",
+                     "oil and gas; royalties", " oil  &  gas "):
+            self.assertTrue(cm.is_non_hardrock(text), text)
+        for text in (None, "", "gold", "met coal", "oil & gas, copper", "copper, oil & gas", "oil", "gas"):
+            self.assertFalse(cm.is_non_hardrock(text), text)
+
+    def test_variant_profile_dropped(self):
+        (self.root / "beta" / "oilvar.json").write_text(json.dumps({"issuer": {"commodity": "Oil and Gas, midstream"}}), encoding="utf-8")
+        r = row("oilvar", 0)
+        self.assertEqual(len(cm.no_hardrock_guard(r, self.root)), 1)
+        self.assertIsNone(r["extract"])
+
+    def test_oil_gas_issuers_have_no_extracts(self):
+        """imperial-oil, enterprise-products-partners and cardinal-energy titles were all shared-word mis-tags."""
+        cat = {r["id"]: r for r in json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))["companies"]}
+        for cid in ("black-stone-minerals", "imperial-oil", "enterprise-products-partners", "cardinal-energy"):
+            for key in ("extract", "ontario_extract", "bc_extract"):
+                self.assertIsNone(cat[cid].get(key), (cid, key))
+            self.assertEqual(cat[cid]["claim_count"], 0, cid)
+        eb = json.loads((ROOT / "claims" / "extract-bytes.json").read_text(encoding="utf-8"))["company_bytes"]
+        for cid in ("black-stone-minerals", "imperial-oil", "enterprise-products-partners", "cardinal-energy"):
+            self.assertNotIn(cid, eb)
 
     def test_committed_catalog_clean(self):
         cat = json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))

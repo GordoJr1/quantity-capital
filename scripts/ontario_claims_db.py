@@ -62,6 +62,7 @@ DB_PATH = CLAIMS / ".db" / "ontario.sqlite"
 BUILD_DIR = CLAIMS / ".build"
 LINKS_PATH = CLAIMS / "links" / "holders.json"
 ALIASES_PATH = CLAIMS / "links" / "aliases.json"
+LINK_BLOCKS_PATH = CLAIMS / "links" / "link-blocks.json"
 PUBLIC_ISSUERS_PATH = CLAIMS / "links" / "public-issuers.json"
 SEARCH_HOLDERS = CLAIMS / "search" / "holders.json"
 SEARCH_TITLES = CLAIMS / "search" / "titles"
@@ -413,6 +414,34 @@ def load_public_issuers(path: Path = PUBLIC_ISSUERS_PATH) -> list[dict]:
     return rows
 
 
+_LINK_BLOCKS: set[tuple[str, str]] | None = None
+
+
+def load_link_blocks(path: Path = LINK_BLOCKS_PATH) -> set[tuple[str, str]]:
+    """Curated (normalized holder party, company id) pairs that must never link.
+
+    Use this when a loose exact_norms entry or a mis-tagged extract holder points
+    at the wrong company (Churchill Diamond is not Churchill Resources).
+    """
+    if not path.is_file():
+        return set()
+    data = json.loads(path.read_text(encoding="utf-8"))
+    blocks = set()
+    for row in data.get("blocks") or []:
+        phrase = normalize_name(row.get("phrase"))
+        cid = (row.get("company_id") or "").strip()
+        if phrase and cid:
+            blocks.add((phrase, cid))
+    return blocks
+
+
+def link_blocks() -> set[tuple[str, str]]:
+    global _LINK_BLOCKS
+    if _LINK_BLOCKS is None:
+        _LINK_BLOCKS = load_link_blocks()
+    return _LINK_BLOCKS
+
+
 def load_aliases(path: Path = ALIASES_PATH) -> list[dict]:
     if not path.is_file():
         return []
@@ -719,16 +748,26 @@ def match_holder(
     phrases: list[tuple[str, str]],
     token_index: dict[str, set[str]],
     judge=None,
+    blocks: set[tuple[str, str]] | None = None,
 ) -> dict:
     """Link one registry holder string. Jev runs only for a two-company tie or a short first-token near miss."""
     holder = holder_key(raw)
     links: list[dict] = []
     ambiguous: list[str] = []
+    blocked = link_blocks() if blocks is None else blocks
+
+    def is_blocked(company_id: str, party: str) -> bool:
+        if not blocked:
+            return False
+        names = {normalize_name(party)} | {normalize_name(name) for name, _pct in parse_parties(party)}
+        return any((name, company_id) in blocked for name in names)
 
     def add(company_id: str, method: str, interest: float | None, party: str, extra: dict | None = None) -> None:
         if company_id not in book and method != "alias":
             return
         if company_id not in book:
+            return
+        if is_blocked(company_id, party):
             return
         row = {
             "company_id": company_id,

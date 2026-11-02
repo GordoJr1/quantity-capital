@@ -634,6 +634,30 @@ def sync_catalog_pins(root: Path, *, write: bool) -> tuple[list[str], list[str]]
     return changes, []
 
 
+def sync_catalog_maps(root: Path, *, write: bool) -> list[str]:
+    """Re-apply the beta deny map and extract retags to claims/companies.json.
+
+    Runs after sync_catalog_pins so a rebuilt catalog (counts from qc.sqlite)
+    cannot bring back denied ids or retagged shared-word counts. Check mode only
+    reports (warnings) until the committed catalog is clean (PR #246).
+    """
+    if str(ROOT / "scripts") not in sys.path:
+        sys.path.insert(0, str(ROOT / "scripts"))
+    import claims_catalog_maps  # noqa: WPS433
+
+    path = root / "claims" / "companies.json"
+    if not path.exists():
+        return []
+    catalog = load_json(path)
+    changes = claims_catalog_maps.apply_catalog_maps(catalog, root)
+    if not changes:
+        return []
+    if write:
+        write_json_atomic(path, catalog)
+        return [f"catalog maps: {c}" for c in changes]
+    return [f"warning: catalog maps needed: {c}" for c in changes]
+
+
 def write_audit(rows: list[dict], path_csv: Path, path_md: Path) -> None:
     fields = ["status", "id", "name", "tickers", "insider_name", "note"]
     buf = io.StringIO(newline="")
@@ -832,6 +856,8 @@ def main(argv: list[str] | None = None) -> int:
     write = not args.check and not args.no_write_json
     pin_changes, pin_problems = sync_catalog_pins(root, write=write)
     for change in pin_changes:
+        print(change)
+    for change in sync_catalog_maps(root, write=write):
         print(change)
     cik_index = load_sec_ciks(fetch=not args.check)
     rows = classify_all(root, use_extracts=not args.no_extracts, cik_index=cik_index)

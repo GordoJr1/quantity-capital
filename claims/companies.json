@@ -4761,14 +4761,14 @@
         "canada nickel"
       ],
       "holder": "Canada Nickel",
-      "claim_count": 27500,
+      "claim_count": 26940,
       "color": "#e8b040",
       "extract": "claims/canada-nickel.geojson",
       "ontario_extract": "claims/canada-nickel-ontario.geojson",
       "bc_extract": "claims/canada-nickel-bc.geojson",
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=3409",
-      "ontario_count": 16989,
+      "ontario_count": 16429,
       "ontario_bbox": [
         -94.7796,
         44.6583,
@@ -5479,19 +5479,19 @@
         "nickel creek platinum"
       ],
       "holder": "Nickel Creek Platinum",
-      "claim_count": 9594,
+      "claim_count": 9308,
       "color": "#e8b040",
       "extract": "claims/nickel-creek-platinum.geojson",
       "ontario_extract": "claims/nickel-creek-platinum-ontario.geojson",
       "bc_extract": "claims/nickel-creek-platinum-bc.geojson",
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=735",
-      "ontario_count": 8093,
+      "ontario_count": 7807,
       "ontario_bbox": [
-        -93.975,
+        -91.35,
         47.1958,
         -79.9188,
-        51.4208
+        49.1292
       ],
       "bc_count": 251,
       "bc_bbox": [
@@ -6826,20 +6826,15 @@
         "nexus gold"
       ],
       "holder": "Nexus Gold",
-      "claim_count": 108,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": null,
       "ontario_extract": "claims/nexus-gold-ontario.geojson",
       "bc_extract": null,
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=108",
-      "ontario_count": 108,
-      "ontario_bbox": [
-        -93.9063,
-        51.0125,
-        -93.825,
-        51.0833
-      ],
+      "ontario_count": 0,
+      "ontario_bbox": null,
       "bc_count": 0,
       "bc_bbox": null,
       "quebec_count": 0
@@ -6876,14 +6871,14 @@
         "critical elements lithium"
       ],
       "holder": "Critical Elements Lithium",
-      "claim_count": 4641,
+      "claim_count": 4174,
       "color": "#e8b040",
       "extract": "claims/critical-elements-lithium.geojson",
       "ontario_extract": "claims/critical-elements-lithium-ontario.geojson",
       "bc_extract": null,
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=85",
-      "ontario_count": 3090,
+      "ontario_count": 2623,
       "ontario_bbox": [
         -94.1375,
         46.8958,

@@ -130,5 +130,31 @@ class Rules(unittest.TestCase):
             self.assertEqual(r.apply_retags(name, data["features"], rules), 0, name)
 
 
+class WriteFormat(unittest.TestCase):
+    def test_committed_extracts_round_trip_byte_for_byte(self):
+        for name in sorted(r.load_rules(RULES)):
+            text = (ROOT / "claims" / name).read_text(encoding="utf-8")
+            self.assertEqual(r.dump_extract(json.loads(text)), text, name)
+
+    def test_write_restoring_a_retag_is_a_zero_line_diff(self):
+        name = "metal-energy-bc.geojson"
+        orig = (ROOT / "claims" / name).read_bytes()
+        with tempfile.TemporaryDirectory() as td:
+            claims = Path(td) / "claims"
+            (claims / "links").mkdir(parents=True)
+            shutil.copy(RULES, claims / "links" / RULES.name)
+            data = json.loads(orig.decode("utf-8"))
+            flipped = next(f for f in data["features"] if f["properties"].get("role") == "neighbor")
+            flipped["properties"]["role"] = "focus"
+            (claims / name).write_text(r.dump_extract(data), encoding="utf-8")
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(r.main(["--check", "--claims-dir", str(claims)]), 1)
+                self.assertEqual(r.main(["--write", "--claims-dir", str(claims)]), 0)
+            self.assertEqual((claims / name).read_bytes(), orig)
+
+    def test_write_keeps_non_ascii_unescaped(self):
+        self.assertEqual(r.dump_extract({"holder": "Société Minière"}), '{"holder": "Société Minière"}')
+
+
 if __name__ == "__main__":
     unittest.main()

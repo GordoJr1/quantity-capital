@@ -2625,7 +2625,15 @@
       if (q.get("layer") === "explorers") state.layer = "explorers";
       if (q.get("layer") === "claims") state.layer = "claims";
       if (q.get("mine")) state.mine = q.get("mine");
-      const wantId = q.get("id");
+      // Old beta ids that were renamed (PR #244). Keep old links working.
+      const BETA_ID_REDIRECTS = { "kinross-kgc-v": "kestrel-gold-inc", "barrick-b-v": "bcm-resources-corporation" };
+      const rawId = q.get("id");
+      const wantId = (rawId && BETA_ID_REDIRECTS[rawId]) || rawId;
+      if (rawId && wantId !== rawId) {
+        const u = new URL(location.href);
+        u.searchParams.set("id", wantId);
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      }
       const layerBar = document.getElementById("layer");
       const claimHit = wantId ? claimsPublicRow(wantId) : null;
       const targetId = (claimHit && claimHit.beta_id) || wantId;

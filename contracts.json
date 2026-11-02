@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-02T12:21:54Z",
+  "generated": "2026-11-02T23:20:19Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,42 @@
     "unlinked": 73
   },
   "awards": [
+    {
+      "date": "2026-11-02",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "General Dynamics Electric Boat Corp.",
+      "ticker": "GD",
+      "amount": 14513267.0,
+      "ceiling": false,
+      "obligated": 10884950.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N00024-12-C-2115",
+      "cap_pct": 0.014,
+      "cap_asof": "2026-10-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4639373/contracts-for-nov-2-2026/",
+      "description": "is awarded a $14,513,267 undefinitized contract action under a previously awarded contract (N00024-12-C-2115) in support of the USS Idaho (SSN 799) Post Delive\u2026",
+      "source": "dod_announcement"
+    },
+    {
+      "date": "2026-11-02",
+      "agency": "DOD",
+      "branch": "Air Force",
+      "recipient": "Correction: The Lockheed Martin Aeronautics Co., Fort Worth, Texas, modification",
+      "ticker": "LMT",
+      "amount": 999333.0,
+      "ceiling": false,
+      "obligated": 999333.0,
+      "mod": true,
+      "fms": false,
+      "contract": "FA8615-25-F-B001",
+      "cap_pct": 0.001,
+      "cap_asof": "2026-10-30",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4639373/contracts-for-nov-2-2026/",
+      "description": "Correction: The Lockheed Martin Aeronautics Co., Fort Worth, Texas, modification (P00035) to previously awarded contract FA8615-25-F-B001 announced on Oct. 30,\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-10-30",
       "agency": "DOD",
@@ -2771,9 +2807,9 @@
     }
   ],
   "dod": {
-    "latest": "2026-10-30",
-    "fetched": "2026-11-02T12:21:54Z",
+    "latest": "2026-11-02",
+    "fetched": "2026-11-02T23:20:19Z",
     "status": "ok",
-    "rows": 52
+    "rows": 54
   }
 }

@@ -51,6 +51,7 @@ if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
 
 from qc_io import atomic_write_json, atomic_write_text  # noqa: E402
+import claims_extract_retags  # noqa: E402
 
 CLAIMS = ROOT / "claims"
 AS_OF = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -838,6 +839,15 @@ def main(args=None):
     return 0
 
 
+def retag_extract(file_name: str, feats: list[dict]) -> int:
+    """Keep claims/links/extract-retags.json role overrides (PR #244 shared-word fixes)."""
+    rules = claims_extract_retags.load_rules(CLAIMS / "links" / "extract-retags.json")
+    n = claims_extract_retags.apply_retags(file_name, feats, rules)
+    if n:
+        print(f"    retagged {n} shared-word holder titles as neighbor ({file_name})", flush=True)
+    return n
+
+
 def refresh_extract(by_id: dict, cid: str, kind: str, url: str, where: str, fields: str, mapper,
                     writer, cache_dir: Path | None, refresh: bool, failures: list[str]) -> None:
     """Refetch one company extract. Delete it only when a clean live count says 0."""
@@ -846,6 +856,7 @@ def refresh_extract(by_id: dict, cid: str, kind: str, url: str, where: str, fiel
     try:
         raw = fetch_layer(url, where, fields, PAGE, cache_dir=cache_dir, refresh=refresh)
         feats = [mapper(f) for f in raw if f.get("geometry")]
+        retag_extract(dest.name, feats)
         if feats:
             writer(dest, feats)
         else:
@@ -861,9 +872,10 @@ def refresh_extract(by_id: dict, cid: str, kind: str, url: str, where: str, fiel
         return
     row = by_id.get(cid)
     if row:
-        row[f"{kind}_count"] = len(feats)
+        focus = [f for f in feats if (f.get("properties") or {}).get("role") != "neighbor"]
+        row[f"{kind}_count"] = len(focus)
         row[f"{kind}_extract"] = rel if feats else None
-        row[f"{kind}_bbox"] = bbox_of(feats)
+        row[f"{kind}_bbox"] = bbox_of(focus)
 
 
 def write_catalog(catalog: dict, only: set[str]) -> None:
@@ -908,6 +920,7 @@ def neighbors_only(only_ids: list[str] | None = None, cache_dir: Path | None = N
             print(f"  skip {cid}: no {rel}", flush=True)
             continue
         data = json.loads(dest.read_text(encoding="utf-8"))
+        retag_extract(dest.name, data.get("features") or [])
         focus = [
             f for f in (data.get("features") or [])
             if (f.get("properties") or {}).get("role") != "neighbor"

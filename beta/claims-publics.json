@@ -1,6 +1,6 @@
 {
   "schema": "qc-beta-claims-publics-v1",
-  "generated": "2026-11-02T17:52:24Z",
+  "generated": "2026-11-02T17:41:07Z",
   "disclaimer": "Claims-map publics using claims/companies.json ids. Deep link beta.html?id=<claims-id>. Map preview uses claims/overview.geojson cells + catalog mines — not per-company extracts. Shells already on disk are reused. Not legal title. Not investment advice.",
   "universe_note": "Every claims/companies.json issuer that resolves to a beta ticker and profile file. troilus-mining aliases to the filing-backed troilus shell. Do not invent ounces.",
   "n": 192,
@@ -628,15 +628,10 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 1328,
-      "has_overview": true,
+      "claim_count": 0,
+      "has_overview": false,
       "has_mines": false,
-      "bbox": [
-        -126.5578,
-        46.41788889094126,
-        -65.46666666448981,
-        53.2866
-      ],
+      "bbox": null,
       "color": "#e8b040",
       "note": null
     },

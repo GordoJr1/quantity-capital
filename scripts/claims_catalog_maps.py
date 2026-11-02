@@ -11,6 +11,7 @@ right after sync_catalog_pins(), on every post-collector run. Touches only JSON;
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -36,6 +37,9 @@ def denied_ids() -> dict[str, str]:
 # and zero focus titles gets no extracts (black-stone-minerals: US oil & gas
 # royalty MLP whose extracts were all shared-word mis-tags, PR #253).
 NON_HARDROCK_COMMODITIES = frozenset({"oil & gas"})
+HARDROCK_WORDS = frozenset({"gold", "silver", "copper", "nickel", "zinc", "lead", "uranium", "lithium", "iron",
+                            "iron ore", "cobalt", "pgms", "rare earths", "graphite", "diamonds", "met coal",
+                            "other metals", "potash", "molybdenum", "tungsten", "vanadium", "antimony"})
 
 
 def issuer_commodity(root: Path, cid: str) -> str | None:
@@ -50,12 +54,27 @@ def issuer_commodity(root: Path, cid: str) -> str | None:
     return str(value).strip().lower() if value else None
 
 
+def is_non_hardrock(commodity: str | None) -> bool:
+    """True when the commodity is only non-hard-rock, e.g. 'oil & gas', 'Oil and Gas', 'oil & gas, midstream'.
+
+    A mixed list such as 'oil & gas, copper' stays hard-rock (False).
+    """
+    if not commodity:
+        return False
+    text = re.sub(r"\band\b", "&", commodity.lower())
+    parts = [" ".join(p.replace("&", " & ").split()) for p in re.split(r"[,;/|]", text)]
+    parts = [p for p in parts if p]
+    if not parts or parts[0] not in NON_HARDROCK_COMMODITIES:
+        return False
+    return not any(p in HARDROCK_WORDS for p in parts[1:])
+
+
 def no_hardrock_guard(row: dict, root: Path) -> list[str]:
     """Drop extracts from a non-hard-rock issuer with no focus titles. Mutates row."""
     keys = [key for _, key in KINDS if row.get(key)]
     if not keys or int(row.get("claim_count") or 0) != 0:
         return []
-    if issuer_commodity(root, str(row.get("id") or "")) not in NON_HARDROCK_COMMODITIES:
+    if not is_non_hardrock(issuer_commodity(root, str(row.get("id") or ""))):
         return []
     for kind, key in KINDS:
         row[key] = None

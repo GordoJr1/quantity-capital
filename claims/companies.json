@@ -7676,22 +7676,17 @@
         "imperial oil"
       ],
       "holder": "Imperial Oil Limited",
-      "claim_count": 29,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": null,
       "ontario_extract": null,
-      "bc_extract": "claims/imperial-oil-bc.geojson",
+      "bc_extract": null,
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=29",
       "ontario_count": 0,
       "ontario_bbox": null,
-      "bc_count": 29,
-      "bc_bbox": [
-        -130.6315,
-        49.7332,
-        -124.5139,
-        56.1374
-      ],
+      "bc_count": 0,
+      "bc_bbox": null,
       "quebec_count": 0
     },
     {
@@ -8130,27 +8125,17 @@
         "enterprise products partners"
       ],
       "holder": "Enterprise Products Partners",
-      "claim_count": 188,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": null,
-      "ontario_extract": "claims/enterprise-products-partners-ontario.geojson",
-      "bc_extract": "claims/enterprise-products-partners-bc.geojson",
+      "ontario_extract": null,
+      "bc_extract": null,
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=14",
-      "ontario_count": 128,
-      "ontario_bbox": [
-        -94.35,
-        46.6458,
-        -79.125,
-        49.7292
-      ],
-      "bc_count": 60,
-      "bc_bbox": [
-        -133.441,
-        49.3943,
-        -120.4104,
-        59.5443
-      ],
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
       "quebec_count": 0
     },
     {
@@ -8324,20 +8309,15 @@
         "cardinal energy"
       ],
       "holder": "Cardinal Energy",
-      "claim_count": 8,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": null,
-      "ontario_extract": "claims/cardinal-energy-ontario.geojson",
+      "ontario_extract": null,
       "bc_extract": null,
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=8",
-      "ontario_count": 8,
-      "ontario_bbox": [
-        -82.15,
-        47.5125,
-        -79.8875,
-        47.6333
-      ],
+      "ontario_count": 0,
+      "ontario_bbox": null,
       "bc_count": 0,
       "bc_bbox": null,
       "quebec_count": 0

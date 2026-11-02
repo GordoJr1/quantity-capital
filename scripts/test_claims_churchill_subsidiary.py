@@ -36,7 +36,8 @@ class ChurchillSubsidiary(unittest.TestCase):
 
     def test_parent_and_other_churchill_holders_unchanged(self):
         self.assertEqual(self.link("Churchill Resources Incorporated"), "churchill-resources-inc")
-        self.assertEqual(self.link("(100) Churchill Explorations Ltd."), "churchill-resources-inc")
+        # Churchill Explorations Ltd. is an unrelated private company (blocked, see test_claims_black_stone_churchill_expl).
+        self.assertNotEqual(self.link("(100) Churchill Explorations Ltd."), "churchill-resources-inc")
 
 
 if __name__ == "__main__":

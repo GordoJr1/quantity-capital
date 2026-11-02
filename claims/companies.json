@@ -7463,34 +7463,19 @@
         "black stone minerals"
       ],
       "holder": "Black Stone Minerals",
-      "claim_count": 1328,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": "claims/black-stone-minerals.geojson",
       "ontario_extract": "claims/black-stone-minerals-ontario.geojson",
       "bc_extract": "claims/black-stone-minerals-bc.geojson",
       "mines": [],
       "source_note": "auto from qc.sqlite linked parties n=40",
-      "ontario_count": 715,
-      "ontario_bbox": [
-        -93.7188,
-        47.425,
-        -79.5125,
-        50.4792
-      ],
-      "bc_count": 15,
-      "bc_bbox": [
-        -126.5578,
-        48.5666,
-        -115.9073,
-        53.2866
-      ],
-      "quebec_count": 598,
-      "quebec_bbox": [
-        -79.36666667324283,
-        46.41788889094126,
-        -65.46666666448981,
-        49.92500000506155
-      ]
+      "ontario_count": 0,
+      "ontario_bbox": null,
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0,
+      "quebec_bbox": null
     },
     {
       "id": "p2-gold",

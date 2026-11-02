@@ -18,6 +18,21 @@ import build_canada_owner_beta_shells as s
 
 
 class ResolveTests(unittest.TestCase):
+    def test_rebuild_cannot_recreate_denied_ids(self) -> None:
+        from unittest import mock
+
+        mines = [{"id": "x", "name": "X", "owners": "Kestrel Gold Inc."}]
+        for denied, good in s.DENIED_BETA_IDS.items():
+            with mock.patch.object(s, "resolve_owner", return_value=(None, "")), \
+                    mock.patch.object(s, "owner_slug", return_value=denied):
+                plan = s.plan_owners(ROOT, mines)
+            self.assertEqual(plan["owner_to_id"]["Kestrel Gold Inc."], good)
+            row = plan["rows"][0]
+            self.assertFalse(row["mint"])
+            self.assertFalse((ROOT / "beta" / f"{denied}.json").exists())
+            with self.assertRaises(ValueError):
+                s.write_shells(ROOT, {"rows": [dict(row, beta_id=denied)], "mines": [], "caps": {}})
+
     def test_vale_alias_to_existing_page(self) -> None:
         mines = [{"id": "voisey-s-bay", "name": "Voisey’s Bay", "owners": "Vale Canada Limited"}]
         plan = s.plan_owners(ROOT, mines)

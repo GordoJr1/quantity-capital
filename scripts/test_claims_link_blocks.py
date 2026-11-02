@@ -45,8 +45,8 @@ def test_block_stops_extract_link_and_catalog_name_wins() -> None:
 
 def test_repo_block_file_parses() -> None:
     blocks = db.load_link_blocks()
-    assert ("churchill diamond", "churchill-resources-inc") in blocks
-    assert len(blocks) == 10  # +2 fortune blocks (Ontario tag batch 1)
+    assert ("churchill diamond", "churchill-resources-inc") not in blocks  # subsidiary: now an alias
+    assert len(blocks) == 9  # +2 fortune blocks (Ontario tag batch 1), -1 churchill (subsidiary)
 
 
 def test_blocked_company_in_two_way_tie_links_the_valid_one() -> None:

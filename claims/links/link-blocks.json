@@ -1,7 +1,6 @@
 {
   "note": "Curated holder party -> company id pairs that must never link. Phrases are compared after normalize_name(). Each block overrides a loose exact_norms entry in public-issuers.json or a mis-tagged extract holder. Not legal title.",
   "blocks": [
-    {"phrase": "churchill diamond", "company_id": "churchill-resources-inc", "note": "Churchill Diamond Corporation (Nunavut) is not Churchill Resources Inc. (CRI.V)."},
     {"phrase": "solstice gold", "company_id": "solstice-minerals", "note": "Solstice Gold Corp. is not Solstice Minerals Limited (SLS.AX). Came in through the solstice-minerals extract."},
     {"phrase": "borealis exploration", "company_id": "borealis-mining", "note": "Borealis Exploration Limited is not Borealis Mining."},
     {"phrase": "equinox resources canada", "company_id": "equinox-gold", "note": "Equinox Resources (Canada) Inc. is not Equinox Gold Corp."},

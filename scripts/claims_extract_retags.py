@@ -61,6 +61,11 @@ def apply_retags(file_name: str, features: list[dict], rules: dict | None = None
     return changed
 
 
+def dump_extract(data: dict) -> str:
+    """Serialize an extract in the committed format (json.dumps defaults, no trailing newline)."""
+    return json.dumps(data, ensure_ascii=False)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     g = ap.add_mutually_exclusive_group(required=True)
@@ -80,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
             bad += 1
             print(f"{name}: {n} focus features should be neighbor")
             if a.write:
-                path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+                path.write_text(dump_extract(data), encoding="utf-8")
     return 1 if (bad and a.check) else 0
 
 

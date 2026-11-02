@@ -60,10 +60,18 @@ class NoHardrockGuard(unittest.TestCase):
 
     def test_commodity_variants(self):
         for text in ("oil & gas", "Oil & Gas", "oil and gas", "Oil And Gas", "oil&gas", "oil & gas, midstream",
-                     "oil and gas; royalties", " oil  &  gas "):
+                     "oil and gas; royalty", " oil  &  gas ", "oil/gas", "Oil / Gas", "natural gas", "oil & gas, helium"):
             self.assertTrue(cm.is_non_hardrock(text), text)
-        for text in (None, "", "gold", "met coal", "oil & gas, copper", "copper, oil & gas", "oil", "gas"):
+        for text in (None, "", "gold", "met coal", "oil & gas, copper", "copper, oil & gas", "oil", "gas",
+                     "oil & gas, platinum", "oil & gas, manganese", "oil & gas, coal", "oil & gas, other"):
             self.assertFalse(cm.is_non_hardrock(text), text)
+
+    def test_strict_every_part_must_be_non_hardrock(self):
+        self.assertFalse(cm.is_non_hardrock("oil & gas, platinum"))
+        self.assertFalse(cm.is_non_hardrock("oil & gas, manganese"))
+        self.assertFalse(cm.is_non_hardrock("oil & gas, coal"))
+        self.assertFalse(cm.is_non_hardrock("oil and gas; royalties"))
+        self.assertTrue(cm.is_non_hardrock("oil/gas"))
 
     def test_variant_profile_dropped(self):
         (self.root / "beta" / "oilvar.json").write_text(json.dumps({"issuer": {"commodity": "Oil and Gas, midstream"}}), encoding="utf-8")

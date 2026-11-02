@@ -36,10 +36,7 @@ def denied_ids() -> dict[str, str]:
 # Beta-profile commodities with no hard-rock activity. An issuer with one of these
 # and zero focus titles gets no extracts (black-stone-minerals: US oil & gas
 # royalty MLP whose extracts were all shared-word mis-tags, PR #253).
-NON_HARDROCK_COMMODITIES = frozenset({"oil & gas"})
-HARDROCK_WORDS = frozenset({"gold", "silver", "copper", "nickel", "zinc", "lead", "uranium", "lithium", "iron",
-                            "iron ore", "cobalt", "pgms", "rare earths", "graphite", "diamonds", "met coal",
-                            "other metals", "potash", "molybdenum", "tungsten", "vanadium", "antimony"})
+NON_HARDROCK_COMMODITIES = frozenset({"oil & gas", "natural gas", "midstream", "helium", "royalty"})
 
 
 def issuer_commodity(root: Path, cid: str) -> str | None:
@@ -55,18 +52,19 @@ def issuer_commodity(root: Path, cid: str) -> str | None:
 
 
 def is_non_hardrock(commodity: str | None) -> bool:
-    """True when the commodity is only non-hard-rock, e.g. 'oil & gas', 'Oil and Gas', 'oil & gas, midstream'.
+    """True only when every commodity part is in NON_HARDROCK_COMMODITIES (strict).
 
-    A mixed list such as 'oil & gas, copper' stays hard-rock (False).
+    'oil & gas', 'Oil and Gas', 'oil&gas', 'oil/gas' and 'oil & gas, midstream' are True.
+    Any other part, such as 'oil & gas, platinum' or 'oil & gas, coal', is False.
     """
     if not commodity:
         return False
-    text = re.sub(r"\band\b", "&", commodity.lower())
+    text = commodity.lower()
+    text = re.sub(r"\boil\s*(?:/|&|\band\b)\s*gas\b", "oil & gas", text)
+    text = re.sub(r"\band\b", "&", text)
     parts = [" ".join(p.replace("&", " & ").split()) for p in re.split(r"[,;/|]", text)]
     parts = [p for p in parts if p]
-    if not parts or parts[0] not in NON_HARDROCK_COMMODITIES:
-        return False
-    return not any(p in HARDROCK_WORDS for p in parts[1:])
+    return bool(parts) and all(p in NON_HARDROCK_COMMODITIES for p in parts)
 
 
 def no_hardrock_guard(row: dict, root: Path) -> list[str]:

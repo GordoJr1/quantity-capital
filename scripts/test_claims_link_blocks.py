@@ -47,3 +47,20 @@ def test_repo_block_file_parses() -> None:
     blocks = db.load_link_blocks()
     assert ("churchill diamond", "churchill-resources-inc") in blocks
     assert len(blocks) == 8
+
+
+def test_blocked_company_in_two_way_tie_links_the_valid_one() -> None:
+    book = _book()
+    # Both companies pin "churchill diamond" in exact_norms: a two-way tie.
+    book["churchill-diamond-holdings"] = dict(
+        book["churchill-resources-inc"], company_id="churchill-diamond-holdings",
+        name="Churchill Diamond Holdings", names=["Churchill Diamond Holdings"],
+        norms=[db.normalize_name("Churchill Diamond Holdings")], exact_norms=["churchill diamond"],
+    )
+    exact, phrases, tokens = db.name_indexes(book)
+    holder = "(100) Churchill Diamond Corporation"
+    tie = db.match_holder(holder, book, [], {}, exact, phrases, tokens, blocks=set())
+    assert tie["company_id"] is None  # a pinned two-way tie links nothing
+    row = db.match_holder(holder, book, [], {}, exact, phrases, tokens,
+                          blocks={("churchill diamond", "churchill-resources-inc")})
+    assert row["company_id"] == "churchill-diamond-holdings"

@@ -460,6 +460,38 @@ def _beta_tickers(payload: dict) -> list[str]:
     return out
 
 
+ID_SUFFIXES = ("inc", "ltd", "corp", "corporation", "limited", "limitee", "ltee", "incorporated", "co", "company")
+
+
+def fold_suffix_twins(book: dict[str, dict]) -> list[tuple[str, str]]:
+    """Merge a bare id (beta/nuvau-minerals.json) into its suffixed twin (nuvau-minerals-inc).
+
+    Both normalize to one name, so match_holder saw a two-company tie and,
+    without Jev, linked nothing. Keep the suffixed id: earlier snapshots used it.
+    Names, tickers, exact norms and assets are unioned, so no mine is dropped.
+    """
+    merged = []
+    for cid in list(book):
+        for suffix in ID_SUFFIXES:
+            twin = f"{cid}-{suffix}"
+            if twin in book and cid in book:
+                bare, keep = book.pop(cid), book[twin]
+                for key in ("names", "tickers", "exact_norms", "assets"):
+                    for value in bare.get(key) or []:
+                        if value not in keep.setdefault(key, []):
+                            keep[key].append(value)
+                have = {row.get("id") for row in keep.setdefault("asset_rows", [])}
+                for row in bare.get("asset_rows") or []:
+                    if row.get("id") not in have:
+                        keep["asset_rows"].append(row)
+                        have.add(row.get("id"))
+                if not keep.get("ticker"):
+                    keep["ticker"] = bare.get("ticker")
+                merged.append((cid, twin))
+                break
+    return merged
+
+
 def load_company_book() -> dict[str, dict]:
     """Site companies: claims catalog merged with beta profiles and publics tickers."""
     book: dict[str, dict] = {}
@@ -575,6 +607,7 @@ def load_company_book() -> dict[str, dict]:
             if not book[cid]["ticker"] and book[target]["ticker"]:
                 book[cid]["ticker"] = book[target]["ticker"]
                 book[cid]["tickers"] = list(book[target]["tickers"])
+    fold_suffix_twins(book)
     for slot in book.values():
         norms = []
         seen = set()

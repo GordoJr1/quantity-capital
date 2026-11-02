@@ -1,5 +1,5 @@
 {
-  "note": "Role overrides for claims extracts. The ON/BC extract builder matches holders by name words, so it tags other companies that share a word (for example '... Metals'). These rules were made in PR #244 (and BC metal-energy in PR #246), and build_on_bc_extracts.py applies them on every regeneration. Run scripts/claims_extract_retags.py --check to verify the committed files. Holder compare: lowercase, single spaces.",
+  "note": "Role overrides for claims extracts. The ON/BC extract builder matches holders by name words, so it tags other companies that share a word (for example '... Metals'). These rules were made in PR #244 (BC metal-energy in PR #246; Ontario batch 1 in fix/claims-ontario-tags-batch1), and build_on_bc_extracts.py applies them on every regeneration. Run scripts/claims_extract_retags.py --check to verify the committed files. Holder compare: lowercase, single spaces.",
   "files": {
     "metal-energy.geojson": {"focus_only_holder_pattern": "\\bmetal energy\\b"},
     "metal-energy-ontario.geojson": {"focus_only_holder_pattern": "\\bmetal energy\\b"},
@@ -7,15 +7,123 @@
     "solstice-minerals.geojson": {"focus_only_holder_pattern": "\\bsolstice minerals\\b"},
     "solstice-minerals-ontario.geojson": {"focus_only_holder_pattern": "\\bsolstice minerals\\b"},
     "canada-nickel-ontario.geojson": {"neighbor_holders": [
-      "(100) Fulcrum Metals Canada Ltd.",
+      "(10) GREENSTONE EXPLORATION COMPANY LTD., (56.88) TREELAWN GROUP INC., (33.12) CANADA CHROME CORPORATION",
+      "(100) 31 Exploration (Canada) Ltd",
+      "(100) Axies Canada Inc.",
+      "(100) CANADA CHROME CORPORATION",
+      "(100) COBALT INDUSTRIES OF CANADA INC.",
+      "(100) Canada Critical Resources Corp.",
+      "(100) Covia Canada Ltd.",
+      "(100) DE BEERS CANADA INC.",
+      "(100) EMX Properties (Canada) Inc.",
       "(100) FULCRUM METALS NO. 2 (CANADA) LTD.",
-      "(100) Panther Metals (Canada) Ltd."
+      "(100) First Class Metals Canada Inc.",
+      "(100) Fulcrum Metals Canada Ltd.",
+      "(100) GLENCORE CANADA CORPORATION",
+      "(100) Green TM Resources (Canada) LTD.",
+      "(100) IMPALA CANADA LTD.",
+      "(100) International Lithium Canada Ltd.",
+      "(100) KG Exploration (Canada) Inc.",
+      "(100) KOALA CANADA EXPLORATION INC.",
+      "(100) KoBold Exploration Canada Inc.",
+      "(100) LANDORE RESOURCES CANADA INC.",
+      "(100) MOON ENERGY CORP. FOUNDATION, CANADA",
+      "(100) PANORAMIC PGMS (CANADA) LIMITED",
+      "(100) Panther Metals (Canada) Ltd.",
+      "(100) Patriot Lithium (Canada) Inc.",
+      "(100) RIO TINTO EXPLORATION CANADA INC.",
+      "(100) VALE CANADA LIMITED VALE CANADA LIMITEE",
+      "(15) CANADA CHROME CORPORATION, (85) Wyloo Muketei Ltd.",
+      "(20) ASHTON MINING OF CANADA INC., (80) NORTH ARROW MINERALS INC. ",
+      "(28) CANADA CHROME MINING CORPORATION, (72) Wyloo Muketei Ltd.",
+      "(50) CANADA CHROME CORPORATION, (50) Wyloo Muketei Ltd.",
+      "(50) COBALT INDUSTRIES OF CANADA INC., (50) lucien  clement",
+      "(50) GLENCORE CANADA CORPORATION, (50) VALE CANADA LIMITED VALE CANADA LIMITEE",
+      "(50) Wyloo Ring of Fire Ltd., (50) CANADA CHROME CORPORATION",
+      "(51) TYKO RESOURCES INC, (49) First Class Metals Canada Inc.",
+      "(70) GLENCORE CANADA CORPORATION, (30) FNX MINING COMPANY INC."
     ]},
-    "critical-elements-lithium-ontario.geojson": {"neighbor_holders": ["(100) Core Critical Metals Corp."]},
+    "critical-elements-lithium-ontario.geojson": {"neighbor_holders": [
+      "(100) Canada Critical Resources Corp.",
+      "(100) Core Critical Metals Corp.",
+      "(100) Critical Minerals North Ltd.",
+      "(49) STILLWATER CRITICAL MINERALS CORP., (51) Heritage Mining Ltd."
+    ]},
     "nexus-gold-ontario.geojson": {"neighbor_holders": ["(100) Nexus Metals Corp."]},
     "nickel-creek-platinum-ontario.geojson": {"neighbor_holders": [
+      "(1) ALAMOS GOLD INC. , (99) CANADA NICKEL COMPANY INC.",
+      "(100) BOSTON CREEK MINES LIMITED",
+      "(100) Bear Creek Gold Ltd.",
+      "(100) CANADA NICKEL COMPANY INC.",
+      "(100) CENTRAL TIMMINS NICKEL COMPANY INC",
+      "(100) Discovery Kidd Creek Inc.",
+      "(100) EAST TIMMINS NICKEL LTD.",
+      "(100) EV Nickel Inc.",
+      "(100) Fortune Nickel and Gold Inc.",
       "(100) METALS CREEK RESOURCES CORP.",
-      "(50) METALS CREEK RESOURCES CORP., (50) Dome Mine Ltd."
-    ]}
+      "(100) NorthX Nickel Corp.",
+      "(20) SHARON ADELIA COTTON, (15) W. JOHNSON MINING & OIL FIELD SERVICES LTD., (65) CANADA NICKEL COMPANY INC.",
+      "(50) METALS CREEK RESOURCES CORP., (50) Dome Mine Ltd.",
+      "(66) ROY  ANNETT, (34) GREAT LAKES NICKEL LIMITED",
+      "(67) GREAT LAKES NICKEL LIMITED, (33) ROBIN  LOWE",
+      "(99) CANADA NICKEL COMPANY INC., (1) Treasure Oakes Resources Inc."
+    ]},
+    "eagle-plains-resources-ontario.geojson": {"neighbor_holders": [
+      "(100) AGNICO EAGLE MINES LIMITED",
+      "(100) EAGLE RIDGE MINING LTD",
+      "(25) AGNICO EAGLE MINES LIMITED, (75) STLLR GOLD INC.",
+      "(40) AGNICO EAGLE MINES LIMITED, (60) Dome Mine Ltd.",
+      "(50) AGNICO EAGLE MINES LIMITED, (50) STLLR GOLD INC.",
+      "(75) AGNICO EAGLE MINES LIMITED, (25) STLLR GOLD INC."
+    ]},
+    "lake-victoria-gold-ontario.geojson": {"neighbor_holders": [
+      "(10) ROCKEX MINING CORPORATION, (90) ROOT LAKE RESOURCES LTD.",
+      "(100) Brohm Lake Contracting Inc.",
+      "(100) COPPER LAKE RESOURCES LTD",
+      "(100) Great Red Lake Gold Corp.",
+      "(100) KIRKLAND LAKE DISCOVERIES CORP.",
+      "(100) Kemlee Lake Lithium Corp.",
+      "(100) LAKE SHORE GOLD CORP.",
+      "(100) McFarlane Lake Mining Limited",
+      "(100) RED LAKE MADSEN MINE LTD.",
+      "(100) ROCK TECH GEORGIA LAKE INC.",
+      "(100) ROOT LAKE RESOURCES LTD.",
+      "(100) Red Lake Gold Inc.",
+      "(100) Silver Lake Ontario Inc.",
+      "(100) WEST RED LAKE GOLD MINES (ONTARIO) LTD.",
+      "(50) RAINY MOUNTAIN ROYALTY CORP., (50) COPPER LAKE RESOURCES LTD",
+      "(55) LAKE SHORE GOLD CORP., (45) Dome Mine Ltd.",
+      "(75) ORECAP INVEST CORP., (25) McFarlane Lake Mining Limited",
+      "(80) JOHN DOUGLAS BRADLEY, (20) FORTUNE LAKE EXPLORATIONS LIMITED",
+      "(90) Silver Lake Ontario Inc., (10) PELANGIO EXPLORATION INC."
+    ]},
+    "silver-storm-mining-ontario.geojson": {"neighbor_holders": [
+      "(100) CANADIAN SILVER HUNTER INC.",
+      "(100) PINNACLE SILVER AND GOLD CORP.",
+      "(100) RIO SILVER INC.",
+      "(100) STORM EXPLORATION INC.",
+      "(100) Silver Dollar Resources Inc.",
+      "(100) Silver Lake Ontario Inc.",
+      "(100) Silver Spruce Resources Inc.",
+      "(90) Silver Lake Ontario Inc., (10) PELANGIO EXPLORATION INC."
+    ]},
+    "lucara-diamond-ontario.geojson": {"neighbor_holders": [
+      "(100) CHURCHILL DIAMOND CORPORATION",
+      "(100) Diamond Grove Mines Ltd."
+    ]},
+    "cobalt-blue-holdings-ontario.geojson": {"neighbor_holders": [
+      "(100) COBALT INDUSTRIES OF CANADA INC.",
+      "(50) COBALT INDUSTRIES OF CANADA INC., (50) lucien  clement"
+    ]},
+    "silver-north-resources-ontario.geojson": {"neighbor_holders": ["(100) Critical Minerals North Ltd."]},
+    "big-ridge-gold-ontario.geojson": {"neighbor_holders": ["(100) EAGLE RIDGE MINING LTD"]},
+    "first-quantum-minerals-ontario.geojson": {"neighbor_holders": [
+      "(100) First Class Metals Canada Inc.",
+      "(51) TYKO RESOURCES INC, (49) First Class Metals Canada Inc."
+    ]},
+    "great-pacific-gold-ontario.geojson": {"neighbor_holders": ["(100) Great Red Lake Gold Corp."]},
+    "green-shift-ontario.geojson": {"neighbor_holders": ["(100) Green TM Resources (Canada) LTD."]},
+    "international-tower-hill-ontario.geojson": {"neighbor_holders": ["(100) International Lithium Canada Ltd."]},
+    "energy-fuels-ontario.geojson": {"neighbor_holders": ["(100) MOON ENERGY CORP. FOUNDATION, CANADA"]}
   }
 }

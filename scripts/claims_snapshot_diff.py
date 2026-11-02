@@ -18,6 +18,7 @@ import json
 import re
 import sqlite3
 import string
+import unicodedata
 import sys
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
@@ -27,6 +28,13 @@ from pathlib import Path
 # feeds use a trailing "NAME (100%)". Drop both so a percent tag is not a transfer.
 _LEAD_PCT = re.compile(r"^\s*\(\s*\d+(?:\.\d+)?\s*%?\s*\)\s*")
 _TRAIL_PCT = re.compile(r"\s*\(\s*\d+(?:\.\d+)?\s*%?\s*\)\s*$")
+# Legal-form words. A suffix counts as a restyle only when one side has none:
+# "Properties" -> "Properties Inc." is a restyle, "Ltd." -> "Inc." is a change.
+_LEGAL_SUFFIX = frozenset({
+    "inc", "incorporated", "ltd", "limited", "ltee", "limitee", "corp", "corporation",
+    "co", "company", "cie", "llc", "llp", "ulc", "plc",
+})
+_PARTY = re.compile(r"\(\s*(\d+(?:\.\d+)?)\s*%?\s*\)\s*([^(]*)")
 _CHANGE_ORDER = {"new": 0, "lapsed": 1, "transferred": 2}
 
 
@@ -117,9 +125,51 @@ def normalize_holder(value: str | None) -> str:
         text = _LEAD_PCT.sub("", text)
         text = _TRAIL_PCT.sub("", text)
         text = text.strip()
-    folded = text.casefold()
+    folded = unicodedata.normalize("NFKD", text)
+    folded = "".join(ch for ch in folded if not unicodedata.combining(ch)).casefold()
     cleaned = "".join(" " if ch in string.punctuation else ch for ch in folded)
     return " ".join(cleaned.split())
+
+
+def _parties(value: str | None) -> list[tuple[str, str]]:
+    """Split "(60) A Inc., (40) B Ltd." into [("60", "a inc"), ("40", "b ltd")]."""
+    text = "" if value is None else str(value).strip()
+    found = _PARTY.findall(text) if text.startswith("(") else []
+    if len(found) > 1:
+        return [(str(float(pct)), normalize_holder(name.strip(" ,"))) for pct, name in found]
+    return [("", normalize_holder(text))]
+
+
+def _bare(norm: str) -> tuple[str, bool]:
+    tokens = norm.split()
+    had = False
+    while len(tokens) > 1 and tokens[-1] in _LEGAL_SUFFIX:
+        tokens.pop()
+        had = True
+    return " ".join(tokens), had
+
+
+def same_holder(old: str | None, new: str | None) -> bool:
+    """True when the new holder is only a restyle of the old one.
+
+    Case, accents, punctuation, whitespace and percent tags never count.
+    A legal suffix counts only when both sides have one and they differ.
+    """
+    if normalize_holder(old) == normalize_holder(new):
+        return True
+    a, b = sorted(_parties(old)), sorted(_parties(new))
+    if len(a) != len(b):
+        return False
+    for (pct_a, name_a), (pct_b, name_b) in zip(a, b):
+        if pct_a != pct_b:
+            return False
+        if name_a == name_b:
+            continue
+        core_a, had_a = _bare(name_a)
+        core_b, had_b = _bare(name_b)
+        if core_a != core_b or had_a == had_b:
+            return False
+    return True
 
 
 def _oid_key(value: object) -> tuple:
@@ -319,7 +369,7 @@ def build_diff(
     for key in sorted(set(old.by_key) & set(new.by_key)):
         before = old.by_key[key]
         after = new.by_key[key]
-        if normalize_holder(before.holder) == normalize_holder(after.holder):
+        if same_holder(before.holder, after.holder):
             continue
         company_old, ticker_old = company_for(holders_old, before.province, before.holder)
         company_new, ticker_new = company_for(holders_new, after.province, after.holder)

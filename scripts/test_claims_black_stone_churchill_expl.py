@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""black-stone-minerals extracts are all shared-word mis-tags; Churchill Explorations Ltd. is not Churchill Resources Inc."""
+"""black-stone-minerals (oil & gas) has no extracts; Churchill Explorations Ltd. is not Churchill Resources Inc."""
 from __future__ import annotations
 
 import json
@@ -29,19 +29,15 @@ class BlackStoneChurchillExpl(unittest.TestCase):
         h = c.registry_holder_to_ontario(holder)
         return o.match_holder(h, self.book, self.aliases, self.extract, *self.idx).get("company_id")
 
-    def test_bsm_extracts_have_no_focus_titles(self):
+    def test_bsm_has_no_extracts(self):
         rules = r.load_rules()
         for name in BSM_FILES:
-            self.assertIn(name, rules)
-            feats = json.loads((ROOT / "claims" / name).read_text(encoding="utf-8"))["features"]
-            self.assertTrue(feats, name)
-            self.assertEqual({f["properties"].get("role") for f in feats}, {"neighbor"}, name)
-            self.assertEqual(r.apply_retags(name, feats, rules), 0, name)
-
-    def test_pattern_would_keep_a_real_black_stone_holder(self):
-        rule = r.load_rules()["black-stone-minerals-ontario.geojson"]
-        self.assertFalse(r.should_be_neighbor(rule, "(100) Black Stone Minerals Company, L.P."))
-        self.assertTrue(r.should_be_neighbor(rule, "(100) Neal E Blackmore"))
+            self.assertNotIn(name, rules)
+            self.assertFalse((ROOT / "claims" / name).exists(), name)
+        cat = json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))
+        row = next(x for x in cat["companies"] if x["id"] == "black-stone-minerals")
+        for key in ("extract", "ontario_extract", "bc_extract"):
+            self.assertIsNone(row[key], key)
 
     def test_catalog_counts_zero(self):
         cat = json.loads((ROOT / "claims" / "companies.json").read_text(encoding="utf-8"))

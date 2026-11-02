@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BC/QC shared-word tag batch 2: role-only retags and kept holders."""
+"""BC/QC shared-word tag batch 2 (+ leftovers): role-only retags and kept holders."""
 from __future__ import annotations
 
 import json
@@ -26,16 +26,16 @@ def focus(name: str) -> Counter:
 class Batch2(unittest.TestCase):
     def test_kept_focus_holders(self):
         expect = {
-            "eagle-plains-resources.geojson": {"eagles maxwell": 47},
+            "eagle-plains-resources.geojson": {},
             "power-metals.geojson": {"Power Metals Corp": 362},
             "abitibi-metals.geojson": {"Abitibi Metals Corp.": 481},
             "electric-royalties.geojson": {},
             "nickel-creek-platinum.geojson": {},
-            "nickel-creek-platinum-bc.geojson": {"NICKELEX RESOURCE CORPORATION": 5},
+            "nickel-creek-platinum-bc.geojson": {},
             "lake-victoria-gold.geojson": {},
-            "lake-victoria-gold-bc.geojson": {"HOUGH, BRADLEY BLAKE": 1},
-            "silver-storm-mining.geojson": {"Silverwater Capital Corp": 40},
-            "silver-storm-mining-bc.geojson": {"COEUR SILVERTIP HOLDINGS LTD.": 21},
+            "lake-victoria-gold-bc.geojson": {},
+            "silver-storm-mining.geojson": {},
+            "silver-storm-mining-bc.geojson": {},
         }
         for name, held in expect.items():
             self.assertEqual(dict(focus(name)), held, name)
@@ -51,8 +51,8 @@ class Batch2(unittest.TestCase):
 
     def test_catalog_counts(self):
         rows = {c["id"]: c for c in json.loads((CLAIMS / "companies.json").read_text())["companies"]}
-        for cid, n in {"lake-victoria-gold": 408, "silver-storm-mining": 61, "nickel-creek-platinum": 5,
-                       "power-metals": 1107, "abitibi-metals": 730, "eagle-plains-resources": 118,
+        for cid, n in {"lake-victoria-gold": 407, "silver-storm-mining": 0, "nickel-creek-platinum": 0,
+                       "power-metals": 1107, "abitibi-metals": 730, "eagle-plains-resources": 71,
                        "electric-royalties": 17}.items():
             self.assertEqual(rows[cid]["claim_count"], n, cid)
 

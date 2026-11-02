@@ -4858,7 +4858,7 @@
         "silver storm mining"
       ],
       "holder": "Silver Storm Mining",
-      "claim_count": 61,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": "claims/silver-storm-mining.geojson",
       "ontario_extract": "claims/silver-storm-mining-ontario.geojson",
@@ -4867,20 +4867,10 @@
       "source_note": "auto from qc.sqlite linked parties n=2108",
       "ontario_count": 0,
       "ontario_bbox": null,
-      "bc_count": 21,
-      "bc_bbox": [
-        -130.4205,
-        59.8039,
-        -130.1142,
-        59.9998
-      ],
-      "quebec_count": 40,
-      "quebec_bbox": [
-        -63.550000006113066,
-        50.5333333343222,
-        -63.449999999475665,
-        50.59166667393541
-      ]
+      "bc_count": 0,
+      "bc_bbox": null,
+      "quebec_count": 0,
+      "quebec_bbox": null
     },
     {
       "id": "probe-gold",
@@ -5469,7 +5459,7 @@
         "nickel creek platinum"
       ],
       "holder": "Nickel Creek Platinum",
-      "claim_count": 5,
+      "claim_count": 0,
       "color": "#e8b040",
       "extract": "claims/nickel-creek-platinum.geojson",
       "ontario_extract": "claims/nickel-creek-platinum-ontario.geojson",
@@ -5478,13 +5468,8 @@
       "source_note": "auto from qc.sqlite linked parties n=735",
       "ontario_count": 0,
       "ontario_bbox": null,
-      "bc_count": 5,
-      "bc_bbox": [
-        -117.4011,
-        49.0874,
-        -117.3011,
-        49.1624
-      ],
+      "bc_count": 0,
+      "bc_bbox": null,
       "quebec_count": 0,
       "quebec_bbox": null
     },
@@ -7063,7 +7048,7 @@
         "eagle plains resources"
       ],
       "holder": "Eagle Plains Resources",
-      "claim_count": 118,
+      "claim_count": 71,
       "color": "#e8b040",
       "extract": "claims/eagle-plains-resources.geojson",
       "ontario_extract": "claims/eagle-plains-resources-ontario.geojson",
@@ -7079,13 +7064,8 @@
         -115.5135,
         59.9998
       ],
-      "quebec_count": 47,
-      "quebec_bbox": [
-        -77.18333333785644,
-        50.45000000367905,
-        -77.11666663243132,
-        50.51666666974447
-      ]
+      "quebec_count": 0,
+      "quebec_bbox": null
     },
     {
       "id": "premier-american-uranium",
@@ -8746,7 +8726,7 @@
         "lake victoria gold"
       ],
       "holder": "Lake Victoria Gold",
-      "claim_count": 408,
+      "claim_count": 407,
       "color": "#e8b040",
       "extract": "claims/lake-victoria-gold.geojson",
       "ontario_extract": "claims/lake-victoria-gold-ontario.geojson",
@@ -8760,13 +8740,8 @@
         -77.0188,
         50.1875
       ],
-      "bc_count": 1,
-      "bc_bbox": [
-        -122.9568,
-        53.2913,
-        -122.9435,
-        53.3008
-      ],
+      "bc_count": 0,
+      "bc_bbox": null,
       "quebec_count": 0,
       "quebec_bbox": null
     },

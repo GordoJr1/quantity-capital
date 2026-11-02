@@ -39,6 +39,12 @@ ALIASES_OUT = HERE / "canada-owner-aliases.json"
 INDEX_OUT = ROOT / "beta" / "canada-owners.json"
 COMMODITIES = ROOT / "canada" / "commodities.json"
 INDEX_SCHEMA = "qc-beta-canada-owners-v1"
+# Beta ids that held the wrong company and were renamed in PR #244. A rebuild
+# must never mint or reuse them; map them to the right id instead.
+DENIED_BETA_IDS = {
+    "kinross-kgc-v": "kestrel-gold-inc",
+    "barrick-b-v": "bcm-resources-corporation",
+}
 SKIP_BETA = {"issuers.json", "explorers.json", "mcap.json", "claims-publics.json", "canada-owners.json"}
 
 # Parent / subsidiary strings → existing or minted beta id. Deterministic.
@@ -586,6 +592,10 @@ def plan_owners(root: Path, mines: list[dict[str, Any]]) -> dict[str, Any]:
         elif cid not in taken and not (root / "beta" / f"{cid}.json").exists():
             mint = True
             how = how + "+mint"
+        if cid in DENIED_BETA_IDS:
+            cid = DENIED_BETA_IDS[cid]
+            mint = cid not in taken and not (root / "beta" / f"{cid}.json").exists()
+            how = how + "+deny-map"
         owner_to_id[owner] = cid
         insider = insider_idx.get(b.fold(owner)) or insider_idx.get(b.core_key(owner) or "")
         symbols = list(CURATED_TICKERS.get(cid) or [])
@@ -764,6 +774,8 @@ def write_shells(root: Path, plan: dict[str, Any]) -> list[str]:
 
     for row in plan["rows"]:
         cid = row["beta_id"]
+        if cid in DENIED_BETA_IDS:
+            raise ValueError(f"denied beta id {cid}; use {DENIED_BETA_IDS[cid]}")
         path = root / "beta" / f"{cid}.json"
         owner_mines = by_id_mines.get(cid) or []
         if row["mint"] and not path.exists():

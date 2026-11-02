@@ -1,6 +1,6 @@
 {
   "schema": "qc-beta-claims-publics-v1",
-  "generated": "2026-11-02T17:27:55Z",
+  "generated": "2026-11-02T17:41:07Z",
   "disclaimer": "Claims-map publics using claims/companies.json ids. Deep link beta.html?id=<claims-id>. Map preview uses claims/overview.geojson cells + catalog mines — not per-company extracts. Shells already on disk are reused. Not legal title. Not investment advice.",
   "universe_note": "Every claims/companies.json issuer that resolves to a beta ticker and profile file. troilus-mining aliases to the filing-backed troilus shell. Do not invent ounces.",
   "n": 192,
@@ -55,7 +55,7 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 3521,
+      "claim_count": 730,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
@@ -1346,13 +1346,13 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 4839,
+      "claim_count": 118,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
         -130.1517,
-        46.02738303730568,
-        -65.32499999847168,
+        49.1375,
+        -77.11666663243132,
         59.9998
       ],
       "color": "#e8b040",
@@ -1431,14 +1431,14 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 2371,
+      "claim_count": 17,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
         -91.9,
-        48.71960658648483,
-        -69.2666666599065,
-        60.18333334676088
+        49.2917,
+        -87.8938,
+        50.975
       ],
       "color": "#e8b040",
       "note": null
@@ -2911,14 +2911,14 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 997,
+      "claim_count": 408,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
-        -127.2953,
+        -122.9568,
         44.8708,
-        -66.78333333704612,
-        55.458333344112766
+        -77.0188,
+        53.3008
       ],
       "color": "#e8b040",
       "note": null
@@ -3395,14 +3395,14 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 1501,
+      "claim_count": 5,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
-        -131.7271,
-        48.558333327890395,
-        -67.26666666470902,
-        59.308333395458185
+        -117.4011,
+        49.0874,
+        -117.3011,
+        49.1624
       ],
       "color": "#e8b040",
       "note": null
@@ -3834,14 +3834,14 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 5751,
+      "claim_count": 1107,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
         -93.8875,
-        45.399999999621684,
-        -64.30833332813751,
-        53.30000001407579
+        46.3667,
+        -77.99166666837853,
+        49.1875
       ],
       "color": "#e8b040",
       "note": null
@@ -4332,12 +4332,12 @@
       "in_issuers": false,
       "in_explorers": false,
       "filing_backed": false,
-      "claim_count": 213,
+      "claim_count": 61,
       "has_overview": true,
       "has_mines": false,
       "bbox": [
-        -131.8822,
-        49.11666667015424,
+        -130.4205,
+        50.5333333343222,
         -63.449999999475665,
         59.9998
       ],

@@ -75,6 +75,11 @@
       "phrase": "heidelberg materials",
       "company_id": "heidelberg-materials",
       "note": "Duplicate ids: beta/heidelberg-materials-canada.json is a watchlist shell of the same company. Link to the main site id heidelberg-materials."
+    },
+    {
+      "phrase": "orecap invest",
+      "company_id": "orecap-invest-corp",
+      "note": "Ontario MLAS joint title '(75) ORECAP INVEST CORP., (25) McFarlane Lake Mining Limited': pin to the majority (75%) holder, Orecap Invest Corp. Without this the row moves to mcfarlane-lake-mining after the batch-1 link blocks."
     }
   ]
 }

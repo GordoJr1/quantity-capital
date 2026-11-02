@@ -8,6 +8,8 @@
     {"phrase": "guardian exploration", "company_id": "guardian-metal-resources", "note": "Guardian Exploration Inc. is not Guardian Metal Resources (Nunavut and Yukon)."},
     {"phrase": "go metals", "company_id": "metal-energy", "note": "Go Metals Corp. is not Metal Energy. Came in through the metal-energy extract. The catalog name links it to go-metals-corp."},
     {"phrase": "labrador uranium", "company_id": "labrador-gold", "note": "Labrador Uranium Inc. is not Labrador Gold."},
-    {"phrase": "selkirk mining", "company_id": "selkirk-copper-mines", "note": "Selkirk Mining Corp. is not Selkirk Copper Mines."}
+    {"phrase": "selkirk mining", "company_id": "selkirk-copper-mines", "note": "Selkirk Mining Corp. is not Selkirk Copper Mines."},
+    {"phrase": "fortune nickel and gold", "company_id": "fortune-minerals", "note": "Fortune Nickel and Gold Inc. is not Fortune Minerals Limited (FT.TO). Exposed by Ontario tag batch 1 (first-token fallback)."},
+    {"phrase": "fortune lake explorations", "company_id": "fortune-minerals", "note": "Fortune Lake Explorations Limited is not Fortune Minerals Limited. Exposed by Ontario tag batch 1 (first-token fallback)."}
   ]
 }

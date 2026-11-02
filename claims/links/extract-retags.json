@@ -124,6 +124,9 @@
     "great-pacific-gold-ontario.geojson": {"neighbor_holders": ["(100) Great Red Lake Gold Corp."]},
     "green-shift-ontario.geojson": {"neighbor_holders": ["(100) Green TM Resources (Canada) LTD."]},
     "international-tower-hill-ontario.geojson": {"neighbor_holders": ["(100) International Lithium Canada Ltd."]},
-    "energy-fuels-ontario.geojson": {"neighbor_holders": ["(100) MOON ENERGY CORP. FOUNDATION, CANADA"]}
+    "energy-fuels-ontario.geojson": {"neighbor_holders": ["(100) MOON ENERGY CORP. FOUNDATION, CANADA"]},
+    "black-stone-minerals.geojson": {"focus_only_holder_pattern": "\\bblack stone minerals\\b"},
+    "black-stone-minerals-ontario.geojson": {"focus_only_holder_pattern": "\\bblack stone minerals\\b"},
+    "black-stone-minerals-bc.geojson": {"focus_only_holder_pattern": "\\bblack stone minerals\\b"}
   }
 }

@@ -1,0 +1,21 @@
+{
+  "note": "Role overrides for claims extracts. The ON/BC extract builder matches holders by name words, so it tags other companies that share a word (for example '... Metals'). These rules were made in PR #244 (and BC metal-energy in PR #246), and build_on_bc_extracts.py applies them on every regeneration. Run scripts/claims_extract_retags.py --check to verify the committed files. Holder compare: lowercase, single spaces.",
+  "files": {
+    "metal-energy.geojson": {"focus_only_holder_pattern": "\\bmetal energy\\b"},
+    "metal-energy-ontario.geojson": {"focus_only_holder_pattern": "\\bmetal energy\\b"},
+    "metal-energy-bc.geojson": {"focus_only_holder_pattern": "\\bmetal energy\\b"},
+    "solstice-minerals.geojson": {"focus_only_holder_pattern": "\\bsolstice minerals\\b"},
+    "solstice-minerals-ontario.geojson": {"focus_only_holder_pattern": "\\bsolstice minerals\\b"},
+    "canada-nickel-ontario.geojson": {"neighbor_holders": [
+      "(100) Fulcrum Metals Canada Ltd.",
+      "(100) FULCRUM METALS NO. 2 (CANADA) LTD.",
+      "(100) Panther Metals (Canada) Ltd."
+    ]},
+    "critical-elements-lithium-ontario.geojson": {"neighbor_holders": ["(100) Core Critical Metals Corp."]},
+    "nexus-gold-ontario.geojson": {"neighbor_holders": ["(100) Nexus Metals Corp."]},
+    "nickel-creek-platinum-ontario.geojson": {"neighbor_holders": [
+      "(100) METALS CREEK RESOURCES CORP.",
+      "(50) METALS CREEK RESOURCES CORP., (50) Dome Mine Ltd."
+    ]}
+  }
+}

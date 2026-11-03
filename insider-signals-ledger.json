@@ -44505,8 +44505,8 @@
    "signal_filed": "2026-10-30",
    "signal_trade": "2026-10-27",
    "entry_after": "2026-10-30",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-02",
+   "entry_px": 0.78,
    "mcap_usd_basis": 127942275.0,
    "stale63_basis": 0.0952,
    "basis_date": "2026-10-29",
@@ -44529,7 +44529,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "WRN|2026-10-31|smith-mark-elliot",
@@ -44547,8 +44551,8 @@
    "signal_filed": "2026-10-31",
    "signal_trade": "2026-10-30",
    "entry_after": "2026-10-31",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-02",
+   "entry_px": 2.2,
    "mcap_usd_basis": 357391457.0,
    "stale63_basis": 0.0794,
    "basis_date": "2026-10-30",
@@ -44571,7 +44575,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   }
  ],
  "seen_keys": [
@@ -47223,6 +47231,8 @@
   "le-bel-guy|QCCUF|2026-03-05|open_market",
   "leahy-stephen-martin|ROAD.CN|2026-10-26|open_market",
   "leahy-stephen-martin|ROAD.CN|2026-10-27|open_market",
+  "leahy-stephen-martin|ROAD.CN|2026-10-28|open_market",
+  "leahy-stephen-martin|ROAD.CN|2026-10-29|open_market",
   "leavoy-gordon|DSVSF|2025-04-17|open_market",
   "leblanc-ghislain|MJDLF|2025-04-03|open_market",
   "leblanc-ghislain|MJDLF|2025-09-11|open_market",
@@ -48456,6 +48466,7 @@
   "robinson-william|WRLGF|2026-06-09|open_market",
   "robinson-william|WRLGF|2026-06-16|open_market",
   "robitaille-jean|AEM|2025-09-30|open_market",
+  "rockandel-michael|LTNG.V|2026-11-02|open_market",
   "rocque-pierre|DSVSF|2025-05-20|open_market",
   "rodriguez-espinoza-maria-del-rocio|DNGDF|2025-04-07|open_market",
   "rodriguez-espinoza-maria-del-rocio|DNGDF|2025-06-04|open_market",
@@ -49583,5 +49594,5 @@
   "zerb-wendell-miles|REDRF|2026-10-16|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-11-02"
+ "last_run_date": "2026-11-03"
 }

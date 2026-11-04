@@ -39570,7 +39570,13 @@
      "ccy": "CAD"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-03",
+    "reason": "sale",
+    "px": 2.99,
+    "recorded_on": "2026-11-04",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-11-02",
@@ -39579,7 +39585,7 @@
     "exit_after": "2026-11-02",
     "seen_on": "2026-11-02"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -43929,7 +43935,13 @@
      "added_on": "2026-10-21"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-03",
+    "reason": "sale",
+    "px": 5.08,
+    "recorded_on": "2026-11-04",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-11-02",
@@ -43938,7 +43950,7 @@
     "exit_after": "2026-11-02",
     "seen_on": "2026-11-02"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -44446,6 +44458,19 @@
      "trade_px": 1.47,
      "ccy": "CAD",
      "added_on": "2026-11-02"
+    },
+    {
+     "key": "pollitt-donovan|WHGOF|2026-11-02|open_market",
+     "filer": "Pollitt, Donovan",
+     "filer_id": "pollitt-donovan",
+     "role": "President/COO",
+     "title": "President & Director",
+     "trade_date": "2026-11-02",
+     "filed_date": "2026-11-03",
+     "value_usd": 16088.0,
+     "trade_px": 1.55,
+     "ccy": "CAD",
+     "added_on": "2026-11-04"
     }
    ],
    "exit": null,
@@ -44746,6 +44771,7 @@
   "archambeault-louis|OZBKF|2026-05-07|open_market",
   "archambeault-louis|OZBKF|2026-05-08|open_market",
   "archambeault-louis|OZBKF|2026-05-21|open_market",
+  "archambeault-louis|OZBKF|2026-11-02|open_market",
   "archambeault-louis|SITKF|2026-02-10|open_market",
   "archambeault-louis|SITKF|2026-02-20|open_market",
   "archambeault-louis|SITKF|2026-03-02|open_market",
@@ -44879,6 +44905,7 @@
   "beaudry-charles|QCCUF|2026-03-03|open_market",
   "beaudry-charles|QCCUF|2026-03-04|open_market",
   "beaudry-charles|QCCUF|2026-03-05|open_market",
+  "beaven-rich|FCI.V|2026-10-30|open_market",
   "bebek-ivan|TSLVF|2026-01-02|open_market",
   "beck-james-andrew|LUGDF|2026-06-23|open_market",
   "beckett-alison-cheryl|FQVLF|2025-07-02|open_market",
@@ -45007,8 +45034,10 @@
   "black-michael-lewis|ALMTF|2026-03-24|open_market",
   "blady-michael-adam|GLDN.V|2026-10-22|open_market",
   "blady-michael-adam|GLDN.V|2026-10-23|open_market",
+  "blady-michael-adam|GLDN.V|2026-10-29|open_market",
   "blajchman-amiel-jonathan|GSHRF|2026-04-24|open_market",
   "blajchman-amiel-jonathan|GSHRF|2026-06-09|open_market",
+  "blaney-darren|AFF.CN|2026-10-30|open_market",
   "blaney-darren|NT.CN|2026-10-14|open_market",
   "blaney-darren|NT.CN|2026-10-15|open_market",
   "blaney-darren|NT.CN|2026-10-20|open_market",
@@ -45336,6 +45365,7 @@
   "bonifacio-giulio|NAUFF|2026-09-22|open_market",
   "bonifacio-giulio|NAUFF|2026-10-06|open_market",
   "bonifacio-giulio|NAUFF|2026-10-27|open_market",
+  "booth-john-geoffrey|CGM.V|2026-09-30|open_market",
   "booth-john-geoffrey|CGM.V|2026-10-14|open_market",
   "booth-john-geoffrey|CGM.V|2026-10-15|open_market",
   "booth-john-geoffrey|CGM.V|2026-10-16|open_market",
@@ -45388,6 +45418,8 @@
   "bowles-lee-phillip|VRDN.CN|2026-10-08|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-10-09|open_market",
   "bowles-lee-phillip|VRDN.CN|2026-10-13|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-10-29|open_market",
+  "bowles-lee-phillip|VRDN.CN|2026-10-30|open_market",
   "boyd-robert-t|ENDGF|2025-08-05|open_market",
   "boyd-robert-t|ENDGF|2025-08-06|open_market",
   "boyd-robert-t|ENDGF|2025-11-06|open_market",
@@ -45820,6 +45852,9 @@
   "cruickshank-patrick-john|VMSXF|2025-08-18|open_market",
   "cubitt-jason-john|PMX.V|2026-09-03|open_market",
   "cubitt-jason-john|PMX.V|2026-09-09|open_market",
+  "cubitt-jason-john|PMX.V|2026-10-28|open_market",
+  "cubitt-jason-john|PMX.V|2026-10-29|open_market",
+  "cubitt-jason-john|PMX.V|2026-11-02|open_market",
   "culbert-michael-robert|AETUF|2026-02-10|open_market",
   "cunha-tiago-sampaio|STSBF|2026-03-19|open_market",
   "cunha-tiago-sampaio|STSBF|2026-03-20|open_market",
@@ -46207,6 +46242,7 @@
   "ferrarese-patrizia|EMOTF|2025-12-16|open_market",
   "ferron-greg|PTX.V|2026-10-07|open_market",
   "ferron-greg|PTX.V|2026-10-13|open_market",
+  "ferron-greg|PTX.V|2026-10-27|open_market",
   "festival-john|CRLFF|2025-05-15|open_market",
   "festival-john|CRLFF|2025-05-23|open_market",
   "few-jason-bradley|ENB|2026-05-29|open_market",
@@ -47514,6 +47550,7 @@
   "macleod-kenneth|SMOFF|2026-06-02|open_market",
   "macleod-kenneth|SMOFF|2026-06-05|open_market",
   "macleod-kenneth|SMOFF|2026-06-11|open_market",
+  "macleod-kenneth|SMOFF|2026-10-30|open_market",
   "macpherson-derek|WPGCF|2025-05-16|open_market",
   "macpherson-derek|WPGCF|2025-09-22|open_market",
   "macpherson-derek|WPGCF|2026-04-29|open_market",
@@ -47942,6 +47979,7 @@
   "newell-john|AUEN.V|2026-10-02|open_market",
   "newell-john|AUEN.V|2026-10-29|open_market",
   "newell-john|AUEN.V|2026-10-30|open_market",
+  "newell-john|AUEN.V|2026-11-02|open_market",
   "ngo-joyce|NGXXF|2025-10-23|open_market",
   "nichols-brian-a|FQVLF|2025-11-06|open_market",
   "nichols-brian-a|FQVLF|2025-11-10|open_market",
@@ -48271,6 +48309,7 @@
   "pollard-andrew|BKRRF|2026-10-07|open_market",
   "pollitt-donovan|WHGOF|2026-10-28|open_market",
   "pollitt-donovan|WHGOF|2026-10-30|open_market",
+  "pollitt-donovan|WHGOF|2026-11-02|open_market",
   "pollock-john-william|NSGCF|2025-04-14|open_market",
   "pollock-john-william|NSGCF|2025-04-15|open_market",
   "pollock-john-william|NSGCF|2026-07-21|open_market",
@@ -48458,6 +48497,7 @@
   "ridgway-simon-t-p|RMETF|2026-10-26|open_market",
   "ridgway-simon-t-p|RMETF|2026-10-27|open_market",
   "ridgway-simon-t-p|RMETF|2026-10-28|open_market",
+  "ridgway-simon-t-p|RMETF|2026-10-30|open_market",
   "ridgway-simon-t-p|VLMZF|2024-08-12|open_market",
   "ridgway-simon-t-p|VLMZF|2025-06-19|open_market",
   "ridgway-simon-t-p|VLMZF|2025-06-20|open_market",
@@ -48894,6 +48934,7 @@
   "smith-warwick|USGDF|2026-09-16|open_market",
   "smith-warwick|USGDF|2026-10-05|open_market",
   "smoliak-laurence-andrew|BAG.V|2026-10-13|open_market",
+  "smoliak-laurence-andrew|GCC.CN|2026-11-02|open_market",
   "smyth-john-campbell|FTZFF|2025-10-02|open_market",
   "smyth-john-campbell|FTZFF|2025-10-07|open_market",
   "smyth-john-campbell|FTZFF|2025-10-08|open_market",
@@ -49117,6 +49158,7 @@
   "sutherland-colin|APGOF|2026-10-14|open_market",
   "sutherland-colin|APGOF|2026-10-30|open_market",
   "sutherland-tyrell-brodie|VRDN.CN|2026-10-16|open_market",
+  "sutherland-tyrell-brodie|VRDN.CN|2026-10-30|open_market",
   "sutton-brayden-robert|GLDFF|2025-04-17|open_market",
   "sutton-brayden-robert|GLDFF|2025-05-28|open_market",
   "sutton-monty-dwayne|OPW.V|2026-10-09|open_market",
@@ -49435,6 +49477,7 @@
   "weeks-delayne|ANKOF|2026-09-15|open_market",
   "weeks-delayne|ANKOF|2026-10-23|open_market",
   "weeks-delayne|ANKOF|2026-10-28|open_market",
+  "weeks-delayne|ANKOF|2026-11-02|open_market",
   "weeks-michael|ANKOF|2025-07-25|open_market",
   "weeks-michael|ANKOF|2025-08-25|open_market",
   "weeks-michael|ANKOF|2025-08-26|open_market",
@@ -49613,5 +49656,5 @@
   "zerb-wendell-miles|REDRF|2026-10-16|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-11-03"
+ "last_run_date": "2026-11-04"
 }

@@ -12665,6 +12665,61 @@
       "name": "American Expr Natl Bank",
       "industry": "Finance Services",
       "sic": "6199"
+    },
+    "AGNT": {
+      "name": "AGNT, Inc.",
+      "industry": "Real Estate Agents & Managers (For Others)",
+      "sic": "6531"
+    },
+    "EFOR": {
+      "name": "Everforth Inc",
+      "industry": "Services-Help Supply Services",
+      "sic": "7363"
+    },
+    "GBX": {
+      "name": "GREENBRIER COMPANIES INC",
+      "industry": "Railroad Equipment",
+      "sic": "3743"
+    },
+    "GT": {
+      "name": "GOODYEAR TIRE & RUBBER CO /OH/",
+      "industry": "Tires & Inner Tubes",
+      "sic": "3011"
+    },
+    "JOBY": {
+      "name": "Joby Aviation, Inc.",
+      "industry": "Aircraft",
+      "sic": "3721"
+    },
+    "LCII": {
+      "name": "LCI INDUSTRIES",
+      "industry": "Motor Vehicle Parts & Accessories",
+      "sic": "3714"
+    },
+    "LMAT": {
+      "name": "LEMAITRE VASCULAR INC",
+      "industry": "Surgical & Medical Instruments & Apparatus",
+      "sic": "3841"
+    },
+    "TLN": {
+      "name": "Talen Energy Corp",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "WD": {
+      "name": "Walker & Dunlop, Inc.",
+      "industry": "Finance Services",
+      "sic": "6199"
+    },
+    "WWD": {
+      "name": "Woodward, Inc.",
+      "industry": "Electrical Industrial Apparatus",
+      "sic": "3620"
+    },
+    "WWW": {
+      "name": "WOLVERINE WORLD WIDE INC /DE/",
+      "industry": "Footwear, (No Rubber)",
+      "sic": "3140"
     }
   },
   "assets": {
@@ -24806,6 +24861,731 @@
     "Victoria Kelly Trust ICA North Carolina Hsg Fin Agy Hom S": {
       "ticker": "",
       "industry": "Municipal \u2014 Housing",
+      "sic": null
+    },
+    "COMMONWEALTH PA FING AUTH TOB MSTR SETTlMT PMT REV BIE 5.00 % Duo Jun 1 2027 l": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "COLORADO HLTH FACS AUTH REV RFDG EVANGELICAL LUTHERN GOOO SAM BIE PTC 5.00 % Duo Jun 1 2047": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "IPS MLTI SCH BLDG IN AD VALOREM 1ST MTG RFDG REV IMPT BIE ST INTRCPT 5.00 % Duo Jan 15 2028 l": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "BLACK BELT ENERGY GAS DIST AL GAS REV PJ 6 SER 8 BIE 4.00 % Due Oct 1, 2052": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "STLOUIS MO INDLDEV AUTH MLTIFAM HSG REV BREWERY APTS BIE PTC3.15%DuoAr>r1 2046": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Housing",
+      "sic": null
+    },
+    "FORT BEND CNTY TX MUD 182 2023 BAMBIE CR ENH 5.00 % Due\"-1. 2027 ,": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "CLARK CNTY NV ARPT SYS JR SUB LIEN NT SERB REV BIE AMT 5.00 % Duo Jul 1 2027 l": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "KENTUCKY INC KY PUB ENERGY AUTH GAS SPLY REV SER C 1 BIE 4.00 % Duo Fob 1 2050": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "ORLANDO FL UTILS COMMN UTIL SYS REV RFDG SER C BIE 5.00 % Duo Oct 1 2026 l": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Water / utility",
+      "sic": null
+    },
+    "PENNSYLVANIA ST 1ST RFDG 2025 B BIE 5.00 % Duo Au<> 15 2027 l": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "MISSOURI ST HEALTH s\" sm HLTH DUE D6/01/36 l": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Health",
+      "sic": null
+    },
+    "MICHIGAN ST HOSP Fl 5\" sm HLTH DUE 11115/40 l": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Health",
+      "sic": null
+    },
+    "MIAMI-DADE CNlY S.25\" UNIV EDUC DUE 04'01'39": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "DELAWARE VALLEY PA 4\" POOL AUTH DUE U/01/36": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "WISCONSIN ST HEALTH s\" sm HLTH DUE D6/011'7": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Health",
+      "sic": null
+    },
+    "MCDONALDS CORP l": {
+      "ticker": "MCD",
+      "industry": "Retail-Eating  Places",
+      "sic": "5812"
+    },
+    "CONSTELLATION BRANDS INC l": {
+      "ticker": "STZ",
+      "industry": "Beverages",
+      "sic": "2080"
+    },
+    "ZOETIS INC l": {
+      "ticker": "ZTS",
+      "industry": "Pharmaceutical Preparations",
+      "sic": "2834"
+    },
+    "NVIDIA CORP l": {
+      "ticker": "NVDA",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "MIRION TECHNOLOGIES INC": {
+      "ticker": "MIR",
+      "industry": "Measuring & Controlling Devices, Nec",
+      "sic": "3829"
+    },
+    "BADGER METER INC": {
+      "ticker": "BMI",
+      "industry": "Totalizing Fluid Meters & Counting Devices",
+      "sic": "3824"
+    },
+    "FMCCORP 1": {
+      "ticker": "FMC",
+      "industry": "Chemicals & Allied Products",
+      "sic": "2800"
+    },
+    "ATMUS FILTRATION TECHNOL l": {
+      "ticker": "ATMU",
+      "industry": "Motor Vehicle Parts & Accessories",
+      "sic": "3714"
+    },
+    "WARBY PARKER INC l": {
+      "ticker": "WRBY",
+      "industry": "Ophthalmic Goods",
+      "sic": "3851"
+    },
+    "POOL CORP l": {
+      "ticker": "POOL",
+      "industry": "Wholesale-Misc Durable Goods",
+      "sic": "5090"
+    },
+    "WOLVERINE WORLD WIDE INC": {
+      "ticker": "WWW",
+      "industry": "Footwear, (No Rubber)",
+      "sic": "3140"
+    },
+    "AGNT INC.": {
+      "ticker": "AGNT",
+      "industry": "Real Estate Agents & Managers (For Others)",
+      "sic": "6531"
+    },
+    "EVERFORTH INC I": {
+      "ticker": "EFOR",
+      "industry": "Services-Help Supply Services",
+      "sic": "7363"
+    },
+    "GLASS INC l": {
+      "ticker": "GLAS",
+      "industry": "Medicinal Chemicals & Botanical Products",
+      "sic": "2833"
+    },
+    "PAPA JOHNS INTL INC I": {
+      "ticker": "PZZA",
+      "industry": "Retail-Eating  Places",
+      "sic": "5812"
+    },
+    "BLACKSlONE MTG TR INC REIT l": {
+      "ticker": "BXMT",
+      "industry": "Real Estate Investment Trusts",
+      "sic": "6798"
+    },
+    "COGENT COMMUNICATIONS HL": {
+      "ticker": "CCOI",
+      "industry": "Communications Services, Nec",
+      "sic": "4899"
+    },
+    "VERSIGENT LTD F": {
+      "ticker": "VGNT",
+      "industry": "Motor Vehicle Parts & Accessories",
+      "sic": "3714"
+    },
+    "ADVANCE AUTO PTS INC .": {
+      "ticker": "AAP",
+      "industry": "Retail-Auto & Home Supply Stores",
+      "sic": "5531"
+    },
+    "LCI INDS": {
+      "ticker": "LCII",
+      "industry": "Motor Vehicle Parts & Accessories",
+      "sic": "3714"
+    },
+    "STRIDE INC": {
+      "ticker": "LRN",
+      "industry": "Services-Educational Services",
+      "sic": "8200"
+    },
+    "GREENBRIER COS INC": {
+      "ticker": "GBX",
+      "industry": "Railroad Equipment",
+      "sic": "3743"
+    },
+    "DREAM FINDERS HOMES INC": {
+      "ticker": "DFH",
+      "industry": "Operative Builders",
+      "sic": "1531"
+    },
+    "LKQ CORP": {
+      "ticker": "LKQ",
+      "industry": "Wholesale-Motor Vehicles & Motor Vehicle Parts & Supplies",
+      "sic": "5010"
+    },
+    "BRIGHT HORIZONS FAMILY S": {
+      "ticker": "BFAM",
+      "industry": "Services-Child Day Care Services",
+      "sic": "8351"
+    },
+    "KARMAN HLDGS INC": {
+      "ticker": "KRMN",
+      "industry": "Aircraft Parts & Auxiliary Equipment, Nec",
+      "sic": "3728"
+    },
+    "GOODYEAR TIRE & RUBR CO": {
+      "ticker": "GT",
+      "industry": "Tires & Inner Tubes",
+      "sic": "3011"
+    },
+    "LEMAITRE VASCULAR INC": {
+      "ticker": "LMAT",
+      "industry": "Surgical & Medical Instruments & Apparatus",
+      "sic": "3841"
+    },
+    "LIQUIOIA CORP": {
+      "ticker": "LQDA",
+      "industry": "Pharmaceutical Preparations",
+      "sic": "2834"
+    },
+    "WALKER & DUNLOP INC": {
+      "ticker": "WD",
+      "industry": "Finance Services",
+      "sic": "6199"
+    },
+    "PUBLIC SVC ENTERPRISE GR [": {
+      "ticker": "PEG",
+      "industry": "Electric & Other Services Combined",
+      "sic": "4931"
+    },
+    "COUPANG INC 1": {
+      "ticker": "CPNG",
+      "industry": "Retail-Catalog & Mail-Order Houses",
+      "sic": "5961"
+    },
+    "ALASKA AIR GROUP INC I": {
+      "ticker": "ALK",
+      "industry": "Air Transportation, Scheduled",
+      "sic": "4512"
+    },
+    "OTIS WORLDWIDE CORP": {
+      "ticker": "OTIS",
+      "industry": "Electronic & Other Electrical Equipment (No Computer Equip)",
+      "sic": "3600"
+    },
+    "NXP SEMICONDUCTORS NV": {
+      "ticker": "NXPI",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "BUILDERS FIRSTSOURCE INC": {
+      "ticker": "BLDR",
+      "industry": "Retail-Lumber & Other Building Materials Dealers",
+      "sic": "5211"
+    },
+    "CARNIVAL CORP LTD I": {
+      "ticker": "CCL",
+      "industry": "Water Transportation",
+      "sic": "4400"
+    },
+    "VISTRACORP I": {
+      "ticker": "VST",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "TALEN ENERGY CORP I": {
+      "ticker": "TLN",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "UNIVERSAL DISPLAY CORP I": {
+      "ticker": "",
+      "industry": "Municipal",
+      "sic": null
+    },
+    "CROWN CASTLE INC REIT I": {
+      "ticker": "CCI",
+      "industry": "Real Estate Investment Trusts",
+      "sic": "6798"
+    },
+    "PENTAIR PLC [": {
+      "ticker": "PNR",
+      "industry": "Special Industry Machinery (No Metalworking Machinery)",
+      "sic": "3550"
+    },
+    "SUPER MICRO COMPLITER INC [": {
+      "ticker": "SMCI",
+      "industry": "Electronic Computers",
+      "sic": "3571"
+    },
+    "VONTIER CORP [": {
+      "ticker": "VNT",
+      "industry": "Totalizing Fluid Meters & Counting Devices",
+      "sic": "3824"
+    },
+    "INSULET CORP )": {
+      "ticker": "PODD",
+      "industry": "Surgical & Medical Instruments & Apparatus",
+      "sic": "3841"
+    },
+    "SYSCO CORP l": {
+      "ticker": "SYY",
+      "industry": "Wholesale-Groceries & Related Products",
+      "sic": "5140"
+    },
+    "APTIV PLC NEW I": {
+      "ticker": "APTV",
+      "industry": "Motor Vehicle Parts & Accessories",
+      "sic": "3714"
+    },
+    "JOBY AVIATION INC [": {
+      "ticker": "JOBY",
+      "industry": "Aircraft",
+      "sic": "3721"
+    },
+    "TliE CIGNA GROUP": {
+      "ticker": "CI",
+      "industry": "Hospital & Medical Service Plans",
+      "sic": "6324"
+    },
+    "RB GLOBALINC": {
+      "ticker": "RBA",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "DELL TECHNOLOGIES INC": {
+      "ticker": "DELL",
+      "industry": "Electronic Computers",
+      "sic": "3571"
+    },
+    "ROBLOXCORP": {
+      "ticker": "RBLX",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "AMERICAN INTL GROUP INC": {
+      "ticker": "AIG",
+      "industry": "Fire, Marine & Casualty Insurance",
+      "sic": "6331"
+    },
+    "UNITED RENTALS INC": {
+      "ticker": "URI",
+      "industry": "Services-Equipment Rental & Leasing, Nec",
+      "sic": "7359"
+    },
+    "AMRIZE LTD": {
+      "ticker": "AMRZ",
+      "industry": "Cement, Hydraulic",
+      "sic": "3241"
+    },
+    "WALMARTINC": {
+      "ticker": "WMT",
+      "industry": "Retail-Variety Stores",
+      "sic": "5331"
+    },
+    "TESLA INC": {
+      "ticker": "TSLA",
+      "industry": "Motor Vehicles & Passenger Car Bodies",
+      "sic": "3711"
+    },
+    "MCDONALDS CORP": {
+      "ticker": "MCD",
+      "industry": "Retail-Eating  Places",
+      "sic": "5812"
+    },
+    "LOWES COS INC": {
+      "ticker": "LOW",
+      "industry": "Retail-Lumber & Other Building Materials Dealers",
+      "sic": "5211"
+    },
+    "TJX COS INC": {
+      "ticker": "TJX",
+      "industry": "Retail-Family Clothing Stores",
+      "sic": "5651"
+    },
+    "HILTON WORLDWIDE HLDGS I": {
+      "ticker": "HLT",
+      "industry": "Hotels & Motels",
+      "sic": "7011"
+    },
+    "SYNOPSYS INC": {
+      "ticker": "SNPS",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "GE AEROSPACE": {
+      "ticker": "GE",
+      "industry": "Electronic & Other Electrical Equipment (No Computer Equip)",
+      "sic": "3600"
+    },
+    "APPLE INC": {
+      "ticker": "AAPL",
+      "industry": "Electronic Computers",
+      "sic": "3571"
+    },
+    "RB GLOBAL INC": {
+      "ticker": "RBA",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "WOODWARD INC": {
+      "ticker": "WWD",
+      "industry": "Electrical Industrial Apparatus",
+      "sic": "3620"
+    },
+    "GENERAL MTRS CO": {
+      "ticker": "GM",
+      "industry": "Motor Vehicles & Passenger Car Bodies",
+      "sic": "3711"
+    },
+    "LINDE PLC": {
+      "ticker": "LIN",
+      "industry": "Industrial Inorganic Chemicals",
+      "sic": "2810"
+    },
+    "CADENCE DESIGN SYS INC": {
+      "ticker": "CDNS",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "APPLOVIN CORP": {
+      "ticker": "APP",
+      "industry": "Services-Computer Programming, Data Processing, Etc.",
+      "sic": "7370"
+    },
+    "INSULET CORP": {
+      "ticker": "PODD",
+      "industry": "Surgical & Medical Instruments & Apparatus",
+      "sic": "3841"
+    },
+    "XCEL ENERGY INC": {
+      "ticker": "XEL",
+      "industry": "Electric & Other Services Combined",
+      "sic": "4931"
+    },
+    "FAIR ISAAC CORP": {
+      "ticker": "FICO",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "VERTIV HLDGS CO": {
+      "ticker": "VRT",
+      "industry": "Electronic Components, Nec",
+      "sic": "3679"
+    },
+    "ROCKET COMPANIES": {
+      "ticker": "RKT",
+      "industry": "Mortgage Bankers & Loan Correspondents",
+      "sic": "6162"
+    },
+    "GENERAC HLDGS INC": {
+      "ticker": "GNRC",
+      "industry": "Motors & Generators",
+      "sic": "3621"
+    },
+    "CARNIVAL CORP LTD": {
+      "ticker": "CCL",
+      "industry": "Water Transportation",
+      "sic": "4400"
+    },
+    "CONSTELLATION ENERGY COR": {
+      "ticker": "CEG",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "PHILIP MORRIS tNn INC": {
+      "ticker": "PM",
+      "industry": "Cigarettes",
+      "sic": "2111"
+    },
+    "L3HARRIS TECHNOLOGIES INC": {
+      "ticker": "LHX",
+      "industry": "Search, Detection, Navigation, Guidance, Aeronautical Sys",
+      "sic": "3812"
+    },
+    "SERVICENOW INC": {
+      "ticker": "NOW",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "VONTIER CORP I": {
+      "ticker": "VNT",
+      "industry": "Totalizing Fluid Meters & Counting Devices",
+      "sic": "3824"
+    },
+    "AES CORP I": {
+      "ticker": "AES",
+      "industry": "Cogeneration Services & Small Power Producers",
+      "sic": "4991"
+    },
+    "CORE & MAIN INC I": {
+      "ticker": "CNM",
+      "industry": "Wholesale-Durable Goods, Nec",
+      "sic": "5099"
+    },
+    "BUILDERS FIRSTSOURCE INC I": {
+      "ticker": "BLDR",
+      "industry": "Retail-Lumber & Other Building Materials Dealers",
+      "sic": "5211"
+    },
+    "QUALCOMM INC I": {
+      "ticker": "QCOM",
+      "industry": "Radio & Tv Broadcasting & Communications Equipment",
+      "sic": "3663"
+    },
+    "TXNM ENERGY INC I": {
+      "ticker": "TXNM",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "API GROUP CORP l": {
+      "ticker": "APG",
+      "industry": "Services-To Dwellings & Other Buildings",
+      "sic": "7340"
+    },
+    "CRH PUBLIC LIMITED CO 1": {
+      "ticker": "CRH",
+      "industry": "Cement, Hydraulic",
+      "sic": "3241"
+    },
+    "MCDONALDS CORP 1": {
+      "ticker": "MCD",
+      "industry": "Retail-Eating  Places",
+      "sic": "5812"
+    },
+    "SHERWIN-WIUIAMS CO l": {
+      "ticker": "SHW",
+      "industry": "Retail-Building Materials, Hardware, Garden Supply",
+      "sic": "5200"
+    },
+    "MICROSOFT CORP l": {
+      "ticker": "MSFT",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "TESLA INC l": {
+      "ticker": "TSLA",
+      "industry": "Motor Vehicles & Passenger Car Bodies",
+      "sic": "3711"
+    },
+    "COINBASE GLOBAL INC": {
+      "ticker": "COIN",
+      "industry": "Finance Services",
+      "sic": "6199"
+    },
+    "WEC ENERGY GROUP INC": {
+      "ticker": "WEC",
+      "industry": "Electric & Other Services Combined",
+      "sic": "4931"
+    },
+    "CONSTELLATION BRANDS INC": {
+      "ticker": "STZ",
+      "industry": "Beverages",
+      "sic": "2080"
+    },
+    "THE TRADE DESK INC l": {
+      "ticker": "TTD",
+      "industry": "Services-Computer Programming, Data Processing, Etc.",
+      "sic": "7370"
+    },
+    "ADOBE INC l": {
+      "ticker": "ADBE",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "SOMNIGROUP INTERNTNL l": {
+      "ticker": "SGI",
+      "industry": "Household Furniture",
+      "sic": "2510"
+    },
+    "ALNYLAM PHARMACEUTICALS l": {
+      "ticker": "ALNY",
+      "industry": "Pharmaceutical Preparations",
+      "sic": "2834"
+    },
+    "CROWN CASTLE INC": {
+      "ticker": "CCI",
+      "industry": "Real Estate Investment Trusts",
+      "sic": "6798"
+    },
+    "SALESFORCE INC": {
+      "ticker": "CRM",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "LINDE l": {
+      "ticker": "LIN",
+      "industry": "Industrial Inorganic Chemicals",
+      "sic": "2810"
+    },
+    "TALEN ENERGY CORP l": {
+      "ticker": "TLN",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "ABBOTT LASS INC": {
+      "ticker": "ABT",
+      "industry": "Pharmaceutical Preparations",
+      "sic": "2834"
+    },
+    "NETFLIX COM INC": {
+      "ticker": "NFLX",
+      "industry": "Services-Video Tape Rental",
+      "sic": "7841"
+    },
+    "WALMART STORES INC :": {
+      "ticker": "WMT",
+      "industry": "Retail-Variety Stores",
+      "sic": "5331"
+    },
+    "GENERAL MILLS [": {
+      "ticker": "GIS",
+      "industry": "Grain Mill Products",
+      "sic": "2040"
+    },
+    "VISA INC": {
+      "ticker": "V",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "KKR&COINC l": {
+      "ticker": "KKR",
+      "industry": "Investment Advice",
+      "sic": "6282"
+    },
+    "PFIZER INC COM l": {
+      "ticker": "PFE",
+      "industry": "Pharmaceutical Preparations",
+      "sic": "2834"
+    },
+    "EOG RESOURCES INC .": {
+      "ticker": "EOG",
+      "industry": "Crude Petroleum & Natural Gas",
+      "sic": "1311"
+    },
+    "NRG ENERGY INC": {
+      "ticker": "NRG",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "PPG INOS INC": {
+      "ticker": "PPG",
+      "industry": "Paints, Varnishes, Lacquers, Enamels & Allied Prods",
+      "sic": "2851"
+    },
+    "CENTERPOINT ENERGY INC": {
+      "ticker": "CNP",
+      "industry": "Electric Services",
+      "sic": "4911"
+    },
+    "Hubbell Inc": {
+      "ticker": "HUBB",
+      "industry": "Electronic Components & Accessories",
+      "sic": "3670"
+    },
+    "INTELCORP": {
+      "ticker": "INTC",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "VERTIV HOLDINGS CO": {
+      "ticker": "VRT",
+      "industry": "Electronic Components, Nec",
+      "sic": "3679"
+    },
+    "KATY TEX INOPT SCH DIST UNLT 5.0000%": {
+      "ticker": "",
+      "industry": "Municipal \u2014 Education",
+      "sic": null
+    },
+    "BROADCOM INC": {
+      "ticker": "AVGO",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "PALO ALTO NETWORKS INC": {
+      "ticker": "PANW",
+      "industry": "Computer Peripheral Equipment, Nec",
+      "sic": "3577"
+    },
+    "ADVANCED MICRO DEVICES INC": {
+      "ticker": "AMD",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "Accenture Pie Ireland l": {
+      "ticker": "ACN",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "Costco Whsl Coro I": {
+      "ticker": "COST",
+      "industry": "Retail-Variety Stores",
+      "sic": "5331"
+    },
+    "Pepsico Inc 1": {
+      "ticker": "PEP",
+      "industry": "Beverages",
+      "sic": "2080"
+    },
+    "International Business Machs Corp I": {
+      "ticker": "IBM",
+      "industry": "Computer & Office Equipment",
+      "sic": "3570"
+    },
+    "Salesforce Inc com I": {
+      "ticker": "CRM",
+      "industry": "Services-Prepackaged Software",
+      "sic": "7372"
+    },
+    "Nvidia Core": {
+      "ticker": "NVDA",
+      "industry": "Semiconductors & Related Devices",
+      "sic": "3674"
+    },
+    "Uber Technolo1des Inc": {
+      "ticker": "UBER",
+      "industry": "Services-Business Services, Nec",
+      "sic": "7389"
+    },
+    "SPACE EXPLORATION TECHN SENIOR UNSEC\\iRED NOTES REGS DUE 07/lS/2031 0S.350% I": {
+      "ticker": "",
+      "industry": "Municipal",
       "sic": null
     }
   }

@@ -42645,6 +42645,19 @@
      "trade_px": 4.49,
      "ccy": "CAD",
      "added_on": "2026-11-07"
+    },
+    {
+     "key": "colterjohn-richard-mark|BMM|2026-11-06|open_market",
+     "filer": "Colterjohn, Richard Mark",
+     "filer_id": "colterjohn-richard-mark",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-06",
+     "filed_date": "2026-11-08",
+     "value_usd": 285724.0,
+     "trade_px": 4.45,
+     "ccy": "CAD",
+     "added_on": "2026-11-08"
     }
    ],
    "exit": null,
@@ -45094,7 +45107,14 @@
     }
    ],
    "exit": null,
-   "pending_exit": null,
+   "pending_exit": {
+    "reason": "sale",
+    "trigger_filed": "2026-11-08",
+    "trigger_key": "colterjohn-brock-macaulay|ONXGF|2026-11-04|sale_open_market",
+    "trigger_by": "Colterjohn, Brock MacAulay",
+    "exit_after": "2026-11-08",
+    "seen_on": "2026-11-08"
+   },
    "status": "open",
    "tier_a": false,
    "regime_at_entry": "STRESS",
@@ -45532,6 +45552,8 @@
   "barnholden-daniel|LUCMF|2026-04-10|open_market",
   "barnholden-daniel|LUCMF|2026-10-01|open_market",
   "barr-harry|NMTLF|2025-11-07|open_market",
+  "barr-harry|NMTLF|2026-11-02|open_market",
+  "barr-harry|NMTLF|2026-11-03|open_market",
   "barron-keith-michael|AUIAF|2026-09-28|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-24|open_market",
   "bates-kristina-heidi|ALVLF|2025-09-29|open_market",
@@ -46458,6 +46480,7 @@
   "colterjohn-brock-macaulay|ONXGF|2026-03-20|open_market",
   "colterjohn-richard-mark|BMM|2026-09-30|open_market",
   "colterjohn-richard-mark|BMM|2026-10-01|open_market",
+  "colterjohn-richard-mark|BMM|2026-11-06|open_market",
   "conrad-larissa-marianne|VET|2025-06-27|open_market",
   "conrad-larissa-marianne|VET|2025-09-19|open_market",
   "cookson-nicolas|MARIF|2026-10-08|open_market",
@@ -49011,6 +49034,7 @@
   "prychidny-morris|STLRF|2025-12-11|open_market",
   "prychidny-morris|STLRF|2026-01-27|open_market",
   "psihogios-michael|WRN|2026-01-14|open_market",
+  "psihogios-michael|WRN|2026-11-02|open_market",
   "pullinger-benjamin|AMQFF|2026-07-27|open_market",
   "pullinger-benjamin|AMQFF|2026-07-30|open_market",
   "quartermain-robert-allan|TPNEF|2025-12-12|open_market",

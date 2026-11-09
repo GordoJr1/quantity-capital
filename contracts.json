@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-09T12:12:23Z",
+  "generated": "2026-11-09T23:17:15Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,24 @@
     "unlinked": 78
   },
   "awards": [
+    {
+      "date": "2026-11-09",
+      "agency": "DOD",
+      "branch": "Navy",
+      "recipient": "General Dynamics - Applied Physical Sciences (APS) Corp.",
+      "ticker": "GD",
+      "amount": 19999957.0,
+      "ceiling": false,
+      "obligated": 5100000.0,
+      "mod": false,
+      "fms": false,
+      "contract": "N0001426C1321",
+      "cap_pct": 0.021,
+      "cap_asof": "2026-11-06",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4645461/contracts-for-nov-9-2026/",
+      "description": "is awarded a $19,999,957 cost-plus-fixed-fee completion type contract for the effort titled \u201cAdvancements in Undersea Dominance and Naval Engineering.\u201d This co\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-11-06",
       "agency": "DOD",
@@ -2857,9 +2875,9 @@
     }
   ],
   "dod": {
-    "latest": "2026-11-06",
-    "fetched": "2026-11-09T12:12:23Z",
+    "latest": "2026-11-09",
+    "fetched": "2026-11-09T23:17:15Z",
     "status": "ok",
-    "rows": 53
+    "rows": 54
   }
 }

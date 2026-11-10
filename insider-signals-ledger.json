@@ -29332,6 +29332,19 @@
      "trade_px": 1.7,
      "ccy": "CAD",
      "added_on": "2026-10-30"
+    },
+    {
+     "key": "sutherland-colin|APGOF|2026-11-09|open_market",
+     "filer": "Sutherland, Colin",
+     "filer_id": "sutherland-colin",
+     "role": "Officer",
+     "title": "Senior Officer",
+     "trade_date": "2026-11-09",
+     "filed_date": "2026-11-10",
+     "value_usd": 12647.0,
+     "trade_px": 1.86,
+     "ccy": "CAD",
+     "added_on": "2026-11-10"
     }
    ],
    "exit": null,
@@ -34999,6 +35012,19 @@
      "trade_px": 6.5,
      "ccy": "CAD",
      "added_on": null
+    },
+    {
+     "key": "mackenzie-grant-alexandre|OILSF|2026-11-10|open_market",
+     "filer": "MacKenzie, Grant Alexandre",
+     "filer_id": "mackenzie-grant-alexandre",
+     "role": "Officer",
+     "title": "Chief Legal Officer & Corporate Secretary",
+     "trade_date": "2026-11-10",
+     "filed_date": "2026-11-10",
+     "value_usd": 21634.0,
+     "trade_px": 7.45,
+     "ccy": "CAD",
+     "added_on": "2026-11-10"
     }
    ],
    "exit": null,
@@ -43032,6 +43058,19 @@
      "trade_px": 1.44,
      "ccy": "CAD",
      "added_on": "2026-11-09"
+    },
+    {
+     "key": "johnston-amanda|OMZNF|2026-11-10|open_market",
+     "filer": "Johnston, Amanda",
+     "filer_id": "johnston-amanda",
+     "role": "Officer",
+     "title": "Senior Officer",
+     "trade_date": "2026-11-10",
+     "filed_date": "2026-11-10",
+     "value_usd": 70893.0,
+     "trade_px": 1.49,
+     "ccy": "CAD",
+     "added_on": "2026-11-10"
     }
    ],
    "exit": null,
@@ -44495,6 +44534,19 @@
      "value_usd": 37171.0,
      "trade_px": 7.434121,
      "ccy": "USD"
+    },
+    {
+     "key": "hallbauer-russell-edward|TGB|2026-11-09|open_market",
+     "filer": "Hallbauer, Russell Edward",
+     "filer_id": "hallbauer-russell-edward",
+     "role": "Officer",
+     "title": "Senior Officer",
+     "trade_date": "2026-11-09",
+     "filed_date": "2026-11-10",
+     "value_usd": 137828.0,
+     "trade_px": 6.891423,
+     "ccy": "USD",
+     "added_on": "2026-11-10"
     }
    ],
    "exit": null,
@@ -45040,6 +45092,19 @@
      "value_usd": 189260.0,
      "trade_px": 94.63,
      "ccy": "USD"
+    },
+    {
+     "key": "fearon-richard-h|CRH|2026-11-06|open_market",
+     "filer": "FEARON RICHARD H",
+     "filer_id": "fearon-richard-h",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-06",
+     "filed_date": "2026-11-10",
+     "value_usd": 569700.0,
+     "trade_px": 94.95,
+     "ccy": "USD",
+     "added_on": "2026-11-10"
     }
    ],
    "exit": null,
@@ -45500,6 +45565,48 @@
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
    "cost_rt": 0.06
+  },
+  {
+   "id": "BSM|2026-11-10|carter-thomas-l-jr",
+   "ticker": "BSM",
+   "company": "Black Stone Minerals, L.P.",
+   "commodity": "Oil & Gas",
+   "company_type": "Royalty",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "energy",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-10",
+   "recorded_floor": "2026-11-10",
+   "signal_filed": "2026-11-10",
+   "signal_trade": "2026-11-09",
+   "entry_after": "2026-11-10",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 2924721214.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-11-09",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "carter-thomas-l-jr|BSM|2026-11-09|open_market",
+     "filer": "Carter Thomas L Jr",
+     "filer_id": "carter-thomas-l-jr",
+     "role": "Chair",
+     "title": "Executive Chairman",
+     "trade_date": "2026-11-09",
+     "filed_date": "2026-11-10",
+     "value_usd": 686290.0,
+     "trade_px": 13.7258,
+     "ccy": "USD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -46584,6 +46691,7 @@
   "carter-thomas-l-jr|BSM|2026-05-11|open_market",
   "carter-thomas-l-jr|BSM|2026-05-12|open_market",
   "carter-thomas-l-jr|BSM|2026-05-13|open_market",
+  "carter-thomas-l-jr|BSM|2026-11-09|open_market",
   "cartwright-kelso|SBLRF|2025-05-08|open_market",
   "cartwright-kelso|SBLRF|2025-07-30|open_market",
   "cartwright-kelso|SBLRF|2025-10-17|open_market",
@@ -46623,6 +46731,7 @@
   "casselman-scott|RMETF|2025-01-17|open_market",
   "casselman-scott|RMETF|2026-06-10|open_market",
   "castaneda-felipe|TSKFF|2026-08-17|open_market",
+  "castro-louis-emmanuel|OMI.V|2026-11-04|open_market",
   "cater-douglas-frederick|NFLDF|2025-04-28|open_market",
   "cates-david-daniel|FMST|2026-09-04|open_market",
   "cates-david-daniel|FMST|2026-09-08|open_market",
@@ -47095,6 +47204,7 @@
   "farrant-michael-hugh|NBRK.CN|2026-10-26|open_market",
   "farrant-michael-hugh|NBRK.CN|2026-11-02|open_market",
   "farstad-lisa|FRHLF|2025-12-03|open_market",
+  "fearon-richard-h|CRH|2026-11-06|open_market",
   "feng-rui|TINFF|2025-04-02|open_market",
   "feng-rui|TINFF|2025-04-07|open_market",
   "feng-rui|TINFF|2025-04-11|open_market",
@@ -47465,6 +47575,7 @@
   "hallbauer-russell-edward|TGB|2026-01-29|open_market",
   "hallbauer-russell-edward|TGB|2026-09-14|open_market",
   "hallbauer-russell-edward|TGB|2026-10-23|open_market",
+  "hallbauer-russell-edward|TGB|2026-11-09|open_market",
   "hallworth-craig-james|GCUMF|2025-05-16|open_market",
   "hallworth-craig-james|GCUMF|2025-05-20|open_market",
   "hallworth-craig-james|GCUMF|2025-09-19|open_market",
@@ -47799,6 +47910,7 @@
   "johnson-kathryn|RIOFF|2026-09-03|open_market",
   "johnson-kathryn|RIOFF|2026-09-29|open_market",
   "johnston-amanda|OMZNF|2026-04-16|open_market",
+  "johnston-amanda|OMZNF|2026-11-10|open_market",
   "johnston-rodney-barton|KNGRF|2026-03-16|open_market",
   "johnston-rodney-barton|KNGRF|2026-06-11|open_market",
   "jolly-nicholas|BENZF|2025-12-22|open_market",
@@ -48255,6 +48367,8 @@
   "lendrum-scott|GIGGF|2026-11-04|open_market",
   "lendrum-scott|GIGGF|2026-11-05|open_market",
   "lendrum-scott|GIGGF|2026-11-06|open_market",
+  "lendrum-scott|GIGGF|2026-11-09|open_market",
+  "lendrum-scott|GIGGF|2026-11-10|open_market",
   "lennox-king-matthew|IMTCF|2026-03-30|open_market",
   "lennox-king-matthew|IMTCF|2026-05-26|open_market",
   "lennox-king-oliver|GARLF|2026-01-08|open_market",
@@ -48458,6 +48572,7 @@
   "mackenzie-grant-alexandre|OILSF|2025-12-31|open_market",
   "mackenzie-grant-alexandre|OILSF|2026-07-21|open_market",
   "mackenzie-grant-alexandre|OILSF|2026-07-22|open_market",
+  "mackenzie-grant-alexandre|OILSF|2026-11-10|open_market",
   "maclean-james-robert|BTE|2025-05-20|open_market",
   "maclean-james-robert|BTE|2026-01-05|open_market",
   "maclean-james-robert|BTE|2026-03-09|open_market",
@@ -50107,6 +50222,7 @@
   "sutherland-colin|APGOF|2026-09-22|open_market",
   "sutherland-colin|APGOF|2026-10-14|open_market",
   "sutherland-colin|APGOF|2026-10-30|open_market",
+  "sutherland-colin|APGOF|2026-11-09|open_market",
   "sutherland-tyrell-brodie|VRDN.CN|2026-10-16|open_market",
   "sutherland-tyrell-brodie|VRDN.CN|2026-10-30|open_market",
   "sutton-brayden-robert|GLDFF|2025-04-17|open_market",
@@ -50354,6 +50470,8 @@
   "volker-patricia-mary|DNN|2025-04-10|open_market",
   "volker-patricia-mary|DNN|2026-06-11|open_market",
   "von-schirnding-nicholas-kurt|OMI.V|2025-04-30|open_market",
+  "von-schirnding-nicholas-kurt|OMI.V|2026-11-04|open_market",
+  "von-schirnding-nicholas-kurt|OMI.V|2026-11-05|open_market",
   "wachsberg-charles|CPNFF|2026-07-03|open_market",
   "waddell-alistair|AUCUF|2026-01-29|open_market",
   "waddell-alistair|AUCUF|2026-03-05|open_market",

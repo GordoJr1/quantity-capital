@@ -17969,12 +17969,18 @@
      "ccy": "CAD"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-10",
+    "reason": "252d",
+    "px": 0.31,
+    "recorded_on": "2026-11-11",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-11-10",
    "cost_rt": 0.03
   },
   {
@@ -47271,6 +47277,7 @@
   "fennell-david|GHRTF|2026-09-01|open_market",
   "fennell-david|GHRTF|2026-09-02|open_market",
   "fennell-david|GHRTF|2026-09-03|open_market",
+  "fennell-david|GHRTF|2026-11-10|open_market",
   "ferneyhough-paul-anthony|EGO|2026-03-17|open_market",
   "ferneyhough-paul-anthony|EGO|2026-05-06|open_market",
   "ferneyhough-paul-anthony|EGO|2026-06-18|open_market",
@@ -49738,6 +49745,7 @@
   "rowley-michael-victor|BGAVF|2025-04-01|open_market",
   "rowley-michael-victor|BGAVF|2025-04-02|open_market",
   "rowley-michael-victor|BGAVF|2025-04-09|open_market",
+  "rowley-michael-victor|BGAVF|2026-11-11|open_market",
   "rowley-michael-victor|PGEZF|2025-04-08|open_market",
   "rowley-michael-victor|PGEZF|2025-05-07|open_market",
   "rowley-michael-victor|PGEZF|2025-05-30|open_market",
@@ -49931,6 +49939,7 @@
   "shiffman-ruben|GRLRF|2026-11-03|open_market",
   "shiffman-ruben|GRLRF|2026-11-04|open_market",
   "shiffman-ruben|GRLRF|2026-11-05|open_market",
+  "shiffman-ruben|GRLRF|2026-11-10|open_market",
   "shim-lee-q|CNRI.V|2026-09-10|open_market",
   "shim-lee-q|CNRI.V|2026-09-11|open_market",
   "shirvani-farshad|CASA.V|2026-10-15|open_market",

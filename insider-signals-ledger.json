@@ -19000,6 +19000,19 @@
      "trade_px": 0.65,
      "ccy": "CAD",
      "added_on": "2026-11-14"
+    },
+    {
+     "key": "walle-jade|URG|2026-11-11|open_market",
+     "filer": "Walle, Jade",
+     "filer_id": "walle-jade",
+     "role": "CFO",
+     "title": "Vice President of Finance",
+     "trade_date": "2026-11-11",
+     "filed_date": "2026-11-15",
+     "value_usd": 77541.0,
+     "trade_px": 0.67,
+     "ccy": "CAD",
+     "added_on": "2026-11-16"
     }
    ],
    "exit": null,
@@ -34939,6 +34952,19 @@
      "trade_px": 10.790802,
      "ccy": "CAD",
      "added_on": null
+    },
+    {
+     "key": "freire-de-paiva-marcelo|SGML|2026-11-16|open_market",
+     "filer": "Freire de Paiva, Marcelo",
+     "filer_id": "freire-de-paiva-marcelo",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-16",
+     "filed_date": "2026-11-16",
+     "value_usd": 69625.0,
+     "trade_px": 4.82,
+     "ccy": "CAD",
+     "added_on": "2026-11-16"
     }
    ],
    "exit": null,
@@ -38198,6 +38224,19 @@
      "value_usd": 70801.0,
      "trade_px": 16.56,
      "ccy": "CAD"
+    },
+    {
+     "key": "monaco-bradley-robert|FRHLF|2026-11-13|open_market",
+     "filer": "Monaco, Bradley Robert",
+     "filer_id": "monaco-bradley-robert",
+     "role": "CFO",
+     "title": "Chief Financial Officer",
+     "trade_date": "2026-11-13",
+     "filed_date": "2026-11-16",
+     "value_usd": 69953.0,
+     "trade_px": 17.2,
+     "ccy": "CAD",
+     "added_on": "2026-11-16"
     }
    ],
    "exit": null,
@@ -41966,7 +42005,14 @@
     }
    ],
    "exit": null,
-   "pending_exit": null,
+   "pending_exit": {
+    "reason": "sale",
+    "trigger_filed": "2026-11-16",
+    "trigger_key": "laut-stephen-w|CNQ|2026-11-10|sale_open_market",
+    "trigger_by": "Laut, Stephen W.",
+    "exit_after": "2026-11-16",
+    "seen_on": "2026-11-16"
+   },
    "status": "open",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
@@ -44217,6 +44263,19 @@
      "value_usd": 52758.0,
      "trade_px": 0.96,
      "ccy": "CAD"
+    },
+    {
+     "key": "katusa-marin|OFSTF|2026-11-13|open_market",
+     "filer": "Katusa, Marin",
+     "filer_id": "katusa-marin",
+     "role": "CEO",
+     "title": "CEO & Non-Independent Director",
+     "trade_date": "2026-11-13",
+     "filed_date": "2026-11-16",
+     "value_usd": 24120.0,
+     "trade_px": 0.98,
+     "ccy": "CAD",
+     "added_on": "2026-11-16"
     }
    ],
    "exit": null,
@@ -46112,6 +46171,48 @@
    "exit": null,
    "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "LAR|2026-11-16|lopez-casanello-juan-diego",
+   "ticker": "LAR",
+   "company": "Lithium Argentina AG",
+   "commodity": "Lithium",
+   "company_type": "Explorer",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "base_battery_other",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-16",
+   "recorded_floor": "2026-11-16",
+   "signal_filed": "2026-11-16",
+   "signal_trade": "2026-11-16",
+   "entry_after": "2026-11-16",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 605263306.0,
+   "stale63_basis": 0.0476,
+   "basis_date": "2026-11-13",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "lopez-casanello-juan-diego|LAR|2026-11-16|open_market",
+     "filer": "Lopez Casanello, Juan Diego",
+     "filer_id": "lopez-casanello-juan-diego",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-16",
+     "filed_date": "2026-11-16",
+     "value_usd": 203071.0,
+     "trade_px": 3.62,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -47862,6 +47963,7 @@
   "freire-de-paiva-marcelo|SGML|2026-09-08|open_market",
   "freire-de-paiva-marcelo|SGML|2026-11-02|open_market",
   "freire-de-paiva-marcelo|SGML|2026-11-13|open_market",
+  "freire-de-paiva-marcelo|SGML|2026-11-16|open_market",
   "french-gregory|NAUFF|2026-10-06|open_market",
   "friedman-alan-mark|KRYXF|2025-04-04|open_market",
   "funk-charles-walter|ATEPF|2025-06-26|open_market",
@@ -47880,6 +47982,7 @@
   "funk-charles-walter|HSTXF|2026-06-05|open_market",
   "funk-charles-walter|HSTXF|2026-09-01|open_market",
   "funk-charles-walter|HSTXF|2026-10-02|open_market",
+  "funk-charles-walter|HSTXF|2026-11-16|open_market",
   "gagne-james|STLRF|2026-03-04|open_market",
   "gagne-james|STLRF|2026-03-06|open_market",
   "gagne-james|STLRF|2026-03-13|open_market",
@@ -48234,6 +48337,7 @@
   "hickey-kyle-jonathan|GSHRF|2026-10-20|open_market",
   "hickey-kyle-jonathan|GSHRF|2026-10-21|open_market",
   "hicks-scott-victor-andrew|JAY.V|2026-09-24|open_market",
+  "hicks-scott-victor-andrew|STKXF|2026-11-16|open_market",
   "hicks-scott-victor-andrew|TALMF|2026-10-01|open_market",
   "hicks-steve|HDRSF|2025-12-04|open_market",
   "hilditch-todd|NVDEF|2025-12-02|open_market",
@@ -48528,6 +48632,7 @@
   "katusa-marin|OFSTF|2026-10-16|open_market",
   "katusa-marin|OFSTF|2026-10-19|open_market",
   "katusa-marin|OFSTF|2026-11-02|open_market",
+  "katusa-marin|OFSTF|2026-11-13|open_market",
   "katzin-william|RMETF|2025-11-14|open_market",
   "katzin-william|RMETF|2026-06-18|open_market",
   "kaufmann-justin-joseph-raymond|OILSF|2025-04-04|open_market",
@@ -49008,6 +49113,7 @@
   "loots-charles-edward|KRYXF|2026-02-19|open_market",
   "loots-charles-edward|KRYXF|2026-05-13|open_market",
   "lopez-casanello-juan-diego|LAR|2025-07-07|open_market",
+  "lopez-casanello-juan-diego|LAR|2026-11-16|open_market",
   "lostritto-paolo|SGGTF|2025-07-04|open_market",
   "lostritto-paolo|SGGTF|2025-08-01|open_market",
   "lostritto-paolo|SGGTF|2025-08-06|open_market",
@@ -49422,6 +49528,7 @@
   "mohsen-imad|PARXF|2026-11-09|open_market",
   "molyneux-alexander|MTA|2026-01-29|open_market",
   "monaco-bradley-robert|FRHLF|2026-06-22|open_market",
+  "monaco-bradley-robert|FRHLF|2026-11-13|open_market",
   "montreuil-jean-francois|RDEXF|2025-07-10|open_market",
   "moore-christopher-douglas|GXRFF|2025-06-18|open_market",
   "moore-christopher-douglas|GXRFF|2025-06-20|open_market",
@@ -50582,6 +50689,7 @@
   "soock-stephen-david-nemeth|HSTXF|2026-06-09|open_market",
   "soock-stephen-david-nemeth|HSTXF|2026-09-04|open_market",
   "soock-stephen-david-nemeth|HSTXF|2026-10-08|open_market",
+  "soock-stephen-david-nemeth|HSTXF|2026-11-16|open_market",
   "sorbara-edward-kingsley|GGTHF|2025-11-04|open_market",
   "sorensen-timothy-gerald|SICOF|2026-05-21|open_market",
   "sorensen-timothy-gerald|SICOF|2026-05-22|open_market",
@@ -51055,6 +51163,7 @@
   "walle-jade|URG|2026-03-18|open_market",
   "walle-jade|URG|2026-09-11|open_market",
   "walle-jade|URG|2026-09-24|open_market",
+  "walle-jade|URG|2026-11-11|open_market",
   "wallster-dale|DFMTF|2026-10-28|open_market",
   "wallster-dale|SMPEF|2025-06-19|open_market",
   "wallster-dale|SMPEF|2025-06-23|open_market",
@@ -51159,6 +51268,7 @@
   "whymark-wesley-emmerson|GNGXF|2026-04-07|open_market",
   "whymark-wesley-emmerson|GNGXF|2026-07-14|open_market",
   "whymark-wesley-emmerson|GNGXF|2026-09-10|open_market",
+  "whymark-wesley-emmerson|GNGXF|2026-11-13|open_market",
   "wichterich-michael|EXE|2026-03-06|open_market",
   "wichterich-michael|EXE|2026-06-04|open_market",
   "wichterich-michael|EXE|2026-06-12|open_market",

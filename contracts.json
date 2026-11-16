@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-16T12:10:29Z",
+  "generated": "2026-11-16T23:21:59Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -23,6 +23,24 @@
     "unlinked": 98
   },
   "awards": [
+    {
+      "date": "2026-11-16",
+      "agency": "DOD",
+      "branch": "Army",
+      "recipient": "Amentum Services Inc.",
+      "ticker": "AMTM",
+      "amount": 14565911.0,
+      "ceiling": false,
+      "obligated": 14565911.0,
+      "mod": true,
+      "fms": true,
+      "contract": "W58RGZ-25-C-0003",
+      "cap_pct": 0.271,
+      "cap_asof": "2026-11-13",
+      "url": "https://www.war.gov/News/Contracts/Contract/Article/4649088/contracts-for-nov-16-2026/",
+      "description": "was awarded a $14,565,911 modification (P00118) to contract W58RGZ-25-C-0003 for global aviation maintenance services including pass-back maintenance support a\u2026",
+      "source": "dod_announcement"
+    },
     {
       "date": "2026-11-13",
       "agency": "DOD",
@@ -2406,9 +2424,30 @@
     {
       "deadline": "2026-11-16",
       "agency": "DEPT OF DEFENSE",
+      "description": "16--PRIME PUMP, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dbab35b3be5542f7940d067b481e9779/view"
+    },
+    {
+      "deadline": "2026-11-16",
+      "agency": "DEPT OF DEFENSE",
       "description": "16--SELECTOR SET,DIRECT",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/ea8c5c06785c40fd866d9a0cebd6df18/view"
+    },
+    {
+      "deadline": "2026-11-16",
+      "agency": "DEPT OF DEFENSE",
+      "description": "16--SLING HOOK,UNDERSLU, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/c7a5320f29b44935bb14403ef9e058a9/view"
+    },
+    {
+      "deadline": "2026-11-16",
+      "agency": "DEPT OF DEFENSE",
+      "description": "16--SLING HOOK,UNDERSLU, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fe2dfbdbd3844bdcae434e679ef441c6/view"
     },
     {
       "deadline": "2026-11-16",
@@ -2815,33 +2854,12 @@
       "description": "53--SCREW,MACHINE",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/0209dc38b509455da77884a28c7f1a7e/view"
-    },
-    {
-      "deadline": "2026-11-16",
-      "agency": "DEPT OF DEFENSE",
-      "description": "53--SEAL,NONMETALLIC SPECI",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f7e97e8b0da7417e91676de6aeb0a559/view"
-    },
-    {
-      "deadline": "2026-11-16",
-      "agency": "DEPT OF DEFENSE",
-      "description": "53--SEAL,NONMETALLIC STRIP",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f66e3aca7e2142679c29c7d05efb35bc/view"
-    },
-    {
-      "deadline": "2026-11-16",
-      "agency": "DEPT OF DEFENSE",
-      "description": "53--SEAL,PLAIN ENCASED",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d234252003d84213bfb3768030ec1cf0/view"
     }
   ],
   "dod": {
-    "latest": "2026-11-13",
-    "fetched": "2026-11-16T12:10:29Z",
+    "latest": "2026-11-16",
+    "fetched": "2026-11-16T23:21:59Z",
     "status": "ok",
-    "rows": 49
+    "rows": 50
   }
 }

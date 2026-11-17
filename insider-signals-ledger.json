@@ -31502,7 +31502,13 @@
      "added_on": "2026-11-14"
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-16",
+    "reason": "sale",
+    "px": 25.71,
+    "recorded_on": "2026-11-17",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-11-12",
@@ -31511,7 +31517,7 @@
     "exit_after": "2026-11-14",
     "seen_on": "2026-11-14"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -36013,7 +36019,13 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-16",
+    "reason": "financing",
+    "px": 1.06,
+    "recorded_on": "2026-11-17",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "financing",
     "trigger_filed": "2026-11-12",
@@ -36022,7 +36034,7 @@
     "exit_after": "2026-11-14",
     "seen_on": "2026-11-14"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -37431,6 +37443,19 @@
      "trade_px": 37.3,
      "ccy": "USD",
      "added_on": "2026-11-13"
+    },
+    {
+     "key": "corbett-ryan|MP|2026-11-16|open_market",
+     "filer": "Corbett Ryan",
+     "filer_id": "corbett-ryan",
+     "role": "CFO",
+     "title": "Chief Financial Officer",
+     "trade_date": "2026-11-16",
+     "filed_date": "2026-11-16",
+     "value_usd": 128625.0,
+     "trade_px": 36.75,
+     "ccy": "USD",
+     "added_on": "2026-11-17"
     }
    ],
    "exit": null,
@@ -46020,8 +46045,8 @@
    "signal_filed": "2026-11-13",
    "signal_trade": "2026-11-13",
    "entry_after": "2026-11-13",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-16",
+   "entry_px": 13.28,
    "mcap_usd_basis": 359577029.0,
    "stale63_basis": 0.0,
    "basis_date": "2026-11-13",
@@ -46044,49 +46069,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
-   "id": "HSLV|2026-11-13|toro-javier-felipe",
-   "ticker": "HSLV",
-   "company": "Highlander Silver",
-   "commodity": "Silver",
-   "company_type": "Explorer",
-   "venue": "TSX",
-   "ccy": "CAD",
-   "cgroup": "precious",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-11-13",
-   "recorded_floor": "2026-11-13",
-   "signal_filed": "2026-11-13",
-   "signal_trade": "2026-11-12",
-   "entry_after": "2026-11-13",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 813465734.0,
-   "stale63_basis": 0.0159,
-   "basis_date": "2026-11-13",
-   "last_financing_filed": "2025-10-01",
-   "td_since_financing": 282,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "toro-javier-felipe|HSLV|2026-11-12|open_market",
-     "filer": "Toro, Javier Felipe",
-     "filer_id": "toro-javier-felipe",
-     "role": "President/COO",
-     "title": "COO & Director",
-     "trade_date": "2026-11-12",
-     "filed_date": "2026-11-13",
-     "value_usd": 14879.0,
-     "trade_px": 4.24,
-     "ccy": "CAD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   },
   {
    "id": "BKRRF|2026-11-12|pollard-andrew",
@@ -46104,8 +46091,8 @@
    "signal_filed": "2026-11-12",
    "signal_trade": "2026-11-12",
    "entry_after": "2026-11-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-16",
+   "entry_px": 0.45,
    "mcap_usd_basis": 183321065.0,
    "stale63_basis": 0.1429,
    "basis_date": "2026-11-13",
@@ -46128,7 +46115,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.03
   },
   {
    "id": "B|2026-11-13|greenspun-brian-lee",
@@ -46146,8 +46137,8 @@
    "signal_filed": "2026-11-13",
    "signal_trade": "2026-11-11",
    "entry_after": "2026-11-14",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-16",
+   "entry_px": 52.24,
    "mcap_usd_basis": 61918308028.0,
    "stale63_basis": 0.0,
    "basis_date": "2026-11-13",
@@ -46170,7 +46161,99 @@
    ],
    "exit": null,
    "pending_exit": null,
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
+  },
+  {
+   "id": "HL|2026-11-16|andres-dale",
+   "ticker": "HL",
+   "company": "HECLA MINING CO/DE/",
+   "commodity": "Silver",
+   "company_type": "Producer, Mid-tier",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-17",
+   "recorded_floor": "2026-11-16",
+   "signal_filed": "2026-11-16",
+   "signal_trade": "2026-11-16",
+   "entry_after": "2026-11-16",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 8209118924.0,
+   "stale63_basis": 0.0,
+   "basis_date": "2026-11-16",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "andres-dale|HL|2026-11-16|open_market",
+     "filer": "Andres Dale",
+     "filer_id": "andres-dale",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-16",
+     "filed_date": "2026-11-16",
+     "value_usd": 125000.0,
+     "trade_px": 12.5,
+     "ccy": "USD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
    "status": "pending_entry"
+  },
+  {
+   "id": "HSLV|2026-11-13|toro-javier-felipe",
+   "ticker": "HSLV",
+   "company": "Highlander Silver",
+   "commodity": "Silver",
+   "company_type": "Explorer",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "precious",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-13",
+   "recorded_floor": "2026-11-13",
+   "signal_filed": "2026-11-13",
+   "signal_trade": "2026-11-12",
+   "entry_after": "2026-11-13",
+   "entry_date": "2026-11-16",
+   "entry_px": 5.18,
+   "mcap_usd_basis": 813465734.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-11-13",
+   "last_financing_filed": "2025-10-01",
+   "td_since_financing": 282,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "toro-javier-felipe|HSLV|2026-11-12|open_market",
+     "filer": "Toro, Javier Felipe",
+     "filer_id": "toro-javier-felipe",
+     "role": "President/COO",
+     "title": "COO & Director",
+     "trade_date": "2026-11-12",
+     "filed_date": "2026-11-13",
+     "value_usd": 14879.0,
+     "trade_px": 4.24,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "NORMAL",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   },
   {
    "id": "LAR|2026-11-16|lopez-casanello-juan-diego",
@@ -46299,6 +46382,7 @@
   "andres-dale-edwin|ARGTF|2026-05-08|open_market",
   "andres-dale-edwin|ARGTF|2026-05-20|open_market",
   "andres-dale-edwin|ARGTF|2026-05-25|open_market",
+  "andres-dale|HL|2026-11-16|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-01|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-05|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-11|open_market",
@@ -47431,6 +47515,7 @@
   "conrad-larissa-marianne|VET|2025-09-19|open_market",
   "cookson-nicolas|MARIF|2026-10-08|open_market",
   "corbett-ryan|MP|2026-11-10|open_market",
+  "corbett-ryan|MP|2026-11-16|open_market",
   "cornelius-sigmund|PARXF|2025-06-20|open_market",
   "cornelius-sigmund|PARXF|2026-11-09|open_market",
   "coughlan-terrance-barry|QRO.V|2022-05-20|open_market",
@@ -48170,6 +48255,9 @@
   "green-darwin|ONXGF|2026-01-26|open_market",
   "green-darwin|ONXGF|2026-11-05|open_market",
   "greenspun-brian-lee|B|2026-11-11|open_market",
+  "greig-james-stewart|GZD.V|2026-11-11|open_market",
+  "greig-james-stewart|GZD.V|2026-11-12|open_market",
+  "greig-james-stewart|GZD.V|2026-11-13|open_market",
   "grey-robert|HSTXF|2025-08-22|open_market",
   "grey-robert|HSTXF|2026-03-24|open_market",
   "grey-robert|HSTXF|2026-05-21|open_market",
@@ -49674,6 +49762,7 @@
   "newell-john|AUEN.V|2026-11-02|open_market",
   "newell-john|AUEN.V|2026-11-05|open_market",
   "newell-john|AUEN.V|2026-11-06|open_market",
+  "newell-john|AUEN.V|2026-11-16|open_market",
   "ngo-joyce|NGXXF|2025-10-23|open_market",
   "nichols-brian-a|FQVLF|2025-11-06|open_market",
   "nichols-brian-a|FQVLF|2025-11-10|open_market",
@@ -51404,5 +51493,5 @@
   "zerb-wendell-miles|REDRF|2026-11-02|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-11-16"
+ "last_run_date": "2026-11-17"
 }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-20T23:19:31Z",
+  "generated": "2026-11-21T12:11:55Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,13 +13,13 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-11-07",
-    "end": "2026-11-20"
+    "start": "2026-11-08",
+    "end": "2026-11-21"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 167,
-    "matched": 61,
+    "kept": 168,
+    "matched": 62,
     "unlinked": 106
   },
   "awards": [
@@ -579,6 +579,17 @@
       "url": "https://www.war.gov/News/Contracts/Contract/Article/4653606/contracts-for-nov-19-2026/",
       "description": "is awarded a $10,966,825 cost-plus-fixed-fee and firm-fixed-price delivery order (N0001927F1076) against previously issued basic ordering agreement (N0001923G0\u2026",
       "source": "dod_announcement"
+    },
+    {
+      "date": "2026-11-19",
+      "agency": "Agriculture",
+      "recipient": "TYSON FOODS INC.",
+      "ticker": "TSN",
+      "amount": 6269590.83,
+      "description": "COMMODITIES FOR USG FOOD DONATIONS: 2000011559/4100035197/CHICKEN OVEN ROASTED FRZ 8 PC CTN-30 LB",
+      "naics": "311615",
+      "award_id": "123J1427C0070",
+      "source": "usaspending"
     },
     {
       "date": "2026-11-18",
@@ -1718,24 +1729,6 @@
       "source": "usaspending"
     },
     {
-      "date": "2026-10-21",
-      "agency": "DOD",
-      "branch": "MDA",
-      "recipient": "Raytheon Co.",
-      "ticker": "RTX",
-      "amount": 2605033000.0,
-      "ceiling": true,
-      "obligated": 112309403.0,
-      "mod": true,
-      "fms": false,
-      "contract": "HQ0147-18-D-0001",
-      "cap_pct": 0.998,
-      "cap_asof": "2026-11-19",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4630997/contracts-for-oct-21-2026/",
-      "description": "is being awarded a contract modification (P00038) under a previously awarded indefinite-delivery/indefinite-quantity contract HQ0147-18-D-0001. This modificati\u2026",
-      "source": "dod_announcement"
-    },
-    {
       "date": "2026-10-20",
       "agency": "National Aeronautics and Space Administration",
       "recipient": "CONSTELLATION ENERGY SOLUTIONS, LLC",
@@ -2311,6 +2304,12 @@
       "trailing_total": 8358577.91
     },
     {
+      "ticker": "TSN",
+      "name": "Tyson Foods, Inc.",
+      "awards": 2,
+      "trailing_total": 7583890.83
+    },
+    {
       "ticker": "AMTM",
       "name": "Amentum Holdings, Inc.",
       "awards": 2,
@@ -2357,12 +2356,6 @@
       "name": "Honeywell International Inc.",
       "awards": 1,
       "trailing_total": 1350851.0
-    },
-    {
-      "ticker": "TSN",
-      "name": "Tyson Foods, Inc.",
-      "awards": 1,
-      "trailing_total": 1314300.0
     },
     {
       "ticker": "CAJPY",
@@ -2947,570 +2940,570 @@
   ],
   "upcoming": [
     {
-      "deadline": "2026-11-20",
-      "agency": "GENERAL SERVICES ADMINISTRATION",
-      "description": "0TN2112 - U.S. Government Seeks Office Space in Clarksville, TN",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/dcf5a0b4983246178d12ab1296330592/view"
-    },
-    {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-21",
       "agency": "DEPT OF DEFENSE",
-      "description": "11F | C5 | DUCT ASSEMBLY, BLEED AIR",
+      "description": "COMPUTER, FLIGHT CONTROL",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f188d9829c5649e1a43a0e6fc9a0408c/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/d68d0c21fc344fa380ea235c7124f82b/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-21",
       "agency": "DEPT OF DEFENSE",
-      "description": "15--SUPPORT,STRUCTURAL COM",
+      "description": "N0038326PR0R795_FMS REPAIR",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f72f5e8a8b454ce48c0186c51aa3873a/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/b3b81da413d74a36adb5f888148a0ccb/view"
     },
     {
-      "deadline": "2026-11-20",
-      "agency": "JUSTICE, DEPARTMENT OF",
-      "description": "15B11827Q00000001 2ND QTR FY 27 FOOD SERVICE GENERAL ITEMS",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b49d3a477fc546f1803cdd44ee0fe613/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "JUSTICE, DEPARTMENT OF",
-      "description": "2nd Qtr. Subsistence Requirement FY27",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ffa0f3486f2d4a5795f88ccee7808f1e/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "JUSTICE, DEPARTMENT OF",
-      "description": "2nd Qtr. Subsistence Requirement FY27",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f2228f18489b4ff294f09cf0993d8d80/view"
-    },
-    {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-21",
       "agency": "DEPT OF DEFENSE",
-      "description": "30--BELT,V",
+      "description": "N0038326PR0R914_FMS Repair",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bb82d75a60af466c889afe9788585bf4/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/de3ae3783ac0478c8d69e933860c964d/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-21",
+      "agency": "DEPT OF DEFENSE",
+      "description": "N0038327PR0R001_FMS ACO",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/df1edaa18de8498abe972829df8c9ebd/view"
+    },
+    {
+      "deadline": "2026-11-21",
+      "agency": "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION",
+      "description": "Notice of Intent to Sole Source for LP33333 Batteries",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/7dcb8672e50441129d617b4a7c0d1cc1/view"
+    },
+    {
+      "deadline": "2026-11-21",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Ross Springs Waterline Replacement",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ff5a815a19f348e8a0606ce16ec022d4/view"
+    },
+    {
+      "deadline": "2026-11-21",
+      "agency": "DEPT OF DEFENSE",
+      "description": "TF-33 Vibrator, Ignition C",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/de586b53d3c14a65bf5c23e0217801a7/view"
+    },
+    {
+      "deadline": "2026-11-21",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "3417--VR&E Laser equipment acquisition for Veteran",
+      "description": "Y1AZ--504-21-703 Training and Admin Support Space Construction",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f4331289be44416b88dc1e7a5fdeb0c4/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f152ab50dcb1488db5e541e4f9d39f70/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-22",
       "agency": "DEPT OF DEFENSE",
-      "description": "41--FAN,CENTRIFUGAL",
+      "description": "New Manufacture: B-52 Regulating Valve, NSN4820008604396",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bb8bad55c1cd4f1d9e8019a060ddf2a8/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/e81385de740144a6a3671fa48bf35c1f/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-22",
       "agency": "DEPT OF DEFENSE",
-      "description": "41--POWER,BREEZER",
+      "description": "New Manufacture: VALVE, LINEAR, DIRECT_End_Item_B1_NSN_4810011482014HS_PN_50010-11",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e549590d7ef24c9f9991673e65627c3c/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f8c1da603815423e9a736fe9ccfe1581/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "41--TUBE,CONDENSER",
+      "description": "1 HP MOTOR",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f6b9b75517054b738748a245972cd038/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/d6dfd3c234e044fbb4b0f20a77339dd1/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "42--CAP,SUSPENSION",
+      "description": "1355-01-436-4620 CWFP CABLE ASSY, ADCAP F/MK48 MODS 6 AND 7 TORPEDOES",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c79e7544f4af4a729fec9d423254c0e2/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ff955de2218a4cf8bb78e12ce2752ec0/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "42-0213, Rolls Royce BOA Follow-On",
+      "description": "136 Airlift Wing C-130J Aircraft Wash",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c458223f8fcb43d4ae0872765cf7aa2b/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/d7dd58ab3a34406ea8b9a1d6b6caf030/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "43--PARTS KIT,COMPRESSOR",
+      "description": "14--ADAPTER ASSEMBLY,MI, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f53803a8f5e94c758ad61ea4ed93e09f/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f2d6410ebe3a46dab38f7ac3a3cf0835/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "47--CONNECTION,FLEXIBLE",
+      "description": "15--DOOR,ACCESS,AIRCRAF, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c44ace0216034910aa264f583477912c/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fdf9dcbae4ab41d9b9b9452eedd0b169/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "47--TUBE ASSEMBLY,METAL",
+      "description": "15--SPOILER,WING,AIRCRA, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f30382cb34c443ff873805c21800969d/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/dea6f993d5ad4f998cd6a37203a58a74/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--BODY,VALVE",
+      "description": "16--CHOPPER ASSEMBLY,ED, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fa34e26b63b24baf93c94c477c98ce63/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/e36c67956a4f4975a025927dbf3f745f/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--DISK,VALVE",
+      "description": "16--CHOPPER ASSEMBLY,ED, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f2c742ba703940efa3c277af72e91d91/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/dacdc2eea44349a18baf4efcba58db51/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--LOCKING DEVICE,VALVE",
+      "description": "16--HOUSING ASSY,ACTUAT",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ec073d84cd184f54bf95a8fa2d19934e/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f5fd1f8ff50f434a8d505cd6b421171f/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--MANIFOLD ASSEMBLY - AND SIMILAR REPLACEMENT PARTS, IN REPAIR/MODIFICATION OF",
+      "description": "16--HOUSING,BRAKE,ACTUA",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/cb7425fdf9304332945cf90e4fafd0d1/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fc32559b9bbd4193ba47210a981aa19d/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--MANIFOLD ASSEMBLY - AND SIMILAR REPLACEMENT PARTS, IN REPAIR/MODIFICATION OF",
+      "description": "16--NRP,USSR,AIRCRAFT,M, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ecbf01d886c34a9ea99cb5f658e06744/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ef4a98b4a5014d67a02242036521511c/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--VALVE REGULATING SY, IN REPAIR/MODIFICATION OF",
+      "description": "16--PLUG,INSULATOR",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d810163560d143d5850b976880537016/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ff278f99c48b46a7a6676d14daa8cb9a/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--VALVE,LINEAR,DIRECT",
+      "description": "16--SHROUD ASSY,TURBINE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/32c1581bc45d4558b6b52165295a992f/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f1735b35195c4de588ad0eb2e36a6972/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--VALVE,REGULATING,FL, IN REPAIR/MODIFICATION OF",
+      "description": "17--FILTER ASSEMBLY,OIL",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bab8b334d3a14556a8fb4b8716b06ee5/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/eb36198bdbe74556b75569ff1122c861/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
+      "agency": "STATE, DEPARTMENT OF",
+      "description": "191D3227R0006 Generator Replacement, Jl. Taman Surapati #3, Menteng, Jakarta Pusat",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/40e4e93d49f945a2829b7c5918ef09a3/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "STATE, DEPARTMENT OF",
+      "description": "191D3227R0006 Generator Replacement, Jl. Taman Surapati #3, Menteng, Jakarta Pusat",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/134b884525c547c4aa06b5d56e61d001/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "STATE, DEPARTMENT OF",
+      "description": "19PK4027Q5001 Gravel Pulverization Services",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee8a3c5a20f34751b1fec5f299577b22/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "STATE, DEPARTMENT OF",
+      "description": "19PK4027Q5001 Gravel Pulverization Services",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/75dacf798ae04247a7bfd7276eeeb332/view"
+    },
+    {
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "48--VALVE,REGULATING,FL, IN REPAIR/MODIFICATION OF",
+      "description": "20--TILE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bae0c96917004763a17dabd5f8e62456/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/e43f8c236d034397bed370e662bb0722/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "20--TILE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/bd0046c2c9ad495e81ef4df7cf6b6353/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "20--TILE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/99a596f106504d1b84e3f21195738a67/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "25--CUSHION,SEAT BACK,VEHI",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/edf182a4f6674fc5ae6a9330e3a242ae/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "28--BLOWER,ENGINE,EAPS, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e8002a91a84546b2a3d7a56b50025eeb/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "29--NEEDLE,VALVE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ef791b450d8949fdb6ed5886958ba262/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "29--REGULATOR,ENGINE GE, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/faf7475beb314b39b0f3efc5ef04ee73/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "29--REGULATOR,ENGINE GE, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e90fce835e7446d587b2ad528f5c0d5d/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "29--TANK,FUEL,ENGINE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f5892a6a0d914b6eb7e0e6386e2b336b/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "30--CLUTCH ASSY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/dbb5f434879340da9581eca1350f2bab/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "31--BEARING,ROLLER,NEED",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f8ce49bf050245d4acdca281ac2fa6fd/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "31--BEARING,WASHER,THRUST",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fdb55ad7288e4697a0585fff8e5084b0/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "39--RAIL,CARGO,FLATRACK",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f15bff164acd4fb58c1a55598c04ffd0/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "39--SHEAVES AND FLAG FAIRL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ff7d6c9022c141358d01683e550776f0/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "39--SLING,MULTIPLE LEG",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e7d83c7bb8694811928e891a461196a2/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "3HD 5365 017330818 D5, BUSHING SLEEVE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d31562e500ec472bbf4bff7d2cf2241c/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "41--COOLER,AIR,EVAPORATIVE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/eedc75d448e34914ba1583b9adf6ac7e/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "43--PUMP UNIT,CENTRIFUGAL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f557eb8e8be2408193e47014f4454711/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "44--COOLER FLUID",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f206d0f4a18c4d888ae54b7c9dcece78/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "44--COOLER,FLUID,INDUSTRIA",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fbeb003be6d943c1a2b4b028f18d9803/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "44--HEAD ASSEMBLY",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f71c3a1fc01c41fb97e85ee94efd6e3a/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "47--RESTRICTOR UNIT,FLUID",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fa5538a952f64390a31ef7e2102038e4/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "48--RETAINER,DISK,VALVE",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e6a150b766c84ef8afe9e374f13503e3/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "48--VALVE ASSEMBLY,MANI, IN REPAIR/MODIFICATION OF",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/f65b48d9f4794001a31c5b089f305073/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "48--VALVE,REGULATING,FL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e74cc85434434ec0a336453b66dbf77a/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "48--VALVE,SOLENOID",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/ecdb6b27005345ee947ffea40055866a/view"
+    },
+    {
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
       "description": "48--VALVE,THROTTLE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f8b0121694cc47a7824b9b7a0dc53942/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/d0de4d4ce0304cf78063b370463fa967/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--BRACKET,MOUNTING",
+      "description": "49--ADAPTER,TEST, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d1e29b361d704240b8a003e7940e5868/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ef5e5ad433a945e2b116b8278fa3774c/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--PARTS KIT,SEAL REPLACE",
+      "description": "49--PUMPING UNIT,PRESSURE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/eb2297edc1d8480fb93be344cd6c42d6/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd03e1861a1f49d6908b267f8fbc1848/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--PLUG,EXPANSION",
+      "description": "53--ANODE ASSY15-1,3.0",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/df49023c8c894fb5833ae36889a3fd1f/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/84f8cd14800e403d991a8b9f8d7383b1/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--SEAL RING,METAL",
+      "description": "53--BOLT,INTERNAL WRENCHIN",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ecbe4fad739741dcbaf662c34e1d5044/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f26fca7677e042e3b1bc207073a10c1c/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--SPRING,HELICAL,COMPRES",
+      "description": "53--BOLT,MACHINE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/effe968d2c494d7798e7dc3a414b8f49/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f8b4321dbdd642a8937cdc123a748bc6/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "53--SPRING,LEAF",
+      "description": "53--GASKET",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f8743f5a1de74f6c95dec1e536fcfb1c/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f2038519f1b44489a418a58ddd86f345/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "58--RECEIVER,COUNTERMEA",
+      "description": "53--KEY,SHAFT",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bc72c4cfcf4e4ed4b88249b2529f2f1a/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd675411d8cb4a1d97d7fee00b96896a/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--ANTENNA",
+      "description": "53--NUT ASSEMBLY,SELF-L",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bd434c19a27d4921afcfa61f1aa38cb0/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f9ffb065430e4fdba97b2c06339bf8de/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--ANTENNA, IN REPAIR/MODIFICATION OF",
+      "description": "53--SEAL,PLAIN",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d41f65aab1f041d7a98ed2b95ff1eb8e/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fb69eccb3976483ca583949b6ae42c5a/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--CABLE ASSEMBLY",
+      "description": "58--RECEIVER-TRANSMITTE, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/cd71cc9524be47fdb7b07b08960de1a4/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f67c90ba925944e2b50d818efc5f71c8/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--CIRCUIT CARD ASSEMB, IN REPAIR/MODIFICATION OF",
+      "description": "59--CABLE ASSEMBLY,SPECIAL",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/74e8563095734e87982a9923d1f44141/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fa4e46949617422d85b2bcb586567135/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--CIRCUIT CARD ASSEMB, IN REPAIR/MODIFICATION OF",
+      "description": "59--HEADSET-MICROPHONE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/98a50ebe81a2481eadbe9d406bb570be/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fcae496441054f618b682e2019b56215/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--COIL,ELECTRICAL",
+      "description": "61--FUSE BLK/EMI A11, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fde799a2d6f1430284ddb44d246c2f33/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/8770d79e67654925a078921b4c3be045/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "59--SHIELDING GASKET,EL",
+      "description": "61--GENERATOR,ALTERNATI, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f507c7754e3e43c5b268e03e1d2c9f8c/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/c159445818de4448b8391e704612bedb/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "61--CABLE ASSEMBLY,SPEC",
+      "description": "61--HOUSING,ELECTRICAL ROT",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ea39da0c12bc456abb0a0e822facb155/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f9e7213699524982a80d8aef050e723a/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "61--MOTOR,ALTERNATING C",
+      "description": "61--PANEL,POWER DISTRIB, IN REPAIR/MODIFICATION OF",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e2e973532bfe453f8a3d0edf1f98bc0a/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee14a43f229e436d89b3d5e9c61f5bae/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "61--POWER SUPPLY",
+      "description": "61--WIRING HARNESS,BRAN",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fb4b460ca1b4433e9f2649a50edf3277/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ef5d3de9029a4feca3ebe08a1cf1872e/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "6150-01-555-9778; 26F; F-16 AIRCRAFT",
+      "description": "62--LIGHT,MARKER,CLEARANCE",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/bb8503360047472ba9cba8f8050a56bd/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f2f971ee08d14734aff157fc678f2b3c/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "62--FIXTURE,LED LIGHT",
+      "description": "62--LIGHT,PARKING",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d04f3b33a9be47db9f9b0cd0a4a0df63/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/f30bc380318745cfbccf965602746ba6/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "63--DETECTOR,ICE",
+      "description": "62--SPOTLIGHT",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fb7a5ec1cf8b4b599ae2a68065198faa/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee10039da04444bf816cfb7e13a77155/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "6505--VA Loma Linda FDG",
+      "description": "6505--Ramipril Capsules RFP",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d28592c538d24b14830df838bf8cb2d1/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/dfb4dcac249c49929a568cd556ed5f9d/view"
     },
     {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "6515-- Power Assisted Lipoplasty Device and the Synergy KIT",
+      "description": "6515--Curing Lights",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e792f0759d04459e8a3a245cc671d6ac/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/e174b40832be4588ac3addd6af04b516/view"
     },
     {
-      "deadline": "2026-11-20",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "6515--RFI: Neuro SURGIX VS Spinal Curettes MEDVAMC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c4194cb5745a43b29497e6425ea0dbe4/view"
-    },
-    {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "66--GENERATOR,PULSE, IN REPAIR/MODIFICATION OF",
+      "description": "66--TRANSMITTER,POSITION",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/85bf94ecbcc245d5b6d0e54585ed9c0e/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/ee853f232e51470c899b2bdbe8977647/view"
     },
     {
-      "deadline": "2026-11-20",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "6640--Blood Culture Analyzers with Bottles (Multi-station) Fort Harrison, Cheyenne, Grand Junction, and Sheridan",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d4a7c7a01b1b422fb291607dfc995ce1/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "6640--Brand Name Polymedco Laboratory Test (LT) Immunochemical Fecal Occult Blood Test (iFOBT) Polymedco CPRR",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c116eb8d71ae4b60bf590da96bb25074/view"
-    },
-    {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "93--GLASS,LAMINATED",
+      "description": "95--PLATE,METAL",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/dbf58483ade84f23a08b6c04a3ecc10b/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fe058680036b4ef7b56c41d60d188ae8/view"
     },
     {
-      "deadline": "2026-11-20",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "AMS Designated Laboratory Meat Testing Services (ADL)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e0c2f41782494c99866861e101363ac7/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "AMS Designated Laboratory Meat Testing Services (ADL)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e5b928e9f2e64fe2bd1945a6f2d0e566/view"
-    },
-    {
-      "deadline": "2026-11-20",
+      "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
-      "description": "ANGKOR SENTINEL 27 CATERING SERVICES",
+      "description": "ACTUATOR,HYDRAULIC-",
       "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f422abd73b434a20ab3d968f09c6604a/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Accounting and Defense Agencies Initiative (DAI) Financial System Support Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/c75cd733fcc34866a7a7558f661f62fb/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Air Force Technical and Analytical Support and Professional Services (AFTAS Pro) CSO",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f1e097a3e3c743b7999d4408fab83e9c/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Alarm Control_End_Item_B-2_NSN_6340017084202FW_PN_8-490-12",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/caef457f8e9741a6a8805da852da671c/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Artificial Intelligence (AI) Training for Contracting Personnel",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/dd7aa9aca4c14e06b116b97d545c54e3/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "BATTERY, BACK UP",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/72f9789859fc4eca80700dba81da7d10/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "BLADE,TURBINE ENGIN",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fab0a3b5df3a4b0c898ce325e1fe8508/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Barriers and Bunkers",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/3ff50a179d534ec39759a1cac636fcee/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Base Operations Support (BOS) and Facilities Maintenance Services at Robert E. Kamosa Transmitting Stations (REKTS), Saipan and Tinian, CNMI",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/306bbb227dd04ea1b9e6516cc0f1ab8a/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Blanket Purchase Agreement for Portable Latrine and Hand-Wash Station",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/1a3cabe1d5d54985903fb84d973c3671/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "C-130 BRAKE,MULTIPLE DISK NSN: 1630015001903",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/dfed00a0d2ce41c2b7469a56852d8de7/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "C1DA--Renovate Specialty Clinics on 2nd",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/cc0fd029e4f94dd28f101314a39d38cd/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CABLE ASSEMBLY,SPEC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/eb4b41e1b8284730b0e17aace21e90f3/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CONTACTOR,MAGNETIC",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e9f186e9276b4a91a8f62a1d427a60a1/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "CYLINDER,COMPRESSED",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b2a1517738814dcd975e2dd7303926cd/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Common Access Card (CAC) Facility Entry Door Access Control",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f9054072bc8440e199e64cd933785703/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "ENERGY, DEPARTMENT OF",
-      "description": "Concrete Shield Blocks",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f460217b78724ed68e905cd351e868a5/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Construct Interim Remedial Action (IRA) for the Nelson Tunnel Superfund Site",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/cbf929d290364559a1a3c223c30bd5bd/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "DETECTION UNIT",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/fcedc33b7b57489ab6f1a9d50e1d0717/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "DOME CAP,VALVE",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ce42171a4f6f40d69ec117a474e418bd/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Design, Development, Integration, and Test (DDI&T) of the Growler Block II Phase 2, AN/ALQ-264(V) (Beowulf) System",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ed778955667243fd87a3f80f90c23430/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Drug Demand Reduction Program (DDRP)",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e7a4f77e93974f739f4ddbb89eb219fb/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "STATE, DEPARTMENT OF",
-      "description": "EUR/ATHENS - Cash Transportation Services",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f245f69f84294721b74a14b7c02723f2/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "STATE, DEPARTMENT OF",
-      "description": "EUR/Athens - Furniture refinishing services for residential and/or office furniture.",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/efe5bc826447420da04b00c0b5fb1821/view"
-    },
-    {
-      "deadline": "2026-11-20",
-      "agency": "DEPT OF DEFENSE",
-      "description": "Emergency Operations Center Savannah River Site",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f3fa78e6b04c463ab1cdc42b0f5191ce/view"
+      "notice_url": "https://sam.gov/workspace/contract/opp/fe486beef44a4a50bb27cbdcc08b3431/view"
     }
   ],
   "dod": {
     "latest": "2026-11-20",
-    "fetched": "2026-11-20T23:19:31Z",
+    "fetched": "2026-11-21T12:11:55Z",
     "status": "ok",
-    "rows": 84
+    "rows": 83
   }
 }

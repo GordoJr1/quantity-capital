@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-21T23:19:29Z",
+  "generated": "2026-11-22T12:11:07Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,14 +13,14 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-11-08",
-    "end": "2026-11-21"
+    "start": "2026-11-09",
+    "end": "2026-11-22"
   },
   "trailing_days": 365,
   "counts": {
-    "kept": 168,
+    "kept": 174,
     "matched": 62,
-    "unlinked": 106
+    "unlinked": 112
   },
   "awards": [
     {
@@ -1701,24 +1701,6 @@
     },
     {
       "date": "2026-10-22",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "Raytheon Co.",
-      "ticker": "RTX",
-      "amount": 350000000.0,
-      "ceiling": false,
-      "obligated": 0.0,
-      "mod": true,
-      "fms": false,
-      "contract": "FA8672-19-D-0001",
-      "cap_pct": 0.136,
-      "cap_asof": "2026-11-20",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4631894/contracts-for-oct-22-2026/",
-      "description": "has been awarded a $350,000,000 ceiling increase modification (P00014) to previously awarded contract (FA8672-19-D-0001) for Small Diameter Bomb II life cycle\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-10-22",
       "agency": "Justice",
       "recipient": "MCKESSON CORPORATION",
       "ticker": "MCK",
@@ -2378,6 +2360,48 @@
   ],
   "unlinked": [
     {
+      "date": "2026-11-20",
+      "agency": "Health and Human Services",
+      "recipient": "CHENEGA NASWIK INTERNATIONAL LLC",
+      "amount": 16578076.69,
+      "description": "EO 14398 ATLANTA AND FORT COLLINS GUARD SERVICES"
+    },
+    {
+      "date": "2026-11-19",
+      "agency": "Homeland Security",
+      "recipient": "SOUTHWEST VALLEY CONSTRUCTORS CO",
+      "amount": 111000000.0,
+      "description": "DESIGN-BUILD A BORDER PATROL CHECKPOINT LOCATED IN KINGSVILLE, TX"
+    },
+    {
+      "date": "2026-11-19",
+      "agency": "Homeland Security",
+      "recipient": "SOUTHWEST VALLEY CONSTRUCTORS CO",
+      "amount": 68000000.0,
+      "description": "DESIGN-BUILD A BORDER PATROL CHECKPOINT LOCATED IN INDIO CALIFORNIA STATE ROUTE 86 (SR86)"
+    },
+    {
+      "date": "2026-11-19",
+      "agency": "Homeland Security",
+      "recipient": "SOUTHWEST VALLEY CONSTRUCTORS CO",
+      "amount": 56000000.0,
+      "description": "DESIGN-BUILD A BORDER PATROL CHECKPOINT LOCATED IN EAGLE PASS, TX."
+    },
+    {
+      "date": "2026-11-19",
+      "agency": "Homeland Security",
+      "recipient": "SOUTHWEST VALLEY CONSTRUCTORS CO",
+      "amount": 48000000.0,
+      "description": "DESIGN BUILD BORDER PATROL CHECKPOINT IN CARRIZO SPRINGS, TX"
+    },
+    {
+      "date": "2026-11-18",
+      "agency": "General Services Administration",
+      "recipient": "MINBURN TECHNOLOGY GROUP, LLC",
+      "amount": 46166400.0,
+      "description": "47QFSA25F0005 ARMY X3 SUBSCRIPTION LICENSES FOR DOD365SEC"
+    },
+    {
       "date": "2026-11-18",
       "agency": "Treasury",
       "recipient": "STONEX FINANCIAL LTD",
@@ -2894,107 +2918,9 @@
       "recipient": "QAYAQ GOVERNMENT SOLUTIONS LLC",
       "amount": 33000000.0,
       "description": "DESIGN AND CONSTRUCT A NEW MULTI-PURPOSE BUILDING ON THE OFFICE OF SECURE TRANSPORTATION'S (OST) TRAINING COMMAND (TRACOM) SITE IN FORT CHAFFEE, AR"
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "Health and Human Services",
-      "recipient": "CHARTWELL RX LLC",
-      "amount": 21932640.0,
-      "description": "BULK PHARMACEUTICAL BUY FOR SNS WAREHOUSES (CHARTWELL RX, LLC)"
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "Health and Human Services",
-      "recipient": "NATIONAL OPINION RESEARCH CENTER",
-      "amount": 19912675.98,
-      "description": "NSECE 2029 - 2029 NATIONAL SURVEY OF EARLY CARE AND EDUCATION IS A NATIONALLY REPRESENTATIVE STUDY ADMINISTERED BY ACF'S OFFICE OF EARLY CHILDHOOD DEVELOPMENT."
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "Energy",
-      "recipient": "GENERAL ATOMICS",
-      "amount": 19497353.27,
-      "description": "GENERAL ATOMICS - LITHIUM PROCESSING CAPABILITY DEMONSTRATION AND PURIFICATION SERVICES"
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "National Aeronautics and Space Administration",
-      "recipient": "TROY SIERRA JV LLC",
-      "amount": 18657351.63,
-      "description": "THE TFOME III CONTRACT IS CONDUCTING THE PROCUREMENT OF OF SPECIAL TEST EQUIPMENT CONSISTING OF A THERMAL VACUUM CHAMBER SHELL AND THERMAL SHROUD FOR \"VACUUM C\u2026"
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "Health and Human Services",
-      "recipient": "ACUMEN LLC",
-      "amount": 12919772.39,
-      "description": "BEST 1 CONTRACT"
-    },
-    {
-      "date": "2026-09-29",
-      "agency": "Health and Human Services",
-      "recipient": "EMENDATA LLC",
-      "amount": 10136034.0,
-      "description": "INDEPENDENTLY AND NOT AS AN AGENT OF THE GOVERNMENT, THE CONTRACTOR SHALL FURNISH ALL THE NECESSARY SERVICES, QUALIFIED PERSONNEL, MATERIAL, EQUIPMENT, AND FAC\u2026"
     }
   ],
   "upcoming": [
-    {
-      "deadline": "2026-11-21",
-      "agency": "DEPT OF DEFENSE",
-      "description": "COMPUTER, FLIGHT CONTROL",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/d68d0c21fc344fa380ea235c7124f82b/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "DEPT OF DEFENSE",
-      "description": "N0038326PR0R795_FMS REPAIR",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/b3b81da413d74a36adb5f888148a0ccb/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "DEPT OF DEFENSE",
-      "description": "N0038326PR0R914_FMS Repair",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/de3ae3783ac0478c8d69e933860c964d/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "DEPT OF DEFENSE",
-      "description": "N0038327PR0R001_FMS ACO",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/df1edaa18de8498abe972829df8c9ebd/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "NATIONAL AERONAUTICS AND SPACE ADMINISTRATION",
-      "description": "Notice of Intent to Sole Source for LP33333 Batteries",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/7dcb8672e50441129d617b4a7c0d1cc1/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "AGRICULTURE, DEPARTMENT OF",
-      "description": "Ross Springs Waterline Replacement",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/ff5a815a19f348e8a0606ce16ec022d4/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "DEPT OF DEFENSE",
-      "description": "TF-33 Vibrator, Ignition C",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/de586b53d3c14a65bf5c23e0217801a7/view"
-    },
-    {
-      "deadline": "2026-11-21",
-      "agency": "VETERANS AFFAIRS, DEPARTMENT OF",
-      "description": "Y1AZ--504-21-703 Training and Admin Support Space Construction",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f152ab50dcb1488db5e541e4f9d39f70/view"
-    },
     {
       "deadline": "2026-11-22",
       "agency": "DEPT OF DEFENSE",
@@ -3498,12 +3424,68 @@
       "description": "ACTUATOR,HYDRAULIC-",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/fe486beef44a4a50bb27cbdcc08b3431/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "AIRCRAFT COMPONENTS",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b4ccc68f4b9e420cbbae4d0efd055063/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ANTENNA",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/e588bdf820054971b1bae054b09253b3/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "ANTENNA,AIRCRAFT",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/a1ef5eccc21a4e148b0fcddd2c35b8c8/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "AZ Coconino NF Flagstaff Garage door Replacement and Service",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/fd3be91886174bdaa7af2b090ee10efd/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "Alternative Protein Technologies for Military Field Feeding",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d75306af6cb346efb323a44e366b2c14/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "TRANSPORTATION, DEPARTMENT OF",
+      "description": "Amendment 0001- Helicopter Field Maintenance Training on Four (4) Various Bell Helicopters for Federal Aviation Administration (FAA) Airworthiness (Maintenance\u2026",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/64ed73e696da4b589f8fae51aa77ac72/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "AGRICULTURE, DEPARTMENT OF",
+      "description": "Ashe Nursery Floor Repair/Replacement",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/b3aa2316be1a49478cd09908ad732604/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "INTERIOR, DEPARTMENT OF THE",
+      "description": "B--ShakeAlert Production System Code Review",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/eeaf558cf8c746268ac8c8820b3afd23/view"
     }
   ],
   "dod": {
     "latest": "2026-11-20",
-    "fetched": "2026-11-21T23:19:29Z",
+    "fetched": "2026-11-22T12:11:07Z",
     "status": "ok",
-    "rows": 83
+    "rows": 82
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-22T23:19:29Z",
+  "generated": "2026-11-23T12:11:46Z",
   "source": "USAspending API v2 spending_by_award",
   "date_type": "date_signed",
   "award_types": [
@@ -13,8 +13,8 @@
     "unlinked": 10000000
   },
   "window": {
-    "start": "2026-11-09",
-    "end": "2026-11-22"
+    "start": "2026-11-10",
+    "end": "2026-11-23"
   },
   "trailing_days": 365,
   "counts": {
@@ -1617,79 +1617,6 @@
     },
     {
       "date": "2026-10-23",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Fluor Marine Propulsion LLC",
-      "ticker": "FLR",
-      "amount": 2409077590.0,
-      "ceiling": false,
-      "obligated": 15838.0,
-      "mod": true,
-      "fms": false,
-      "contract": "N0002418C2130",
-      "cap_pct": 43.095,
-      "cap_asof": "2026-11-20",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4632813/contracts-for-oct-23-2026/",
-      "description": "was awarded a $2,409,077,590 cost-plus-fixed-fee modification to a previously awarded contract (N0002418C2130) for Naval Nuclear Propulsion work at the Naval N\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-10-23",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Lockheed Martin Aeronautics Co.",
-      "ticker": "LMT",
-      "amount": 114629966.0,
-      "ceiling": false,
-      "obligated": 21807321.0,
-      "mod": false,
-      "fms": false,
-      "contract": "N0001927F1037",
-      "cap_pct": 0.088,
-      "cap_asof": "2026-11-20",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4632813/contracts-for-oct-23-2026/",
-      "description": "is awarded a $114,629,966 cost-plus-fixed-fee order (N0001927F1037) against a previously issued basic ordering agreement (N0001924G0010). This order provides n\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-10-23",
-      "agency": "DOD",
-      "branch": "Navy",
-      "recipient": "Huntington Ingalls Inc., Newport News Shipbuilding",
-      "ticker": "HII",
-      "amount": 98078464.0,
-      "ceiling": true,
-      "obligated": null,
-      "n_awardees": 4,
-      "mod": true,
-      "fms": false,
-      "contract": "",
-      "cap_pct": null,
-      "cap_asof": null,
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4632813/contracts-for-oct-23-2026/",
-      "description": "are awarded a shared $98,078,464 dollar ceiling increase modification to a previously awarded Submarine Safety (SUBSAFE) multiple-award contract for the contin\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-10-23",
-      "agency": "DOD",
-      "branch": "Air Force",
-      "recipient": "Amentum Services Inc.",
-      "ticker": "AMTM",
-      "amount": 26096110.0,
-      "ceiling": false,
-      "obligated": 24408422.0,
-      "mod": true,
-      "fms": false,
-      "contract": "FA4890-25-C-0002",
-      "cap_pct": 0.525,
-      "cap_asof": "2026-11-20",
-      "url": "https://www.war.gov/News/Contracts/Contract/Article/4632813/contracts-for-oct-23-2026/",
-      "description": "has been awarded a $26,096,110 modification (P00013) to previously awarded contract FA4890-25-C-0002 for the Air Forces Central (AFCENT) Aviation Command and C\u2026",
-      "source": "dod_announcement"
-    },
-    {
-      "date": "2026-10-23",
       "agency": "Veterans Affairs",
       "recipient": "UNITED PARCEL SERVICE CO.",
       "ticker": "UPS",
@@ -2922,20 +2849,6 @@
   ],
   "upcoming": [
     {
-      "deadline": "2026-11-22",
-      "agency": "DEPT OF DEFENSE",
-      "description": "New Manufacture: B-52 Regulating Valve, NSN4820008604396",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/e81385de740144a6a3671fa48bf35c1f/view"
-    },
-    {
-      "deadline": "2026-11-22",
-      "agency": "DEPT OF DEFENSE",
-      "description": "New Manufacture: VALVE, LINEAR, DIRECT_End_Item_B1_NSN_4810011482014HS_PN_50010-11",
-      "ticker": null,
-      "notice_url": "https://sam.gov/workspace/contract/opp/f8c1da603815423e9a736fe9ccfe1581/view"
-    },
-    {
       "deadline": "2026-11-23",
       "agency": "DEPT OF DEFENSE",
       "description": "1 HP MOTOR",
@@ -3480,12 +3393,26 @@
       "description": "B--ShakeAlert Production System Code Review",
       "ticker": null,
       "notice_url": "https://sam.gov/workspace/contract/opp/eeaf558cf8c746268ac8c8820b3afd23/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "DEPT OF DEFENSE",
+      "description": "BATTERY POWER SUPPL",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/cac4af82a92d45ccbdb0be6224dd86b2/view"
+    },
+    {
+      "deadline": "2026-11-23",
+      "agency": "HEALTH AND HUMAN SERVICES, DEPARTMENT OF",
+      "description": "BPA for IV Fluids on an \"As Needed Basis\"",
+      "ticker": null,
+      "notice_url": "https://sam.gov/workspace/contract/opp/d39f9a9d287e400c88cbf2c3b9a366e0/view"
     }
   ],
   "dod": {
     "latest": "2026-11-20",
-    "fetched": "2026-11-22T23:19:29Z",
+    "fetched": "2026-11-23T12:11:46Z",
     "status": "ok",
-    "rows": 82
+    "rows": 78
   }
 }

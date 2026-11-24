@@ -31253,7 +31253,13 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-23",
+    "reason": "sale",
+    "px": 6.8,
+    "recorded_on": "2026-11-24",
+    "price_stale": false
+   },
    "pending_exit": {
     "reason": "sale",
     "trigger_filed": "2026-11-20",
@@ -31262,7 +31268,7 @@
     "exit_after": "2026-11-20",
     "seen_on": "2026-11-20"
    },
-   "status": "open",
+   "status": "closed",
    "tier_a": false,
    "regime_at_entry": "NORMAL",
    "exit_252_date": null,
@@ -47257,48 +47263,6 @@
    "cost_rt": 0.004
   },
   {
-   "id": "HBM|2026-11-20|kukielski-peter-gerald-jan",
-   "ticker": "HBM",
-   "company": "Hudbay Minerals",
-   "commodity": "Copper",
-   "company_type": "Producer, Mid-tier",
-   "venue": "TSX",
-   "ccy": "CAD",
-   "cgroup": "base_battery_other",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-11-20",
-   "recorded_floor": "2026-11-20",
-   "signal_filed": "2026-11-20",
-   "signal_trade": "2026-11-19",
-   "entry_after": "2026-11-20",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 7685988450.0,
-   "stale63_basis": 0.0,
-   "basis_date": "2026-11-19",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "kukielski-peter-gerald-jan|HBM|2026-11-19|open_market",
-     "filer": "Kukielski, Peter Gerald Jan",
-     "filer_id": "kukielski-peter-gerald-jan",
-     "role": "CEO",
-     "title": "CEO & Director",
-     "trade_date": "2026-11-19",
-     "filed_date": "2026-11-20",
-     "value_usd": 69835.0,
-     "trade_px": 25.02,
-     "ccy": "CAD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "JRNGF|2026-11-19|verge-alexander-g",
    "ticker": "JRNGF",
    "company": "Journey Energy",
@@ -47345,6 +47309,48 @@
    "cost_rt": 0.015
   },
   {
+   "id": "BTU|2026-11-23|grech-james-c",
+   "ticker": "BTU",
+   "company": "PEABODY ENERGY CORP",
+   "commodity": "Coal",
+   "company_type": "Producer, Mid-tier",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "energy",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-23",
+   "recorded_floor": "2026-11-22",
+   "signal_filed": "2026-11-23",
+   "signal_trade": "2026-11-20",
+   "entry_after": "2026-11-23",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 1885793000.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-11-20",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "grech-james-c|BTU|2026-11-20|open_market",
+     "filer": "Grech James C.",
+     "filer_id": "grech-james-c",
+     "role": "CEO",
+     "title": "President and CEO",
+     "trade_date": "2026-11-20",
+     "filed_date": "2026-11-23",
+     "value_usd": 70532.0,
+     "trade_px": 15.99,
+     "ccy": "USD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
+  },
+  {
    "id": "ERLFF|2026-11-20|adams-christopher",
    "ticker": "ERLFF",
    "company": "Entrée Resources",
@@ -47360,8 +47366,8 @@
    "signal_filed": "2026-11-20",
    "signal_trade": "2026-11-18",
    "entry_after": "2026-11-21",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-23",
+   "entry_px": 2.13,
    "mcap_usd_basis": 297402962.0,
    "stale63_basis": 0.0476,
    "basis_date": "2026-11-20",
@@ -47410,7 +47416,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.015
   },
   {
    "id": "FTZFF|2026-11-22|smyth-john-campbell",
@@ -47428,8 +47438,8 @@
    "signal_filed": "2026-11-22",
    "signal_trade": "2026-11-20",
    "entry_after": "2026-11-22",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-23",
+   "entry_px": 0.39,
    "mcap_usd_basis": 82860522.0,
    "stale63_basis": 0.2698,
    "basis_date": "2026-11-20",
@@ -47452,7 +47462,57 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.03
+  },
+  {
+   "id": "HBM|2026-11-20|kukielski-peter-gerald-jan",
+   "ticker": "HBM",
+   "company": "Hudbay Minerals",
+   "commodity": "Copper",
+   "company_type": "Producer, Mid-tier",
+   "venue": "TSX",
+   "ccy": "CAD",
+   "cgroup": "base_battery_other",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-20",
+   "recorded_floor": "2026-11-20",
+   "signal_filed": "2026-11-20",
+   "signal_trade": "2026-11-19",
+   "entry_after": "2026-11-20",
+   "entry_date": "2026-11-23",
+   "entry_px": 25.71,
+   "mcap_usd_basis": 7685988450.0,
+   "stale63_basis": 0.0,
+   "basis_date": "2026-11-19",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "kukielski-peter-gerald-jan|HBM|2026-11-19|open_market",
+     "filer": "Kukielski, Peter Gerald Jan",
+     "filer_id": "kukielski-peter-gerald-jan",
+     "role": "CEO",
+     "title": "CEO & Director",
+     "trade_date": "2026-11-19",
+     "filed_date": "2026-11-20",
+     "value_usd": 69835.0,
+     "trade_px": 25.02,
+     "ccy": "CAD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   },
   {
    "id": "ORZCF|2026-11-21|lauzon-andr-taylor",
@@ -47470,8 +47530,8 @@
    "signal_filed": "2026-11-21",
    "signal_trade": "2026-11-18",
    "entry_after": "2026-11-22",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-23",
+   "entry_px": 1.49,
    "mcap_usd_basis": 935344186.0,
    "stale63_basis": 0.0635,
    "basis_date": "2026-11-20",
@@ -47507,49 +47567,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
-   "id": "BTU|2026-11-23|grech-james-c",
-   "ticker": "BTU",
-   "company": "PEABODY ENERGY CORP",
-   "commodity": "Coal",
-   "company_type": "Producer, Mid-tier",
-   "venue": "US/OTC",
-   "ccy": "USD",
-   "cgroup": "energy",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-11-23",
-   "recorded_floor": "2026-11-22",
-   "signal_filed": "2026-11-23",
-   "signal_trade": "2026-11-20",
-   "entry_after": "2026-11-23",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 1885793000.0,
-   "stale63_basis": 0.0159,
-   "basis_date": "2026-11-20",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "grech-james-c|BTU|2026-11-20|open_market",
-     "filer": "Grech James C.",
-     "filer_id": "grech-james-c",
-     "role": "CEO",
-     "title": "President and CEO",
-     "trade_date": "2026-11-20",
-     "filed_date": "2026-11-23",
-     "value_usd": 70532.0,
-     "trade_px": 15.99,
-     "ccy": "USD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   }
  ],
  "seen_keys": [
@@ -52920,5 +52942,5 @@
   "zerb-wendell-miles|REDRF|2026-11-02|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-11-23"
+ "last_run_date": "2026-11-24"
 }

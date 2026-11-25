@@ -46661,6 +46661,19 @@
      "trade_px": 13.4352,
      "ccy": "USD",
      "added_on": "2026-11-19"
+    },
+    {
+     "key": "dewalch-d-mark|BSM|2026-11-24|open_market",
+     "filer": "DeWalch D Mark",
+     "filer_id": "dewalch-d-mark",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-24",
+     "filed_date": "2026-11-25",
+     "value_usd": 295259.0,
+     "trade_px": 13.2868,
+     "ccy": "USD",
+     "added_on": "2026-11-25"
     }
    ],
    "exit": null,
@@ -46904,6 +46917,32 @@
      "value_usd": 125000.0,
      "trade_px": 12.5,
      "ccy": "USD"
+    },
+    {
+     "key": "andres-dale|HL|2026-11-24|open_market",
+     "filer": "Andres Dale",
+     "filer_id": "andres-dale",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-24",
+     "filed_date": "2026-11-25",
+     "value_usd": 54500.0,
+     "trade_px": 10.9,
+     "ccy": "USD",
+     "added_on": "2026-11-25"
+    },
+    {
+     "key": "andres-dale|HL|2026-11-25|open_market",
+     "filer": "Andres Dale",
+     "filer_id": "andres-dale",
+     "role": "Director",
+     "title": "Director",
+     "trade_date": "2026-11-25",
+     "filed_date": "2026-11-25",
+     "value_usd": 52750.0,
+     "trade_px": 10.55,
+     "ccy": "USD",
+     "added_on": "2026-11-25"
     }
    ],
    "exit": null,
@@ -47582,6 +47621,48 @@
    "regime_at_entry": "STRESS",
    "exit_252_date": null,
    "cost_rt": 0.004
+  },
+  {
+   "id": "EXE|2026-11-25|teunissen-marcel",
+   "ticker": "EXE",
+   "company": "EXPAND ENERGY Corp",
+   "commodity": "Oil & Gas",
+   "company_type": "Producer, Major",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "energy",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-25",
+   "recorded_floor": "2026-11-25",
+   "signal_filed": "2026-11-25",
+   "signal_trade": "2026-11-23",
+   "entry_after": "2026-11-25",
+   "entry_date": null,
+   "entry_px": null,
+   "mcap_usd_basis": 18950050403.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-11-24",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "teunissen-marcel|EXE|2026-11-23|open_market",
+     "filer": "Teunissen Marcel",
+     "filer_id": "teunissen-marcel",
+     "role": "CFO",
+     "title": "EVP & CFO",
+     "trade_date": "2026-11-23",
+     "filed_date": "2026-11-25",
+     "value_usd": 81560.0,
+     "trade_px": 81.56,
+     "ccy": "USD"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "pending_entry"
   }
  ],
  "seen_keys": [
@@ -47674,6 +47755,8 @@
   "andres-dale-edwin|ARGTF|2026-05-20|open_market",
   "andres-dale-edwin|ARGTF|2026-05-25|open_market",
   "andres-dale|HL|2026-11-16|open_market",
+  "andres-dale|HL|2026-11-24|open_market",
+  "andres-dale|HL|2026-11-25|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-01|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-05|open_market",
   "angevine-jill-terilee|TRMLF|2025-08-11|open_market",
@@ -49023,6 +49106,7 @@
   "dewalch-d-mark|BSM|2026-05-28|open_market",
   "dewalch-d-mark|BSM|2026-05-29|open_market",
   "dewalch-d-mark|BSM|2026-06-01|open_market",
+  "dewalch-d-mark|BSM|2026-11-24|open_market",
   "dhaliwal-harpreet-kaur|WRLGF|2026-06-10|open_market",
   "dhaliwal-harpreet-kaur|WRLGF|2026-06-11|open_market",
   "dickinson-matthew-robert|QZM.V|2026-10-15|open_market",
@@ -52451,6 +52535,7 @@
   "teslik-sarah-anna-ball|B|2026-08-21|open_market",
   "teunissen-marcel|EXE|2026-05-07|open_market",
   "teunissen-marcel|EXE|2026-06-04|open_market",
+  "teunissen-marcel|EXE|2026-11-23|open_market",
   "theunissen-marthinus-wilhelmus|IAG|2026-11-20|open_market",
   "thibault-simon|SCDCF|2026-11-06|open_market",
   "thiessen-ronald-william|NAK|2026-11-06|open_market",

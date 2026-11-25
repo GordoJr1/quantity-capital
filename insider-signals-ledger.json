@@ -47315,48 +47315,6 @@
    "cost_rt": 0.015
   },
   {
-   "id": "BTU|2026-11-23|grech-james-c",
-   "ticker": "BTU",
-   "company": "PEABODY ENERGY CORP",
-   "commodity": "Coal",
-   "company_type": "Producer, Mid-tier",
-   "venue": "US/OTC",
-   "ccy": "USD",
-   "cgroup": "energy",
-   "backfill": false,
-   "late_seen": false,
-   "recorded_on": "2026-11-23",
-   "recorded_floor": "2026-11-22",
-   "signal_filed": "2026-11-23",
-   "signal_trade": "2026-11-20",
-   "entry_after": "2026-11-23",
-   "entry_date": null,
-   "entry_px": null,
-   "mcap_usd_basis": 1885793000.0,
-   "stale63_basis": 0.0159,
-   "basis_date": "2026-11-20",
-   "last_financing_filed": null,
-   "td_since_financing": null,
-   "caution": false,
-   "insiders": [
-    {
-     "key": "grech-james-c|BTU|2026-11-20|open_market",
-     "filer": "Grech James C.",
-     "filer_id": "grech-james-c",
-     "role": "CEO",
-     "title": "President and CEO",
-     "trade_date": "2026-11-20",
-     "filed_date": "2026-11-23",
-     "value_usd": 70532.0,
-     "trade_px": 15.99,
-     "ccy": "USD"
-    }
-   ],
-   "exit": null,
-   "pending_exit": null,
-   "status": "pending_entry"
-  },
-  {
    "id": "ERLFF|2026-11-20|adams-christopher",
    "ticker": "ERLFF",
    "company": "Entrée Resources",
@@ -47569,6 +47527,52 @@
      "trade_px": 1.505856,
      "ccy": "USD",
      "added_on": "2026-11-22"
+    }
+   ],
+   "exit": null,
+   "pending_exit": null,
+   "status": "open",
+   "tier_a": true,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.004
+  },
+  {
+   "id": "BTU|2026-11-23|grech-james-c",
+   "ticker": "BTU",
+   "company": "PEABODY ENERGY CORP",
+   "commodity": "Coal",
+   "company_type": "Producer, Mid-tier",
+   "venue": "US/OTC",
+   "ccy": "USD",
+   "cgroup": "energy",
+   "backfill": false,
+   "late_seen": false,
+   "recorded_on": "2026-11-23",
+   "recorded_floor": "2026-11-22",
+   "signal_filed": "2026-11-23",
+   "signal_trade": "2026-11-20",
+   "entry_after": "2026-11-23",
+   "entry_date": "2026-11-24",
+   "entry_px": 15.53,
+   "mcap_usd_basis": 1885793000.0,
+   "stale63_basis": 0.0159,
+   "basis_date": "2026-11-20",
+   "last_financing_filed": null,
+   "td_since_financing": null,
+   "caution": false,
+   "insiders": [
+    {
+     "key": "grech-james-c|BTU|2026-11-20|open_market",
+     "filer": "Grech James C.",
+     "filer_id": "grech-james-c",
+     "role": "CEO",
+     "title": "President and CEO",
+     "trade_date": "2026-11-20",
+     "filed_date": "2026-11-23",
+     "value_usd": 70532.0,
+     "trade_px": 15.99,
+     "ccy": "USD"
     }
    ],
    "exit": null,
@@ -52948,5 +52952,5 @@
   "zerb-wendell-miles|REDRF|2026-11-02|open_market",
   "zerbin-barry-lee|MJDLF|2026-07-01|open_market"
  ],
- "last_run_date": "2026-11-24"
+ "last_run_date": "2026-11-25"
 }

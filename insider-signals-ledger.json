@@ -19621,12 +19621,18 @@
      "added_on": null
     }
    ],
-   "exit": null,
+   "exit": {
+    "date": "2026-11-25",
+    "reason": "252d",
+    "px": 0.23,
+    "recorded_on": "2026-11-26",
+    "price_stale": false
+   },
    "pending_exit": null,
-   "status": "open",
+   "status": "closed",
    "tier_a": true,
    "regime_at_entry": "NORMAL",
-   "exit_252_date": null,
+   "exit_252_date": "2026-11-25",
    "cost_rt": 0.06
   },
   {

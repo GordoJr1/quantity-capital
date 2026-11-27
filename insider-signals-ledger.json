@@ -47644,8 +47644,8 @@
    "signal_filed": "2026-11-25",
    "signal_trade": "2026-11-23",
    "entry_after": "2026-11-25",
-   "entry_date": null,
-   "entry_px": null,
+   "entry_date": "2026-11-27",
+   "entry_px": 87.53,
    "mcap_usd_basis": 18950050403.0,
    "stale63_basis": 0.0159,
    "basis_date": "2026-11-24",
@@ -47668,7 +47668,11 @@
    ],
    "exit": null,
    "pending_exit": null,
-   "status": "pending_entry"
+   "status": "open",
+   "tier_a": false,
+   "regime_at_entry": "STRESS",
+   "exit_252_date": null,
+   "cost_rt": 0.004
   }
  ],
  "seen_keys": [
